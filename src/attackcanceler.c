@@ -488,7 +488,7 @@ static u8 AtkCanceller_UnableToUseMove(void)
 		case CANCELLER_THROAT_CHOP:
 		case CANCELLER_THROAT_CHOP_2:
 			if (CantUseSoundMoves(gBankAttacker)
-			&& CheckSoundMove(gCurrentMove)
+			&& (CheckSoundMove(gCurrentMove) || IsSoundMove(gCurrentMove, ABILITY(gBankAttacker)))
 			&& !gNewBS->zMoveData.active
 			&& !IsAnyMaxMove(gCurrentMove))
 			{

@@ -14,22 +14,22 @@
 [MAIN_COLOUR][07][SHADOW_COLOUR][06]++
 
 #org @gText_Power
-Power: 
+威力: 
 
 #org @gText_OHKO
 OHKO
 
 #org @gText_Acc
-Acc: 
+命中: 
 
 #org @gText_NoMiss
-No Miss
+必中
 
 #org @gText_Contact
-Contact
+接触类
 
 #org @gText_NoContact
-No Contact
+非接触类
 
 #org @gText_ResetStats
 Reset Lowered Stats

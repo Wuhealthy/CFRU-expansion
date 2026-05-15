@@ -1,167 +1,167 @@
 #org @gText_AirLockActivate
-The effects of weather\ndisappeared.
+天气的影响消失了！
 
 #org @gText_PressureActivate
-[SCRIPTING_BANK] is exerting\nits pressure!
+[SCRIPTING_BANK]\n正在施加压力！
 
 #org @gText_MoldBreakerActivate
-[SCRIPTING_BANK] breaks\nthe mold!
+[SCRIPTING_BANK]\n打破了常规！
 
 #org @gText_TeravoltActivate
-[SCRIPTING_BANK] is radiating\na bursting aura!
+[SCRIPTING_BANK]\n正在释放溅射气场！
 
 #org @gText_TurboblazeActivate
-[SCRIPTING_BANK] is radiating\na blazing aura!
+[SCRIPTING_BANK]\n正在释放炽焰气场！
 
 #org @gText_SlowStartActivate
-[SCRIPTING_BANK] couldn't get\ngoing!
+[SCRIPTING_BANK]\n无法拿出平时的水平！
 
 #org @gText_UnnerveActivate
-[FD][37] team is too\nnervous to eat Berries!
+对手因太紧张\n而无法食用树果！
 
 #org @gText_DarkAuraActivate
-[SCRIPTING_BANK] is radiating\na dark aura!
+[SCRIPTING_BANK]\n正在释放暗黑气场！
 
 #org @gText_FairyAuraActivate
-[SCRIPTING_BANK] is radiating\na fairy aura!
+[SCRIPTING_BANK]\n正在释放妖精气场！
 
 #org @gText_AuraBreakActivate
-[SCRIPTING_BANK] reversed all\nother Pok\emon's auras!
+[SCRIPTING_BANK]\n压制了所有气场！
 
 #org @gText_ComatoseActivate
-[SCRIPTING_BANK] is drowsing!
+[SCRIPTING_BANK]\n处于半梦半醒状态！
 
 #org @gText_AnticipationActivate
-[SCRIPTING_BANK] shuddered!
+[SCRIPTING_BANK]发抖了！
 
 #org @gText_ForewarnActivate
-It was alerted to\n[EFFECT_BANK]'s\l[BUFFER][00]!
+读取了[EFFECT_BANK]的\n[BUFFER][00]！
 
 #org @gText_FriskActivate
-[SCRIPTING_BANK] frisked\n[EFFECT_BANK] and found\lits [LAST_ITEM]!
+[SCRIPTING_BANK]察觉到了\n[EFFECT_BANK]的[LAST_ITEM]！
 
 #org @gText_ItIsHailing
-It is hailing.
+正在下冰雹。
 
 #org @gText_FogIsDeep
-The fog is deep[.]
+大雾弥漫。
 
 #org @gText_PrimordialSeaActivate
-A heavy rain began to fall!
+开始下起了暴雨！
 
 #org @gText_DesolateLandActivate
-The sunlight turned extremely harsh!
+日照变得非常强了！
 
 #org @gText_DeltaStream
-Mysterious strong winds are protecting\nFlying-type Pok\emon!
+神秘的乱流\n保护着飞行属性宝可梦！
 
 #org @gText_StrongWindsWeakenedAttack
-The mysterious strong winds\nweakened the attack!
+神秘的乱流减弱了攻击！
 
 #org @gText_HarshSunStopsWeatherChange
-But the extremely harsh sunlight\nwas not lessened at all!
+强日照势头不减！
 
 #org @gText_HeavyRainStopsWeatherChange
-But there is no relief from the\nheavy rain!
+暴雨势头不减！
 
 #org @gText_AirCurrentStopsWeatherChange
-But the mysterious strong winds\nblow on regardless!
+神秘的乱流势头不减！
 
 #org @gText_ViciousSandstormStopsWeatherChange
-But the vicious sandstorm refuses\nto let up!
+强沙暴势头不减！
 
 #org @gText_SlowStartEnd
-[SCRIPTING_BANK] got its\nact together!
+[SCRIPTING_BANK]\n恢复了平时的水平！
 
 #org @gText_FlashFirePowerUp
-The power of [SCRIPTING_BANK]'s\nFire-type moves rose!
+[SCRIPTING_BANK]的\n火属性招式威力提升了！
 
 #org @gText_AbilityCuredStatusProblem
-[SCRIPTING_BANK] was cured of\nits [BUFFER][00] problem!
+[SCRIPTING_BANK]的\n[BUFFER][00]状态被治愈了！
 
 #org @gText_HealerCuredStatusProblem
-[EFFECT_BANK] was cured of\nits [BUFFER][00] problem!
+[EFFECT_BANK]的\n[BUFFER][00]状态被治愈了！
 
 #org @gText_MagicBounce
-[SCRIPTING_BANK] bounced the\n[CURRENT_MOVE] back!
+[SCRIPTING_BANK]\n将[CURRENT_MOVE]反弹了回去！
 
 #org @gText_StartedSchooling
-[SCRIPTING_BANK] formed\na school!
+[SCRIPTING_BANK]\n一群群地聚集起来了！
 
 #org @gText_StoppedSchooling
-[SCRIPTING_BANK] stopped\nschooling!
+[SCRIPTING_BANK]\n停止了聚集！
 
 #org @gText_GorillaTacticsMoveMenuBlockage
-[LAST_ABILITY] allows only\n[CURRENT_MOVE] to be used!\p
+[LAST_ABILITY]影响下\n只能使用[CURRENT_MOVE]！\p
 
 #org @gText_IceFaceTookDamage
-The Ice Face took damage for\n[TARGET]!
+结冻头为[TARGET]\n承受了伤害！
 
 #org @gText_IceFaceBusted
-[TARGET]'s Ice Face\nshattered!
+[TARGET]的\n样子发生了变化！
 
 #org @gText_ScreenCleanerActivate
-All screens on the field were\ncleansed!
+场上所有的\n光墙与反射壁都被清除了！
 
 #org @gText_NeutralizingGasActivate
-Neutralizing Gas fills the area!
+周围充满了化学变化气体！
 
 #org @gText_NeutralizingGasEnd
-The effects of Neutralizing Gas\nwore off!
+化学变化气体的效果消失了！
 
 #org @gText_CuriousMedicineActivate
-[TARGET]'s stat changes\nwere removed!
+[TARGET]的\n能力变化被消除了！
 
 #org @gText_PkmnHurtsWith
-[ATTACKER] was hurt!
+[ATTACKER]受到了伤害！
 
 #org @gText_SymbiosisTransfer
-[SCRIPTING_BANK] shared its\n[LAST_ITEM] with [EFFECT_BANK]!
+[SCRIPTING_BANK]将[LAST_ITEM]\n交给了[EFFECT_BANK]！
 
 #org @gText_AbilityEvaporatedAttack
-But [TARGET] evaporated\nthe attack!
+但[TARGET]\n将攻击蒸发掉了！
 
 #org @gText_AbilityEvaporatedRain
-[SCRIPTING_BANK] evaporated\nthe rain!
+[SCRIPTING_BANK]\n将雨水蒸发了！
 
 #org @gText_ButAbilityEvaporatesRain
-But [SCRIPTING_BANK] evaporates\nrain!
+但[SCRIPTING_BANK]\n将雨水蒸发了！
 
 #org @GigatonHammerNotAllowedString
-[CURRENT_MOVE] can't be used twice\nin a row!\p
+[CURRENT_MOVE]\n无法连续使用两次！\p
 
 #org @gText_BeadsofRuin
-[SCRIPTING_BANK]'s Beads of Ruin weakened\nthe Sp.Def of around all Pokémon.
+[SCRIPTING_BANK]的灾祸之玉\n令周围的宝可梦的特防减弱了！
 
 #org @gText_TabletsofRuin
-[SCRIPTING_BANK]'s Tablets of Ruin weakened\nthe Attack of around all Pokémon.
+[SCRIPTING_BANK]的灾祸之简\n令周围的宝可梦的攻击减弱了！
 
 #org @gText_SwordofRuin
-[SCRIPTING_BANK]'s Sword of Ruin weakened\nthe Defense of around all Pokémon.
+[SCRIPTING_BANK]的灾祸之剑\n令周围的宝可梦的防御减弱了！
 
 #org @gText_VesselofRuin
-[SCRIPTING_BANK]'s Vessel of Ruin weakened\nthe Sp.Attack of around all Pokémon.
+[SCRIPTING_BANK]的灾祸之鼎\n令周围的宝可梦的特攻减弱了！
 
 #org @gText_CostarActivate
-[SCRIPTING_BANK] copied [TARGET]\nstat changes!
+[SCRIPTING_BANK]复制了\n[TARGET]的能力变化！
 
 #org @gText_GoodAsGoldActivate
-It doesn't affect [SCRIPTING_BANK][.]
+这对[SCRIPTING_BANK]没有效果。
 
 #org @sText_ElectricTerrainActivatedAbility
-The Electric Terrain activated\n[SCRIPTING_BANK]'s [LAST_ABILITY]!
+[SCRIPTING_BANK]通过\n电气场地发动了[LAST_ABILITY]！
 
 #org @sText_StatWasHeightened
-[SCRIPTING_BANK]'s [BUFFER][00] was\nheightened!
+[SCRIPTING_BANK]的\n[BUFFER][00]升高了！
 
 #org @sText_SunlightActivatedAbility
-The harsh sunlight activated\n[SCRIPTING_BANK]'s [LAST_ABILITY]!
+[SCRIPTING_BANK]通过\n大晴天发动了[LAST_ABILITY]！
 
 #org @gText_SupremeOverlordActivate
-[SCRIPTING_BANK] gained strength from\nthe fallen!
+[SCRIPTING_BANK]从\n被打倒的同伴身上得到力量了！
 
 #org @gText_GrassySurgeGrew
-Grass grew to cover the\nbattlefield!\p
+脚下青草如茵！
 
 #org @gText_ZerotoHeroActivate
-[SCRIPTING_BANK] underwent a heroic\ntranformation!
+[SCRIPTING_BANK]\n在变身之后回来了！

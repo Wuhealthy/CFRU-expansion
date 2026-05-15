@@ -7,7 +7,7 @@ import sys
 from datetime import datetime
 import _io
 
-OFFSET_TO_PUT = 0x1000000
+OFFSET_TO_PUT = 0x1200000
 SOURCE_ROM = "BPRE0.gba"
 ROM_NAME = "test.gba"
 
@@ -258,9 +258,14 @@ def TryProcessConditionalCompilation(line: str, definesDict: dict, conditionals:
                 conditionals.insert(0, (condition[0], False))  # Invert old statement
             else:
                 conditionals.insert(0, (condition[0], True))  # Invert old statement
-            return True
+        else:
+            print('Warning: unmatched #ELSE in line "' + line + '".')
+        return True
     elif upperLine == '#ENDIF':
-        conditionals.pop(0)  # Remove first element (last pushed)
+        if len(conditionals) >= 1:
+            conditionals.pop(0)  # Remove first element (last pushed)
+        else:
+            print('Warning: unmatched #ENDIF in line "' + line + '".')
         return True
     else:
         for condition in conditionals:
@@ -413,14 +418,20 @@ def main():
             MINIMUM_FREE_LENGTH = 0x100        # Minimum space to be considered free
 
             def FindFreeSpace(rom: _io.BufferedReader, length: int, start: int = FREE_BYTE_SEARCH_START) -> int:
+                if start % 4 != 0:
+                    start += 4 - (start % 4)
                 rom.seek(start)
                 data = rom.read()
-                index = 0
-                while index + length <= len(data):
-                    chunk = data[index:index+length]
-                    if all(b in (0x00, 0xFF) for b in chunk):
-                        return start + index
-                    index += 4
+                free_count = 0
+                for index, byte in enumerate(data):
+                    if byte in (0x00, 0xFF):
+                        free_count += 1
+                        if free_count >= length:
+                            candidate = start + index - length + 1
+                            if candidate % 4 == 0:
+                                return candidate
+                    else:
+                        free_count = 0
                 raise Exception(f"No free space found for {length} bytes.")
 
             with open('free_bytereplacements', 'r') as file:

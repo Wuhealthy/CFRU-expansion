@@ -1,113 +1,113 @@
 #org @gText_DebugMenu_SetFlag
-Set Flag
+设置标志
 
 #org @gText_DebugMenu_GiveItem
-Give Item
+获取道具
 
 #org @gText_DebugMenu_Level100Team
-Level 100 Team
+队伍100级
 
 #org @gText_DebugMenu_MaxCoinage
-Max Coinage
+代币最大值
 
 #org @gText_DebugMenu_ShinyTeam
-Shiny Team
+闪光队伍
 
 #org @gText_DebugMenu_AllBadges
-All Badges
+全部徽章
 
 #org @gText_DebugMenu_GameClear
-Game Clear
+游戏清除
 
 #org @gText_DebugMenu_CustomFlag
-Custom Flag
+自定义标志
 
 #org @gText_DebugMenu_Pokedexes
-Pokedexes
+图鉴
 
 #org @gText_DebugMenu_FlySpots
-Fly Spots
+飞翔点
 
 #org @gText_DebugMenu_UsefulKeyItems
-Useful Key Items
+重要道具
 
 #org @gText_DebugMenu_GeneralUsefulItems
-General Useful Items
+一般道具
 
 #org @gText_DebugMenu_PokeBalls
-Pok\e Balls
+精灵球
 
 #org @gText_DebugMenu_Berries
-Berries
+树果
 
 #org @gText_DebugMenu_TMs
-TMs and HMs
+秘传和招式学习器
 
 #org @gText_DebugMenu_AllItems
-All Items
+全部道具
 
 #org @gText_DebugMenu_Give
-Give custom
+自定义获得
 
 #org @gText_DebugMenu_GivePokemonById
-Pokémon
+宝可梦
 
 #org @gText_DebugMenu_EnterSpecies
-Enter the Pokémon's National \nDex Number.
+请输入宝可梦的全国图鉴编号。
 
 #org @gText_Failed
-Invalid species or party full.
+物种无效或队伍已满。
 
 #org @gText_ReceivedPokemon
-Received [BUFFER1]!
+获得了[BUFFER1]！
 
 #org @Text_EnterItem
-Enter the Item ID to receive.
+请输入要领取的道具ID。
 
 #org @gText_DebugMenu_GiveItemById
-Item
+道具
 
 #org @gText_DebugMenu_Debug
-Debug more...
+更多调试功能...
 
 #org @gText_DebugMenu_SuccessfulDex
-Enabled all pokemon to \nseen/caught in Pokedex.
+已将全图鉴中的所有宝可梦\n设为“已见过”/“已捕捉”。
 
 #org @gText_DebugMenu_Dex
-Debug Pokedex
+图鉴调试
 
 #org @gText_DebugMenu_StartWildBattle
-Custom Wild battle
+自定义野生宝可梦对战
 
 #org @gText_DebugMenu_CustomSetFlag
-Set Custom Flag
+设置自定义Flag
 
 #org @Text_CustomSetFlag
-Enter the Flag id (in Decimal).
+请输入Flag的ID。
 
 #org @Text_InvalidNumber
-Invalid Flag.
+无效的Flag。
 
 #org @Text_FlagSet
-Flag Set.
+Flag已设置。
 
 #org @gText_DebugMenu_SetVar
-Set Custom Var
+设置自定义变量
 
 #org @Text_CustomSetVar
-Enter a Var no. (In Decimal)
+请输入变量编号。
 
 #org @gText_VarValue
-Enter value to set.
+请输入要设置的值。
 
 #org @Text_VarSet
-Var set!
+变量已设置！
 
 #org @gText_DebugMenu_Trainerbattle
-Custom Trainer battle
+自定义训练家对战
 
 #org @gText_TrainerCustomBattle
-Enter trainer id (in Decimal).
+请输入训练家ID。
 
 #org @DebugMenu_LossMessage
-Caterpie can't hack it.
+绿毛虫做不到。

@@ -1,94 +1,94 @@
 //GUI Strings
 
 #org @gText_DexNavWater
-Water
+水面
 
 #org @gText_DexNavLand
-Land
+陆地
 
 #org @gText_PinkFlowers
-Pink Flowers
+粉红色花朵
 
 #org @gText_YellowFlowers
-Yellow Flowers
+黄色花朵
 
 #org @gText_RedFlowers
-Red Flowers
+红色花朵
 
 #org @gText_BlueFlowers
-Blue Flowers
+蓝色花朵
 
 #org @gText_PinkAndPurpleFlowers
-Pink-Purple Flowers
+粉紫色花朵
 
 #org @gText_BlueAndYellowFlowers
-Blue-Yellow Flowers
+蓝黄色花朵
 
 #org @gText_Magma
-Magma
+岩浆
 
 #org @gText_Sand
-Sand
+沙地
 
 #org @gText_DexNavReeds
-Reeds
+芦苇
 
 #org @gText_DexNavDeepWater
-Deep Water
+深水区域
 
 #org @gText_DexNav_Chain
-Chain: 
+连锁: 
 
 #org @gText_DexNav_CaptureToSee
-Capture first!
+需要先捕捉！
 
 #org @gText_DexNav_Walk
-Walk
+行走
 
 #org @gText_DexNav_Surf
-Surf
+冲浪
 
 #org @gText_DexNav_LavaSurf
-Lava Surf
+岩浆冲浪
 
 #org @gText_DexNav_OldRod
-Old Rod
+破旧钓竿
 
 #org @gText_DexNav_GoodRod
-Good Rod
+好钓竿
 
 #org @gText_DexNav_SuperRod
-Super Rod
+厉害钓竿
 
 #org @gText_DexNav_SurfOldRod
-Surf/Old Rod
+冲浪/破旧钓竿
 
 #org @gText_DexNav_SurfGoodRod
-Surf/Good Rod
+冲浪/好钓竿
 
 #org @gText_DexNav_SurfSuperRod
-Surf/Super Rod
+冲浪/厉害钓竿
 
 #org @gText_DexNav_Swarm
-Swarm
+一群
 
 #org @gText_DexNav_NoInfo
 --------
 
 #org @gText_DexNav_Unavailable
-Unavailable
+无法获取
 
 #org @gText_DexNav_ListMenuRegister
-Register
+登录
 
 #org @gText_DexNav_ListMenuScan
-Scan
+扫描
 
 #org @gText_DexNav_ListMenuCancel
-Cancel
+取消
 
 #org @gText_DexNav_PokemonSelected
-[BUFFER1] is selected.
+已选择[BUFFER1]。
 
 #org @gText_DexNav_NeedRod
 The [BUFFER2] must be acquired\nbefore searching for [BUFFER1].[PAUSE_UNTIL_PRESS]

@@ -30,9 +30,14 @@ extern const u8 gText_AbilityName_PowerOfAlchemy[];
 extern const u8 gText_AbilityName_PropellerTail[];
 
 //Unbound Custom Abilities
+extern const u8 gText_AbilityName_Pixilate[];
+extern const u8 gText_AbilityName_Refrigerate[];
+extern const u8 gText_AbilityName_Galvanize[];
+extern const u8 gText_AbilityName_Dragonize[];
 extern const u8 gText_AbilityName_NineLives[];
 extern const u8 gText_AbilityName_FocusBelt[];
 extern const u8 gText_AbilityName_Evaporate[];
+extern const u8 gText_AbilityName_PiercingDrill[];
 extern const u8 gText_AbilityName_FieryNeigh[];
 extern const u8 gText_AbilityName_ShockingNeigh[];
 extern const u8 gText_AbilityName_Pride[];
@@ -52,11 +57,18 @@ extern const u8 gText_AbilityName_CrabbyTactics[];
 extern const u8 gText_AbilityName_HoneyArmor[];
 extern const u8 gText_AbilityName_FaceShield[];
 extern const u8 gText_AbilityName_RoyalRoar[];
+extern const u8 gText_AbilityName_PsyGravity[];
 
+extern const u8 gText_AbilityDescription_Pixilate[];
+extern const u8 gText_AbilityDescription_Refrigerate[];
+extern const u8 gText_AbilityDescription_Galvanize[];
+extern const u8 gText_AbilityDescription_Dragonize[];
 extern const u8 gText_AbilityDescription_Evaporate[];
 extern const u8 gText_AbilityDescription_GrassDash[];
 extern const u8 gText_AbilityDescription_SlipperyTail[];
 extern const u8 gText_AbilityDescription_DrillBeak[];
+extern const u8 gText_AbilityDescription_FocusBelt[];
+extern const u8 gText_AbilityDescription_PsyGravity[];
 
 //Gen 9 Abilities
 extern const u8 gText_AbilityName_AngerShell[];
@@ -78,6 +90,8 @@ extern const u8 gText_AbilityName_EarthEater[];
 extern const u8 gText_AbilityDescription_EarthEater[];
 extern const u8 gText_AbilityName_Electromorphosis[];
 extern const u8 gText_AbilityDescription_Electromorphosis[];
+extern const u8 gText_AbilityName_SpicySpray[];
+extern const u8 gText_AbilityDescription_SpicySpray[];
 extern const u8 gText_AbilityName_GoodAsGold[];
 extern const u8 gText_AbilityDescription_GoodAsGold[];
 extern const u8 gText_AbilityName_GuardDog[];
@@ -128,7 +142,7 @@ extern const u8 gText_AbilityDescription_WindRider[];
 extern const u8 gText_AbilityName_ZerotoHero[];
 extern const u8 gText_AbilityDescription_ZerotoHero[];
 
-const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses the 255 Ability limitation and implements clone Abilities
+const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过255个特性的限制并实现克隆能力
 {
 	u16 dexNum = SpeciesToNationalPokedexNum(species);
 
@@ -174,15 +188,9 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses
 		case ABILITY_STURDY:
 			switch (dexNum)
 			{
-				#if (defined NATIONAL_DEX_MEOWTH && defined NATIONAL_DEX_PERSIAN)
-				case NATIONAL_DEX_MEOWTH:
-				case NATIONAL_DEX_PERSIAN:
+				#if (defined NATIONAL_DEX_ABSOL)
+				case NATIONAL_DEX_ABSOL:
 					return gText_AbilityName_NineLives;
-				#endif
-				#if (defined NATIONAL_DEX_MACHOKE && defined NATIONAL_DEX_MACHAMP)
-				case NATIONAL_DEX_MACHOKE:
-				case NATIONAL_DEX_MACHAMP:
-					return gText_AbilityName_FocusBelt;
 				#endif
 			}
 			break;
@@ -210,6 +218,10 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses
 		case ABILITY_STORMDRAIN:
 			if (SpeciesHasEvaporate(species))
 				return gText_AbilityName_Evaporate;
+			break;
+		case ABILITY_UNSEENFIST:
+			if (SpeciesHasPiercingDrill(species))
+				return gText_AbilityName_PiercingDrill;  // 需要定义此字符串
 			break;
 		case ABILITY_MOXIE:
 			switch (dexNum)
@@ -239,9 +251,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses
 		case ABILITY_MULTISCALE:
 			switch (dexNum)
 			{
-				#if (defined NATIONAL_DEX_BALTOY && defined NATIONAL_DEX_CLAYDOL)
-				case NATIONAL_DEX_BALTOY:
-				case NATIONAL_DEX_CLAYDOL:
+				#if (defined NATIONAL_DEX_SUICUNE)
+				case NATIONAL_DEX_SUICUNE:
 					return gText_AbilityName_Multieye;
 				#endif
 			}
@@ -294,6 +305,16 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses
 			else if (SpeciesHasSlipperyTail(species))
 				return gText_AbilityName_SlipperyTail;
 			break;
+		case ABILITY_AERILATE:
+			if (SpeciesHasPixilate(species))
+				return gText_AbilityName_Pixilate;
+			else if (SpeciesHasRefrigerate(species))
+				return gText_AbilityName_Refrigerate;
+			else if (SpeciesHasGalvanize(species))
+				return gText_AbilityName_Galvanize;
+			else if (SpeciesHasDragonize(species))
+				return gText_AbilityName_Dragonize;
+			break;
 		case ABILITY_EMERGENCYEXIT:
 			switch (dexNum)
 			{
@@ -335,6 +356,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses
 		case ABILITY_MERCILESS:
 			if (SpeciesHasDrillBeak(species))
 				return gText_AbilityName_DrillBeak;
+			else if (SpeciesHasFocusBelt(species))
+				return gText_AbilityName_FocusBelt;
 			break;
 		case ABILITY_STALWART:
 			switch (dexNum)
@@ -458,6 +481,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses
 		case ABILITY_COLORCHANGE:
 			if(SpeciesHasElectromorphosis(species))
 				return gText_AbilityName_Electromorphosis;
+			if(SpeciesHasSpicySpray(species))  // 辣椒喷发
+        		return gText_AbilityName_SpicySpray;
 			break;
 		case ABILITY_INNERFOCUS:
 			if(SpeciesHasGuardDog(species))
@@ -502,6 +527,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //Bypasses
 		case ABILITY_INTIMIDATE:
 			if (SpeciesHasSuperSweetSyrup(species))
 				return gText_AbilityName_SuperSweetSyrup;
+			else if (SpeciesHasPsyGravity(species))
+        		return gText_AbilityName_PsyGravity;
 			break;
 		case ABILITY_ICEFACE:
 				if (SpeciesHasTeraShift(species))
@@ -577,9 +604,21 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 			else if (SpeciesHasSlipperyTail(species))
 				return gText_AbilityDescription_SlipperyTail;
 			break;
+		case ABILITY_AERILATE:
+			if (SpeciesHasPixilate(species))
+				return gText_AbilityDescription_Pixilate;
+			else if (SpeciesHasRefrigerate(species))
+				return gText_AbilityDescription_Refrigerate;
+			else if (SpeciesHasGalvanize(species))
+				return gText_AbilityDescription_Galvanize;
+			else if (SpeciesHasDragonize(species))
+				return gText_AbilityDescription_Dragonize;
+			break;
 		case ABILITY_MERCILESS:
 			if (SpeciesHasDrillBeak(species))
 				return gText_AbilityDescription_DrillBeak;
+			else if (SpeciesHasFocusBelt(species))
+				return gText_AbilityDescription_FocusBelt;
 			break;
 		case ABILITY_WEAKARMOR:
 			if(SpeciesHasAngerShell(species))
@@ -610,6 +649,8 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 		case ABILITY_COLORCHANGE:
 			if(SpeciesHasElectromorphosis(species))
 				return gText_AbilityDescription_Electromorphosis;
+			if(SpeciesHasSpicySpray(species))  // 辣椒喷发
+        		return gText_AbilityDescription_SpicySpray;
 			break;
 		case ABILITY_CLEARBODY:
 			if(SpeciesHasGoodAsGold(species))
@@ -663,6 +704,8 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 		case ABILITY_INTIMIDATE:
 			if (SpeciesHasSuperSweetSyrup(species))
 				return gText_AbilityDescription_SuperSweetSyrup;
+			else if (SpeciesHasPsyGravity(species))
+				return gText_AbilityDescription_PsyGravity;
 			break;
 		case ABILITY_ICEFACE:
 			if(SpeciesHasTeraShift(species))
@@ -808,6 +851,15 @@ bool8 SpeciesHasDrillBeak(unusedArg u16 species) //Custom Unbound Ability
 	#endif
 }
 
+bool8 SpeciesHasFocusBelt(unusedArg u16 species) //Custom Unbound Ability
+{
+	#if (defined SPECIES_ARBOK && defined SPECIES_ARBOK_MEGA)
+	return species == SPECIES_ARBOK || species == SPECIES_ARBOK_MEGA;
+	#else
+	return FALSE;
+	#endif
+}
+
 bool8 SpeciesHasGrassDash(unusedArg u16 species) //Custom Unbound Ability
 {
 	#ifdef SPECIES_SUNFLORA
@@ -817,10 +869,55 @@ bool8 SpeciesHasGrassDash(unusedArg u16 species) //Custom Unbound Ability
 	#endif
 }
 
+bool8 SpeciesHasPixilate(unusedArg u16 species) //妖精皮肤
+{
+	#if (defined SPECIES_GARDEVOIR_MEGA && defined SPECIES_ALTARIA_MEGA && defined SPECIES_SYLVEON)
+	return species == SPECIES_GARDEVOIR_MEGA || species == SPECIES_ALTARIA_MEGA || species == SPECIES_SYLVEON;
+	#else
+	return FALSE;
+	#endif
+}
+
+bool8 SpeciesHasRefrigerate(unusedArg u16 species) //冰冻皮肤
+{
+	#if (defined SPECIES_GLALIE_MEGA && defined SPECIES_AMAURA && defined SPECIES_AURORUS)
+	return species == SPECIES_GLALIE_MEGA || species == SPECIES_AMAURA || species == SPECIES_AURORUS;
+	#else
+	return FALSE;
+	#endif
+}
+
+bool8 SpeciesHasGalvanize(unusedArg u16 species) //电气皮肤
+{
+	#if (defined SPECIES_GEODUDE_A && defined SPECIES_GRAVELER_A && defined SPECIES_GOLEM_A)
+	return species == SPECIES_GEODUDE_A || species == SPECIES_GRAVELER_A || species == SPECIES_GOLEM_A;
+	#else
+	return FALSE;
+	#endif
+}
+
+bool8 SpeciesHasDragonize(unusedArg u16 species) //龙皮肤
+{
+	#ifdef SPECIES_FERALIGATR_MEGA
+	return species == SPECIES_FERALIGATR_MEGA;
+	#else
+	return FALSE;
+	#endif
+}
+
+bool8 SpeciesHasPiercingDrill(unusedArg u16 species)
+{
+	#ifdef SPECIES_EXCADRILL_MEGA  // 替换为您需要的宝可梦
+	return species == SPECIES_EXCADRILL_MEGA;
+	#else
+	return FALSE;
+	#endif
+}
+
 bool8 SpeciesHasEvaporate(unusedArg u16 species) //Custom Unbound Ability
 {
-	#ifdef SPECIES_MAGCARGO
-	return species == SPECIES_MAGCARGO;
+	#ifdef SPECIES_HEATRAN
+	return species == SPECIES_HEATRAN;
 	#else
 	return FALSE;
 	#endif
@@ -1228,6 +1325,15 @@ bool8 SpeciesHasCostar(unusedArg u16 species)
 	#endif
 }
 
+bool8 SpeciesHasPsyGravity(unusedArg u16 species)
+{
+    #ifdef SPECIES_HYPNO_MEGA
+    return species == SPECIES_HYPNO_MEGA;
+    #else
+    return FALSE;
+    #endif
+}
+
 bool8 SpeciesHasEarthEater(unusedArg u16 species)
 {
 	#ifdef SPECIES_ORTHWORM
@@ -1241,6 +1347,15 @@ bool8 SpeciesHasElectromorphosis(unusedArg u16 species)
 {
 	#ifdef SPECIES_BELLIBOLT
 	return species == SPECIES_BELLIBOLT;
+	#else
+	return FALSE;
+	#endif
+}
+
+bool8 SpeciesHasSpicySpray(unusedArg u16 species)
+{
+	#ifdef SPECIES_SCOVILLAIN_MEGA
+	return species == SPECIES_SCOVILLAIN_MEGA;
 	#else
 	return FALSE;
 	#endif

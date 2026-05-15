@@ -29,10 +29,10 @@ Exit  [DPAD_LEFT]
 [BUFFER1]/[BUFFER2][ALIGN][2C][BUFFER3] Ball
 
 #org @gText_StartMenu_TimeBase
-[BUFFER][0C]. [BUFFER1]:[BUFFER2]:[BUFFER3]
+[BUFFER][0C] [BUFFER1]:[BUFFER2]:[BUFFER3]
 
 #org @gText_StartMenu_TimeBase_12Hr
-[BUFFER][0C]. [BUFFER1]:[BUFFER2] [BUFFER3]
+[BUFFER][0C] [BUFFER1]:[BUFFER2] [BUFFER3]
 
 #org @gText_StartMenu_AM
 AM
@@ -47,25 +47,25 @@ PM
 [MAIN_COLOUR][0E][SHADOW_COLOUR][0F]
 
 #org @gText_StartMenu_Sunday
-Sun
+周日
 
 #org @gText_StartMenu_Monday
-Mon
+周一
 
 #org @gText_StartMenu_Tuesday
-Tue
+周二
 
 #org @gText_StartMenu_Wednesday
-Wed
+周三
 
 #org @gText_StartMenu_Thursday
-Thu
+周四
 
 #org @gText_StartMenu_Friday
-Fri
+周五
 
 #org @gText_StartMenu_Saturday
-Sat
+周六
 
 #org @gText_StartMenu_Error
-Err
+报错

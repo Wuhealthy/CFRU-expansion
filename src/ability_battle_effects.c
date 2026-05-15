@@ -39,6 +39,8 @@ tables to edit:
 
 extern u8 gStatusConditionString_MentalState[];
 extern u8 gStatusConditionString_TauntProblem[];
+extern const u8 BattleScript_PsyGravityActivates[];
+extern const u8 BattleScript_TelekinesisEnd[];
 
 const s8 gAbilityRatings[ABILITIES_COUNT] =
 {
@@ -118,7 +120,6 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	#endif
 	[ABILITY_FURCOAT] = 7,
 	[ABILITY_GALEWINGS] = 6,
-	[ABILITY_GALVANIZE] = 8,
 	[ABILITY_GLUTTONY] = 3,
 	[ABILITY_GOOEY] = 5,
 	[ABILITY_GRASSPELT] = 2,
@@ -193,7 +194,6 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_PARENTALBOND] = 10,
 	[ABILITY_PICKUP] = 1,
 	[ABILITY_PICKPOCKET] = 3,
-	[ABILITY_PIXILATE] = 8,
 	[ABILITY_PLUS] = 0,
 	[ABILITY_POISONHEAL] = 8,
 	[ABILITY_POISONPOINT] = 4,
@@ -220,7 +220,6 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_RATTLED] = 3,
 	[ABILITY_RECEIVER] = 0,
 	[ABILITY_RECKLESS] = 6,
-	[ABILITY_REFRIGERATE] = 8,
 	[ABILITY_REGENERATOR] = 8,
 	[ABILITY_RIVALRY] = 1,
 	[ABILITY_RKS_SYSTEM] = 8,
@@ -744,13 +743,49 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			break;
 
 		case ABILITY_INTIMIDATE:
-			if (CanBeAffectedByIntimidate(FOE(bank)) || (IS_DOUBLE_BATTLE && CanBeAffectedByIntimidate(PARTNER(FOE(bank)))))
+			// 原 Intimidate 效果（排除 PsyGravity 宝可梦）
+    		if (!SpeciesHasPsyGravity(SPECIES(bank))
+				&& (CanBeAffectedByIntimidate(FOE(bank)) || (IS_DOUBLE_BATTLE && CanBeAffectedByIntimidate(PARTNER(FOE(bank))))))
 			{
 				BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivatesEnd3);
 				gBattleStruct->intimidateBank = bank;
 				gNewBS->intimidateActive = bank + 1;
 				effect++;
 			}
+
+			if (SpeciesHasPsyGravity(SPECIES(bank)))
+    		{
+        		u8 foe1 = FOE(bank);
+        		u8 foe2 = PARTNER(foe1);
+        		u8 applied = FALSE;
+        
+        		if (BATTLER_ALIVE(foe1) && !(gStatuses3[foe1] & STATUS3_TELEKINESIS)
+            		&& !IsGravityActive()
+            		&& ITEM_EFFECT(foe1) != ITEM_EFFECT_IRON_BALL
+            		&& !(gStatuses3[foe1] & (STATUS3_ROOTED | STATUS3_SMACKED_DOWN)))
+        		{
+            		gStatuses3[foe1] |= STATUS3_TELEKINESIS;
+            		gNewBS->TelekinesisTimers[foe1] = 5;
+            		applied = TRUE;
+        		}
+        
+        		if (IS_DOUBLE_BATTLE && BATTLER_ALIVE(foe2)
+            		&& !(gStatuses3[foe2] & STATUS3_TELEKINESIS)
+            		&& !IsGravityActive()
+            		&& ITEM_EFFECT(foe2) != ITEM_EFFECT_IRON_BALL
+            		&& !(gStatuses3[foe2] & (STATUS3_ROOTED | STATUS3_SMACKED_DOWN)))
+        		{
+            		gStatuses3[foe2] |= STATUS3_TELEKINESIS;
+            		gNewBS->TelekinesisTimers[foe2] = 5;
+            		applied = TRUE;
+        		}
+        
+        		if (applied)
+        		{
+            		BattleScriptPushCursorAndCallback(BattleScript_PsyGravityActivates);
+    				effect++;
+        		}
+    		}
 			break;
 
 		case ABILITY_FORECAST:
@@ -1461,6 +1496,18 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			if (BATTLER_ALIVE(bank))
 			{
 				gBankAttacker = gActiveBattler = gBattleScripting.bank = bank;
+				// 新增：Telekinesis 计时器处理
+        		if (gNewBS->TelekinesisTimers[bank] > 0)
+        		{
+            		gNewBS->TelekinesisTimers[bank]--;
+            		if (gNewBS->TelekinesisTimers[bank] == 0 && (gStatuses3[bank] & STATUS3_TELEKINESIS))
+            		{
+                		gStatuses3[bank] &= ~STATUS3_TELEKINESIS;
+                		BattleScriptPushCursorAndCallback(BattleScript_TelekinesisEnd);
+                		effect++;
+                		break;  // 先处理 Telekinesis 结束，不继续执行其他能力
+            		}
+        		}
 				switch (gLastUsedAbility)
 				{
 				case ABILITY_RAINDISH:
@@ -1752,6 +1799,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					case ABILITY_SOUNDPROOF:
 						if (CheckSoundMove(move))
 							effect = 1;
+						if (IsSoundMove(move, ABILITY(gBankAttacker)))
+							effect = 1;
 						break;
 
 					case ABILITY_BULLETPROOF:
@@ -1954,6 +2003,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				&& gBankAttacker != bank
 				&& !SheerForceCheck()
 				&& !SpeciesHasElectromorphosis(SPECIES(bank))
+				&& !SpeciesHasSpicySpray(SPECIES(bank))
 				&& gMultiHitCounter <= 1
 				&& !IsTerastallized(bank))
 				{
@@ -1977,6 +2027,23 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					gNewBS->ElectroCounter[bank]++;
 					effect++;
 				}
+
+				// 辣椒喷发 - 受到伤害时使攻击方灼伤
+    			else if (MOVE_HAD_EFFECT
+    			&& TOOK_DAMAGE(bank)
+    			&& BATTLER_ALIVE(bank)
+    			&& SpeciesHasSpicySpray(SPECIES(bank)))
+    			{
+        			if (!(gBattleMons[gBankAttacker].status1 & STATUS1_BURN)
+        				&& CanBeBurned(gBankAttacker, bank, FALSE))
+        			{
+            			gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_BURN;
+            			BattleScriptPushCursor();
+            			gBattlescriptCurrInstr = BattleScript_AbilityApplySecondaryEffect;
+            			gHitMarker |= HITMARKER_IGNORE_SAFEGUARD;
+            			effect++;
+        			}
+    			}
 				break;
 			
 			case ABILITY_GRASSYSURGE:
@@ -3150,21 +3217,18 @@ static void PrintBattlerOnAbilityPopUp(u8 battlerId, u8 spriteId1, u8 spriteId2)
 	lastChar = *(textPtr - 1);
 
 	//Make the string say "[NAME]'s" instead of "[NAME]"
-	textPtr[0] = CHAR_SGL_QUOT_RIGHT; //'
-	++textPtr;
-	if (lastChar != PC_S && lastChar != PC_s) //Proper grammar for names ending in "s"
-	{
-		textPtr[0] = 0xE7; //s
-		++textPtr;
-	}
+    
+	textPtr[0] = 0x03;  // 中文字符第一字节
+	textPtr[1] = 0x0B;  // 中文字符第二字节 ("的")
+	textPtr += 2;
 	textPtr[0] = EOS;
 
 	PrintOnAbilityPopUp((const u8*) monName,
 						(void*)(OBJ_VRAM0) + (gSprites[spriteId1].oam.tileNum * 32),
 						(void*)(OBJ_VRAM0) + (gSprites[spriteId2].oam.tileNum * 32),
-						5, 0,
+						5, 0,//文字显示的起始位置
 						0,
-						2, 7, 1);
+						2, 7, 1);//调用色板位置，分别是：文字颜色，轮廓颜色，背景颜色（0为透明）
 }
 
 static void PrintAbilityOnAbilityPopUp(u32 ability, u16 species, u8 spriteId1, u8 spriteId2)
@@ -3174,7 +3238,7 @@ static void PrintAbilityOnAbilityPopUp(u32 ability, u16 species, u8 spriteId1, u
 	PrintOnAbilityPopUp(abilityName,
 						(void*)(OBJ_VRAM0) + (gSprites[spriteId1].oam.tileNum * 32) + 256,
 						(void*)(OBJ_VRAM0) + (gSprites[spriteId2].oam.tileNum * 32) + 256,
-						5, 12,
+						5, 12,//文字显示的起始位置
 						4,
 						7, 9, 1);
 }

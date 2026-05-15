@@ -4677,7 +4677,12 @@ void atkC0_recoverbasedonsunlight(void)
 
 	if (!BATTLER_MAX_HP(gBankAttacker))
 	{
-		if (gBattleWeather == 0 || gBattleWeather & WEATHER_AIR_CURRENT_PRIMAL || !WEATHER_HAS_EFFECT)
+		if(ABILITY(gBankAttacker) == ABILITY_MEGASOL)
+		{
+			gBattleMoveDamage = (2 * GetBaseMaxHP(gBankAttacker)) / 3;
+		}
+		
+		else if (gBattleWeather == 0 || gBattleWeather & WEATHER_AIR_CURRENT_PRIMAL || !WEATHER_HAS_EFFECT)
 		{
 			NO_WEATHER_EFFECT:
 			gBattleMoveDamage = GetBaseMaxHP(gBankAttacker) / 2;

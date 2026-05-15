@@ -6,985 +6,1006 @@ FILL_FF=True
 -------
 
 #org @NAME_STENCH
-Stench
+恶臭
 
 #org @NAME_DRIZZLE
-Drizzle
+降雨
 
 #org @NAME_SPEED_BOOST
-Speed Boost
+加速
 
 #org @NAME_BATTLE_ARMOR
-Battle Armor
+战斗盔甲
 
 #org @NAME_STURDY
-Sturdy
+结实
 
 #org @NAME_DAMP
-Damp
+湿气
 
 #org @NAME_LIMBER
-Limber
+柔软
 
 #org @NAME_SAND_VEIL
-Sand Veil
+沙隐
 
 #org @NAME_STATIC
-Static
+静电
 
 #org @NAME_VOLT_ABSORB
-Volt Absorb
+蓄电
 
 #org @NAME_WATER_ABSORB
-Water Absorb
+储水
 
 #org @NAME_OBLIVIOUS
-Oblivious
+迟钝
 
 #org @NAME_CLOUD_NINE
-Cloud Nine
+无关天气
 
 #org @NAME_COMPOUND_EYES
-Compound Eyes
+复眼
 
 #org @NAME_INSOMNIA
-Insomnia
+不眠
 
 #org @NAME_COLOR_CHANGE
-Color Change
+变色
 
 #org @NAME_IMMUNITY
-Immunity
+免疫
 
 #org @NAME_FLASH_FIRE
-Flash Fire
+引火
 
 #org @NAME_SHIELD_DUST
-Shield Dust
+鳞粉
 
 #org @NAME_OWN_TEMPO
-Own Tempo
+我行我素
 
 #org @NAME_SUCTION_CUPS
-Suction Cups
+吸盘
 
 #org @NAME_INTIMIDATE
-Intimidate
+威吓
 
 #org @NAME_SHADOW_TAG
-Shadow Tag
+踩影
 
 #org @NAME_ROUGH_SKIN
-Rough Skin
+粗糙皮肤
 
 #org @NAME_WONDER_GUARD
-Wonder Guard
+神奇守护
 
 #org @NAME_LEVITATE
-Levitate
+飘浮
 
 #org @NAME_EFFECT_SPORE
-Effect Spore
+孢子
 
 #org @NAME_SYNCHRONIZE
-Synchronize
+同步
 
 #org @NAME_CLEAR_BODY
-Clear Body
+恒净之躯
 
 #org @NAME_NATURAL_CURE
-Natural Cure
+自然回复
 
 #org @NAME_LIGHTNING_ROD
-Lightning Rod
+避雷针
 
 #org @NAME_SERENE_GRACE
-Serene Grace
+天恩
 
 #org @NAME_SWIFT_SWIM
-Swift Swim
+悠游自如
 
 #org @NAME_CHLOROPHYLL
-Chlorophyll
+叶绿素
 
 #org @NAME_ILLUMINATE
-Illuminate
+发光
 
 #org @NAME_TRACE
-Trace
+复制
 
 #org @NAME_HUGE_POWER
-Huge Power
+大力士
 
 #org @NAME_POISON_POINT
-Poison Point
+毒刺
 
 #org @NAME_INNER_FOCUS
-Inner Focus
+精神力
 
 #org @NAME_MAGMA_ARMOR
-Magma Armor
+熔岩铠甲
 
 #org @NAME_WATER_VEIL
-Water Veil
+水幕
 
 #org @NAME_MAGNET_PULL
-Magnet Pull
+磁力
 
 #org @NAME_SOUNDPROOF
-Soundproof
+隔音
 
 #org @NAME_RAIN_DISH
-Rain Dish
+雨盘
 
 #org @NAME_SAND_STREAM
-Sand Stream
+扬沙
 
 #org @NAME_PRESSURE
-Pressure
+压迫感
 
 #org @NAME_THICK_FAT
-Thick Fat
+厚脂肪
 
 #org @NAME_EARLY_BIRD
-Early Bird
+早起
 
 #org @NAME_FLAME_BODY
-Flame Body
+火焰之躯
 
 #org @NAME_RUN_AWAY
-Run Away
+逃跑
 
 #org @NAME_KEEN_EYE
-Keen Eye
+锐利目光
 
 #org @NAME_HYPER_CUTTER
-Hyper Cutter
+怪力钳
 
 #org @NAME_PICKUP
-Pickup
+捡拾
 
 #org @NAME_TRUANT
-Truant
+懒惰
 
 #org @NAME_HUSTLE
-Hustle
+活力
 
 #org @NAME_CUTE_CHARM
-Cute Charm
+迷人之躯
 
 #org @NAME_PLUS
-Plus
+正电
 
 #org @NAME_MINUS
-Minus
+负电
 
 #org @NAME_FORECAST
-Forecast
+阴晴不定
 
 #org @NAME_STICKY_HOLD
-Sticky Hold
+黏着
 
 #org @NAME_SHED_SKIN
-Shed Skin
+蜕皮
 
 #org @NAME_GUTS
-Guts
+毅力
 
 #org @NAME_MARVEL_SCALE
-Marvel Scale
+神奇鳞片
 
 #org @NAME_LIQUID_OOZE
-Liquid Ooze
+污泥浆
 
 #org @NAME_OVERGROW
-Overgrow
+茂盛
 
 #org @NAME_BLAZE
-Blaze
+猛火
 
 #org @NAME_TORRENT
-Torrent
+激流
 
 #org @NAME_SWARM
-Swarm
+虫之预感
 
 #org @NAME_ROCK_HEAD
-Rock Head
+坚硬脑袋
 
 #org @NAME_DROUGHT
-Drought
+日照
 
 #org @NAME_ARENA_TRAP
-Arena Trap
+沙穴
 
 #org @NAME_TRANSISTOR
-Transistor
+电晶体
 
 #org @NAME_DRAGONS_MAW
-Dragon's Maw
+龙颚
 
 #org @NAME_NEUTRALISING_GAS
-Neutralize Gas
+化学变化气体
 
 #org @NAME_SHELL_ARMOR
-Shell Armor
+硬壳盔甲
 
 #org @NAME_HUNGER_SWITCH
-Hunger Switch
+饱了又饿
 
 #org @NAME_LINGERINGAROMA
-Lingering Aroma
+甩不掉的气味
 
 #org @NAME_SWEET_VEIL
-Sweet Veil
+甜幕
 
 #org @NAME_SKILL_LINK
-Skill Link
+连续攻击
 
 #org @NAME_MOTOR_DRIVE
-Motor Drive
+电气引擎
 
 #org @NAME_MULTISCALE
-Multiscale
+多重鳞片
 
 #org @NAME_TECHNICIAN
-Technician
+技术高手
 
 #org @NAME_SCRAPPY
-Scrappy
+胆量
 
 #org @NAME_SUPER_LUCK
-Super Luck
+超幸运
 
 #org @NAME_SNIPER
-Sniper
+狙击手
 
 #org @NAME_REGENERATOR
-Regenerator
+再生力
 
 #org @NAME_PRANKSTER
-Prankster
+恶作剧之心
 
 #org @NAME_ADAPTABILITY
-Adaptability
+适应力
 
 #org @NAME_BIG_PECKS
-Big Pecks
+健壮胸肌
 
 #org @NAME_MAGIC_BOUNCE
-Magic Bounce
+魔法镜
 
 #org @NAME_RECKLESS
-Reckless
+舍身
 
 #org @NAME_SHEER_FORCE
-Sheer Force
+强行
 
 #org @NAME_IRON_FIST
-Iron Fist
+铁拳
 
 #org @NAME_RIVALRY
-Rivalry
+斗争心
 
 #org @NAME_SAND_FORCE
-Sand Force
+沙之力
 
 #org @NAME_SOLAR_POWER
-Solar Power
+太阳之力
 
 #org @NAME_HEATPROOF
-Heatproof
+耐热
 
 #org @NAME_DRY_SKIN
-Dry Skin
+干燥皮肤
 
 #org @NAME_TINTED_LENS
-Tinted Lens
+有色眼镜
 
 #org @NAME_UNSEEN_FIST
-Unseen Fist
+无形拳
 
 #org @NAME_FILTER
-Filter
+过滤
 
 #org @NAME_INFILTRATOR
-Infiltrator
+穿透
 
 #org @NAME_DOWNLOAD
-Download
+下载
 
 #org @NAME_POISON_HEAL
-Poison Heal
+毒疗
 
 #org @NAME_ICE_BODY
-Ice Body
+冰冻之躯
 
 #org @NAME_MOODY
-Moody
+心情不定
 
 #org @NAME_HYDRATION
-Hydration
+湿润之躯
 
 #org @NAME_HEALER
-Healer
+治愈之心
 
 #org @NAME_SNOW_CLOAK
-Snow Cloak
+雪隐
 
 #org @NAME_TANGLED_FEET
-Tangled Feet
+蹒跚
 
 #org @NAME_SNOW_WARNING
-Snow Warning
+降雪
 
 #org @NAME_QUICK_FEET
-Quick Feet
+飞毛腿
 
 #org @NAME_SAP_SIPPER
-Sap Sipper
+食草
 
 #org @NAME_OVERCOAT
-Overcoat
+防尘
 
 #org @NAME_MAGIC_GUARD
-Magic Guard
+魔法防守
 
 #org @NAME_BULLETPROOF
-Bulletproof
+防弹
 
 #org @NAME_GALE_WINGS
-Gale Wings
+疾风之翼
 
 #org @NAME_MOXIE
-Moxie
+自信过度
 
 #org @NAME_AFTERMATH
-Aftermath
+诱爆
 
 #org @NAME_CURSED_BODY
-Cursed Body
+咒术之躯
 
 #org @NAME_GOOEY
-Gooey
+黏滑
 
 #org @NAME_MUMMY
-Mummy
+木乃伊
 
 #org @NAME_GRIM_NEIGH
-Grim Neigh
+漆黑嘶鸣
 
 #org @NAME_SAND_RUSH
-Sand Rush
+拨沙
 
 #org @NAME_ANALYTIC
-Analytic
+分析
 
 #org @NAME_NO_GUARD
-No Guard
+无防守
 
 #org @NAME_MEGA_LAUNCHER
-Mega Launcher
+超级发射器
 
 #org @NAME_TOUGH_CLAWS
-Tough Claws
+硬爪
 
 #org @NAME_STRONG_JAW
-Strong Jaw
+强壮之颚
 
 #org @NAME_VICTORY_STAR
-Victory Star
+胜利之星
 
 #org @NAME_STORM_DRAIN
-Storm Drain
+引水
 
 #org @NAME_DARK_AURA
-Dark Aura
+暗黑气场
 
 #org @NAME_FAIRY_AURA
-Fairy Aura
+妖精气场
 
 #org @NAME_AURA_BREAK
-Aura Break
+气场破坏
 
-#org @NAME_REFRIGERATE
-Refrigerate
+#org @NAME_MEGASOL
+超级日光
 
-#org @NAME_PIXILATE
-Pixilate
+#org @NAME_SONILATE
+音浪皮肤
 
 #org @NAME_AERILATE
-Aerilate
+飞行皮肤
 
 #org @NAME_NORMALIZE
-Normalize
+一般皮肤
 
 #org @NAME_UNBURDEN
-Unburden
+轻装
 
 #org @NAME_SIMPLE
-Simple
+单纯
 
 #org @NAME_UNAWARE
-Unaware
+纯朴
 
 #org @NAME_DEFIANT
-Defiant
+不服输
 
 #org @NAME_COMPETITIVE
-Competitive
+好胜
 
 #org @NAME_DEFEATIST
-Defeatist
+软弱
 
 #org @NAME_SLOW_START
-Slow Start
+慢启动
 
 #org @NAME_TOXIC_BOOST
-Toxic Boost
+中毒激升
 
 #org @NAME_FLARE_BOOST
-Flare Boost
+受热激升
 
 #org @NAME_FUR_COAT
-Fur Coat
+毛皮大衣
 
 #org @NAME_WONDER_SKIN
-Wonder Skin
+奇迹皮肤
 
 #org @NAME_PROTEAN
-Protean
+变幻自如
 
 #org @NAME_PARENTAL_BOND
-Parental Bond
+亲子爱
 
 #org @NAME_MOLD_BREAKER
-Mold Breaker
+破格
 
 #org @NAME_AS_ONE_GRIM
-As One
+人马一体
 
 #org @NAME_AS_ONE_CHILLING
-As One
+人马一体
 
 #org @NAME_ZEN_MODE
-Zen Mode
+达摩模式
 
 #org @NAME_BATTLE_BOND
-Battle Bond
+牵绊变身
 
 #org @NAME_BEAST_BOOST
-Beast Boost
+异兽提升
 
 #org @NAME_CORROSION
-Corrosion
+腐蚀
 
 #org @NAME_DISGUISE
-Disguise
+画皮
 
 #org @NAME_EMERGENCY_EXIT
-Emergency Exit
+危险回避
 
 #org @NAME_FLUFFY
-Fluffy
+毛茸茸
 
 #org @NAME_STEELY_SPIRIT
-Steely Spirit
+钢之意志
 
 #org @NAME_PERISH_BODY
-Perish Body
+灭亡之躯
 
 #org @NAME_WANDERING_SPIRIT
-Wandering Soul
+游魂
 
 #org @NAME_POWER_CONSTRUCT
-Power Construct
+群聚变形
 
 #org @NAME_PRISM_ARMOR
-Prism Armor
+棱镜装甲
 
 #org @NAME_RKS_SYSTEM
-RKS System
+AR系统
 
 #org @NAME_SCHOOLING
-Schooling
+鱼群
 
 #org @NAME_SHADOW_SHIELD
-Shadow Shield
+幻影防守
 
 #org @NAME_SHIELDS_DOWN
-Shields Down
+界限盾壳
 
 #org @NAME_SLUSH_RUSH
-Slush Rush
+拨雪
 
 #org @NAME_SOULHEART
-Soul-Heart
+魂心
 
 #org @NAME_STAMINA
-Stamina
+持久力
 
 #org @NAME_STEELWORKER
-Steelworker
+钢能力者
 
 #org @QUARKDRIVE
-Quark Drive
+夸克充能
 
 #org @NAME_TRIAGE
-Triage
+先行治疗
 
 #org @NAME_WATER_BUBBLE
-Water Bubble
+水泡
 
 #org @NAME_WATER_COMPACTION
-Water Compact
+遇水凝固
 
 #org @NAME_STALL
-Stall
+慢出
 
 #org @NAME_MULTITYPE
-Multitype
+多属性
 
 #org @NAME_ELECTRIC_SURGE
-Electric Surge
+电气制造者
 
 #org @NAME_GRASSY_SURGE
-Grassy Surge
+青草制造者
 
 #org @NAME_MISTY_SURGE
-Misty Surge
+薄雾制造者
 
 #org @NAME_PSYCHIC_SURGE
-Psychic Surge
+精神制造者
 
 #org @NAME_SURGE_SURFER
-Surge Surfer
+冲浪之尾
 
 #org @NAME_GRASS_PELT
-Grass Pelt
+草之毛皮
 
 #org @NAME_ANGER_POINT
-Anger Point
+愤怒穴位
 
 #org @NAME_ANTICIPATION
-Anticipation
+危险预知
 
 #org @NAME_FOREWARN
-Forewarn
+预知梦
 
 #org @NAME_FRISK
-Frisk
+察觉
 
 #org @NAME_CONTRARY
-Contrary
+唱反调
 
 #org @NAME_UNNERVE
-Unnerve
+紧张感
 
 #org @NAME_WEAK_ARMOR
-Weak Armor
+碎裂铠甲
 
 #org @NAME_HEAVY_METAL
-Heavy Metal
+重金属
 
 #org @NAME_LIGHT_METAL
-Light Metal
+轻金属
 
 #org @NAME_STEADFAST
-Steadfast
+不屈之心
 
 #org @NAME_IMPOSTER
-Imposter
+变身者
 
 #org @NAME_JUSTIFIED
-Justified
+正义之心
 
 #org @NAME_RATTLED
-Rattled
+胆怯
 
 #org @NAME_MERCILESS
-Merciless
+不仁不义
 
 #org @NAME_AROMA_VEIL
-Aroma Veil
+芳香幕
 
 #org @NAME_FLOWER_VEIL
-Flower Veil
+花幕
 
 #org @NAME_LEAF_GUARD
-Leaf Guard
+叶子防守
 
 #org @NAME_KLUTZ
-Klutz
+笨拙
 
 #org @NAME_FLOWER_GIFT
-Flower Gift
+花之礼
 
 #org @NAME_BAD_DREAMS
-Bad Dreams
+梦魇
 
 #org @NAME_PICKPOCKET
-Pickpocket
+顺手牵羊
 
 #org @NAME_PORTAL_POWER
-Portal Power
+传送之力
 
 #org @NAME_POISON_TOUCH
-Poison Touch
+毒手
 
 #org @NAME_MAGICIAN
-Magician
+魔术师
 
 #org @NAME_STANCE_CHANGE
-Stance Change
+战斗切换
 
 #org @NAME_PRIMORDIAL_SEA
-Primordial Sea
+始源之海
 
 #org @NAME_DESOLATE_LAND
-Desolate Land
+终结之地
 
 #org @NAME_DELTA_STREAM
-Delta Stream
+德尔塔气流
 
 #org @NAME_GORILLA_TACTICS
-Gorilla Tactics
+一猩一意
 
 #org @NAME_BERSERK
-Berserk
+怒火冲天
 
 #org @NAME_LONG_REACH
-Long Reach
+远隔
 
 #org @NAME_LIQUID_VOICE
-Liquid Voice
+湿润之声
 
 #org @NAME_QUICK_DRAW
-Quick Draw
+速击
 
 #org @NAME_INNARDS_OUT
-Innards Out
+飞出的内在物
 
 #org @NAME_DAZZLING
-Dazzling
+鲜艳之躯
 
 #org @NAME_GLUTTONY
-Gluttony
+贪吃鬼
 
 #org @NAME_HONEY_GATHER
-Honey Gather
+采蜜
 
 #org @NAME_FRIEND_GUARD
-Friend Guard
+友情防守
 
 #org @NAME_HARVEST
-Harvest
+收获
 
 #org @NAME_TELEPATHY
-Telepathy
+心灵感应
 
 #org @NAME_ILLUSION
-Illusion
+幻觉
 
 #org @NAME_CHEEK_POUCH
-Cheek Pouch
+颊囊
 
 #org @NAME_SYMBIOSIS
-Symbiosis
+共生
 
 #org @NAME_STAKEOUT
-Stakeout
+蹲守
 
 #org @NAME_COMATOSE
-Comatose
+绝对睡眠
 
 #org @NAME_DANCER
-Dancer
+舞者
 
 #org @NAME_BATTERY
-Battery
+蓄电池
 
 #org @NAME_RECEIVER
-Receiver
+接球手
 
 #org @NAME_CURIOUS_MEDICINE
-Odd Medicine
+怪药
 
 #org @NAME_NEUROFORCE
-Neuroforce
+脑核之力
 
 #org @NAME_GALVANIZE
-Galvanize
+电气皮肤
 
 #org @NAME_INTREPID_SWORD
-Intrepid Sword
+不挠之剑
 
 #org @NAME_DAUNTLESS_SHIELD
-Valiant Shield
+不屈之盾
 
 #org @NAME_BALL_FETCH
-Ball Fetch
+捡球
 
 #org @NAME_COTTON_DOWN
-Cotton Down
+棉絮
 
 #org @NAME_MIRROR_ARMOR
-Mirror Armor
+镜甲
 
 #org @NAME_GULP_MISSILE
-Gulp Missile
+一口导弹
 
 #org @NAME_STALWART
-Stalwart
+坚毅
 
 #org @NAME_STEAM_ENGINE
-Steam Engine
+蒸汽机
 
 #org @NAME_PUNK_ROCK
-Punk Rock
+庞克摇滚
 
 #org @NAME_SAND_SPIT
-Sand Spit
+吐沙
 
 #org @NAME_ICE_SCALES
-Ice Scales
+冰鳞粉
 
 #org @NAME_RIPEN
-Ripen
+熟成
 
 #org @NAME_ICE_FACE
-Ice Face
+结冻头
 
 #org @NAME_POWER_SPOT
-Power Spot
+能量点
 
 #org @NAME_MIMICRY
-Mimicry
+拟态
 
 #org @NAME_SCREEN_CLEANER
-Screen Cleaner
+除障
 
 #org @NAME_PASTEL_VEIL
-Pastel Veil
+粉彩护幕
 
 #org @NAME_LAST_ABILITY
 -
 
-//Below Abilities are loaded dynamically by the engine
+//以下特性由引擎动态加载
 #org @gText_AbilityName_AirLock
-Air Lock
+气闸
 
 #org @gText_AbilityName_VitalSpirit
-Vital Spirit
+干劲
 
 #org @gText_AbilityName_WhiteSmoke
-White Smoke
+白色烟雾
 
 #org @gText_AbilityName_PurePower
-Pure Power
+瑜伽之力
 
 #org @gText_AbilityName_IronBarbs
-Iron Barbs
+铁刺
 
 #org @gText_AbilityName_SolidRock
-Solid Rock
+坚硬岩石
 
 #org @gText_AbilityName_Turboblaze
-Turboblaze
+涡轮火焰
 
 #org @gText_AbilityName_Teravolt
-Teravolt
+兆级电压
 
 #org @gText_AbilityName_ChillingNeigh
-Chilling Neigh
+苍白嘶鸣
 
 #org @gText_AbilityName_Libero
-Libero
+自由者
 
 #org @gText_AbilityName_TanglingHair
-Tangling Hair
+卷发
 
 #org @gText_AbilityName_WimpOut
-Wimp Out
+跃跃欲逃
 
 #org @gText_AbilityName_QueenlyMajesty
-Queenly Majesty
+女王的威严
 
 #org @gText_AbilityName_PowerOfAlchemy
-Alchemic Power
+化学之力
 
 #org @gText_AbilityName_PropellerTail
-Propeller Tail
+螺旋尾鳍
 
-//Unbound Custom Abilities//
+//解放的自定义特性//
+
+#org @gText_AbilityName_Pixilate
+妖精皮肤
+
+#org @gText_AbilityName_Refrigerate
+冰冻皮肤
+
+#org @gText_AbilityName_Galvanize
+电气皮肤
+
+#org @gText_AbilityName_Dragonize
+龙皮肤
 
 #org @gText_AbilityName_NineLives
-Nine Lives
+预知灾厄
 
 #org @gText_AbilityName_FocusBelt
-Focus Belt
+噬喉啮心
 
 #org @gText_AbilityName_Evaporate
-Evaporate
+蒸发
+
+#org @gText_AbilityName_PiercingDrill
+贯穿钻
 
 #org @gText_AbilityName_FieryNeigh
-Fiery Neigh
+烈焰嘶鸣
 
 #org @gText_AbilityName_ShockingNeigh
-Shocking Neigh
+雷电嘶鸣
 
 #org @gText_AbilityName_Pride
-Pride
+高傲
 
 #org @gText_AbilityName_Multieye
-Multieye
+北风的化身
 
 #org @gText_AbilityName_Subterfuge
-Subterfuge
+狡诈
 
 #org @gText_AbilityName_HoneyArmor
-Honey Armor
+蜜甲
 
 #org @gText_AbilityName_TanglingWool
-Tangling Wool
+卷毛
 
 #org @gText_AbilityName_BrainBond
-Brain Bond
+精神连接
 
 #org @gText_AbilityName_GrassDash
-Grass Dash
+飞叶之刃
 
 #org @gText_AbilityName_SlipperyTail
-Slippery Tail
+滑溜尾巴
 
 #org @gText_AbilityName_DrillBeak
-Drill Beak
+钻喙
 
 #org @gText_AbilityName_CottonCloud
-Cotton Cloud
+棉花云
 
 #org @gText_AbilityName_Bellow
-Bellow
+怒吼
 
 #org @gText_AbilityName_SoundWaves
-Sound Waves
+音波
 
 #org @gText_AbilityName_IcySkin
-Icy Skin
+雪白皮肤
 
 #org @gText_AbilityName_DustyScales
-Dusty Scales
+粉尘鳞
 
 #org @gText_AbilityName_CrabbyTactics
-Crabby Tactics
+一蟹一意
 
 #org @gText_AbilityName_FaceShield
-Face Shield
+头盾
 
 #org @gText_AbilityName_RoyalRoar
-Royal Roar
+王者咆哮
+
+#org @gText_AbilityName_PsyGravity
+意念控制
 
 #org @gText_AbilityName_AngerShell
-Anger Shell
+愤怒甲壳
 
 #org @gText_AbilityName_ArmorTail
-Armor Tail
+尾甲
 
 #org @gText_AbilityName_BeadsofRuin
-Beads O'Ruin
+灾祸之玉
 
 #org @gText_AbilityName_SwordofRuin
-Sword O'Ruin
+灾祸之剑
 
 #org @gText_AbilityName_TabletsofRuin
-Tablet O'Ruin
+灾祸之简
 
 #org @gText_AbilityName_VesselofRuin
-Vessel O'Ruin
+灾祸之鼎
 
 #org @gText_AbilityName_Costar
-Costar
+同台共演
 
 #org @gText_AbilityName_CudChew
-Cud Chew
+反刍
 
 #org @gText_AbilityName_EarthEater
-Earth Eater
+食土
 
 #org @gText_AbilityName_Electromorphosis
-Electromorphosis
+电力转换
+
+#org @gText_AbilityName_SpicySpray
+辣椒喷发
 
 #org @gText_AbilityName_GoodAsGold
-Good As Gold
+黄金之躯
 
 #org @gText_AbilityName_GuardDog
-Guard Dog
+看门犬
 
 #org @gText_AbilityName_HadronEngine
-HadronEngine
+强子引擎
 
 #org @gText_AbilityName_MindsEye
-Mind[B4]s Eye
+心眼
 
 #org @gText_AbilityName_MyceliumMight
-Mycelium Might
+菌丝之力
 
 #org @gText_AbilityName_Opportunist
-Opportunist
+跟风
 
 #org @gText_AbilityName_OrichalcumPulse
-Orichalcum Pulse
+绯红脉动
 
 #org @NAME_FULL_METAL_BODY
-Full Metal Body
+金属防护
 
 #org @gText_AbilityName_Protosynthesis
-Protosynthesis
+古代活性
 
 #org @gText_AbilityName_PureSalt
-Purifying Salt
+洁净之盐
 
 #org @gText_AbilityName_RockyPayload
-Rock Payload
+搬岩
 
 #org @gText_AbilityName_SeedSower
-Seed Sower
+掉出种子
 
 #org @gText_AbilityName_Sharpness
-Sharpness
+锋锐
 
 #org @gText_AbilityName_SupremeOverlord
-Supreme Overlord
+大将
 
 #org @gText_AbilityName_SuperSweetSyrup
-Supsweet Syrup
+甘露之蜜
 
 #org @gText_AbilityName_TeraShift
-Tera Shift
+太晶变形
 
 #org @gText_AbilityName_TeraShell
-Tera Shell
+太晶甲壳
 
 #org @gText_AbilityName_ThermalExchange
-Thermal Exchange
+热交换
 
 #org @gText_AbilityName_ToxicChain
-Toxic Chain
+毒锁链
 
 #org @gText_AbilityName_PoisonPuppeteer
-Poison Puppeter
+毒傀儡
 
 #org @gText_AbilityName_ToxicDebris
-Toxic Debris
+毒满地
 
 #org @gText_AbilityName_WellBakedBody
-Well-Baked Body
+焦香之躯
 
 #org @gText_AbilityName_WindPower
-Wind Power
+风力发电
 
 #org @gText_AbilityName_WindRider
-Wind Rider
+乘风
 
 #org @gText_AbilityName_ZerotoHero
-Zero to Hero
+全能变身

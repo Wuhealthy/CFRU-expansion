@@ -1510,7 +1510,7 @@ bool8 IsAffectedByPowderByDetails(u8 type1, u8 type2, u8 type3, u8 ability, u8 i
 
 bool8 MoveIgnoresSubstitutes(u16 move, u8 atkAbility)
 {
-	return CheckSoundMove(move)
+	return (CheckSoundMove(move) || IsSoundMove(move, atkAbility))
 		|| (BypassesScreens(atkAbility) && move != MOVE_TRANSFORM && gBattleMoves[move].effect != EFFECT_SKY_DROP)
 		|| gSpecialMoveFlags[move].gSubstituteBypassMoves;
 }
@@ -1670,7 +1670,7 @@ u8 AttacksThisTurn(u8 bank, u16 move) // Note: returns 1 if it's a charging turn
 	if (ITEM_EFFECT(bank) == ITEM_EFFECT_POWER_HERB)
 		return 2;
 
-	if (moveEffect == EFFECT_SOLARBEAM && (gBattleWeather & WEATHER_SUN_ANY) && WEATHER_HAS_EFFECT)
+	if ((moveEffect == EFFECT_SOLARBEAM && (gBattleWeather & WEATHER_SUN_ANY) && WEATHER_HAS_EFFECT) || ABILITY(bank) == ABILITY_MEGASOL)
 		return 2;
 
 	if (moveEffect == EFFECT_SKULL_BASH

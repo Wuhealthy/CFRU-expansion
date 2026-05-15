@@ -598,9 +598,9 @@ static move_t GetTypeBasedMaxMove(u8 moveType, u8 moveSplit)
 		return MOVE_MAX_STRIKE_P + ((moveType - 1) * 2) + moveSplit;
 }
 
-static u8 GetMaxMoveType(u16 move, u8 bank, struct Pokemon* mon)
+static u8 GetMaxMoveType(u16 move, u8 bankAtk, struct Pokemon* mon)
 {
-	u8 moveType = GetMoveTypeSpecialPreAbility(move, bank, mon);
+	u8 moveType = GetMoveTypeSpecialPreAbility(move, bankAtk, mon);
 
 	if (moveType == 0xFF) //No overridden type
 	{
@@ -613,13 +613,13 @@ static u8 GetMaxMoveType(u16 move, u8 bank, struct Pokemon* mon)
 		}
 		else
 		{
-			moveSplit = CalcMoveSplit(move, bank, bank);
-			ability = ABILITY(bank);
+			moveSplit = CalcMoveSplit(move, bankAtk, bankAtk);
+			ability = ABILITY(bankAtk);
 		}
 
 		//Try to modify Max Move's type using ability
 		u16 maxMove = GetTypeBasedMaxMove(gBattleMoves[move].type, moveSplit);
-		moveType = GetMoveTypeSpecialPostAbility(maxMove, ability, FALSE);
+		moveType = GetMoveTypeSpecialPostAbility(maxMove, ability, bankAtk, mon, FALSE);
 	}
 
 	return moveType;

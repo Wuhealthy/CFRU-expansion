@@ -87,7 +87,7 @@ void TypeDamageModificationPartyMon(u8 atkAbility, struct Pokemon* monDef, u16 m
 void ModulateByTypeEffectiveness(u8 atkType, u8 defType1, u8 defType2, u8* var);
 u8 GetMoveTypeSpecial(u8 bankAtk, move_t);
 u8 GetMoveTypeSpecialPreAbility(u16 move, u8 bankAtk, struct Pokemon* monAtk);
-u8 GetMoveTypeSpecialPostAbility(u16 move, u8 atkAbility, bool8 zMoveActive);
+u8 GetMoveTypeSpecialPostAbility(u16 move, u8 atkAbility, u8 bankAtk, struct Pokemon* mon, bool8 zMoveActive);
 u8 GetMonMoveTypeSpecial(struct Pokemon* monAtk, u16 move);
 u8 GetExceptionMoveType(u8 bankAtk, move_t);
 u8 GetMonExceptionMoveType(struct Pokemon*, move_t);
