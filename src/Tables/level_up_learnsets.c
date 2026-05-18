@@ -1114,6 +1114,7 @@ static const struct LevelUpMove sGrowlitheLevelUpLearnset[] = {
 };
 
 static const struct LevelUpMove sArcanineLevelUpLearnset[] = {
+	LEVEL_UP_MOVE( 1, MOVE_SUPERCELLSLAM),
 	LEVEL_UP_MOVE( 1, MOVE_THUNDERFANG),
 	LEVEL_UP_MOVE( 1, MOVE_BITE),
 	LEVEL_UP_MOVE( 1, MOVE_ROAR),
@@ -1328,6 +1329,7 @@ static const struct LevelUpMove sWeepinbellLevelUpLearnset[] = {
 static const struct LevelUpMove sVictreebelLevelUpLearnset[] = {
 	LEVEL_UP_MOVE( 0, MOVE_LEAFTORNADO),
 	LEVEL_UP_MOVE( 1, MOVE_LEAFTORNADO),
+	LEVEL_UP_MOVE( 1, MOVE_FIRELASH),
 	LEVEL_UP_MOVE( 1, MOVE_STOCKPILE),
 	LEVEL_UP_MOVE( 1, MOVE_SWALLOW),
 	LEVEL_UP_MOVE( 1, MOVE_SPITUP),
@@ -2059,6 +2061,8 @@ static const struct LevelUpMove sCuboneLevelUpLearnset[] = {
 };
 
 static const struct LevelUpMove sMarowakLevelUpLearnset[] = {
+	LEVEL_UP_MOVE( 1, MOVE_DOUBLEHIT),
+	LEVEL_UP_MOVE( 1, MOVE_DUALCHOP),
 	LEVEL_UP_MOVE( 1, MOVE_GROWL),
 	LEVEL_UP_MOVE( 1, MOVE_TAILWHIP),
 	LEVEL_UP_MOVE( 1, MOVE_BONECLUB),
@@ -23248,7 +23252,7 @@ const struct LevelUpMove* const gLevelUpLearnsets[] =
 	[SPECIES_VENOMOTH_MEGA] = sPersianLevelUpLearnset,
 	[SPECIES_POLIWRATH_MEGA] = sPoliwrathLevelUpLearnset,
 	[SPECIES_VICTREEBEL_MEGA] = sVictreebelLevelUpLearnset,
-	[SPECIES_GOLEM_MEGA] = sGolemLevelUpLearnset,
+	[SPECIES_GOLEM_MEGA] = sArcanineLevelUpLearnset,
 	[SPECIES_RAPIDASH_MEGA] = sRapidashLevelUpLearnset,
 	[SPECIES_DODRIO_MEGA] = sDodrioLevelUpLearnset,
 	[SPECIES_HYPNO_MEGA] = sHypnoLevelUpLearnset,
