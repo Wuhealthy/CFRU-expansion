@@ -63,6 +63,7 @@ struct SpecialMoveFlags
 	bool8 gRandomizerBanTable : 1;
 	bool8 gBuffMoves : 1;
 	bool8 gSlicingMoves : 1;
+	bool8 gMultihitmoves : 1;
 	bool8 gWindMoves : 1;
 	bool8 gTenStrikesMoves : 1;
 };

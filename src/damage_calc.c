@@ -4121,8 +4121,14 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 
 		case ABILITY_IRONFIST:
 		//1.2x Boost
-			if (gSpecialMoveFlags[move].gPunchingMoves)
-				power = (power * 12) / 10;
+			if (SpeciesHasStickStickPass(data->atkSpecies) && gSpecialMoveFlags[move].gMultihitmoves)
+    		{
+        		power *= 2;  // 棒棒相传效果：二段攻击威力翻倍，不叠加铁拳
+    		}
+			else if (gSpecialMoveFlags[move].gPunchingMoves)
+    		{
+        		power = (power * 12) / 10;  // 普通铁拳效果
+    		}
 			break;
 
 		case ABILITY_TOXICBOOST:

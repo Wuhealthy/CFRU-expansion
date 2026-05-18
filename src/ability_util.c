@@ -30,6 +30,7 @@ extern const u8 gText_AbilityName_PowerOfAlchemy[];
 extern const u8 gText_AbilityName_PropellerTail[];
 
 //Unbound Custom Abilities
+extern const u8 gText_AbilityName_StickStickPass[];
 extern const u8 gText_AbilityName_Pixilate[];
 extern const u8 gText_AbilityName_Refrigerate[];
 extern const u8 gText_AbilityName_Galvanize[];
@@ -59,6 +60,7 @@ extern const u8 gText_AbilityName_FaceShield[];
 extern const u8 gText_AbilityName_RoyalRoar[];
 extern const u8 gText_AbilityName_PsyGravity[];
 
+extern const u8 gText_AbilityDescription_StickStickPass[];
 extern const u8 gText_AbilityDescription_Pixilate[];
 extern const u8 gText_AbilityDescription_Refrigerate[];
 extern const u8 gText_AbilityDescription_Galvanize[];
@@ -488,6 +490,10 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 			if(SpeciesHasGuardDog(species))
 				return gText_AbilityName_GuardDog;
 			break;
+		case ABILITY_IRONFIST:
+    		if (SpeciesHasStickStickPass(species))
+        		return gText_AbilityName_StickStickPass;
+    		break;
 		case ABILITY_ELECTRICSURGE:
 			if(SpeciesHasHadronEngine(species))
 				return gText_AbilityName_HadronEngine;
@@ -697,6 +703,10 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 			if (SpeciesHasSharpness(species))
 				return gText_AbilityDescription_Sharpness;
 			break;
+		case ABILITY_IRONFIST:
+    		if (SpeciesHasStickStickPass(species))
+        		return gText_AbilityDescription_StickStickPass;
+    		break;
 		case ABILITY_HUGEPOWER:
 			if (SpeciesHasSupremeOverlord(species))
 				return gText_AbilityDescription_SupremeOverlord;
@@ -1505,6 +1515,15 @@ bool8 SpeciesHasRockyPayload(unusedArg u16 species)
 	#else
 	return FALSE;
 	#endif
+}
+
+bool8 SpeciesHasStickStickPass(unusedArg u16 species)
+{
+    #ifdef SPECIES_MAROWAK_MEGA
+    return species == SPECIES_MAROWAK_MEGA;
+    #else
+    return FALSE;
+    #endif
 }
 
 bool8 SpeciesHasSeedSower(unusedArg u16 species)

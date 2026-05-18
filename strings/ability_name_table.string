@@ -818,6 +818,9 @@ AR系统
 
 //解放的自定义特性//
 
+#org @gText_AbilityName_StickStickPass
+棒棒相传
+
 #org @gText_AbilityName_Pixilate
 妖精皮肤
 

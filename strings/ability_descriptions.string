@@ -575,6 +575,9 @@ HP一半时就会把树果吃掉
 
 //解放自定义特性//
 
+#org @gText_AbilityDescription_StickStickPass
+二段招式的威力会翻倍
+
 #org @gText_AbilityDescription_PsyGravity
 出场时，让对手进入意念移物状态
 
