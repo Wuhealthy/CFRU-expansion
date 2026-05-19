@@ -163,16 +163,16 @@ You were overwhelmed by your\ndefeat![FC][09]
 #ifndef UNBOUND
 
 #org @gText_BattleMenu
-[PALETTE][05][COLOR_HIGHLIGHT_SHADOW][0D][0E][0F]Fight[ALIGN][38]Bag\nPok\emon[ALIGN][38]Run
+[PALETTE][05][COLOR_HIGHLIGHT_SHADOW][0D][0E][0F]战斗[ALIGN][38]包包\n宝可梦[ALIGN][38]逃跑
 
 #org @gText_BattleMenuNoItems
-[PALETTE][05][COLOR_HIGHLIGHT_SHADOW][0D][0E][0F]Fight[ALIGN][38][COLOR_HIGHLIGHT_SHADOW][0F][0E][0B]Bag\n[COLOR_HIGHLIGHT_SHADOW][0D][0E][0F]Pok\emon[ALIGN][38]Run
+[PALETTE][05][COLOR_HIGHLIGHT_SHADOW][0D][0E][0F]战斗[ALIGN][38][COLOR_HIGHLIGHT_SHADOW][0F][0E][0B]包包\n[COLOR_HIGHLIGHT_SHADOW][0D][0E][0F]宝可梦[ALIGN][38]逃跑
 
 #org @gText_BattleMenu2
-[PALETTE][05][COLOR_HIGHLIGHT_SHADOW][0D][0E][0F]Fight[ALIGN][38]Bag\nPok\emon[ALIGN][38]Back
+[PALETTE][05][COLOR_HIGHLIGHT_SHADOW][0D][0E][0F]战斗[ALIGN][38]包包\n宝可梦[ALIGN][38]返回
 
 #org @gText_BattleMenu2NoItems
-[PALETTE][05][COLOR_HIGHLIGHT_SHADOW][0D][0E][0F]Fight[ALIGN][38][COLOR_HIGHLIGHT_SHADOW][0F][0E][0B]Bag\n[COLOR_HIGHLIGHT_SHADOW][0D][0E][0F]Pok\emon[ALIGN][38]Back
+[PALETTE][05][COLOR_HIGHLIGHT_SHADOW][0D][0E][0F]战斗[ALIGN][38][COLOR_HIGHLIGHT_SHADOW][0F][0E][0B]包包\n[COLOR_HIGHLIGHT_SHADOW][0D][0E][0F]宝可梦[ALIGN][38]返回
 
 #else
 
@@ -197,16 +197,16 @@ You were overwhelmed by your\ndefeat![FC][09]
 [FD][06] is weak!\nThrow a Ball now!
 
 #org @gText_TeamPreviewSingleDoubleText
-[FD][1C] [FD][1D]'s Team
+[FD][1C][FD][1D]的阵容
 
 #org @gText_TeamPreviewSingleDoubleLinkText
-[FD][20]'s Team 
+[FD][20]的阵容
 
 #org @gText_TeamPreviewMultiText
-[FD][1C] [FD][1D]'s Team\n[FD][2E] [FD][2F]'s Team
+[FD][1C][FD][1D]的阵容\n[FD][2E][FD][2F]的阵容
 
 #org @gText_TeamPreviewMultiLinkText
-[FD][20]'s Team\n[FD][21]'s Team 
+[FD][20]的阵容\n[FD][21]的阵容
 
 //Exp String
 
