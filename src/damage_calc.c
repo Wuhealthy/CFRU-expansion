@@ -1441,6 +1441,13 @@ TYPE_LOOP:
 		moveType = TYPE_FLYING;
 		goto TYPE_LOOP;
 	}
+	
+	// WaveFist浪花之拳: 拳类招式同时带有水属性
+	if (SpeciesHasWaveFist(SPECIES(gBankAttacker)) && gSpecialMoveFlags[move].gPunchingMoves && moveType != TYPE_WATER)
+	{
+		moveType = TYPE_WATER;
+		goto TYPE_LOOP;
+	}
 }
 
 void TypeDamageModificationPartyMon(u8 atkAbility, struct Pokemon* monDef, u16 move, u8 moveType, u8* flags)
@@ -1462,6 +1469,13 @@ TYPE_LOOP_AI:
 	if (move == MOVE_FLYINGPRESS && moveType != TYPE_FLYING)
 	{
 		moveType = TYPE_FLYING;
+		goto TYPE_LOOP_AI;
+	}
+
+	// WaveFist浪花之拳: 拳类招式同时带有水属性
+	if (SpeciesHasWaveFist(SPECIES(gBankAttacker)) && gSpecialMoveFlags[move].gPunchingMoves && moveType != TYPE_WATER)
+	{
+		moveType = TYPE_WATER;
 		goto TYPE_LOOP_AI;
 	}
 }

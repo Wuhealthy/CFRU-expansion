@@ -31,6 +31,7 @@ extern const u8 gText_AbilityName_PropellerTail[];
 
 //Unbound Custom Abilities
 extern const u8 gText_AbilityName_StickStickPass[];
+extern const u8 gText_AbilityName_WaveFist[];
 extern const u8 gText_AbilityName_Pixilate[];
 extern const u8 gText_AbilityName_Refrigerate[];
 extern const u8 gText_AbilityName_Galvanize[];
@@ -60,6 +61,7 @@ extern const u8 gText_AbilityName_FaceShield[];
 extern const u8 gText_AbilityName_RoyalRoar[];
 extern const u8 gText_AbilityName_PsyGravity[];
 
+extern const u8 gText_AbilityDescription_WaveFist[];
 extern const u8 gText_AbilityDescription_StickStickPass[];
 extern const u8 gText_AbilityDescription_Pixilate[];
 extern const u8 gText_AbilityDescription_Refrigerate[];
@@ -493,6 +495,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 		case ABILITY_IRONFIST:
     		if (SpeciesHasStickStickPass(species))
         		return gText_AbilityName_StickStickPass;
+			if (SpeciesHasWaveFist(species))
+        		return gText_AbilityName_WaveFist;
     		break;
 		case ABILITY_ELECTRICSURGE:
 			if(SpeciesHasHadronEngine(species))
@@ -706,6 +710,8 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 		case ABILITY_IRONFIST:
     		if (SpeciesHasStickStickPass(species))
         		return gText_AbilityDescription_StickStickPass;
+			if (SpeciesHasWaveFist(species))
+        		return gText_AbilityDescription_WaveFist;
     		break;
 		case ABILITY_HUGEPOWER:
 			if (SpeciesHasSupremeOverlord(species))
@@ -1521,6 +1527,15 @@ bool8 SpeciesHasStickStickPass(unusedArg u16 species)
 {
     #ifdef SPECIES_MAROWAK_MEGA
     return species == SPECIES_MAROWAK_MEGA;
+    #else
+    return FALSE;
+    #endif
+}
+
+bool8 SpeciesHasWaveFist(unusedArg u16 species)
+{
+    #ifdef SPECIES_POLIWRATH_MEGA
+    return species == SPECIES_POLIWRATH_MEGA;
     #else
     return FALSE;
     #endif
