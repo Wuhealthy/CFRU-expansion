@@ -3153,7 +3153,7 @@ static u8* AddTextPrinterAndCreateWindowOnAbilityPopUp(const u8* str, s32 x, s32
 	*windowId = AddWindow(&winTemplate);
 	FillWindowPixelBuffer(*windowId, PIXEL_FILL(color1));
 
-	AddTextPrinterParameterized4(*windowId, 0, x, y, 0, 0, color, -1, str);
+	AddTextPrinterParameterized4(*windowId, 0, x, y + 1, 0, 0, color, -1, str);	//y是修改弹窗文本的y坐标，默认为0，修改为1可以让文本位置更居中
 	return (u8*)(GetWindowAttribute(*windowId, WINDOW_TILE_DATA));
 }
 
@@ -3228,7 +3228,7 @@ static void PrintBattlerOnAbilityPopUp(u8 battlerId, u8 spriteId1, u8 spriteId2)
 						(void*)(OBJ_VRAM0) + (gSprites[spriteId2].oam.tileNum * 32),
 						5, 0,//文字显示的起始位置
 						0,
-						2, 7, 1);//调用色板位置，分别是：文字颜色，轮廓颜色，背景颜色（0为透明）
+						1, 5, 0);//调用色板位置，分别是：轮廓颜色，文字颜色，背景颜色（0为透明）
 }
 
 static void PrintAbilityOnAbilityPopUp(u32 ability, u16 species, u8 spriteId1, u8 spriteId2)
@@ -3240,7 +3240,7 @@ static void PrintAbilityOnAbilityPopUp(u32 ability, u16 species, u8 spriteId1, u
 						(void*)(OBJ_VRAM0) + (gSprites[spriteId2].oam.tileNum * 32) + 256,
 						5, 12,//文字显示的起始位置
 						4,
-						7, 9, 1);
+						1, 5, 0);
 }
 
 #define PIXEL_COORDS_TO_OFFSET(x, y)(			\
