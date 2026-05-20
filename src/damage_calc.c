@@ -3144,6 +3144,29 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 		}
 	}
 
+// ========== Improvise 特性 ==========
+    if (SPLIT(move) != SPLIT_STATUS && SpeciesHasImprovise(data->atkSpecies))
+    {
+        u32 highestStat = attack;
+        u32 currentStats[6];
+        
+        currentStats[STAT_ATK] = attack;
+        currentStats[STAT_DEF] = defense;
+        currentStats[STAT_SPATK] = spAttack;
+        currentStats[STAT_SPDEF] = spDefense;
+        currentStats[STAT_SPEED] = data->atkSpeed;
+        
+        for (u8 i = STAT_ATK; i <= STAT_SPEED; i++)
+        {
+            if (currentStats[i] > highestStat)
+                highestStat = currentStats[i];
+        }
+        
+        attack = highestStat;
+        spAttack = highestStat;
+    }
+    // ========== Improvise 特性结束 ==========
+
 //Actual Calculation
 	if (useMonAtk)
 		damage = (2 * data->monAtk->level) / 5 + 2;

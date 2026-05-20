@@ -100,3 +100,4 @@ bool8 SpeciesHasZerotoHero(u16 species);
 bool8 SpeciesHasPsyGravity(u16 species);
 bool8 SpeciesHasStickStickPass(u16 species);
 bool8 SpeciesHasWaveFist(u16 species);
+bool8 SpeciesHasImprovise(u16 species);

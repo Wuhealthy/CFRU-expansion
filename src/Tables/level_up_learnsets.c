@@ -975,6 +975,9 @@ static const struct LevelUpMove sMeowthLevelUpLearnset[] = {
 static const struct LevelUpMove sPersianLevelUpLearnset[] = {
 	LEVEL_UP_MOVE( 0, MOVE_SWIFT),
 	LEVEL_UP_MOVE( 1, MOVE_SWIFT),
+	LEVEL_UP_MOVE( 1, MOVE_BARRIER),
+	LEVEL_UP_MOVE( 1, MOVE_AGILITY),
+	LEVEL_UP_MOVE( 1, MOVE_AMNESIA),
 	LEVEL_UP_MOVE( 1, MOVE_SUCKERPUNCH),
 	LEVEL_UP_MOVE( 1, MOVE_PLAYROUGH),
 	LEVEL_UP_MOVE( 1, MOVE_SWITCHEROO),

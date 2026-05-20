@@ -575,6 +575,9 @@ HP一半时就会把树果吃掉
 
 //解放自定义特性//
 
+#org @gText_AbilityDescription_Improvise
+用能力值最高的一项进行计算伤害
+
 #org @gText_AbilityDescription_StickStickPass
 连续攻击两次的招式威力会翻倍
 

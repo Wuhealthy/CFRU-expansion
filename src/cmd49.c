@@ -849,7 +849,8 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 		case ATK49_MAGICIAN_MOXIE_BATTLEBOND:
 			switch (ABILITY(gBankAttacker)) {
 				case ABILITY_MAGICIAN:
-					if (arg1 != ARG_IN_FUTURE_ATTACK
+					if (!SpeciesHasImprovise(SPECIES(gBankAttacker))
+					&& arg1 != ARG_IN_FUTURE_ATTACK
 					&& ITEM(gBankAttacker) == ITEM_NONE
 					&& ITEM(bankDef) != ITEM_NONE
 					&& BATTLER_ALIVE(gBankAttacker)
