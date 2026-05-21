@@ -1417,6 +1417,16 @@ extern const u32 gBag_SceptiliteTiles[];
 extern const u32 gBag_SceptilitePal[];
 extern const u32 gBag_BlazikeniteTiles[];
 extern const u32 gBag_BlazikenitePal[];
+extern const u32 gBag_SwampertiteTiles[];
+extern const u32 gBag_SwampertitePal[];
+extern const u32 gBag_GardevoiriteTiles[];
+extern const u32 gBag_GardevoiritePal[];
+extern const u32 gBag_SableniteTiles[];
+extern const u32 gBag_SablenitePal[];
+extern const u32 gBag_MawiliteTiles[];
+extern const u32 gBag_MawilitePal[];
+extern const u32 gBag_AggroniteTiles[];
+extern const u32 gBag_AggronitePal[];
 
 //Funcs
 void __attribute__((long_call)) FieldUseFunc_OakStopsYou(u8 taskId);
@@ -2226,20 +2236,4 @@ extern const u8 DESC_MASTERPIECE_TEACUP[];
 extern const u8 DESC_UNREMARKABLE_TEACUP[];
 extern const u8 DESC_PORTABLE_PC[];
 extern const u8 DESC_RATICATEITE[];
-extern const u8 DESC_ARBOKITE[];
-extern const u8 DESC_RAICHUXITE[];
-extern const u8 DESC_RAICHUYITE[];
-extern const u8 DESC_SANDSLASHITE[];
-extern const u8 DESC_NIDOQUEENITE[];
-extern const u8 DESC_NIDOKINGITE[];
-extern const u8 DESC_CLEFABLEITE[];
-extern const u8 DESC_NINETALESITE[];
-extern const u8 DESC_WIGGLYTUFFITE[];
-extern const u8 DESC_VENOMOTHITE[];
-extern const u8 DESC_POLIWRATH[];
-extern const u8 DESC_VICTREEBELITE[];
-extern const u8 DESC_GOLEMITE[];
-extern const u8 DESC_RAPIDASHITE[];
-extern const u8 DESC_DODRIOITE[];
-extern const u8 DESC_HYPNOITE[];
 #endif
