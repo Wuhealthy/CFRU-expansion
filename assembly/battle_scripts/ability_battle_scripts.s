@@ -23,7 +23,6 @@ ability_battle_scripts.s
 .global BattleScript_Frisk
 .global BattleScript_FriskEnd
 .global BattleScript_TerrainFromAbility
-.global BattleScript_TerrainFromAbilitys
 .global BattleScript_ImposterActivates
 .global BattleScript_AttackerAbilityStatRaiseEnd3
 .global BattleScript_NeutralizingGas
@@ -63,7 +62,8 @@ ability_battle_scripts.s
 .global BattleScript_TargetAbilityStatRaise
 .global BattleScript_AbilityApplySecondaryEffect
 .global BattleScript_RoughSkinActivates
-.global BattleScript_RoughSkinActivatess
+.global BattleScript_VolatileExplosionActivates
+.global BattleScript_VolatileExplosion_SetTerrain
 .global BattleScript_CuteCharmActivates
 .global BattleScript_WeakArmorActivates
 .global BattleScript_CursedBodyActivates
@@ -349,20 +349,6 @@ BattleScript_TerrainFromAbility:
 	printstring 0x184
 	waitmessage DELAY_1SECOND
 	call BattleScript_AbilityPopUpRevert
-	setbyte SEED_HELPER 0
-	callasm SeedRoomServiceLooper
-	callasm TryActivateMimicry
-	end3
-
-@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-BattleScript_TerrainFromAbilitys:
-	callasm TransferTerrainData
-	waitstateatk
-	playanimation2 BANK_SCRIPTING ANIM_ARG_1 0x0
-	setword BATTLE_STRING_LOADER ElectricTerrainSetString
-	printstring 0x184
-	waitmessage DELAY_1SECOND
 	setbyte SEED_HELPER 0
 	callasm SeedRoomServiceLooper
 	callasm TryActivateMimicry
@@ -773,15 +759,30 @@ BattleScript_RoughSkinActivates:
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-BattleScript_RoughSkinActivatess:
-	call BattleScript_AbilityPopUp
-	orword HIT_MARKER, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_NON_ATTACK_DMG
-	healthbarupdate BANK_ATTACKER
-	datahpupdate BANK_ATTACKER
-	printstring 0xCF @;STRINGID_PKMNHURTSWITH
-	waitmessage DELAY_1SECOND
+BattleScript_VolatileExplosionActivates:
+    @ 伤害部分
+    call BattleScript_AbilityPopUp
+    orword HIT_MARKER, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_NON_ATTACK_DMG | HITMARKER_GRUDGE
+    healthbarupdate BANK_ATTACKER
+    datahpupdate BANK_ATTACKER
+    printstring 0xCF
+    waitmessage DELAY_1SECOND
 	call BattleScript_AbilityPopUpRevert
-	return
+    bicword HIT_MARKER, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_NON_ATTACK_DMG | HITMARKER_GRUDGE
+    callasm CheckTerrainAndSetVolatileExplosion
+	end3
+
+BattleScript_VolatileExplosion_SetTerrain:
+    callasm TransferTerrainData
+    waitstateatk
+    playanimation2 BANK_SCRIPTING ANIM_ARG_1 0x0
+    setword BATTLE_STRING_LOADER ElectricTerrainSetString
+    printstring 0x184
+    waitmessage DELAY_1SECOND
+    setbyte SEED_HELPER 0
+    callasm SeedRoomServiceLooper
+    callasm TryActivateMimicry
+	end3
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

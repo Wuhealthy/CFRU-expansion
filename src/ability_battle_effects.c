@@ -2398,21 +2398,17 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
             			// 标记已使用
             			gNewBS->volatileExplosionUsedParty[partyIndex] = TRUE;
             
-            			// 1/3 伤害，不管自己死活
+            			// 1/3 伤害
             			gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankAttacker) / 3);
-            			BattleScriptPushCursor();
-            			gBattlescriptCurrInstr = BattleScript_RoughSkinActivatess;
-            			effect++;
             
-            			// 设置电气场地（借用 SeedSower 的逻辑）
-            			if (gTerrainType != ELECTRIC_TERRAIN)
-            			{
-                			gTerrainType = ELECTRIC_TERRAIN;
-                			gNewBS->TerrainTimer = 5;
-                			gBattleStringLoader = ElectricTerrainSetString;
-                			BattleScriptPushCursor();
-                			gBattlescriptCurrInstr = BattleScript_TerrainFromAbilitys;
-            			}
+            			// 设置场地动画参数（电气场地）
+            			gBattleScripting.animArg1 = B_ANIM_ELECTRIC_SURGE;  // 0x27
+            			gBattleScripting.bank = bank;
+            
+            			// 调用合并后的脚本
+            			BattleScriptPushCursor();
+            			gBattlescriptCurrInstr = BattleScript_VolatileExplosionActivates;
+            			effect++;
         			}
 				
 					else if (!BATTLER_ALIVE(bank))

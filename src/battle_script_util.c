@@ -1605,6 +1605,18 @@ void SeedRoomServiceLooper(void)
 	}
 }
 
+void CheckTerrainAndSetVolatileExplosion(void)
+{
+    if (gTerrainType != ELECTRIC_TERRAIN)
+    {
+        gTerrainType = ELECTRIC_TERRAIN;
+        gNewBS->TerrainTimer = 5;
+        gBattleStringLoader = ElectricTerrainSetString;
+        gBattleScripting.animArg1 = B_ANIM_ELECTRIC_SURGE;
+        gBattlescriptCurrInstr = BattleScript_VolatileExplosion_SetTerrain;
+    }
+}
+
 void LastResortFunc(void)
 {
 	if (!CanUseLastResort(gBankAttacker))
