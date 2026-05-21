@@ -3413,7 +3413,7 @@ Ceaceless_BS:
 
 .global BS_151_Solarbeam
 BS_151_Solarbeam:
-	jumpifability BANK_ATTACKER, ABILITY_MEGASOL, BSSolarbeamOnFirstTurn
+	jumpifability BANK_ATTACKER, ABILITY_MEGASOL, BSSolarbeam_MegaSol
 	jumpifabilitypresent ABILITY_CLOUDNINE, BSSolarbeamDecideTurn
 	@;jumpifabilitypresent ABILITY_AIRLOCK, BSSolarbeamDecideTurn
 	jumpifhelditemeffect BANK_ATTACKER, ITEM_EFFECT_UTILITY_UMBRELLA, BSSolarbeamDecideTurn
@@ -3434,6 +3434,15 @@ BSSolarbeamOnFirstTurn:
 	ppreduce
 	callasm ClearCalculatedSpreadMoveData @;So the damage can be calculated
 	goto TwoTurnMovesSecondTurnBS
+
+BSSolarbeam_MegaSol:
+    setbyte TWOTURN_STRINGID, 0x1         @; 设置蓄力文本 ID（日光束）
+	call BattleScript_FirstChargingTurn   @; 显示蓄力文本和动画
+    orword HIT_MARKER HITMARKER_CHARGING  @; 标记为充能状态
+    setmoveeffect MOVE_EFFECT_CHARGING | MOVE_EFFECT_AFFECTS_USER
+    seteffectprimary
+    callasm ClearCalculatedSpreadMoveData @; 清除 Spread 数据
+    goto TwoTurnMovesSecondTurnBS         @; 直接攻击（无等待）
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
