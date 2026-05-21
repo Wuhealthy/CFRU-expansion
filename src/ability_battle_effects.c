@@ -765,7 +765,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
             		&& !(gStatuses3[foe1] & (STATUS3_ROOTED | STATUS3_SMACKED_DOWN)))
         		{
             		gStatuses3[foe1] |= STATUS3_TELEKINESIS;
-            		gNewBS->TelekinesisTimers[foe1] = 5;
+            		gNewBS->TelekinesisTimers[foe1] = 3;
             		applied = TRUE;
         		}
         
@@ -776,7 +776,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
             		&& !(gStatuses3[foe2] & (STATUS3_ROOTED | STATUS3_SMACKED_DOWN)))
         		{
             		gStatuses3[foe2] |= STATUS3_TELEKINESIS;
-            		gNewBS->TelekinesisTimers[foe2] = 5;
+            		gNewBS->TelekinesisTimers[foe2] = 3;
             		applied = TRUE;
         		}
         

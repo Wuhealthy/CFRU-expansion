@@ -246,6 +246,8 @@ BattleScript_PoisonHeal:
 .global BattleScript_PsyGravityActivates
 BattleScript_PsyGravityActivates:
     call BattleScript_AbilityPopUp
+    playanimation BANK_TARGET, 0x2A, 0x0
+    waitanimation
     setword BATTLE_STRING_LOADER TelekinesisSetString
     printstring 0x184
     waitmessage DELAY_1SECOND
