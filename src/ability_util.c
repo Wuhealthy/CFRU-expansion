@@ -61,7 +61,9 @@ extern const u8 gText_AbilityName_FaceShield[];
 extern const u8 gText_AbilityName_RoyalRoar[];
 extern const u8 gText_AbilityName_PsyGravity[];
 extern const u8 gText_AbilityName_Improvise[];
+extern const u8 gText_AbilityName_VolatileExplosion[];
 
+extern const u8 gText_AbilityDescription_VolatileExplosion[];
 extern const u8 gText_AbilityDescription_Improvise[];
 extern const u8 gText_AbilityDescription_WaveFist[];
 extern const u8 gText_AbilityDescription_StickStickPass[];
@@ -508,6 +510,10 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
     		if (SpeciesHasImprovise(species))
         		return gText_AbilityName_Improvise;
     		break;
+		case ABILITY_AFTERMATH:
+    		if (SpeciesHasVolatileExplosion(species))
+        		return gText_AbilityName_VolatileExplosion;
+    		break;
 		case ABILITY_SCRAPPY:
 			if(SpeciesHasMindsEye(species))
 				return gText_AbilityName_MindsEye;
@@ -750,6 +756,10 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 		case ABILITY_MAGICIAN:
     		if (SpeciesHasImprovise(species))
         		return gText_AbilityDescription_Improvise;
+    		break;
+		case ABILITY_AFTERMATH:
+    		if (SpeciesHasVolatileExplosion(species))
+        		return gText_AbilityDescription_VolatileExplosion;
     		break;
 		case ABILITY_PLUS:
 			if (SpeciesHasPoisonPuppeteer(species))
@@ -1555,6 +1565,15 @@ bool8 SpeciesHasImprovise(unusedArg u16 species)
 {
     #ifdef SPECIES_VENOMOTH_MEGA
     return species == SPECIES_VENOMOTH_MEGA;
+    #else
+    return FALSE;
+    #endif
+}
+
+bool8 SpeciesHasVolatileExplosion(unusedArg u16 species)
+{
+    #ifdef SPECIES_ELECTRODE_MEGA
+    return species == SPECIES_ELECTRODE_MEGA;
     #else
     return FALSE;
     #endif

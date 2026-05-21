@@ -23,6 +23,7 @@ ability_battle_scripts.s
 .global BattleScript_Frisk
 .global BattleScript_FriskEnd
 .global BattleScript_TerrainFromAbility
+.global BattleScript_TerrainFromAbilitys
 .global BattleScript_ImposterActivates
 .global BattleScript_AttackerAbilityStatRaiseEnd3
 .global BattleScript_NeutralizingGas
@@ -62,6 +63,7 @@ ability_battle_scripts.s
 .global BattleScript_TargetAbilityStatRaise
 .global BattleScript_AbilityApplySecondaryEffect
 .global BattleScript_RoughSkinActivates
+.global BattleScript_RoughSkinActivatess
 .global BattleScript_CuteCharmActivates
 .global BattleScript_WeakArmorActivates
 .global BattleScript_CursedBodyActivates
@@ -347,6 +349,20 @@ BattleScript_TerrainFromAbility:
 	printstring 0x184
 	waitmessage DELAY_1SECOND
 	call BattleScript_AbilityPopUpRevert
+	setbyte SEED_HELPER 0
+	callasm SeedRoomServiceLooper
+	callasm TryActivateMimicry
+	end3
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+BattleScript_TerrainFromAbilitys:
+	callasm TransferTerrainData
+	waitstateatk
+	playanimation2 BANK_SCRIPTING ANIM_ARG_1 0x0
+	setword BATTLE_STRING_LOADER ElectricTerrainSetString
+	printstring 0x184
+	waitmessage DELAY_1SECOND
 	setbyte SEED_HELPER 0
 	callasm SeedRoomServiceLooper
 	callasm TryActivateMimicry
@@ -753,6 +769,18 @@ BattleScript_RoughSkinActivates:
 	waitmessage DELAY_1SECOND
 	call BattleScript_AbilityPopUpRevert
 	faintpokemon BANK_ATTACKER 0x0 0x0
+	return
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+BattleScript_RoughSkinActivatess:
+	call BattleScript_AbilityPopUp
+	orword HIT_MARKER, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_NON_ATTACK_DMG
+	healthbarupdate BANK_ATTACKER
+	datahpupdate BANK_ATTACKER
+	printstring 0xCF @;STRINGID_PKMNHURTSWITH
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
 	return
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

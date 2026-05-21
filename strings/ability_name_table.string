@@ -824,6 +824,9 @@ AR系统
 #org @gText_AbilityName_Improvise
 随机应变
 
+#org @gText_AbilityName_VolatileExplosion
+一触即爆
+
 #org @gText_AbilityName_WaveFist
 浪花之拳
 

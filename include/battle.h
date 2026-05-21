@@ -815,6 +815,7 @@ struct NewBattleStruct
 	u8 rageFistCounter[MAX_BATTLERS_COUNT];
 	u8 CudChewCounter[MAX_BATTLERS_COUNT];
 	u8 ElectroCounter[MAX_BATTLERS_COUNT];
+	u8 volatileExplosionUsedParty[MAX_BATTLERS_COUNT];  // 按队伍成员存储
 	u8 quarkDriveActivated[MAX_BATTLERS_COUNT];
 	u8 ProtosynthesisActivated[MAX_BATTLERS_COUNT];
 

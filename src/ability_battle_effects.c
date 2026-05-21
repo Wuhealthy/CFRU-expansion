@@ -2389,13 +2389,39 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				&& gBankAttacker != bank
 				&& ABILITY(gBankAttacker) != ABILITY_MAGICGUARD
 				&& CheckContact(move, gBankAttacker, bank)
-				&& !BATTLER_ALIVE(bank)
 				&& !ABILITY_ON_FIELD(ABILITY_DAMP))
 				{
-					gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankAttacker) / 4);
-					BattleScriptPushCursor();
-					gBattlescriptCurrInstr = BattleScript_RoughSkinActivates;
-					effect++;
+        			u8 partyIndex = gBattlerPartyIndexes[bank];
+					// 检查是否是 Mega 顽皮雷弹，且特性未使用过
+        			if (SpeciesHasVolatileExplosion(SPECIES(bank)) && !gNewBS->volatileExplosionUsedParty[partyIndex])
+        			{
+            			// 标记已使用
+            			gNewBS->volatileExplosionUsedParty[partyIndex] = TRUE;
+            
+            			// 1/3 伤害，不管自己死活
+            			gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankAttacker) / 3);
+            			BattleScriptPushCursor();
+            			gBattlescriptCurrInstr = BattleScript_RoughSkinActivatess;
+            			effect++;
+            
+            			// 设置电气场地（借用 SeedSower 的逻辑）
+            			if (gTerrainType != ELECTRIC_TERRAIN)
+            			{
+                			gTerrainType = ELECTRIC_TERRAIN;
+                			gNewBS->TerrainTimer = 5;
+                			gBattleStringLoader = ElectricTerrainSetString;
+                			BattleScriptPushCursor();
+                			gBattlescriptCurrInstr = BattleScript_TerrainFromAbilitys;
+            			}
+        			}
+				
+					else if (!BATTLER_ALIVE(bank))
+					{
+						gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankAttacker) / 4);
+						BattleScriptPushCursor();
+						gBattlescriptCurrInstr = BattleScript_RoughSkinActivates;
+						effect++;
+					}
 				}
 				break;
 

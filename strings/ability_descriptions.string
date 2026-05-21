@@ -423,7 +423,7 @@ HP因对手攻击变为一半时特攻提高
 对手无法对我方使出先制招式
 
 #org @DESC_INNARDSOUT
-被打倒时，给予对手倒前HP的伤害
+被打倒会给予对手倒下前HP的伤害
 
 #org @DESC_DAZZLING
 对手无法对我方使出先制招式
@@ -577,6 +577,9 @@ HP一半时就会把树果吃掉
 
 #org @gText_AbilityDescription_Improvise
 用能力值最高的一项进行计算伤害
+
+#org @gText_AbilityDescription_VolatileExplosion
+被接触会炸伤对手并布下电气场地
 
 #org @gText_AbilityDescription_StickStickPass
 连续攻击两次的招式威力会翻倍
