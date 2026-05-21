@@ -3035,17 +3035,23 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 //Sandstorm Sp. Def Increase
 	if (gBattleWeather & WEATHER_SANDSTORM_ANY && WEATHER_HAS_EFFECT)
 	{
-		if ((!useMonDef && IsOfType(bankDef, TYPE_ROCK)) || (useMonDef && IsMonOfType(data->monDef, TYPE_ROCK)))
-			spDefense = (15 * spDefense) / 10;
-		else if (gBattleWeather & WEATHER_SANDSTORM_PRIMAL
-		&& ((!useMonDef && IsOfType(bankDef, TYPE_GROUND)) || (useMonDef && IsMonOfType(data->monDef, TYPE_GROUND))))
-			spDefense = (15 * spDefense) / 10; //Ground types get a Sp. Def boost in a "Vicious Sandstorm"
+    // 攻击方拥有 MEGASOL 特性时，岩石/地面系不会获得特防加成
+    	if (ABILITY(data->bankAtk) != ABILITY_MEGASOL)
+    	{
+        	if ((!useMonDef && IsOfType(bankDef, TYPE_ROCK)) || (useMonDef && IsMonOfType(data->monDef, TYPE_ROCK)))
+            	spDefense = (15 * spDefense) / 10;
+        	else if (gBattleWeather & WEATHER_SANDSTORM_PRIMAL
+        	&& ((!useMonDef && IsOfType(bankDef, TYPE_GROUND)) || (useMonDef && IsMonOfType(data->monDef, TYPE_GROUND))))
+            	spDefense = (15 * spDefense) / 10; // Ground types get a Sp. Def boost in a "Vicious Sandstorm"
+    	}
 	}
 
 //Hail Def Increase
     if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_HAIL_ANY)
-        && ((!useMonDef && IsOfType(bankDef, TYPE_ICE)) || (useMonDef && IsMonOfType(data->monDef, TYPE_ICE)))){
-        defense = (defense * 15) / 10;
+        && ((!useMonDef && IsOfType(bankDef, TYPE_ICE)) || (useMonDef && IsMonOfType(data->monDef, TYPE_ICE))))
+	{
+        if (ABILITY(data->bankAtk) != ABILITY_MEGASOL)
+			defense = (defense * 15) / 10;
 	}
 
 	bool8 stallInField = FALSE;
@@ -3226,6 +3232,8 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 
 		case MOVE_SOLARBEAM:
 		case MOVE_SOLARBLADE:
+			if (ABILITY(bankAtk) == ABILITY_MEGASOL)
+			break;
 			if (WEATHER_HAS_EFFECT
 			&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect)
 			&& gBattleWeather & (WEATHER_RAIN_ANY | WEATHER_SANDSTORM_ANY | WEATHER_HAIL_ANY | WEATHER_FOG_ANY | WEATHER_AIR_CURRENT_PRIMAL))
@@ -3260,8 +3268,20 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 	if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_PUNCHING_GLOVE && gSpecialMoveFlags[move].gPunchingMoves)
 		damage = (damage * 11) / 10;
 
+	if (ABILITY(data->bankAtk) == ABILITY_MEGASOL)
+		{
+			switch (data->moveType) {
+				case TYPE_FIRE:
+					damage = (damage * 15) / 10;
+					break;
+				case TYPE_WATER:
+					damage /= 2;
+					break;
+			}
+		}
+	
 	//Weather Boost
-	if (WEATHER_HAS_EFFECT && !ItemEffectIgnoresSunAndRain(data->defItemEffect))
+	else if (WEATHER_HAS_EFFECT && !ItemEffectIgnoresSunAndRain(data->defItemEffect))
 	{
 		if (gBattleWeather & WEATHER_RAIN_ANY)
 		{
@@ -4563,6 +4583,8 @@ u16 CalcVisualBasePower(u8 bankAtk, u8 bankDef, u16 move, bool8 ignoreDef)
 	switch (move) {
 		case MOVE_SOLARBEAM:
 		case MOVE_SOLARBLADE:
+			if (ABILITY(data.bankAtk) == ABILITY_MEGASOL)
+			break;
 			if (gBattleWeather & (WEATHER_RAIN_ANY | WEATHER_SANDSTORM_ANY | WEATHER_HAIL_ANY | WEATHER_FOG_ANY | WEATHER_AIR_CURRENT_PRIMAL)
 			&& WEATHER_HAS_EFFECT
 			&& !ItemEffectIgnoresSunAndRain(data.atkItemEffect))
