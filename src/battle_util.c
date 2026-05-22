@@ -7,6 +7,7 @@
 
 #include "../include/new/ai_master.h"
 #include "../include/new/ability_tables.h"
+#include "../include/new/ability_util.h"
 #include "../include/new/battle_start_turn_start.h"
 #include "../include/new/battle_util.h"
 #include "../include/new/build_pokemon.h"
@@ -774,6 +775,12 @@ bool8 IsUnusableMove(u16 move, u8 bank, u8 check, u8 pp, u8 ability, u8 holdEffe
 	}
 	else if (holdEffect == ITEM_EFFECT_ASSAULT_VEST && IsMoveBannedByAssaultVest(move) && check & MOVE_LIMITATION_TAUNT)
 		return TRUE;
+	// 殊死一搏：无法使用变化招式（类似突击背心）
+    else if (ability == ABILITY_TECHNICIAN && SpeciesHasDesperateStrike(SPECIES(bank)) && check & MOVE_LIMITATION_TAUNT)
+    {
+        if (SPLIT(move) == SPLIT_STATUS)
+            return TRUE;
+    }
 	#ifdef FLAG_SKY_BATTLE
 	else if (gSpecialMoveFlags[move].gSkyBattleBannedMoves && FlagGet(FLAG_SKY_BATTLE) && check & MOVE_LIMITATION_ENCORE)
 		return TRUE;
@@ -799,6 +806,7 @@ bool8 IsUnusableMove(u16 move, u8 bank, u8 check, u8 pp, u8 ability, u8 holdEffe
 u8 CheckMoveLimitationsFromParty(struct Pokemon* mon, u8 unusableMoves, u8 check)
 {
 	u8 holdEffect = GetMonItemEffect(mon);
+	u8 ability = GetMonAbility(mon);
 
 	for (int i = 0; i < MAX_MON_MOVES; ++i)
 	{
@@ -810,6 +818,9 @@ u8 CheckMoveLimitationsFromParty(struct Pokemon* mon, u8 unusableMoves, u8 check
 			unusableMoves |= gBitTable[i];
 		else if (holdEffect == ITEM_EFFECT_ASSAULT_VEST && IsMoveBannedByAssaultVest(move))
 			unusableMoves |= gBitTable[i];
+		// 殊死一搏：无法使用变化招式
+        else if (ability == ABILITY_TECHNICIAN && SpeciesHasDesperateStrike(GetMonData(mon, MON_DATA_SPECIES, NULL)) && SPLIT(move) == SPLIT_STATUS)
+            unusableMoves |= gBitTable[i];
 		#ifdef FLAG_SKY_BATTLE
 		else if (check & MOVE_LIMITATION_ENCORE && FlagGet(FLAG_SKY_BATTLE) && gSpecialMoveFlags[move].gSkyBattleBannedMoves)
 			unusableMoves |= gBitTable[i];

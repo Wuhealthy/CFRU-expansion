@@ -62,7 +62,9 @@ extern const u8 gText_AbilityName_RoyalRoar[];
 extern const u8 gText_AbilityName_PsyGravity[];
 extern const u8 gText_AbilityName_Improvise[];
 extern const u8 gText_AbilityName_VolatileExplosion[];
+extern const u8 gText_AbilityName_DesperateStrike[];
 
+extern const u8 gText_AbilityDescription_DesperateStrike[];
 extern const u8 gText_AbilityDescription_VolatileExplosion[];
 extern const u8 gText_AbilityDescription_Improvise[];
 extern const u8 gText_AbilityDescription_WaveFist[];
@@ -231,6 +233,10 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 			if (SpeciesHasPiercingDrill(species))
 				return gText_AbilityName_PiercingDrill;  // 需要定义此字符串
 			break;
+		case ABILITY_TECHNICIAN:
+    		if (SpeciesHasDesperateStrike(species))
+        		return gText_AbilityName_DesperateStrike;  // 殊死一搏
+    		break;
 		case ABILITY_MOXIE:
 			switch (dexNum)
 			{
@@ -664,6 +670,10 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 			if(SpeciesHasCudChew(species))
 				return gText_AbilityDescription_CudChew;
 			break;
+		case ABILITY_TECHNICIAN:
+    		if (SpeciesHasDesperateStrike(species))
+        		return gText_AbilityDescription_DesperateStrike;  // 殊死一搏
+    		break;
 		case ABILITY_VOLTABSORB:
 			if(SpeciesHasEarthEater(species))
 				return gText_AbilityDescription_EarthEater;
@@ -1691,6 +1701,15 @@ bool8 SpeciesHasWellBakedBody(unusedArg u16 species)
 	#else
 	return FALSE;
 	#endif
+}
+
+bool8 SpeciesHasDesperateStrike(unusedArg u16 species)
+{
+    #ifdef SPECIES_DODRIO_MEGA  // mega 嘟嘟利 species
+    return species == SPECIES_DODRIO_MEGA;
+    #else
+    return FALSE;
+    #endif
 }
 
 bool8 AngerShellStatsCheck(u8 bank)

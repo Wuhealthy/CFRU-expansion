@@ -7,6 +7,9 @@
 不会变为冰冻状态
 #endif
 
+#org @DESC_SPEEDBOOST
+每一回合速度会变快
+
 #org @DESC_SWEETVEIL
 自己和同伴不会变为睡眠状态
 
@@ -718,3 +721,6 @@ HP全满时受到的伤害变为效果不好
 
 #org @gText_AbilityDescription_ZerotoHero
 回到同行队伍后，会变为全能形态
+
+#org @gText_AbilityDescription_DesperateStrike
+只能进攻，有威力的招式获得效果

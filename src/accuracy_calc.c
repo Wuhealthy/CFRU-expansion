@@ -389,6 +389,7 @@ static bool8 AccuracyCalcHelper(u16 move, u8 bankDef)
 	||   (move == MOVE_TOXIC && IsOfType(gBankAttacker, TYPE_POISON))
 	||   (gSpecialMoveFlags[move].gAlwaysHitWhenMinimizedMoves && gStatuses3[bankDef] & STATUS3_MINIMIZED)
 	||  ((gStatuses3[bankDef] & STATUS3_TELEKINESIS) && gBattleMoves[move].effect != EFFECT_0HKO)
+	||  (ABILITY(gBankAttacker) == ABILITY_TECHNICIAN && SpeciesHasDesperateStrike(SPECIES(gBankAttacker)) && gBattleMoves[move].power > 100 && SPLIT(move) != SPLIT_STATUS)
 	||	 gBattleMoves[move].accuracy == 0
 	||  (gStatuses3[bankDef] & STATUS3_GLAIVERUSH)
 	||  (move == MOVE_TACHYONCUTTER))
@@ -564,7 +565,8 @@ u32 VisualAccuracyCalc(u16 move, u8 bankAtk, u8 bankDef)
 	|| (gStatuses3[bankDef] & STATUS3_ALWAYS_HITS && gDisableStructs[bankDef].bankWithSureHit == bankAtk)
 	|| (move == MOVE_TOXIC && IsOfType(bankAtk, TYPE_POISON))
 	|| (gSpecialMoveFlags[move].gAlwaysHitWhenMinimizedMoves && gStatuses3[bankDef] & STATUS3_MINIMIZED)
-	|| ((gStatuses3[bankDef] & STATUS3_TELEKINESIS) && gBattleMoves[move].effect != EFFECT_0HKO))
+	|| ((gStatuses3[bankDef] & STATUS3_TELEKINESIS) && gBattleMoves[move].effect != EFFECT_0HKO)
+	|| (ABILITY(gBankAttacker) == ABILITY_TECHNICIAN && SpeciesHasDesperateStrike(SPECIES(gBankAttacker)) && gBattleMoves[move].power > 100 && SPLIT(move) != SPLIT_STATUS))
 		acc = 0xFFFF; //No Miss
 	else if (WEATHER_HAS_EFFECT)
 	{
