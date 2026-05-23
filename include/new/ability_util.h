@@ -83,6 +83,7 @@ bool8 CheckStatusAny(u8 bank);
 bool8 SpeciesHasRockyPayload(u16 species);
 bool8 SpeciesHasSeedSower(u16 species);
 bool8 SpeciesHasSharpness(u16 species);
+bool8 SpeciesHasHeavyArmor(u16 species);
 bool8 SpeciesHasSupremeOverlord(u16 species);
 bool8 IsFaintedPokemonInParty(void);
 bool8 SpeciesHasSuperSweetSyrup(u16 species);

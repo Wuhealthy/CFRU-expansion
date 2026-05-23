@@ -1829,7 +1829,25 @@ u8 GetExceptionMoveType(u8 bankAtk, u16 move)
 
 		//Based on https://bulbapedia.bulbagarden.net/wiki/Revelation_Dance_(move)
 		case MOVE_RAGINGBULL:
-		case MOVE_REVELATIONDANCE: ;
+		{
+			u8 atkType1 = gBattleMons[bankAtk].type1;
+			u8 atkType2 = gBattleMons[bankAtk].type2;
+			u8 atkType3 = gBattleMons[bankAtk].type3;
+			{
+				if (atkType2 != TYPE_MYSTERY && atkType2 != TYPE_ROOSTLESS)
+                	moveType = atkType2;           // 愤怒之牛：使用第二属性
+            	else if (atkType1 != TYPE_MYSTERY && atkType1 != TYPE_ROOSTLESS)
+                	moveType = atkType1;           // 使用第一属性（无第二属性时）
+            	else if (atkType3 != TYPE_MYSTERY && atkType3 != TYPE_ROOSTLESS && atkType3 != TYPE_BLANK)
+					moveType = atkType3;
+				else
+					moveType = TYPE_MYSTERY;
+			}
+			break;
+		}
+
+		case MOVE_REVELATIONDANCE:
+		{
 			u8 atkType1 = gBattleMons[bankAtk].type1;
 			u8 atkType2 = gBattleMons[bankAtk].type2;
 			u8 atkType3 = gBattleMons[bankAtk].type3;
@@ -1854,6 +1872,7 @@ u8 GetExceptionMoveType(u8 bankAtk, u16 move)
 					moveType = TYPE_MYSTERY;
 			}
 			break;
+		}
 
 		case MOVE_AURAWHEEL:
 			#ifdef SPECIES_MORPEKO_HANGRY
@@ -4242,7 +4261,17 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 
 		case ABILITY_STRONGJAW:
 		//1.5x Boost
-			if (gSpecialMoveFlags[move].gSlicingMoves && SpeciesHasSharpness(SPECIES(bankAtk)))
+			if (SpeciesHasHeavyArmor(SPECIES(bankAtk)))
+    		{
+        		u32 userDef = gBattleMons[bankAtk].defense;
+    			APPLY_STAT_MOD(userDef, &gBattleMons[bankAtk], userDef, STAT_DEF);
+        		u32 targetAtk = gBattleMons[bankDef].attack;
+    			APPLY_STAT_MOD(targetAtk, &gBattleMons[bankDef], targetAtk, STAT_ATK);
+        
+        		if (userDef > targetAtk)
+            		power = (power * 15) / 10;
+    		}
+			else if (gSpecialMoveFlags[move].gSlicingMoves && SpeciesHasSharpness(SPECIES(bankAtk)))
 				power = (power * 15) / 10;
 			else if (gSpecialMoveFlags[move].gBitingMoves)
 				power = (power * 15) / 10;

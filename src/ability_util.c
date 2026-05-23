@@ -125,6 +125,8 @@ extern const u8 gText_AbilityName_SeedSower[];
 extern const u8 gText_AbilityDescription_SeedSower[];
 extern const u8 gText_AbilityName_Sharpness[];
 extern const u8 gText_AbilityDescription_Sharpness[];
+extern const u8 gText_AbilityName_HeavyArmor[];
+extern const u8 gText_AbilityDescription_HeavyArmor[];
 extern const u8 gText_AbilityName_SupremeOverlord[];
 extern const u8 gText_AbilityDescription_SupremeOverlord[];
 extern const u8 gText_AbilityName_SuperSweetSyrup[];
@@ -545,6 +547,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 		case ABILITY_STRONGJAW:
 			if (SpeciesHasSharpness(species))
 				return gText_AbilityName_Sharpness;
+			else if (SpeciesHasHeavyArmor(species))
+        		return gText_AbilityName_HeavyArmor;
 			break;
 		case ABILITY_INTIMIDATE:
 			if (SpeciesHasSuperSweetSyrup(species))
@@ -718,6 +722,8 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 		case ABILITY_STRONGJAW:
 			if (SpeciesHasSharpness(species))
 				return gText_AbilityDescription_Sharpness;
+			else if (SpeciesHasHeavyArmor(species))
+        		return gText_AbilityDescription_HeavyArmor;
 			break;
 		case ABILITY_IRONFIST:
     		if (SpeciesHasStickStickPass(species))
@@ -1583,6 +1589,15 @@ bool8 SpeciesHasSeedSower(unusedArg u16 species)
 {
 	#ifdef SPECIES_ARBOLIVA
 	return species == SPECIES_ARBOLIVA;
+	#else
+	return FALSE;
+	#endif
+}
+
+bool8 SpeciesHasHeavyArmor(unusedArg u16 species)
+{
+	#ifdef SPECIES_TAUROS_MEGA
+	return species == SPECIES_TAUROS_MEGA;
 	#else
 	return FALSE;
 	#endif

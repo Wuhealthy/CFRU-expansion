@@ -686,6 +686,9 @@ HP一半时降低双防提升双攻和速度
 #org @gText_AbilityDescription_Sharpness
 提高切割对手的招式的威力
 
+#org @gText_AbilityDescription_HeavyArmor
+自身防御比对手攻击高时威力提高
+
 #org @gText_AbilityDescription_SupremeOverlord
 出场时按照倒下同伴数量提高双攻
 
