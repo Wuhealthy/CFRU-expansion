@@ -368,38 +368,38 @@ enum //These vars need to be one after the other (hence the enum)
 #define FLAG_TERA_BATTLE 0xA08 // Set this flag before a trainerbattle command to enable Terastallization
 //#define SHOW_TERA_TYPE_ICON_ON_SUMMARY_SCREEN // Comment this out if you want only the Tera Icon to be displayed on summary screen
 #define FLAG_EXPLAINED_MINING_RULES 0xA09 //If set, the player will not be shown the mining rules second time when using the mining feature
-//#define BW_SUMMARY_SCREEN // Implements the BW summary screen
+//#define BW_SUMMARY_SCREEN // 实现《黑/白》风格的能力查看界面。
 //#define NATURE_COLORS_ON_SUMMARY_SCREEN //will implement nature coloured stats and IV ranking in summary (Don't uncomment if you're using BW Summary Screen)
 //#define MID_BATTLE_EVO //Comment this line to remove Mid-Battle Evolution.
 //#define SKIP_INTRO_CONTROLS_GUIDE //Uncomment this line to remove the intro constrols guide.
-#define FLAG_SPAWN_INVISIBLE 0xA0A //This feature allows us to spawn the player object as invisible after a warp, which can be useful for cutscenes, etc. Note that the camera will still be centered on the player.
-#define FLAG_PORTABLE_PC 0xA0B //Flag to Enable/Disable Pocket PC.
-#define VAR_GAME_DIFFICULTY 0x5157 //Var to store the game difficulty level. If 0 difficulty is normal(vanilla), if 1 its easy, if 2 its Hard, if 3 its Expert. ShouldGiveTrainerMonMaxFriendship and ShouldGiveTrainerMonMaxEVs need to be set at your choice in build_pokemon.c
+#define FLAG_SPAWN_INVISIBLE 0xA0A //这个功能可以让玩家在传送后变成隐身状态，在做过场动画之类的时候很有用。但注意，镜头还是会锁定在玩家身上。
+#define FLAG_PORTABLE_PC 0xA0B //用于启用/禁用口袋电脑的开关标志。
+#define VAR_GAME_DIFFICULTY 0x5157 //这个变量用来记录游戏难度：0 普通（原版），1 简单，2 困难，3 专家。此外，build_pokemon.c 里的 ShouldGiveTrainerMonMaxFriendship（是否给训练家的宝可梦满亲密度）和 ShouldGiveTrainerMonMaxEVs（是否给满努力值）这两项，需要你根据自己的想法来设置。
 #define CRY_SPECIES SPECIES_CHARIZARD //The species that will be used for the cry in the titlescreen. Currently its 0x6 (Charizard).
 #define OAK_INTRO_SPECIES SPECIES_NIDORAN_F //The species that appears in Oak's intro(New Game).
-//#define OPEN_WORLD_TRAINERS // Custom Trainers and teams based on party levels (Not area based, making game open world). CAUTION: NOT TO USE WQITH EXPAND_TRAINERS
-//Also, using OPEN_WORLD_TRAINERS, you would need to edit gGeneralTrainerSpreads in build_pokemon.c
-#define SHOW_MEGAS_IN_HOF // Uncomment if you want mega and primal to be shown in hall of fame.
+//#define OPEN_WORLD_TRAINERS // 自定义训练家与队伍，其强度基于队伍等级（而非基于区域，以此实现开放世界）。注意：不可与 EXPAND_TRAINERS 同时使用。
+//另外，如果使用 OPEN_WORLD_TRAINERS，你将需要编辑 build_pokemon.c 文件中的 gGeneralTrainerSpreads。
+#define SHOW_MEGAS_IN_HOF // 如果要让超级进化与原始回归形态在名人堂中显示，请取消注释。
 #define FLAG_STAT_EDITOR_UNLOCKED 0xA0C
-#define NEW_BATTLE_BACKGROUNDS //When set, battle backgrounds and intro animations will be dynamically replaced by those defined in src/Tables/battle_background_tables.c 
-#define FLAG_SANDBOX_MODE 0xA0D // Use it only when you know what it does, lol.
-#define VAR_DEBUG_MENU_SET_CUSTOM_VAR 0x5158 // The var that stores the value used for set custom var option in debug menu.
-#define VAR_DEBUG_MENU_SET_CUSTOM_VAR_VALUE 0x5159 // The var that stores the value used for set custom var option in debug menu.
-//#define NEW_MINI_NAME_BOX //New box frame for Mini Name Box
+#define NEW_BATTLE_BACKGROUNDS // 如果启用此选项，战斗背景和开场动画会动态替换成 src/Tables/battle_background_tables.c 里定义的内容。
+#define FLAG_SANDBOX_MODE 0xA0D // 不懂就别乱用，嘿嘿。
+#define VAR_DEBUG_MENU_SET_CUSTOM_VAR 0x5158 // 这个变量用于保存调试菜单里‘设置自定义变量’那个选项所设定的数值。
+#define VAR_DEBUG_MENU_SET_CUSTOM_VAR_VALUE 0x5159 // 该变量用于保存在调试菜单中‘设置自定义变量’选项所设定的值。
+//#define NEW_MINI_NAME_BOX //为迷你姓名框添加新的边框。
 
 /* DexNav Options */
 //See "include/new/dexnav_config.h"
 
 /* Ignore Wild Pokemon */
-#define IgnoreWildPokemon //If defined, it generates a prebattle screen. (Ignore/Engage)
+#define IgnoreWildPokemon //开启后，会在战斗前显示一个准备界面。（无视/迎战）
 
 #ifdef IgnoreWildPokemon
-#define FLAG_WILD_POKEMON_PREBATTLE_SCREEN 0xA02 //If set, CreateWindowFromRect starts from tile 0x98 instead of 0x38
-#define FLAG_ENABLE_WILD_PMN_PREBATTLE_SCREEN 0xA03 //If set, it generates a prebattle screen.
+#define FLAG_WILD_POKEMON_PREBATTLE_SCREEN 0xA02 //如果设置了此项，CreateWindowFromRect 将从第 0x98 号图块开始，而不是从第 0x38 号图块开始。
+#define FLAG_ENABLE_WILD_PMN_PREBATTLE_SCREEN 0xA03 //如果设置了此项，则会生成一个战斗前界面。
 #endif
 
 /* Palette Swapper*/
 #define PALETTE_SWAPPER
 
 /* Trainer Data */
-#define EXPAND_TRAINERS // Makes trainers editable, well useless if OPEN_WORLD_TRAINERS is being used.
+#define EXPAND_TRAINERS // 使训练家变为可编辑状态，但如果使用了 OPEN_WORLD_TRAINERS，则此设置无效。

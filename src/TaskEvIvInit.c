@@ -1,12 +1,11 @@
 /********\
 
-CUSTOM FILE!
-THIS IS A CUSTOM FILE THAT ISN'T NORMALLY IN THE CFRU.
+自定义文件！
+这是一个通常不在CFRU中的自定义文件。
 
-Give Credits to:
-- Acimut - Actual EV Screen
-- Greenphx - Sandbox / Stat Editor functionality
-if used.
+如使用本资源，请署名：
+- Acimut - 实际 EV 界面
+- Greenphx - 沙盒 / 能力编辑器功能
 
 \********/
 
@@ -47,27 +46,22 @@ if used.
 
 #define FIRERED
 
-#define ESP //comment this to use the english text
+#define ESP //注释掉此项即可使用英文文本。
 
-// 1 = ACTIVADO, 0 = DESACTIVADO. Activa o desactiva el salto de sprite
-// 1 = ON, 0 = OFF.  Activates or deactivates the sprite jump
+// 1 = 启用，0 = 禁用。启用或禁用图像跳跃。
 #define SPRITE_JUMP             1
 
-// 1 = DE DERECHA A IZQUIERDA, 0 = EN EL CENTRO -1 = DE IZQUIERDA A DERECHA.
-// 1 = FROM RIGHT TO LEFT, 0 = IN THE CENTER -1 = FROM LEFT TO RIGHT.
+// 1 = 从右向左，0 = 居中，-1 = 从左向右。
 #define SPRITE_JUMP_DIRECTION   1
 
-// 1 = A LA DERECHA, 0 = A LA IZQUIERDA.
-// 1 = RIGHT, 0 = LEFT.
+// 1 = 右，0 = 左。
 #define SPRITE_VIEW_DIRECTION   0
 
 
-//coordenada x del sprite pokémon, se mide en tiles de x8 pixeles
-//x coordinate of the pokémon sprite, measured in tiles of x8 pixels
+//宝可梦图像的 X 坐标（单位：8 像素/块）。
 #define PICMON_X    18
 
-//coordenada y del sprite pokémon, se mide en tiles de x8 pixeles
-//y coordinate of the pokémon sprite, measured in tiles of x8 pixels
+//宝可梦图像的 Y 坐标（单位：8 像素/块）。
 #define PICMON_Y     5
 
 static void Task_EvIvInit(u8);
@@ -118,22 +112,22 @@ static const struct BgTemplate bg_Templates[] = {
     }
 };
 
-//window 0 = pokémon name
+//window 0 = 宝可梦名字
 #define WINDOW0_WIDTH   29
 #define WINDOW0_HEIGTH  4
 
-//window 1 = stats
+//window 1 = 能力值
 #define WINDOW1_WIDTH   17
 #define WINDOW1_HEIGTH  11
 #define WINDOW1_BASEBLOCK  (WINDOW0_WIDTH * WINDOW0_HEIGTH)
 
-//window 2 = text in the bottom bar / texto en la barra inferior
+//window 2 = 显示在底部栏中的文本
 #define WINDOW2_WIDTH   29
 #define WINDOW2_HEIGTH  5
 #define WINDOW2_BASEBLOCK WINDOW1_WIDTH * WINDOW1_HEIGTH + WINDOW1_BASEBLOCK
 
 static const struct WindowTemplate windows_templates[] = {
-    {//window 0 = pokémon name
+    {//window 0 = 宝可梦名字
         .bg = 0,
         .tilemapLeft = 1,
         .tilemapTop = 2,
@@ -141,7 +135,7 @@ static const struct WindowTemplate windows_templates[] = {
         .height = WINDOW0_HEIGTH,
         .paletteNum = 15,
         .baseBlock = 0x000
-    },{//window 1 = stats
+    },{//window 1 = 能力值
         .bg = 0,
         .tilemapLeft = 2,
         .tilemapTop = 4,
@@ -149,7 +143,7 @@ static const struct WindowTemplate windows_templates[] = {
         .height = WINDOW1_HEIGTH,
         .paletteNum = 15,
         .baseBlock = WINDOW1_BASEBLOCK
-    },{//window 2 = text in the bottom bar / texto en la barra inferior
+    },{//window 2 = 显示在底部栏中的文本
         .bg = 0,
         .tilemapLeft = 1,
         .tilemapTop = 15,
@@ -227,7 +221,7 @@ static const struct OamData sCursorOam =
 	.objMode = ST_OAM_OBJ_NORMAL,
 	.shape = SPRITE_SHAPE(32x32),
 	.size = SPRITE_SIZE(32x32),
-	.priority = 0, //Above other sprites
+	.priority = 0, //高于其他图像
 };
 static const union AnimCmd sAnimCmdHandCursor[] =
 {
@@ -263,7 +257,7 @@ static const struct SpritePalette sCursorSpritePalette = {(void*) 0x83CE7F0, SEL
 
 static void SpriteCB_SandboxCursor(struct Sprite* sprite)
 {
-    (void)sprite; // Prevents unused parameter warning
+    (void)sprite; // 防止未使用参数的编译警告
 }
 
 static void CreateSandboxCursor(void)
