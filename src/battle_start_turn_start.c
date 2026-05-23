@@ -13,7 +13,6 @@
 #include "../include/constants/trainer_classes.h"
 
 #include "../include/new/ability_battle_scripts.h"
-#include "../include/new/ability_util.h"
 #include "../include/new/ai_master.h"
 #include "../include/new/ai_switching.h"
 #include "../include/new/ai_util.h"
@@ -2240,8 +2239,7 @@ s8 PriorityCalc(u8 bank, u8 action, u16 move)
 					break;
 
 				// 殊死一搏：威力 1-60 的招式先制度+1
-        		case ABILITY_TECHNICIAN:
-            		if (SpeciesHasDesperateStrike(SPECIES(bank)))
+        		case ABILITY_DESPERATESTRIKE:
             		{
                 		u8 power = gBattleMoves[move].power;
                 		if (SPLIT(move) != SPLIT_STATUS && power > 1 && power <= 60)
@@ -2300,8 +2298,7 @@ s8 PriorityCalcMon(struct Pokemon* mon, u16 move)
 				break;
 
 			// 殊死一搏：威力 1-60 的招式先制度+1
-            case ABILITY_TECHNICIAN:
-                if (SpeciesHasDesperateStrike(mon->species))
+            case ABILITY_DESPERATESTRIKE:
                 {
                     u8 power = gBattleMoves[move].power;
                     if (SPLIT(move) != SPLIT_STATUS && power > 1 && power <= 60)

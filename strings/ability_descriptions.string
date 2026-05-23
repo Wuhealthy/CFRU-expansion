@@ -474,8 +474,8 @@ HP一半时就会把树果吃掉
 #org @DESC_NEUROFORCE
 效果绝佳的攻击，威力会变得更强
 
-#org @DESC_GALVANIZE
-一般属性的招式会变为电属性
+#org @DESC_DESPERATESTRIKE
+只能进攻，有威力的招式获得效果
 
 //剑盾特性//
 
@@ -721,6 +721,3 @@ HP全满时受到的伤害变为效果不好
 
 #org @gText_AbilityDescription_ZerotoHero
 回到同行队伍后，会变为全能形态
-
-#org @gText_AbilityDescription_DesperateStrike
-只能进攻，有威力的招式获得效果

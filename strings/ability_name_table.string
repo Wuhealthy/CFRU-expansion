@@ -713,8 +713,8 @@ AR系统
 #org @NAME_NEUROFORCE
 脑核之力
 
-#org @NAME_GALVANIZE
-电气皮肤
+#org @NAME_DESPERATESTRIKE
+殊死一搏
 
 #org @NAME_INTREPID_SWORD
 不挠之剑
@@ -820,9 +820,6 @@ AR系统
 
 #org @gText_AbilityName_StickStickPass
 棒棒相传
-
-#org @gText_AbilityName_DesperateStrike
-殊死一搏
 
 #org @gText_AbilityName_Improvise
 随机应变

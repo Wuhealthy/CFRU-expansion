@@ -132,7 +132,7 @@ void atk04_critcalc(void)
 						+ (atkEffect == ITEM_EFFECT_SCOPE_LENS)
 						+ (atkAbility == ABILITY_SUPERLUCK)
 						// 殊死一搏：威力 61-100 的招式要害等级+1
-            			+ ((atkAbility == ABILITY_TECHNICIAN && SpeciesHasDesperateStrike(SPECIES(gBankAttacker)))
+            			+ ((atkAbility == ABILITY_DESPERATESTRIKE)
                 			&& (gBattleMoves[gCurrentMove].power > 60 && gBattleMoves[gCurrentMove].power <= 100)
                 			&& SPLIT(gCurrentMove) != SPLIT_STATUS)
 						#ifdef NATIONAL_DEX_CHANSEY
@@ -234,9 +234,9 @@ static u8 CalcPossibleCritChance(u8 bankAtk, u8 bankDef, u16 move, struct Pokemo
 					+ (gSpecialMoveFlags[move].gHighCriticalChanceMoves)
 					+ (atkEffect == ITEM_EFFECT_SCOPE_LENS)
 					+ (atkAbility == ABILITY_SUPERLUCK)
-					+ ((atkAbility == ABILITY_TECHNICIAN && SpeciesHasDesperateStrike(SPECIES(gBankAttacker)))
-                		&& (gBattleMoves[gCurrentMove].power > 60 && gBattleMoves[gCurrentMove].power <= 100)
-                		&& SPLIT(gCurrentMove) != SPLIT_STATUS)
+					+ ((atkAbility == ABILITY_DESPERATESTRIKE)
+                		&& (gBattleMoves[move].power > 60 && gBattleMoves[move].power <= 100)
+                		&& SPLIT(move) != SPLIT_STATUS)
 					#ifdef NATIONAL_DEX_CHANSEY
 					+ 2 * (atkEffect == ITEM_EFFECT_LUCKY_PUNCH && SpeciesToNationalPokedexNum(atkSpecies) == NATIONAL_DEX_CHANSEY)
 					#endif
@@ -4145,7 +4145,7 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 	switch(data->atkAbility) {
 		case ABILITY_TECHNICIAN:
 		//1.5x Boost
-			if (!SpeciesHasDesperateStrike(SPECIES(bankAtk)) && data->basePower <= 60)
+			if (data->basePower <= 60)
 				power = (power * 15) / 10;
 			break;
 
