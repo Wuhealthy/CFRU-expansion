@@ -139,6 +139,8 @@ extern const u8 gText_AbilityName_ThermalExchange[];
 extern const u8 gText_AbilityDescription_ThermalExchange[];
 extern const u8 gText_AbilityName_ToxicChain[];
 extern const u8 gText_AbilityDescription_ToxicChain[];
+extern const u8 gText_AbilityName_VenomForte[];
+extern const u8 gText_AbilityDescription_VenomForte[];
 extern const u8 gText_AbilityDescription_PoisonPuppeteer[];
 extern const u8 gText_AbilityName_PoisonPuppeteer[];
 extern const u8 gText_AbilityName_ToxicDebris[];
@@ -573,6 +575,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 		case ABILITY_POISONTOUCH:
 			if(SpeciesHasToxicChain(species))
 				return gText_AbilityName_ToxicChain;
+			else if(SpeciesHasVenomForte(species))
+				return gText_AbilityName_VenomForte;
 			break;
 		case ABILITY_PLUS:
 			if (SpeciesHasPoisonPuppeteer(species))
@@ -758,6 +762,8 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 		case ABILITY_POISONTOUCH:
 			if(SpeciesHasToxicChain(species))
 				return gText_AbilityDescription_ToxicChain;
+			else if(SpeciesHasVenomForte(species))
+				return gText_AbilityDescription_VenomForte;
 			break;
 		case ABILITY_MAGICIAN:
     		if (SpeciesHasImprovise(species))
@@ -1616,6 +1622,15 @@ bool8 SpeciesHasSupremeOverlord(unusedArg u16 species)
 {
 	#ifdef SPECIES_KINGAMBIT
 	return species == SPECIES_KINGAMBIT;
+	#else
+	return FALSE;
+	#endif
+}
+
+bool8 SpeciesHasVenomForte(unusedArg u16 species)
+{
+	#ifdef SPECIES_NIDOKING_MEGA
+	return species == SPECIES_NIDOKING_MEGA;
 	#else
 	return FALSE;
 	#endif

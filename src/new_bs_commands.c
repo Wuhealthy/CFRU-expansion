@@ -1011,6 +1011,17 @@ void atkFE_prefaintmoveendeffects(void)
 							gBattlescriptCurrInstr = BattleScript_ToxicChain;
 							effect = TRUE;
 						}
+
+						else if (ABILITY(gBankTarget) != ABILITY_SHIELDDUST
+						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK
+						&& CanBePoisoned(gBankTarget, gBankAttacker, TRUE)
+						&& SpeciesHasVenomForte(SPECIES(gBankAttacker)))
+						{
+        					BattleScriptPushCursor();
+        					gBattlescriptCurrInstr = BattleScript_PoisonTouch;
+        					effect = TRUE;
+						}
+
 						else if (CheckContact(gCurrentMove, gBankAttacker, gBankTarget)
 						&& ABILITY(gBankTarget) != ABILITY_SHIELDDUST
 						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK

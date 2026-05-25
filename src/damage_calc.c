@@ -4277,6 +4277,15 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 				power = (power * 15) / 10;
 			break;
 
+		case ABILITY_POISONTOUCH:
+    	// 强注毒液: 目标未中毒时，伤害提升30%
+    		if (SpeciesHasVenomForte(SPECIES(bankAtk))
+        	&& !(gBattleMons[bankDef].status1 & STATUS1_PSN_ANY))
+    		{
+        		power = (power * 13) / 10;
+    		}
+    		break;
+
 		case ABILITY_TOUGHCLAWS:
 		//1.3x Boost
 			if (((!useMonAtk && IsContactMove(move, bankAtk, bankDef))

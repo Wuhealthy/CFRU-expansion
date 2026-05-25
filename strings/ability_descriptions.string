@@ -707,6 +707,9 @@ HP全满时受到的伤害变为效果不好
 #org @gText_AbilityDescription_ToxicChain
 攻击有时能让对手陷入剧毒状态
 
+#org @gText_AbilityDescription_VenomForte
+对未中毒对手威力提高且让其中毒
+
 #org @gText_AbilityDescription_PoisonPuppeteer
 对手陷入中毒状态的同时也会混乱
 
