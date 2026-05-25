@@ -2391,12 +2391,14 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				&& CheckContact(move, gBankAttacker, bank)
 				&& !ABILITY_ON_FIELD(ABILITY_DAMP))
 				{
-        			u8 partyIndex = gBattlerPartyIndexes[bank];
-					// 检查是否是 Mega 顽皮雷弹，且特性未使用过
-        			if (SpeciesHasVolatileExplosion(SPECIES(bank)) && !gNewBS->volatileExplosionUsedParty[partyIndex])
+        			u8 side = SIDE(bank);
+					u8 partyId = gBattlerPartyIndexes[bank];
+
+					if (SpeciesHasVolatileExplosion(SPECIES(bank)) 
+    				&& !gNewBS->oncePerBattleAbilityFlags[side][partyId])
         			{
             			// 标记已使用
-            			gNewBS->volatileExplosionUsedParty[partyIndex] = TRUE;
+            			gNewBS->oncePerBattleAbilityFlags[side][partyId] = TRUE;
             
             			// 1/3 伤害
             			gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankAttacker) / 3);
