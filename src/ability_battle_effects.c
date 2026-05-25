@@ -3151,15 +3151,15 @@ static const struct SpriteTemplate sSpriteTemplate_AbilityPopUp =
 static const s16 sAbilityPopUpCoordsDoubles[MAX_BATTLERS_COUNT][2] =
 {
 	{29, 80}, // player left
-	{186, 19}, // opponent left
+	{202, 19}, // opponent left
 	{29, 97}, // player right
-	{186, 36}, // opponent right
+	{202, 36}, // opponent right
 };
 
 static const s16 sAbilityPopUpCoordsSingles[MAX_BATTLERS_COUNT][2] =
 {
 	{29, 97}, // player
-	{186, 57}, // opponent
+	{202, 57}, // opponent
 };
 
 #define POPUP_WINDOW_WIDTH 8
