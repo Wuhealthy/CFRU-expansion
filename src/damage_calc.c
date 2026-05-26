@@ -3650,7 +3650,7 @@ static u16 GetBasePower(struct DamageCalc* data)
 		case MOVE_ELECTRODRIFT:
 			if (!(data->specialFlags & FLAG_IGNORE_TARGET)
 			&& data->resultFlags & MOVE_RESULT_SUPER_EFFECTIVE)
-				power *= 15 / 10;
+				power *= 4 / 3;
 			break;
 
 		case MOVE_PAYBACK:
@@ -3730,13 +3730,7 @@ static u16 GetBasePower(struct DamageCalc* data)
 
 		case MOVE_INFERNALPARADE:
 			if (!(data->specialFlags & FLAG_IGNORE_TARGET)
-			&& data->defStatus1 & STATUS_BURN)
-				power *= 2;
-			break;
-
-		case MOVE_BITTERMALICE:
-			if (!(data->specialFlags & FLAG_IGNORE_TARGET)
-			&& data->defStatus1 & STATUS_FREEZE)
+			&& data->defStatus1 & STATUS1_ANY)
 				power *= 2;
 			break;
 
