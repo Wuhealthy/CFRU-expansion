@@ -1,59 +1,59 @@
 #org @gText_SuperEffectiveTarget
-It's super effective on\n[TARGET]!
+对[TARGET]效果绝佳！
 
 #org @gText_SuperEffectiveTwoFoes
-It's super effective on [DEF_PREFIX_5]\n[TARGET_NAME] and [TARGET_PARTNER_NAME]!
+对[DEF_PREFIX_5][TARGET_NAME]\n和[TARGET_PARTNER_NAME]效果绝佳！
 
 #org @gText_NotVeryEffectiveTarget
-It's not very effective on\n[TARGET][.]
+对[TARGET]效果不好。
 
 #org @gText_NotVeryEffectiveTwoFoes
-It's not very effective on [DEF_PREFIX_5]\n[TARGET_NAME] and [TARGET_PARTNER_NAME][.]
+对[DEF_PREFIX_5][TARGET_NAME]\n和[TARGET_PARTNER_NAME]效果不好。
 
 #org @gText_DoesntAffectTwoFoes
-It had no effect on [DEF_PREFIX_5]\n[TARGET_NAME] and [TARGET_PARTNER_NAME][.]
+对[DEF_PREFIX_5][TARGET_NAME]\n和[TARGET_PARTNER_NAME]没有效果。
 
 #org @gText_CriticalHit
-[MAIN_COLOUR][02][SHADOW_COLOUR][09]A critical hit!
+[MAIN_COLOUR][02][SHADOW_COLOUR][09]击中要害！
 
 #org @gText_CriticalHitTarget
-[MAIN_COLOUR][02][SHADOW_COLOUR][09]A critical hit[MAIN_COLOUR][01][SHADOW_COLOUR][06] on\n[TARGET]!
+[MAIN_COLOUR][02][SHADOW_COLOUR][09]击中[TARGET]的\n[MAIN_COLOUR][01][SHADOW_COLOUR][06]要害！
 
 #org @gText_CriticalHitTwoFoes
-[MAIN_COLOUR][02][SHADOW_COLOUR][09]A critical hit[MAIN_COLOUR][01][SHADOW_COLOUR][06] on [DEF_PREFIX_5]\n[TARGET_NAME] and [TARGET_PARTNER_NAME]!
+[MAIN_COLOUR][02][SHADOW_COLOUR][09]击中了[DEF_PREFIX_5][TARGET_NAME]\n和[TARGET_PARTNER_NAME]的[MAIN_COLOUR][01][SHADOW_COLOUR][06]要害！
 
 #org @TrickRoomSetString
-[ATTACKER] twisted\nthe dimensions!
+[ATTACKER]扭曲了时空！
 
 #org @WonderRoomSetString
-It created a bizarre area in which\nthe Def and Sp. Def stats are swapped!
+凭空制造出了互换\n防御和特防的空间！
 
 #org @MagicRoomSetString
-It created a bizarre are in which\nheld items lose their effects!
+凭空制造出了会让持有道具的\n效果消失的空间！
 
 #org @GravitySetString
-Gravity intensified!
+重力变强了！
 
 #org @IonDelugeShowerString
-A deluge of ions showers the\nbattlefield!
+等离子雨倾盆而下！
 
 #org @NoMoreAirborneFromGravityString
-[SCRIPTING_BANK] couldn't\nstay airborne due to Gravity!
+受重力影响，[SCRIPTING_BANK]\n无法继续浮在空中！
 
 #org @Bank0AWasBroughtDownString
-[SCRIPTING_BANK] was\nbrought down!
+[SCRIPTING_BANK]被\n击落了下来！
 
 #org @ElectricTerrainSetString
-An electric current runs across\nthe battlefield!
+脚下电光飞闪！
 
 #org @GrassyTerrainSetString
-Grass grew to cover the\nbattlefield!
+脚下青草如茵！
 
 #org @MistyTerrainSetString
-Mist swirls around the\nbattlefield!
+脚下雾气缭绕！
 
 #org @PsychicTerrainSetString
-The battlefield got weird!
+脚下传来了奇妙的感觉！
 
 #org @TargetTransformedIntoType
 [TARGET]'s type\nchanged to [BUFFER][00]!

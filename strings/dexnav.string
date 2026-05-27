@@ -91,58 +91,58 @@
 已选择[BUFFER1]。
 
 #org @gText_DexNav_NeedRod
-The [BUFFER2] must be acquired\nbefore searching for [BUFFER1].[PAUSE_UNTIL_PRESS]
+必须先获得[BUFFER2]，\n才能搜索[BUFFER1]。[PAUSE_UNTIL_PRESS]
 
 #org @gText_DexNav_Invalid
-That Pok\emon can't be searched yet![PAUSE_UNTIL_PRESS]
+那只宝可梦还不能被搜索！[PAUSE_UNTIL_PRESS]
 
 #org @gText_DexNav_NoDataForSlot
-There's no data for that Pok\emon[.][PAUSE_UNTIL_PRESS]
+那只宝可梦没有数据。[PAUSE_UNTIL_PRESS]
 
 #org @gText_DexNav_Locked
-[BUFFER1] is searchable via [R_BUTTON]![PAUSE_UNTIL_PRESS]
+[BUFFER1]可以通过[R_BUTTON]来搜索！[PAUSE_UNTIL_PRESS]
 
 #org @gText_DexNav_TooDark
-It's too dark to search for a Pok\emon![PAUSE_UNTIL_PRESS]
+太暗了，无法搜索宝可梦！[PAUSE_UNTIL_PRESS]
 
 #org @gText_DexNav_NoPokemonHere
-No Pok\emon can be found here.[PAUSE_UNTIL_PRESS]
+这里找不到宝可梦。[PAUSE_UNTIL_PRESS]
 
 
 //Field Strings
 
 #org @gText_DexNavDescription
-Search for wild Pok\emon in the area\nwith potential special qualities!
+搜索这片区域里可能带有\n特殊品质的野生宝可梦！
 
 #org @gText_GotAway
-[BUFFER1] got away!
+[BUFFER1]逃走了！
 
 #org @gText_GotAwayShouldSneak
-[BUFFER1] got away!\nTry moving more slowly.
+[BUFFER1]逃走了！\n试着更慢地移动。
 
 #org @gText_PokemonGotAway
-The Pok\emon got away!
+宝可梦逃走了！
 
 #org @gText_PokemonGotAwayShouldSneak
-The Pok\emon got away!\nTry moving more slowly.
+宝可梦逃走了！\n试着更慢地移动。
 
 #org @gText_LostSignal
-There is no reaction.\nThe signal was lost!
+没有反应。\n信号丢失了！
 
 #org @gText_CannotBeFound
-[BUFFER1] cannot be found here.
+在这里找不到[BUFFER1]。
 
 #org @gText_FormCannotBeFound
-That form of [BUFFER1] cannot\nbe found here.
+在这里找不到那种形态的\n[BUFFER1]。
 
 #org @gText_NotFoundNearby
-[BUFFER1] couldn't be found nearby.\nTry looking in a different area!
+在附近找不到[BUFFER1]。\n试着换一个区域寻找吧！
 
 #org @gText_TooDarkForDexNav
-It's too dark to search for\na Pok\emon!
+太暗了，无法搜索宝可梦！
 
 #org @gText_DexNavDetectedRarePokemon
-Huh? The DexNav is detecting an\nunusual Pok\emon!
+嗯？图鉴导航检测到了一只\n不寻常的宝可梦！
 
 #org @gText_DexNav_UpArrow
 [ARROW_UP]
@@ -160,4 +160,4 @@ Huh? The DexNav is detecting an\nunusual Pok\emon!
 No. 
 
 #org @gText_MenuCube
-Cube
+魔方
