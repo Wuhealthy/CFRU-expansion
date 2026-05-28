@@ -1,62 +1,62 @@
 #org @gText_RButtonMode
-R Button Mode
+R键模式
 
 #org @gText_RButtonDexNav
-DexNav
+图鉴导航
 
 #org @gText_RButtonPokemon
-Pok\emon
+宝可梦
 
 #org @gText_RButtonItems
-Items
+道具
 
 #org @gText_PickSwitchCancel_Page1
-[L_BUTTON][R_BUTTON]Page 1 [DPAD_UP_DOWN]Pick [DPAD_LEFT_RIGHT]Switch [A_BUTTON][B_BUTTON]Cancel
+[L_BUTTON][R_BUTTON]第1页 [DPAD_UP_DOWN]选择 [DPAD_LEFT_RIGHT]切换 [A_BUTTON][B_BUTTON]退出
 
 #org @gText_PickSwitchCancel_Page2
-[L_BUTTON][R_BUTTON]Page 2 [DPAD_UP_DOWN]Pick [DPAD_LEFT_RIGHT]Switch [A_BUTTON][B_BUTTON]Cancel
+[L_BUTTON][R_BUTTON]第2页 [DPAD_UP_DOWN]选择 [DPAD_LEFT_RIGHT]切换 [A_BUTTON][B_BUTTON]退出
 
 #org @gText_BattleMusic
-Battle Music
+对战音乐
 
 #org @gText_FRLG
-FRLG
+火红/叶绿
 
 #org @gText_RSE
-RSE
+红/蓝/绿宝石
 
 #org @gText_WildLevelScaling
-Wild Level Scaling
+野生宝可梦等级跟随
 
 #org @gText_OnOption
-On
+开启
 
 #org @gText_OffOption
-Off
+关闭
 
 #org @gText_AutoSortBag
-Auto-Sort Bag
+包包道具自动排序
 
 #org @gText_ByName
-By Name
+按名称
 
 #org @gText_ByType
-By Type
+按种类
 
 #org @gText_ByAmount
-By Amount
+按数量
 
 #org @gText_GameDifficulty
-Game Difficulty
+游戏难度
 
 #org @gText_Normal
-Normal
+普通
 
 #org @gText_Easy
-Easy
+简单
 
 #org @gText_Hard
-Hard
+困难
 
 #org @gText_Expert
-Expert
+专家

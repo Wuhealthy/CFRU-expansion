@@ -3,115 +3,115 @@
 //New Encounter Strings
 
 #org @BattleText_TwoTrainersWantToBattle
-You are challenged by\n[FD][1C] [FD][1D] and\l[FD][2E] [FD][2F]!\p
+[FD][1C][FD][1D]和\n[FD][2E][FD][2F]\l向你发起了挑战！\p
 
 #org @BattleText_ShadowWarriorAttacked
-The Shadow Warrior attacked!\p
+暗影武士发起了攻击！\p
 
 #org @BattleText_ShadowWarriorsAttacked
-The Shadow Warriors attacked!\p
+暗影武士们发起了攻击！\p
 
 #org @BattleText_InGamePartnerSentOutZGoN
-[FD][32] [FD][33] sent\nout [FD][07]!\lGo, [FD][05]!
+[FD][32][FD][33]\n派出了[FD][07]！\l上吧，[FD][05]！
 
 #org @BattleText_TwoTrainersSentPkmn
-[FD][1C] [FD][1D] sent\nout [FD][06]!\p[FD][2E] [FD][2F] sent\nout [FD][08]!
+[FD][1C][FD][1D]\n派出了[FD][06]！\p[FD][2E][FD][2F]\n派出了[FD][08]！
 
 #org @BattleText_Trainer2WithdrewPkmn
-[FD][2E] [FD][2F]\nwithdrew [FD][00]!
+[FD][2E][FD][2F]\n收回了[FD][00]！
 
 #org @BattleText_Trainer2SentOutPkmn
-[FD][2E] [FD][2F] sent\nout [FD][00]!
+[FD][2E][FD][2F]\n派出了[FD][00]！
 
 #org @BattleText_GoTwoPkmn_BattleSands
-[FD][32] [FD][33] sent\nout [FD][05] and [FD][07]!
+[FD][32][FD][33]\n派出了[FD][05]和[FD][07]！
 
 #org @BattleText_GoPkmn_BattleSands
-[FD][32] [FD][33]\nsent out [FD][05]!
+[FD][32][FD][33]\n派出了[FD][05]！
 
 #org @BattleText_PartnerWithdrewPkmn
-[FD][32] [FD][33]\nwithdrew [FD][00]!
+[FD][32][FD][33]\n收回了[FD][00]！
 
 #org @BattleText_PartnerSaysGo
-[FD][32] [FD][33] sent\nout [FD][00]!
+[FD][32][FD][33]\n派出了[FD][00]！
 
 #org @BattleText_AttackerUsedZStatusMove
-[FD][0F] used\nZ-[FD][01]
+[FD][0F]使用\nZ-[FD][01]
 
 #org @BattleText_AttackerUsedMaxMove
-[FD][0F] used\nMax [FD][01]
+[FD][0F]使用\n极巨[FD][01]
 
 #org @BattleText_AttackerUsedGMaxMove
-[FD][0F] used\nG-Max [FD][01]
+[FD][0F]使用\n超极巨[FD][01]
 
 #org @BattleText_TwoInGameTrainersDefeated
-[FD][1C] [FD][1D] and\n[FD][2E] [FD][2F]\lwere defeated!\p
+[FD][1C][FD][1D]和\n[FD][2E][FD][2F]被击败了！\p
 
 #org @BattleText_PlayerLostToTwoInGameTrainers
-You lost against\n[FD][1C] [FD][1D] and\n[FD][2E] [FD][2F].\p
+你输给了[FD][1C][FD][1D]和\n[FD][2E][FD][2F]。\p
 
 //Rewritten Encounter Strings
 
 #org @BattleText_TwoLinkTrainersWantToBattle
-You are challenged by\n[FD][20] and [FD][21]!\p
+[FD][20]和[FD][21]\n向你发起了挑战！\p
 
 #org @BattleText_Trainer1WantsToBattle
-You are challenged by\n[FD][1C] [FD][1D]!\p
+[FD][1C][FD][1D]\n向你发起了挑战！\p
 
 #org @BattleText_Trainer1WantsToBattle_BattleSands
-[FD][32] [FD][33] is challenged by\n[FD][1C] [FD][1D]!\p
+[FD][1C][FD][1D]向\n[FD][32][FD][33]发起了挑战！\p
 
 #org @BattleText_LinkTrainerWantsToBattle
-You are challenged by\n[FD][20]!\p
+[FD][20]\n向你发起了挑战！\p
 
 #org @BattleText_WildPkmnAppeared6
-A wild [FD][06] appeared!\p
+野生的[FD][06]\n出现了！\p
 
 #org @BattleText_TwoWildPkmnAppeared
-A wild [FD][06] and\na wild [FD][08] appeared!\p
+野生的[FD][06]和\n野生的[FD][08]出现了！\p
 
 #org @BattleText_TwoWildAttacked
-[FD][06] and [FD][08] attacked!\p
+[FD][06]和[FD][08]\n攻击过来了！\p
 
 #org @BattleText_DistortionWorldMonAttacked
-The Distortion World's [FD][06]\nappeared!\p
+反转世界的[FD][06]\n出现了！\p
 
 #org @BattleText_WorstNightmare
-It's your worst nightmare!\p
+这是你最可怕的噩梦！\p
 
 #org @BattleText_LegendaryAppeared
-[FD][06] appeared!\p
+[FD][06]出现了！\p
 
 #org @BattleText_WildPkmnAppearedPause
-A wild [FD][06] appeared![FC][08][7F]
+野生的[FD][06]\n出现了！[FC][08][7F]
 
 #org @BattleText_WildPkmnAppeared
-A wild [FD][06] appeared!\p
+野生的[FD][06]\n出现了！\p
 
 //Status Strings
 
 #org @gStatusConditionString_DisableProblem
-Disable
+定身法
 
 #org @gStatusConditionString_EncoreProblem
-Encore
+再来一次
 
 #org @gStatusConditionString_Confusion
-Confusion
+混乱
 
 #org @gStatusConditionString_MentalState
-mental
+心神类
 
 #org @gStatusConditionString_TauntProblem
-Taunt
+挑衅
 
 //Stat Buff Strings
 
 #org @DrasticallyString
-drastically 
+大幅
 
 #org @SeverelyString
-severely 
+大幅
 
 //General String Updates
 
@@ -119,46 +119,46 @@ severely
 #org @sText_FoePkmnPrefix3
 #org @sText_FoePkmnPrefix4
 #org @TheOpposingString
-The opposing 
+对手的
 
 #org @sText_FoePkmnPrefix5
-the opposing 
+对手的
 
 #org @gText_TheWild
-The wild 
+野生的
 
 #org @TheShadowString
-The Shadow 
+暗影的
 
 #org @sText_TheOpposingCapsNoSpace
-The opposing
+对手的
 
 #org @sText_TheOpposingNoCaps
-the opposing
+对手的
 
 #org @sText_Your
-your
+你的
 
 #org @sText_YourCaps
-Your
+你的
 
 #org @sText_GotMoneyForWinning
-You got [B7][FD][00]\nfor winning!
+你获得了[B7][FD][00]的奖金！
 
 #org @sText_OutofUsablePokemon
-You have no more Pok\emon\nthat can fight!\p
+你没有可以战斗的宝可梦了！\p
 
 #org @sText_LostAgaintWild
-You panicked and lost [B7][BUFFER][00][.]\p[.] [.] [.] [.]\pYou were overwhelmed by your\ndefeat![FC][09]
+你惊慌失措地丢掉了[B7][BUFFER][00]。\p[.] [.] [.] [.]\p你被失败彻底击垮了！[FC][09]
 
 #org @sText_LostAgainstTrainer
-You have no more Pok\emon\nthat can fight!\pYou lost against\n[FD][1C] [FD][1D]![FC][09]
+你没有可以战斗的宝可梦了！\p你输给了\n[FD][1C][FD][1D]！[FC][09]
 
 #org @sText_PaidPrizeMoney
-You paid [B7][BUFFER][00] as the prize\nmoney[.]\p[.] [.] [.] [.]\pYou were overwhelmed by your\ndefeat![FC][09]
+你支付了[B7][BUFFER][00]作为奖金。\p[.] [.] [.] [.]\p你被失败彻底击垮了！[FC][09]
 
 #org @sText_BlackedOut
-You were overwhelmed by your\ndefeat![FC][09]
+你被失败彻底击垮了！[FC][09]
 
 #ifndef UNBOUND
 
@@ -191,10 +191,10 @@ You were overwhelmed by your\ndefeat![FC][09]
 #endif
 
 #org @gText_BattleMenuRaidEnd
-[PALETTE][05][COLOR_HIGHLIGHT_SHADOW][0D][0E][0F]Catch[ALIGN][38]End
+[PALETTE][05][COLOR_HIGHLIGHT_SHADOW][0D][0E][0F]捕捉[ALIGN][38]结束
 
 #org @gText_CaptureRaidMon
-[FD][06] is weak!\nThrow a Ball now!
+[FD][06]变弱了！\n现在就投掷精灵球吧！
 
 #org @gText_TeamPreviewSingleDoubleText
 [FD][1C][FD][1D]的阵容
@@ -211,44 +211,44 @@ You were overwhelmed by your\ndefeat![FC][09]
 //Exp String
 
 #org @String_TeamExpGain
-The rest of your team gained Exp.\nPoints thanks to the Exp. Share!
+通过学习装置，队伍里的其他\n宝可梦也获得了经验值！
 
 //Other
 #org @gStatusConditionString_Frostbite
-frostbite
+冻伤
 
 #org @gText_CantAimAtTwoTargets
-It's no good! It's impossible to aim\nwhen there are two Pok\emon![FC][09]
+不行！面对两只宝可梦时\n根本无法瞄准！[FC][09]
 
 #org @gText_CantAimAtSemiInvulnerableTarget
-It's no good! It's impossible to aim\nat a Pok\emon that's not in sight![FC][09]
+不行！无法瞄准\n不在视野内的宝可梦！[FC][09]
 
 #org @gText_CantUseAMoveAndABall
-It's no good! The Ball must be\nthrown from your first Pok\emon![FC][09]
+不行！必须由你的第一只\n宝可梦来投掷精灵球！[FC][09]
 
 #org @gText_CantCatchPokemonYet
-You can't throw a Pok\e Ball yet![FC][09]
+现在还不能投掷精灵球！[FC][09]
 
 #org @gText_CantCatchPokemonRightNow
-It's no good!\nThe Pok\emon can't be caught![FC][09]
+不行！\n现在无法捕捉这只宝可梦！[FC][09]
 
 #org @sText_QuestionForfeitMatch
-Would you like to forfeit the match\nand quit now?
+要放弃这场对战\n并立刻退出吗？
 
 #org @sText_ConfirmRunAway
-Are you sure you want to run away?
+确定要逃跑吗？
 
 #org @sText_PlayerForfeitedMatch
-[PLAYER_NAME] forfeited the match!
+[PLAYER_NAME]放弃了这场对战！
 
 #org @gText_BlackPlayerPrefix
-Black 
+黑暗
 
 #org @gText_UnknownLocation
-unknown location
+未知地点
 
 #org @gText_TrainerClass_ExShadowAdmin
-Ex Shadow Admin
+前暗影干部
 
 #org @gStatusConditionString_PurifySalt
-status condition
+异常状态

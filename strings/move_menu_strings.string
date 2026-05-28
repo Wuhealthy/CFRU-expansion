@@ -32,139 +32,139 @@ OHKO
 非接触类
 
 #org @gText_ResetStats
-Reset Lowered Stats
+重置下降的能力
 
 #org @gText_StatsPlus
-+ All Stats
++ 全能力
 
 #org @gText_CritHitsPlus
-+ Critical Hit Chance
++ 击中要害几率
 
 #org @gText_FollowMe
-Follow Me
+万众瞩目
 
 #org @gText_RecoverHP
-Recover HP
+回复HP
 
 #org @gText_HealAllyHP
-Heal Replacement HP
+回复替换上场的HP
 
 #org @gText_MaxMoveProtect
-Protect Self
+守住
 
 #org @gText_MaxMoveRaiseTeamStat
-+ Team [BUFFER][0]
++ 全队[BUFFER][0]
 
 #org @gText_MaxMoveFoes
- Foes
+对手
 
 #org @gText_MaxMoveSet
-Set 
+布下
 
 #org @gText_MaxMoveWeather
- Weather
+天气
 
 #org @gText_MaxMoveTerrain
- Terrain
+场地
 
 #org @gText_MaxMoveSunny
-Sunny
+大晴天
 
 #org @gText_MaxMoveRainy
-Rainy
+下雨
 
 #org @gText_MaxMoveSandstorm
-Sandstorm
+沙暴
 
 #org @gText_MaxMoveHail
-Hail
+冰雹
 
 #org @gText_MaxMoveElectric
-Electric
+电气场地
 
 #org @gText_MaxMoveGrassy
-Grassy
+青草场地
 
 #org @gText_MaxMoveMisty
-Misty
+薄雾场地
 
 #org @gText_MaxMovePsychic
-Psychic
+精神场地
 
 #org @gText_MaxMoveLastingDamage
-Set Lasting Damage Trap
+布下持续伤害陷阱
 
 #org @gText_MaxMoveTrapDamage
-Trap & Damage Foes
+困住对手并造成伤害
 
 #org @gText_MaxMoveEffectSpore
-Give Foes Psn, Par, or Slp
+使对手中毒、麻痹或睡眠
 
 #org @gText_MaxMoveParalyzeFoes
-Paralyze Foes
+让对手麻痹
 
 #org @gText_MaxMoveConfusePayDay
-Confuse Foes & Get Rich
+让对手混乱并赚取金钱
 
 #org @gText_MaxMoveCritPlus
-+ Team Critical Hit Chance
++ 全队击中要害几率
 
 #org @gText_MaxMoveMeanLook
-Trap Foes
+困住对手
 
 #org @gText_MaxMoveAuroraVeil
-- Damage to Team
+- 全队受到的伤害
 
 #org @gText_MaxMoveInfatuate
-Infatuate Foes
+让对手着迷
 
 #org @gText_MaxMoveRecycleBerries
-Recycle Berries
+回收树果
 
 #org @gText_MaxMovePoisonFoes
-Poison Foes
+让对手中毒
 
 #org @gText_MaxMoveStealthRock
-Set Stealth Rock
+隐形岩
 
 #org @gText_MaxMoveRemoveScreens
-Remove Screens & Hazards
+移除光墙和反射壁及场地陷阱
 
 #org @gText_MaxMovePoisonParalyzeFoes
-Poison or Paralyze Foes
+让对手中毒或麻痹
 
 #org @gText_MaxMoveHealTeam
-Heal Team
+治愈全队
 
 #org @gText_MaxMoveSpite
-Reduce Last Move PP
+减少对手最后使用招式的PP
 
 #org @gText_MaxMoveGravity
-Change Gravity
+改变重力
 
 #org @gText_MaxMoveYawn
-May Make Foes Drowsy
+可能让对手变得昏昏欲睡
 
 #org @gText_MaxMoveLowerEvasiveness
-- Evasiveness Foes
+- 对手的闪避率
 
 #org @gText_MaxMoveAromatherapy
-Cure Team Statuses
+治愈全队的异常状态
 
 #org @gText_MaxMoveSteelsurge
-Sets Steelsurge
+设置钢钉陷阱
 
 #org @gText_MaxMoveConfuseFoes
-Confuse Foes
+让对手混乱
 
 #org @gText_MaxMoveTormentFoes
-Torment Foes
+让对手陷入挑衅状态
 
 #org @gText_MaxMoveLowerSpeed2
--- Speed Foes
+-- 对手的速度
 
 #org @gText_MaxMoveIgnoreAbility
-Ignore Foe Ability
+无视对手的特性
 
 #org @gText_MaxMoveBypassProtect
-Bypass Protection
+无视保护
