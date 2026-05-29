@@ -1537,6 +1537,7 @@ TripleArrowsBS:
 	accuracycheck BS_MOVE_MISSED 0x0
 	call STANDARD_DAMAGE
 	seteffectwithchancetarget
+	callasm TripleArrowsFlinchCheck
 	jumpifsecondarystatus BANK_ATTACKER STATUS2_PUMPEDUP BS_MOVE_FAINT
 	jumpifability BANK_ATTACKER ABILITY_SHEERFORCE BS_MOVE_FAINT
 	jumpifmovehadnoeffect BS_MOVE_FAINT

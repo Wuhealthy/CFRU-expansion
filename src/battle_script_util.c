@@ -2803,3 +2803,15 @@ void TryUpperHand(void)
 
 	gBattlescriptCurrInstr = BattleScript_ButItFailed - 5 - 2;
 }
+
+void TripleArrowsFlinchCheck(void)
+{
+    if (Random() % 100 < 30)  // 30% 畏缩
+    {
+        if (CanFlinch(gBankTarget, ABILITY(gBankTarget)))
+        {
+            gBattleMons[gBankTarget].status2 |= STATUS2_FLINCHED;
+            gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_FLINCH;
+        }
+    }
+}
