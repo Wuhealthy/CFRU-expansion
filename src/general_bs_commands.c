@@ -5009,15 +5009,38 @@ bool8 CanSwapItems(u8 bankAtk, u8 bankDef)
 void atkD1_trysethelpinghand(void)
 {
     gBankTarget = PARTNER(gBankAttacker);
+	bool8 isDragonCheer = (gCurrentMove == MOVE_DRAGONCHEER);
 
     if (IS_DOUBLE_BATTLE
 	&& !(gAbsentBattlerFlags & gBitTable[gBankTarget])
 	&& !gProtectStructs[gBankAttacker].helpingHand
 	&& !gProtectStructs[gBankTarget].helpingHand
-	&& !BankMovedBefore(gBankTarget, gBankAttacker))
+	&& (isDragonCheer || !BankMovedBefore(gBankTarget, gBankAttacker)))
     {
+        if (isDragonCheer)
+        {
+            // 检查是否已经有龙声鼓舞效果（不是聚气）
+            if (gNewBS->chiStrikeCritBoosts[gBankTarget] == 0)
+            {
+                // 判断提升等级：龙属性+2，非龙属性+1
+                if (IsOfType(gBankTarget, TYPE_DRAGON))
+                    gNewBS->chiStrikeCritBoosts[gBankTarget] = 2;
+                else
+                    gNewBS->chiStrikeCritBoosts[gBankTarget] = 1;
+                    
+                gBattleCommunication[0] = gNewBS->chiStrikeCritBoosts[gBankTarget];
+                gBattlescriptCurrInstr += 5;
+            }
+            else
+            {
+                gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
+            }
+        }
+        else
+        {
         gProtectStructs[gBankTarget].helpingHand = 1;
         gBattlescriptCurrInstr += 5;
+    	}
     }
     else
     {

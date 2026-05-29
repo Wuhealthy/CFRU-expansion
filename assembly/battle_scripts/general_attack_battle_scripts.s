@@ -4040,33 +4040,26 @@ Coaching_Def:
 	goto BS_MOVE_END
 
 BS_DragonCheer:
-	jumpifspecialstatusflag BANK_TARGET STATUS3_SEMI_INVULNERABLE 0x0 FAILED
-	jumpiffainted BANK_TARGET FAILED
-	jumpifprotectedbycraftyshield BANK_TARGET FAILED
 	attackstring
 	ppreduce
-	jumpifstat BANK_TARGET LESSTHAN STAT_ATK STAT_MAX DragonCheer_ACC
-	jumpifstat BANK_TARGET EQUALS STAT_SPATK STAT_MAX BattleScript_CantRaiseMultipleTargetStats
-
-DragonCheer_ACC:
+	sethelpinghand FAILED
+	
 	attackanimation
 	waitanimation
-	setbyte STAT_ANIM_PLAYED 0x0
-	jumpiftype BANK_TARGET TYPE_DRAGON DragonCheer_ACC2
-	playstatchangeanimation BANK_TARGET, STAT_ANIM_ACC, STAT_ANIM_UP | STAT_ANIM_IGNORE_ABILITIES
-	setstatchanger STAT_ACC | INCREASE_1
-	statbuffchange STAT_TARGET | STAT_BS_PTR | STAT_CERTAIN BS_MOVE_END
-	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BS_MOVE_END
-	printfromtable gStatUpStringIds
+	
+	jumpifbyte EQUALS gBattleCommunication 0x1 DragonCheer_Level1
+	jumpifbyte EQUALS gBattleCommunication 0x2 DragonCheer_Level2
+	goto BS_MOVE_END
+
+DragonCheer_Level1:
+	setword BATTLE_STRING_LOADER DragonCheerNormalString
+	printstring 0x184
 	waitmessage DELAY_1SECOND
 	goto BS_MOVE_END
 
-DragonCheer_ACC2:
-	playstatchangeanimation BANK_TARGET, STAT_ANIM_ACC, STAT_ANIM_UP | STAT_ANIM_IGNORE_ABILITIES
-	setstatchanger STAT_ACC | INCREASE_2
-	statbuffchange STAT_TARGET | STAT_BS_PTR | STAT_CERTAIN BS_MOVE_END
-	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BS_MOVE_END
-	printfromtable gStatUpStringIds
+DragonCheer_Level2:
+	setword BATTLE_STRING_LOADER DragonCheerDragonString
+	printstring 0x184
 	waitmessage DELAY_1SECOND
 	goto BS_MOVE_END
 
@@ -6445,3 +6438,5 @@ MatchaGotchaString: .byte 0xFD, 0x0F, 0x00, s_, u_, c_, k_, e_, d_, 0x00, h_, e_
 ButFailedString: .byte B_, u_, t_, 0x0, i_, t_, 0x00, f_, a_, i_, l_, e_, d_, 0xAB, 0xFF
 SubstituteString: .byte 0xFD, 0x0F, 0x00, i_, s_, 0x00, h_, i_, d_, d_, e_, n_, 0x00, i_, n_, 0x00, a_, 0x00, s_, u_, b_, s_, t_, i_, t_, u_, t_, e_, 0xAD, 0xFF
 SubstituteFailString: .byte B_, u_, t_, 0x00, f_, a_, i_, l_, e_, d_, 0xAD, 0xFF
+DragonCheerNormalString: .byte 0xFD, 0x10, 0x03, 0x0B, 0x0C, 0x04, 0x0A, 0xB3, 0x0C, 0xE2, 0x04, 0x49, 0x08, 0x9E, 0x3C, 0xFE, 0x01, 0xA1, 0x03, 0x0A, 0x0B, 0x5D, 0x0F, 0x27, 0x05, 0x84, 0x10, 0xA1, 0x0E, 0xF1, 0x04, 0xCC, 0x3C, 0xFF
+DragonCheerDragonString: .byte 0xFD, 0x10, 0x02, 0xD3, 0x02, 0xD3, 0x0C, 0xE2, 0x04, 0x49, 0x08, 0x9E, 0x0C, 0x04, 0x0A, 0xB3, 0x3C, 0xFE, 0x01, 0xA1, 0x03, 0x0A, 0x03, 0xCA, 0x02, 0x25, 0x0B, 0x5D, 0x0F, 0x27, 0x05, 0x84, 0x10, 0xA1, 0x0E, 0xF1, 0x04, 0xCC, 0x3C, 0xFF
