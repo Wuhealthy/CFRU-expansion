@@ -1482,7 +1482,7 @@ PoisonChecks:
 
 ToxicThreadDo:
 	accuracycheck BS_MOVE_MISSED_PAUSE 0x0
-	setstatchanger STAT_SPD | DECREASE_1
+	setstatchanger STAT_SPD | DECREASE_2
 	statbuffchange STAT_TARGET | STAT_BS_PTR ToxicThreadPSN
 	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 ToxicThreadPSN
 

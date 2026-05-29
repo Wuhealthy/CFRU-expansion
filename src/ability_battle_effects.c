@@ -1585,7 +1585,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					if (IS_DOUBLE_BATTLE
 					&& BATTLER_ALIVE(PARTNER(bank))
 					&& gBattleMons[PARTNER(bank)].status1
-					&& Random() % 100 < 30)
+					&& Random() % 100 < 50)
 					{
 						gEffectBank = PARTNER(bank);
 						ClearBankStatus(gEffectBank);
