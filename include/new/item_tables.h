@@ -1476,57 +1476,57 @@ void FieldUseFunc_PortablePC(u8 taskId);
 
 //Descriptions
 #define gText_ItemNone ((const u8 *)0x083DB020)
-#define DESC_MASTER_BALL ((const u8 *)0x083D4ECC)
-#define DESC_ULTRA_BALL ((const u8 *)0x083D4F26)
-#define DESC_GREAT_BALL ((const u8 *)0x083D4F78)
-#define DESC_POKE_BALL ((const u8 *)0x083D4FD0)
-#define DESC_SAFARI_BALL ((const u8 *)0x083D501A)
-#define DESC_NET_BALL ((const u8 *)0x083D5077)
-#define DESC_DIVE_BALL ((const u8 *)0x083D50CC)
-#define DESC_NEST_BALL ((const u8 *)0x083D511D)
-#define DESC_REPEAT_BALL ((const u8 *)0x083D5165)
-#define DESC_TIMER_BALL ((const u8 *)0x083D51B4)
-#define DESC_LUXURY_BALL ((const u8 *)0x083D5216)
-#define DESC_PREMIER_BALL ((const u8 *)0x083D5263)
-#define DESC_POTION ((const u8 *)0x083D52B2)
-#define DESC_ANTIDOTE ((const u8 *)0x083D52FF)
-#define DESC_BURN_HEAL ((const u8 *)0x083D533D)
-#define DESC_ICE_HEAL ((const u8 *)0x083D5374)
-#define DESC_AWAKENING ((const u8 *)0x083D53A9)
-#define DESC_PARALYZE_HEAL ((const u8 *)0x083D53DF)
-#define DESC_FULL_RESTORE ((const u8 *)0x083D541B)
-#define DESC_MAX_POTION ((const u8 *)0x083D546F)
-#define DESC_HYPER_POTION ((const u8 *)0x083D54B5)
-#define DESC_SUPER_POTION ((const u8 *)0x083D5503)
-#define DESC_FULL_HEAL ((const u8 *)0x083D5550)
-#define DESC_REVIVE ((const u8 *)0x083D5598)
-#define DESC_MAX_REVIVE ((const u8 *)0x083D55EC)
-#define DESC_FRESH_WATER ((const u8 *)0x083D562B)
-#define DESC_SODA_POP ((const u8 *)0x083D567E)
-#define DESC_LEMONADE ((const u8 *)0x083D56C2)
-#define DESC_MOOMOO_MILK ((const u8 *)0x083D5706)
-#define DESC_ENERGY_POWDER ((const u8 *)0x083D574F)
-#define DESC_ENERGY_ROOT ((const u8 *)0x083D579E)
-#define DESC_HEAL_POWDER ((const u8 *)0x083D57E3)
-#define DESC_REVIVAL_HERB ((const u8 *)0x083D5833)
-#define DESC_ETHER ((const u8 *)0x083D5883)
-#define DESC_MAX_ETHER ((const u8 *)0x083D58BF)
-#define DESC_ELIXIR ((const u8 *)0x083D58F4)
-#define DESC_MAX_ELIXIR ((const u8 *)0x083D5934)
-#define DESC_LAVA_COOKIE ((const u8 *)0x083D5968)
-#define DESC_BLUE_FLUTE ((const u8 *)0x083D59BB)
-#define DESC_YELLOW_FLUTE ((const u8 *)0x083D59EF)
-#define DESC_RED_FLUTE ((const u8 *)0x083D5A2D)
-#define DESC_BLACK_FLUTE ((const u8 *)0x083D5A6A)
-#define DESC_WHITE_FLUTE ((const u8 *)0x083D5AB8)
-#define DESC_BERRY_JUICE ((const u8 *)0x083D5B06)
-#define DESC_SACRED_ASH ((const u8 *)0x083D5B49)
-#define DESC_SHOAL_SALT ((const u8 *)0x083D5B7A)
-#define DESC_SHOAL_SHELL ((const u8 *)0x083D5BC5)
-#define DESC_RED_SHARD ((const u8 *)0x083D5C1A)
-#define DESC_BLUE_SHARD ((const u8 *)0x083D5C66)
-#define DESC_YELLOW_SHARD ((const u8 *)0x083D5CB3)
-#define DESC_GREEN_SHARD ((const u8 *)0x083D5D02)
+extern const u8 DESC_MASTER_BALL[];
+extern const u8 DESC_ULTRA_BALL[];
+extern const u8 DESC_GREAT_BALL[];
+extern const u8 DESC_POKE_BALL[];
+extern const u8 DESC_SAFARI_BALL[];
+extern const u8 DESC_NET_BALL[];
+extern const u8 DESC_DIVE_BALL[];
+extern const u8 DESC_NEST_BALL[];
+extern const u8 DESC_REPEAT_BALL[];
+extern const u8 DESC_TIMER_BALL[];
+extern const u8 DESC_LUXURY_BALL[];
+extern const u8 DESC_PREMIER_BALL[];
+extern const u8 DESC_POTION[];
+extern const u8 DESC_ANTIDOTE[];
+extern const u8 DESC_BURN_HEAL[];
+extern const u8 DESC_ICE_HEAL[];
+extern const u8 DESC_AWAKENING[];
+extern const u8 DESC_PARALYZE_HEAL[];
+extern const u8 DESC_FULL_RESTORE[];
+extern const u8 DESC_MAX_POTION[];
+extern const u8 DESC_HYPER_POTION[];
+extern const u8 DESC_SUPER_POTION[];
+extern const u8 DESC_FULL_HEAL[];
+extern const u8 DESC_REVIVE[];
+extern const u8 DESC_MAX_REVIVE[];
+extern const u8 DESC_FRESH_WATER[];
+extern const u8 DESC_SODA_POP[];
+extern const u8 DESC_LEMONADE[];
+extern const u8 DESC_MOOMOO_MILK[];
+extern const u8 DESC_ENERGY_POWDER[];
+extern const u8 DESC_ENERGY_ROOT[];
+extern const u8 DESC_HEAL_POWDER[];
+extern const u8 DESC_REVIVAL_HERB[];
+extern const u8 DESC_ETHER[];
+extern const u8 DESC_MAX_ETHER[];
+extern const u8 DESC_ELIXIR[];
+extern const u8 DESC_MAX_ELIXIR[];
+extern const u8 DESC_LAVA_COOKIE[];
+extern const u8 DESC_BLUE_FLUTE[];
+extern const u8 DESC_YELLOW_FLUTE[];
+extern const u8 DESC_RED_FLUTE[];
+extern const u8 DESC_BLACK_FLUTE[];
+extern const u8 DESC_WHITE_FLUTE[];
+extern const u8 DESC_BERRY_JUICE[];
+extern const u8 DESC_SACRED_ASH[];
+extern const u8 DESC_SHOAL_SALT[];
+extern const u8 DESC_SHOAL_SHELL[];
+extern const u8 DESC_RED_SHARD[];
+extern const u8 DESC_BLUE_SHARD[];
+extern const u8 DESC_YELLOW_SHARD[];
+extern const u8 DESC_GREEN_SHARD[];
 extern const u8 DESC_RAGE_CANDY_BAR[];
 extern const u8 DESC_OLD_GATEAU[];
 extern const u8 DESC_CASTELIACONE[];
@@ -1538,55 +1538,55 @@ extern const u8 DESC_RESIST_WING[];
 extern const u8 DESC_GENIUS_WING[];
 extern const u8 DESC_CLEVER_WING[];
 extern const u8 DESC_SWIFT_WING[];
-#define DESC_HP_UP ((const u8 *)0x083D5D50)
-#define DESC_PROTEIN ((const u8 *)0x083D5D96)
-#define DESC_IRON ((const u8 *)0x083D5DE5)
-#define DESC_CARBOS ((const u8 *)0x083D5E35)
-#define DESC_CALCIUM ((const u8 *)0x083D5E83)
-#define DESC_RARE_CANDY ((const u8 *)0x083D5ED3)
-#define DESC_PP_UP ((const u8 *)0x083D5F20)
-#define DESC_ZINC ((const u8 *)0x083D5F63)
-#define DESC_PP_MAX ((const u8 *)0x083D5FB3)
+extern const u8 DESC_HP_UP[];
+extern const u8 DESC_PROTEIN[];
+extern const u8 DESC_IRON[];
+extern const u8 DESC_CARBOS[];
+extern const u8 DESC_CALCIUM[];
+extern const u8 DESC_RARE_CANDY[];
+extern const u8 DESC_PP_UP[];
+extern const u8 DESC_ZINC[];
+extern const u8 DESC_PP_MAX[];
 extern const u8 DESC_DYNAMAX_CANDY[];
-#define DESC_GUARD_SPEC ((const u8 *)0x083D5FFA)
-#define DESC_DIRE_HIT ((const u8 *)0x083D604D)
-#define DESC_X_ATTACK ((const u8 *)0x083D60A8)
-#define DESC_X_DEFEND ((const u8 *)0x083D60FC)
-#define DESC_X_SPEED ((const u8 *)0x083D6151)
-#define DESC_X_ACCURACY ((const u8 *)0x083D61A4)
-#define DESC_X_SPECIAL ((const u8 *)0x083D61FA)
-#define DESC_POKE_DOLL ((const u8 *)0x083D624F)
-#define DESC_FLUFFY_TAIL ((const u8 *)0x083D6297)
+extern const u8 DESC_GUARD_SPEC[];
+extern const u8 DESC_DIRE_HIT[];
+extern const u8 DESC_X_ATTACK[];
+extern const u8 DESC_X_DEFEND[];
+extern const u8 DESC_X_SPEED[];
+extern const u8 DESC_X_ACCURACY[];
+extern const u8 DESC_X_SPECIAL[];
+extern const u8 DESC_POKE_DOLL[];
+extern const u8 DESC_FLUFFY_TAIL[];
 extern const u8 DESC_BIG_MALASADA[];
-#define DESC_SUPER_REPEL ((const u8 *)0x083D62DF)
-#define DESC_MAX_REPEL ((const u8 *)0x083D6318)
-#define DESC_ESCAPE_ROPE ((const u8 *)0x083D6351)
-#define DESC_REPEL ((const u8 *)0x083D639C)
+extern const u8 DESC_SUPER_REPEL[];
+extern const u8 DESC_MAX_REPEL[];
+extern const u8 DESC_ESCAPE_ROPE[];
+extern const u8 DESC_REPEL[];
 extern const u8 DESC_LINK_CABLE[];
 extern const u8 DESC_PROTECTOR[];
 extern const u8 DESC_ELECTIRIZER[];
 extern const u8 DESC_MAGMARIZER[];
 extern const u8 DESC_DUBIOUS_DISC[];
 extern const u8 DESC_REAPER_CLOTH[];
-#define DESC_SUN_STONE ((const u8 *)0x083D63D5)
-#define DESC_MOON_STONE ((const u8 *)0x083D642D)
-#define DESC_FIRE_STONE ((const u8 *)0x083D648D)
-#define DESC_THUNDER_STONE ((const u8 *)0x083D64E2)
-#define DESC_WATER_STONE ((const u8 *)0x083D653F)
-#define DESC_LEAF_STONE ((const u8 *)0x083D6598)
+extern const u8 DESC_SUN_STONE[];
+extern const u8 DESC_MOON_STONE[];
+extern const u8 DESC_FIRE_STONE[];
+extern const u8 DESC_THUNDER_STONE[];
+extern const u8 DESC_WATER_STONE[];
+extern const u8 DESC_LEAF_STONE[];
 extern const u8 DESC_SHINY_STONE[];
 extern const u8 DESC_DUSK_STONE[];
 extern const u8 DESC_DAWN_STONE[];
 extern const u8 DESC_ICE_STONE[];
-#define DESC_TINY_MUSHROOM ((const u8 *)0x083D65EE)
-#define DESC_BIG_MUSHROOM ((const u8 *)0x083D6633)
+extern const u8 DESC_TINY_MUSHROOM[];
+extern const u8 DESC_BIG_MUSHROOM[];
 extern const u8 DESC_BALM_MUSHROOM[];
-#define DESC_PEARL ((const u8 *)0x083D6677)
-#define DESC_BIG_PEARL ((const u8 *)0x083D66D0)
-#define DESC_STARDUST ((const u8 *)0x083D672C)
-#define DESC_STAR_PIECE ((const u8 *)0x083D6778)
-#define DESC_NUGGET ((const u8 *)0x083D67CE)
-#define DESC_HEART_SCALE ((const u8 *)0x083D6825)
+extern const u8 DESC_PEARL[];
+extern const u8 DESC_BIG_PEARL[];
+extern const u8 DESC_STARDUST[];
+extern const u8 DESC_STAR_PIECE[];
+extern const u8 DESC_NUGGET[];
+extern const u8 DESC_HEART_SCALE[];
 extern const u8 DESC_RARE_BONE[];
 extern const u8 DESC_PEARL_STRING[];
 extern const u8 DESC_COMET_SHARD[];
@@ -1596,97 +1596,97 @@ extern const u8 DESC_PRETTY_WING[];
 extern const u8 DESC_OVAL_STONE[];
 extern const u8 DESC_RAZOR_CLAW[];
 extern const u8 DESC_RAZOR_FANG[];
-#define DESC_ORANGE_MAIL ((const u8 *)0x083D6887)
-#define DESC_HARBOR_MAIL ((const u8 *)0x083D68D8)
-#define DESC_GLITTER_MAIL ((const u8 *)0x083D6927)
-#define DESC_MECH_MAIL ((const u8 *)0x083D6976)
-#define DESC_WOOD_MAIL ((const u8 *)0x083D69C7)
-#define DESC_WAVE_MAIL ((const u8 *)0x083D6A16)
-#define DESC_BEAD_MAIL ((const u8 *)0x083D6A65)
-#define DESC_SHADOW_MAIL ((const u8 *)0x083D6AC0)
-#define DESC_TROPIC_MAIL ((const u8 *)0x083D6B0F)
-#define DESC_DREAM_MAIL ((const u8 *)0x083D6B60)
-#define DESC_FAB_MAIL ((const u8 *)0x083D6BBB)
-#define DESC_RETRO_MAIL ((const u8 *)0x083D6C13)
-#define DESC_CHERI_BERRY ((const u8 *)0x083D6C6B)
-#define DESC_CHESTO_BERRY ((const u8 *)0x083D6CB0)
-#define DESC_PECHA_BERRY ((const u8 *)0x083D6CEE)
-#define DESC_RAWST_BERRY ((const u8 *)0x083D6D30)
-#define DESC_ASPEAR_BERRY ((const u8 *)0x083D6D72)
-#define DESC_LEPPA_BERRY ((const u8 *)0x083D6DB4)
-#define DESC_ORAN_BERRY ((const u8 *)0x083D6DF8)
-#define DESC_PERSIM_BERRY ((const u8 *)0x083D6E3C)
-#define DESC_LUM_BERRY ((const u8 *)0x083D6E81)
-#define DESC_SITRUS_BERRY ((const u8 *)0x083D6EC8)
-#define DESC_FIGY_BERRY ((const u8 *)0x083D6F0C)
-#define DESC_WIKI_BERRY ((const u8 *)0x083D6F4C)
-#define DESC_MAGO_BERRY ((const u8 *)0x083D6F8C)
-#define DESC_AGUAV_BERRY ((const u8 *)0x083D6FCC)
-#define DESC_IAPAPA_BERRY ((const u8 *)0x083D700C)
-#define DESC_INGREDIENT_BERRY ((const u8 *)0x083D704C)
+extern const u8 DESC_ORANGE_MAIL[];
+extern const u8 DESC_HARBOR_MAIL[];
+extern const u8 DESC_GLITTER_MAIL[];
+extern const u8 DESC_MECH_MAIL[];
+extern const u8 DESC_WOOD_MAIL[];
+extern const u8 DESC_WAVE_MAIL[];
+extern const u8 DESC_BEAD_MAIL[];
+extern const u8 DESC_SHADOW_MAIL[];
+extern const u8 DESC_TROPIC_MAIL[];
+extern const u8 DESC_DREAM_MAIL[];
+extern const u8 DESC_FAB_MAIL[];
+extern const u8 DESC_RETRO_MAIL[];
+extern const u8 DESC_CHERI_BERRY[];
+extern const u8 DESC_CHESTO_BERRY[];
+extern const u8 DESC_PECHA_BERRY[];
+extern const u8 DESC_RAWST_BERRY[];
+extern const u8 DESC_ASPEAR_BERRY[];
+extern const u8 DESC_LEPPA_BERRY[];
+extern const u8 DESC_ORAN_BERRY[];
+extern const u8 DESC_PERSIM_BERRY[];
+extern const u8 DESC_LUM_BERRY[];
+extern const u8 DESC_SITRUS_BERRY[];
+extern const u8 DESC_FIGY_BERRY[];
+extern const u8 DESC_WIKI_BERRY[];
+extern const u8 DESC_MAGO_BERRY[];
+extern const u8 DESC_AGUAV_BERRY[];
+extern const u8 DESC_IAPAPA_BERRY[];
+extern const u8 DESC_INGREDIENT_BERRY[];
 extern const u8 DESC_POMEG_BERRY[];
 extern const u8 DESC_KELPSY_BERRY[];
 extern const u8 DESC_QUALOT_BERRY[];
 extern const u8 DESC_HONDEW_BERRY[];
 extern const u8 DESC_GREPA_BERRY[];
 extern const u8 DESC_TAMATO_BERRY[];
-#define DESC_LIECHI_BERRY ((const u8 *)0x083D7524)
-#define DESC_GANLON_BERRY ((const u8 *)0x083D7562)
-#define DESC_SALAC_BERRY ((const u8 *)0x083D75A1)
-#define DESC_PETAYA_BERRY ((const u8 *)0x083D75DE)
-#define DESC_APICOT_BERRY ((const u8 *)0x083D761D)
-#define DESC_LANSAT_BERRY ((const u8 *)0x083D765C)
-#define DESC_STARF_BERRY ((const u8 *)0x083D76A1)
+extern const u8 DESC_LIECHI_BERRY[];
+extern const u8 DESC_GANLON_BERRY[];
+extern const u8 DESC_SALAC_BERRY[];
+extern const u8 DESC_PETAYA_BERRY[];
+extern const u8 DESC_APICOT_BERRY[];
+extern const u8 DESC_LANSAT_BERRY[];
+extern const u8 DESC_STARF_BERRY[];
 extern const u8 DESC_PRISM_SCALE[];
 extern const u8 DESC_SACHET[];
 extern const u8 DESC_WHIPPED_DREAM[];
-#define DESC_BRIGHT_POWDER ((const u8 *)0x083D771E)
-#define DESC_WHITE_HERB ((const u8 *)0x083D777C)
-#define DESC_MACHO_BRACE ((const u8 *)0x083D77DF)
-#define DESC_EXP_SHARE ((const u8 *)0x083D783D)
-#define DESC_QUICK_CLAW ((const u8 *)0x083D789F)
-#define DESC_SOOTHE_BELL ((const u8 *)0x083D7900)
-#define DESC_MENTAL_HERB ((const u8 *)0x083D7969)
+extern const u8 DESC_BRIGHT_POWDER[];
+extern const u8 DESC_WHITE_HERB[];
+extern const u8 DESC_MACHO_BRACE[];
+extern const u8 DESC_EXP_SHARE[];
+extern const u8 DESC_QUICK_CLAW[];
+extern const u8 DESC_SOOTHE_BELL[];
+extern const u8 DESC_MENTAL_HERB[];
 extern const u8 DESC_CHOICE_BAND[];
-#define DESC_KINGS_ROCK ((const u8 *)0x083D7A22)
-#define DESC_SILVER_POWDER ((const u8 *)0x083D7A76)
-#define DESC_AMULET_COIN ((const u8 *)0x083D7AD6)
-#define DESC_CLEANSE_TAG ((const u8 *)0x083D7B36)
-#define DESC_SOUL_DEW ((const u8 *)0x083D7B93)
-#define DESC_DEEP_SEA_TOOTH ((const u8 *)0x083D7BE5)
-#define DESC_DEEP_SEA_SCALE ((const u8 *)0x083D7C45)
-#define DESC_SMOKE_BALL ((const u8 *)0x083D7CA4)
-#define DESC_EVERSTONE ((const u8 *)0x083D7D02)
-#define DESC_FOCUS_BAND ((const u8 *)0x083D7D53)
-#define DESC_LUCKY_EGG ((const u8 *)0x083D7DB1)
-#define DESC_SCOPE_LENS ((const u8 *)0x083D7E17)
-#define DESC_METAL_COAT ((const u8 *)0x083D7E7A)
-#define DESC_LEFTOVERS ((const u8 *)0x083D7EDE)
-#define DESC_DRAGON_SCALE ((const u8 *)0x083D7F37)
-#define DESC_LIGHT_BALL ((const u8 *)0x083D7F79)
-#define DESC_SOFT_SAND ((const u8 *)0x083D7FD5)
-#define DESC_HARD_STONE ((const u8 *)0x083D8036)
-#define DESC_MIRACLE_SEED ((const u8 *)0x083D8096)
-#define DESC_BLACK_GLASSES ((const u8 *)0x083D80FA)
-#define DESC_BLACK_BELT ((const u8 *)0x083D8158)
-#define DESC_MAGNET ((const u8 *)0x083D81B3)
-#define DESC_MYSTIC_WATER ((const u8 *)0x083D8214)
-#define DESC_SHARP_BEAK ((const u8 *)0x083D8276)
-#define DESC_POISON_BARB ((const u8 *)0x083D82D6)
-#define DESC_NEVER_MELT_ICE ((const u8 *)0x083D833B)
-#define DESC_SPELL_TAG ((const u8 *)0x083D8397)
-#define DESC_TWISTED_SPOON ((const u8 *)0x083D83EC)
-#define DESC_CHARCOAL ((const u8 *)0x083D844E)
-#define DESC_DRAGON_FANG ((const u8 *)0x083D84AC)
-#define DESC_SILK_SCARF ((const u8 *)0x083D850F)
-#define DESC_UP_GRADE ((const u8 *)0x083D856E)
-#define DESC_SHELL_BELL ((const u8 *)0x083D85BA)
-#define DESC_SEA_INCENSE ((const u8 *)0x083D8616)
-#define DESC_LAX_INCENSE ((const u8 *)0x083D8669)
-#define DESC_LUCKY_PUNCH ((const u8 *)0x083D86C0)
-#define DESC_METAL_POWDER ((const u8 *)0x083D8709)
-#define DESC_THICK_CLUB ((const u8 *)0x083D8754)
-#define DESC_LEEK ((const u8 *)0x083D87AB)
+extern const u8 DESC_KINGS_ROCK[];
+extern const u8 DESC_SILVER_POWDER[];
+extern const u8 DESC_AMULET_COIN[];
+extern const u8 DESC_CLEANSE_TAG[];
+extern const u8 DESC_SOUL_DEW[];
+extern const u8 DESC_DEEP_SEA_TOOTH[];
+extern const u8 DESC_DEEP_SEA_SCALE[];
+extern const u8 DESC_SMOKE_BALL[];
+extern const u8 DESC_EVERSTONE[];
+extern const u8 DESC_FOCUS_BAND[];
+extern const u8 DESC_LUCKY_EGG[];
+extern const u8 DESC_SCOPE_LENS[];
+extern const u8 DESC_METAL_COAT[];
+extern const u8 DESC_LEFTOVERS[];
+extern const u8 DESC_DRAGON_SCALE[];
+extern const u8 DESC_LIGHT_BALL[];
+extern const u8 DESC_SOFT_SAND[];
+extern const u8 DESC_HARD_STONE[];
+extern const u8 DESC_MIRACLE_SEED[];
+extern const u8 DESC_BLACK_GLASSES[];
+extern const u8 DESC_BLACK_BELT[];
+extern const u8 DESC_MAGNET[];
+extern const u8 DESC_MYSTIC_WATER[];
+extern const u8 DESC_SHARP_BEAK[];
+extern const u8 DESC_POISON_BARB[];
+extern const u8 DESC_NEVER_MELT_ICE[];
+extern const u8 DESC_SPELL_TAG[];
+extern const u8 DESC_TWISTED_SPOON[];
+extern const u8 DESC_CHARCOAL[];
+extern const u8 DESC_DRAGON_FANG[];
+extern const u8 DESC_SILK_SCARF[];
+extern const u8 DESC_UP_GRADE[];
+extern const u8 DESC_SHELL_BELL[];
+extern const u8 DESC_SEA_INCENSE[];
+extern const u8 DESC_LAX_INCENSE[];
+extern const u8 DESC_LUCKY_PUNCH[];
+extern const u8 DESC_METAL_POWDER[];
+extern const u8 DESC_THICK_CLUB[];
+extern const u8 DESC_LEEK[];
 extern const u8 DESC_STRAWBERRY_SWEET[];
 extern const u8 DESC_BERRY_SWEET[];
 extern const u8 DESC_LOVE_SWEET[];
@@ -1715,91 +1715,91 @@ extern const u8 DESC_SPORT_BALL[];
 extern const u8 DESC_BEAST_BALL[];
 extern const u8 DESC_DREAM_BALL[];
 extern const u8 DESC_PARK_BALL[];
-#define DESC_RED_SCARF ((const u8 *)0x083D8802)
-#define DESC_BLUE_SCARF ((const u8 *)0x083D885F)
-#define DESC_PINK_SCARF ((const u8 *)0x083D88BE)
-#define DESC_GREEN_SCARF ((const u8 *)0x083D891B)
-#define DESC_YELLOW_SCARF ((const u8 *)0x083D8979)
-#define DESC_MACH_BIKE ((const u8 *)0x083D89D7)
-#define DESC_COIN_CASE ((const u8 *)0x083D8A14)
-#define DESC_ITEMFINDER ((const u8 *)0x083D8A66)
-#define DESC_OLD_ROD ((const u8 *)0x083D8ACC)
-#define DESC_GOOD_ROD ((const u8 *)0x083D8B23)
-#define DESC_SUPER_ROD ((const u8 *)0x083D8B7B)
-#define DESC_SS_TICKET ((const u8 *)0x083D8BD4)
-#define DESC_CONTEST_PASS ((const u8 *)0x083D8C2E)
+extern const u8 DESC_RED_SCARF[];
+extern const u8 DESC_BLUE_SCARF[];
+extern const u8 DESC_PINK_SCARF[];
+extern const u8 DESC_GREEN_SCARF[];
+extern const u8 DESC_YELLOW_SCARF[];
+extern const u8 DESC_MACH_BIKE[];
+extern const u8 DESC_COIN_CASE[];
+extern const u8 DESC_ITEMFINDER[];
+extern const u8 DESC_OLD_ROD[];
+extern const u8 DESC_GOOD_ROD[];
+extern const u8 DESC_SUPER_ROD[];
+extern const u8 DESC_SS_TICKET[];
+extern const u8 DESC_CONTEST_PASS[];
 extern const u8 DESC_Z_POWER_RING[];
-#define DESC_WAILMER_PAIL ((const u8 *)0x083D8C8A)
-#define DESC_DEVON_GOODS ((const u8 *)0x083D8CE2)
-#define DESC_SOOT_SACK ((const u8 *)0x083D8D37)
-#define DESC_BASEMENT_KEY ((const u8 *)0x083D8D85)
-#define DESC_ACRO_BIKE ((const u8 *)0x083D8DCB)
-#define DESC_POKEBLOCK_CASE ((const u8 *)0x083D8E10)
-#define DESC_LETTER ((const u8 *)0x083D8E68)
-#define DESC_EON_TICKET ((const u8 *)0x083D8EBD)
-#define DESC_RED_ORB ((const u8 *)0x083D8F2A)
-#define DESC_BLUE_ORB ((const u8 *)0x083D8F7F)
-#define DESC_SCANNER ((const u8 *)0x083D8FD5)
-#define DESC_GO_GOGGLES ((const u8 *)0x083D9025)
-#define DESC_METEORITE ((const u8 *)0x083D9083)
-#define DESC_ROOM_1_KEY ((const u8 *)0x083D90D7)
-#define DESC_ROOM_2_KEY ((const u8 *)0x083D9139)
-#define DESC_ROOM_4_KEY ((const u8 *)0x083D919B)
-#define DESC_ROOM_6_KEY ((const u8 *)0x083D91FD)
-#define DESC_STORAGE_KEY ((const u8 *)0x083D925F)
-#define DESC_ROOT_FOSSIL ((const u8 *)0x083D92BF)
-#define DESC_CLAW_FOSSIL ((const u8 *)0x083D931A)
-#define DESC_DEVON_SCOPE ((const u8 *)0x083D936F)
-#define DESC_TM01 ((const u8 *)0x08486EBE)
-#define DESC_TM02 ((const u8 *)0x0848821F)
-#define DESC_TM03 ((const u8 *)0x08488614)
-#define DESC_TM04 ((const u8 *)0x084884C5)
-#define DESC_TM05 ((const u8 *)0x084833DC)
-#define DESC_TM06 ((const u8 *)0x0848400F)
-#define DESC_TM07 ((const u8 *)0x08486D1C)
-#define DESC_TM08 ((const u8 *)0x084882B4)
-#define DESC_TM09 ((const u8 *)0x0848808A)
-#define DESC_TM10 ((const u8 *)0x08486774)
-#define DESC_TM11 ((const u8 *)0x0848687C)
-#define DESC_TM12 ((const u8 *)0x08487014)
-#define DESC_TM13 ((const u8 *)0x0848371F)
-#define DESC_TM14 ((const u8 *)0x08483760)
-#define DESC_TM15 ((const u8 *)0x0848386D)
-#define DESC_TM16 ((const u8 *)0x084845C5)
-#define DESC_TM17 ((const u8 *)0x08485857)
-#define DESC_TM18 ((const u8 *)0x0848683A)
-#define DESC_TM19 ((const u8 *)0x08485DC1)
-#define DESC_TM20 ((const u8 *)0x08486265)
-#define DESC_TM21 ((const u8 *)0x0848621B)
-#define DESC_TM22 ((const u8 *)0x08483BDA)
-#define DESC_TM23 ((const u8 *)0x084865BF)
-#define DESC_TM24 ((const u8 *)0x08483E3E)
-#define DESC_TM25 ((const u8 *)0x08483EC2)
-#define DESC_TM26 ((const u8 *)0x08483F44)
-#define DESC_TM27 ((const u8 *)0x08486187)
-#define DESC_TM28 ((const u8 *)0x08483FC7)
-#define DESC_TM29 ((const u8 *)0x08484098)
-#define DESC_TM30 ((const u8 *)0x08486A1B)
-#define DESC_TM31 ((const u8 *)0x084872F2)
-#define DESC_TM32 ((const u8 *)0x08484353)
-#define DESC_TM33 ((const u8 *)0x08484647)
-#define DESC_TM34 ((const u8 *)0x084885D3)
-#define DESC_TM35 ((const u8 *)0x084835C2)
-#define DESC_TM36 ((const u8 *)0x084859F2)
-#define DESC_TM37 ((const u8 *)0x08485D77)
-#define DESC_TM38 ((const u8 *)0x0848493B)
-#define DESC_TM39 ((const u8 *)0x08487CD2)
-#define DESC_TM40 ((const u8 *)0x084880D0)
-#define DESC_TM41 ((const u8 *)0x08486D64)
-#define DESC_TM42 ((const u8 *)0x08486E79)
-#define DESC_TM43 ((const u8 *)0x0848759A)
-#define DESC_TM44 ((const u8 *)0x0848515E)
-#define DESC_TM45 ((const u8 *)0x084860B7)
-#define DESC_TM46 ((const u8 *)0x0848548B)
-#define DESC_TM47 ((const u8 *)0x0848602B)
-#define DESC_TM48 ((const u8 *)0x0848743C)
-#define DESC_TM49 ((const u8 *)0x08487558)
-#define DESC_TM50 ((const u8 *)0x08487C46)
+extern const u8 DESC_WAILMER_PAIL[];
+extern const u8 DESC_DEVON_GOODS[];
+extern const u8 DESC_SOOT_SACK[];
+extern const u8 DESC_BASEMENT_KEY[];
+extern const u8 DESC_ACRO_BIKE[];
+extern const u8 DESC_POKEBLOCK_CASE[];
+extern const u8 DESC_LETTER[];
+extern const u8 DESC_EON_TICKET[];
+extern const u8 DESC_RED_ORB[];
+extern const u8 DESC_BLUE_ORB[];
+extern const u8 DESC_SCANNER[];
+extern const u8 DESC_GO_GOGGLES[];
+extern const u8 DESC_METEORITE[];
+extern const u8 DESC_ROOM_1_KEY[];
+extern const u8 DESC_ROOM_2_KEY[];
+extern const u8 DESC_ROOM_4_KEY[];
+extern const u8 DESC_ROOM_6_KEY[];
+extern const u8 DESC_STORAGE_KEY[];
+extern const u8 DESC_ROOT_FOSSIL[];
+extern const u8 DESC_CLAW_FOSSIL[];
+extern const u8 DESC_DEVON_SCOPE[];
+extern const u8 DESC_TM01[];
+extern const u8 DESC_TM02[];
+extern const u8 DESC_TM03[];
+extern const u8 DESC_TM04[];
+extern const u8 DESC_TM05[];
+extern const u8 DESC_TM06[];
+extern const u8 DESC_TM07[];
+extern const u8 DESC_TM08[];
+extern const u8 DESC_TM09[];
+extern const u8 DESC_TM10[];
+extern const u8 DESC_TM11[];
+extern const u8 DESC_TM12[];
+extern const u8 DESC_TM13[];
+extern const u8 DESC_TM14[];
+extern const u8 DESC_TM15[];
+extern const u8 DESC_TM16[];
+extern const u8 DESC_TM17[];
+extern const u8 DESC_TM18[];
+extern const u8 DESC_TM19[];
+extern const u8 DESC_TM20[];
+extern const u8 DESC_TM21[];
+extern const u8 DESC_TM22[];
+extern const u8 DESC_TM23[];
+extern const u8 DESC_TM24[];
+extern const u8 DESC_TM25[];
+extern const u8 DESC_TM26[];
+extern const u8 DESC_TM27[];
+extern const u8 DESC_TM28[];
+extern const u8 DESC_TM29[];
+extern const u8 DESC_TM30[];
+extern const u8 DESC_TM31[];
+extern const u8 DESC_TM32[];
+extern const u8 DESC_TM33[];
+extern const u8 DESC_TM34[];
+extern const u8 DESC_TM35[];
+extern const u8 DESC_TM36[];
+extern const u8 DESC_TM37[];
+extern const u8 DESC_TM38[];
+extern const u8 DESC_TM39[];
+extern const u8 DESC_TM40[];
+extern const u8 DESC_TM41[];
+extern const u8 DESC_TM42[];
+extern const u8 DESC_TM43[];
+extern const u8 DESC_TM44[];
+extern const u8 DESC_TM45[];
+extern const u8 DESC_TM46[];
+extern const u8 DESC_TM47[];
+extern const u8 DESC_TM48[];
+extern const u8 DESC_TM49[];
+extern const u8 DESC_TM50[];
 extern const u8 DESC_HM01[];
 extern const u8 DESC_HM02[]; 
 extern const u8 DESC_HM03[]; 
@@ -1809,35 +1809,35 @@ extern const u8 DESC_HM06[];
 extern const u8 DESC_HM07[]; 
 extern const u8 DESC_HM08[];
 extern const u8 DESC_DYNAMAX_BAND[];
-#define DESC_CRAZY_AXE ((const u8 *)0x089C1280)
-#define DESC_CRAZY_MACE ((const u8 *)0x083DA7D1)
-#define DESC_GOLD_TEETH ((const u8 *)0x083DA907)
-#define DESC_OAKS_PARCEL ((const u8 *)0x083DA7D1)
-#define DESC_POKE_FLUTE ((const u8 *)0x083DA81A)
-#define DESC_SECRET_KEY ((const u8 *)0x083DA866)
-#define DESC_BIKE_VOUCHER ((const u8 *)0x083DA8B4)
+extern const u8 DESC_CRAZY_AXE[];
+extern const u8 DESC_CRAZY_MACE[];
+extern const u8 DESC_GOLD_TEETH[];
+extern const u8 DESC_OAKS_PARCEL[];
+extern const u8 DESC_POKE_FLUTE[];
+extern const u8 DESC_SECRET_KEY[];
+extern const u8 DESC_BIKE_VOUCHER[];
 extern const u8 DESC_MEGA_RING[];
-#define DESC_OLD_AMBER ((const u8 *)0x083DA95A)
-#define DESC_CARD_KEY ((const u8 *)0x083DA9BB)
-#define DESC_LIFT_KEY ((const u8 *)0x083DAA0A)
-#define DESC_HELIX_FOSSIL ((const u8 *)0x083DAA64)
-#define DESC_DOME_FOSSIL ((const u8 *)0x083DAABD)
-#define DESC_SILPH_SCOPE ((const u8 *)0x083DAB13)
-#define DESC_BICYCLE ((const u8 *)0x083DAB59)
-#define DESC_TOWN_MAP ((const u8 *)0x083DAB9F)
-#define DESC_VS_SEEKER ((const u8 *)0x083DABF7)
-#define DESC_FAME_CHECKER ((const u8 *)0x083DAC51)
-#define DESC_TM_CASE ((const u8 *)0x083DACA5)
-#define DESC_BERRY_POUCH ((const u8 *)0x083DAD01)
-#define DESC_TEACHY_TV ((const u8 *)0x083DAD5C)
-#define DESC_TRI_PASS ((const u8 *)0x083DADAE)
-#define DESC_RAINBOW_PASS ((const u8 *)0x083DAE08)
-#define DESC_TEA ((const u8 *)0x083DAE68)
-#define DESC_MYSTIC_TICKET ((const u8 *)0x083DAEB6)
-#define DESC_AURORA_TICKET ((const u8 *)0x083DAF07)
-#define DESC_POWDER_JAR ((const u8 *)0x083DAF52)
-#define DESC_RUBY ((const u8 *)0x083DAF8D)
-#define DESC_SAPPHIRE ((const u8 *)0x083DAFD6)
+extern const u8 DESC_OLD_AMBER[];
+extern const u8 DESC_CARD_KEY[];
+extern const u8 DESC_LIFT_KEY[];
+extern const u8 DESC_HELIX_FOSSIL[];
+extern const u8 DESC_DOME_FOSSIL[];
+extern const u8 DESC_SILPH_SCOPE[];
+extern const u8 DESC_BICYCLE[];
+extern const u8 DESC_TOWN_MAP[];
+extern const u8 DESC_VS_SEEKER[];
+extern const u8 DESC_FAME_CHECKER[];
+extern const u8 DESC_TM_CASE[];
+extern const u8 DESC_BERRY_POUCH[];
+extern const u8 DESC_TEACHY_TV[];
+extern const u8 DESC_TRI_PASS[];
+extern const u8 DESC_RAINBOW_PASS[];
+extern const u8 DESC_TEA[];
+extern const u8 DESC_MYSTIC_TICKET[];
+extern const u8 DESC_AURORA_TICKET[];
+extern const u8 DESC_POWDER_JAR[];
+extern const u8 DESC_RUBY[];
+extern const u8 DESC_SAPPHIRE[];
 extern const u8 DESC_TM51[]; 
 extern const u8 DESC_TM52[]; 
 extern const u8 DESC_TM53[]; 

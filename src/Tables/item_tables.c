@@ -1869,7 +1869,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _s, _t, _e, _r, _SPACE, _B, _a, _l, _l, _END},
+		.name = { 0x02, 0xD3, 0x0B, 0xE2, 0x0B, 0x14, 0xFF},
 		.itemId = ITEM_MASTER_BALL,
 		.price = 0,
 		.holdEffect = 0,
@@ -1885,7 +1885,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_U, _l, _t, _r, _a, _SPACE, _B, _a, _l, _l, _END},
+		.name = { 0x04, 0x49, 0x05, 0xA1, 0x0B, 0x14, 0xFF},
 		.itemId = ITEM_ULTRA_BALL,
 		.price = 800,
 		.holdEffect = 0,
@@ -1901,7 +1901,7 @@ const struct Item gItemData[] =
         .secondaryId = 1
 	},
 	{
-		.name = {_G, _r, _e, _a, _t, _SPACE, _B, _a, _l, _l, _END},
+		.name = { 0x02, 0x2E, 0x05, 0xA1, 0x0B, 0x14, 0xFF},
 		.itemId = ITEM_GREAT_BALL,
 		.price = 600,
 		.holdEffect = 0,
@@ -1917,7 +1917,7 @@ const struct Item gItemData[] =
         .secondaryId = 2
 	},
 	{
-		.name = {_P, _o, _k, _eACUTE, _SPACE, _B, _a, _l, _l, _END},
+		.name = { 0x07, 0x5B, 0x08, 0xBC, 0x0B, 0x14, 0xFF},
 		.itemId = ITEM_POKE_BALL,
 		.price = 200,
 		.holdEffect = 0,
@@ -1933,7 +1933,7 @@ const struct Item gItemData[] =
         .secondaryId = 3
 	},
 	{
-		.name = {_S, _a, _f, _a, _r, _i, _SPACE, _B, _a, _l, _l, _END},
+		.name = { 0x14, 0xF1, 0x08, 0xA7, 0x0B, 0x14, 0xFF},
 		.itemId = ITEM_SAFARI_BALL,
 		.price = 0,
 		.holdEffect = 0,
