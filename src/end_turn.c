@@ -231,9 +231,6 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 				if (gNewBS->EchoedVoiceCounter == 0)
 					gNewBS->EchoedVoiceDamageScale = 0;
 
-				if (gNewBS->activateTemperFlare)
-					--gNewBS->activateTemperFlare;
-
 				if (GetMonMoveTypeSpecial(monAtk, move) == TYPE_ELECTRIC)
 				{
 					gNewBS->ElectroCounter[bank] = 0;

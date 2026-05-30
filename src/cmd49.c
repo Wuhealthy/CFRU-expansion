@@ -1476,7 +1476,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 				if (i == gBattlersCount) //No targets were affected
 					gNewBS->StompingTantrumTimers[gBankAttacker] = 2;
 			}
-			else if (gMoveResultFlags & (MOVE_RESULT_DOESNT_AFFECT_FOE | MOVE_RESULT_FAILED))
+			else if (gMoveResultFlags & (MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE | MOVE_RESULT_FAILED))
 				gNewBS->StompingTantrumTimers[gBankAttacker] = 2;
 
 			for (int i = 0; i < MAX_BATTLERS_COUNT; ++i)

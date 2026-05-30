@@ -129,9 +129,6 @@ ACCURACY_CHECK_START:
 						if (atkItemEffect == ITEM_EFFECT_BLUNDER_POLICY)
 							gNewBS->activateBlunderPolicy = TRUE;
 
-						if (gCurrentMove == MOVE_TEMPERFLARE)
-							gNewBS->activateTemperFlare = TRUE;
-
 						if (gCurrentMove == MOVE_DRAGONDARTS
 						&& !recalculatedDragonDarts //So don't jump back and forth between targets
 						&& CanTargetPartner(bankDef)

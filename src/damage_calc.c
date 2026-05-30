@@ -3687,11 +3687,6 @@ static u16 GetBasePower(struct DamageCalc* data)
 				power = (power * 15) / 10; //Boosts 1.5x in Electric Terrain
 			break;
 
-		case MOVE_TEMPERFLARE:
-			if (gNewBS->activateTemperFlare) //Bank should be accurate for party too
-				power *= 2;
-			break;
-
 		case MOVE_RAGEFIST:
 			if (gNewBS->rageFistCounter[SIDE(bankAtk)])
 				power = 50 * (gNewBS->rageFistCounter[SIDE(bankAtk)]);
@@ -3710,6 +3705,7 @@ static u16 GetBasePower(struct DamageCalc* data)
 				power *= 2;
 			break;
 
+		case MOVE_TEMPERFLARE:
 		case MOVE_STOMPINGTANTRUM:
 			if (!useMonAtk && gNewBS->StompingTantrumTimers[bankAtk])
 				power *= 2;

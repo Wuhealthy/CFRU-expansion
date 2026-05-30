@@ -941,7 +941,6 @@ struct NewBattleStruct
 	bool8 isTrainerBattle : 1;
 	bool8 cottonDownActive : 1;
 	bool8 cramorantTransformed : 1;
-	bool8 activateTemperFlare : 1;
 
 	//Other
 	u16 LastUsedMove;
