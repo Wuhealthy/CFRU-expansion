@@ -723,7 +723,6 @@ void BattleBeginFirstTurn(void)
 				{
 					gBattleMons[i].status2 &= ~8;
 					gNewBS->pickupStack[i] = 0xFF;
-					gNewBS->statRoseThisRound[i] = FALSE;
 					gNewBS->statFellThisTurn[i] = FALSE;
 					gNewBS->statFellThisRound[i] = FALSE;
 					UpdateQuickClawRandomNumber(i);

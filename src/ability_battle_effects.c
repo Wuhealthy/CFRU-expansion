@@ -1191,6 +1191,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			{
 				gBankAttacker = bank;
 				STAT_STAGE(bank, statId)++;
+				gNewBS->statRoseThisRound[bank] = TRUE;
 				gBattleScripting.statChanger = statId | INCREASE_1;
 				PREPARE_STAT_BUFFER(gBattleTextBuff1, statId);
 				PREPARE_STAT_ROSE(gBattleTextBuff2);
@@ -1356,6 +1357,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				gBattleScripting.statChanger = STAT_STAGE_ATK | INCREASE_1;
 				PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_STAGE_ATK);
 				PREPARE_STAT_ROSE(gBattleTextBuff2);
+				gNewBS->statRoseThisRound[bank] = TRUE;
 				BattleScriptPushCursorAndCallback(BattleScript_AttackerAbilityStatRaiseEnd3);
 				effect++;
 			}
@@ -1369,6 +1371,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				gBattleScripting.statChanger = STAT_STAGE_DEF | INCREASE_1;
 				PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_STAGE_DEF);
 				PREPARE_STAT_ROSE(gBattleTextBuff2);
+				gNewBS->statRoseThisRound[bank] = TRUE;
 				BattleScriptPushCursorAndCallback(BattleScript_AttackerAbilityStatRaiseEnd3);
 				effect++;
 			}
