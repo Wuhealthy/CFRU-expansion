@@ -523,7 +523,7 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 				return gText_AbilityName_MindsEye;
 			break;
 		case ABILITY_DANCER:
-			if(SpeciesHasOportunist(species))
+			if(SpeciesHasOpportunist(species))
 				return gText_AbilityName_Opportunist;
 			break;
 		case ABILITY_DROUGHT:
@@ -700,7 +700,7 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 				return gText_AbilityDescription_MindsEye;
 			break;
 		case ABILITY_DANCER:
-			if(SpeciesHasOportunist(species))
+			if(SpeciesHasOpportunist(species))
 				return gText_AbilityDescription_Opportunist;
 			break;
 		case ABILITY_DROUGHT:
@@ -1489,7 +1489,7 @@ bool8 SpeciesHasMyceliumMight(unusedArg u16 species)
 	#endif
 }
 
-bool8 SpeciesHasOportunist(unusedArg u16 species)
+bool8 SpeciesHasOpportunist(unusedArg u16 species)
 {
 	#ifdef SPECIES_ESPATHRA
 	return species == SPECIES_ESPATHRA;
