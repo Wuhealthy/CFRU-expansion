@@ -639,6 +639,27 @@ void HoldItemFormChange(struct Pokemon* mon, u16 item)
 			break;
 		#endif
 
+		#if (defined SPECIES_OGERPON && defined SPECIES_OGERPON_WELLSPRING_MASK && defined SPECIES_OGERPON_HEARTHFLAME_MASK && defined SPECIES_OGERPON_CORNERSTONE_MASK)
+		case SPECIES_OGERPON:
+    		if (itemEffect == ITEM_EFFECT_MASKS)
+    		{
+        		if (type == TYPE_WATER)
+            		targetSpecies = SPECIES_OGERPON_WELLSPRING_MASK;
+        		else if (type == TYPE_FIRE)
+            		targetSpecies = SPECIES_OGERPON_HEARTHFLAME_MASK;
+        		else if (type == TYPE_ROCK)
+            		targetSpecies = SPECIES_OGERPON_CORNERSTONE_MASK;
+    		}
+    		break;
+
+		case SPECIES_OGERPON_WELLSPRING_MASK:
+		case SPECIES_OGERPON_HEARTHFLAME_MASK:
+		case SPECIES_OGERPON_CORNERSTONE_MASK:
+    		if (itemEffect != ITEM_EFFECT_MASKS)
+        		targetSpecies = SPECIES_OGERPON;
+    		break;
+		#endif
+
 		#ifdef PLA_HELD_ORIGIN_ORBS
 		#if (defined SPECIES_DIALGA && defined SPECIES_DIALGA_ORIGIN)
 		case SPECIES_DIALGA:
