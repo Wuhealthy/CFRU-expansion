@@ -4266,7 +4266,7 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
     		}
 			else if (gSpecialMoveFlags[move].gSlicingMoves && SpeciesHasSharpness(SPECIES(bankAtk)))
 				power = (power * 15) / 10;
-			else if (gSpecialMoveFlags[move].gBitingMoves)
+			else if (gSpecialMoveFlags[move].gBitingMoves && !SpeciesHasSpiderSense(SPECIES(bankAtk)))
 				power = (power * 15) / 10;
 			break;
 

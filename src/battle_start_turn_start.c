@@ -2130,6 +2130,22 @@ u8 GetWhoStrikesFirst(u8 bank1, u8 bank2, bool8 ignoreMovePriorities)
 		else if (bank1Priority < bank2Priority)
 			return SecondMon;
 
+		// ========== 蜘蛛感应：先制度相同时，双方都用攻击招式，持有者必定先出 ==========
+        if (SpeciesHasSpiderSense(SPECIES(bank1))
+            && SPLIT(move1) != SPLIT_STATUS
+            && SPLIT(move2) != SPLIT_STATUS)
+        {
+            return FirstMon;
+        }
+        
+        if (SpeciesHasSpiderSense(SPECIES(bank2))
+            && SPLIT(move1) != SPLIT_STATUS
+            && SPLIT(move2) != SPLIT_STATUS)
+        {
+            return SecondMon;
+        }
+        // ========== 蜘蛛感应结束 ==========
+
 		bank1Bracket = gNewBS->lastBracketCalc[bank1] = BracketCalc(bank1, gChosenActionByBank[bank1], move1);
 		bank2Bracket = gNewBS->lastBracketCalc[bank2] = BracketCalc(bank2, gChosenActionByBank[bank2], move2);
 	}
@@ -2173,6 +2189,10 @@ static u8 GetWhoStrikesFirstUseLastBracketCalc(u8 bank1, u8 bank2)
 	s8 bank1Bracket, bank2Bracket;
 	u32 bank1Spd, bank2Spd;
 
+	// 定义 move1 和 move2
+    u16 move1 = gBattleMons[bank1].moves[gBattleStruct->chosenMovePositions[bank1]];
+    u16 move2 = gBattleMons[bank2].moves[gBattleStruct->chosenMovePositions[bank2]];
+
 	//Priority Calc
 	bank1Priority = PriorityCalc(bank1, gChosenActionByBank[bank1], ReplaceWithZMoveRuntime(bank1, gBattleMons[bank1].moves[gBattleStruct->chosenMovePositions[bank1]]));
 	bank2Priority = PriorityCalc(bank2, gChosenActionByBank[bank2], ReplaceWithZMoveRuntime(bank2, gBattleMons[bank2].moves[gBattleStruct->chosenMovePositions[bank2]]));
@@ -2180,6 +2200,21 @@ static u8 GetWhoStrikesFirstUseLastBracketCalc(u8 bank1, u8 bank2)
 		return FirstMon;
 	else if (bank1Priority < bank2Priority)
 		return SecondMon;
+
+	// 蜘蛛感应
+    if (SpeciesHasSpiderSense(SPECIES(bank1))
+        && SPLIT(move1) != SPLIT_STATUS
+        && SPLIT(move2) != SPLIT_STATUS)
+    {
+        return FirstMon;
+    }
+    
+    if (SpeciesHasSpiderSense(SPECIES(bank2))
+        && SPLIT(move1) != SPLIT_STATUS
+        && SPLIT(move2) != SPLIT_STATUS)
+    {
+        return SecondMon;
+    }
 
 	//BracketCalc
 	bank1Bracket = gNewBS->lastBracketCalc[bank1];

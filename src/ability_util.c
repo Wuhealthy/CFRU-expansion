@@ -131,6 +131,8 @@ extern const u8 gText_AbilityName_Sharpness[];
 extern const u8 gText_AbilityDescription_Sharpness[];
 extern const u8 gText_AbilityName_HeavyArmor[];
 extern const u8 gText_AbilityDescription_HeavyArmor[];
+extern const u8 gText_AbilityName_SpiderSense[];
+extern const u8 gText_AbilityDescription_SpiderSense[];
 extern const u8 gText_AbilityName_SupremeOverlord[];
 extern const u8 gText_AbilityDescription_SupremeOverlord[];
 extern const u8 gText_AbilityName_SuperSweetSyrup[];
@@ -559,6 +561,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 				return gText_AbilityName_Sharpness;
 			else if (SpeciesHasHeavyArmor(species))
         		return gText_AbilityName_HeavyArmor;
+			else if (SpeciesHasSpiderSense(species))
+        		return gText_AbilityName_SpiderSense;
 			break;
 		case ABILITY_INTIMIDATE:
 			if (SpeciesHasSuperSweetSyrup(species))
@@ -747,6 +751,8 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 				return gText_AbilityDescription_Sharpness;
 			else if (SpeciesHasHeavyArmor(species))
         		return gText_AbilityDescription_HeavyArmor;
+			else if (SpeciesHasSpiderSense(species))
+        		return gText_AbilityDescription_SpiderSense;
 			break;
 		case ABILITY_IRONFIST:
     		if (SpeciesHasStickStickPass(species))
@@ -1740,6 +1746,15 @@ bool8 SpeciesHasToxicDebris(unusedArg u16 species)
 {
 	#ifdef SPECIES_GLIMMORA
 	return species == SPECIES_GLIMMORA;
+	#else
+	return FALSE;
+	#endif
+}
+
+bool8 SpeciesHasSpiderSense(unusedArg u16 species)
+{
+	#ifdef SPECIES_RATICATE_MEGA
+	return species == SPECIES_RATICATE_MEGA;
 	#else
 	return FALSE;
 	#endif

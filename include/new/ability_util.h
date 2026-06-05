@@ -21,6 +21,7 @@ bool8 IsTargetAbilityIgnored(u8 defAbility, u8 atkAbility, u16 move);
 bool8 IsTargetAbilityIgnoredNoMove(u8 defAbility, u8 atkAbility);
 
 bool8 SpeciesHasTurboblaze(u16 species);
+bool8 SpeciesHasSpiderSense(u16 species);
 bool8 SpeciesHasEmbodyAspect(u16 species);
 bool8 SpeciesHasTeravolt(u16 species);
 bool8 SpeciesHasDrillBeak(u16 species);
