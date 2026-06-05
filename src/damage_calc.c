@@ -4458,6 +4458,22 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 			}
 			break;
 
+		case ITEM_EFFECT_MASKS:
+    		switch (SPECIES(bankAtk))
+    		{
+        		case SPECIES_OGERPON_WELLSPRING_MASK:
+        		case SPECIES_OGERPON_HEARTHFLAME_MASK:
+        		case SPECIES_OGERPON_CORNERSTONE_MASK:
+        		case SPECIES_OGERPON_WELLSPRING_TERASTAL:
+        		case SPECIES_OGERPON_HEARTHFLAME_TERASTAL:
+        		case SPECIES_OGERPON_CORNERSTONE_TERASTAL:
+            		power = (power * 12) / 10;  // 提升20%
+            		break;
+        		default:
+            		break;
+    		}
+    		break;
+
 		case ITEM_EFFECT_LIFE_ORB:
 			//1.3x Boost
 			power = (power * 13) / 10;
@@ -4996,10 +5012,3 @@ bool8 IsSoundMove(u16 move, u8 atkAbility)
     return CheckSoundMove(move);
 }
 
-static u16 GetSpeciesFromMonOrBank(struct Pokemon* mon, u8 bankAtk)
-{
-	if (mon != NULL)
-		return GetMonData(mon, MON_DATA_SPECIES, NULL);
-	else
-		return SPECIES(bankAtk);
-}

@@ -40,6 +40,7 @@ extern const u8 gText_AbilityName_NineLives[];
 extern const u8 gText_AbilityName_FocusBelt[];
 extern const u8 gText_AbilityName_Evaporate[];
 extern const u8 gText_AbilityName_PiercingDrill[];
+extern const u8 gText_AbilityName_EmbodyAspect[];
 extern const u8 gText_AbilityName_FieryNeigh[];
 extern const u8 gText_AbilityName_ShockingNeigh[];
 extern const u8 gText_AbilityName_Pride[];
@@ -64,6 +65,9 @@ extern const u8 gText_AbilityName_Improvise[];
 extern const u8 gText_AbilityName_VolatileExplosion[];
 
 extern const u8 gText_AbilityDescription_VolatileExplosion[];
+extern const u8 gText_AbilityDescription_EmbodyAspect_Grass[];
+extern const u8 gText_AbilityDescription_EmbodyAspect_Water[];
+extern const u8 gText_AbilityDescription_EmbodyAspect_Rock[];
 extern const u8 gText_AbilityDescription_Improvise[];
 extern const u8 gText_AbilityDescription_WaveFist[];
 extern const u8 gText_AbilityDescription_StickStickPass[];
@@ -226,6 +230,10 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 				return gText_AbilityName_Turboblaze;
 			else if (SpeciesHasTeravolt(species))
 				return gText_AbilityName_Teravolt;
+			break;
+		case ABILITY_INTREPIDSWORD:
+			if (SpeciesHasEmbodyAspect(species))
+				return gText_AbilityName_EmbodyAspect;
 			break;
 		case ABILITY_STORMDRAIN:
 			if (SpeciesHasEvaporate(species))
@@ -703,6 +711,17 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 			if(SpeciesHasOpportunist(species))
 				return gText_AbilityDescription_Opportunist;
 			break;
+		case ABILITY_INTREPIDSWORD:
+			if (SpeciesHasEmbodyAspect(species))
+			{
+        		if (species == SPECIES_OGERPON_TERASTAL)
+            		return gText_AbilityDescription_EmbodyAspect_Grass;
+        		else if (species == SPECIES_OGERPON_WELLSPRING_TERASTAL)
+            		return gText_AbilityDescription_EmbodyAspect_Water;
+        		else if (species == SPECIES_OGERPON_CORNERSTONE_TERASTAL)
+            		return gText_AbilityDescription_EmbodyAspect_Rock;
+    		}
+    		break;
 		case ABILITY_DROUGHT:
 			if(SpeciesHasOrichalcumPulse(species))
 				return gText_AbilityDescription_OrichalcumPulse;
@@ -878,6 +897,18 @@ bool8 SpeciesHasTurboblaze(unusedArg u16 species)
 	#else
 	return FALSE;
 	#endif
+}
+
+bool8 SpeciesHasEmbodyAspect(unusedArg u16 species)
+{
+    #if (defined SPECIES_OGERPON_TERASTAL && defined SPECIES_OGERPON_WELLSPRING_TERASTAL && defined SPECIES_OGERPON_HEARTHFLAME_TERASTAL && defined SPECIES_OGERPON_CORNERSTONE_TERASTAL)
+    return (species == SPECIES_OGERPON_TERASTAL
+        || species == SPECIES_OGERPON_WELLSPRING_TERASTAL
+        || species == SPECIES_OGERPON_HEARTHFLAME_TERASTAL
+        || species == SPECIES_OGERPON_CORNERSTONE_TERASTAL);
+    #else
+    return FALSE;
+    #endif
 }
 
 bool8 SpeciesHasTeravolt(unusedArg u16 species)

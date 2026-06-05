@@ -1350,7 +1350,34 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			break;
 
 		case ABILITY_INTREPIDSWORD:
-			if (STAT_STAGE(bank, STAT_STAGE_ATK) < STAT_STAGE_MAX)
+			if (SpeciesHasEmbodyAspect(SPECIES(bank)))
+    		{
+        		u8 statToRaise = STAT_STAGE_ATK;
+        
+        		#if (defined SPECIES_OGERPON_TERASTAL && defined SPECIES_OGERPON_WELLSPRING_TERASTAL && defined SPECIES_OGERPON_HEARTHFLAME_TERASTAL && defined SPECIES_OGERPON_CORNERSTONE_TERASTAL)
+        		u16 species = SPECIES(bank);
+        
+        		if (species == SPECIES_OGERPON_TERASTAL)                    //  → 速度
+            		statToRaise = STAT_STAGE_SPEED;
+        		else if (species == SPECIES_OGERPON_WELLSPRING_TERASTAL)    //  → 特防
+            		statToRaise = STAT_STAGE_SPDEF;
+        		else if (species == SPECIES_OGERPON_CORNERSTONE_TERASTAL)   //  → 防御
+            		statToRaise = STAT_STAGE_DEF;
+        		#endif
+
+				if (STAT_STAGE(bank, statToRaise) < STAT_STAGE_MAX)
+        		{
+            		gBankAttacker = bank;
+            		STAT_STAGE(bank, statToRaise)++;
+            		gBattleScripting.statChanger = statToRaise | INCREASE_1;
+            		PREPARE_STAT_BUFFER(gBattleTextBuff1, statToRaise);
+            		PREPARE_STAT_ROSE(gBattleTextBuff2);
+            		gNewBS->statRoseThisRound[bank] = TRUE;
+            		BattleScriptPushCursorAndCallback(BattleScript_AttackerAbilityStatRaiseEnd3);
+            		effect++;
+        		}
+    		}
+			else if (STAT_STAGE(bank, STAT_STAGE_ATK) < STAT_STAGE_MAX)
 			{
 				gBankAttacker = bank;
 				STAT_STAGE(bank, STAT_STAGE_ATK)++;

@@ -803,6 +803,15 @@ HP一半时就会把树果吃掉
 #org @gText_AbilityDescription_WaveFist
 拳类招式威力提高并带有水属性
 
+#org @gText_AbilityDescription_EmbodyAspect_Grass
+出场时，速度会提高
+
+#org @gText_AbilityDescription_EmbodyAspect_Water
+出场时，特防会提高
+
+#org @gText_AbilityDescription_EmbodyAspect_Rock
+出场时，防御会提高
+
 #org @gText_AbilityDescription_PsyGravity
 出场时，让对手进入意念移物状态
 
