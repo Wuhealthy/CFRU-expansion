@@ -4195,6 +4195,13 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 				power = (power * 12) / 10;
 			break;
 
+		case ABILITY_UNICORNPEGASUS:
+			if (gSpecialMoveFlags[move].gChargingMoves)
+    		{
+        		power = (power * 12) / 10;
+    		}
+			break;
+
 		case ABILITY_IRONFIST:
 		//1.2x Boost
 			if (SpeciesHasStickStickPass(data->atkSpecies) && gSpecialMoveFlags[move].gMultihitmoves)
