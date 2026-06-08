@@ -41,6 +41,7 @@ extern const u8 gText_AbilityName_FocusBelt[];
 extern const u8 gText_AbilityName_Evaporate[];
 extern const u8 gText_AbilityName_PiercingDrill[];
 extern const u8 gText_AbilityName_EmbodyAspect[];
+extern const u8 gText_AbilityName_DauntlessShield[];
 extern const u8 gText_AbilityName_FieryNeigh[];
 extern const u8 gText_AbilityName_ShockingNeigh[];
 extern const u8 gText_AbilityName_Pride[];
@@ -57,8 +58,6 @@ extern const u8 gText_AbilityName_SoundWaves[];
 extern const u8 gText_AbilityName_IcySkin[];
 extern const u8 gText_AbilityName_DustyScales[];
 extern const u8 gText_AbilityName_CrabbyTactics[];
-extern const u8 gText_AbilityName_HoneyArmor[];
-extern const u8 gText_AbilityName_FaceShield[];
 extern const u8 gText_AbilityName_RoyalRoar[];
 extern const u8 gText_AbilityName_PsyGravity[];
 extern const u8 gText_AbilityName_Improvise[];
@@ -236,6 +235,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 		case ABILITY_INTREPIDSWORD:
 			if (SpeciesHasEmbodyAspect(species))
 				return gText_AbilityName_EmbodyAspect;
+			if (SpeciesHasDauntlessShield(species))
+				return gText_AbilityName_DauntlessShield;
 			break;
 		case ABILITY_STORMDRAIN:
 			if (SpeciesHasEvaporate(species))
@@ -447,20 +448,6 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 				#ifdef NATIONAL_DEX_CRABOMINABLE
 				case NATIONAL_DEX_CRABOMINABLE:
 					return gText_AbilityName_CrabbyTactics;
-				#endif
-			}
-			break;
-		case ABILITY_DAUNTLESSSHIELD:
-			switch (dexNum)
-			{
-				#if (defined NATIONAL_DEX_SHIELDON && defined NATIONAL_DEX_BASTIODON)
-				case NATIONAL_DEX_SHIELDON:
-				case NATIONAL_DEX_BASTIODON:
-					return gText_AbilityName_FaceShield;
-				#endif
-				#ifdef NATIONAL_DEX_VESPIQUEN
-				case NATIONAL_DEX_VESPIQUEN:
-					return gText_AbilityName_HoneyArmor;
 				#endif
 			}
 			break;
@@ -725,6 +712,8 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
         		else if (species == SPECIES_OGERPON_CORNERSTONE_TERASTAL)
             		return gText_AbilityDescription_EmbodyAspect_Rock;
     		}
+			if(SpeciesHasDauntlessShield(species))
+				return gText_AbilityDescription_EmbodyAspect_Rock;
     		break;
 		case ABILITY_DROUGHT:
 			if(SpeciesHasOrichalcumPulse(species))
@@ -915,6 +904,15 @@ bool8 SpeciesHasEmbodyAspect(unusedArg u16 species)
     #else
     return FALSE;
     #endif
+}
+
+bool8 SpeciesHasDauntlessShield(unusedArg u16 species)
+{
+	#if (defined SPECIES_ZAMAZENTA && defined SPECIES_ZAMAZENTA_CROWNED)
+	return species == SPECIES_ZAMAZENTA || species == SPECIES_ZAMAZENTA_CROWNED;
+	#else
+	return FALSE;
+	#endif
 }
 
 bool8 SpeciesHasTeravolt(unusedArg u16 species)

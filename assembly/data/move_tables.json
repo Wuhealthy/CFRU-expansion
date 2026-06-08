@@ -273,6 +273,26 @@
 		"MOVE_MIMIC"
 	],
 
+	"gChargingMoves": [
+		"MOVE_RAZORWIND",
+		"MOVE_SOLARBEAM",
+		"MOVE_SOLARBLADE",
+		"MOVE_SKYATTACK",
+		"MOVE_SKULLBASH",
+		"MOVE_FLY",
+		"MOVE_BOUNCE",
+		"MOVE_DIVE",
+    	"MOVE_DIG",
+    	"MOVE_PHANTOMFORCE",
+    	"MOVE_SHADOWFORCE",
+    	"MOVE_METEORBEAM",
+    	"MOVE_ELECTROSHOT",
+    	"MOVE_SKYDROP",
+		"MOVE_FREEZESHOCK",
+		"MOVE_ICEBURN",
+    	"MOVE_GEOMANCY"
+	],
+
 	"gSleepTalkBannedMoves": [
 		"MOVE_ASSIST",
 		"MOVE_BELCH",

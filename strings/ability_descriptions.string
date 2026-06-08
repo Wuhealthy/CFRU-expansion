@@ -223,6 +223,9 @@ HP低于1/3时，虫属性威力会提高
 #org @DESC_SHELLARMOR
 不会被对手的攻击击中要害
 
+#org @DESC_LINGERINGAROMA
+被接触会有甩不掉的气味沾上对手
+
 #org @DESC_SWEETVEIL
 自己和同伴不会变为睡眠状态
 
@@ -695,8 +698,8 @@ HP一半时就会把树果吃掉
 #org @DESC_INTREPIDSWORD
 出场时，攻击会提高
 
-#org @DESC_DAUNTLESSSHIELD
-出场时，防御会提高
+#org @DESC_UNICORNPEGASUS
+蓄力的招式会在蓄力后立即攻击
 
 #org @DESC_BALLFETCH
 没道具会拾取第1个捕捉失败的球

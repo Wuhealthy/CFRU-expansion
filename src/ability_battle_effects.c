@@ -321,7 +321,7 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_WONDERSKIN] = 4,
 	[ABILITY_ZENMODE] = -1,
 	[ABILITY_INTREPIDSWORD] = 3,
-	[ABILITY_DAUNTLESSSHIELD] = 3,
+	[ABILITY_UNICORNPEGASUS] = 3,
 	[ABILITY_BALLFETCH] = 0,
 	[ABILITY_COTTONDOWN] = 3,
 	[ABILITY_MIRRORARMOR] = 6,
@@ -1377,26 +1377,23 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
             		effect++;
         		}
     		}
+			else if (SpeciesHasDauntlessShield(SPECIES(bank)) && STAT_STAGE(bank, STAT_STAGE_DEF) < STAT_STAGE_MAX)
+			{
+				gBankAttacker = bank;
+				STAT_STAGE(bank, STAT_STAGE_DEF)++;
+				gBattleScripting.statChanger = STAT_STAGE_DEF | INCREASE_1;
+				PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_STAGE_DEF);
+				PREPARE_STAT_ROSE(gBattleTextBuff2);
+				gNewBS->statRoseThisRound[bank] = TRUE;
+				BattleScriptPushCursorAndCallback(BattleScript_AttackerAbilityStatRaiseEnd3);
+				effect++;
+			}
 			else if (STAT_STAGE(bank, STAT_STAGE_ATK) < STAT_STAGE_MAX)
 			{
 				gBankAttacker = bank;
 				STAT_STAGE(bank, STAT_STAGE_ATK)++;
 				gBattleScripting.statChanger = STAT_STAGE_ATK | INCREASE_1;
 				PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_STAGE_ATK);
-				PREPARE_STAT_ROSE(gBattleTextBuff2);
-				gNewBS->statRoseThisRound[bank] = TRUE;
-				BattleScriptPushCursorAndCallback(BattleScript_AttackerAbilityStatRaiseEnd3);
-				effect++;
-			}
-			break;
-
-		case ABILITY_DAUNTLESSSHIELD:
-			if (STAT_STAGE(bank, STAT_STAGE_DEF) < STAT_STAGE_MAX)
-			{
-				gBankAttacker = bank;
-				STAT_STAGE(bank, STAT_STAGE_DEF)++;
-				gBattleScripting.statChanger = STAT_STAGE_DEF | INCREASE_1;
-				PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_STAGE_DEF);
 				PREPARE_STAT_ROSE(gBattleTextBuff2);
 				gNewBS->statRoseThisRound[bank] = TRUE;
 				BattleScriptPushCursorAndCallback(BattleScript_AttackerAbilityStatRaiseEnd3);

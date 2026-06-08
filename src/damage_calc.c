@@ -1449,7 +1449,7 @@ TYPE_LOOP:
 		goto TYPE_LOOP;
 	}
 	
-	// WaveFist浪花之拳: 拳类招式同时带有水属性
+	// 浪花之拳: 拳类招式同时带有水属性
 	if (SpeciesHasWaveFist(SPECIES(gBankAttacker)) && gSpecialMoveFlags[move].gPunchingMoves && moveType != TYPE_WATER)
 	{
 		moveType = TYPE_WATER;
@@ -1479,7 +1479,7 @@ TYPE_LOOP_AI:
 		goto TYPE_LOOP_AI;
 	}
 
-	// WaveFist浪花之拳: 拳类招式同时带有水属性
+	// 浪花之拳: 拳类招式同时带有水属性
 	if (SpeciesHasWaveFist(SPECIES(gBankAttacker)) && gSpecialMoveFlags[move].gPunchingMoves && moveType != TYPE_WATER)
 	{
 		moveType = TYPE_WATER;
@@ -2421,7 +2421,7 @@ void PopulateDamageCalcStructWithBaseDefenderData(struct DamageCalc* data)
 		data->defStatus3 = 0;
 		data->defSideStatus = gSideStatuses[side];
 		
-		if (data->defAbility == ABILITY_DAUNTLESSSHIELD)
+		if (data->defAbility == ABILITY_INTREPIDSWORD && SpeciesHasDauntlessShield(SPECIES(data->bankDef)))
 			data->defBuff = min(data->defBuff + 1, STAT_STAGE_MAX);
 
 		TryBoostMonDefensesForTotemBoost(data, bankDef);
@@ -2545,7 +2545,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 				}
 
 				//Factor in Abilities that will activate on switch-in
-				if (atkAbility == ABILITY_DAUNTLESSSHIELD)
+				if (atkAbility == ABILITY_INTREPIDSWORD && SpeciesHasDauntlessShield(SPECIES(data->bankAtk)))
 					data->atkBuff = min(data->atkBuff + 1, STAT_STAGE_MAX);
 
 				TryBoostMonOffensesForTotemBoost(data, bankAtk, TRUE); //Check the Defense Totem Buff
@@ -4201,7 +4201,8 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
     		{
         		power *= 2;  // 棒棒相传效果：二段攻击威力翻倍，不叠加铁拳
     		}
-			else if (gSpecialMoveFlags[move].gPunchingMoves)
+			else if (gSpecialMoveFlags[move].gPunchingMoves
+             		&& !SpeciesHasStickStickPass(data->atkSpecies))
     		{
         		power = (power * 12) / 10;  // 普通铁拳效果
     		}

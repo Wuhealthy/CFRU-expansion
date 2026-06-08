@@ -1034,6 +1034,7 @@ BS_039_RazorWind:
 	setbyte TWOTURN_STRINGID 0x0
 	call BattleScript_FirstChargingTurn
 	call BattleScript_CheckPowerHerb
+	call BattleScript_CheckUnicornPegasus
 	goto BS_MOVE_END
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -1590,6 +1591,7 @@ BS_075_SkyAttack:
 	setbyte TWOTURN_STRINGID 0x3
 	call BattleScript_FirstChargingTurn
 	call BattleScript_CheckPowerHerb
+	call BattleScript_CheckUnicornPegasus
 	goto BS_MOVE_END
 
 BattleScript_FirstChargingTurn:
@@ -1630,6 +1632,24 @@ PrintMeteorBeamString:
 	printstring 0x184
 	waitmessage DELAY_1SECOND
 	return
+
+BattleScript_CheckMegasol:
+	jumpifability BANK_ATTACKER, ABILITY_MEGASOL, UnicornPegasusBoost
+	return
+
+BattleScript_CheckUnicornPegasus:
+    jumpifability BANK_ATTACKER, ABILITY_UNICORNPEGASUS, UnicornPegasusBoost
+    return
+
+UnicornPegasusBoost:
+    call BattleScript_AbilityPopUp
+    waitmessage DELAY_1SECOND
+    call BattleScript_AbilityPopUpRevert
+	orword HIT_MARKER HITMARKER_CHARGING
+	setmoveeffect MOVE_EFFECT_CHARGING | MOVE_EFFECT_AFFECTS_USER
+	seteffectprimary
+	callasm ClearCalculatedSpreadMoveData @;So the damage can be calculated
+	goto TwoTurnMovesSecondTurnBS
 
 BattleScript_CheckPowerHerb:
 	waitmessage DELAY_1SECOND
@@ -3306,6 +3326,7 @@ BS_145_SkullBash:
 	waitmessage DELAY_1SECOND
 SkipSkullBashStatBuff:
 	call BattleScript_CheckPowerHerb
+	call BattleScript_CheckUnicornPegasus
 	goto BS_MOVE_END
 
 BS_MeteorBeam:
@@ -3318,6 +3339,7 @@ BS_MeteorBeam:
 	waitmessage DELAY_1SECOND
 SkipMeteorBeamStatBuff:
 	call BattleScript_CheckPowerHerb
+	call BattleScript_CheckUnicornPegasus
 	goto BS_MOVE_END
 
 BS_ElectroShot:
@@ -3330,6 +3352,7 @@ BS_ElectroShot:
 	waitmessage DELAY_1SECOND
 SkipElectroShotStatBuff:
 	call BattleScript_CheckPowerHerb
+	call BattleScript_CheckUnicornPegasus
 	call BattleScriptCheckRain
 	goto BS_MOVE_END
 
@@ -3414,7 +3437,6 @@ Ceaceless_BS:
 
 .global BS_151_Solarbeam
 BS_151_Solarbeam:
-	jumpifability BANK_ATTACKER, ABILITY_MEGASOL, BSSolarbeam_MegaSol
 	jumpifabilitypresent ABILITY_CLOUDNINE, BSSolarbeamDecideTurn
 	@;jumpifabilitypresent ABILITY_AIRLOCK, BSSolarbeamDecideTurn
 	jumpifhelditemeffect BANK_ATTACKER, ITEM_EFFECT_UTILITY_UMBRELLA, BSSolarbeamDecideTurn
@@ -3426,6 +3448,8 @@ BSSolarbeamDecideTurn:
 	setbyte TWOTURN_STRINGID, 0x1
 	call BattleScript_FirstChargingTurn
 	call BattleScript_CheckPowerHerb
+	call BattleScript_CheckUnicornPegasus
+	call BattleScript_CheckMegasol
 	goto BS_MOVE_END
 
 BSSolarbeamOnFirstTurn:
@@ -3435,15 +3459,6 @@ BSSolarbeamOnFirstTurn:
 	ppreduce
 	callasm ClearCalculatedSpreadMoveData @;So the damage can be calculated
 	goto TwoTurnMovesSecondTurnBS
-
-BSSolarbeam_MegaSol:
-    setbyte TWOTURN_STRINGID, 0x1         @; 设置蓄力文本 ID（日光束）
-	call BattleScript_FirstChargingTurn   @; 显示蓄力文本和动画
-    orword HIT_MARKER HITMARKER_CHARGING  @; 标记为充能状态
-    setmoveeffect MOVE_EFFECT_CHARGING | MOVE_EFFECT_AFFECTS_USER
-    seteffectprimary
-    callasm ClearCalculatedSpreadMoveData @; 清除 Spread 数据
-    goto TwoTurnMovesSecondTurnBS         @; 直接攻击（无等待）
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -3526,6 +3541,7 @@ BS_FirstTurnDig:
 BS_FirstTurnSemiInvulnerable:
 	call BattleScript_FirstChargingTurn
 	call BattleScript_CheckPowerHerb
+	call BattleScript_CheckUnicornPegasus
 	setsemiinvulnerablebit
 	goto BS_MOVE_END
 

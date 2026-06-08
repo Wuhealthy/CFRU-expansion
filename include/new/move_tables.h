@@ -16,6 +16,7 @@ struct SpecialMoveFlags
 	bool8 gMetronomeBannedMoves : 1;
 	bool8 gAssistBannedMoves : 1;
 	bool8 gMimicBannedMoves : 1;
+	bool8 gChargingMoves : 1;
 	bool8 gSleepTalkBannedMoves : 1;
 	bool8 gParentalBondBannedMoves : 1;
 	bool8 gSkyBattleBannedMoves : 1;

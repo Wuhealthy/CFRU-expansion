@@ -719,8 +719,8 @@ AR系统
 #org @NAME_INTREPID_SWORD
 不挠之剑
 
-#org @NAME_DAUNTLESS_SHIELD
-不屈之盾
+#org @NAME_UNICORN_PEGASUS
+冲锋
 
 #org @NAME_BALL_FETCH
 捡球
@@ -854,6 +854,9 @@ AR系统
 #org @gText_AbilityName_EmbodyAspect
 面影辉映
 
+#org @gText_AbilityName_DauntlessShield
+不屈之盾
+
 #org @gText_AbilityName_PiercingDrill
 贯穿钻
 
@@ -871,9 +874,6 @@ AR系统
 
 #org @gText_AbilityName_Subterfuge
 狡诈
-
-#org @gText_AbilityName_HoneyArmor
-蜜甲
 
 #org @gText_AbilityName_TanglingWool
 卷毛
@@ -907,9 +907,6 @@ AR系统
 
 #org @gText_AbilityName_CrabbyTactics
 一蟹一意
-
-#org @gText_AbilityName_FaceShield
-头盾
 
 #org @gText_AbilityName_RoyalRoar
 王者咆哮
