@@ -1697,8 +1697,8 @@ bool8 SpeciesHasSuperSweetSyrup(unusedArg u16 species)
 
 bool8 SpeciesHasTeraShift(unusedArg u16 species)
 {
-	#if (defined SPECIES_TERAPAGOS && SPECIES_TERAPAGOS_TERA)
-	return species == SPECIES_TERAPAGOS || species == SPECIES_TERAPAGOS_TERA;
+	#if (defined SPECIES_TERAPAGOS && SPECIES_TERAPAGOS_TERASTAL)
+	return species == SPECIES_TERAPAGOS || species == SPECIES_TERAPAGOS_TERASTAL;
 	#else
 	return FALSE;
 	#endif
@@ -1706,8 +1706,8 @@ bool8 SpeciesHasTeraShift(unusedArg u16 species)
 
 bool8 SpeciesHasTeraShell(unusedArg u16 species)
 {
-	#if (defined SPECIES_TERAPAGOS && SPECIES_TERAPAGOS_TERA)
-	return species == SPECIES_TERAPAGOS || species == SPECIES_TERAPAGOS_TERA;
+	#if (defined SPECIES_TERAPAGOS && SPECIES_TERAPAGOS_TERASTAL)
+	return species == SPECIES_TERAPAGOS || species == SPECIES_TERAPAGOS_TERASTAL;
 	#else
 	return FALSE;
 	#endif
