@@ -36,7 +36,7 @@ static const struct SpriteFrameImage gEventObjectPicTable_YoungsterMale[] =
 const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_YoungsterMale =
 {
     .tileTag = 0xFFFF,
-    .paletteTag1 = 0x1106,
+    .paletteTag1 = 0x2100,
     .paletteTag2 = EVENT_OBJ_PAL_TAG_NONE,
     .size = (32 * 32) / 2,
     .width = 32,
