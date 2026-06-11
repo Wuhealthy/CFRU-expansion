@@ -105,6 +105,7 @@ gBattleAnims_General:
 .word ANIM_STEALTHROCK2
 .word ANIM_SPIKES2
 .word ANIM_FROSTBITE
+.word B_ANIM_PSY_GRAVITY
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -1283,6 +1284,27 @@ ANIM_STEALTHROCK2:
 
 .align 2
 STEALTH_ROCKS2: objtemplate ANIM_TAG_STEALTH_ROCK ANIM_TAG_STEALTH_ROCK OAM_OFF_16x16 0x83E2B2C 0x0 gDummySpriteAffineAnimTable 0x80A26F1
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+.global B_ANIM_PSY_GRAVITY
+B_ANIM_PSY_GRAVITY:
+    loadparticle ANIM_TAG_SPARKLE_4
+    launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0x9 0x0
+    waitanimation
+    launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0x9 0x7fff
+    pause 0x12
+    playsound2 0xCA SOUND_PAN_ATTACKER
+    launchtemplate 0x83BF480 0xd 0x2 0x14 0xffec
+    waitanimation
+    soundcomplex 0xb1 SOUND_PAN_TARGET 0xa 0x3
+    launchtask AnimTask_SwayMon 0x5 0x5 0x1 0x18 0xD0 0x1 bank_target
+    waitanimation
+    pause 0xA
+    launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x9 0x0 0x0
+    launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x2 0x9 0x0 0x7fff
+    waitanimation
+    endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

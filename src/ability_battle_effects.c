@@ -743,7 +743,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			break;
 
 		case ABILITY_INTIMIDATE:
-			// 原 Intimidate 效果（排除 PsyGravity 宝可梦）
+			// 原威吓效果（排除意念控制特性）
     		if (!SpeciesHasPsyGravity(SPECIES(bank))
 				&& (CanBeAffectedByIntimidate(FOE(bank)) || (IS_DOUBLE_BATTLE && CanBeAffectedByIntimidate(PARTNER(FOE(bank))))))
 			{
@@ -1523,7 +1523,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			if (BATTLER_ALIVE(bank))
 			{
 				gBankAttacker = gActiveBattler = gBattleScripting.bank = bank;
-				// 新增：Telekinesis 计时器处理
+				// 新增：意念移物计时器处理
         		if (gNewBS->TelekinesisTimers[bank] > 0)
         		{
             		gNewBS->TelekinesisTimers[bank]--;
@@ -1532,7 +1532,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
                 		gStatuses3[bank] &= ~STATUS3_TELEKINESIS;
                 		BattleScriptPushCursorAndCallback(BattleScript_TelekinesisEnd);
                 		effect++;
-                		break;  // 先处理 Telekinesis 结束，不继续执行其他能力
+                		break;  // 先处理意念移物结束，不继续执行其他能力
             		}
         		}
 				switch (gLastUsedAbility)
