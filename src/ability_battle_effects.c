@@ -22,6 +22,7 @@
 #include "../include/new/form_change.h"
 #include "../include/new/move_battle_scripts.h"
 #include "../include/new/move_tables.h"
+#include "../include/new/species_tables.h"
 #include "../include/new/text.h"
 #include "../include/new/util.h"
 #include "../include/new/terastallization.h"
@@ -384,6 +385,8 @@ static u8 ActivateWeatherAbility(u16 flags, u16 item, u8 bank, u8 animArg, u8 st
 static u8 TryActivateTerrainAbility(u8 terrain, u8 anim, u8 bank);
 static bool8 ImmunityAbilityCheck(u8 bank, u32 status, const u8* string);
 static bool8 CanBeAffectedByIntimidate(u8 bank);
+static bool8 CanBeAffectedByPsyGravity(u8 bank);
+
 static bool8 AllMainStatsButOneAreMinned(u8 bank);
 // For Terastallization
 extern bool8 IsTerastallized(u8 bank);
@@ -743,49 +746,24 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			break;
 
 		case ABILITY_INTIMIDATE:
-			// 原威吓效果（排除意念控制特性）
-    		if (!SpeciesHasPsyGravity(SPECIES(bank))
-				&& (CanBeAffectedByIntimidate(FOE(bank)) || (IS_DOUBLE_BATTLE && CanBeAffectedByIntimidate(PARTNER(FOE(bank))))))
+			if (SpeciesHasPsyGravity(SPECIES(bank)))
+    		{
+        		if (CanBeAffectedByPsyGravity(FOE(bank)) || (IS_DOUBLE_BATTLE && CanBeAffectedByPsyGravity(PARTNER(FOE(bank)))))
+            	{
+            		gBattleStruct->intimidateBank = bank;
+            		gNewBS->intimidateActive = bank + 1;
+            		BattleScriptPushCursorAndCallback(BattleScript_PsyGravityActivates);
+            		effect++;
+        		}
+    		}
+			// 原威吓效果
+    		else if (CanBeAffectedByIntimidate(FOE(bank)) || (IS_DOUBLE_BATTLE && CanBeAffectedByIntimidate(PARTNER(FOE(bank)))))
 			{
 				BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivatesEnd3);
 				gBattleStruct->intimidateBank = bank;
 				gNewBS->intimidateActive = bank + 1;
 				effect++;
 			}
-
-			if (SpeciesHasPsyGravity(SPECIES(bank)))
-    		{
-        		u8 foe1 = FOE(bank);
-        		u8 foe2 = PARTNER(foe1);
-        		u8 applied = FALSE;
-        
-        		if (BATTLER_ALIVE(foe1) && !(gStatuses3[foe1] & STATUS3_TELEKINESIS)
-            		&& !IsGravityActive()
-            		&& ITEM_EFFECT(foe1) != ITEM_EFFECT_IRON_BALL
-            		&& !(gStatuses3[foe1] & (STATUS3_ROOTED | STATUS3_SMACKED_DOWN)))
-        		{
-            		gStatuses3[foe1] |= STATUS3_TELEKINESIS;
-            		gNewBS->TelekinesisTimers[foe1] = 3;
-            		applied = TRUE;
-        		}
-        
-        		if (IS_DOUBLE_BATTLE && BATTLER_ALIVE(foe2)
-            		&& !(gStatuses3[foe2] & STATUS3_TELEKINESIS)
-            		&& !IsGravityActive()
-            		&& ITEM_EFFECT(foe2) != ITEM_EFFECT_IRON_BALL
-            		&& !(gStatuses3[foe2] & (STATUS3_ROOTED | STATUS3_SMACKED_DOWN)))
-        		{
-            		gStatuses3[foe2] |= STATUS3_TELEKINESIS;
-            		gNewBS->TelekinesisTimers[foe2] = 3;
-            		applied = TRUE;
-        		}
-        
-        		if (applied)
-        		{
-            		BattleScriptPushCursorAndCallback(BattleScript_PsyGravityActivates);
-    				effect++;
-        		}
-    		}
 			break;
 
 		case ABILITY_FORECAST:
@@ -3079,6 +3057,18 @@ static bool8 ImmunityAbilityCheck(u8 bank, u32 status, const u8* string)
 static bool8 CanBeAffectedByIntimidate(u8 bank)
 {
 	return BATTLER_ALIVE(bank) && !IS_BEHIND_SUBSTITUTE(bank);
+}
+
+static bool8 CanBeAffectedByPsyGravity(u8 bank)
+{
+    u16 species = gBattleMons[bank].species;
+
+	return (BATTLER_ALIVE(bank)
+            && !(gStatuses3[bank] & STATUS3_TELEKINESIS)
+            && !IsGravityActive()
+            && ITEM_EFFECT(bank) != ITEM_EFFECT_IRON_BALL
+			&& !gSpecialSpeciesFlags[species].telekinesisBan
+            && !(gStatuses3[bank] & (STATUS3_ROOTED | STATUS3_SMACKED_DOWN)));
 }
 
 static bool8 AllMainStatsButOneAreMinned(bank_t bank)
