@@ -746,7 +746,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			break;
 
 		case ABILITY_INTIMIDATE:
-			if (SpeciesHasPsyGravity(SPECIES(bank)))
+			if (SpeciesHasPsyGravity(GetProperAbilityPopUpSpecies(bank)))
     		{
         		if (CanBeAffectedByPsyGravity(FOE(bank)) || (IS_DOUBLE_BATTLE && CanBeAffectedByPsyGravity(PARTNER(FOE(bank)))))
             	{
@@ -849,12 +849,12 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 
 		case ABILITY_MOLDBREAKER:
 			#ifndef ABILITY_TURBOBLAZE
-			if (SpeciesHasTurboblaze(SPECIES(bank)))
+			if (SpeciesHasTurboblaze(GetProperAbilityPopUpSpecies(bank)))
 				gBattleStringLoader = gText_TurboblazeActivate;
 			else
 			#endif
 			#ifndef ABILITY_TERAVOLT
-			if (SpeciesHasTeravolt(SPECIES(bank)))
+			if (SpeciesHasTeravolt(GetProperAbilityPopUpSpecies(bank)))
 				gBattleStringLoader = gText_TeravoltActivate;
 			else
 			#endif
@@ -1085,14 +1085,14 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			break;
 
 		case ABILITY_IMMUNITY:
-			if (SpeciesHasPurifyingSalt(SPECIES(bank)))
+			if (SpeciesHasPurifyingSalt(GetProperAbilityPopUpSpecies(bank)))
 				effect = ImmunityAbilityCheck(bank, STATUS1_ANY, gStatusConditionString_PurifySalt);
 			else
 				effect = ImmunityAbilityCheck(bank, STATUS1_PSN_ANY, gStatusConditionString_Poison);
 			break;
 
 		case ABILITY_GOODASGOLD:
-			if (SpeciesHasGoodAsGold(SPECIES(bank)))
+			if (SpeciesHasGoodAsGold(GetProperAbilityPopUpSpecies(bank)))
 				effect = ImmunityAbilityCheck(bank, STATUS1_ANY, gStatusConditionString_PurifySalt);
 			break;
 
@@ -1124,7 +1124,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			break;
 
 		case ABILITY_STEAMENGINE:
-			if (SpeciesHasThermalExchange(SPECIES(bank)))
+			if (SpeciesHasThermalExchange(GetProperAbilityPopUpSpecies(bank)))
 				effect = ImmunityAbilityCheck(bank, STATUS1_BURN, gStatusConditionString_Burn);
 			break;
 
@@ -1275,7 +1275,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			break;
 
 		case ABILITY_TORRENT:
-			if (SpeciesHasZerotoHero(SPECIES(bank)))
+			if (SpeciesHasZerotoHero(GetProperAbilityPopUpSpecies(bank)))
 				{
 					gBattleStringLoader = gText_ZerotoHeroActivate;
 					BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
@@ -1284,7 +1284,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			break;
 
 		case ABILITY_HUGEPOWER:
-			if (SpeciesHasSupremeOverlord(SPECIES(bank)) && IsFaintedPokemonInParty())
+			if (SpeciesHasSupremeOverlord(GetProperAbilityPopUpSpecies(bank)) && IsFaintedPokemonInParty())
 				{
 					gBattleStringLoader = gText_SupremeOverlordActivate;
 					BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
@@ -1315,7 +1315,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			break;
 
 		case ABILITY_GRASSYSURGE:
-			if (!SpeciesHasSeedSower(SPECIES(bank)))
+			if (!SpeciesHasSeedSower(GetProperAbilityPopUpSpecies(bank)))
 				effect = TryActivateTerrainAbility(GRASSY_TERRAIN, B_ANIM_GRASSY_SURGE, bank);
 			break;
 
@@ -1328,7 +1328,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			break;
 
 		case ABILITY_INTREPIDSWORD:
-			if (SpeciesHasEmbodyAspect(SPECIES(bank)))
+			if (SpeciesHasEmbodyAspect(GetProperAbilityPopUpSpecies(bank)))
     		{
         		u8 statToRaise = STAT_STAGE_ATK;
         
@@ -1355,7 +1355,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
             		effect++;
         		}
     		}
-			else if (SpeciesHasDauntlessShield(SPECIES(bank)) && STAT_STAGE(bank, STAT_STAGE_DEF) < STAT_STAGE_MAX)
+			else if (SpeciesHasDauntlessShield(GetProperAbilityPopUpSpecies(bank)) && STAT_STAGE(bank, STAT_STAGE_DEF) < STAT_STAGE_MAX)
 			{
 				gBankAttacker = bank;
 				STAT_STAGE(bank, STAT_STAGE_DEF)++;
@@ -1399,7 +1399,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			break;
 		
 		case ABILITY_QUARKDRIVE:
-			if (IsSunWeatherActive(bank) && SpeciesHasProtosynthesis(SPECIES(bank)))
+			if (IsSunWeatherActive(bank) && SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bank)))
 			{
 				gBankAttacker = bank;
 				gActiveBattler = bank;
@@ -1440,7 +1440,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			if (IS_DOUBLE_BATTLE)
 			{
 				u8 partner = PARTNER(bank);
-				if (BATTLER_ALIVE(partner) && !SpeciesHasCostar(SPECIES(bank)))
+				if (BATTLER_ALIVE(partner) && !SpeciesHasCostar(GetProperAbilityPopUpSpecies(bank)))
 				{
 					for (i = 0; i < BATTLE_STATS_NO - 1; ++i)
 						gBattleMons[partner].statStages[i] = 6;
@@ -1450,7 +1450,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
 					effect++;
 				}
-				else if (BATTLER_ALIVE(partner) && SpeciesHasCostar(SPECIES(bank)))
+				else if (BATTLER_ALIVE(partner) && SpeciesHasCostar(GetProperAbilityPopUpSpecies(bank)))
 				{
 					for (i = 0; i < BATTLE_STATS_NO - 1; i++)
 						gBattleMons[gBankAttacker].statStages[i] = gBattleMons[partner].statStages[i];
@@ -1697,7 +1697,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					}
 
 					else if (gItems[(SAVED_CONSUMED_ITEMS(bank))].pocket == POCKET_BERRY_POUCH
-					&& SpeciesHasCudChew(SPECIES(bank)) && gNewBS->CudChewCounter[bank] == 2)
+					&& SpeciesHasCudChew(GetProperAbilityPopUpSpecies(bank)) && gNewBS->CudChewCounter[bank] == 2)
 					{
 						BattleScriptPushCursorAndCallback(BattleScript_CudChew);
 								gNewBS->CudChewCounter[bank] = 2;
@@ -1706,7 +1706,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					}
 
 					else if (gItems[(SAVED_CONSUMED_ITEMS(bank))].pocket == POCKET_BERRY_POUCH
-					&& SpeciesHasCudChew(SPECIES(bank)) && gNewBS->CudChewCounter[bank] == 0)
+					&& SpeciesHasCudChew(GetProperAbilityPopUpSpecies(bank)) && gNewBS->CudChewCounter[bank] == 0)
 					{
 								gNewBS->CudChewCounter[bank] = 1;
 								gNewBS->CudChewCounter[bank]++;
@@ -1814,7 +1814,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 						break;
 
 					case ABILITY_ANGERPOINT:
-						if (gSpecialMoveFlags[move].gWindMoves && SpeciesHasWindRider(SPECIES(bank)))
+						if (gSpecialMoveFlags[move].gWindMoves && SpeciesHasWindRider(GetProperAbilityPopUpSpecies(bank)))
 							effect = 1;
 						break;
 
@@ -1885,8 +1885,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			gBattleScripting.bank = bank;
 			switch (gLastUsedAbility) {
 				case ABILITY_VOLTABSORB:
-					if ((moveType == TYPE_ELECTRIC && !SpeciesHasEarthEater(SPECIES(bank)))
-					|| (moveType == TYPE_GROUND && SpeciesHasEarthEater(SPECIES(bank))))
+					if ((moveType == TYPE_ELECTRIC && !SpeciesHasEarthEater(GetProperAbilityPopUpSpecies(bank)))
+					|| (moveType == TYPE_GROUND && SpeciesHasEarthEater(GetProperAbilityPopUpSpecies(bank))))
 						effect = 1;
 					break;
 
@@ -2007,8 +2007,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				&& BATTLER_ALIVE(bank)
 				&& gBankAttacker != bank
 				&& !SheerForceCheck()
-				&& !SpeciesHasElectromorphosis(SPECIES(bank))
-				&& !SpeciesHasSpicySpray(SPECIES(bank))
+				&& !SpeciesHasElectromorphosis(GetProperAbilityPopUpSpecies(bank))
+				&& !SpeciesHasSpicySpray(GetProperAbilityPopUpSpecies(bank))
 				&& gMultiHitCounter <= 1
 				&& !IsTerastallized(bank))
 				{
@@ -2022,7 +2022,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				else if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
 				&& BATTLER_ALIVE(bank)
-				&& SpeciesHasElectromorphosis(SPECIES(bank))
+				&& SpeciesHasElectromorphosis(GetProperAbilityPopUpSpecies(bank))
 				&& gNewBS->ElectroCounter[bank] <= 2)
 				{
 					BattleScriptPushCursor();
@@ -2036,18 +2036,16 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				// 辣椒喷发 - 受到伤害时使攻击方灼伤
     			else if (MOVE_HAD_EFFECT
     			&& TOOK_DAMAGE(bank)
-    			&& BATTLER_ALIVE(bank)
-    			&& SpeciesHasSpicySpray(SPECIES(bank)))
+    			&& BATTLER_ALIVE(gBankAttacker)
+    			&& gBankAttacker != bank
+    			&& SpeciesHasSpicySpray(GetProperAbilityPopUpSpecies(bank))
+				&& CanBeBurned(gBankAttacker, bank, FALSE))
     			{
-        			if (!(gBattleMons[gBankAttacker].status1 & STATUS1_BURN)
-        				&& CanBeBurned(gBankAttacker, bank, FALSE))
-        			{
-            			gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_BURN;
-            			BattleScriptPushCursor();
-            			gBattlescriptCurrInstr = BattleScript_AbilityApplySecondaryEffect;
-            			gHitMarker |= HITMARKER_IGNORE_SAFEGUARD;
-            			effect++;
-        			}
+            		gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_BURN;
+            		BattleScriptPushCursor();
+            		gBattlescriptCurrInstr = BattleScript_AbilityApplySecondaryEffect;
+            		gHitMarker |= HITMARKER_IGNORE_SAFEGUARD;
+            		effect++;
     			}
 				break;
 			
@@ -2055,7 +2053,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				if (MOVE_HAD_EFFECT
 					&& TOOK_DAMAGE(bank)
 					&& BATTLER_ALIVE(gBankAttacker)
-					&& SpeciesHasSeedSower(SPECIES(bank)))
+					&& SpeciesHasSeedSower(GetProperAbilityPopUpSpecies(bank)))
 					{
 						effect = TryActivateTerrainAbility(GRASSY_TERRAIN, B_ANIM_GRASSY_SURGE, bank);
 						gBattleStringLoader = gText_GrassySurgeGrew;
@@ -2129,7 +2127,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				&& gBankAttacker != bank)
 				{
 					// Check Toxic Debris
-					if (SpeciesHasToxicDebris(SPECIES(bank)) && SPLIT(move) == SPLIT_PHYSICAL)
+					if (SpeciesHasToxicDebris(GetProperAbilityPopUpSpecies(bank)) && SPLIT(move) == SPLIT_PHYSICAL)
 					{
 						if (gSideTimers[gBankAttacker].tspikesAmount >= 2)
 						{
@@ -2256,7 +2254,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					if (gBattleMons[bank].hp < gBattleMons[bank].maxHP / 2
 					&& gBattleMons[bank].hp + gHpDealt > gBattleMons[bank].maxHP / 2 //Hp fell below half
 					&& AngerShellStatsCheck(bank)
-					&& SpeciesHasAngerShell(SPECIES(bank)))
+					&& SpeciesHasAngerShell(GetProperAbilityPopUpSpecies(bank)))
 					{
 						BattleScriptPushCursor();
 						gBattlescriptCurrInstr = BattleScript_AngerShellActivates;
@@ -2363,7 +2361,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				break;
 
 			case ABILITY_ANGERPOINT:
-				if (SpeciesHasWindRider(SPECIES(bank))
+				if (SpeciesHasWindRider(GetProperAbilityPopUpSpecies(bank))
 				&& gSpecialMoveFlags[move].gWindMoves
 				&& BATTLER_ALIVE(bank)
 				&& STAT_STAGE(bank, STAT_ATK) < 12)
@@ -2399,7 +2397,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
         			u8 side = SIDE(bank);
 					u8 partyId = gBattlerPartyIndexes[bank];
 
-					if (SpeciesHasVolatileExplosion(SPECIES(bank)) 
+					if (SpeciesHasVolatileExplosion(GetProperAbilityPopUpSpecies(bank)) 
     				&& !gNewBS->oncePerBattleAbilityFlags[side][partyId])
         			{
             			// 标记已使用
@@ -2433,7 +2431,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				&& TOOK_DAMAGE(bank)
 				&& BATTLER_ALIVE(bank)
 				&& gNewBS->ElectroCounter[bank] <= 2
-				&& SpeciesHasWindPower(SPECIES(bank))
+				&& SpeciesHasWindPower(GetProperAbilityPopUpSpecies(bank))
 				&& gSpecialMoveFlags[move].gWindMoves)
 				{
 					BattleScriptPushCursor();
@@ -2527,7 +2525,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				&& gBankAttacker != bank)
 				{
 					// Check Thermal Exchange
-					if (SpeciesHasThermalExchange(SPECIES(bank))
+					if (SpeciesHasThermalExchange(GetProperAbilityPopUpSpecies(bank))
 					&& moveType == TYPE_FIRE
 					&& STAT_STAGE(bank, STAT_ATK) < STAT_STAGE_MAX)
 					{
@@ -2537,7 +2535,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 						effect++;
 					}
 					// Check Well-Baked Body
-					else if (SpeciesHasWellBakedBody(SPECIES(bank))
+					else if (SpeciesHasWellBakedBody(GetProperAbilityPopUpSpecies(bank))
 						&& moveType == TYPE_FIRE
 						&& STAT_STAGE(bank, STAT_DEF) < STAT_STAGE_MAX)
 					{
@@ -2658,7 +2656,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				switch (ABILITY(bank))
 				{
 				case ABILITY_IMMUNITY:
-					if (CheckStatusAny(bank) && (SpeciesHasPurifyingSalt(SPECIES(bank))))
+					if (CheckStatusAny(bank) && (SpeciesHasPurifyingSalt(GetProperAbilityPopUpSpecies(bank))))
 					{
 						StringCopy(gBattleTextBuff1, gStatusConditionString_PurifySalt);
 						effect = 1;
@@ -2670,7 +2668,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					}
 					break;
 				case ABILITY_STEAMENGINE:
-					if ((gBattleMons[bank].status1 & STATUS1_BURN) && SpeciesHasThermalExchange(SPECIES(bank)))
+					if ((gBattleMons[bank].status1 & STATUS1_BURN) && SpeciesHasThermalExchange(GetProperAbilityPopUpSpecies(bank)))
 					{
 						StringCopy(gBattleTextBuff1, gStatusConditionString_Burn);
 						effect = 1;
@@ -2731,7 +2729,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					}
 					break;
 				case ABILITY_GOODASGOLD:
-					if (SpeciesHasGoodAsGold(SPECIES(bank)))
+					if (SpeciesHasGoodAsGold(GetProperAbilityPopUpSpecies(bank)))
 					{
 						if (CheckStatusAny(bank))
 						{
@@ -3087,6 +3085,8 @@ static bool8 AllMainStatsButOneAreMinned(bank_t bank)
 
 void LoadProperAbilityBattleData(void)
 {
+	if (gNewBS != NULL && gNewBS->tookAbilityFrom[gActiveBattler] != SPECIES_NONE)
+		return;
 	gBattleMons[gActiveBattler].ability = GetMonAbility(GetBankPartyData(gActiveBattler));
 }
 

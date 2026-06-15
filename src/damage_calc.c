@@ -3097,16 +3097,16 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			stallSide = GetBattlerSide(bank); // Store the side of the field of the Pokémon with Stall
 		}
 		
-		if (SpeciesHasBeadsofRuin(SPECIES(bank)) && GetBattlerSide(bank) == stallSide) {
+		if (SpeciesHasBeadsofRuin(GetProperAbilityPopUpSpecies(bank)) && GetBattlerSide(bank) == stallSide) {
 			beadsOfRuinInField = TRUE;
 		}
-		if (SpeciesHasTabletsofRuin(SPECIES(bank)) && GetBattlerSide(bank) == stallSide) {
+		if (SpeciesHasTabletsofRuin(GetProperAbilityPopUpSpecies(bank)) && GetBattlerSide(bank) == stallSide) {
 			TabletsOfRuinInField = TRUE;
 		}
-		if (SpeciesHasVesselofRuin(SPECIES(bank)) && GetBattlerSide(bank) == stallSide) {
+		if (SpeciesHasVesselofRuin(GetProperAbilityPopUpSpecies(bank)) && GetBattlerSide(bank) == stallSide) {
 			VesselOfRuinInField = TRUE;
 		}
-		if (SpeciesHasSwordofRuin(SPECIES(bank)) && GetBattlerSide(bank) == stallSide) {
+		if (SpeciesHasSwordofRuin(GetProperAbilityPopUpSpecies(bank)) && GetBattlerSide(bank) == stallSide) {
 			SwordOfRuinInField = TRUE;
 		}
 

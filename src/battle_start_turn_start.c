@@ -2457,10 +2457,10 @@ static u32 BoostSpeedInWeather(u8 ability, u8 itemEffect, u32 speed, u8 bank)
 				if(bank != 255)
 				{
 					if (gTerrainType == ELECTRIC_TERRAIN
-					&& GetHighestStat(bank) == STAT_SPEED && !SpeciesHasProtosynthesis(SPECIES(bank)))
+					&& GetHighestStat(bank) == STAT_SPEED && !SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bank)))
 						speed = (speed * 15) / 10;
 
-					if (IsSunWeatherActive(bank) && GetHighestStat(bank) == STAT_SPEED && SpeciesHasProtosynthesis(SPECIES(bank)))
+					if (IsSunWeatherActive(bank) && GetHighestStat(bank) == STAT_SPEED && SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bank)))
 						speed = (speed * 15) / 10;
 				}
 			break;

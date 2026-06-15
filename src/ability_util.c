@@ -1476,7 +1476,7 @@ bool8 GuardDogPreventsLoweringStat(u8 ability, u8 statId, u8 bank)
 	switch (ability)
 	{
 		case ABILITY_INNERFOCUS:
-			if(SpeciesHasGuardDog(SPECIES(bank))){
+			if(SpeciesHasGuardDog(GetProperAbilityPopUpSpecies(bank))){
 				return statId == STAT_STAGE_ATK;
 			}
 			else

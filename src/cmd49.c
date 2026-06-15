@@ -1555,7 +1555,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 			&& gNewBS->attackAnimationPlayed
 			&& !gNewBS->moveWasBouncedThisTurn
 			&& gSpecialMoveFlags[gCurrentMove].gBuffMoves
-			&& SpeciesHasOpportunist(SPECIES(bank)))
+			&& SpeciesHasOpportunist(GetProperAbilityPopUpSpecies(bank)))
 			{
 				gNewBS->DancerInProgress = TRUE;
 				gNewBS->CurrentTurnAttacker = gBankAttacker;
@@ -1574,7 +1574,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 			&& gNewBS->attackAnimationPlayed
 			&& !gNewBS->moveWasBouncedThisTurn
 			&& gSpecialMoveFlags[gCurrentMove].gDanceMoves
-			&& !SpeciesHasOpportunist(SPECIES(bank)))
+			&& !SpeciesHasOpportunist(GetProperAbilityPopUpSpecies(bank)))
 			{
 				gNewBS->DancerInProgress = TRUE;
 				gNewBS->CurrentTurnAttacker = gBankAttacker;
