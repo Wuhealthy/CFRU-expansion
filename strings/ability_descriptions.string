@@ -917,6 +917,12 @@ HP一半时降低双防提升双攻和速度
 #org @gText_AbilityDescription_SpiderSense
 同时攻击且同优先度下必定先出招
 
+#org @gText_AbilityDescription_Eelevate
+同时拥有飘浮和异兽提升
+
+#org @gText_AbilityDescription_FireMane
+火属性的招式威力会提高
+
 #org @gText_AbilityDescription_SupremeOverlord
 出场时按照倒下同伴数量提高双攻
 

@@ -22,6 +22,8 @@ bool8 IsTargetAbilityIgnoredNoMove(u8 defAbility, u8 atkAbility);
 
 bool8 SpeciesHasTurboblaze(u16 species);
 bool8 SpeciesHasSpiderSense(u16 species);
+bool8 SpeciesHasEelevate(u16 species);
+bool8 SpeciesHasFireMane(u16 species);
 bool8 SpeciesHasEmbodyAspect(u16 species);
 bool8 SpeciesHasDauntlessShield(u16 species);
 bool8 SpeciesHasTeravolt(u16 species);

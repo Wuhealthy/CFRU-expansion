@@ -990,6 +990,56 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 					}
 					break;
 
+				case ABILITY_LEVITATE:
+					if (SpeciesHasEelevate(GetProperAbilityPopUpSpecies(gBankAttacker)))
+					{
+						if ((arg1 != ARG_IN_FUTURE_ATTACK || gWishFutureKnock.futureSightPartyIndex[bankDef] == gBattlerPartyIndexes[gBankAttacker])
+						&& gBattleMons[bankDef].hp == 0
+						&& BATTLER_ALIVE(gBankAttacker)
+						&& TOOK_DAMAGE(bankDef)
+						&& MOVE_HAD_EFFECT
+						&& ViableMonCountFromBank(FOE(gBankAttacker)) > 0) //Use FOE so as to not get boost when KOing partner last after enemy has no mons left
+						{
+							u16 maxStatId;
+							u16 stats[STAT_STAGE_SPDEF + 1]; //Create new array to avoid modifying original stats
+
+							stats[STAT_STAGE_ATK] = gBattleMons[gBankAttacker].attack;
+							stats[STAT_STAGE_DEF] = gBattleMons[gBankAttacker].defense;
+							stats[STAT_STAGE_SPATK] = gBattleMons[gBankAttacker].spAttack;
+							stats[STAT_STAGE_SPDEF] = gBattleMons[gBankAttacker].spDefense;
+							stats[STAT_STAGE_SPEED] = gBattleMons[gBankAttacker].speed;
+
+							if (IsWonderRoomActive())
+							{
+								u16 temp = stats[STAT_STAGE_DEF];
+								stats[STAT_STAGE_DEF] = stats[STAT_STAGE_SPDEF];
+								stats[STAT_STAGE_SPDEF] = temp;
+							}
+
+							maxStatId = STAT_STAGE_ATK;
+							for (u8 i = STAT_STAGE_DEF; i < NELEMS(stats); ++i)
+							{
+								if (stats[i] > stats[maxStatId])
+									maxStatId = i;
+							}
+
+							if (STAT_CAN_RISE(gBankAttacker, maxStatId))
+							{
+								PREPARE_STAT_BUFFER(gBattleTextBuff1, maxStatId);
+
+								gEffectBank = gBankAttacker;
+								gBattleScripting.bank = gBankAttacker;
+								gBattleScripting.statChanger = INCREASE_1 | maxStatId;
+								gBattleScripting.animArg1 = STAT_ANIM_PLUS1 + maxStatId - 1;
+								gBattleScripting.animArg2 = 0;
+								BattleScriptPushCursor();
+								gBattlescriptCurrInstr = BattleScript_Moxie;
+								effect = 1;
+							}
+						}
+					}
+					break;
+
 				#if (defined SPECIES_GRENINJA && defined SPECIES_ASHGRENINJA)
 				case ABILITY_BATTLEBOND:
 					if ((arg1 != ARG_IN_FUTURE_ATTACK || gWishFutureKnock.futureSightPartyIndex[bankDef] == gBattlerPartyIndexes[gBankAttacker])

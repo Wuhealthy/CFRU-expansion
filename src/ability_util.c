@@ -132,6 +132,10 @@ extern const u8 gText_AbilityName_HeavyArmor[];
 extern const u8 gText_AbilityDescription_HeavyArmor[];
 extern const u8 gText_AbilityName_SpiderSense[];
 extern const u8 gText_AbilityDescription_SpiderSense[];
+extern const u8 gText_AbilityName_Eelevate[];
+extern const u8 gText_AbilityDescription_Eelevate[];
+extern const u8 gText_AbilityName_FireMane[];
+extern const u8 gText_AbilityDescription_FireMane[];
 extern const u8 gText_AbilityName_SupremeOverlord[];
 extern const u8 gText_AbilityDescription_SupremeOverlord[];
 extern const u8 gText_AbilityName_SuperSweetSyrup[];
@@ -535,6 +539,14 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 			if (SpeciesHasPurifyingSalt(species))
 				return gText_AbilityName_PureSalt;
 			break;
+		case ABILITY_LEVITATE:
+    		if (SpeciesHasEelevate(species))
+        		return gText_AbilityName_Eelevate;
+    		break;
+		case ABILITY_TRANSISTOR:
+    		if (SpeciesHasFireMane(species))
+        		return gText_AbilityName_FireMane;
+    		break;
 		case ABILITY_STEELWORKER:
 			if (SpeciesHasRockyPayload(species))
 				return gText_AbilityName_RockyPayload;
@@ -753,6 +765,14 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 			if (SpeciesHasSupremeOverlord(species))
 				return gText_AbilityDescription_SupremeOverlord;
 			break;
+		case ABILITY_LEVITATE:
+    		if (SpeciesHasEelevate(species))
+        		return gText_AbilityDescription_Eelevate;
+    		break;
+		case ABILITY_TRANSISTOR:
+    		if (SpeciesHasFireMane(species))
+        		return gText_AbilityDescription_FireMane;
+    		break;
 		case ABILITY_INTIMIDATE:
 			if (SpeciesHasSuperSweetSyrup(species))
 				return gText_AbilityDescription_SuperSweetSyrup;
@@ -1756,6 +1776,24 @@ bool8 SpeciesHasSpiderSense(unusedArg u16 species)
 	#else
 	return FALSE;
 	#endif
+}
+
+bool8 SpeciesHasEelevate(unusedArg u16 species)
+{
+	#ifdef SPECIES_EELEKTROSS_MEGA
+	return species == SPECIES_EELEKTROSS_MEGA;
+	#else
+	return FALSE;
+	#endif
+}
+
+bool8 SpeciesHasFireMane(unusedArg u16 species)
+{
+    #ifdef SPECIES_PYROAR_MEGA
+    return species == SPECIES_PYROAR_MEGA;
+    #else
+    return FALSE;
+    #endif
 }
 
 bool8 SpeciesHasWellBakedBody(unusedArg u16 species)

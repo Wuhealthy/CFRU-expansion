@@ -4342,7 +4342,9 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 		#ifdef ABILITY_TRANSISTOR
 		case ABILITY_TRANSISTOR:
 		//1.5x Boost
-			if (data->moveType == TYPE_ELECTRIC)
+			if (SpeciesHasFireMane(GetProperAbilityPopUpSpecies(bankAtk)) && data->moveType == TYPE_FIRE)
+				power = (power * 15) / 10;
+			else if (data->moveType == TYPE_ELECTRIC)
 				power = (power * 15) / 10;
 			break;
 		#endif
