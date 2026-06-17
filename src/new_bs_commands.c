@@ -1005,7 +1005,7 @@ void atkFE_prefaintmoveendeffects(void)
 						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK
 						&& CanBePoisoned(gBankTarget, gBankAttacker, TRUE)
 						&& umodsi(Random(), 100) < chance
-						&& SpeciesHasToxicChain(SPECIES(gBankAttacker)))
+						&& SpeciesHasToxicChain(GetProperAbilityPopUpSpecies(gBankAttacker)))
 						{
 							BattleScriptPushCursor();
 							gBattlescriptCurrInstr = BattleScript_ToxicChain;
@@ -1015,7 +1015,7 @@ void atkFE_prefaintmoveendeffects(void)
 						else if (ABILITY(gBankTarget) != ABILITY_SHIELDDUST
 						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK
 						&& CanBePoisoned(gBankTarget, gBankAttacker, TRUE)
-						&& SpeciesHasVenomForte(SPECIES(gBankAttacker)))
+						&& SpeciesHasVenomForte(GetProperAbilityPopUpSpecies(gBankAttacker)))
 						{
         					BattleScriptPushCursor();
         					gBattlescriptCurrInstr = BattleScript_PoisonTouch;

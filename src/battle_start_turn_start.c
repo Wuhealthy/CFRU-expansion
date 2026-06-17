@@ -2131,14 +2131,14 @@ u8 GetWhoStrikesFirst(u8 bank1, u8 bank2, bool8 ignoreMovePriorities)
 			return SecondMon;
 
 		// ========== 蜘蛛感应：先制度相同时，双方都用攻击招式，持有者必定先出 ==========
-        if (SpeciesHasSpiderSense(SPECIES(bank1))
+        if (SpeciesHasSpiderSense(GetProperAbilityPopUpSpecies(bank1))
             && SPLIT(move1) != SPLIT_STATUS
             && SPLIT(move2) != SPLIT_STATUS)
         {
             return FirstMon;
         }
         
-        if (SpeciesHasSpiderSense(SPECIES(bank2))
+        if (SpeciesHasSpiderSense(GetProperAbilityPopUpSpecies(bank2))
             && SPLIT(move1) != SPLIT_STATUS
             && SPLIT(move2) != SPLIT_STATUS)
         {
@@ -2202,14 +2202,14 @@ static u8 GetWhoStrikesFirstUseLastBracketCalc(u8 bank1, u8 bank2)
 		return SecondMon;
 
 	// 蜘蛛感应
-    if (SpeciesHasSpiderSense(SPECIES(bank1))
+    if (SpeciesHasSpiderSense(GetProperAbilityPopUpSpecies(bank1))
         && SPLIT(move1) != SPLIT_STATUS
         && SPLIT(move2) != SPLIT_STATUS)
     {
         return FirstMon;
     }
     
-    if (SpeciesHasSpiderSense(SPECIES(bank2))
+    if (SpeciesHasSpiderSense(GetProperAbilityPopUpSpecies(bank2))
         && SPLIT(move1) != SPLIT_STATUS
         && SPLIT(move2) != SPLIT_STATUS)
     {

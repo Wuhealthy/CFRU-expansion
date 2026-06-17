@@ -1450,7 +1450,7 @@ TYPE_LOOP:
 	}
 	
 	// 浪花之拳: 拳类招式同时带有水属性
-	if (SpeciesHasWaveFist(SPECIES(gBankAttacker)) && gSpecialMoveFlags[move].gPunchingMoves && moveType != TYPE_WATER)
+	if (SpeciesHasWaveFist(GetProperAbilityPopUpSpecies(gBankAttacker)) && gSpecialMoveFlags[move].gPunchingMoves && moveType != TYPE_WATER)
 	{
 		moveType = TYPE_WATER;
 		goto TYPE_LOOP;
@@ -1480,7 +1480,7 @@ TYPE_LOOP_AI:
 	}
 
 	// 浪花之拳: 拳类招式同时带有水属性
-	if (SpeciesHasWaveFist(SPECIES(gBankAttacker)) && gSpecialMoveFlags[move].gPunchingMoves && moveType != TYPE_WATER)
+	if (SpeciesHasWaveFist(GetProperAbilityPopUpSpecies(gBankAttacker)) && gSpecialMoveFlags[move].gPunchingMoves && moveType != TYPE_WATER)
 	{
 		moveType = TYPE_WATER;
 		goto TYPE_LOOP_AI;
@@ -1508,7 +1508,7 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 		}
 	}
 
-	if (gBattleMons[bankDef].hp == gBattleMons[bankDef].maxHP && SpeciesHasTeraShell(SPECIES(bankDef))) // Check if target's HP is full
+	if (gBattleMons[bankDef].hp == gBattleMons[bankDef].maxHP && SpeciesHasTeraShell(GetProperAbilityPopUpSpecies(bankDef))) // Check if target's HP is full
 	{
 		if (multiplier != TYPE_MUL_NO_EFFECT)
 			multiplier = TYPE_MUL_NOT_EFFECTIVE; // Override the multiplier to "not very effective"
@@ -2421,7 +2421,7 @@ void PopulateDamageCalcStructWithBaseDefenderData(struct DamageCalc* data)
 		data->defStatus3 = 0;
 		data->defSideStatus = gSideStatuses[side];
 		
-		if (data->defAbility == ABILITY_INTREPIDSWORD && SpeciesHasDauntlessShield(SPECIES(data->bankDef)))
+		if (data->defAbility == ABILITY_INTREPIDSWORD && SpeciesHasDauntlessShield(GetProperAbilityPopUpSpecies(data->bankDef)))
 			data->defBuff = min(data->defBuff + 1, STAT_STAGE_MAX);
 
 		TryBoostMonDefensesForTotemBoost(data, bankDef);
@@ -2545,7 +2545,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 				}
 
 				//Factor in Abilities that will activate on switch-in
-				if (atkAbility == ABILITY_INTREPIDSWORD && SpeciesHasDauntlessShield(SPECIES(data->bankAtk)))
+				if (atkAbility == ABILITY_INTREPIDSWORD && SpeciesHasDauntlessShield(GetProperAbilityPopUpSpecies(data->bankAtk)))
 					data->atkBuff = min(data->atkBuff + 1, STAT_STAGE_MAX);
 
 				TryBoostMonOffensesForTotemBoost(data, bankAtk, TRUE); //Check the Defense Totem Buff
@@ -2776,12 +2776,12 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 		case ABILITY_ORICHALCUMPULSE:
 			//1.4x Boost
 			if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
-			&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect) && SpeciesHasOrichalcumPulse(SPECIES(bankAtk)))
+			&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect) && SpeciesHasOrichalcumPulse(GetProperAbilityPopUpSpecies(bankAtk)))
 				attack = (attack * 14) / 10;
 			break;
 		
 		case ABILITY_QUARKDRIVE:
-			if (SpeciesHasProtosynthesis(SPECIES(gBankAttacker)) && (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
+			if (SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(gBankAttacker)) && (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
 			&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect)))
 			{
 				if (SPLIT(move) == SPLIT_PHYSICAL && GetHighestStat(bankAtk) == STAT_ATK)
@@ -2818,7 +2818,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 
 		case ABILITY_HADRONENGINE:
 			//1.33x Boost
-			if (gTerrainType == ELECTRIC_TERRAIN && SpeciesHasHadronEngine(SPECIES(bankAtk)) && data->atkIsGrounded)
+			if (gTerrainType == ELECTRIC_TERRAIN && SpeciesHasHadronEngine(GetProperAbilityPopUpSpecies(bankAtk)) && data->atkIsGrounded)
 				spAttack = (spAttack * 133) / 100;
 			break;
 
@@ -2918,7 +2918,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			break;
 
 		case ABILITY_QUARKDRIVE:
-			if (SpeciesHasProtosynthesis(SPECIES(gBankTarget)) && (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
+			if (SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(gBankTarget)) && (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
 			&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect)))
 			{
 				if (SPLIT(move) == SPLIT_PHYSICAL && GetHighestStat(bankDef) == STAT_DEF)
@@ -3116,19 +3116,19 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 		}
 	}
 
-	if (stallInField && beadsOfRuinInField && !SpeciesHasBeadsofRuin(SPECIES(bankAtk))) {
+	if (stallInField && beadsOfRuinInField && !SpeciesHasBeadsofRuin(GetProperAbilityPopUpSpecies(bankAtk))) {
 		spDefense = (spDefense * 75) / 100;  // Reduce Sp defense by 25%
 	}
 
-	if (stallInField && TabletsOfRuinInField && !SpeciesHasTabletsofRuin(SPECIES(bankAtk))) {
+	if (stallInField && TabletsOfRuinInField && !SpeciesHasTabletsofRuin(GetProperAbilityPopUpSpecies(bankAtk))) {
 		attack = (attack * 75) / 100;  // Reduce attack by 25%
 	}
 
-	if (stallInField && VesselOfRuinInField && !SpeciesHasVesselofRuin(SPECIES(bankAtk))) {
+	if (stallInField && VesselOfRuinInField && !SpeciesHasVesselofRuin(GetProperAbilityPopUpSpecies(bankAtk))) {
 		spAttack = (spAttack * 75) / 100;  // Reduce Sp attack by 25%
 	}
 
-	if (stallInField && SwordOfRuinInField && !SpeciesHasSwordofRuin(SPECIES(bankAtk))) {
+	if (stallInField && SwordOfRuinInField && !SpeciesHasSwordofRuin(GetProperAbilityPopUpSpecies(bankAtk))) {
 		defense = (defense * 75) / 100;  // Reduce defense by 25%
 	}
 
@@ -4262,7 +4262,7 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 
 		case ABILITY_STRONGJAW:
 		//1.5x Boost
-			if (SpeciesHasHeavyArmor(SPECIES(bankAtk)))
+			if (SpeciesHasHeavyArmor(GetProperAbilityPopUpSpecies(bankAtk)))
     		{
         		u32 userDef = gBattleMons[bankAtk].defense;
     			APPLY_STAT_MOD(userDef, &gBattleMons[bankAtk], userDef, STAT_DEF);
@@ -4272,15 +4272,15 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
         		if (userDef > targetAtk)
             		power = (power * 15) / 10;
     		}
-			else if (gSpecialMoveFlags[move].gSlicingMoves && SpeciesHasSharpness(SPECIES(bankAtk)))
+			else if (gSpecialMoveFlags[move].gSlicingMoves && SpeciesHasSharpness(GetProperAbilityPopUpSpecies(bankAtk)))
 				power = (power * 15) / 10;
-			else if (gSpecialMoveFlags[move].gBitingMoves && !SpeciesHasSpiderSense(SPECIES(bankAtk)))
+			else if (gSpecialMoveFlags[move].gBitingMoves && !SpeciesHasSpiderSense(GetProperAbilityPopUpSpecies(bankAtk)))
 				power = (power * 15) / 10;
 			break;
 
 		case ABILITY_POISONTOUCH:
     	// 强注毒液: 目标未中毒时，伤害提升30%
-    		if (SpeciesHasVenomForte(SPECIES(bankAtk))
+    		if (SpeciesHasVenomForte(GetProperAbilityPopUpSpecies(bankAtk))
         	&& !(gBattleMons[bankDef].status1 & STATUS1_PSN_ANY))
     		{
         		power = (power * 13) / 10;
@@ -4310,7 +4310,7 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 		case ABILITY_STEELWORKER:
 		case ABILITY_STEELYSPIRIT:
 		//1.5x Boost
-			if (SpeciesHasRockyPayload(SPECIES(bankAtk)) && data->moveType == TYPE_ROCK)
+			if (SpeciesHasRockyPayload(GetProperAbilityPopUpSpecies(bankAtk)) && data->moveType == TYPE_ROCK)
 				power = (power * 15) / 10;
 			else if (data->moveType == TYPE_STEEL)
 				power = (power * 15) / 10;

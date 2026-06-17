@@ -2773,7 +2773,7 @@ void TryActivateProtosynthesis(void)
             continue;
 
         u16 ability = ABILITY(bank);
-		u16 species = SPECIES(bank);
+		u16 species = GetProperAbilityPopUpSpecies(bank);
         if (ability == ABILITY_QUARKDRIVE && IsSunWeatherActive(bank) && SpeciesHasProtosynthesis(species))
         {
 			gNewBS->ProtosynthesisActivated[bank] = TRUE;
@@ -2789,7 +2789,7 @@ void TrySetPoisonPuppeterEffect(void)
 {
 	u32 status = gBattleMons[gBankTarget].status1;
 	
-	if (SpeciesHasPoisonPuppeteer(SPECIES(gBankAttacker)) && (status & STATUS_POISON) && !(gBattleMons[gBankTarget].status2 & STATUS2_CONFUSION))
+	if (SpeciesHasPoisonPuppeteer(GetProperAbilityPopUpSpecies(gBankAttacker)) && (status & STATUS_POISON) && !(gBattleMons[gBankTarget].status2 & STATUS2_CONFUSION))
 	{
 		gBattleMons[gBankTarget].status2 |= STATUS2_CONFUSION;
 		gBattlescriptCurrInstr = BattleScript_SetPuppetConfusion - 5;

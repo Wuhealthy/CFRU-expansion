@@ -194,7 +194,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK
 						&& CanBePoisoned(gBankTarget, gBankAttacker, TRUE)
 						&& umodsi(Random(), 100) < chance
-						&& SpeciesHasToxicChain(SPECIES(gBankAttacker)))
+						&& SpeciesHasToxicChain(GetProperAbilityPopUpSpecies(gBankAttacker)))
 						{
 							BattleScriptPushCursor();
 							gBattlescriptCurrInstr = BattleScript_ToxicChain;
@@ -204,7 +204,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 						else if (ABILITY(gBankTarget) != ABILITY_SHIELDDUST
 						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK
 						&& CanBePoisoned(gBankTarget, gBankAttacker, TRUE)
-						&& SpeciesHasVenomForte(SPECIES(gBankAttacker)))
+						&& SpeciesHasVenomForte(GetProperAbilityPopUpSpecies(gBankAttacker)))
 						{
         					BattleScriptPushCursor();
         					gBattlescriptCurrInstr = BattleScript_PoisonTouch;
@@ -860,7 +860,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 		case ATK49_MAGICIAN_MOXIE_BATTLEBOND:
 			switch (ABILITY(gBankAttacker)) {
 				case ABILITY_MAGICIAN:
-					if (!SpeciesHasImprovise(SPECIES(gBankAttacker))
+					if (!SpeciesHasImprovise(GetProperAbilityPopUpSpecies(gBankAttacker))
 					&& arg1 != ARG_IN_FUTURE_ATTACK
 					&& ITEM(gBankAttacker) == ITEM_NONE
 					&& ITEM(bankDef) != ITEM_NONE
@@ -1283,7 +1283,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 					&&  !MoveBlockedBySubstitute(gCurrentMove, gBankAttacker, banks[i])
 					&&  ((gBattleTypeFlags & BATTLE_TYPE_TRAINER) || SIDE(i) == B_SIDE_PLAYER) //Wild's can't activate
 					&&  HasMonToSwitchTo(banks[i])
-					&&	!(SpeciesHasGuardDog(SPECIES(banks[i])) && ABILITY(banks[i]) == ABILITY_GUARDDOG))
+					&&	!(SpeciesHasGuardDog(GetProperAbilityPopUpSpecies(banks[i])) && ABILITY(banks[i]) == ABILITY_GUARDDOG))
 					{
 						if (gBattleMoves[gCurrentMove].effect == EFFECT_BATON_PASS)
 							gBattlescriptCurrInstr = BattleScript_Atk49; //Cancel switchout for U-Turn & Volt Switch
@@ -1320,7 +1320,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 					&&  gNewBS->turnDamageTaken[banks[i]] != 0
 					&&  !MoveBlockedBySubstitute(gCurrentMove, gBankAttacker, banks[i])
 					&&  ((gBattleTypeFlags & BATTLE_TYPE_TRAINER) || IsRaidBattle() || SIDE(banks[i]) == B_SIDE_PLAYER)
-					&&	!(SpeciesHasGuardDog(SPECIES(banks[i])) && ABILITY(banks[i]) == ABILITY_GUARDDOG)) //Normal wild attackers can't activate
+					&&	!(SpeciesHasGuardDog(GetProperAbilityPopUpSpecies(banks[i])) && ABILITY(banks[i]) == ABILITY_GUARDDOG)) //Normal wild attackers can't activate
 					{
 						gNewBS->NoSymbiosisByte = TRUE;
 						gForceSwitchHelper = Force_Switch_Red_Card;
