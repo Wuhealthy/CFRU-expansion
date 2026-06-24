@@ -73,6 +73,7 @@ bool8 SpeciesHasEarthEater(u16 species);
 bool8 SpeciesHasElectromorphosis(u16 species);
 bool8 SpeciesHasSpicySpray(u16 species);
 bool8 SpeciesHasGoodAsGold(u16 species);
+bool8 SpeciesHasQuickCharge(u16 species);
 bool8 SpeciesHasGuardDog(u16 species);
 bool8 GuardDogPreventsLoweringStat(u8 ability, u8 statId, u8 bank);
 bool8 SpeciesHasHadronEngine(u16 species);

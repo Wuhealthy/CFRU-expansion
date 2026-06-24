@@ -231,11 +231,6 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 				if (gNewBS->EchoedVoiceCounter == 0)
 					gNewBS->EchoedVoiceDamageScale = 0;
 
-				if (GetMonMoveTypeSpecial(monAtk, move) == TYPE_ELECTRIC)
-				{
-					gNewBS->ElectroCounter[bank] = 0;
-				}
-
 				gSideStatuses[B_SIDE_PLAYER] &= ~(SIDE_STATUS_CRAFTY_SHIELD | SIDE_STATUS_MAT_BLOCK | SIDE_STATUS_QUICK_GUARD | SIDE_STATUS_WIDE_GUARD);
 				gSideStatuses[B_SIDE_OPPONENT] &= ~(SIDE_STATUS_CRAFTY_SHIELD | SIDE_STATUS_MAT_BLOCK | SIDE_STATUS_QUICK_GUARD | SIDE_STATUS_WIDE_GUARD);
 
@@ -919,8 +914,11 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 				break;
 
 			case ET_Charge_Timer:
-				if (gDisableStructs[gActiveBattler].chargeTimer && --gDisableStructs[gActiveBattler].chargeTimer == 0)
-					gStatuses3[gActiveBattler] &= ~STATUS3_CHARGED_UP;
+				if (gNewBS->ElectroCounter[gActiveBattler])
+        		break;
+				u16 lastMove = gLastUsedMoves[gActiveBattler];
+        		if (gBattleMoves[lastMove].type == TYPE_ELECTRIC && lastMove != MOVE_CHARGE)
+            		gStatuses3[gActiveBattler] &= ~STATUS3_CHARGED_UP;
 				break;
 
 			case ET_Magnet_Rise_Timer:

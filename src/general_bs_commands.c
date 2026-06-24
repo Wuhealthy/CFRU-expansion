@@ -147,6 +147,11 @@ void atk02_attackstring(void)
 
 	if (gBattleExecBuffer) return;
 
+	if (gStatuses3[gBankAttacker] & STATUS3_CHARGED_UP && moveType == TYPE_ELECTRIC)
+		{
+    		gNewBS->ElectroCounter[gBankAttacker] = FALSE;
+		}
+
 	if (gBattlescriptCurrInstr == BattleScript_ButItFailedAttackstring)
 		gMoveResultFlags |= MOVE_RESULT_FAILED;
 

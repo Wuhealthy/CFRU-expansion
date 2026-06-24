@@ -1312,6 +1312,58 @@ void TrySetMagnetRise(void)
 	}
 }
 
+void TryTriggerWindPowerOnTailwind(void)
+{
+    if (!gNewBS->TailwindTimers[SIDE(gBankAttacker)])
+        return;
+    
+    for (u8 i = 0; i < gBattlersCount; i++)
+    {
+        if (SIDE(i) == SIDE(gBankAttacker) 
+            && BATTLER_ALIVE(i)
+            && ABILITY(i) == ABILITY_BERSERK
+            && SpeciesHasWindPower(GetProperAbilityPopUpSpecies(i)))
+        {
+        	if (gStatuses3[i] & STATUS3_CHARGED_UP)
+                continue;
+
+			gStatuses3[i] |= STATUS3_CHARGED_UP;
+			gNewBS->ElectroCounter[i] = TRUE;
+            gBankAttacker = i;
+            gBattleScripting.bank = i;
+            BattleScriptPushCursor();
+			gBattlescriptCurrInstr = BattleScript_ElectromorphosisActivates;
+            break;
+        }
+    }
+}
+
+void TryTriggerWindPowerOnTailwinds(void)
+{
+    if (!gNewBS->TailwindTimers[SIDE(gBankAttacker)])
+        return;
+    
+    for (u8 i = 0; i < gBattlersCount; i++)
+    {
+        if (SIDE(i) == SIDE(gBankAttacker) 
+            && BATTLER_ALIVE(i)
+            && ABILITY(i) == ABILITY_DOWNLOAD
+            && SpeciesHasQuickCharge(GetProperAbilityPopUpSpecies(i)))
+        {
+        	if (gStatuses3[i] & STATUS3_CHARGED_UP)
+                continue;
+
+			gStatuses3[i] |= STATUS3_CHARGED_UP;
+			gNewBS->ElectroCounter[i] = TRUE;
+            gBankAttacker = i;
+            gBattleScripting.bank = i;
+            BattleScriptPushCursor();
+			gBattlescriptCurrInstr = BattleScript_ElectromorphosisActivates;
+            break;
+        }
+    }
+}
+
 void TailwindLuckyChantFunc(void)
 {
 	switch (gCurrentMove) {

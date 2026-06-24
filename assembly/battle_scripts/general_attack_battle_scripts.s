@@ -6165,6 +6165,8 @@ BS_239_TeamEffectsAndMagnetRise:
 	waitanimation
 	printstring 0x184
 	waitmessage DELAY_1SECOND
+	callasm TryTriggerWindPowerOnTailwind
+	callasm TryTriggerWindPowerOnTailwinds
 	goto BS_MOVE_END
 	
 MagnetRiseBS:

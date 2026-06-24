@@ -112,6 +112,7 @@ ability_battle_scripts.s
 .global BattleScript_AngerShellActivates
 .global BattleScript_CudChew
 .global BattleScript_ElectromorphosisActivates
+.global BattleScript_ElectromorphosisActivatess
 .global BattleScript_GuardDogActivates
 .global BattleScript_LingeringAromaActivates
 .global BattleScript_QuarkDriveActivates
@@ -1536,7 +1537,6 @@ AngerShellReturn:
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 BattleScript_ElectromorphosisActivates:
 	call BattleScript_AbilityPopUp
-	setcharge
 	setword BATTLE_STRING_LOADER gText_ElectromorphosisActivates
 	printstring 0x184
 	playanimation BANK_SCRIPTING ANIM_CHARGE2 0x0
@@ -1544,6 +1544,16 @@ BattleScript_ElectromorphosisActivates:
 	call BattleScript_AbilityPopUpRevert
 	seteffectprimary
 	return
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+BattleScript_ElectromorphosisActivatess:
+	call BattleScript_AbilityPopUp
+	setword BATTLE_STRING_LOADER gText_ElectromorphosisActivatess
+	printstring 0x184
+	playanimation BANK_SCRIPTING ANIM_CHARGE2 0x0
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
+	end3
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

@@ -529,6 +529,9 @@
 #org @gText_ElectromorphosisActivates
 [SCRIPTING_BANK]\n受到[CURRENT_MOVE]而充电了。
 
+#org @gText_ElectromorphosisActivatess
+[SCRIPTING_BANK]\n充电了。
+
 #org @gText_ToxicDebrisFailed
 [SCRIPTING_BANK]试图撒出毒菱，\n但失败了。
 

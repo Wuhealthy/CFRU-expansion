@@ -84,6 +84,8 @@ extern const u8 gText_AbilityDescription_PsyGravity[];
 //Gen 9 Abilities
 extern const u8 gText_AbilityName_AngerShell[];
 extern const u8 gText_AbilityDescription_AngerShell[];
+extern const u8 gText_AbilityName_QuickCharge[];
+extern const u8 gText_AbilityDescription_QuickCharge[];
 extern const u8 gText_AbilityName_ArmorTail[];
 extern const u8 gText_AbilityDescription_BeadsofRuin[];
 extern const u8 gText_AbilityDescription_SwordofRuin[];
@@ -246,6 +248,10 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 			if (SpeciesHasEvaporate(species))
 				return gText_AbilityName_Evaporate;
 			break;
+		case ABILITY_DOWNLOAD:
+    		if (SpeciesHasQuickCharge(species))
+        		return gText_AbilityName_QuickCharge;
+    		break;
 		case ABILITY_UNSEENFIST:
 			if (SpeciesHasPiercingDrill(species))
 				return gText_AbilityName_PiercingDrill;  // 需要定义此字符串
@@ -802,6 +808,10 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 		case ABILITY_MAGICIAN:
     		if (SpeciesHasImprovise(species))
         		return gText_AbilityDescription_Improvise;
+    		break;
+		case ABILITY_DOWNLOAD:
+    		if (SpeciesHasQuickCharge(species))
+        		return gText_AbilityDescription_QuickCharge;
     		break;
 		case ABILITY_AFTERMATH:
     		if (SpeciesHasVolatileExplosion(species))
@@ -1477,6 +1487,15 @@ bool8 SpeciesHasGoodAsGold(unusedArg u16 species)
 {
 	#ifdef SPECIES_GHOLDENGO
 	return species == SPECIES_GHOLDENGO;
+	#else
+	return FALSE;
+	#endif
+}
+
+bool8 SpeciesHasQuickCharge(unusedArg u16 species)
+{
+	#ifdef SPECIES_JOLTEON_MEGA
+	return species == SPECIES_JOLTEON_MEGA;
 	#else
 	return FALSE;
 	#endif

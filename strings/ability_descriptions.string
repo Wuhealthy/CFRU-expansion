@@ -806,6 +806,9 @@ HP一半时就会把树果吃掉
 #org @gText_AbilityDescription_WaveFist
 拳类招式威力提高并带有水属性
 
+#org @gText_AbilityDescription_QuickCharge
+出场或受到风的招式时，会充电
+
 #org @gText_AbilityDescription_EmbodyAspect_Grass
 出场时，速度会提高
 

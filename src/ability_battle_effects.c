@@ -1133,48 +1133,62 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			break;
 
 		case ABILITY_DOWNLOAD: ;
-			u8 statId;
-			u32 opposingBank = BATTLE_OPPOSITE(bank);
-			u8 defMod = !IsWonderRoomActive() ? STAT_DEF : STAT_SPDEF; //Bug with the official GF code that considers stat stages instead of raw stats under Wonder Room
-			u8 spDefMod = !IsWonderRoomActive() ? STAT_SPDEF : STAT_DEF;
+			if (SpeciesHasQuickCharge(GetProperAbilityPopUpSpecies(bank)))
+    		{
+        		if (!(gStatuses3[bank] & STATUS3_CHARGED_UP))
+        		{
+            		gStatuses3[bank] |= STATUS3_CHARGED_UP;
+            		gNewBS->ElectroCounter[bank] = TRUE;
+            		BattleScriptPushCursorAndCallback(BattleScript_ElectromorphosisActivatess);
+            		effect++;
+        		}
+    			break;
+    		}
 
-			u32 opposingDef = gBattleMons[opposingBank].defense;
-			APPLY_STAT_MOD(opposingDef, &gBattleMons[opposingBank], opposingDef, defMod);
-			u32 opposingSpDef = gBattleMons[opposingBank].spDefense;
-			APPLY_STAT_MOD(opposingSpDef, &gBattleMons[opposingBank], opposingSpDef, spDefMod);
-
-			if (IS_DOUBLE_BATTLE)
 			{
-				u32 opposingPartnerDef = 0;
-				u32 opposingPartnerSpDef = 0;
-				opposingBank = PARTNER(opposingBank);
-				if (gBattleMons[opposingBank].hp)
+				u8 statId;
+				u32 opposingBank = BATTLE_OPPOSITE(bank);
+				u8 defMod = !IsWonderRoomActive() ? STAT_DEF : STAT_SPDEF; //Bug with the official GF code that considers stat stages instead of raw stats under Wonder Room
+				u8 spDefMod = !IsWonderRoomActive() ? STAT_SPDEF : STAT_DEF;
+
+				u32 opposingDef = gBattleMons[opposingBank].defense;
+				APPLY_STAT_MOD(opposingDef, &gBattleMons[opposingBank], opposingDef, defMod);
+				u32 opposingSpDef = gBattleMons[opposingBank].spDefense;
+				APPLY_STAT_MOD(opposingSpDef, &gBattleMons[opposingBank], opposingSpDef, spDefMod);
+
+				if (IS_DOUBLE_BATTLE)
 				{
-					u32 opposingPartnerDef = gBattleMons[opposingBank].defense;
-					APPLY_STAT_MOD(opposingPartnerDef, &gBattleMons[opposingBank], opposingPartnerDef, defMod);
-					u32 opposingPartnerSpDef = gBattleMons[opposingBank].spDefense;
-					APPLY_STAT_MOD(opposingPartnerSpDef, &gBattleMons[opposingBank], opposingPartnerSpDef, spDefMod);
+					u32 opposingPartnerDef = 0;
+					u32 opposingPartnerSpDef = 0;
+					opposingBank = PARTNER(opposingBank);
+					if (gBattleMons[opposingBank].hp)
+					{
+						u32 opposingPartnerDef = gBattleMons[opposingBank].defense;
+						APPLY_STAT_MOD(opposingPartnerDef, &gBattleMons[opposingBank], opposingPartnerDef, defMod);
+						u32 opposingPartnerSpDef = gBattleMons[opposingBank].spDefense;
+						APPLY_STAT_MOD(opposingPartnerSpDef, &gBattleMons[opposingBank], opposingPartnerSpDef, spDefMod);
+					}
+
+					opposingDef += opposingPartnerDef;
+					opposingSpDef += opposingPartnerSpDef;
 				}
 
-				opposingDef += opposingPartnerDef;
-				opposingSpDef += opposingPartnerSpDef;
-			}
+				if (opposingDef < opposingSpDef)
+					statId = STAT_ATK;
+				else
+					statId = STAT_SPATK;
 
-			if (opposingDef < opposingSpDef)
-				statId = STAT_ATK;
-			else
-				statId = STAT_SPATK;
-
-			if (STAT_STAGE(bank, statId) < STAT_STAGE_MAX)
-			{
-				gBankAttacker = bank;
-				STAT_STAGE(bank, statId)++;
-				gNewBS->statRoseThisRound[bank] = TRUE;
-				gBattleScripting.statChanger = statId | INCREASE_1;
-				PREPARE_STAT_BUFFER(gBattleTextBuff1, statId);
-				PREPARE_STAT_ROSE(gBattleTextBuff2);
-				BattleScriptPushCursorAndCallback(BattleScript_AttackerAbilityStatRaiseEnd3);
-				effect++;
+				if (STAT_STAGE(bank, statId) < STAT_STAGE_MAX)
+				{
+					gBankAttacker = bank;
+					STAT_STAGE(bank, statId)++;
+					gNewBS->statRoseThisRound[bank] = TRUE;
+					gBattleScripting.statChanger = statId | INCREASE_1;
+					PREPARE_STAT_BUFFER(gBattleTextBuff1, statId);
+					PREPARE_STAT_ROSE(gBattleTextBuff2);
+					BattleScriptPushCursorAndCallback(BattleScript_AttackerAbilityStatRaiseEnd3);
+					effect++;
+				}
 			}
 			break;
 
@@ -2022,14 +2036,12 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				else if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
 				&& BATTLER_ALIVE(bank)
-				&& SpeciesHasElectromorphosis(GetProperAbilityPopUpSpecies(bank))
-				&& gNewBS->ElectroCounter[bank] <= 2)
+				&& SpeciesHasElectromorphosis(GetProperAbilityPopUpSpecies(bank)))
 				{
+					gStatuses3[bank] |= STATUS3_CHARGED_UP;
 					BattleScriptPushCursor();
 					gBattlescriptCurrInstr = BattleScript_ElectromorphosisActivates;
-					if(gNewBS->ElectroCounter[bank] == 0)
-						gNewBS->ElectroCounter[bank] = 1;
-					gNewBS->ElectroCounter[bank]++;
+					gNewBS->ElectroCounter[bank] = TRUE;
 					effect++;
 				}
 
@@ -2426,24 +2438,38 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				}
 				break;
 
+			case ABILITY_DOWNLOAD:
+				if (MOVE_HAD_EFFECT
+				&& TOOK_DAMAGE(bank)
+				&& BATTLER_ALIVE(bank)
+				&& SpeciesHasQuickCharge(GetProperAbilityPopUpSpecies(bank))
+				&& gSpecialMoveFlags[move].gWindMoves)
+				{
+					gStatuses3[bank] |= STATUS3_CHARGED_UP;
+					BattleScriptPushCursor();
+					gBattlescriptCurrInstr = BattleScript_ElectromorphosisActivates;
+					gNewBS->ElectroCounter[bank] = TRUE;
+					effect++;
+				}
+    			break;
+
 			case ABILITY_BERSERK:
 				if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
 				&& BATTLER_ALIVE(bank)
-				&& gNewBS->ElectroCounter[bank] <= 2
 				&& SpeciesHasWindPower(GetProperAbilityPopUpSpecies(bank))
 				&& gSpecialMoveFlags[move].gWindMoves)
 				{
+					gStatuses3[bank] |= STATUS3_CHARGED_UP;
 					BattleScriptPushCursor();
 					gBattlescriptCurrInstr = BattleScript_ElectromorphosisActivates;
-					if(gNewBS->ElectroCounter[bank] == 0)
-						gNewBS->ElectroCounter[bank] = 1;
-					gNewBS->ElectroCounter[bank]++;
+					gNewBS->ElectroCounter[bank] = TRUE;
 					effect++;
 				}
 				else if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
 				&& BATTLER_ALIVE(bank)
+				&& !SpeciesHasWindPower(GetProperAbilityPopUpSpecies(bank))
 				&& gBattleMons[bank].hp < gBattleMons[bank].maxHP / 2
 				&& gBattleMons[bank].hp + gHpDealt > gBattleMons[bank].maxHP / 2 //Hp fell below half
 				&& STAT_STAGE(bank, STAT_SPATK) < 12
