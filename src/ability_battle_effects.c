@@ -2297,6 +2297,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					}
 					else if (CalcMoveSplit(gCurrentMove, gBankAttacker, bank) == SPLIT_PHYSICAL
 					&& gBankAttacker != bank
+					&& !SpeciesHasAngerShell(GetProperAbilityPopUpSpecies(bank))
 					&& (STAT_STAGE(bank, STAT_SPEED) < STAT_STAGE_MAX || STAT_STAGE(bank, STAT_DEF) > STAT_STAGE_MIN))
 					{
 						BattleScriptPushCursor();
