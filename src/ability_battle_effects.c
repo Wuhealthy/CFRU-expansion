@@ -2088,7 +2088,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			case ABILITY_GRASSYSURGE:
 				if (MOVE_HAD_EFFECT
 					&& TOOK_DAMAGE(bank)
-					&& BATTLER_ALIVE(gBankAttacker)
 					&& SpeciesHasSeedSower(GetProperAbilityPopUpSpecies(bank)))
 					{
 						effect = TryActivateTerrainAbility(GRASSY_TERRAIN, B_ANIM_GRASSY_SURGE, bank);
