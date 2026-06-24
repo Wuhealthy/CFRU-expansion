@@ -1827,11 +1827,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 							effect = 1;
 						break;
 
-					case ABILITY_ANGERPOINT:
-						if (gSpecialMoveFlags[move].gWindMoves && SpeciesHasWindRider(GetProperAbilityPopUpSpecies(bank)))
-							effect = 1;
-						break;
-
 					case ABILITY_OVERCOAT:
 						if (gSpecialMoveFlags[move].gPowderMoves)
 							effect = 1;
@@ -1930,6 +1925,16 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 						effect = 2, statId = STAT_ATK;
 					break;
 
+				case ABILITY_STEAMENGINE:
+					if (moveType == TYPE_FIRE && SpeciesHasWellBakedBody(GetProperAbilityPopUpSpecies(bank)))
+						effect = 4, statId = STAT_DEF;
+					break;
+
+				case ABILITY_ANGERPOINT:
+    				if (gSpecialMoveFlags[move].gWindMoves && SpeciesHasWindRider(GetProperAbilityPopUpSpecies(bank)))
+        				effect = 2, statId = STAT_ATK;
+    				break;
+
 				case ABILITY_FLASHFIRE:
 					if (moveType == TYPE_FIRE)
 						effect = 3;
@@ -1973,6 +1978,25 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 							gBattlescriptCurrInstr = BattleScript_MoveStatDrain_PPLoss;
 
 						gBattleScripting.statChanger = statId | INCREASE_1;
+					}
+					break;
+
+				case 4: // 提升 2 级能力
+					if (gBattleMons[bank].statStages[statId - 1] >= STAT_STAGE_MAX)
+					{
+						if ((gProtectStructs[gBankAttacker].notFirstStrike))
+							gBattlescriptCurrInstr = BattleScript_MonMadeMoveUseless;
+						else
+							gBattlescriptCurrInstr = BattleScript_MonMadeMoveUseless_PPLoss;
+					}
+					else
+					{
+						if (gProtectStructs[gBankAttacker].notFirstStrike)
+							gBattlescriptCurrInstr = BattleScript_MoveStatDrain;
+						else
+							gBattlescriptCurrInstr = BattleScript_MoveStatDrain_PPLoss;
+
+						gBattleScripting.statChanger = statId | INCREASE_2;
 					}
 					break;
 
@@ -2373,20 +2397,11 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				break;
 
 			case ABILITY_ANGERPOINT:
-				if (SpeciesHasWindRider(GetProperAbilityPopUpSpecies(bank))
-				&& gSpecialMoveFlags[move].gWindMoves
-				&& BATTLER_ALIVE(bank)
-				&& STAT_STAGE(bank, STAT_ATK) < 12)
-				{
-					gBattleScripting.statChanger = STAT_ATK | INCREASE_1;
-					BattleScriptPushCursor();
-					gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
-					effect++;
-				}
-				else if (MOVE_HAD_EFFECT
+				if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
 				&& gCritMultiplier > BASE_CRIT_MULTIPLIER
 				&& BATTLER_ALIVE(bank)
+				&& !SpeciesHasWindRider(GetProperAbilityPopUpSpecies(bank))
 				&& gBattleMons[bank].statStages[STAT_ATK - 1] < 12)
 				{
 					gBattleMons[bank].statStages[STAT_ATK - 1] = 12;
@@ -2560,19 +2575,11 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 						gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
 						effect++;
 					}
-					// Check Well-Baked Body
-					else if (SpeciesHasWellBakedBody(GetProperAbilityPopUpSpecies(bank))
-						&& moveType == TYPE_FIRE
-						&& STAT_STAGE(bank, STAT_DEF) < STAT_STAGE_MAX)
-					{
-						gBattleScripting.statChanger = STAT_DEF | INCREASE_2;
-						BattleScriptPushCursor();
-						gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
-						effect++;
-					}
 					// Check Steam Engine
-					else if ((moveType == TYPE_WATER || moveType == TYPE_FIRE)
-						&& STAT_STAGE(bank, STAT_SPEED) < STAT_STAGE_MAX)
+					else if (!SpeciesHasWellBakedBody(GetProperAbilityPopUpSpecies(bank))
+							&& !SpeciesHasThermalExchange(GetProperAbilityPopUpSpecies(bank))
+							&& (moveType == TYPE_WATER || moveType == TYPE_FIRE)
+							&& STAT_STAGE(bank, STAT_SPEED) < STAT_STAGE_MAX)
 					{
 						gBattleScripting.statChanger = STAT_SPEED | INCREASE_6;
 						BattleScriptPushCursor();

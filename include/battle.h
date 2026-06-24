@@ -815,6 +815,7 @@ struct NewBattleStruct
 	u8 rageFistCounter[MAX_BATTLERS_COUNT];
 	u8 CudChewCounter[MAX_BATTLERS_COUNT];
 	bool8 ElectroCounter[MAX_BATTLERS_COUNT];
+	bool8 windRiderTailwindBoosted[MAX_BATTLERS_COUNT];
 	bool8 oncePerBattleAbilityFlags[NUM_BATTLE_SIDES][PARTY_SIZE];
 	u8 quarkDriveActivated[MAX_BATTLERS_COUNT];
 	u8 ProtosynthesisActivated[MAX_BATTLERS_COUNT];

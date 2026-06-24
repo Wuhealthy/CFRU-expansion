@@ -1142,6 +1142,11 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 					&& --gNewBS->TailwindTimers[gBattleStruct->turnEffectsBank] == 0)
 					{
 						gBankAttacker = gBankTarget = gActiveBattler = gBattleStruct->turnEffectsBank;
+						for (u8 i = 0; i < gBattlersCount; i++)
+            			{
+                			if (SIDE(i) == gBattleStruct->turnEffectsBank)
+                    			gNewBS->windRiderTailwindBoosted[i] = FALSE;
+            			}
 						BattleScriptExecute(BattleScript_TailwindEnd);
 						effect++;
 					}

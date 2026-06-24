@@ -1364,6 +1364,35 @@ void TryTriggerWindPowerOnTailwinds(void)
     }
 }
 
+void TryTriggerWindPowerOnTailwindss(void)
+{
+    if (!gNewBS->TailwindTimers[SIDE(gBankAttacker)])
+        return;
+    
+    for (u8 i = 0; i < gBattlersCount; i++)
+    {
+        if (SIDE(i) == SIDE(gBankAttacker) 
+            && BATTLER_ALIVE(i)
+            && ABILITY(i) == ABILITY_ANGERPOINT
+            && SpeciesHasWindRider(GetProperAbilityPopUpSpecies(i)))
+        {
+        	if (gNewBS->windRiderTailwindBoosted[i])
+                continue;
+			if (STAT_STAGE(i, STAT_ATK) >= STAT_STAGE_MAX)
+                continue;
+
+			STAT_STAGE(i, STAT_ATK)++;
+            gBattleScripting.statChanger = STAT_ATK | INCREASE_1;
+            gBankAttacker = i;
+            gBattleScripting.bank = i;
+            BattleScriptPushCursor();
+			gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
+			gNewBS->windRiderTailwindBoosted[i] = TRUE;
+            break;
+        }
+    }
+}
+
 void TailwindLuckyChantFunc(void)
 {
 	switch (gCurrentMove) {
