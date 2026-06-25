@@ -129,7 +129,7 @@ void SwitchOutFormsRevert(u8 bank)
 			if (backupSpecies != SPECIES_NONE)
 				DoFormChange(bank, backupSpecies, FALSE, TRUE, FALSE);
 			else
-				DoFormChange(bank, SPECIES_CHERRIM, FALSE, TRUE, FALSE);
+				DoFormChange(bank, SPECIES_DARMANITAN, FALSE, TRUE, FALSE);
 			break;
 		#endif
 

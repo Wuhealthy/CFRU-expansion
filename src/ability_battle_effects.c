@@ -1291,9 +1291,17 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 		case ABILITY_TORRENT:
 			if (SpeciesHasZerotoHero(GetProperAbilityPopUpSpecies(bank)))
 				{
-					gBattleStringLoader = gText_ZerotoHeroActivate;
-					BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
-					effect++;
+					u8 side = SIDE(bank);
+        			u8 partyId = gBattlerPartyIndexes[bank];
+
+					if (gBattleMons[bank].species == SPECIES_PALAFIN_HERO
+						&&!gNewBS->oncePerBattleAbilityFlags[side][partyId])
+					{
+						gBattleStringLoader = gText_ZerotoHeroActivate;
+						BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+						gNewBS->oncePerBattleAbilityFlags[side][partyId] = TRUE;
+						effect++;
+					}
 				}
 			break;
 
