@@ -4312,7 +4312,7 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 		//1.5x Boost
 			if (SpeciesHasRockyPayload(GetProperAbilityPopUpSpecies(bankAtk)) && data->moveType == TYPE_ROCK)
 				power = (power * 15) / 10;
-			else if (data->moveType == TYPE_STEEL)
+			else if (!SpeciesHasRockyPayload(GetProperAbilityPopUpSpecies(bankAtk)) && data->moveType == TYPE_STEEL)
 				power = (power * 15) / 10;
 			break;
 
@@ -4344,7 +4344,8 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 		//1.5x Boost
 			if (SpeciesHasFireMane(GetProperAbilityPopUpSpecies(bankAtk)) && data->moveType == TYPE_FIRE)
 				power = (power * 15) / 10;
-			else if (data->moveType == TYPE_ELECTRIC)
+			else if (!SpeciesHasFireMane(GetProperAbilityPopUpSpecies(bankAtk))
+					&& data->moveType == TYPE_ELECTRIC)
 				power = (power * 15) / 10;
 			break;
 		#endif
