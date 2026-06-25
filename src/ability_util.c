@@ -503,14 +503,14 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 			if(SpeciesHasSpicySpray(species))  // 辣椒喷发
         		return gText_AbilityName_SpicySpray;
 			break;
-		case ABILITY_INNERFOCUS:
+		case ABILITY_SUCTIONCUPS:
 			if(SpeciesHasGuardDog(species))
 				return gText_AbilityName_GuardDog;
 			break;
 		case ABILITY_IRONFIST:
     		if (SpeciesHasStickStickPass(species))
         		return gText_AbilityName_StickStickPass;
-			if (SpeciesHasWaveFist(species))
+			else if (SpeciesHasWaveFist(species))
         		return gText_AbilityName_WaveFist;
     		break;
 		case ABILITY_ELECTRICSURGE:
@@ -704,7 +704,7 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 				return gText_AbilityDescription_GoodAsGold;
 			
 			break;
-		case ABILITY_INNERFOCUS:
+		case ABILITY_SUCTIONCUPS:
 			if(SpeciesHasGuardDog(species))
 				return gText_AbilityDescription_GuardDog;
 			break;
@@ -764,7 +764,7 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 		case ABILITY_IRONFIST:
     		if (SpeciesHasStickStickPass(species))
         		return gText_AbilityDescription_StickStickPass;
-			if (SpeciesHasWaveFist(species))
+			else if (SpeciesHasWaveFist(species))
         		return gText_AbilityDescription_WaveFist;
     		break;
 		case ABILITY_HUGEPOWER:
@@ -1508,21 +1508,6 @@ bool8 SpeciesHasGuardDog(unusedArg u16 species)
 	#else
 	return FALSE;
 	#endif
-}
-
-bool8 GuardDogPreventsLoweringStat(u8 ability, u8 statId, u8 bank)
-{
-	switch (ability)
-	{
-		case ABILITY_INNERFOCUS:
-			if(SpeciesHasGuardDog(GetProperAbilityPopUpSpecies(bank))){
-				return statId == STAT_STAGE_ATK;
-			}
-			else
-				return FALSE;
-		default:
-			return FALSE;
-	}
 }
 
 bool8 SpeciesHasHadronEngine(unusedArg u16 species)

@@ -163,7 +163,6 @@ extern const u8 BattleScript_AngerShellActivates[];
 extern const u8 BattleScript_CudChew[];
 extern const u8 BattleScript_ElectromorphosisActivates[];
 extern const u8 BattleScript_ElectromorphosisActivatess[];
-extern const u8 BattleScript_GuardDogActivates[];
 extern const u8 BattleScript_LingeringAromaActivates[];
 extern const u8 BattleScript_QuarkDriveActivates[];
 extern const u8 BattleScript_QuarkDriveActivates2[];

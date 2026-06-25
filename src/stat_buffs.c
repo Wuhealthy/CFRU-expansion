@@ -382,9 +382,9 @@ u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8* BS_ptr)
 		}
 
 		else if (!certain
-		&& (AbilityPreventsLoweringStat(ability, statId) || (MindsEyePreventsLoweringStat(ability, statId)
-		&& SpeciesHasMindsEye(gBankTarget)) || (IsIntimidateActive() && AbilityBlocksIntimidate(ability)
-		&& !SpeciesHasMindsEye(GetProperAbilityPopUpSpecies(bank)))) && !SpeciesHasGuardDog(GetProperAbilityPopUpSpecies(bank)))
+		&& (AbilityPreventsLoweringStat(ability, statId)
+		|| (MindsEyePreventsLoweringStat(ability, statId) && SpeciesHasMindsEye(gBankTarget))
+		|| (IsIntimidateActive() && AbilityBlocksIntimidate(ability) && !SpeciesHasMindsEye(GetProperAbilityPopUpSpecies(bank)))))
 		{
 			if (flags == STAT_CHANGE_BS_PTR)
 			{
@@ -414,16 +414,22 @@ u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8* BS_ptr)
 			}
 			return STAT_CHANGE_DIDNT_WORK;
 		}
-		else if (!certain && GuardDogPreventsLoweringStat(ability, statId, bank))
-		{
-			if (flags == STAT_CHANGE_BS_PTR)
-			{
-				BattleScriptPush(BS_ptr);
-				gBattleScripting.bank = gActiveBattler;
-				gBattlescriptCurrInstr = BattleScript_GuardDogActivates;
-			}
-			return STAT_CHANGE_DIDNT_WORK;
-		}
+		else if (!certain 
+        		&& ABILITY(gActiveBattler) == ABILITY_SUCTIONCUPS
+        		&& SpeciesHasGuardDog(GetProperAbilityPopUpSpecies(gActiveBattler))
+        		&& IsIntimidateActive()
+        		&& statId == STAT_STAGE_ATK
+        		&& gBattleMons[gActiveBattler].statStages[STAT_STAGE_ATK - 1] < STAT_STAGE_MAX)
+    	{
+        	if (flags == STAT_CHANGE_BS_PTR)
+        	{
+            	gBattleScripting.statChanger = STAT_STAGE_ATK | INCREASE_1;
+            	BattleScriptPush(BS_ptr);
+            	gBattleScripting.bank = gActiveBattler;
+            	gBattlescriptCurrInstr = BattleScript_DefiantCompetitive;
+        	}
+        	return STAT_CHANGE_DIDNT_WORK;
+    	}
 		else if ((ability == ABILITY_SHIELDDUST || SheerForceCheck() || ITEM_EFFECT(gActiveBattler) == ITEM_EFFECT_COVERT_CLOAK) && !(gHitMarker & HITMARKER_IGNORE_SUBSTITUTE) && flags == 0)
 		{
 			return STAT_CHANGE_DIDNT_WORK;
