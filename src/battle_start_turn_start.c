@@ -2133,14 +2133,14 @@ u8 GetWhoStrikesFirst(u8 bank1, u8 bank2, bool8 ignoreMovePriorities)
 		// ========== 蜘蛛感应：先制度相同时，双方都用攻击招式，持有者必定先出 ==========
         if (SpeciesHasSpiderSense(GetProperAbilityPopUpSpecies(bank1))
             && SPLIT(move1) != SPLIT_STATUS
-            && SPLIT(move2) != SPLIT_STATUS)
+            && HasOpponentUsingAttack(bank1))  // 检查是否有任何对手使用攻击招式
         {
             return FirstMon;
         }
         
         if (SpeciesHasSpiderSense(GetProperAbilityPopUpSpecies(bank2))
-            && SPLIT(move1) != SPLIT_STATUS
-            && SPLIT(move2) != SPLIT_STATUS)
+            && SPLIT(move2) != SPLIT_STATUS
+            && HasOpponentUsingAttack(bank2))
         {
             return SecondMon;
         }
@@ -2204,14 +2204,14 @@ static u8 GetWhoStrikesFirstUseLastBracketCalc(u8 bank1, u8 bank2)
 	// 蜘蛛感应
     if (SpeciesHasSpiderSense(GetProperAbilityPopUpSpecies(bank1))
         && SPLIT(move1) != SPLIT_STATUS
-        && SPLIT(move2) != SPLIT_STATUS)
+        && HasOpponentUsingAttack(bank1))  // 检查是否有任何对手使用攻击招式
     {
         return FirstMon;
     }
     
     if (SpeciesHasSpiderSense(GetProperAbilityPopUpSpecies(bank2))
-        && SPLIT(move1) != SPLIT_STATUS
-        && SPLIT(move2) != SPLIT_STATUS)
+        && SPLIT(move2) != SPLIT_STATUS
+        && HasOpponentUsingAttack(bank2))
     {
         return SecondMon;
     }
@@ -2241,6 +2241,26 @@ static u8 GetWhoStrikesFirstUseLastBracketCalc(u8 bank1, u8 bank2)
 		return SecondMon;
 
 	return SpeedTie;
+}
+
+bool8 HasOpponentUsingAttack(u8 bank)
+{
+    u8 i;
+    
+    // 遍历所有宝可梦
+    for (i = 0; i < gBattlersCount; i++)
+    {
+        // 跳过自己、已死亡、同一侧的宝可梦（只看对手）
+        if (i == bank || !BATTLER_ALIVE(i) || SIDE(i) == SIDE(bank))
+            continue;
+        
+        // 检查对方是否使用攻击招式
+        u8 move = gChosenMovesByBanks[i];
+        if (SPLIT(move) != SPLIT_STATUS)
+            return TRUE;  // 有任何对手用攻击招式就触发
+    }
+    
+    return FALSE;  // 没有对手用攻击招式
 }
 
 s8 PriorityCalc(u8 bank, u8 action, u16 move)

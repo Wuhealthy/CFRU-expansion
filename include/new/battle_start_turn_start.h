@@ -20,6 +20,7 @@ void DetermineFirstMultiTarget(void);
 u16 GetMUS_ForBattle(void);
 u8 GetTrainerBattleTransition(void);
 u8 GetWhoStrikesFirst(u8 bank1, u8 bank2, bool8 ignoreMovePriorities);
+bool8 HasOpponentUsingAttack(u8 bank);
 s8 PriorityCalc(u8 bank, u8 action, u16 move);
 s8 PriorityCalcMon(struct Pokemon* mon, u16 move);
 bool8 QuickClawActivatesThisTurn(u8 bank);
