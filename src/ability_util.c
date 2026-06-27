@@ -184,11 +184,13 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 			if (IsVitalSpiritAbility(ability, species))
 				return gText_AbilityName_VitalSpirit;
 			break;
+		case ABILITY_BULLETPROOF:
+			if (SpeciesHasGoodAsGold(species))
+				return gText_AbilityName_GoodAsGold;
+			break;	
 		case ABILITY_CLEARBODY:
 			if (IsWhiteSmokeAbility(ability, species))
 				return gText_AbilityName_WhiteSmoke;
-			else if (SpeciesHasGoodAsGold(species))
-				return gText_AbilityName_GoodAsGold;
 			else if (IsFullMetalBodyAbility(ability, species))
 				return NAME_FULL_METAL_BODY;
 			break;
@@ -699,10 +701,9 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 			if(SpeciesHasSpicySpray(species))  // 辣椒喷发
         		return gText_AbilityDescription_SpicySpray;
 			break;
-		case ABILITY_CLEARBODY:
+		case ABILITY_BULLETPROOF:
 			if(SpeciesHasGoodAsGold(species))
 				return gText_AbilityDescription_GoodAsGold;
-			
 			break;
 		case ABILITY_SUCTIONCUPS:
 			if(SpeciesHasGuardDog(species))

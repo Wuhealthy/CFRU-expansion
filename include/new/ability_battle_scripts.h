@@ -153,7 +153,6 @@ extern const u8 gText_TabletsofRuin[];
 extern const u8 gText_SwordofRuin[];
 extern const u8 gText_VesselofRuin[];
 extern const u8 gText_CostarActivate[];
-extern const u8 gText_GoodAsGoldActivate[];
 extern const u8 gText_GrassySurgeGrew[];
 extern const u8 gText_SupremeOverlordActivate[];
 extern const u8 gText_ZerotoHeroActivate[];

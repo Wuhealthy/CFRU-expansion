@@ -1091,11 +1091,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				effect = ImmunityAbilityCheck(bank, STATUS1_PSN_ANY, gStatusConditionString_Poison);
 			break;
 
-		case ABILITY_GOODASGOLD:
-			if (SpeciesHasGoodAsGold(GetProperAbilityPopUpSpecies(bank)))
-				effect = ImmunityAbilityCheck(bank, STATUS1_ANY, gStatusConditionString_PurifySalt);
-			break;
-
 		case ABILITY_PASTELVEIL:
 			if (gBattleMons[bank].status1 & STATUS1_PSN_ANY
 			|| (IS_DOUBLE_BATTLE && BATTLER_ALIVE(PARTNER(bank)) && gBattleMons[PARTNER(bank)].status1 & STATUS1_PSN_ANY))
@@ -1831,9 +1826,13 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 						break;
 
 					case ABILITY_BULLETPROOF:
-						if (gSpecialMoveFlags[move].gBallBombMoves)
+						if (gSpecialMoveFlags[move].gBallBombMoves
+						&& !SpeciesHasGoodAsGold(GetProperAbilityPopUpSpecies(bank)))
 							effect = 1;
-						break;
+                		if (SpeciesHasGoodAsGold(GetProperAbilityPopUpSpecies(bank))
+                    	&& SPLIT(move) == SPLIT_STATUS)  // 只免疫变化招式
+                    		effect = 1;
+                		break;
 
 					case ABILITY_OVERCOAT:
 						if (gSpecialMoveFlags[move].gPowderMoves)
@@ -2767,16 +2766,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					{
 						StringCopy(gBattleTextBuff1, gStatusConditionString_TauntProblem);
 						effect = 3;
-					}
-					break;
-				case ABILITY_GOODASGOLD:
-					if (SpeciesHasGoodAsGold(GetProperAbilityPopUpSpecies(bank)))
-					{
-						if (CheckStatusAny(bank))
-						{
-							gBattleStringLoader = gText_GoodAsGoldActivate;
-							effect = 1;
-						}
 					}
 					break;
 				}
