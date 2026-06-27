@@ -689,6 +689,34 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			}
 			break;
 
+		case ABILITY_STALL:
+    		// 检查是否是四大灾祸特性之一
+    		if (SpeciesHasBeadsofRuin(GetProperAbilityPopUpSpecies(bank)))
+    		{
+        		gBattleStringLoader = gText_BeadsofRuin;
+        		BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+        		effect++;
+    		}
+    		else if (SpeciesHasTabletsofRuin(GetProperAbilityPopUpSpecies(bank)))
+    		{
+        		gBattleStringLoader = gText_TabletsofRuin;
+        		BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+        		effect++;
+    		}
+    		else if (SpeciesHasSwordofRuin(GetProperAbilityPopUpSpecies(bank)))
+    		{
+        		gBattleStringLoader = gText_SwordofRuin;
+        		BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+        		effect++;
+    		}
+    		else if (SpeciesHasVesselofRuin(GetProperAbilityPopUpSpecies(bank)))
+    		{
+        		gBattleStringLoader = gText_VesselofRuin;
+        		BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+        		effect++;
+    		}
+    		break;
+
 		case ABILITY_SNOWWARNING:
 			if (!(gBattleWeather & (WEATHER_HAIL_ANY | WEATHER_PRIMAL_ANY | WEATHER_CIRCUS)))
 			{

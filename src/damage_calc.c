@@ -3099,53 +3099,54 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			defense = (defense * 15) / 10;
 	}
 
-	bool8 stallInField = FALSE;
-	bool8 beadsOfRuinInField = FALSE;
-	bool8 TabletsOfRuinInField = FALSE;
-	bool8 VesselOfRuinInField = FALSE;
-	bool8 SwordOfRuinInField = FALSE;
-	u8 stallSide = 0xFF;  // Stores the side of the field where ABILITY_STALL was found
+	bool8 beadsOfRuinOnField = FALSE;
+	bool8 tabletsOfRuinOnField = FALSE;
+	bool8 vesselOfRuinOnField = FALSE;
+	bool8 swordOfRuinOnField = FALSE;
+	bool8 stallOnField = FALSE;
 
-	// Check if any Pokémon on the field has ABILITY_STALL
+// 检查场上是否有 ABILITY_STALL 和各个灾祸特性
 	for (u8 bank = 0; bank < gBattlersCount; ++bank) {
-		if (GetBankAbility(bank) == ABILITY_STALL) {
-			stallInField = TRUE;
-			stallSide = GetBattlerSide(bank); // Store the side of the field of the Pokémon with Stall
-		}
+    	if (GetBankAbility(bank) == ABILITY_STALL)
+        	stallOnField = TRUE;
+    
+    	if (SpeciesHasBeadsofRuin(GetProperAbilityPopUpSpecies(bank)))
+        	beadsOfRuinOnField = TRUE;
+    	if (SpeciesHasTabletsofRuin(GetProperAbilityPopUpSpecies(bank)))
+        	tabletsOfRuinOnField = TRUE;
+    	if (SpeciesHasVesselofRuin(GetProperAbilityPopUpSpecies(bank)))
+        	vesselOfRuinOnField = TRUE;
+    	if (SpeciesHasSwordofRuin(GetProperAbilityPopUpSpecies(bank)))
+        	swordOfRuinOnField = TRUE;
+	}
+
+// 只有场上存在 ABILITY_STALL 时才应用灾祸效果
+	if (stallOnField) {
+    	// 攻击方自己不受自己的灾祸特性影响（但会被对方的灾祸特性影响）
+    	if (beadsOfRuinOnField && !SpeciesHasBeadsofRuin(GetProperAbilityPopUpSpecies(bankAtk)))
+        	spDefense = (spDefense * 75) / 100;
+    
+    	if (tabletsOfRuinOnField && !SpeciesHasTabletsofRuin(GetProperAbilityPopUpSpecies(bankAtk)))
+        	attack = (attack * 75) / 100;
+    
+    	if (vesselOfRuinOnField && !SpeciesHasVesselofRuin(GetProperAbilityPopUpSpecies(bankAtk)))
+        	spAttack = (spAttack * 75) / 100;
+    
+    	if (swordOfRuinOnField && !SpeciesHasSwordofRuin(GetProperAbilityPopUpSpecies(bankAtk)))
+        	defense = (defense * 75) / 100;
 		
-		if (SpeciesHasBeadsofRuin(GetProperAbilityPopUpSpecies(bank)) && GetBattlerSide(bank) == stallSide) {
-			beadsOfRuinInField = TRUE;
-		}
-		if (SpeciesHasTabletsofRuin(GetProperAbilityPopUpSpecies(bank)) && GetBattlerSide(bank) == stallSide) {
-			TabletsOfRuinInField = TRUE;
-		}
-		if (SpeciesHasVesselofRuin(GetProperAbilityPopUpSpecies(bank)) && GetBattlerSide(bank) == stallSide) {
-			VesselOfRuinInField = TRUE;
-		}
-		if (SpeciesHasSwordofRuin(GetProperAbilityPopUpSpecies(bank)) && GetBattlerSide(bank) == stallSide) {
-			SwordOfRuinInField = TRUE;
-		}
-
-		// If both are true and on the same side, no need to continue the loop
-		if (stallInField && (beadsOfRuinInField || TabletsOfRuinInField || VesselOfRuinInField || SwordOfRuinInField)) {
-			break;
-		}
-	}
-
-	if (stallInField && beadsOfRuinInField && !SpeciesHasBeadsofRuin(GetProperAbilityPopUpSpecies(bankAtk))) {
-		spDefense = (spDefense * 75) / 100;  // Reduce Sp defense by 25%
-	}
-
-	if (stallInField && TabletsOfRuinInField && !SpeciesHasTabletsofRuin(GetProperAbilityPopUpSpecies(bankAtk))) {
-		attack = (attack * 75) / 100;  // Reduce attack by 25%
-	}
-
-	if (stallInField && VesselOfRuinInField && !SpeciesHasVesselofRuin(GetProperAbilityPopUpSpecies(bankAtk))) {
-		spAttack = (spAttack * 75) / 100;  // Reduce Sp attack by 25%
-	}
-
-	if (stallInField && SwordOfRuinInField && !SpeciesHasSwordofRuin(GetProperAbilityPopUpSpecies(bankAtk))) {
-		defense = (defense * 75) / 100;  // Reduce defense by 25%
+    	// 防守方自己不受自己的灾祸特性影响（但会被对方的灾祸特性影响）
+    	if (beadsOfRuinOnField && !SpeciesHasBeadsofRuin(GetProperAbilityPopUpSpecies(bankDef)))
+        	spDefense = (spDefense * 75) / 100;
+    
+    	if (tabletsOfRuinOnField && !SpeciesHasTabletsofRuin(GetProperAbilityPopUpSpecies(bankDef)))
+        	attack = (attack * 75) / 100;
+    
+    	if (vesselOfRuinOnField && !SpeciesHasVesselofRuin(GetProperAbilityPopUpSpecies(bankDef)))
+        	spAttack = (spAttack * 75) / 100;
+    
+    	if (swordOfRuinOnField && !SpeciesHasSwordofRuin(GetProperAbilityPopUpSpecies(bankDef)))
+        	defense = (defense * 75) / 100;
 	}
 
 //Old Exploding Check
