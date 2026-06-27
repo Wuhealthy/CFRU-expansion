@@ -2784,18 +2784,26 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			if (SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(gBankAttacker)) && (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
 			&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect)))
 			{
-				if (SPLIT(move) == SPLIT_PHYSICAL && GetHighestStat(bankAtk) == STAT_ATK)
+				if (GetHighestStat(bankAtk) == STAT_ATK)
 					attack = (attack * 13) / 10;
-				if (SPLIT(move) == SPLIT_SPECIAL && GetHighestStat(bankAtk) == STAT_SPATK)
+				if (GetHighestStat(bankAtk) == STAT_SPATK)
 					spAttack = (spAttack * 13) / 10;
+				if (GetHighestStat(bankAtk) == STAT_DEF)
+					defense = (defense * 13) / 10;
+				if (GetHighestStat(bankAtk) == STAT_SPDEF)
+					spDefense = (spDefense * 13) / 10;
 			}
 
-			else if (gTerrainType == ELECTRIC_TERRAIN && IsAffectedByElectricTerrain(gBankAttacker))
+			else if (!SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(gBankAttacker)) && gTerrainType == ELECTRIC_TERRAIN && IsAffectedByElectricTerrain(gBankAttacker))
 			{
-				if (SPLIT(move) == SPLIT_PHYSICAL && GetHighestStat(bankAtk) == STAT_ATK)
+				if (GetHighestStat(bankAtk) == STAT_ATK)
 					attack = (attack * 13) / 10;
-				if (SPLIT(move) == SPLIT_SPECIAL && GetHighestStat(bankAtk) == STAT_SPATK)
+				if (GetHighestStat(bankAtk) == STAT_SPATK)
 					spAttack = (spAttack * 13) / 10;
+				if (GetHighestStat(bankAtk) == STAT_DEF)
+					defense = (defense * 13) / 10;
+				if (GetHighestStat(bankAtk) == STAT_SPDEF)
+					spDefense = (spDefense * 13) / 10;
 			}
 			break;
 
@@ -2921,17 +2929,25 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			if (SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(gBankTarget)) && (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
 			&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect)))
 			{
-				if (SPLIT(move) == SPLIT_PHYSICAL && GetHighestStat(bankDef) == STAT_DEF)
+				if (GetHighestStat(bankAtk) == STAT_ATK)
+					attack = (attack * 13) / 10;
+				if (GetHighestStat(bankAtk) == STAT_SPATK)
+					spAttack = (spAttack * 13) / 10;
+				if (GetHighestStat(bankAtk) == STAT_DEF)
 					defense = (defense * 13) / 10;
-				if (SPLIT(move) == SPLIT_SPECIAL && GetHighestStat(bankDef) == STAT_SPDEF)
+				if (GetHighestStat(bankAtk) == STAT_SPDEF)
 					spDefense = (spDefense * 13) / 10;
 			}
 
-			else if (gTerrainType == ELECTRIC_TERRAIN && IsAffectedByElectricTerrain(gBankTarget))
+			else if (!SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(gBankTarget)) && gTerrainType == ELECTRIC_TERRAIN && IsAffectedByElectricTerrain(gBankTarget))
 			{
-				if (SPLIT(move) == SPLIT_PHYSICAL && GetHighestStat(bankDef) == STAT_DEF)
+				if (GetHighestStat(bankAtk) == STAT_ATK)
+					attack = (attack * 13) / 10;
+				if (GetHighestStat(bankAtk) == STAT_SPATK)
+					spAttack = (spAttack * 13) / 10;
+				if (GetHighestStat(bankAtk) == STAT_DEF)
 					defense = (defense * 13) / 10;
-				if (SPLIT(move) == SPLIT_SPECIAL && GetHighestStat(bankDef) == STAT_SPDEF)
+				if (GetHighestStat(bankAtk) == STAT_SPDEF)
 					spDefense = (spDefense * 13) / 10;
 			}
 			break;

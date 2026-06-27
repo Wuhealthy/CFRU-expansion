@@ -2834,7 +2834,8 @@ void TryActivateQuarkDrive(void)
             continue;
 
         u16 ability = ABILITY(bank);
-        if (ability == ABILITY_QUARKDRIVE && terrainFlag == ELECTRIC_TERRAIN
+		u16 species = GetProperAbilityPopUpSpecies(bank);
+        if (ability == ABILITY_QUARKDRIVE && terrainFlag == ELECTRIC_TERRAIN && !SpeciesHasProtosynthesis(species)
             && IsAffectedByElectricTerrain(bank))
         {
 			gNewBS->quarkDriveActivated[bank] = TRUE;

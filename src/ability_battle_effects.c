@@ -1429,7 +1429,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				BattleScriptPushCursorAndCallback(BattleScript_ProtosynthesisActivates); 
 				effect++;
 			}
-			else if(gTerrainType == ELECTRIC_TERRAIN)
+			else if(gTerrainType == ELECTRIC_TERRAIN && !SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bank)))
 			{
 				gBankAttacker = bank;
 				gActiveBattler = bank;
@@ -2451,7 +2451,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
             			effect++;
         			}
 				
-					else if (!BATTLER_ALIVE(bank))
+					else if (!BATTLER_ALIVE(bank) && !SpeciesHasVolatileExplosion(GetProperAbilityPopUpSpecies(bank)))
 					{
 						gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankAttacker) / 4);
 						BattleScriptPushCursor();
