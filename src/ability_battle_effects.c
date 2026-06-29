@@ -38,6 +38,8 @@ tables to edit:
 	gFlashFireStringIds
 */
 
+#define SCRIPT_OFFSET(ptr, offset) ((const u8*)((uintptr_t)(ptr) + (intptr_t)(offset)))
+
 extern u8 gStatusConditionString_MentalState[];
 extern u8 gStatusConditionString_TauntProblem[];
 extern const u8 BattleScript_PsyGravityActivates[];
@@ -1328,7 +1330,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				}
 			break;
 
-		case ABILITY_HUGEPOWER:
+		case ABILITY_STRONGJAW:
 			if (SpeciesHasSupremeOverlord(GetProperAbilityPopUpSpecies(bank)) && IsFaintedPokemonInParty())
 				{
 					gBattleStringLoader = gText_SupremeOverlordActivate;
@@ -1533,6 +1535,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			case ABILITY_NONE: //So Unnerve activates the first time when Neutralizing Gas leaves the field
 			case ABILITY_FORECAST:
 			case ABILITY_FLOWERGIFT:
+			case ABILITY_QUARKDRIVE:
 			case ABILITY_TRACE:
 			case ABILITYEFFECT_SWITCH_IN_WEATHER:
 				break;
@@ -3296,6 +3299,7 @@ static void PrintBattlerOnAbilityPopUp(u8 battlerId, u8 spriteId1, u8 spriteId2)
 {
 	int i;
 	u8 lastChar;
+	(void)lastChar;
 	u8* textPtr;
 	u8 monName[POKEMON_NAME_LENGTH + 3] = {0};
 	u8* nick = GetIllusionPartyData(battlerId)->nickname;
@@ -3640,7 +3644,7 @@ void TryRemoveIntimidateAbilityPopUp(void)
 	if (gNewBS->intimidateActive > 0)
 	{
 		BattleScriptPushCursor();
-		gBattlescriptCurrInstr = BattleScript_AbilityPopUpRevert - 5;
+		gBattlescriptCurrInstr = SCRIPT_OFFSET(BattleScript_AbilityPopUpRevert, -5);
 		gBattleScripting.bank = gNewBS->intimidateActive - 1;
 		gNewBS->intimidateActive -= 10; //Intimidate is still active but pop-up is hidden
 	}
@@ -3653,7 +3657,7 @@ void TryHideActiveAbilityPopUps(void)
 		if (gNewBS->activeAbilityPopUps & gBitTable[i])
 		{
 			BattleScriptPushCursor();
-			gBattlescriptCurrInstr = BattleScript_AbilityPopUpRevert - 5;
+			gBattlescriptCurrInstr = SCRIPT_OFFSET(BattleScript_AbilityPopUpRevert, -5);
 			gBattleScripting.bank = i;
 		}
 	}
@@ -3674,7 +3678,7 @@ void TryReactiveIntimidatePopUp(void)
 	if (gNewBS->intimidateActive < 0) //Pop-up was hidden due to ability like Clear Body
 	{
 		BattleScriptPushCursor();
-		gBattlescriptCurrInstr = BattleScript_AbilityPopUp - 5;
+		gBattlescriptCurrInstr = SCRIPT_OFFSET(BattleScript_AbilityPopUp, -5);
 		gNewBS->intimidateActive += 10;
 		gBattleScripting.bank = gNewBS->intimidateActive - 1;
 	}

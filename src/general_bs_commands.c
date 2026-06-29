@@ -49,6 +49,8 @@ tables:
 
 */
 
+#define SCRIPT_OFFSET(ptr, offset) ((const u8*)((uintptr_t)(ptr) + (intptr_t)(offset)))
+
 #define TEXT_BUFFER_SIDE_STATUS(move, status, side)				\
 {																\
 	gSideStatuses[side] &= ~status;							\
@@ -345,7 +347,7 @@ static bool8 TryActivateWeakenessBerry(u8 bank, u8 resultFlags)
 			gBattleScripting.bank = bank;
 			BattleScriptPushCursor();
 			gNewBS->canBelch[SIDE(bank)] |= gBitTable[gBattlerPartyIndexes[bank]];
-			gBattlescriptCurrInstr = BattleScript_WeaknessBerryActivate - 5;
+			gBattlescriptCurrInstr = SCRIPT_OFFSET(BattleScript_WeaknessBerryActivate, -5);
 			return TRUE;
 		}
 	}
@@ -868,7 +870,7 @@ void atk0C_datahpupdate(void)
 					gBattleScripting.bank = gActiveBattler;
 					gStatuses3[gActiveBattler] &= ~(STATUS3_ILLUSION);
 					BattleScriptPush(gBattlescriptCurrInstr + 2);
-					gBattlescriptCurrInstr = BattleScript_IllusionBrokenFaint - 2;
+					gBattlescriptCurrInstr = SCRIPT_OFFSET(BattleScript_IllusionBrokenFaint, -2);
 				}
 
 				gHitMarker &= ~(HITMARKER_IGNORE_SUBSTITUTE);
@@ -5447,6 +5449,34 @@ void atkE7_trycastformdatachange(void)
 	u8 bank = gBattleScripting.bank;
 
 	gBattlescriptCurrInstr++;
+
+	if (ABILITY(bank) == ABILITY_QUARKDRIVE)
+    {
+        if (BATTLER_ALIVE(bank) && IsSunWeatherActive(bank) 
+        && SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bank)))
+        {
+            if (!gNewBS->ProtosynthesisActivated[bank])
+            {
+                gNewBS->ProtosynthesisActivated[bank] = TRUE;
+                gBankAttacker = bank;
+                gActiveBattler = bank;
+                PREPARE_STAT_BUFFER(gBattleTextBuff1, GetHighestStat(bank));
+                BattleScriptPushCursorAndCallback(BattleScript_ProtosynthesisActivates);
+            }
+        }
+        else if (BATTLER_ALIVE(bank) && gTerrainType == ELECTRIC_TERRAIN
+                && !SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bank)))
+        {
+            if (!gNewBS->quarkDriveActivated[bank])
+            {
+                gNewBS->quarkDriveActivated[bank] = TRUE;
+                gBankAttacker = bank;
+                gActiveBattler = bank;
+                PREPARE_STAT_BUFFER(gBattleTextBuff1, GetHighestStat(bank));
+                BattleScriptPushCursorAndCallback(BattleScript_QuarkDriveActivates);
+            }
+        }
+    }
 
 	if (BATTLER_ALIVE(bank))
 	{

@@ -2722,21 +2722,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 		case ABILITY_PUREPOWER:
 		#endif
 		//2x Boost
-			if(SpeciesHasSupremeOverlord(data->atkSpecies))
-			{
-				int boost = 10;
-				for(int i = 0; i < gPlayerPartyCount; i++)
-				{
-					struct Pokemon mon = gPlayerParty[i];
-					if(mon.hp == 0)
-					{
-						boost++;
-					}
-				}
-				attack *= (1 + (boost / 100));
-				spAttack *= (1 + (boost / 100));
-			}
-			else if (!IsScaleMonsBattle() //Too OP
+			if (!IsScaleMonsBattle() //Too OP
 			|| !IsSpeciesAffectedByScalemons(data->atkSpecies)) //Doesn't get the Scalemons boost
 				attack *= 2;
 			break;
@@ -2777,7 +2763,10 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			//1.4x Boost
 			if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
 			&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect) && SpeciesHasOrichalcumPulse(GetProperAbilityPopUpSpecies(bankAtk)))
-				attack = (attack * 14) / 10;
+				attack = (attack * 4) / 3;
+			if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
+			&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect) && SpeciesHasOrichalcumPulse(GetProperAbilityPopUpSpecies(bankDef)))
+				attack = (attack * 4) / 3;
 			break;
 		
 		case ABILITY_QUARKDRIVE:
@@ -2794,7 +2783,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 					spDefense = (spDefense * 13) / 10;
 			}
 
-			else if (!SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(gBankAttacker)) && gTerrainType == ELECTRIC_TERRAIN && IsAffectedByElectricTerrain(gBankAttacker))
+			else if (!SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(gBankAttacker)) && gTerrainType == ELECTRIC_TERRAIN)
 			{
 				if (GetHighestStat(bankAtk) == STAT_ATK)
 					attack = (attack * 13) / 10;
@@ -2826,8 +2815,10 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 
 		case ABILITY_HADRONENGINE:
 			//1.33x Boost
-			if (gTerrainType == ELECTRIC_TERRAIN && SpeciesHasHadronEngine(GetProperAbilityPopUpSpecies(bankAtk)) && data->atkIsGrounded)
-				spAttack = (spAttack * 133) / 100;
+			if (gTerrainType == ELECTRIC_TERRAIN && SpeciesHasHadronEngine(GetProperAbilityPopUpSpecies(bankAtk)))
+				spAttack = (spAttack * 4) / 3;
+			if (gTerrainType == ELECTRIC_TERRAIN && SpeciesHasHadronEngine(GetProperAbilityPopUpSpecies(bankDef)))
+				spAttack = (spAttack * 4) / 3;
 			break;
 
 		case ABILITY_FLASHFIRE:
@@ -4288,6 +4279,32 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
         
         		if (userDef > targetAtk)
             		power = (power * 15) / 10;
+    		}
+			else if (SpeciesHasSupremeOverlord(GetProperAbilityPopUpSpecies(bankAtk)))
+			{
+        		u8 fallenCount = 0;
+        		u8 partyCount = gPlayerPartyCount;
+        		u8 activeBank = bankAtk;
+        
+        		for (u8 i = 0; i < partyCount; i++)
+        		{
+            		struct Pokemon* mon = &gPlayerParty[i];
+            		if (GetMonData(mon, MON_DATA_HP, NULL) == 0)
+            		{
+                		fallenCount++;
+            		}
+        		}
+        
+        		// 上限 5 只
+        		if (fallenCount > 5)
+            		fallenCount = 5;
+        
+        		// 每只倒下 +10% 威力
+        		if (fallenCount > 0)
+        		{
+            		u32 boostPercent = 100 + (fallenCount * 10);
+            		power = (power * boostPercent) / 100;
+        		}
     		}
 			else if (gSpecialMoveFlags[move].gSlicingMoves && SpeciesHasSharpness(GetProperAbilityPopUpSpecies(bankAtk)))
 				power = (power * 15) / 10;

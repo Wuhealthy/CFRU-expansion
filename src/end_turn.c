@@ -5,6 +5,7 @@
 #include "../include/constants/items.h"
 
 #include "../include/new/ai_master.h"
+#include "../include/new/ability_battle_scripts.h"
 #include "../include/new/battle_start_turn_start.h"
 #include "../include/new/battle_script_util.h"
 #include "../include/new/battle_util.h"
@@ -146,6 +147,8 @@ const u16 gSandstormHailDmgStringIds[] =
 
 u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 {
+	(void)move;
+    (void)monAtk;
 	int i, j;
 	u8 effect = 0;
 
@@ -1635,6 +1638,34 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 							}
 							break;
 						#endif
+
+						case ABILITY_QUARKDRIVE:
+    						// 回合结束时持续检查古代活性/夸克充能条件
+    						if (!gNewBS->ProtosynthesisActivated[bank]
+        						&& IsSunWeatherActive(bank)
+        						&& SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bank)))
+    						{
+        						u8 protoStatId = GetHighestStat(bank);
+        						gBankAttacker = bank;
+        						gActiveBattler = bank;
+        						gNewBS->ProtosynthesisActivated[bank] = TRUE;
+        						PREPARE_STAT_BUFFER(gBattleTextBuff1, protoStatId);
+        						BattleScriptPushCursorAndCallback(BattleScript_ProtosynthesisActivates);
+        						effect++;
+    						}
+    						else if (!gNewBS->quarkDriveActivated[bank]
+        						&& gTerrainType == ELECTRIC_TERRAIN
+        						&& IsAffectedByElectricTerrain(bank))
+    						{
+        						u8 quarkStatId = GetHighestStat(bank);
+        						gBankAttacker = bank;
+        						gActiveBattler = bank;
+        						gNewBS->quarkDriveActivated[bank] = TRUE;
+        						PREPARE_STAT_BUFFER(gBattleTextBuff1, quarkStatId);
+        						BattleScriptPushCursorAndCallback(BattleScript_QuarkDriveActivates);
+        						effect++;
+    						}
+    						break;
 
 						#if (defined SPECIES_CHERRIM && defined SPECIES_CHERRIM_SUN)
 						case ABILITY_FLOWERGIFT:

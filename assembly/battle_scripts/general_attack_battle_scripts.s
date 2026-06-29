@@ -5768,6 +5768,7 @@ BS_226_Terrain:
 	callasm SeedRoomServiceLooper
 	copybyte USER_BANK TARGET_BANK @;Restore original target
 	callasm TryActivateMimicry
+	callasm TryActivateQuarkDrive
 	goto BS_MOVE_END
 	
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -6274,6 +6275,7 @@ BattleScript_SetTerrain:
 	callasm SeedRoomServiceLooper
 	copyhword USER_BANK BACKUP_HWORD @;Restore original attacker + target
 	callasm TryActivateMimicry
+	callasm TryActivateQuarkDrive
 BattleScript_SetTerrainReturn:
 	return
 
