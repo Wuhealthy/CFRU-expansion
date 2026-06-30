@@ -2876,6 +2876,14 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			break;
 	}
 
+	switch (data->defPartnerAbility) {
+    	case ABILITY_FLOWERGIFT:
+        	if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
+        	&& !ItemEffectIgnoresSunAndRain(ITEM_EFFECT(PARTNER(bankDef))))
+            	spDefense = (spDefense * 15) / 10;
+        	break;
+	}
+
 //Target Ability Checks
 	switch (data->defAbility) {
 		case ABILITY_MARVELSCALE:
@@ -2888,6 +2896,13 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 		//1.5x Boost
 			if (gTerrainType == GRASSY_TERRAIN)
 				defense = (defense * 15) / 10;
+			break;
+
+		case ABILITY_FLOWERGIFT:
+		//1.5x Boost
+			if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
+        	&& !ItemEffectIgnoresSunAndRain(data->defItemEffect))
+				spDefense = (spDefense * 15) / 10;
 			break;
 
 		case ABILITY_THICKFAT:
@@ -2917,28 +2932,28 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			break;
 
 		case ABILITY_QUARKDRIVE:
-			if (SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(gBankTarget)) && (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
-			&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect)))
+			if (SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bankDef)) && (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
+			&& !ItemEffectIgnoresSunAndRain(data->defItemEffect)))
 			{
-				if (GetHighestStat(bankAtk) == STAT_ATK)
+				if (GetHighestStat(bankDef) == STAT_ATK)
 					attack = (attack * 13) / 10;
-				if (GetHighestStat(bankAtk) == STAT_SPATK)
+				if (GetHighestStat(bankDef) == STAT_SPATK)
 					spAttack = (spAttack * 13) / 10;
-				if (GetHighestStat(bankAtk) == STAT_DEF)
+				if (GetHighestStat(bankDef) == STAT_DEF)
 					defense = (defense * 13) / 10;
-				if (GetHighestStat(bankAtk) == STAT_SPDEF)
+				if (GetHighestStat(bankDef) == STAT_SPDEF)
 					spDefense = (spDefense * 13) / 10;
 			}
 
-			else if (!SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(gBankTarget)) && gTerrainType == ELECTRIC_TERRAIN && IsAffectedByElectricTerrain(gBankTarget))
+			else if (!SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bankDef)) && gTerrainType == ELECTRIC_TERRAIN)
 			{
-				if (GetHighestStat(bankAtk) == STAT_ATK)
+				if (GetHighestStat(bankDef) == STAT_ATK)
 					attack = (attack * 13) / 10;
-				if (GetHighestStat(bankAtk) == STAT_SPATK)
+				if (GetHighestStat(bankDef) == STAT_SPATK)
 					spAttack = (spAttack * 13) / 10;
-				if (GetHighestStat(bankAtk) == STAT_DEF)
+				if (GetHighestStat(bankDef) == STAT_DEF)
 					defense = (defense * 13) / 10;
-				if (GetHighestStat(bankAtk) == STAT_SPDEF)
+				if (GetHighestStat(bankDef) == STAT_SPDEF)
 					spDefense = (spDefense * 13) / 10;
 			}
 			break;
