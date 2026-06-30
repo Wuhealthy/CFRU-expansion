@@ -1701,7 +1701,7 @@ u8 GetMoveTypeSpecialPostAbility(u16 move, u8 atkAbility, u8 bankAtk, struct Pok
 	if (atkAbility == ABILITY_AERILATE && moveType == TYPE_NORMAL && moveTypeCanBeChanged)
 	{
 		//改变一般属性招式
-		u16 species = (mon != NULL) ? GetMonData(mon, MON_DATA_SPECIES, NULL) : SPECIES(bankAtk);
+		u16 species = GetProperAbilityPopUpSpecies(bankAtk);
 			if (SpeciesHasRefrigerate(species))
 				return TYPE_ICE;
 			if (SpeciesHasPixilate(species))
@@ -1738,6 +1738,7 @@ u8 GetMonMoveTypeSpecial(struct Pokemon* mon, u16 move)
 
 static bool8 AbilityCanChangeTypeAndBoost(u16 move, u8 atkAbility, u8 electrifyTimer, u8 bankAtk, struct Pokemon* mon, bool8 zMoveActive)
 {
+	(void)mon;
 	u8 moveType = gBattleMoves[move].type;
 	bool8 moveTypeCanBeChanged = !zMoveActive || SPLIT(move) == SPLIT_STATUS;
 
@@ -1748,18 +1749,7 @@ static bool8 AbilityCanChangeTypeAndBoost(u16 move, u8 atkAbility, u8 electrifyT
 
 	//检查一般属性招式
 	if (atkAbility == ABILITY_AERILATE && moveType == TYPE_NORMAL && moveTypeCanBeChanged)
-	{
-		u16 species = SPECIES(bankAtk);
-			if (SpeciesHasRefrigerate(species))
-				return TRUE;
-			if (SpeciesHasPixilate(species))
-				return TRUE;
-			if (SpeciesHasGalvanize(species))
-				return TRUE;
-			if (SpeciesHasDragonize(species))
-				return TRUE;
-			 return TRUE;
-	}	
+		return TRUE;
 
 	//Check non-Normal-type moves
 	return atkAbility == ABILITY_NORMALIZE && moveTypeCanBeChanged;
