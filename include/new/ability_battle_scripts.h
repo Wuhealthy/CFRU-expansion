@@ -170,4 +170,3 @@ extern const u8 BattleScript_ProtosynthesisActivates2[];
 extern const u8 BattleScript_MoveEffectConfusion[];
 extern const u8 BattleScript_SetPuppetConfusion[];
 extern const u8 BattleScript_ToxicDebrisActivates[];
-extern const u8 BattleScript_ToxicDebrisFailure[];

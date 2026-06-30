@@ -121,7 +121,6 @@ ability_battle_scripts.s
 .global BattleScript_SetPuppetConfusion
 .global BattleScript_MoveEffectConfusion
 .global BattleScript_ToxicDebrisActivates
-.global BattleScript_ToxicDebrisFailure
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -1616,13 +1615,6 @@ BattleScript_ToxicDebrisActivates:
 	playanimation BANK_ATTACKER ANIM_TOXICSPIKES2 0x0
 	waitmessage DELAY_1SECOND
 	setword BATTLE_STRING_LOADER ToxicSpikesLayString
-	printstring 0x184
-	call BattleScript_AbilityPopUpRevert
-	return
-
-BattleScript_ToxicDebrisFailure:
-	call BattleScript_AbilityPopUp
-	setword BATTLE_STRING_LOADER gText_ToxicDebrisFailed
 	printstring 0x184
 	call BattleScript_AbilityPopUpRevert
 	return

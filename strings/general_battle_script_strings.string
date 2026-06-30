@@ -532,9 +532,6 @@
 #org @gText_ElectromorphosisActivatess
 [SCRIPTING_BANK]\n充电了。
 
-#org @gText_ToxicDebrisFailed
-[SCRIPTING_BANK]试图撒出毒菱，\n但失败了。
-
 #org @sText_TargetIsBeingSaltCured
 [TARGET]正在被盐腌！
 

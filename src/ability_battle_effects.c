@@ -2202,24 +2202,19 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					// Check Toxic Debris
 					if (SpeciesHasToxicDebris(GetProperAbilityPopUpSpecies(bank)) && SPLIT(move) == SPLIT_PHYSICAL)
 					{
-						if (gSideTimers[gBankAttacker].tspikesAmount >= 2)
-						{
-							// Failure message (maximum Toxic Spikes already present)
-							BattleScriptPushCursor();
-							gBattlescriptCurrInstr = BattleScript_ToxicDebrisFailure;
-						}
-						else
+						if (gSideTimers[gBankAttacker].tspikesAmount < 2)
 						{
 							// Add a layer of Toxic Spikes
 							gSideStatuses[gBankAttacker] |= SIDE_STATUS_SPIKES;
 							gSideTimers[gBankAttacker].tspikesAmount++;
 							BattleScriptPushCursor();
 							gBattlescriptCurrInstr = BattleScript_ToxicDebrisActivates;
+							effect++;
 						}
-						effect++;
 					}
 					// Check Poison Point
 					else if (CheckContact(move, gBankAttacker, bank)
+						&& !SpeciesHasToxicDebris(GetProperAbilityPopUpSpecies(bank))
 						&& CanBePoisoned(gBankAttacker, bank, TRUE)
 						&& umodsi(Random(), 3) == 0)
 					{
