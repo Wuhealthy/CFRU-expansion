@@ -1739,6 +1739,7 @@ u8 GetMonMoveTypeSpecial(struct Pokemon* mon, u16 move)
 static bool8 AbilityCanChangeTypeAndBoost(u16 move, u8 atkAbility, u8 electrifyTimer, u8 bankAtk, struct Pokemon* mon, bool8 zMoveActive)
 {
 	(void)mon;
+	(void)bankAtk;
 	u8 moveType = gBattleMoves[move].type;
 	bool8 moveTypeCanBeChanged = !zMoveActive || SPLIT(move) == SPLIT_STATUS;
 
@@ -4289,7 +4290,6 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 			{
         		u8 fallenCount = 0;
         		u8 partyCount = gPlayerPartyCount;
-        		u8 activeBank = bankAtk;
         
         		for (u8 i = 0; i < partyCount; i++)
         		{
@@ -4313,7 +4313,8 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
     		}
 			else if (gSpecialMoveFlags[move].gSlicingMoves && SpeciesHasSharpness(GetProperAbilityPopUpSpecies(bankAtk)))
 				power = (power * 15) / 10;
-			else if (gSpecialMoveFlags[move].gBitingMoves && !SpeciesHasSpiderSense(GetProperAbilityPopUpSpecies(bankAtk)))
+			else if (gSpecialMoveFlags[move].gBitingMoves && !SpeciesHasSpiderSense(GetProperAbilityPopUpSpecies(bankAtk))
+					&& !SpeciesHasSharpness(GetProperAbilityPopUpSpecies(bankAtk)))
 				power = (power * 15) / 10;
 			break;
 

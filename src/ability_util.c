@@ -203,8 +203,6 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 					return gText_AbilityName_PurePower;
 				#endif
 			}
-			if (SpeciesHasSupremeOverlord(species))
-				return gText_AbilityName_SupremeOverlord;
 			break;
 		case ABILITY_ROUGHSKIN:
 			if (IsSpeciesOfType(species, TYPE_STEEL)) //Species original type is Steel - Assumes Ferroseed, Ferrothorn, and Togedemaru types haven't changed
@@ -570,6 +568,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
         		return gText_AbilityName_HeavyArmor;
 			else if (SpeciesHasSpiderSense(species))
         		return gText_AbilityName_SpiderSense;
+			else if (SpeciesHasSupremeOverlord(species))
+        		return gText_AbilityName_SupremeOverlord;
 			break;
 		case ABILITY_INTIMIDATE:
 			if (SpeciesHasSuperSweetSyrup(species))
@@ -761,6 +761,8 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
         		return gText_AbilityDescription_HeavyArmor;
 			else if (SpeciesHasSpiderSense(species))
         		return gText_AbilityDescription_SpiderSense;
+			else if (SpeciesHasSupremeOverlord(species))
+        		return gText_AbilityDescription_SupremeOverlord;
 			break;
 		case ABILITY_IRONFIST:
     		if (SpeciesHasStickStickPass(species))
@@ -768,10 +770,6 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 			else if (SpeciesHasWaveFist(species))
         		return gText_AbilityDescription_WaveFist;
     		break;
-		case ABILITY_HUGEPOWER:
-			if (SpeciesHasSupremeOverlord(species))
-				return gText_AbilityDescription_SupremeOverlord;
-			break;
 		case ABILITY_LEVITATE:
     		if (SpeciesHasEelevate(species))
         		return gText_AbilityDescription_Eelevate;
