@@ -866,6 +866,9 @@ HP一半时降低双防提升双攻和速度
 #org @gText_AbilityDescription_Costar
 出场时，复制同伴的能力变化
 
+#org @gText_AbilityDescription_Hospitality
+出场时款待同伴，回复其少量HP
+
 #org @gText_AbilityDescription_CudChew
 吃树果后，会在下一回合再吃1次
 

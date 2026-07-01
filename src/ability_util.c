@@ -97,6 +97,8 @@ extern const u8 gText_AbilityName_TabletsofRuin[];
 extern const u8 gText_AbilityName_VesselofRuin[];
 extern const u8 gText_AbilityName_Costar[];
 extern const u8 gText_AbilityDescription_Costar[];
+extern const u8 gText_AbilityName_Hospitality[];
+extern const u8 gText_AbilityDescription_Hospitality[];
 extern const u8 gText_AbilityName_CudChew[];
 extern const u8 gText_AbilityDescription_CudChew[];
 extern const u8 gText_AbilityName_EarthEater[];
@@ -490,6 +492,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 		case ABILITY_CURIOUSMEDICINE:
 			if (SpeciesHasCostar(species))
 				return gText_AbilityName_Costar;
+			if (SpeciesHasHospitality(species))
+				return gText_AbilityName_Hospitality;
 			break;
 		case ABILITY_HARVEST:
 			if(SpeciesHasCudChew(species))
@@ -685,6 +689,8 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 		case ABILITY_CURIOUSMEDICINE:
 			if (SpeciesHasCostar(species))
 				return gText_AbilityDescription_Costar;
+			if (SpeciesHasHospitality(species))
+				return gText_AbilityDescription_Hospitality;
 			break;
 		case ABILITY_HARVEST:
 			if(SpeciesHasCudChew(species))
@@ -1428,6 +1434,15 @@ bool8 SpeciesHasCostar(unusedArg u16 species)
 {
 	#ifdef SPECIES_FLAMIGO
 	return species == SPECIES_FLAMIGO;
+	#else
+	return FALSE;
+	#endif
+}
+
+bool8 SpeciesHasHospitality(unusedArg u16 species)
+{
+	#if (defined SPECIES_POLTCHAGEIST && SPECIES_POLTCHAGEIST_ARTISAN && SPECIES_SINISTCHA && SPECIES_SINISTCHA_MASTERPIECE)
+	return species == SPECIES_POLTCHAGEIST || species == SPECIES_POLTCHAGEIST_ARTISAN || species == SPECIES_SINISTCHA || species == SPECIES_SINISTCHA_MASTERPIECE;
 	#else
 	return FALSE;
 	#endif

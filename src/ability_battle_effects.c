@@ -1492,7 +1492,9 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			if (IS_DOUBLE_BATTLE)
 			{
 				u8 partner = PARTNER(bank);
-				if (BATTLER_ALIVE(partner) && !SpeciesHasCostar(GetProperAbilityPopUpSpecies(bank)))
+				if (BATTLER_ALIVE(partner)
+				&& !SpeciesHasCostar(GetProperAbilityPopUpSpecies(bank))
+				&& !SpeciesHasHospitality(GetProperAbilityPopUpSpecies(bank)))
 				{
 					for (i = 0; i < BATTLE_STATS_NO - 1; ++i)
 						gBattleMons[partner].statStages[i] = 6;
@@ -1512,6 +1514,23 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
 					effect++;
 				}
+				else if (BATTLER_ALIVE(partner) && SpeciesHasHospitality(GetProperAbilityPopUpSpecies(bank)))
+        		{
+            		// 检查队友是否满血或处于回复封锁状态
+            		if (!BATTLER_MAX_HP(partner) && !IsHealBlocked(partner))
+            		{
+                		// 回复最大 HP 的 1/4
+                		gBattleMoveDamage = MathMax(1, GetBaseMaxHP(partner) / 4);
+                		gBattleMoveDamage *= -1;  // 负值表示回复
+                
+                		gBankTarget = partner;
+                		gBattleStringLoader = gText_HospitalityActivate;
+                		BattleScriptPushCursorAndCallback(BattleScript_HospitalityActivates);
+                		effect++;
+            		}
+            		// 如果队友满血或无法回复，什么也不做
+            		break;
+        		}
 			}
 			break;
 

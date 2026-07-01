@@ -145,6 +145,9 @@
 #org @gText_CostarActivate
 [SCRIPTING_BANK]复制了\n[TARGET]的能力变化！
 
+#org @gText_HospitalityActivate
+[TARGET]喝光了\n[SCRIPTING_BANK]泡的茶！
+
 #org @sText_ElectricTerrainActivatedAbility
 [SCRIPTING_BANK]通过\n电气场地发动了[LAST_ABILITY]！
 

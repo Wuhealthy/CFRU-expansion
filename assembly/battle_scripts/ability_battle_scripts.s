@@ -26,6 +26,7 @@ ability_battle_scripts.s
 .global BattleScript_ImposterActivates
 .global BattleScript_AttackerAbilityStatRaiseEnd3
 .global BattleScript_NeutralizingGas
+.global BattleScript_HospitalityActivates
 .global BattleScript_SwitchInAbilityMsg
 .global BattleScript_End3
 .global BattleScript_AbilityCuredStatus
@@ -400,6 +401,18 @@ BattleScript_SwitchInAbilityMsg:
 	waitmessage DELAY_1SECOND
 	call BattleScript_AbilityPopUpRevert
 BattleScript_End3:
+	end3	
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+BattleScript_HospitalityActivates:
+	call BattleScript_AbilityPopUp
+	playanimation BANK_TARGET ANIM_HEALING_SPARKLES 0x0
+	graphicalhpupdate BANK_TARGET
+    datahpupdate BANK_TARGET
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
 	end3	
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
