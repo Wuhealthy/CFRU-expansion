@@ -177,4 +177,3 @@ void TryActivateProtosynthesis(void);
 void TrySetPoisonPuppeterEffect(void);
 void TryUpperHand(void);
 void TripleArrowsFlinchCheck(void);
-bool32 IsMyceliumMightOnField(void);

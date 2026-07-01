@@ -901,10 +901,7 @@ void ResetTookAbilityFrom(u8 bank)
 
 bool8 IsTargetAbilityIgnored(u8 defAbility, u8 atkAbility, u16 move)
 {
-	if (SpeciesHasMyceliumMight(GetProperAbilityPopUpSpecies(gBankAttacker)))
-		return IS_MOLD_BREAKER(atkAbility, move) && gSpecialAbilityFlags[defAbility].gMyceliumMighIgnoredAbilities;
-	else
-		return IS_MOLD_BREAKER(atkAbility, move) && gSpecialAbilityFlags[defAbility].gMoldBreakerIgnoredAbilities;
+	return IS_MOLD_BREAKER(atkAbility, move) && gSpecialAbilityFlags[defAbility].gMoldBreakerIgnoredAbilities;
 }
 
 bool8 IsTargetAbilityIgnoredNoMove(u8 defAbility, u8 atkAbility)

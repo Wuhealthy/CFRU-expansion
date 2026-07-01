@@ -878,6 +878,11 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			break;
 
 		case ABILITY_MOLDBREAKER:
+			if (SpeciesHasMyceliumMight(GetProperAbilityPopUpSpecies(bank)))
+			{
+        		break;
+    		}
+
 			#ifndef ABILITY_TURBOBLAZE
 			if (SpeciesHasTurboblaze(GetProperAbilityPopUpSpecies(bank)))
 				gBattleStringLoader = gText_TurboblazeActivate;

@@ -275,8 +275,12 @@ void MoldBreakerRemoveAbilitiesOnForceSwitchIn(void)
 
 	if (IsMoldBreakerAbility(ABILITY(bank)))
 	{
-		if (gSpecialAbilityFlags[ABILITY(gBankSwitching)].gMoldBreakerIgnoredAbilities
-		|| gSpecialAbilityFlags[ABILITY(gBankSwitching)].gMyceliumMighIgnoredAbilities)
+		if (SpeciesHasMyceliumMight(GetProperAbilityPopUpSpecies(bank))
+            && SPLIT(gCurrentMove) != SPLIT_STATUS)
+        {
+            return;
+        }
+		if (gSpecialAbilityFlags[ABILITY(gBankSwitching)].gMoldBreakerIgnoredAbilities)
 		{
 			gNewBS->DisabledMoldBreakerAbilities[gBankSwitching] = gBattleMons[gBankSwitching].ability;
 			gBattleMons[gBankSwitching].ability = 0;
@@ -1489,12 +1493,6 @@ void AbilityChangeBSFunc(void)
 	defAbility = *defAbilityLoc;
 
 	gNewBS->backupAbility = *defAbilityLoc;
-
-	if (IsMyceliumMightOnField())
-    {
-        *defAbilityLoc = ABILITY_NONE;
-        defAbility = ABILITY_NONE;
-    }
 
 	switch (gCurrentMove) {
 		case MOVE_WORRYSEED:
