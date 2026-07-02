@@ -1540,7 +1540,7 @@ bool8 BypassesScreens(u8 ability)
 bool8 BypassesFog(unusedArg u8 ability, unusedArg u8 itemEffect)
 {
 	#ifdef UNBOUND
-	return BypassesScreens(ability) || ability == ABILITY_KEENEYE || ItemEffectIgnoresSunAndRain(itemEffect);
+	return BypassesScreens(ability) || ability == ABILITY_KEENEYE || ability == ABILITY_ILLUMINATE || ItemEffectIgnoresSunAndRain(itemEffect);
 	#else
 	return FALSE;
 	#endif

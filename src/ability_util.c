@@ -531,7 +531,7 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
     		if (SpeciesHasVolatileExplosion(species))
         		return gText_AbilityName_VolatileExplosion;
     		break;
-		case ABILITY_SCRAPPY:
+		case ABILITY_KEENEYE:
 			if(SpeciesHasMindsEye(species))
 				return gText_AbilityName_MindsEye;
 			break;
@@ -718,7 +718,7 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 			if(SpeciesHasHadronEngine(species))
 				return gText_AbilityDescription_HadronEngine;
 			break;
-		case ABILITY_SCRAPPY:
+		case ABILITY_KEENEYE:
 			if(SpeciesHasMindsEye(species))
 				return gText_AbilityDescription_MindsEye;
 			break;
@@ -1221,6 +1221,8 @@ bool8 AbilityPreventsLoweringStat(u8 ability, u8 statId)
 			return statId == STAT_STAGE_DEF;
 		case ABILITY_KEENEYE:
 			return statId == STAT_STAGE_ACC;
+		case ABILITY_ILLUMINATE:
+			return statId == STAT_STAGE_ACC;
 		default:
 			return FALSE;
 	}
@@ -1537,17 +1539,6 @@ bool8 SpeciesHasMindsEye(unusedArg u16 species)
 	return FALSE;
 	#endif
 }
-
-bool8 MindsEyePreventsLoweringStat(u8 ability, u8 statId)
-{
-	switch (ability)
-	{
-		case ABILITY_SCRAPPY:
-			return statId == STAT_STAGE_ACC;
-		default:
-			return FALSE;
-	}
-}	
 
 bool8 SpeciesHasMyceliumMight(unusedArg u16 species)
 {

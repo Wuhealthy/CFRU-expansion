@@ -113,7 +113,7 @@ HP全满时，不会被一击打倒
 晴朗天气时，速度会提高
 
 #org @DESC_ILLUMINATE
-容易遇到野生的宝可梦
+命中不会被降低且无视对手闪避率
 
 #org @DESC_TRACE
 出场时，变为与对手相同的特性
@@ -158,7 +158,7 @@ HP全满时，不会被一击打倒
 一定能从野生宝可梦那儿逃走
 
 #org @DESC_KEENEYE
-命中率不会被降低
+命中不会被降低且无视对手闪避率
 
 #org @DESC_HYPERCUTTER
 不会被对手降低攻击
@@ -891,7 +891,7 @@ HP一半时降低双防提升双攻和速度
 出场时，会布下电气场地提高特攻
 
 #org @gText_AbilityDescription_MindsEye
-招式可以击中幽灵属性的宝可梦
+同时拥有胆量和锐利目光
 
 #org @gText_AbilityDescription_MyceliumMight
 慢出变化招式，但不受特性妨碍

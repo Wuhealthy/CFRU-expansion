@@ -1490,6 +1490,7 @@ TYPE_LOOP_AI:
 static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, const u8 defType, const u8 bankDef, u8 atkAbility, u8* flags, struct Pokemon* monDef)
 {
 	bool8 checkMonDef = monDef != NULL;
+	u8 bankAtk = gBankAttacker;
 
 	if (IsInverseBattle())
 	{
@@ -1517,7 +1518,9 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 	if (!checkMonDef && multiplier == TYPE_MUL_NO_EFFECT)
 	{
 		if ((defType == TYPE_GHOST && (moveType == TYPE_NORMAL || moveType == TYPE_FIGHTING))
-		&& (gBattleMons[bankDef].status2 & STATUS2_FORESIGHT || atkAbility == ABILITY_SCRAPPY))
+		&& (gBattleMons[bankDef].status2 & STATUS2_FORESIGHT
+			|| atkAbility == ABILITY_SCRAPPY
+			|| (atkAbility == ABILITY_KEENEYE && SpeciesHasMindsEye(GetProperAbilityPopUpSpecies(bankAtk)))))
 			return; //Foresight & Scrappy break Ghost immunity
 
 		if (moveType == TYPE_PSYCHIC && defType == TYPE_DARK && (gStatuses3[bankDef] & STATUS3_MIRACLE_EYED))
@@ -1525,7 +1528,8 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 	}
 	else if (checkMonDef)
 	{
-		if (atkAbility == ABILITY_SCRAPPY
+		if ((atkAbility == ABILITY_SCRAPPY
+		|| (atkAbility == ABILITY_KEENEYE && SpeciesHasMindsEye(GetProperAbilityPopUpSpecies(bankAtk))))
 		&& (defType == TYPE_GHOST && (moveType == TYPE_NORMAL || moveType == TYPE_FIGHTING)))
 			return; //Scrappy breaks Ghost immunity
 	}
