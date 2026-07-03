@@ -3410,28 +3410,28 @@ StoneAxe_BS:
 	call STANDARD_DAMAGE
 	playanimation BANK_TARGET ANIM_STEALTHROCK2 0x0
 	waitanimation
-	setspikes StoneAxeFailed
+	setspikes StoneAxeSkip
 	printstring 0x184
 	waitmessage DELAY_1SECOND
+
+StoneAxeSkip:
 	prefaintmoveendeffects 0x0
 	faintpokemonaftermove
 	goto BS_MOVE_END
-
-StoneAxeFailed:
-	setword BATTLE_STRING_LOADER ButFailedString
-	printstring 0x184
-	waitmessage DELAY_1SECOND
-	goto BS_MOVE_FAINT
 
 Ceaceless_BS:
 	attackcanceler
 	call STANDARD_DAMAGE
 	playanimation BANK_TARGET ANIM_SPIKES2 0x0
 	waitanimation
-	setspikes StoneAxeFailed
+	setspikes CeacelessSkip
 	printstring 0x184
 	waitmessage DELAY_1SECOND
-	goto BS_MOVE_FAINT
+
+CeacelessSkip:
+	prefaintmoveendeffects 0x0
+	faintpokemonaftermove
+	goto BS_MOVE_END
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
