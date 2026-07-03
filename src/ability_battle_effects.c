@@ -786,6 +786,23 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
             		effect++;
         		}
     		}
+			else if (SpeciesHasSuperSweetSyrup(GetProperAbilityPopUpSpecies(bank)))
+    		{
+        		u8 side = SIDE(bank);
+    			u8 partyId = gBattlerPartyIndexes[bank];
+
+				if (!gNewBS->oncePerBattleAbilityFlags[side][partyId])
+				{
+					if (CanBeAffectedByIntimidate(FOE(bank)) || (IS_DOUBLE_BATTLE && CanBeAffectedByIntimidate(PARTNER(FOE(bank)))))
+        			{
+            			gNewBS->oncePerBattleAbilityFlags[side][partyId] = TRUE;
+						gBattleStruct->intimidateBank = bank;
+            			gNewBS->intimidateActive = bank + 1;
+						BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivatesEnd3);
+            			effect++;
+        			}
+				}
+    		}
 			// 原威吓效果
     		else if (CanBeAffectedByIntimidate(FOE(bank)) || (IS_DOUBLE_BATTLE && CanBeAffectedByIntimidate(PARTNER(FOE(bank)))))
 			{
