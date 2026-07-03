@@ -2833,10 +2833,13 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			break;
 		case ABILITY_BLAZE:
 		//1.5x Boost
-			if (data->moveType == TYPE_FIRE && data->atkHP <= data->atkMaxHP / 3)
+			if (!SpeciesHasTeraShell(GetProperAbilityPopUpSpecies(bankAtk)))
 			{
-				attack = (attack * 15) / 10;
-				spAttack = (spAttack * 15) / 10;
+				if (data->moveType == TYPE_FIRE && data->atkHP <= data->atkMaxHP / 3)
+				{
+					attack = (attack * 15) / 10;
+					spAttack = (spAttack * 15) / 10;
+				}
 			}
 			break;
 		case ABILITY_TORRENT:

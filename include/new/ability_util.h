@@ -92,6 +92,7 @@ bool8 SpeciesHasHeavyArmor(u16 species);
 bool8 SpeciesHasSupremeOverlord(u16 species);
 bool8 IsFaintedPokemonInParty(void);
 bool8 SpeciesHasSuperSweetSyrup(u16 species);
+bool8 SpeciesHasTeraformZero(u16 species);
 bool8 SpeciesHasTeraShift(u16 species);
 bool8 SpeciesHasTeraShell(u16 species);
 bool8 SpeciesHasThermalExchange(u16 species);

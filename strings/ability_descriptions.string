@@ -941,6 +941,9 @@ HP一半时降低双防提升双攻和速度
 #org @gText_AbilityDescription_TeraShell
 HP全满时受到的伤害变为效果不好
 
+#org @gText_AbilityDescription_TeraformZero
+首次出场会将天气和场地全部归零
+
 #org @gText_AbilityDescription_ThermalExchange
 受火攻击时攻击会提高，不会灼伤
 

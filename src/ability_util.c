@@ -144,6 +144,8 @@ extern const u8 gText_AbilityName_SupremeOverlord[];
 extern const u8 gText_AbilityDescription_SupremeOverlord[];
 extern const u8 gText_AbilityName_SuperSweetSyrup[];
 extern const u8 gText_AbilityDescription_SuperSweetSyrup[];
+extern const u8 gText_AbilityName_TeraformZero[];
+extern const u8 gText_AbilityDescription_TeraformZero[];
 extern const u8 gText_AbilityName_TeraShift[];
 extern const u8 gText_AbilityDescription_TeraShift[];
 extern const u8 gText_AbilityName_TeraShell[];
@@ -582,6 +584,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 				return gText_AbilityName_SuperSweetSyrup;
 			else if (SpeciesHasPsyGravity(species))
         		return gText_AbilityName_PsyGravity;
+			else if (SpeciesHasTeraformZero(species))
+				return gText_AbilityName_TeraformZero;
 			break;
 		case ABILITY_ICEFACE:
 			if (SpeciesHasTeraShift(species))
@@ -788,6 +792,8 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 				return gText_AbilityDescription_SuperSweetSyrup;
 			else if (SpeciesHasPsyGravity(species))
 				return gText_AbilityDescription_PsyGravity;
+			else if (SpeciesHasTeraformZero(species))
+				return gText_AbilityDescription_TeraformZero;
 			break;
 		case ABILITY_ICEFACE:
 			if(SpeciesHasTeraShift(species))
@@ -1715,6 +1721,15 @@ bool8 SpeciesHasSuperSweetSyrup(unusedArg u16 species)
 {
 	#if (defined SPECIES_DIPPLIN && SPECIES_HYDRAPPLE)
 	return species == SPECIES_DIPPLIN || species == SPECIES_HYDRAPPLE;
+	#else
+	return FALSE;
+	#endif
+}
+
+bool8 SpeciesHasTeraformZero(unusedArg u16 species)
+{
+    #ifdef SPECIES_TERAPAGOS_STELLAR
+	return species == SPECIES_TERAPAGOS_STELLAR;
 	#else
 	return FALSE;
 	#endif

@@ -28,6 +28,7 @@ ability_battle_scripts.s
 .global BattleScript_NeutralizingGas
 .global BattleScript_HospitalityActivates
 .global BattleScript_SwitchInAbilityMsg
+.global BattleScript_TeraformZeroClear
 .global BattleScript_End3
 .global BattleScript_AbilityCuredStatus
 .global BattleScript_AbilityCuredStatusEnd3
@@ -401,6 +402,16 @@ BattleScript_SwitchInAbilityMsg:
 	waitmessage DELAY_1SECOND
 	call BattleScript_AbilityPopUpRevert
 BattleScript_End3:
+	end3	
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+BattleScript_TeraformZeroClear:
+	call BattleScript_AbilityPopUp
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	playanimation BANK_ATTACKER ANIM_LOAD_DEFAULT_BG 0x0
+	call BattleScript_AbilityPopUpRevert
 	end3	
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

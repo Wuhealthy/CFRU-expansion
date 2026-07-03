@@ -130,6 +130,9 @@
 #org @GigatonHammerNotAllowedString
 [CURRENT_MOVE]\n无法连续使用两次！\p
 
+#org @gText_TerrainEnds
+场上的天气和场地都消失了。
+
 #org @gText_BeadsofRuin
 [SCRIPTING_BANK]的灾祸之玉\n令周围的宝可梦的特防减弱了！
 
