@@ -2369,23 +2369,6 @@ void TryFailJungleHealing(void)
 		gBattlescriptCurrInstr = BattleScript_LifeDewFail - 5;
 }
 
-bool8 ShouldLunarBlessingFail(u8 bankAtk)
-{
-	if (!BATTLER_MAX_HP(bankAtk) || gBattleMons[bankAtk].status1 != 0)
-		return FALSE; //It will work
-
-	if (STAT_CAN_RISE(bankAtk, STAT_STAGE_EVASION))
-		return FALSE;
-
-	return TRUE;
-}
-
-void TryFailLunarBlessing(void)
-{
-	if (ShouldLunarBlessingFail(gBankAttacker))
-		gBattlescriptCurrInstr = BattleScript_LunarBlessingFail - 5;
-}
-
 void SetStickyWebActive(void)
 {
 	gNewBS->stickyWebActive = TRUE;

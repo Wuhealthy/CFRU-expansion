@@ -2527,7 +2527,7 @@ void atk7B_tryhealhalfhealth(void)
 		gBattlescriptCurrInstr = failPtr;
 	else
 	{
-		if (gCurrentMove == MOVE_LIFEDEW || gCurrentMove == MOVE_JUNGLEHEALING)
+		if (gCurrentMove == MOVE_LIFEDEW || gCurrentMove == MOVE_JUNGLEHEALING || gCurrentMove == MOVE_LUNARBLESSING)
 			gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankTarget) / 4); //25 %
 		else
 			gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankTarget) / 2); //50 %

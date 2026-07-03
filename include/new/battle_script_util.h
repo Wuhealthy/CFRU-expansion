@@ -126,8 +126,6 @@ void IncrementBattleTurnCounter(void);
 void TryFailLifeDew(void);
 bool8 ShouldJungleHealingFail(u8 bankAtk);
 void TryFailJungleHealing(void);
-bool8 ShouldLunarBlessingFail(u8 bankAtk);
-void TryFailLunarBlessing(void);
 void SetStickyWebActive(void);
 void ClearStickyWebActive(void);
 void ChooseTargetForMirrorArmorStickyWeb(void);

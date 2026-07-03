@@ -749,7 +749,7 @@ BS_032_Recover:
 	jumpifmove MOVE_ROOST RoostBS
 	jumpifmove MOVE_LIFEDEW LifeDewBS
 	jumpifmove MOVE_JUNGLEHEALING JungleHealingBS
-	jumpifmove MOVE_LUNARBLESSING LunarBlessingBS
+	jumpifmove MOVE_LUNARBLESSING JungleHealingBS
 
 RecoverBS:
 	setdamageasrestorehalfmaxhp 0x81D7DD1 BANK_ATTACKER @;BattleScript_AlreadyAtFullHp
@@ -901,46 +901,6 @@ BattleScript_NoHealPartnerAfterHealBlock_JungleHealing:
 	printstring 0x184
 	waitmessage DELAY_1SECOND
 	goto JungleHealingTryClearPartnerStatusBS
-
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-LunarBlessingBS:
-	callasm TryFailLunarBlessing
-	attackanimation
-	waitanimation
-	setdamageasrestorehalfmaxhp LunarBlessingFullHealthBS BANK_ATTACKER
-	orword HIT_MARKER HITMARKER_IGNORE_SUBSTITUTE
-	graphicalhpupdate BANK_ATTACKER
-	datahpupdate BANK_ATTACKER
-	printstring 0x4B @;STRINGID_PKMNREGAINEDHEALTH
-	waitmessage DELAY_1SECOND
-	goto LunarBlessingTryClearStatusBS
-
-LunarBlessingFullHealthBS:
-	printstring 0x4C @;STRINGID_PKMNHPFULL
-	waitmessage DELAY_1SECOND
-
-LunarBlessingTryClearStatusBS:
-	cureprimarystatus BANK_ATTACKER LunarBlessingRaiseEvasionBS
-	refreshhpbar BANK_ATTACKER
-	setword BATTLE_STRING_LOADER PurifyString
-	printstring 0x184
-	waitmessage DELAY_1SECOND
-
-LunarBlessingRaiseEvasionBS:
-	setmoveeffect MOVE_EFFECT_EVS_PLUS_1 | MOVE_EFFECT_AFFECTS_USER
-	seteffectprimary
-	goto BS_MOVE_END
-
-.global BattleScript_LunarBlessingFail
-BattleScript_LunarBlessingFail:
-	pause DELAY_HALFSECOND
-	printstring 0x4C @;STRINGID_PKMNHPFULL
-	waitmessage DELAY_1SECOND
-	setstatchanger STAT_EVASION | INCREASE_1
-	statbuffchange STAT_ATTACKER | STAT_BS_PTR | STAT_CERTAIN, BS_MOVE_END @;Won't work, but needed to buffer the correct string
-	printfromtable gStatUpStringIds
-	goto BS_MOVE_END
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

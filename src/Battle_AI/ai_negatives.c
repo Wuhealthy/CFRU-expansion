@@ -1505,13 +1505,9 @@ SKIP_CHECK_TARGET:
 						DECREASE_VIABILITY(8); //No point in healing, but should at least do it if nothing better
 					break;
 
+				case MOVE_LUNARBLESSING:
 				case MOVE_JUNGLEHEALING:
 					if (!ShouldJungleHealingFail(bankAtk))
-						break; //If it'll work, no point in not using it
-					goto DEFAULT_RECOVERY; //Even if it'll fail due to full HP, there may be logic to use it preemptively
-
-				case MOVE_LUNARBLESSING:
-					if (!ShouldLunarBlessingFail(bankAtk))
 						break; //If it'll work, no point in not using it
 					goto DEFAULT_RECOVERY; //Even if it'll fail due to full HP, there may be logic to use it preemptively
 
