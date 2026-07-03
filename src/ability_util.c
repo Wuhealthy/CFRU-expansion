@@ -584,8 +584,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
         		return gText_AbilityName_PsyGravity;
 			break;
 		case ABILITY_ICEFACE:
-				if (SpeciesHasTeraShift(species))
-					return gText_AbilityName_TeraShift;
+			if (SpeciesHasTeraShift(species))
+				return gText_AbilityName_TeraShift;
 			break;
 		case ABILITY_BLAZE:
 			if (SpeciesHasTeraShell(species))
