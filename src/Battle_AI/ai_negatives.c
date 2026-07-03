@@ -2727,14 +2727,10 @@ SKIP_CHECK_TARGET:
 			else
 			{
 				switch (move) {
+					case MOVE_POWERSHIFT:
 					case MOVE_POWERTRICK:
 						if (gBattleMons[bankAtk].attack >= gBattleMons[bankAtk].defense //Already stronger
 						|| !RealPhysicalMoveInMoveset(bankAtk))
-							DECREASE_VIABILITY(10);
-						break;
-
-					case MOVE_POWERSHIFT:
-						if (gNewBS->powerShifted[bankAtk]) //Prevent the AI from getting in a loop
 							DECREASE_VIABILITY(10);
 						break;
 

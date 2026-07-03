@@ -32,6 +32,9 @@
 #include "../include/new/switching.h"
 #include "../include/new/util.h"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
+
 /*
 battle_script_util.c
 	general functions that aide in battle scripting via callasm.
@@ -132,6 +135,7 @@ void SetStatSwapSplit(void)
 	const u8* string = NULL;
 
 	switch (gCurrentMove) {
+		case MOVE_POWERSHIFT:
 		case MOVE_POWERTRICK:
 			temp = gBattleMons[bankAtk].attack;
 			gBattleMons[bankAtk].attack = gBattleMons[bankAtk].defense;
@@ -139,18 +143,6 @@ void SetStatSwapSplit(void)
 			gStatuses3[bankAtk] ^= STATUS3_POWER_TRICK;
 
 			string = PowerTrickString;
-			break;
-
-		case MOVE_POWERSHIFT: //Swaps both offenses with both defenses
-			temp = gBattleMons[bankAtk].attack;
-			gBattleMons[bankAtk].attack = gBattleMons[bankAtk].defense;
-			gBattleMons[bankAtk].defense = temp;
-			temp = gBattleMons[bankAtk].spAttack;
-			gBattleMons[bankAtk].spAttack = gBattleMons[bankAtk].spDefense;
-			gBattleMons[bankAtk].spDefense = temp;
-			gNewBS->powerShifted[bankAtk] ^= 1; //Mainly for the AI
-
-			string = gText_PowerShiftSwappedStats;
 			break;
 
 		case MOVE_POWERSWAP:	;
@@ -2895,3 +2887,5 @@ void TripleArrowsFlinchCheck(void)
         }
     }
 }
+
+#pragma GCC diagnostic pop

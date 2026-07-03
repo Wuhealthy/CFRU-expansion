@@ -1322,7 +1322,6 @@ void ClearSwitchBytes(u8 bank)
 	gNewBS->chiStrikeCritBoosts[bank] = 0;
 	gNewBS->sandblastCentiferno[bank] = 0;
 	gNewBS->disguisedAs[bank] = 0;
-	gNewBS->powerShifted[bank] = 0;
 	gNewBS->splinterTimer[bank] = 0;
 	gNewBS->splinterAttackerBank[bank] = 0;
 	gNewBS->splinterAttackerMonId[bank] = 0;

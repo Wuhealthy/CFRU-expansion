@@ -2297,6 +2297,7 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 						INCREASE_STATUS_VIABILITY(1);
 					break;
 
+				case MOVE_POWERSHIFT:
 				case MOVE_POWERTRICK:
 					if (!(data->atkStatus3 & STATUS3_POWER_TRICK))
 					{
@@ -2304,13 +2305,6 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 							INCREASE_STATUS_VIABILITY(2);
 						break;
 					}
-					break;
-
-				case MOVE_POWERSHIFT:
-					if (IsClassDamager(class) //Moveset is set up to dish out damage
-					&& ((data->atkDefense > data->atkAttack && RealPhysicalMoveInMoveset(bankAtk))
-					 || (data->atkSpDef > data->atkSpAtk && SpecialMoveInMoveset(bankAtk))))
-						INCREASE_STATUS_VIABILITY(2);
 					break;
 
 				case MOVE_HEARTSWAP:

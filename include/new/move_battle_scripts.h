@@ -129,7 +129,6 @@ extern const u8 SpeedSwapString[];
 extern const u8 HeartSwapString[];
 extern const u8 PowerSplitString[];
 extern const u8 GuardSplitString[];
-extern const u8 gText_PowerShiftSwappedStats[];
 extern const u8 SwampString[];
 extern const u8 SeaOfFireString[];
 extern const u8 RainbowString[];

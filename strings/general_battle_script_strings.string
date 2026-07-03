@@ -174,9 +174,6 @@
 #org @gText_CourtChange
 [ATTACKER]将双方场地的\n效果进行了调换！
 
-#org @gText_PowerShiftSwappedStats
-[ATTACKER]将自己的攻击、特攻\n与防御、特防进行了互换！
-
 //Status Strings
 
 #org @gText_TargetStaysAwake
