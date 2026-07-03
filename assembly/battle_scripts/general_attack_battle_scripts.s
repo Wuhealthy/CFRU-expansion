@@ -5290,7 +5290,7 @@ CalmMind_SpDef:
 TakeHeartBS: @;Also heals status conditions
 	attackstring
 	ppreduce
-	cureifburnedparalysedorpoisoned CalmMindBS_CheckStats
+	cureprimarystatus BANK_ATTACKER CalmMindBS_CheckStats
 	attackanimation
 	waitanimation
 	printstring 0xA7 @;STRINGID_PKMNSTATUSNORMAL
