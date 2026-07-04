@@ -29732,15 +29732,18 @@ ANIM_ORDERUP:
 .pool
 @Credits to André Freitas
 ANIM_POPULATIONBOMB:
-	loadparticle ANIM_TAG_EXPLOSION
-	playsound2 0x88 SOUND_PAN_ATTACKER
-	pause 0x2
-	launchtask AnimTask_Rollout 0x2 0x0
-	pause 0x30
-	launchtask AnimTask_AttackerFadeToInvisible 0x5 0x1 0x0
-	waitanimation
-	call GENERIC_EXPLOSION
-	launchtask AnimTask_AttackerFadeFromInvisible 0x5 0x1 0x1
+	loadparticle ANIM_TAG_CUT
+    loadparticle ANIM_TAG_IMPACT
+    loadparticle ANIM_TAG_SPEED_DUST
+	playsound2 0x99 SOUND_PAN_ATTACKER
+	launchtask AnimTask_move_bank 0x5 0x5 bank_attacker 0x4 0x0 0x8 0x1
+	pause 0x6
+    playsound2 0x81 SOUND_PAN_TARGET
+    launchtemplate Template_CuttingSlice 0x2 0x3 0x28 0xFFE0 0x0
+    launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4, 0x8, 0xFFF4, 0x1, 0x1
+    launchtask AnimTask_move_bank 0x5 0x5 bank_target 0x2 0x0 0x3 0x1
+	pause 0x8
+    launchtask AnimTask_move_bank 0x5 0x5 bank_attacker 0x0 0x3 0xA 0x1
 	waitanimation
 	endanimation
 
