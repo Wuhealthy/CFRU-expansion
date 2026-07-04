@@ -3691,25 +3691,39 @@ static u16 GetBasePower(struct DamageCalc* data)
 			break;
 
 		case MOVE_LASTRESPECTS:
-		if (!(data->specialFlags & FLAG_IGNORE_TARGET))
-		{
-			u8 fallenCount = 0;
-        	u8 partyCount = gPlayerPartyCount;
+    		if (!(data->specialFlags & FLAG_IGNORE_TARGET))
+    		{
+        		u8 fallenCount = 0;
+        		u8 partyCount;
+        		struct Pokemon* party;
+        		u8 side = SIDE(bankAtk);
         
-        	// 统计队伍中倒下的宝可梦数量
-        	for (u8 i = 0; i < partyCount; i++)
-        	{
-            	struct Pokemon* mon = &gPlayerParty[i];
-            	if (GetMonData(mon, MON_DATA_HP, NULL) == 0)
-            	{
-                	fallenCount++;
-            	}
-        	}
+        		// 根据使用者 side 选择正确的队伍
+        		if (side == B_SIDE_PLAYER)
+        		{
+            		party = gPlayerParty;
+            		partyCount = gPlayerPartyCount;
+        		}
+        		else
+        		{
+            		party = gEnemyParty;
+            		partyCount = gEnemyPartyCount;
+        		}
         
-        	// 每只倒下 +50 威力（基础 50 + 倒下数 × 50）
-        	power = 50 + (fallenCount * 50);
-		}
-			break;
+        		// 统计使用者方队伍中倒下的宝可梦数量
+        		for (u8 i = 0; i < partyCount; i++)
+        		{
+            		struct Pokemon* mon = &party[i];
+            		if (GetMonData(mon, MON_DATA_HP, NULL) == 0)
+            		{
+                		fallenCount++;
+            		}
+        		}
+        
+        		// 每只倒下 +50 威力（基础 50 + 倒下数 × 50）
+        		power = 50 + (fallenCount * 50);
+    		}
+    		break;
 
 		case MOVE_PSYBLADE:
 			if (gTerrainType == ELECTRIC_TERRAIN)
@@ -4300,29 +4314,44 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
     		}
 			else if (SpeciesHasSupremeOverlord(GetProperAbilityPopUpSpecies(bankAtk)))
 			{
-        		u8 fallenCount = 0;
-        		u8 partyCount = gPlayerPartyCount;
-        
-        		for (u8 i = 0; i < partyCount; i++)
-        		{
-            		struct Pokemon* mon = &gPlayerParty[i];
-            		if (GetMonData(mon, MON_DATA_HP, NULL) == 0)
-            		{
-                		fallenCount++;
-            		}
-        		}
-        
-        		// 上限 5 只
-        		if (fallenCount > 5)
-            		fallenCount = 5;
-        
-        		// 每只倒下 +10% 威力
-        		if (fallenCount > 0)
-        		{
-            		u32 boostPercent = 100 + (fallenCount * 10);
-            		power = (power * boostPercent) / 100;
-        		}
-    		}
+    			u8 fallenCount = 0;
+    			u8 partyCount;
+    			struct Pokemon* party;
+    			u8 side = SIDE(bankAtk);
+    
+    			// 根据使用者 side 选择正确的队伍
+    			if (side == B_SIDE_PLAYER)
+    			{
+        			party = gPlayerParty;
+        			partyCount = gPlayerPartyCount;
+    			}
+    			else
+    			{
+        			party = gEnemyParty;
+        			partyCount = gEnemyPartyCount;
+    			}
+    
+    			// 统计使用者方队伍中倒下的宝可梦数量
+    			for (u8 i = 0; i < partyCount; i++)
+    			{
+        			struct Pokemon* mon = &party[i];
+        			if (GetMonData(mon, MON_DATA_HP, NULL) == 0)
+        			{
+            			fallenCount++;
+        			}
+    			}
+    
+    			// 上限 5 只
+    			if (fallenCount > 5)
+        			fallenCount = 5;
+    
+    			// 每只倒下 +10% 威力
+    			if (fallenCount > 0)
+    			{
+        			u32 boostPercent = 100 + (fallenCount * 10);
+        			power = (power * boostPercent) / 100;
+    			}
+			}
 			else if (gSpecialMoveFlags[move].gSlicingMoves && SpeciesHasSharpness(GetProperAbilityPopUpSpecies(bankAtk)))
 				power = (power * 15) / 10;
 			else if (gSpecialMoveFlags[move].gBitingMoves && !SpeciesHasSpiderSense(GetProperAbilityPopUpSpecies(bankAtk))

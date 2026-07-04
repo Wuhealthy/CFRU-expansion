@@ -90,7 +90,7 @@ bool8 SpeciesHasSeedSower(u16 species);
 bool8 SpeciesHasSharpness(u16 species);
 bool8 SpeciesHasHeavyArmor(u16 species);
 bool8 SpeciesHasSupremeOverlord(u16 species);
-bool8 IsFaintedPokemonInParty(void);
+bool8 IsFaintedPokemonInParty(u8 bank);
 bool8 SpeciesHasSuperSweetSyrup(u16 species);
 bool8 SpeciesHasTeraformZero(u16 species);
 bool8 SpeciesHasTeraShift(u16 species);

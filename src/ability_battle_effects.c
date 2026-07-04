@@ -1377,7 +1377,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			break;
 
 		case ABILITY_STRONGJAW:
-			if (SpeciesHasSupremeOverlord(GetProperAbilityPopUpSpecies(bank)) && IsFaintedPokemonInParty())
+			if (SpeciesHasSupremeOverlord(GetProperAbilityPopUpSpecies(bank)) && IsFaintedPokemonInParty(bank))
 				{
 					gBattleStringLoader = gText_SupremeOverlordActivate;
 					BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);

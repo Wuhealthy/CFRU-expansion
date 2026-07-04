@@ -1702,11 +1702,24 @@ bool8 SpeciesHasVenomForte(unusedArg u16 species)
 	#endif
 }
 
-bool8 IsFaintedPokemonInParty(void)
+bool8 IsFaintedPokemonInParty(u8 bank)
 {
     u8 i;
-    struct Pokemon* party = gPlayerParty;
-    u8 partyCount = gPlayerPartyCount;
+    u8 partyCount;
+    struct Pokemon* party;
+    u8 side = SIDE(bank);
+    
+    // 根据 bank 的 side 选择正确的队伍
+    if (side == B_SIDE_PLAYER)
+    {
+        party = gPlayerParty;
+        partyCount = gPlayerPartyCount;
+    }
+    else
+    {
+        party = gEnemyParty;
+        partyCount = gEnemyPartyCount;
+    }
 
     for (i = 0; i < partyCount; i++)
     {
