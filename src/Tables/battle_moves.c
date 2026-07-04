@@ -15410,7 +15410,7 @@ const struct BattleMove gBattleMoves[] =
 
 	[MOVE_POPULATIONBOMB] =
     {	
-		.effect = EFFECT_MULTI_HIT,
+		.effect = EFFECT_TRIPLE_KICK,
 		.power = 20,
 		.type = TYPE_NORMAL,
 		.accuracy = 90,

@@ -30,6 +30,9 @@ attackcanceler.c
 
 //TODO: Make sure Powder stops Inferno Overdrive and not Pledge moves
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
+
 #ifdef UNBOUND
 typedef bool8 (*IsIngameTradeMon_T) (struct Pokemon* mon);
 #define IsIngameTradeMon ((IsIngameTradeMon_T) (0x801D86C |1)) //From Battle Tower Scripts
@@ -959,15 +962,16 @@ static u8 AtkCanceller_UnableToUseMove(void)
 			{
 				u8 ability = ABILITY(gBankAttacker);
 
-				if (gCurrentMove == MOVE_SURGINGSTRIKES)
+				if (gCurrentMove == MOVE_SURGINGSTRIKES || gCurrentMove == MOVE_TRIPLEDIVE
+				|| gCurrentMove == MOVE_TRIPLEKICK || gCurrentMove == MOVE_TRIPLEAXEL)
 				{
 					gMultiHitCounter = 3;
 				}
-				else if (ability == ABILITY_SKILLLINK)
+				else if (gCurrentMove == MOVE_POPULATIONBOMB)
 				{
-					gMultiHitCounter = 5;
+					gMultiHitCounter = 10;
 				}
-				else if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_LOADED_DICE &&  gCurrentMove != MOVE_TRIPLEKICK &&  gCurrentMove != MOVE_TRIPLEAXEL)
+				else if (ability == ABILITY_SKILLLINK)
 				{
 					gMultiHitCounter = 5;
 				}
@@ -977,6 +981,10 @@ static u8 AtkCanceller_UnableToUseMove(void)
 				&& SPECIES(gBankAttacker) == SPECIES_ASHGRENINJA)
 				{
 					gMultiHitCounter = 3;
+				}
+				else if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_LOADED_DICE)
+				{
+					gMultiHitCounter = (Random() & 1) ? 4 : 5;
 				}
 				else
 				#endif
@@ -999,7 +1007,7 @@ static u8 AtkCanceller_UnableToUseMove(void)
 					}
 				}
 
-				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
+				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 2, 0)
 			}
 			else if (gSpecialMoveFlags[gCurrentMove].gTwoStrikesMoves)
 			{
@@ -1013,16 +1021,6 @@ static u8 AtkCanceller_UnableToUseMove(void)
 					//Smart target to partner
 					gBankTarget = PARTNER(gBankTarget);
 				}
-			}
-			else if (gSpecialMoveFlags[gCurrentMove].gTenStrikesMoves)
-			{
-				gMultiHitCounter = 10;
-				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
-			}
-			else if (gBattleMoves[gCurrentMove].effect == EFFECT_TRIPLE_KICK)
-			{
-				gMultiHitCounter = 3;
-				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
 			}
 			else if (gBattleMoves[gCurrentMove].effect == EFFECT_BEAT_UP)
 			{
@@ -1385,3 +1383,5 @@ bool8 DoesTargetHaveAbilityImmunity(void)
 	BattleScriptPop(); //Restore the original script
 	return FALSE;
 }
+
+#pragma GCC diagnostic pop

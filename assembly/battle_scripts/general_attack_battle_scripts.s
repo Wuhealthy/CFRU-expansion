@@ -2207,11 +2207,15 @@ BS_104_TripleKick:
 	attackstring
 	ppreduce
 	jumpifmove MOVE_TRIPLEAXEL BS_TripleAxel
+	jumpifmove MOVE_POPULATIONBOMB BS_PopulationBomb
 	addbyte TRIPLE_KICK_POWER 10
 	goto BS_HIT_FROM_DAMAGE_CALC
 
 BS_TripleAxel:
 	addbyte TRIPLE_KICK_POWER 20
+	goto BS_HIT_FROM_DAMAGE_CALC
+
+BS_PopulationBomb:
 	goto BS_HIT_FROM_DAMAGE_CALC
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
