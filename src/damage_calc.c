@@ -3693,16 +3693,21 @@ static u16 GetBasePower(struct DamageCalc* data)
 		case MOVE_LASTRESPECTS:
 		if (!(data->specialFlags & FLAG_IGNORE_TARGET))
 		{
-			int boost = 50;
-			for(int i = 0; i < gPlayerPartyCount; i++)
-				{
-					struct Pokemon mon = gPlayerParty[i];
-					if(mon.hp == 0)
-					{
-						boost++;
-					}
-				}
-				power = boost;
+			u8 fallenCount = 0;
+        	u8 partyCount = gPlayerPartyCount;
+        
+        	// 统计队伍中倒下的宝可梦数量
+        	for (u8 i = 0; i < partyCount; i++)
+        	{
+            	struct Pokemon* mon = &gPlayerParty[i];
+            	if (GetMonData(mon, MON_DATA_HP, NULL) == 0)
+            	{
+                	fallenCount++;
+            	}
+        	}
+        
+        	// 每只倒下 +50 威力（基础 50 + 倒下数 × 50）
+        	power = 50 + (fallenCount * 50);
 		}
 			break;
 
