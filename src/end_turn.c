@@ -188,9 +188,6 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 					if(gNewBS->StompingTantrumTimers[i])
 						--gNewBS->StompingTantrumTimers[i];
 
-					if(gNewBS->GlaiveRushTimers[i])
-						--gNewBS->GlaiveRushTimers[i];
-
 					if (gNewBS->StakeoutCounters[i])
 						--gNewBS->StakeoutCounters[i];
 

@@ -67,6 +67,11 @@ void atk00_attackcanceler(void)
 		return;
 	}
 
+	if (gStatuses3[gBankAttacker] & STATUS3_GLAIVERUSH)
+	{
+    	gStatuses3[gBankAttacker] &= ~STATUS3_GLAIVERUSH;
+	}
+
 	if (IS_MOLD_BREAKER(ABILITY(gBankAttacker), gCurrentMove) || gNewBS->dynamaxData.nullifiedStats) //There is a Mold Breaker
 	{
 		if (!gNewBS->dontActivateMoldBreakersAnymoreThisTurn) //Like after Neutralizing Gas disappears during a spread move
@@ -219,7 +224,7 @@ static u8 AtkCanceller_UnableToUseMove(void)
 		case CANCELLER_FLAGS: // flags clear
 			gBattleMons[gBankAttacker].status2 &= ~(STATUS2_DESTINY_BOND);
 			gStatuses3[gBankAttacker] &= ~(STATUS3_GRUDGE);
-			gStatuses3[gBankAttacker] &= ~(STATUS3_GLAIVERUSH);
+			//gStatuses3[gBankAttacker] &= ~(STATUS3_GLAIVERUSH);
 			gBattleScripting.tripleKickPower = 0;
 			gNewBS->ai.zMoveHelper = 0;
 			gBattleStruct->atkCancellerTracker++;

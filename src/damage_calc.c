@@ -3311,7 +3311,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 		damage = (damage * 15) / 10;
 
 	//Glaive Rush Panalty
-	if (data->defStatus3 & STATUS3_GLAIVERUSH)
+	if (gStatuses3[bankDef] & STATUS3_GLAIVERUSH)
 		damage *= 2;
 
 	//Punching Glove Boost

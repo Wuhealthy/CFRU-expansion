@@ -6311,7 +6311,7 @@ BS_247_Glaive_Rush:
 	accuracycheck BS_MOVE_MISSED 0x0
 	call STANDARD_DAMAGE
 	jumpifmovehadnoeffect BS_MOVE_FAINT
-	callasm GlaiveRushTimer
+	setspecialstatusbit BANK_ATTACKER STATUS3_GLAIVERUSH
 	goto BS_MOVE_FAINT
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

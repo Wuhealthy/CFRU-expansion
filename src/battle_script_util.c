@@ -2280,12 +2280,6 @@ void SetThroatChopTimer(void)
 		gNewBS->ThroatChopTimers[gBankTarget] = 2;
 }
 
-void GlaiveRushTimer(void)
-{
-	gNewBS->GlaiveRushTimers[gBankAttacker] = 1;
-	gStatuses3[gBankTarget] |= STATUS3_GLAIVERUSH;
-}
-
 void SetNoMoreMovingThisTurnSwitchingBank(void)
 {
 	gNewBS->NoMoreMovingThisTurn |= gBitTable[gBankSwitching];
