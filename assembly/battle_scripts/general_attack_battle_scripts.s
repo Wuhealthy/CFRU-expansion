@@ -1296,33 +1296,31 @@ BS_059_LowerTargetDef2:
 	goto 0x81D6C13
 
 SpicyExtractBS:
-    jumpifbehindsubstitute BANK_TARGET FAILED_PRE
     attackcanceler
+	jumpifbehindsubstitute BANK_TARGET BS_MAKE_MOVE_MISS
     attackstring
     ppreduce
-    setbyte ANIM_TARGETS_HIT 0x0
-    setbyte STAT_ANIM_PLAYED 0x0
+	attackanimation
+    waitanimation
     jumpifstat BANK_TARGET LESSTHAN STAT_ATK STAT_MAX SpicyExtract_RaiseAtk
-    jumpifstat BANK_TARGET GREATERTHAN STAT_DEF STAT_MIN SpicyExtract_RaiseAtk
-    goto FAILED_PRE
+    jumpifstat BANK_TARGET GREATERTHAN STAT_DEF STAT_MIN FAILED_PRE
 
 SpicyExtract_RaiseAtk:
-    attackanimation
-    waitanimation
-    setbyte ANIM_TARGETS_HIT 0x1 @;Prevent the attack animation from playing again
-    playstatchangeanimation BANK_TARGET, STAT_ANIM_ATK, STAT_ANIM_UP | STAT_ANIM_IGNORE_ABILITIES | STAT_ANIM_BY_TWO
     setstatchanger STAT_ATK | INCREASE_2
-    statbuffchange STAT_TARGET | STAT_BS_PTR | STAT_CERTAIN SpicyExtract_DropDef
+    statbuffchange STAT_TARGET | STAT_BS_PTR SpicyExtract_DropDef
     jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 SpicyExtract_DropDef
-    printfromtable 0x83FE57C
+    setgraphicalstatchangevalues
+    playstatchangeanimation BANK_TARGET, STAT_ANIM_ATK, STAT_ANIM_UP | STAT_ANIM_BY_TWO
+    printfromtable gStatUpStringIds
     waitmessage DELAY_1SECOND
 
 SpicyExtract_DropDef:
-    playstatchangeanimation BANK_TARGET, STAT_ANIM_DEF, STAT_ANIM_DOWN | STAT_ANIM_IGNORE_ABILITIES | STAT_ANIM_BY_TWO
     setstatchanger STAT_DEF | DECREASE_2
-    statbuffchange STAT_TARGET | STAT_BS_PTR | STAT_CERTAIN BS_MOVE_END
+    statbuffchange STAT_TARGET | STAT_BS_PTR BS_MOVE_END
     jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BS_MOVE_END
-    printfromtable 0x83FE57C
+    setgraphicalstatchangevalues
+    playstatchangeanimation BANK_TARGET, STAT_ANIM_DEF, STAT_ANIM_DOWN | STAT_ANIM_BY_TWO
+    printfromtable gStatDownStringIds
     waitmessage DELAY_1SECOND
     goto BS_MOVE_END
 
