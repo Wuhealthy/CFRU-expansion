@@ -43,6 +43,12 @@
 #org @Bank0AWasBroughtDownString
 [SCRIPTING_BANK]被\n击落了下来！
 
+#org @HadronEngineSetString
+[SCRIPTING_BANK]布下电气场地\n使未来的机关跃动起来！
+
+#org @OrichalcumPulseSetString
+[SCRIPTING_BANK]加强日照，\n使古代的脉动狂暴起来！
+
 #org @ElectricTerrainSetString
 脚下电光飞闪！
 

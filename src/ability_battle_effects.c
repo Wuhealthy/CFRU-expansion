@@ -681,8 +681,17 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 		case ABILITY_DROUGHT:
 			if (!(gBattleWeather & (WEATHER_SUN_ANY | WEATHER_PRIMAL_ANY | WEATHER_CIRCUS)))
 			{
-				effect = ActivateWeatherAbility(WEATHER_SUN_PERMANENT | WEATHER_SUN_TEMPORARY,
+				if (SpeciesHasOrichalcumPulse(GetProperAbilityPopUpSpecies(bank)))
+        		{
+            		gBattleStringLoader = OrichalcumPulseSetString;
+            		effect = ActivateWeatherAbility(WEATHER_SUN_PERMANENT | WEATHER_SUN_TEMPORARY,
+                                            	ITEM_EFFECT_HEAT_ROCK, bank, B_ANIM_SUN_CONTINUES, 4, FALSE);
+        		}
+        		else
+				{
+					effect = ActivateWeatherAbility(WEATHER_SUN_PERMANENT | WEATHER_SUN_TEMPORARY,
 												ITEM_EFFECT_HEAT_ROCK, bank, B_ANIM_SUN_CONTINUES, 2, FALSE);
+				}
 			}
 			else if (gBattleWeather & WEATHER_PRIMAL_ANY && !(gBattleWeather & WEATHER_SUN_ANY))
 			{
@@ -3139,8 +3148,11 @@ static u8 TryActivateTerrainAbility(u8 terrain, u8 anim, u8 bank)
 
 		switch (terrain) {
 			case ELECTRIC_TERRAIN:
-				gBattleStringLoader = ElectricTerrainSetString;
-				break;
+				if (SpeciesHasHadronEngine(GetProperAbilityPopUpSpecies(bank)))
+                    gBattleStringLoader = HadronEngineSetString;
+                else
+                    gBattleStringLoader = ElectricTerrainSetString;
+                break;
 			case GRASSY_TERRAIN:
 				gBattleStringLoader = GrassyTerrainSetString;
 				break;

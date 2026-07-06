@@ -143,6 +143,8 @@ extern const u8 gText_NeutralizingGasActivate[];
 extern const u8 gText_NeutralizingGasEnd[];
 extern const u8 gText_CuriousMedicineActivate[];
 extern const u8 ElectricTerrainSetString[];
+extern const u8 HadronEngineSetString[];
+extern const u8 OrichalcumPulseSetString[];
 extern const u8 GrassyTerrainSetString[];
 extern const u8 MistyTerrainSetString[];
 extern const u8 PsychicTerrainSetString[];
