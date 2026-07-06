@@ -2473,17 +2473,6 @@ static u32 BoostSpeedInWeather(u8 ability, u8 itemEffect, u32 speed, u8 bank)
 				if (gBattleWeather & WEATHER_HAIL_ANY)
 					speed *= 2;
 				break;
-			case ABILITY_QUARKDRIVE:
-				if(bank != 255)
-				{
-					if (gTerrainType == ELECTRIC_TERRAIN
-					&& GetHighestStat(bank) == STAT_SPEED && !SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bank)))
-						speed = (speed * 15) / 10;
-
-					if (IsSunWeatherActive(bank) && GetHighestStat(bank) == STAT_SPEED && SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bank)))
-						speed = (speed * 15) / 10;
-				}
-			break;
 		}
 	}
 
@@ -2547,6 +2536,16 @@ u32 SpeedCalc(u8 bank)
 		case ABILITY_SURGESURFER:
 			if (gTerrainType == ELECTRIC_TERRAIN)
 				speed *= 2;
+			break;
+		case ABILITY_QUARKDRIVE:
+			if (gTerrainType == ELECTRIC_TERRAIN
+			&& GetHighestStat(bank) == STAT_SPEED
+			&& !SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bank)))
+				speed = (speed * 15) / 10;
+			if (IsSunWeatherActive(bank)
+			&& GetHighestStat(bank) == STAT_SPEED
+			&& SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bank)))
+				speed = (speed * 15) / 10;
 			break;
 	}
 

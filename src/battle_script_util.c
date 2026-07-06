@@ -1673,6 +1673,44 @@ void SeedRoomServiceLooper(void)
 				return;
 			}
 		}
+		if (BATTLER_ALIVE(bank)
+            && ABILITY(bank) == ABILITY_QUARKDRIVE
+            && !SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bank))
+            && !gNewBS->quarkDriveActivated[bank]
+            && gTerrainType == ELECTRIC_TERRAIN)
+        {
+            // 标记已激活
+            gNewBS->quarkDriveActivated[bank] = TRUE;
+            
+            // 获取最高 stat
+            u8 highestStat = GetHighestStat(bank);
+            u8 arrayIdx = highestStat - 1;
+            
+            // 检查是否可以提升
+            if (gBattleMons[bank].statStages[arrayIdx] < STAT_STAGE_MAX)
+            {
+                // 提升能力
+                gBattleMons[bank].statStages[arrayIdx]++;
+                
+                // 设置脚本上下文
+                gBankAttacker = bank;
+                gActiveBattler = bank;
+                gLastUsedAbility = ABILITY(bank);
+                gBattleScripting.statChanger = INCREASE_1 | highestStat;
+                gBattleScripting.bank = bank;
+                gBattleScripting.animArg1 = 0xE + highestStat;
+                gBattleScripting.animArg2 = 0;
+                
+                PREPARE_STAT_BUFFER(gBattleTextBuff1, highestStat);
+                
+                // 推入 Quark Drive 回调脚本
+                BattleScriptPushCursorAndCallback(BattleScript_QuarkDriveActivates);
+                
+                // 回退 5 字节，让脚本重新执行
+                gBattlescriptCurrInstr -= 5;
+                return;
+            }
+        }
 	}
 }
 

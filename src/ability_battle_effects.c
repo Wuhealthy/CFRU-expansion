@@ -1492,16 +1492,22 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			break;
 		
 		case ABILITY_QUARKDRIVE:
-			if (IsSunWeatherActive(bank) && SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bank)))
+			if (IsSunWeatherActive(bank)
+			&& !gNewBS->ProtosynthesisActivated[bank]
+			&& SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bank)))
 			{
+				gNewBS->ProtosynthesisActivated[bank] = TRUE;
 				gBankAttacker = bank;
 				gActiveBattler = bank;
 				PREPARE_STAT_BUFFER(gBattleTextBuff1, GetHighestStat(gBankAttacker));
 				BattleScriptPushCursorAndCallback(BattleScript_ProtosynthesisActivates); 
 				effect++;
 			}
-			else if(gTerrainType == ELECTRIC_TERRAIN && !SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bank)))
+			else if(gTerrainType == ELECTRIC_TERRAIN
+				&& !gNewBS->quarkDriveActivated[bank]
+				&& !SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bank)))
 			{
+				gNewBS->quarkDriveActivated[bank] = TRUE;
 				gBankAttacker = bank;
 				gActiveBattler = bank;
 				PREPARE_STAT_BUFFER(gBattleTextBuff1, GetHighestStat(gBankAttacker));

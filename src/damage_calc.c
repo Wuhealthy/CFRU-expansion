@@ -2765,7 +2765,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			break;
 		
 		case ABILITY_QUARKDRIVE:
-			if (SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(gBankAttacker)) && (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
+			if (SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bankAtk)) && (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
 			&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect)))
 			{
 				if (GetHighestStat(bankAtk) == STAT_ATK)
@@ -2778,7 +2778,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 					spDefense = (spDefense * 13) / 10;
 			}
 
-			else if (!SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(gBankAttacker)) && gTerrainType == ELECTRIC_TERRAIN)
+			else if (!SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bankAtk)) && gTerrainType == ELECTRIC_TERRAIN)
 			{
 				if (GetHighestStat(bankAtk) == STAT_ATK)
 					attack = (attack * 13) / 10;

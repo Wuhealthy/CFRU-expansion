@@ -5464,18 +5464,6 @@ void atkE7_trycastformdatachange(void)
                 BattleScriptPushCursorAndCallback(BattleScript_ProtosynthesisActivates);
             }
         }
-        else if (BATTLER_ALIVE(bank) && gTerrainType == ELECTRIC_TERRAIN
-                && !SpeciesHasProtosynthesis(GetProperAbilityPopUpSpecies(bank)))
-        {
-            if (!gNewBS->quarkDriveActivated[bank])
-            {
-                gNewBS->quarkDriveActivated[bank] = TRUE;
-                gBankAttacker = bank;
-                gActiveBattler = bank;
-                PREPARE_STAT_BUFFER(gBattleTextBuff1, GetHighestStat(bank));
-                BattleScriptPushCursorAndCallback(BattleScript_QuarkDriveActivates);
-            }
-        }
     }
 
 	if (BATTLER_ALIVE(bank))
