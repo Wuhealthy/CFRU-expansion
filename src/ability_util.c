@@ -607,7 +607,7 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 			else if(SpeciesHasVenomForte(species))
 				return gText_AbilityName_VenomForte;
 			break;
-		case ABILITY_PLUS:
+		case ABILITY_RECKLESS:
 			if (SpeciesHasPoisonPuppeteer(species))
 				return gText_AbilityName_PoisonPuppeteer;
 			break;
@@ -827,7 +827,7 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
     		if (SpeciesHasVolatileExplosion(species))
         		return gText_AbilityDescription_VolatileExplosion;
     		break;
-		case ABILITY_PLUS:
+		case ABILITY_RECKLESS:
 			if (SpeciesHasPoisonPuppeteer(species))
 				return gText_AbilityDescription_PoisonPuppeteer;
 			break;
@@ -1134,9 +1134,6 @@ bool8 IsElectricAbsorptionAblity(u8 ability)
 
 bool8 IsPlusMinusAbility(u8 ability)
 {
-	if (SpeciesHasPoisonPuppeteer(LEECH_SPECIES(gActiveBattler)) || SpeciesHasMyceliumMight(LEECH_SPECIES(gActiveBattler)))
-		return FALSE;
-
 	switch (ability)
 	{
 		case ABILITY_PLUS:

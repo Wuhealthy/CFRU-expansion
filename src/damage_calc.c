@@ -4228,11 +4228,14 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 
 		case ABILITY_RECKLESS:
 		//1.2x Boost
-			if (gBattleMoves[move].effect == EFFECT_RECOIL_IF_MISS
-			|| gSpecialMoveFlags[move].gPercent25RecoilMoves
-			|| gSpecialMoveFlags[move].gPercent33RecoilMoves
-			|| gSpecialMoveFlags[move].gPercent50RecoilMoves)
-				power = (power * 12) / 10;
+			if (!SpeciesHasPoisonPuppeteer(data->atkSpecies))
+			{
+				if (gBattleMoves[move].effect == EFFECT_RECOIL_IF_MISS
+				|| gSpecialMoveFlags[move].gPercent25RecoilMoves
+				|| gSpecialMoveFlags[move].gPercent33RecoilMoves
+				|| gSpecialMoveFlags[move].gPercent50RecoilMoves)
+					power = (power * 12) / 10;
+			}
 			break;
 
 		case ABILITY_UNICORNPEGASUS:
