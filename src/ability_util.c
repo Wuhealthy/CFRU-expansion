@@ -160,6 +160,8 @@ extern const u8 gText_AbilityDescription_PoisonPuppeteer[];
 extern const u8 gText_AbilityName_PoisonPuppeteer[];
 extern const u8 gText_AbilityName_ToxicDebris[];
 extern const u8 gText_AbilityDescription_ToxicDebris[];
+extern const u8 gText_AbilityName_AquaRegen[];
+extern const u8 gText_AbilityDescription_AquaRegen[];
 extern const u8 gText_AbilityName_WellBakedBody[];
 extern const u8 gText_AbilityDescription_WellBakedBody[];
 extern const u8 gText_AbilityName_WindPower[];
@@ -614,6 +616,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 		case ABILITY_POISONPOINT:
 			if(SpeciesHasToxicDebris(species))
 				return gText_AbilityName_ToxicDebris;
+			if(SpeciesHasAquaRegen(species))
+				return gText_AbilityName_AquaRegen;
 			break;
 		case ABILITY_BERSERK:
 			if(SpeciesHasWindPower(species))
@@ -834,6 +838,8 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 		case ABILITY_POISONPOINT:
 			if(SpeciesHasToxicDebris(species))
 				return gText_AbilityDescription_ToxicDebris;
+			if(SpeciesHasAquaRegen(species))
+				return gText_AbilityDescription_AquaRegen;
 			break;
 		case ABILITY_BERSERK:
 			if(SpeciesHasWindPower(species))
@@ -1797,6 +1803,15 @@ bool8 SpeciesHasToxicDebris(unusedArg u16 species)
 	#else
 	return FALSE;
 	#endif
+}
+
+bool8 SpeciesHasAquaRegen(unusedArg u16 species)
+{
+    #ifdef SPECIES_VAPOREON_MEGA
+    return species == SPECIES_VAPOREON_MEGA;
+    #else
+    return FALSE;
+    #endif
 }
 
 bool8 SpeciesHasSpiderSense(unusedArg u16 species)

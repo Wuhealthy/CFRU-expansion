@@ -1420,6 +1420,20 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 			u8 itemEffect = ITEM_EFFECT(gBankAttacker);
 
 			if (arg1 != ARG_IN_FUTURE_ATTACK
+    		&& arg1 != ARG_PARTING_SHOT
+    		&& !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
+    		&& SpeciesHasAquaRegen(GetProperAbilityPopUpSpecies(gBankAttacker))
+    		&& BATTLER_ALIVE(gBankAttacker)
+    		&& !BATTLER_MAX_HP(gBankAttacker)
+    		&& gNewBS->AttackerDidDamageAtLeastOnce)
+    		{
+        		gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankAttacker) / 16);
+        		gBattleMoveDamage *= -1;
+        		BattleScriptPushCursor();
+        		gBattlescriptCurrInstr = BattleScript_RainDishActivatesSS;
+        		effect = TRUE;
+    		}
+			if (arg1 != ARG_IN_FUTURE_ATTACK
 			&& arg1 != ARG_PARTING_SHOT
 			&& !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
 			&& (itemEffect == ITEM_EFFECT_LIFE_ORB

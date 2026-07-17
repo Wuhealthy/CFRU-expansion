@@ -959,6 +959,9 @@ HP全满时受到的伤害变为效果不好
 #org @gText_AbilityDescription_ToxicDebris
 受到物理伤害时，会给对手放毒菱
 
+#org @gText_AbilityDescription_AquaRegen
+攻击或受到攻击后，会回复少量HP
+
 #org @gText_AbilityDescription_WellBakedBody
 受到火属性攻击时，大幅提高防御
 

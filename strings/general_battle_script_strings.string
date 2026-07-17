@@ -535,6 +535,9 @@
 #org @gText_ElectromorphosisActivatess
 [SCRIPTING_BANK]\n充电了。
 
+#org @gText_AquaRegenHeal
+[SCRIPTING_BANK]\n因攻击回复少量HP。
+
 #org @sText_TargetIsBeingSaltCured
 [TARGET]正在被盐腌！
 

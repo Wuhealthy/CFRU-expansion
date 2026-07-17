@@ -2274,15 +2274,28 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 				break;
 
 			case ABILITY_POISONPOINT:
-				if (MOVE_HAD_EFFECT
+				if (SpeciesHasAquaRegen(GetProperAbilityPopUpSpecies(bank))
+				&& MOVE_HAD_EFFECT
+				&& TOOK_DAMAGE(bank)
+				&& BATTLER_ALIVE(bank)
+				&& gBankAttacker != bank
+				&& !BATTLER_MAX_HP(bank))
+				{
+					gBattleMoveDamage = MathMax(1, GetBaseMaxHP(bank) / 16);
+        			gBattleMoveDamage *= -1;
+					BattleScriptPushCursorAndCallback(BattleScript_RainDishActivatesS);
+        			effect++;
+				}
+				if (!SpeciesHasAquaRegen(GetProperAbilityPopUpSpecies(bank))
+				&& MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
 				&& BATTLER_ALIVE(gBankAttacker)
 				&& gBankAttacker != bank)
 				{
 					// Check Toxic Debris
-					if (SpeciesHasToxicDebris(GetProperAbilityPopUpSpecies(bank)) && SPLIT(move) == SPLIT_PHYSICAL)
+					if (SpeciesHasToxicDebris(GetProperAbilityPopUpSpecies(bank)))
 					{
-						if (gSideTimers[gBankAttacker].tspikesAmount < 2)
+						if (gSideTimers[gBankAttacker].tspikesAmount < 2 && SPLIT(move) == SPLIT_PHYSICAL)
 						{
 							// Add a layer of Toxic Spikes
 							gSideStatuses[gBankAttacker] |= SIDE_STATUS_SPIKES;
@@ -2294,7 +2307,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					}
 					// Check Poison Point
 					else if (CheckContact(move, gBankAttacker, bank)
-						&& !SpeciesHasToxicDebris(GetProperAbilityPopUpSpecies(bank))
 						&& CanBePoisoned(gBankAttacker, bank, TRUE)
 						&& umodsi(Random(), 3) == 0)
 					{

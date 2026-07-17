@@ -100,6 +100,7 @@ bool8 SpeciesHasToxicChain(u16 species);
 bool8 SpeciesHasVenomForte(u16 species);
 bool8 SpeciesHasPoisonPuppeteer(u16 species);
 bool8 SpeciesHasToxicDebris(u16 species);
+bool8 SpeciesHasAquaRegen(u16 species);
 bool8 SpeciesHasWellBakedBody(u16 species);
 bool8 SpeciesHasWindPower(u16 species);
 bool8 AngerShellStatsCheck(u8 bank);

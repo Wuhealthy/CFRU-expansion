@@ -36,6 +36,7 @@ extern const u8 BattleScript_NeutralizingGas[];
 extern const u8 BattleScript_ImposterActivates[];
 extern const u8 BattleScript_TerrainFromAbility[];
 extern const u8 BattleScript_RainDishActivates[];
+extern const u8 BattleScript_RainDishActivatesS[];
 extern const u8 BattleScript_DrySkinDamage[];
 extern const u8 BattleScript_SolarPowerDamage[];
 extern const u8 BattleScript_Healer[];
