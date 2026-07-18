@@ -2,6 +2,7 @@
 #include "../include/event_object_movement.h"
 #include "../include/field_door.h"
 #include "../include/field_effect.h"
+#include "../include/field_control_avatar.h"
 #include "../include/field_fadetransition.h"
 #include "../include/field_player_avatar.h"
 #include "../include/field_screen_effect.h"
@@ -53,9 +54,12 @@ static void CalculateFollowerEscalatorTrajectoryUp(struct Task *task);
 static void CalculateFollowerEscalatorTrajectoryDown(struct Task *task);
 static void SetFollowerSprite(u8 spriteIndex);
 static void TurnNPCIntoFollower(u8 localId, u8 followerFlags);
+static void Task_HandleFollowerTriggerScript(u8 taskId);
+static void EnsureFollowerTriggerScriptTask(void);
 void FixFollowerMonLocalIdAfterWarp(void);
 void RestoreFollowerAfterBattle(void);
 extern void ChangeFollowerPalette(void);
+extern const u8* __attribute__((long_call)) GetCoordEventScriptAtPosition(struct MapHeader *mapHeader, u16 x, u16 y, u8 z);
 
 extern u8 EventScript_FollowerMon[];
 
@@ -1146,7 +1150,7 @@ void Task_PlayerExitDoor(u8 taskId)
  			{
 				if (gFollowerState.objId < MAP_OBJECTS_COUNT)
 				{
-					gEventObjects[gFollowerState.objId].localId = 30;
+					gEventObjects[gFollowerState.objId].localId = DEFAULT_FOLLOWER_LOCAL_ID;
 					UpdateFollowerMonSprite();
 				}
  			}
@@ -1436,10 +1440,33 @@ static void SetFollowerSprite(u8 spriteIndex)
 	DestroySprite(&gSprites[oldSpriteId]);
 	RemoveEventObject(&gEventObjects[GetFollowerMapObjId()]);
 
-	struct EventObjectTemplate clone = *GetEventObjectTemplateByLocalIdAndMap(gFollowerState.map.id, gFollowerState.map.number, gFollowerState.map.group);
+	struct EventObjectTemplate clone;
+	if (FlagGet(FLAG_FOLLOWER_POKEMON))
+	{
+		clone = (struct EventObjectTemplate)
+		{
+			.localId = DEFAULT_FOLLOWER_LOCAL_ID,
+			.graphicsIdLowerByte = newGraphicsId & 0xFF,
+			.graphicsIdUpperByte = newGraphicsId >> 8,
+			.x = backupFollower.currentCoords.x - 7,
+			.y = backupFollower.currentCoords.y - 7,
+			.elevation = backupFollower.currentElevation,
+			.movementType = 0,
+			.script = EventScript_FollowerMon,
+		};
+	}
+	else
+	{
+		clone = *GetEventObjectTemplateByLocalIdAndMap(gFollowerState.map.id, gFollowerState.map.number, gFollowerState.map.group);
+	}
 	clone.graphicsIdLowerByte = newGraphicsId & 0xFF;
 	clone.graphicsIdUpperByte = newGraphicsId >> 8;
 	gFollowerState.objId = TrySpawnEventObjectTemplate(&clone, gSaveBlock1->location.mapNum, gSaveBlock1->location.mapGroup, clone.x, clone.y);
+	if (gFollowerState.objId == EVENT_OBJECTS_COUNT)
+	{
+		gFollowerState.inProgress = FALSE;
+		return;
+	}
 
 	follower = &gEventObjects[GetFollowerMapObjId()];
 	u8 newSpriteId = follower->spriteId;
@@ -1489,7 +1516,24 @@ void CreateFollowerAvatar(void)
 		return;
 
 	player = &gEventObjects[gPlayerAvatar->eventObjectId];
-	clone = *GetEventObjectTemplateByLocalIdAndMap(gFollowerState.map.id, gFollowerState.map.number, gFollowerState.map.group);
+	if (FlagGet(FLAG_FOLLOWER_POKEMON))
+	{
+		clone = (struct EventObjectTemplate)
+		{
+			.localId = DEFAULT_FOLLOWER_LOCAL_ID,
+			.graphicsIdLowerByte = GetFollowerSprite() & 0xFF,
+			.graphicsIdUpperByte = GetFollowerSprite() >> 8,
+			.x = player->currentCoords.x - 7,
+			.y = player->currentCoords.y - 7,
+			.elevation = player->currentElevation,
+			.movementType = MOVEMENT_TYPE_FACE_DOWN,
+			.script = EventScript_FollowerMon,
+		};
+	}
+	else
+	{
+		clone = *GetEventObjectTemplateByLocalIdAndMap(gFollowerState.map.id, gFollowerState.map.number, gFollowerState.map.group);
+	}
 
 	clone.graphicsIdLowerByte = GetFollowerSprite() & 0xFF;
 	clone.graphicsIdUpperByte = GetFollowerSprite() >> 8;
@@ -1510,9 +1554,12 @@ void CreateFollowerAvatar(void)
 	}
 
 	// Create NPC and store ID
-	gFollowerState.objId = TrySpawnEventObjectTemplate(&clone, gFollowerState.map.number, gFollowerState.map.group, clone.x, clone.y);
+	gFollowerState.objId = TrySpawnEventObjectTemplate(&clone, gSaveBlock1->location.mapNum, gSaveBlock1->location.mapGroup, clone.x, clone.y);
 	if (gFollowerState.objId == EVENT_OBJECTS_COUNT)
+	{
 		gFollowerState.inProgress = FALSE; //Cancel the following because couldn't load sprite
+		return;
+	}
 
 	if (gMapHeader.mapType == MAP_TYPE_UNDERWATER)
 		gFollowerState.createSurfBlob = SURF_BLOB_STATE_NONE;
@@ -1572,7 +1619,7 @@ void sp0D1_SetUpFollowerSprite(void)
 	if (FlagGet(FLAG_FOLLOWER_POKEMON))
 	{
 		CreateFollowerMonObject();
-		TurnNPCIntoFollower(30, Var8001);
+		TurnNPCIntoFollower(DEFAULT_FOLLOWER_LOCAL_ID, Var8001);
 		TurnFollowerMonToPlayer();
 		CreateSparkleSprite();
 	}
@@ -1676,10 +1723,24 @@ void UpdateFollowerMonSprite(void)
     DestroySprite(&gSprites[oldSpriteId]);
     RemoveEventObject(&gEventObjects[GetFollowerMapObjId()]);
 
-    struct EventObjectTemplate clone = *GetEventObjectTemplateByLocalIdAndMap(gFollowerState.map.id, gFollowerState.map.number, gFollowerState.map.group);
-    clone.graphicsIdLowerByte = newGraphicsId & 0xFF;
-    clone.graphicsIdUpperByte = newGraphicsId >> 8;
+    struct EventObjectTemplate clone =
+    {
+        .localId = DEFAULT_FOLLOWER_LOCAL_ID,
+        .graphicsIdLowerByte = newGraphicsId & 0xFF,
+        .graphicsIdUpperByte = newGraphicsId >> 8,
+        .x = backupFollower.currentCoords.x - 7,
+        .y = backupFollower.currentCoords.y - 7,
+        .elevation = backupFollower.currentElevation,
+        .movementType = 0,
+        .script = EventScript_FollowerMon,
+    };
     gFollowerState.objId = TrySpawnEventObjectTemplate(&clone, gSaveBlock1->location.mapNum, gSaveBlock1->location.mapGroup, clone.x, clone.y);
+
+    if (gFollowerState.objId == EVENT_OBJECTS_COUNT)
+    {
+        gFollowerState.inProgress = FALSE;
+        return;
+    }
 
     follower = &gEventObjects[GetFollowerMapObjId()];
     u8 newSpriteId = follower->spriteId;
@@ -1694,7 +1755,7 @@ void FixFollowerMonLocalIdAfterWarp(void)
 	{
 	   if (gFollowerState.objId < MAP_OBJECTS_COUNT)
 	   {
-	   gEventObjects[gFollowerState.objId].localId = 30;
+	   gEventObjects[gFollowerState.objId].localId = DEFAULT_FOLLOWER_LOCAL_ID;
 	   }
 	}
 }
@@ -1710,7 +1771,8 @@ void RemoveFollowerBeforeBattle(void)
 
 void RestoreFollowerAfterBattle(void)
 {
-	if (FlagGet(FLAG_FOLLOWER_POKEMON))
+	UpdateAutomaticFollowerMon();
+	if (FlagGet(FLAG_FOLLOWER_POKEMON) && gFollowerState.inProgress)
 	{
 		if (MetatileBehavior_IsSurfableWaterOrUnderwater(MapGridGetMetatileBehaviorAt(
             gEventObjects[gPlayerAvatar->eventObjectId].currentCoords.x,
@@ -1722,8 +1784,108 @@ void RestoreFollowerAfterBattle(void)
 		FlagClear(FLAG_FOLLOWER_WAS_SURFING);
 		CreateFollowerMonObject();
 		ShowFollower();
-		gEventObjects[gFollowerState.objId].localId = 30;
+		gEventObjects[gFollowerState.objId].localId = DEFAULT_FOLLOWER_LOCAL_ID;
 		gFollowerState.inProgress = TRUE;
 		gEventObjects[gFollowerState.objId].active = TRUE;
+	}
+}
+
+void UpdateAutomaticFollowerMon(void)
+{
+	u16 followerMonGfx = GetFollowerMonSprite();
+
+	// Never replace a scripted NPC follower.
+	if (gFollowerState.inProgress && !FlagGet(FLAG_FOLLOWER_POKEMON))
+		return;
+
+	if (followerMonGfx == 0)
+	{
+		if (gFollowerState.inProgress && FlagGet(FLAG_FOLLOWER_POKEMON))
+		{
+			RemoveEventObject(&gEventObjects[gFollowerState.objId]);
+			gFollowerState.inProgress = FALSE;
+		}
+		FlagClear(FLAG_FOLLOWER_POKEMON);
+		return;
+	}
+
+	FlagSet(FLAG_FOLLOWER_POKEMON);
+	EnsureFollowerTriggerScriptTask();
+	if (MetatileBehavior_IsSurfableWaterOrUnderwater(MapGridGetMetatileBehaviorAt(
+		gEventObjects[gPlayerAvatar->eventObjectId].currentCoords.x,
+		gEventObjects[gPlayerAvatar->eventObjectId].currentCoords.y)))
+	{
+		FlagSet(FLAG_FOLLOWER_WAS_SURFING);
+		return;
+	}
+	FlagClear(FLAG_FOLLOWER_WAS_SURFING);
+
+	if (!gFollowerState.inProgress)
+	{
+		CreateFollowerMonObject();
+		TurnNPCIntoFollower(DEFAULT_FOLLOWER_LOCAL_ID, 0xFD);
+		if (gFollowerState.inProgress)
+		{
+			TurnFollowerMonToPlayer();
+			CreateSparkleSprite();
+		}
+	}
+	else if (gFollowerState.gfxId != followerMonGfx)
+	{
+		UpdateFollowerMonSprite();
+		ChangeFollowerPalette();
+	}
+}
+
+static void EnsureFollowerTriggerScriptTask(void)
+{
+	if (FindTaskIdByFunc(Task_HandleFollowerTriggerScript) == 0xFF)
+		CreateTask(Task_HandleFollowerTriggerScript, 0xFF);
+}
+
+static void Task_HandleFollowerTriggerScript(u8 taskId)
+{
+	struct Task *task = &gTasks[taskId];
+	struct MapPosition position;
+
+	if (!FlagGet(FLAG_FOLLOWER_POKEMON) || !gFollowerState.inProgress
+	 || gFollowerState.objId >= MAP_OBJECTS_COUNT)
+	{
+		task->data[0] = FALSE;
+		return;
+	}
+
+	if (!task->data[0])
+	{
+		if (!gEventObjects[gFollowerState.objId].invisible
+		 && (ScriptContext1_IsScriptSetUp() || ScriptContext2_IsEnabled()))
+		{
+			GetPlayerPosition(&position);
+			if (GetCoordEventScriptAtPosition(&gMapHeader, position.x - 7, position.y - 7, position.height) != NULL)
+			{
+				task->data[1] = gSaveBlock1->location.mapGroup;
+				task->data[2] = gSaveBlock1->location.mapNum;
+				HideFollower();
+				task->data[0] = TRUE;
+			}
+		}
+		return;
+	}
+
+	// A warp owns follower visibility on the destination map.
+	if (task->data[1] != gSaveBlock1->location.mapGroup
+	 || task->data[2] != gSaveBlock1->location.mapNum)
+	{
+		task->data[0] = FALSE;
+		return;
+	}
+
+	if (!ScriptContext1_IsScriptSetUp() && !ScriptContext2_IsEnabled())
+	{
+		if (gFollowerState.inProgress
+		 && gFollowerState.objId < MAP_OBJECTS_COUNT
+		 && gEventObjects[gFollowerState.objId].invisible)
+			ShowFollower();
+		task->data[0] = FALSE;
 	}
 }

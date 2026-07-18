@@ -116,25 +116,17 @@ void CreateSparkleSprite(void)
 
 u16 GetFollowerMonSprite(void)
 {
-    u8 slotId = 7;
-    u16 species;
-
-    for (u8 i = 0; i < gPlayerPartyCount; ++i)
-    {
-        if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG, NULL)
-         && GetMonData(&gPlayerParty[i], MON_DATA_HP, NULL) > 0)
-        {
-            slotId = i;
-            break;
-        }
-    }
-
-    if (slotId == 7)
+    struct Pokemon *mon = GetFirstValidPartyMon();
+    if (mon == NULL)
         return 0;
 
-    struct Pokemon* mon = &gPlayerParty[slotId];
-    species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+    u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
     return gFollowerMonSpriteIdTable[species] + 256;
+}
+
+bool8 HasLeadFollowerMon(void)
+{
+    return GetFirstValidPartyMon() != NULL;
 }
 
 void CreateFollowerMonObject(void)
@@ -159,13 +151,13 @@ void CreateFollowerMonObject(void)
      // Check if follower already exists before creating a new one
      for (u8 i = 0; i < MAP_OBJECTS_COUNT; i++)
      {
-         if (gEventObjects[i].localId == 30 && gEventObjects[i].active)
+         if (gEventObjects[i].localId == DEFAULT_FOLLOWER_LOCAL_ID && gEventObjects[i].active)
              return;  // There is already a follower, so don't create another one
     }
 
     struct EventObjectTemplate followerObj =
     {
-        .localId = 30,
+        .localId = DEFAULT_FOLLOWER_LOCAL_ID,
         .graphicsIdLowerByte = sprite & 0xFF,
         .graphicsIdUpperByte = sprite >> 8,
         .x = posX,
@@ -244,9 +236,12 @@ struct CompressedSpritePalette * GetSpritePalToUse(bool8 isShiny)
 
 u8 CreateMonSprite_MysteryGift(u16 species, s16 x, s16 y)
 {
-    struct Pokemon* mon = &gPlayerParty[0];
-    u32 personality = 0xFFFFFFFF;
-    u32 otId = T1_READ_32(gSaveBlock2->playerTrainerId);
+    struct Pokemon* mon = GetFirstValidPartyMon();
+    if (mon == NULL || species == SPECIES_NONE || species >= NUM_SPECIES)
+        return MAX_SPRITES;
+
+    u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
+    u32 otId = GetMonData(mon, MON_DATA_OT_ID, NULL);
     u16 isShiny = IsMonShiny(mon);
     const struct CompressedSpritePalette * spritePal = GetSpritePalToUse(isShiny);
     u16 spriteId = CreateMonPicSprite_HandleDeoxys(species, otId, personality, 1, x, y, 0, spritePal[species].tag);
@@ -268,6 +263,9 @@ bool8 ScriptMenu_ShowMysteryPokemonPic(u16 species, u8 x, u8 y)
     if (FindTaskIdByFunc(Task_ScriptShowMonPic) != 0xFF)
         return FALSE;
     spriteId = CreateMonSprite_MysteryGift(species, 8 * x + 40, 8 * y + 40);
+    if (spriteId >= MAX_SPRITES)
+        return FALSE;
+
     taskId = CreateTask(Task_ScriptShowMonPic, 80);
     gTasks[taskId].data[0] = 0;
     gTasks[taskId].data[1] = species;
@@ -281,7 +279,7 @@ bool8 ScriptMenu_ShowMysteryPokemonPic(u16 species, u8 x, u8 y)
 
 bool8 ShowMysteryGiftMon()
 {
-    u16 species = VarGet(0x4004);
+    u16 species = Var8004;
     u8 x = 0x1A;
     u8 y = 0x2;
 
@@ -314,18 +312,22 @@ void Remove_PokemonPic(void)
 }
 struct Pokemon* GetFirstValidPartyMon(void)
 {
-    for (int i = 0; i < PARTY_SIZE; i++)
+    for (u8 i = 0; i < PARTY_SIZE; ++i)
     {
-        struct Pokemon* mon = &gPlayerParty[i];
-
+        struct Pokemon *mon = &gPlayerParty[i];
         if (GetMonData(mon, MON_DATA_SPECIES, NULL) != SPECIES_NONE
-            && !GetMonData(mon, MON_DATA_IS_EGG, NULL)
-            && GetMonData(mon, MON_DATA_HP, NULL) > 0)
-        {
+         && !GetMonData(mon, MON_DATA_IS_EGG, NULL)
+         && GetMonData(mon, MON_DATA_HP, NULL) > 0)
             return mon;
-        }
     }
+
     return NULL;
+}
+
+void SetFollowerMonSpeciesVar(void)
+{
+    struct Pokemon *mon = GetFirstValidPartyMon();
+    Var8004 = mon == NULL ? SPECIES_NONE : GetMonData(mon, MON_DATA_SPECIES, NULL);
 }
 
 static u8 GetFollowerMapObjId(void)

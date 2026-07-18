@@ -8,6 +8,7 @@ from datetime import datetime
 import _io
 
 OFFSET_TO_PUT = 0x1000000
+MON_OW_OFFSET = 0x900000  # ROM file offset for follower-mon overworld graphics
 SOURCE_ROM = "BPRE0.gba"
 ROM_NAME = "test.gba"
 
@@ -37,6 +38,8 @@ else:  # Linux, OSX, etc.
     AS = (PREFIX + 'as')
 
 OUTPUT = 'build/output.bin'
+FOLLOWER_MON_SPRITES = 'build/follower_mon_sprites.bin'
+FOLLOWER_MON_SPRITES_OFFSET = 'build/follower_mon_sprites.offset'
 BYTE_REPLACEMENT = 'bytereplacement'
 HOOKS = 'hooks'
 REPOINTS = 'repoints'
@@ -295,12 +298,32 @@ def main():
 
     with open(ROM_NAME, 'rb+') as rom:
         print("Inserting code.")
+        with open(FOLLOWER_MON_SPRITES_OFFSET, 'r') as offsetFile:
+            builtMonOwOffset = int(offsetFile.read().strip(), 0)
+        if builtMonOwOffset != MON_OW_OFFSET:
+            raise ValueError(
+                "MON_OW_OFFSET differs between build.py and insert.py; rebuild after "
+                "setting both files to the same value"
+            )
         table = GetSymbols(GetTextSection())
+        endInsertOffset = OFFSET_TO_PUT + os.path.getsize(OUTPUT)
+        monOwEndOffset = MON_OW_OFFSET + os.path.getsize(FOLLOWER_MON_SPRITES)
+        if max(OFFSET_TO_PUT, MON_OW_OFFSET) < min(endInsertOffset, monOwEndOffset):
+            raise ValueError(
+                "MON_OW_OFFSET overlaps the main code insertion area: "
+                f"{MON_OW_OFFSET:#x}-{monOwEndOffset:#x} and "
+                f"{OFFSET_TO_PUT:#x}-{endInsertOffset:#x}"
+            )
+
         rom.seek(OFFSET_TO_PUT)
         with open(OUTPUT, 'rb') as binary:
-            endInsertOffset = OFFSET_TO_PUT + os.path.getsize(OUTPUT)
             rom.write(binary.read())
             binary.close()
+
+        print(f"Inserting follower-mon overworld sprites at {MON_OW_OFFSET:#x}.")
+        rom.seek(MON_OW_OFFSET)
+        with open(FOLLOWER_MON_SPRITES, 'rb') as binary:
+            rom.write(binary.read())
 
         # Adjust symbol table
         for entry in table:

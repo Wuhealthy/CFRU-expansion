@@ -324,6 +324,5 @@ void ShowAnonymousFollowerMessage(void)
             text = sText_IdleTailWag;
     }
 
-    ShowMysteryGiftMon();
-    ShowFieldMessage(text);
+    StringExpandPlaceholders(gStringVar4, text);
 }

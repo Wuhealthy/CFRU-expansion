@@ -10,5 +10,9 @@ void __attribute__((long_call)) FollowerMonFacePlayer(void);
 void __attribute__((long_call)) TurnFollowerMonToPlayer(void);
 void __attribute__((long_call)) ShowFollowerMon(void);
 void __attribute__((long_call)) UpdateFollowerMonSprite(void);
+void __attribute__((long_call)) UpdateAutomaticFollowerMon(void);
+bool8 __attribute__((long_call)) HasLeadFollowerMon(void);
+struct Pokemon* GetFirstValidPartyMon(void);
+void SetFollowerMonSpeciesVar(void);
 
 #endif

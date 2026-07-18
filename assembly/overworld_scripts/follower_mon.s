@@ -9,13 +9,12 @@
 EventScript_FollowerMon:
     followerfaceplayer
     lock
-    storemonid
-    bufferpokemon 0x0 0x4004
+    callasm SetFollowerMonSpeciesVar
+    bufferpokemon 0x0 0x8004
     callasm ShowMysteryGiftMon
-    cry 0x4004 0x0
+    cry 0x8004 0x0
     callasm ShowAnonymousFollowerMessage
     msgbox gStringVar4 MSG_NORMAL
     callasm Remove_PokemonPic
     release
     end
-    

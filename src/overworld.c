@@ -2858,6 +2858,8 @@ void FieldCheckIfPlayerPressedLButton(struct FieldInput* input, u16 newKeys)
 
 bool8 ProcessNewFieldPlayerInput(struct FieldInput* input)
 {
+	UpdateAutomaticFollowerMon();
+
 	if (IsDexNavHudActive())
 		return FALSE; //Can't force close this
 

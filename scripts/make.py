@@ -70,7 +70,7 @@ def EditLinker(offset: int):
 
 def EditInsert(offset: int):
     ChangeFileLine("./scripts/insert.py", 10, "OFFSET_TO_PUT = " + hex(offset) + '\n')
-    ChangeFileLine("./scripts/insert.py", 11, 'SOURCE_ROM = "' + ROM_NAME + '"\n')
+    ChangeFileLine("./scripts/insert.py", 12, 'SOURCE_ROM = "' + ROM_NAME + '"\n')
 
 
 def BuildCode():
@@ -120,4 +120,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
