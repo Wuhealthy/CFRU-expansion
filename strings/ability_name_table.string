@@ -1037,6 +1037,15 @@ AR系统
 #org @gText_AbilityName_AquaRegen
 水之再生
 
+#org @gText_AbilityName_IceDeity
+冰之神
+
+#org @gText_AbilityName_ThunderDeity
+雷之神
+
+#org @gText_AbilityName_FireDeity
+火之神
+
 #org @gText_AbilityName_WellBakedBody
 焦香之躯
 

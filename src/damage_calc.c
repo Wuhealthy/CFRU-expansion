@@ -3103,6 +3103,26 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			defense = (defense * 15) / 10;
 	}
 
+	bool8 iceDeityOnField = FALSE;
+	for (u8 i = 0; i < gBattlersCount; i++)
+	{
+    	if (BATTLER_ALIVE(i))
+    	{
+        	u16 species = GetProperAbilityPopUpSpecies(i);
+        	if (SpeciesHasIceDeity(species))
+        	{
+            	iceDeityOnField = TRUE;
+            	break;
+        	}
+    	}
+	}
+
+	if (iceDeityOnField)
+	{
+    	if ((!useMonDef && IsOfType(bankDef, TYPE_ICE)) || (useMonDef && IsMonOfType(data->monDef, TYPE_ICE)))
+        	defense = (defense * 15) / 10;
+	}
+
 	bool8 beadsOfRuinOnField = FALSE;
 	bool8 tabletsOfRuinOnField = FALSE;
 	bool8 vesselOfRuinOnField = FALSE;
@@ -3317,6 +3337,46 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 	//Punching Glove Boost
 	if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_PUNCHING_GLOVE && gSpecialMoveFlags[move].gPunchingMoves)
 		damage = (damage * 11) / 10;
+
+	{
+    	bool8 thunderDeityOnField = FALSE;
+    	bool8 fireDeityOnField = FALSE;
+    
+    	for (u8 i = 0; i < gBattlersCount; i++)
+    	{
+        	if (!BATTLER_ALIVE(i))
+            	continue;
+        	u16 species = GetProperAbilityPopUpSpecies(i);
+        	if (SpeciesHasThunderDeity(species))
+            	thunderDeityOnField = TRUE;
+        	if (SpeciesHasFireDeity(species))
+            	fireDeityOnField = TRUE;
+    	}
+    
+    	if (thunderDeityOnField)
+    	{
+        	switch (data->moveType) {
+            	case TYPE_ELECTRIC:
+                	damage = (damage * 15) / 10;
+                	break;
+            	case TYPE_GROUND:
+                	damage /= 2;
+                	break;
+        	}
+    	}
+    
+    	if (fireDeityOnField)
+    	{
+        	switch (data->moveType) {
+            	case TYPE_FIRE:
+                	damage = (damage * 15) / 10;
+                	break;
+            	case TYPE_WATER:
+                	damage /= 2;
+                	break;
+        	}
+    	}
+	}
 
 	if (ABILITY(data->bankAtk) == ABILITY_MEGASOL)
 		{

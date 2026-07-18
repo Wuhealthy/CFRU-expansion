@@ -1433,6 +1433,12 @@ extern const u32 gBag_VenusauriteTiles[];
 extern const u32 gBag_VenusauritePal[];
 extern const u32 gBag_CharizarditeXTiles[];
 extern const u32 gBag_CharizarditeXPal[];
+extern const u32 gBag_ScizoriteTiles[];
+extern const u32 gBag_ScizoritePal[];
+extern const u32 gBag_HeracroniteTiles[];
+extern const u32 gBag_HeracronitePal[];
+extern const u32 gBag_HoundoomniteTiles[];
+extern const u32 gBag_HoundoomnitePal[];
 
 //Funcs
 void __attribute__((long_call)) FieldUseFunc_OakStopsYou(u8 taskId);

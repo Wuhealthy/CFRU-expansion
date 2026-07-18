@@ -101,6 +101,12 @@ extern const u8 gText_AbilityName_Hospitality[];
 extern const u8 gText_AbilityDescription_Hospitality[];
 extern const u8 gText_AbilityName_CudChew[];
 extern const u8 gText_AbilityDescription_CudChew[];
+extern const u8 gText_AbilityName_IceDeity[];
+extern const u8 gText_AbilityDescription_IceDeity[];
+extern const u8 gText_AbilityName_ThunderDeity[];
+extern const u8 gText_AbilityDescription_ThunderDeity[];
+extern const u8 gText_AbilityName_FireDeity[];
+extern const u8 gText_AbilityDescription_FireDeity[];
 extern const u8 gText_AbilityName_EarthEater[];
 extern const u8 gText_AbilityDescription_EarthEater[];
 extern const u8 gText_AbilityName_Electromorphosis[];
@@ -185,6 +191,12 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 					return gText_AbilityName_AirLock;
 				#endif
 			}
+			if(SpeciesHasIceDeity(species))
+				return gText_AbilityName_IceDeity;
+			if(SpeciesHasThunderDeity(species))
+				return gText_AbilityName_ThunderDeity;
+			if(SpeciesHasFireDeity(species))
+				return gText_AbilityName_FireDeity;
 			break;
 		case ABILITY_INSOMNIA:
 			if (IsVitalSpiritAbility(ability, species))
@@ -714,6 +726,14 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 			if(SpeciesHasSpicySpray(species))  // 辣椒喷发
         		return gText_AbilityDescription_SpicySpray;
 			break;
+		case ABILITY_CLOUDNINE:
+    		if (SpeciesHasIceDeity(species))
+        		return gText_AbilityDescription_IceDeity;
+    		if (SpeciesHasThunderDeity(species))
+        		return gText_AbilityDescription_ThunderDeity;
+    		if (SpeciesHasFireDeity(species))
+        		return gText_AbilityDescription_FireDeity;
+    		break;
 		case ABILITY_BULLETPROOF:
 			if(SpeciesHasGoodAsGold(species))
 				return gText_AbilityDescription_GoodAsGold;
@@ -1430,6 +1450,33 @@ bool8 SpeciesHasTabletsofRuin(unusedArg u16 species)
 	#else
 	return FALSE;
 	#endif
+}
+
+bool8 SpeciesHasIceDeity(unusedArg u16 species)
+{
+    #ifdef SPECIES_ARTICUNO_MEGA
+    return species == SPECIES_ARTICUNO_MEGA;
+    #else
+    return FALSE;
+    #endif
+}
+
+bool8 SpeciesHasThunderDeity(unusedArg u16 species)
+{
+    #ifdef SPECIES_ZAPDOS_MEGA
+    return species == SPECIES_ZAPDOS_MEGA;
+    #else
+    return FALSE;
+    #endif
+}
+
+bool8 SpeciesHasFireDeity(unusedArg u16 species)
+{
+    #ifdef SPECIES_MOLTRES_MEGA
+    return species == SPECIES_MOLTRES_MEGA;
+    #else
+    return FALSE;
+    #endif
 }
 
 bool8 SpeciesHasVesselofRuin(unusedArg u16 species)
