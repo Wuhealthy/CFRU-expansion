@@ -1091,22 +1091,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 
 			//Give EVs
 			#ifdef TRAINERS_WITH_EVS
-			u8 spreadNum;
-
-			switch (trainer->partyFlags) {
-				case PARTY_FLAG_CUSTOM_MOVES:
-					spreadNum = trainer->party.NoItemCustomMoves[i].iv;
-					break;
-				case PARTY_FLAG_HAS_ITEM:
-					spreadNum = trainer->party.ItemDefaultMoves[i].iv;
-					break;
-				case PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM:
-					spreadNum = trainer->party.ItemCustomMoves[i].iv;
-					break;
-				default:
-					spreadNum = trainer->party.NoItemDefaultMoves[i].iv;
-					break;
-			}
+			u8 spreadNum = (gTrainers[trainerId].partyFlags & PARTY_FLAG_CUSTOM_MOVES) ? trainer->party.NoItemCustomMoves[i].iv : trainer->party.NoItemDefaultMoves[i].iv;
 
 			#ifdef UNBOUND
 			if ((gTrainers[trainerId].trainerClass == CLASS_RIVAL && gameDifficulty >= OPTIONS_HARD_DIFFICULTY)
