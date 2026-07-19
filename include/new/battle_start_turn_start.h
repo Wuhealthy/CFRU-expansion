@@ -51,7 +51,7 @@ enum TotemBoostType
 struct TrainerCustomAbility
 {
     u16 species;
-    u8  ability;
+    ability_t  ability;
 };
 
 extern const struct TrainerCustomAbility gCustomTrainerAbilityTable[TRAINERS_COUNT][PARTY_SIZE];

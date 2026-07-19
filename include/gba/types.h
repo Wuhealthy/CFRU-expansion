@@ -29,7 +29,10 @@ typedef u32 bool32;
 
 typedef u16 species_t;
 typedef u16 move_t;
-typedef u8  ability_t;
+// Ability ids above 0xFE are used by the CFRU canonical ability layer.  Keep
+// the DPE/base-stats representation as u8, but never use u8 for a resolved
+// ability id.
+typedef u16 ability_t;
 typedef u16 item_t;
 typedef u8  item_effect_t;
 typedef u8  bank_t;

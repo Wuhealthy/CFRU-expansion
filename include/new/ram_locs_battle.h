@@ -174,8 +174,8 @@ extern u8 gBattlerAttacker;
 #define gMagicianHelper *((u8*) 0x203E02B)
 #define gShakerData (((u8*) 0x203E02C))
 #define gForceSwitchHelper (*((u8*) 0x203E02E))
-#define gAbilityPopUpHelper (*((u8*) 0x203E02F))
-#define gAbilityPopUpSpecies (*((u16*) 0x203E030))
+#define gAbilityPopUpHelper (*((ability_t*) 0x203E036))
+#define gAbilityPopUpSpecies (*((u16*) 0x203E03C))
 #define gDontRemoveTransformSpecies (*((bool8*) 0x203E032))
 #define gBankSwitching (*((u8*) 0x203E033))
 #define gBackupHWord (*((u16*) 0x203E034))
@@ -183,4 +183,8 @@ extern u8 gBattlerAttacker;
 //Don't go past 0x203E048
 
 #define FIRST_NEW_BATTLE_RAM_LOC ((u8*) 0x203E020)
-#define LAST_NEW_BATTLE_RAM_LOC ((u8*) 0x203E034)
+// gNewBS itself occupies 0x203E038..0x203E03B.  The ability popup species
+// lives immediately after it, so these areas must be cleared separately.
+#define LAST_NEW_BATTLE_RAM_LOC_BEFORE_GNEWBS ((u8*) 0x203E038)
+#define FIRST_NEW_BATTLE_RAM_LOC_AFTER_GNEWBS ((u8*) 0x203E03C)
+#define LAST_NEW_BATTLE_RAM_LOC ((u8*) 0x203E03E)

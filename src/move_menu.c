@@ -362,7 +362,9 @@ static bool8 TriggerTerastallization(void)
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct*)(&gBattleBufferA[gActiveBattler][4]);
     u8 side = GetBattlerSide(gActiveBattler);
 
-       if (!CanTerastallize(side) || !TerastalEnabled(side))
+    // These helpers take a battler id, not a side id. Passing `side` made the
+    // right-hand battler in doubles query the wrong Pokemon.
+    if (!CanTerastallize(gActiveBattler))
                return FALSE;
 	
     // Return FALSE if can't Tera

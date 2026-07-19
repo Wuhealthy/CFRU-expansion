@@ -123,7 +123,7 @@ static void SavePartyItems(void);
 static void TryPrepareTotemBoostInBattleSands(void);
 static void TrySetupRaidBossRepeatedAttack(u8 turnActionNumber);
 static u8 GetWhoStrikesFirstUseLastBracketCalc(u8 bank1, u8 bank2);
-static u32 BoostSpeedInWeather(u8 ability, u8 itemEffect, u32 speed, u8 bank);
+static u32 BoostSpeedInWeather(ability_t ability, u8 itemEffect, u32 speed, u8 bank);
 static u32 BoostSpeedByItemEffect(u8 itemEffect, u8 itemQuality, u16 species, u32 speed, bool8 isDynamaxed);
 static void TryClearLevelCapKeptOn(void);
 extern void RemoveFollowerBeforeBattle(void);
@@ -142,7 +142,13 @@ void HandleNewBattleRamClearBeforeBattle(void)
 		RemoveFollowerBeforeBattle();               // Land/normal battle
 	}
 	gNewBS = Calloc(sizeof(struct NewBattleStruct));
-	Memset(FIRST_NEW_BATTLE_RAM_LOC, 0, (u32) LAST_NEW_BATTLE_RAM_LOC - (u32) FIRST_NEW_BATTLE_RAM_LOC);
+	// Do not clear through 0x203E038: that address stores gNewBS itself.
+	// The u16 ability popup expansion has state on both sides of the pointer,
+	// therefore the two free RAM regions need to be wiped independently.
+	Memset(FIRST_NEW_BATTLE_RAM_LOC, 0,
+	       (u32) LAST_NEW_BATTLE_RAM_LOC_BEFORE_GNEWBS - (u32) FIRST_NEW_BATTLE_RAM_LOC);
+	Memset(FIRST_NEW_BATTLE_RAM_LOC_AFTER_GNEWBS, 0,
+	       (u32) LAST_NEW_BATTLE_RAM_LOC - (u32) FIRST_NEW_BATTLE_RAM_LOC_AFTER_GNEWBS);
 	Memset(gBattleBufferA, 0x0, sizeof(gBattleBufferA)); //Clear both battle buffers
 	Memset(gBattleBufferB, 0x0, sizeof(gBattleBufferB));
 	Memset(gBattleMons, 0x0, sizeof(gBattleMons)); //Clear battle data - can be filled from last double battle and interfere with battle engine
@@ -290,7 +296,7 @@ void BattleBeginFirstTurn(void)
 
 						// Set ability
 						if (targetSpecies == species)
-							gBattleMons[i].ability = targetAbility;
+							ABILITY(i) = targetAbility;
 					}
 				}
 			#endif
@@ -364,8 +370,8 @@ void BattleBeginFirstTurn(void)
 
 					if (AreAbilitiesSuppressed()) //Most likely Circus
 					{
-						gNewBS->SuppressedAbilities[*bank] = gBattleMons[*bank].ability;
-						gBattleMons[*bank].ability = 0;
+						gNewBS->SuppressedAbilities[*bank] = ABILITY(*bank);
+						ABILITY(*bank) = 0;
 					}
 
 					if (gBattleTypeFlags & BATTLE_TYPE_CAMOMONS) //The Pokemon takes on the types of its first two moves
@@ -702,6 +708,7 @@ void BattleBeginFirstTurn(void)
 							{
 								//These Abilities are commonly switched out of on the first turn
 								case ABILITY_INTIMIDATE:
+								case ABILITY_SUPERSWEETSYRUP:
 									gNewBS->ai.switchesInARow[i] = 2; //So the AI gets smart if the player immediately switches out
 									break;
 							}
@@ -1268,6 +1275,8 @@ void RunTurnActionsFunctions(void)
 	switch (gNewBS->teraData.state) 
 	{
 		case Tera_Check:
+			if (gNewBS == NULL)
+				return;
 			for (i = *teraBank; i < gBattlersCount; ++i, ++*teraBank)
 			{
 				u8 bank = gActiveBattler = gBanksByTurnOrder[i];
@@ -1292,7 +1301,12 @@ void RunTurnActionsFunctions(void)
 					const u8* script = DoTerastallize(bank);
 					if (script != NULL)
 					{
-						u8 partyId = gBattlerPartyIndexes[bank];
+					u8 partyId = gBattlerPartyIndexes[bank];
+					if (partyId >= PARTY_SIZE)
+					{
+						gNewBS->teraData.chosen[bank] = FALSE;
+						continue;
+					}
 
 						gNewBS->teraData.done[side][partyId] = TRUE;
 						gNewBS->teraData.chosen[bank] = 0;
@@ -1648,7 +1662,7 @@ void HandleAction_UseMove(void)
 	TryChangeMoveTargetToCounterPlayerProtectCheese();
 
 //Get Move Target
-	u8 atkAbility = ABILITY(gBankAttacker);
+	ability_t atkAbility = ABILITY(gBankAttacker);
 	u8 moveTarget = GetBaseMoveTarget(gCurrentMove, gBankAttacker);
 	side = SIDE(gBankAttacker) ^ BIT_SIDE;
 	bank_t selectedTarget = gBattleStruct->moveTarget[gBankAttacker];
@@ -2327,7 +2341,7 @@ bool8 QuickClawActivatesThisTurn(u8 bank)
 s32 BracketCalc(u8 bank, u8 action, u16 move)
 {
 	u8 itemEffect = ITEM_EFFECT(bank);
-	u8 ability = ABILITY(bank);
+	ability_t ability = ABILITY(bank);
 
 	gNewBS->quickClawCustapIndicator &= ~(gBitTable[bank]); //Reset the Quick Claw counter just in case
 	gNewBS->quickDrawIndicator &= ~(gBitTable[bank]); //Reset the Quick Claw counter just in case
@@ -2368,20 +2382,17 @@ s32 BracketCalc(u8 bank, u8 action, u16 move)
 			}
 		}
 
-		if (ability == ABILITY_STALL && !(SpeciesHasBeadsofRuin(LEECH_SPECIES(bank))
-										|| SpeciesHasSwordofRuin(LEECH_SPECIES(bank))
-										|| SpeciesHasTabletsofRuin(LEECH_SPECIES(bank))
-										|| SpeciesHasVesselofRuin(LEECH_SPECIES(bank))))
+		if (ability == ABILITY_STALL)
 			return -1;
 
-		if (SPLIT(gCurrentMove) == SPLIT_STATUS && SpeciesHasMyceliumMight(LEECH_SPECIES(bank)))
+		if (SPLIT(gCurrentMove) == SPLIT_STATUS && ability == ABILITY_MYCELIUMMIGHT)
 			return -2;
 	}
 
 	return 0;
 }
 
-static u32 BoostSpeedInWeather(u8 ability, u8 itemEffect, u32 speed, u8 bank)
+static u32 BoostSpeedInWeather(ability_t ability, u8 itemEffect, u32 speed, u8 bank)
 {
 	if (WEATHER_HAS_EFFECT) {
 		switch (ability) {
@@ -2402,15 +2413,10 @@ static u32 BoostSpeedInWeather(u8 ability, u8 itemEffect, u32 speed, u8 bank)
 					speed *= 2;
 				break;
 			case ABILITY_QUARKDRIVE:
-				if(bank != 255)
-				{
-					if (gTerrainType == ELECTRIC_TERRAIN
-					&& GetHighestStat(bank) == STAT_SPEED && !SpeciesHasProtosynthesis(SPECIES(bank)))
-						speed = (speed * 15) / 10;
-
-					if (IsSunWeatherActive(bank) && GetHighestStat(bank) == STAT_SPEED && SpeciesHasProtosynthesis(SPECIES(bank)))
-						speed = (speed * 15) / 10;
-				}
+			case ABILITY_PROTOSYNTHESIS:
+				if (bank != 255 && IsParadoxBoostActive(bank)
+				&& GetParadoxBoostedStat(bank) == STAT_SPEED)
+					speed = (speed * 15) / 10;
 			break;
 		}
 	}
@@ -2446,7 +2452,7 @@ u32 SpeedCalc(u8 bank)
 	if (!BATTLER_ALIVE(bank))
 		return 0;
 
-	u8 ability = ABILITY(bank);
+	ability_t ability = ABILITY(bank);
 	u8 itemEffect = ITEM_EFFECT(bank);
 	u8 itemQuality = ITEM_QUALITY(bank);
 
@@ -2516,7 +2522,7 @@ u32 SpeedCalcMon(u8 side, struct Pokemon* mon) //Used for the AI
 		return 0;
 
 	u32 speed;
-	u8 ability = GetMonAbilityAfterTrace(mon, FOE(side));
+	ability_t ability = GetMonAbilityAfterTrace(mon, FOE(side));
 	u8 itemEffect = (ability != ABILITY_KLUTZ) ? ItemId_GetHoldEffect(mon->item) : 0;
 	u8 itemQuality = ItemId_GetHoldEffectParam(mon->item);
 	u8 statVal = 6;
@@ -2554,10 +2560,10 @@ u32 SpeedCalcMon(u8 side, struct Pokemon* mon) //Used for the AI
 
 	if(ability == ABILITY_QUARKDRIVE)
 	{
-		if (gTerrainType == ELECTRIC_TERRAIN && GetHighestStatMon(mon) == STAT_SPEED && !SpeciesHasProtosynthesis(mon->species))
+		if (gTerrainType == ELECTRIC_TERRAIN && GetHighestStatMon(mon) == STAT_SPEED && !(GetMonAbility(mon) == ABILITY_PROTOSYNTHESIS))
 				speed = (speed * 15) / 10;
 
-		if (IsSunWeatherActive(bank) && GetHighestStatMon(mon) == STAT_SPEED && SpeciesHasProtosynthesis(mon->species))
+		if (IsSunWeatherActive(bank) && GetHighestStatMon(mon) == STAT_SPEED && (GetMonAbility(mon) == ABILITY_PROTOSYNTHESIS))
 				speed = (speed * 15) / 10;
 	}
 

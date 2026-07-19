@@ -58,6 +58,7 @@ party_menu.c
 #define MENU_LEFT -2
 #define MENU_RIGHT 2
 #define MENU_NICKNAME 6
+#define MENU_MOVE_RELEARNER MENU_NO_ENTRY
 
 struct PartyMenuBoxInfoRects
 {
@@ -141,6 +142,7 @@ static void CursorCb_MoveItem(u8 taskId);
 
 static void CursorCb_NicknameCallback(u8 taskId);
 static void CursorCb_Nickname(u8 taskId);
+static void CursorCb_MoveRelearner(u8 taskId);
 static s8 *GetCurrentPartySlotPtr(void); 
 u16 PartyMenuButtonHandler(s8 *ptr); 
 void Task_HandleChooseMonInput(u8 taskId);
@@ -821,6 +823,9 @@ extern const u8 EventScript_RockClimb[];
 extern const u8 EventScript_Defog[];
 
 extern const u8 gMenuText_NickName[];
+extern const u8 gMenuText_MoveRelearner[];
+
+#define DisplayMoveTutorMenu ((MainCallback)(0x080E4634 | 1))
 
 // Field Move IDs
 enum FieldMovesIDs
@@ -871,6 +876,7 @@ struct
         [MENU_TRADE2] =        {(void*) 0x84169bc, (void*) 0x81245a1},
         [MENU_MOVE_ITEM] = {gMenuText_Move, CursorCb_MoveItem},
         [MENU_NICKNAME] = {gMenuText_NickName, CursorCb_Nickname},
+        [MENU_MOVE_RELEARNER] = {gMenuText_MoveRelearner, CursorCb_MoveRelearner},
 
         //Field Moves
         [MENU_FIELD_MOVES + FIELD_MOVE_FLASH] =              {gMoveNames[MOVE_FLASH], CursorCb_FieldMove},
@@ -1115,6 +1121,12 @@ SKIP_FIELD_MOVES:
                         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_ITEM);
         }
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_NICKNAME); //added
+#ifdef FLAG_PARTY_MOVE_RELEARNER
+        if (FlagGet(FLAG_PARTY_MOVE_RELEARNER)
+        && !GetMonData(&mons[slotId], MON_DATA_IS_EGG, NULL)
+        && GetNumberOfRelearnableMoves(&mons[slotId]) != 0)
+                AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_MOVE_RELEARNER);
+#endif
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_CANCEL1);
 }
 
@@ -1578,6 +1590,16 @@ static void CursorCb_Nickname(u8 taskId)
 
 }
 
+static void CursorCb_MoveRelearner(u8 taskId)
+{
+        PlaySE(SE_SELECT);
+        Var8004 = gPartyMenu.slotId;
+        Var8005 = GetNumberOfRelearnableMoves(&gPlayerParty[Var8004]);
+        DisplayMoveTutorMenu();
+        sPartyMenuInternal->exitCallback = DisplayMoveTutorMenu;
+        Task_ClosePartyMenu(taskId);
+}
+
 static void CursorCb_MoveItem(u8 taskId)
 {
         struct Pokemon* mon = &gPlayerParty[gPartyMenu.slotId];
@@ -1624,7 +1646,7 @@ static void ItemUseCB_DNASplicersStep(u8 taskId, TaskFunc func);
 static void Task_TryLearnPostFormeChangeMove(u8 taskId);
 static struct Pokemon* GetBaseMonForFusedSpecies(u16 species);
 static void ItemUseCB_AbilityCapsule(u8 taskId, TaskFunc func);
-static u8 GetAbilityCapsuleNewAbility(struct Pokemon* mon);
+static ability_t GetAbilityCapsuleNewAbility(struct Pokemon* mon);
 static void Task_OfferAbilityChange(u8 taskId);
 static void Task_HandleAbilityChangeYesNoInput(u8 taskId);
 static void Task_ChangeAbility(u8 taskId);
@@ -2562,7 +2584,7 @@ extern const u8 gText_AbilityCapsuleChangedAbility[];
 static void ItemUseCB_AbilityCapsule(u8 taskId, TaskFunc func)
 {
         struct Pokemon* mon = &gPlayerParty[gPartyMenu.slotId];
-        u8 changeTo = GetAbilityCapsuleNewAbility(mon); //Pick Ability to change to
+        ability_t changeTo = GetAbilityCapsuleNewAbility(mon); //Pick Ability to change to
 
         PlaySE(SE_SELECT);
         if (changeTo != ABILITY_NONE) //Ability can be changed
@@ -2583,16 +2605,16 @@ static void ItemUseCB_AbilityCapsule(u8 taskId, TaskFunc func)
         }
 }
 
-static u8 GetAbilityCapsuleNewAbility(struct Pokemon* mon)
+static ability_t GetAbilityCapsuleNewAbility(struct Pokemon* mon)
 {
         u16 item = Var800E;
         u8 abilityType = ItemId_GetHoldEffectParam(item);
         u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
-        u8 ability = GetMonAbility(mon);
-        u8 ability1 = GetAbility1(species);
-        u8 ability2 = GetAbility2(species);
-        u8 hiddenAbility = GetHiddenAbility(species);
-        u8 changeTo = ABILITY_NONE;
+        ability_t ability = GetMonAbility(mon);
+        ability_t ability1 = GetAbility1(species);
+        ability_t ability2 = GetAbility2(species);
+        ability_t hiddenAbility = GetHiddenAbility(species);
+        ability_t changeTo = ABILITY_NONE;
 
         if (abilityType != 0) //Hidden Ability Capsule
         {
@@ -2611,7 +2633,7 @@ static u8 GetAbilityCapsuleNewAbility(struct Pokemon* mon)
                  || SpeciesToNationalPokedexNum(species) != NATIONAL_DEX_ZYGARDE) //Must be given with Power Construct
                 && (FlagGet(FLAG_SYS_GAME_CLEAR) //Can be given once the game is cleared
                  || VarGet(VAR_GAME_DIFFICULTY) < OPTIONS_EXPERT_DIFFICULTY //Or if the player is not on a crazy difficulty
-                 || gBaseStats[species].hiddenAbility != ABILITY_IMPOSTER) //Don't allow Imposter until the post-game
+			 || GetHiddenAbility(species) != ABILITY_IMPOSTER) //Don't allow Imposter until the post-game
                 #endif
                 )
                         changeTo = hiddenAbility; //Set the Hidden Ability

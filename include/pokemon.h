@@ -543,6 +543,14 @@ struct BaseStats
  /* 0x1A */	u8 hiddenAbility;
 };
 
+// Stored in a parallel DPE table so BaseStats keeps its vanilla 0x1C stride.
+struct SpeciesAbilities
+{
+    ability_t ability1;
+    ability_t ability2;
+    ability_t hiddenAbility;
+};
+
 struct SpindaSpot
 {
     u8 x, y;
@@ -668,7 +676,7 @@ extern const s8 gNatureStatTable[][5];
 extern const u8 gFacilityClassToPicIndex[];
 extern const u8 gFacilityClassToTrainerClass[];
 
-u8 GetMonAbility(const struct Pokemon* const);
+ability_t GetMonAbility(const struct Pokemon* const);
 u8 CountAliveMons(u8 caseId);
 #define BATTLE_ALIVE_EXCEPT_ACTIVE  0
 #define BATTLE_ALIVE_ATK_SIDE       1
@@ -816,8 +824,8 @@ u8 SendMonToPC(struct Pokemon *mon);
 u8 CalculatePlayerPartyCount(void);
 u8 CalculateEnemyPartyCount(void);
 
-u8 GetAbilityBySpecies(u16 species, bool8 altAbility);
-u8 GetMonAbility(struct Pokemon *mon);
+ability_t GetAbilityBySpecies(u16 species, bool8 altAbility);
+ability_t GetMonAbility(struct Pokemon *mon);
 void CreateSecretBaseEnemyParty(struct SecretBaseRecord *secretBaseRecord);
 u8 GetSecretBaseTrainerPicIndex(void);
 u8 GetSecretBaseTrainerNameIndex(void);

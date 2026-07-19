@@ -131,7 +131,7 @@ struct ChooseMoveStruct
     bool8 bank;
     u8 zPartyIndex;
     u16 possibleZMoves[MAX_MON_MOVES];
-    u8 ability;
+    ability_t ability;
     bool8 canDynamax;
     bool8 canTera;      // For Terastallization
     u8 teraType;        // For Terastallization
@@ -320,4 +320,3 @@ void __attribute__((long_call)) SetControllerToLinkOpponent(void);
 
 // link partner
 void __attribute__((long_call)) SetControllerToLinkPartner(void);
-

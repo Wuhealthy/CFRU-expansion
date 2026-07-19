@@ -49,8 +49,8 @@ u8 AIScript_Partner(const u8 bankAtk, const u8 bankAtkPartner, const u16 origina
 	u16 partnerMove = data->partnerMove;
 
 	u8 atkPartnerItemEffect = ITEM_EFFECT(bankAtkPartner);
-	u8 atkAbility = GetAIAbility(bankAtk, data->foe1, move);
-	u8 atkPartnerAbility = data->atkPartnerAbility;
+	ability_t atkAbility = GetAIAbility(bankAtk, data->foe1, move);
+	ability_t atkPartnerAbility = data->atkPartnerAbility;
 
 	if (IsTargetAbilityIgnored(atkPartnerAbility, atkAbility, move))
 		atkPartnerAbility = ABILITY_NONE;
@@ -65,8 +65,9 @@ u8 AIScript_Partner(const u8 bankAtk, const u8 bankAtkPartner, const u16 origina
 		{
 			//Electric
 			case ABILITY_VOLTABSORB:
-				if ((moveType == TYPE_ELECTRIC && !SpeciesHasEarthEater(SPECIES(gBankTarget)))
-				|| (moveType == TYPE_GROUND && SpeciesHasEarthEater(SPECIES(gBankTarget))))
+			case ABILITY_EARTHEATER:
+				if ((moveType == TYPE_ELECTRIC && !(ABILITY(gBankTarget) == ABILITY_EARTHEATER))
+				|| (moveType == TYPE_GROUND && (ABILITY(gBankTarget) == ABILITY_EARTHEATER)))
 					IncreaseHealPartnerViability(&viability, class, bankAtkPartner);
 				break;
 			case ABILITY_MOTORDRIVE:
@@ -94,6 +95,7 @@ u8 AIScript_Partner(const u8 bankAtk, const u8 bankAtkPartner, const u16 origina
 					IncreaseHealPartnerViability(&viability, class, bankAtkPartner);
 				break;
 			case ABILITY_STORMDRAIN:
+			case ABILITY_EVAPORATE:
 				if (moveType == TYPE_WATER
 				&&  !IsClassDoublesTotalTeamSupport(partnerClass)
 				&&  SpecialMoveInMoveset(bankAtkPartner)
@@ -159,6 +161,8 @@ u8 AIScript_Partner(const u8 bankAtk, const u8 bankAtkPartner, const u16 origina
 				}
 				break;
 			case ABILITY_STEAMENGINE:
+			case ABILITY_WELLBAKEDBODY:
+			case ABILITY_THERMALEXCHANGE:
 				if (moveSplit != SPLIT_STATUS
 				&&  !IsClassDoublesTotalTeamSupport(partnerClass)
 				&& (moveType == TYPE_WATER || moveType == TYPE_FIRE)
@@ -470,8 +474,8 @@ u8 AIScript_Partner(const u8 bankAtk, const u8 bankAtkPartner, const u16 origina
 					{
 						u8 foe1 = FOE(bankAtk);
 						u8 foe2 = PARTNER(foe1);
-						u8 foe1Ability = ABILITY(foe1);
-						u8 foe2Ability = ABILITY(foe2);
+						ability_t foe1Ability = ABILITY(foe1);
+						ability_t foe2Ability = ABILITY(foe2);
 
 						if (BATTLER_ALIVE(foe1)
 						&& (foe1Ability == ABILITY_CONTRARY || foe1Ability == ABILITY_MIRRORARMOR))

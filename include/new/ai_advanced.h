@@ -35,7 +35,7 @@ bool8 IsClassDoublesAttacker(u8 class);
 bool8 IsClassDamager(u8 class);
 bool8 IsClassGoodToTaunt(u8 class);
 u8 PredictBankFightingStyle(u8 bank);
-u8 PredictFightingStyle(const u16* const moves, const u8 ability, const u8 itemEffect, const u8 bank);
+u8 PredictFightingStyle(const u16* const moves, const ability_t ability, const u8 itemEffect, const u8 bank);
 
 bool8 ShouldPrioritizeKOingFoesDoubles(u8 bank);
 bool8 ShouldPrioritizeMostDamageDoubles(u8 bank);
@@ -46,7 +46,7 @@ u8 ShouldProtect(u8 bankAtk, u8 bankDef, u16 move);
 bool8 ShouldPhaze(u8 bankAtk, u8 bankDef, u16 move, u8 class);
 bool8 ShouldUseWishAromatherapy(u8 bankAtk, u8 bankDef, u16 move, u8 class);
 bool8 ShouldSetUpScreens(u8 bankAtk, u8 bankDef, u16 move);
-bool8 ShouldUseFakeOut(u8 bankAtk, u8 bankDef, u8 defAbility);
+bool8 ShouldUseFakeOut(u8 bankAtk, u8 bankDef, ability_t defAbility);
 bool8 ShouldPivot(u8 bankAtk, u8 bankDef, u16 move, u8 class);
 bool8 ShouldCourtChange(u8 bankAtk, u8 bankDef);
 u8 BankLikelyToUseMoveSplit(u8 bank, u8 class);

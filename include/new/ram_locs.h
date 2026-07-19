@@ -81,7 +81,7 @@
 /*u8*/ //#define gSafariBallNumber 	(*((u8*) 0x02039994))	// see src/scripting.c
 /*u16*/ #define gSafariSteps	   (*((u16*) 0x02039996))
 
-/*u8*/  #define gAbilitiesPerBank ((u8*) 0x2039A30)
+/* canonical storage is gNewBS->textAbilities */
 		//#define gStringInfo ((struct BattleMsgData*) *((u32*) 0x2039A34))
 
 		#define sHofSelectedPaletteIndices (*((u32*) 0x0203AB34))

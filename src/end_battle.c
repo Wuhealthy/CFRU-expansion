@@ -31,6 +31,11 @@ end_battle.c
 
 const u16 gEndBattleFlagClearTable[] =
 {
+#ifdef FLAG_TERA_BATTLE
+	// Temporary per-battle permission. It must never leak into the next battle,
+	// regardless of whether this one was trainer, wild, scripted, or Frontier.
+	FLAG_TERA_BATTLE,
+#endif
 #ifdef FLAG_CATCH_TRAINERS_POKEMON
 	FLAG_CATCH_TRAINERS_POKEMON,
 #endif
@@ -468,7 +473,7 @@ u8 IsRunningFromBattleImpossible(void)
 		return TRUE;
 	else if (itemEffect == ITEM_EFFECT_CAN_ALWAYS_RUN)
 		return FALSE;
-	else if (gBattleMons[gActiveBattler].ability == ABILITY_RUNAWAY)
+	else if (ABILITY(gActiveBattler) == ABILITY_RUNAWAY)
 		return FALSE;
 	else if (IsOfType(gActiveBattler, TYPE_GHOST))
 		return FALSE;
@@ -479,7 +484,7 @@ u8 IsRunningFromBattleImpossible(void)
 	{
 		if (side != SIDE(i))
 		{
-			u8 ability = ABILITY(i);
+			ability_t ability = ABILITY(i);
 			if (IsTrappedByAbility(gActiveBattler, ability))
 			{
 				gBattleScripting.bank = i;
@@ -866,13 +871,6 @@ static void EndBattleFlagClear(void)
 	for (i = 0; i < ARRAY_COUNT(gEndBattleFlagClearTable); ++i)
 		FlagClear(gEndBattleFlagClearTable[i]);
 	
-	#ifdef FLAG_TERA_BATTLE
-    // Wild Battle check
-    if (((gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_TRAINER_TOWER)) == BATTLE_TYPE_TRAINER)
-    ||   (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER))  
-		FlagClear(FLAG_TERA_BATTLE);
-	#endif
-
 	#ifdef VAR_STATUS_INDUCER
 	u16 inducer = VarGet(VAR_STATUS_INDUCER);
 	if (inducer & 0xFF00) //Temporary status inducer

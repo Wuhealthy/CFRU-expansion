@@ -73,8 +73,8 @@ void atk00_attackcanceler(void)
 				if (i != gBankAttacker
 				&& (gSpecialAbilityFlags[ABILITY(i)].gMoldBreakerIgnoredAbilities))
 				{
-					gNewBS->DisabledMoldBreakerAbilities[i] = gBattleMons[i].ability; //Temporarily disable all relevant abilities on the field
-					gBattleMons[i].ability = ABILITY_NONE;
+					gNewBS->DisabledMoldBreakerAbilities[i] = ABILITY(i); //Temporarily disable all relevant abilities on the field
+					ABILITY(i) = ABILITY_NONE;
 				}
 			}
 		}
@@ -211,6 +211,7 @@ static u8 AtkCanceller_UnableToUseMove(void)
 			gBattleMons[gBankAttacker].status2 &= ~(STATUS2_DESTINY_BOND);
 			gStatuses3[gBankAttacker] &= ~(STATUS3_GRUDGE);
 			gStatuses3[gBankAttacker] &= ~(STATUS3_GLAIVERUSH);
+			gNewBS->GlaiveRushTimers[gBankAttacker] = 0;
 			gBattleScripting.tripleKickPower = 0;
 			gNewBS->ai.zMoveHelper = 0;
 			gBattleStruct->atkCancellerTracker++;
@@ -951,7 +952,7 @@ static u8 AtkCanceller_UnableToUseMove(void)
 		case CANCELLER_MULTIHIT_MOVES:
 			if (gSpecialMoveFlags[gCurrentMove].gTwoToFiveStrikesMoves)
 			{
-				u8 ability = ABILITY(gBankAttacker);
+				ability_t ability = ABILITY(gBankAttacker);
 
 				if (gCurrentMove == MOVE_SURGINGSTRIKES)
 				{

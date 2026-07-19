@@ -80,7 +80,7 @@ extern void sp09A_StopSounds(void);
 const u8* __attribute__((long_call)) GetCoordEventScriptAtPosition(struct MapHeader * mapHeader, u16 x, u16 y, u8 z);
 
 //This file's functions
-static void DexNavGetMon(u16 species, u8 potential, u8 level, u8 ability, u16* moves, u8 searchLevel, u8 chain);
+static void DexNavGetMon(u16 species, u8 potential, u8 level, ability_t ability, u16* moves, u8 searchLevel, u8 chain);
 static u16 TryRandomizePumpkabooForm(u16 species);
 static bool8 SpeciesHasMultipleSearchableForms(u16 species);
 static u8 FindHeaderIndexWithLetter(u16 species, u8 letter);
@@ -108,7 +108,7 @@ static void DexNavDrawBlackBar(u8* windowId);
 static void DexNavDrawDirectionalArrow(u8* windowId);
 static void DexNavDrawChainNumber(u8* spriteIdNumAddr, u8* spriteIdStarAddr);
 static void DexNavDrawSight(u8 sight_lvl, u8* spriteIdAddr);
-static void DexNavDrawAbility(u8 ability, u16 species, u8* spriteIdAddr);
+static void DexNavDrawAbility(ability_t ability, u16 species, u8* spriteIdAddr);
 static void DexNavDrawMove(u16 move, u8 searchLevel, u8* spriteIdAddr);
 static void DexNavDrawPotential(u8 potential, u8* spriteIdAddr);
 static void DexNavHudDrawSpeciesIcon(u16 species, u8* spriteIdAddr);
@@ -204,7 +204,7 @@ static void CB2_DexNav(void);
 // ===== Dex Nav Pokemon Generator ===== //
 // ===================================== //
 
-static void DexNavGetMon(u16 species, u8 potential, u8 level, u8 ability, u16* moves, u8 searchLevel, u8 chain)
+static void DexNavGetMon(u16 species, u8 potential, u8 level, ability_t ability, u16* moves, u8 searchLevel, u8 chain)
 {
 	struct Pokemon* mon = &gEnemyParty[0];
 
@@ -256,7 +256,7 @@ static void DexNavGetMon(u16 species, u8 potential, u8 level, u8 ability, u16* m
 	TryRandomizeSpecies(&species);
 	if (GetHiddenAbility(species) == ability)
 		mon->hiddenAbility = TRUE;
-	else if (gBaseStats[species].ability2 != ABILITY_NONE) //Helps fix a bug where Unown would crash the game in the below function
+	else if (GetAbility2(species) != ABILITY_NONE) //Helps fix a bug where Unown would crash the game in the below function
 		GiveMonNatureAndAbility(mon, GetNature(mon), (GetAbility2(species) == ability) ? 1 : 0, IsMonShiny(mon), TRUE, TRUE); //Make sure details match what was on the HUD
 
 	//Set moves
@@ -1412,19 +1412,19 @@ static u8 DexNavGenerateHiddenAbility(u16 species, u8 searchLevel)
 	if (genAbility
 	&& !FlagGet(FLAG_SYS_GAME_CLEAR)
 	&& VarGet(VAR_GAME_DIFFICULTY) >= OPTIONS_EXPERT_DIFFICULTY
-	&& gBaseStats[species].hiddenAbility == ABILITY_IMPOSTER)
+	&& GetHiddenAbility(species) == ABILITY_IMPOSTER)
 		genAbility = FALSE; //Don't allow Imposter until the post-game
 	#endif
 
-	if (genAbility && gBaseStats[species].hiddenAbility != ABILITY_NONE
+	if (genAbility && GetHiddenAbility(species) != ABILITY_NONE
 	&& GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT)) //Only give hidden ability if Pokemon has been caught before
 		return GetHiddenAbility(species);
 	else
 	{
 		//Pick a normal ability of that Pokemon
-		u8 ability;
-		u8 ability1 = GetAbility1(species);
-		u8 ability2 = GetAbility2(species);
+		ability_t ability;
+		ability_t ability1 = GetAbility1(species);
+		ability_t ability2 = GetAbility2(species);
 		
 		if (ability2 != ABILITY_NONE)
 			ability = (randVal & 1) == 0 ? ability1 : ability2;
@@ -1699,7 +1699,7 @@ static void DexNavDrawBButton(u8* spriteIdAddr)
 	*spriteIdAddr = spriteId;
 };
 
-static void DexNavDrawAbility(u8 ability, u16 species, u8* spriteIdAddr)
+static void DexNavDrawAbility(ability_t ability, u16 species, u8* spriteIdAddr)
 {
 	LoadCompressedSpriteSheetUsingHeap(&sAbilityCanvasSpriteSheet);
 	LoadSpritePalette(&gHeldItemSpritePalette);
@@ -2750,7 +2750,7 @@ static void PrintGUIHiddenAbility(u16 species)
 
 		if (GetSetPokedexFlag(dexNum, FLAG_GET_CAUGHT)) //Only display hidden ability if Pokemon has been caught
 		{
-			u8 hiddenAbility = GetHiddenAbility(species);
+			ability_t hiddenAbility = GetHiddenAbility(species);
 
 			if (species != SPECIES_NONE && hiddenAbility != ABILITY_NONE)
 				text = GetAbilityName(hiddenAbility, species);

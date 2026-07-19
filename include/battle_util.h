@@ -30,7 +30,7 @@
 #define ABILITYEFFECT_COUNT_ON_FIELD            0x12
 #define ABILITYEFFECT_CHECK_ON_FIELD            0x13
 #define ABILITYEFFECT_MOVES_BLOCK_PARTNER		0x14
-#define ABILITYEFFECT_SWITCH_IN_WEATHER         0xFF
+#define ABILITYEFFECT_SWITCH_IN_WEATHER         0xFFFF
 
 #define ABILITY_ON_OPPOSING_FIELD(battlerId, abilityId) (AbilityBattleEffects(ABILITYEFFECT_CHECK_OTHER_SIDE, battlerId, abilityId, 0, 0))
 #define ABILITY_ON_FIELD(abilityId) (AbilityBattleEffects(ABILITYEFFECT_CHECK_ON_FIELD, 0, abilityId, 0, 0))
@@ -82,7 +82,7 @@ void __attribute__((long_call)) TryClearRageStatuses(void);
 u8 __attribute__((long_call)) AtkCanceller_UnableToUseMove(void);
 bool8 __attribute__((long_call)) sub_80423F4(u8 bank, u8 r1, u8 r2);
 u8 __attribute__((long_call)) CastformDataTypeChange(u8 bank);
-u8 __attribute__((long_call)) AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg);
+u8 __attribute__((long_call)) AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special, u16 moveArg);
 void __attribute__((long_call)) BattleScriptExecute(const u8* BS_ptr);
 void __attribute__((long_call)) BattleScriptPushCursorAndCallback(const u8* BS_ptr);
 //u8 __attribute__((long_call)) ItemBattleEffects(u8 caseID, u8 bank, bool8 moveTurn);

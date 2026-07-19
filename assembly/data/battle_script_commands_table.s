@@ -81,7 +81,7 @@ gBattleScriptingCommandsTable:
 .word atk40_jumpifaffectedbyprotect
 .word 0x8022d41					@call
 .word atk42_jumpiftype2
-.word 0x8022dcd					@jumpifabilitypresent
+.word atk43_jumpifabilitypresent		@jumpifabilitypresent
 .word 0x8022e19					@endselectionscript
 .word atk45_playanimation
 .word atk46_playanimation2

@@ -3,6 +3,7 @@
 #include "../include/constants/abilities.h"
 
 #include "../include/new/ability_tables.h"
+#include "../include/new/ability_util.h"
 #include "../include/new/damage_calc.h"
 #include "../include/new/evolution.h"
 #include "../include/new/frontier.h"
@@ -15,7 +16,7 @@ util.c
 */
 
 //This file's functions:
-static u8 TryRandomizeAbility(u8 ability, unusedArg u16 species);
+static ability_t TryRandomizeAbility(ability_t ability, unusedArg u16 species);
 
 u32 MathMax(u32 num1, u32 num2)
 {
@@ -63,7 +64,7 @@ bool8 CheckTableForMovesEffect(u16 move, const u8 table[])
 	return FALSE;
 }
 
-bool8 CheckTableForAbility(u8 ability, const u8 table[])
+bool8 CheckTableForAbility(ability_t ability, const ability_t table[])
 {
 	for (u32 i = 0; table[i] != ABILITY_TABLES_TERMIN; ++i)
 	{
@@ -272,7 +273,7 @@ u32 GetBaseStatsTotal(const u16 species)
 	return sum;
 }
 
-static u8 TryRandomizeAbility(u8 originalAbility, unusedArg u16 species)
+static ability_t TryRandomizeAbility(ability_t originalAbility, unusedArg u16 species)
 {
 	u32 newAbility = originalAbility;
 
@@ -312,19 +313,19 @@ static u8 TryRandomizeAbility(u8 originalAbility, unusedArg u16 species)
 	return newAbility;
 }
 
-u8 GetAbility1(const u16 species)
+ability_t GetAbility1(const u16 species)
 {
-	return TryRandomizeAbility(gBaseStats[species].ability1, species);
+	return TryRandomizeAbility(gSpeciesAbilities[species].ability1, species);
 }
 
-u8 GetAbility2(const u16 species)
+ability_t GetAbility2(const u16 species)
 {
-	return TryRandomizeAbility(gBaseStats[species].ability2, species);
+	return TryRandomizeAbility(gSpeciesAbilities[species].ability2, species);
 }
 
-u8 GetHiddenAbility(const u16 species)
+ability_t GetHiddenAbility(const u16 species)
 {
-	return TryRandomizeAbility(gBaseStats[species].hiddenAbility, species);
+	return TryRandomizeAbility(gSpeciesAbilities[species].hiddenAbility, species);
 }
 
 u8 FindMovePositionInMonMoveset(u16 move, struct Pokemon* mon)
@@ -436,6 +437,7 @@ bool8 CanPartyMonBeGeneralStatused(struct Pokemon* mon)
 
 	switch (GetMonAbility(mon)) {
 		case ABILITY_COMATOSE:
+		case ABILITY_PURIFYINGSALT:
 			return FALSE;
 
 		case ABILITY_FLOWERVEIL:
@@ -454,9 +456,7 @@ bool8 CanPartyMonBePutToSleep(struct Pokemon* mon)
 
 	switch (GetMonAbility(mon)) {
 		case ABILITY_INSOMNIA:
-		#ifdef ABILITY_VITALSPIRIT
 		case ABILITY_VITALSPIRIT:
-		#endif
 		case ABILITY_SWEETVEIL:
 			return FALSE;
 	}
@@ -474,6 +474,7 @@ bool8 CanPartyMonBePoisoned(struct Pokemon* mon)
 
 	switch (GetMonAbility(mon)) {
 		case ABILITY_IMMUNITY:
+		case ABILITY_PURIFYINGSALT:
 		case ABILITY_PASTELVEIL:
 			return FALSE;
 	}

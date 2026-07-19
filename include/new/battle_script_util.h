@@ -173,4 +173,6 @@ void TryActivateQuarkDrive(void);
 void TryActivateProtosynthesis(void);
 void TrySetPoisonPuppeterEffect(void);
 void TryUpperHand(void);
+void TrySetDragonCheer(void);
+void TryRevivalBlessing(void);
 bool32 IsMyceliumMightOnField(void);

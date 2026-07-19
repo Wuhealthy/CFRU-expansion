@@ -116,6 +116,7 @@ ability_battle_scripts.s
 .global BattleScript_QuarkDriveActivates2
 .global BattleScript_ProtosynthesisActivates
 .global BattleScript_ProtosynthesisActivates2
+.global BattleScript_BoosterEnergyActivates
 .global BattleScript_SetPuppetConfusion
 .global BattleScript_MoveEffectConfusion
 .global BattleScript_ToxicDebrisActivates
@@ -1587,6 +1588,14 @@ BattleScript_ProtosynthesisActivates2:
 	waitmessage DELAY_1SECOND
 	call BattleScript_AbilityPopUpRevert
 	goto BS_MOVE_END
+
+BattleScript_BoosterEnergyActivates:
+	call BattleScript_AbilityPopUp
+	printstring STRINGID_STATWASHEIGHTENED
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
+	removeitem BANK_SCRIPTING
+	end3
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

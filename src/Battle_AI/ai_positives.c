@@ -37,7 +37,7 @@ extern const struct FlingStruct gFlingTable[];
 #define TARGET_ASLEEP (data->defStatus1 & STATUS1_SLEEP && data->defStatus1 > 1)
 #define PRIORITY_MOVE_BUT_NORMALLY_SLOWER (PriorityCalc(bankAtk, ACTION_USE_MOVE, move) > 0 && data->atkSpeed < data->defSpeed)
 
-static s16 DamageMoveViabilityIncrease(u8 bankAtk, u8 bankDef, u16 move, s16 viability, u8 class, u16 predictedMove, u8 atkAbility, u8 defAbility, struct AIScript* data);
+static s16 DamageMoveViabilityIncrease(u8 bankAtk, u8 bankDef, u16 move, s16 viability, u8 class, u16 predictedMove, ability_t atkAbility, ability_t defAbility, struct AIScript* data);
 
 u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove, const u8 originalViability, struct AIScript* data)
 {
@@ -49,8 +49,8 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 	//Get relevant params
 	u16 move = TryReplaceMoveWithZMove(bankAtk, bankDef, originalMove);
 
-	u8 atkAbility = GetAIAbility(bankAtk, bankDef, move);
-	u8 defAbility = GetAIAbility(bankDef, bankAtk, predictedMove);
+	ability_t atkAbility = GetAIAbility(bankAtk, bankDef, move);
+	ability_t defAbility = GetAIAbility(bankDef, bankAtk, predictedMove);
 
 	if (IsTargetAbilityIgnored(defAbility, atkAbility, move))
 		defAbility = ABILITY_NONE;
@@ -2758,7 +2758,7 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 	return min(viability, 255);
 }
 
-static s16 DamageMoveViabilityIncrease(u8 bankAtk, u8 bankDef, u16 move, s16 viability, u8 class, u16 predictedMove, u8 atkAbility, u8 defAbility, struct AIScript* data)
+static s16 DamageMoveViabilityIncrease(u8 bankAtk, u8 bankDef, u16 move, s16 viability, u8 class, u16 predictedMove, ability_t atkAbility, ability_t defAbility, struct AIScript* data)
 {
 	if (IS_SINGLE_BATTLE) //Single Battle or only 1 target left
 	{

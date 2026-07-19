@@ -66,8 +66,8 @@ enum SwitchInStates
 };
 
 //This file's functions:
-static bool8 TryRemovePrimalWeather(u8 bank, u8 ability);
-static bool8 TryRemoveNeutralizingGas(u8 bank, u8 ability, bool8 leftField);
+static bool8 TryRemovePrimalWeather(u8 bank, ability_t ability);
+static bool8 TryRemoveNeutralizingGas(u8 bank, ability_t ability, bool8 leftField);
 static bool8 TryRemoveUnnerve(u8 bank);
 static bool8 TryActivateFlowerGift(u8 leavingBank);
 static bool8 TryDoForceSwitchOut(void);
@@ -135,7 +135,7 @@ void atkE2_switchoutabilities(void)
 	}
 }
 
-bool8 HandleSpecialSwitchOutAbilities(u8 bank, u8 ability, bool8 leftField)
+bool8 HandleSpecialSwitchOutAbilities(u8 bank, ability_t ability, bool8 leftField)
 {
 	return TryRemovePrimalWeather(bank, ability)
 		|| TryRemoveNeutralizingGas(bank, ability, leftField)
@@ -143,7 +143,7 @@ bool8 HandleSpecialSwitchOutAbilities(u8 bank, u8 ability, bool8 leftField)
 		|| TryActivateFlowerGift(bank);
 }
 
-static bool8 TryRemovePrimalWeather(u8 bank, u8 ability)
+static bool8 TryRemovePrimalWeather(u8 bank, ability_t ability)
 {
 	int i;
 	gBattleStringLoader = NULL;
@@ -189,7 +189,7 @@ static bool8 TryRemovePrimalWeather(u8 bank, u8 ability)
 	return FALSE;
 }
 
-static bool8 TryRemoveNeutralizingGas(u8 bank, u8 ability, bool8 leftField)
+static bool8 TryRemoveNeutralizingGas(u8 bank, ability_t ability, bool8 leftField)
 {
 	if (ability == ABILITY_NEUTRALIZINGGAS)
 	{
@@ -214,7 +214,7 @@ static bool8 TryRemoveNeutralizingGas(u8 bank, u8 ability, bool8 leftField)
 
 			if (gNewBS->neutralizingGasBlockedAbilities[bank] != ABILITY_NONE)
 			{
-				u8 ability = *GetAbilityLocationIgnoreNeutralizingGas(bank) = gNewBS->neutralizingGasBlockedAbilities[bank]; //Restore ability
+				ability_t ability = *GetAbilityLocationIgnoreNeutralizingGas(bank) = gNewBS->neutralizingGasBlockedAbilities[bank]; //Restore ability
 				gNewBS->neutralizingGasBlockedAbilities[bank] = ABILITY_NONE;
 				gNewBS->SlowStartTimers[bank] = 0;
 				gDisableStructs[gBankTarget].truantCounter = 0;
@@ -244,7 +244,7 @@ static bool8 TryRemoveUnnerve(u8 bank)
 {
 	u8 side = SIDE(bank);
 	bool8 ret = FALSE;
-	u8 ability = ABILITY(bank);
+	ability_t ability = ABILITY(bank);
 
 	if (IsUnnerveAbility(ability))
 	{
@@ -281,7 +281,7 @@ static bool8 TryActivateFlowerGift(u8 leavingBank)
 	|| ABILITY(leavingBank) == ABILITY_AIRLOCK
 	#endif
 	)
-		gBattleMons[leavingBank].ability = ABILITY_NONE; //Remove ability because we can't have these anymore
+		ABILITY(leavingBank) = ABILITY_NONE; //Remove ability because we can't have these anymore
 
 	for (u8 bank = gBanksByTurnOrder[i]; i < gBattlersCount; ++i, bank = gBanksByTurnOrder[i])
 	{
@@ -367,7 +367,7 @@ void atk4D_switchindataupdate(void)
 		gBattleMons[gActiveBattler].type2 = gBaseStats[gBattleMons[gActiveBattler].species].type2;
 	}
 
-	gBattleMons[gActiveBattler].ability = GetMonAbility(GetBankPartyData(gActiveBattler));
+	ABILITY(gActiveBattler) = GetMonAbility(GetBankPartyData(gActiveBattler));
 
 	CONSUMED_ITEMS(gActiveBattler) = 0;
 	gNewBS->StakeoutCounters[gActiveBattler] = 1;
@@ -392,8 +392,8 @@ void atk4D_switchindataupdate(void)
 		//Gastro Acid Passing
 		if (IsAbilitySuppressed(gActiveBattler))
 		{
-			gNewBS->SuppressedAbilities[gActiveBattler] = gBattleMons[gActiveBattler].ability;
-			gBattleMons[gActiveBattler].ability = 0;
+			gNewBS->SuppressedAbilities[gActiveBattler] = ABILITY(gActiveBattler);
+			ABILITY(gActiveBattler) = 0;
 		}
 
 		//Power Trick Passing
@@ -411,8 +411,8 @@ void atk4D_switchindataupdate(void)
 
 		if (AreAbilitiesSuppressed()) //Most likely circus
 		{
-			gNewBS->SuppressedAbilities[gActiveBattler] = gBattleMons[gActiveBattler].ability;
-			gBattleMons[gActiveBattler].ability = 0;
+			gNewBS->SuppressedAbilities[gActiveBattler] = ABILITY(gActiveBattler);
+			ABILITY(gActiveBattler) = 0;
 		}
 	}
 
@@ -542,7 +542,7 @@ void atk52_switchineffects(void)
 	UpdateSentPokesToOpponentValue(gActiveBattler);
 	gHitMarker &= ~(HITMARKER_FAINTED(gActiveBattler));
 	gSpecialStatuses[gActiveBattler].flag40 = 0;
-	u8 ability = ABILITY(gActiveBattler);
+	ability_t ability = ABILITY(gActiveBattler);
 
 	if (gBattleMons[gActiveBattler].hp == 0)
 		goto SWITCH_IN_END;
@@ -570,7 +570,7 @@ void atk52_switchineffects(void)
 				// Set ability
 				if (targetSpecies == species)
 				{
-					gBattleMons[gActiveBattler].ability = targetAbility;
+					ABILITY(gActiveBattler) = targetAbility;
 					continue;
 				}
 			}
@@ -669,7 +669,7 @@ void atk52_switchineffects(void)
 			&& !gSpecialAbilityFlags[ABILITY(gActiveBattler)].gNeutralizingGasBannedAbilities
 			&& AbilityBattleEffects(ABILITYEFFECT_CHECK_FIELD_EXCEPT_BANK, gActiveBattler, ABILITY_NEUTRALIZINGGAS, 0, 0))
 			{
-				u8* abilityLoc = GetAbilityLocation(gActiveBattler);
+				ability_t* abilityLoc = GetAbilityLocation(gActiveBattler);
 				gNewBS->neutralizingGasBlockedAbilities[gActiveBattler] = *abilityLoc;
 				*abilityLoc = 0;
 				gNewBS->SlowStartTimers[gActiveBattler] = 0;
@@ -1304,6 +1304,7 @@ void ClearSwitchBytes(u8 bank)
 	gNewBS->LaserFocusTimers[bank] = 0;
 	gNewBS->ThroatChopTimers[bank] = 0;
 	gNewBS->GlaiveRushTimers[bank] = 0;
+	gNewBS->statuses4[bank] = 0;
 	gNewBS->StompingTantrumTimers[bank] = 0;
 	gNewBS->MetronomeCounter[bank] = 0;
 	gNewBS->DestinyBondCounters[bank] = 0;
@@ -1320,6 +1321,7 @@ void ClearSwitchBytes(u8 bank)
 	gNewBS->dynamaxData.timer[bank] = 0;
 	gNewBS->zMoveData.toBeUsed[bank] = 0; //Force switch or fainted before Z-Move could be used
 	gNewBS->chiStrikeCritBoosts[bank] = 0;
+	gNewBS->dragonCheerCritBoosts[bank] = 0;
 	gNewBS->sandblastCentiferno[bank] = 0;
 	gNewBS->disguisedAs[bank] = 0;
 	gNewBS->powerShifted[bank] = 0;
@@ -1330,6 +1332,8 @@ void ClearSwitchBytes(u8 bank)
 	gNewBS->tookAbilityFrom[bank] = 0;
 	gNewBS->quarkDriveActivated[bank] = FALSE;
 	gNewBS->ProtosynthesisActivated[bank] = FALSE;
+	gNewBS->boosterEnergyActivated[bank] = FALSE;
+	gNewBS->paradoxBoostedStat[bank] = 0;
 
 	gProtectStructs[bank].KingsShield = 0;	//Necessary because could be sent away with Roar
 	gProtectStructs[bank].SpikyShield = 0;

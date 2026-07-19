@@ -213,10 +213,11 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 		{
 			//Electric
 			case ABILITY_VOLTABSORB:
+			case ABILITY_EARTHEATER:
 			case ABILITY_MOTORDRIVE:
 			case ABILITY_LIGHTNINGROD:
-				if ((moveType == TYPE_ELECTRIC && !SpeciesHasEarthEater(SPECIES(gBankTarget)))
-				|| (moveType == TYPE_GROUND && SpeciesHasEarthEater(SPECIES(gBankTarget))))		 // && (moveSplit != SPLIT_STATUS))
+				if ((moveType == TYPE_ELECTRIC && !(ABILITY(gBankTarget) == ABILITY_EARTHEATER))
+				|| (moveType == TYPE_GROUND && (ABILITY(gBankTarget) == ABILITY_EARTHEATER)))		 // && (moveSplit != SPLIT_STATUS))
 				{
 					if (!TARGETING_PARTNER) //Good idea to attack partner
 					{
@@ -230,6 +231,7 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			case ABILITY_WATERABSORB:
 			case ABILITY_DRYSKIN:
 			case ABILITY_STORMDRAIN:
+			case ABILITY_EVAPORATE:
 				if (moveType == TYPE_WATER)
 				{
 					if (!TARGETING_PARTNER) //Good idea to attack partner
@@ -303,6 +305,8 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				}
 				break;
 			case ABILITY_STEAMENGINE:
+			case ABILITY_WELLBAKEDBODY:
+			case ABILITY_THERMALEXCHANGE:
 				if (moveSplit != SPLIT_STATUS
 				&& (moveType == TYPE_WATER || moveType == TYPE_FIRE))
 				{
@@ -338,7 +342,8 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				break;
 				
 			case ABILITY_ANGERPOINT:
-				if (specialMoveFlags->gWindMoves && SpeciesHasWindRider(SPECIES(bankDef)))
+			case ABILITY_WINDRIDER:
+				if (specialMoveFlags->gWindMoves && (ABILITY(bankDef) == ABILITY_WINDRIDER))
 				{
 					DECREASE_VIABILITY(10);
 					return viability;
@@ -346,9 +351,8 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				break;
 
 			case ABILITY_DAZZLING:
-			#ifdef ABILITY_QUEENLYMAJESTY
+			case ABILITY_ARMORTAIL:
 			case ABILITY_QUEENLYMAJESTY:
-			#endif
 				if (PriorityCalc(bankAtk, ACTION_USE_MOVE, move) > 0) //Check if right num
 				{
 					DECREASE_VIABILITY(10);
@@ -410,11 +414,10 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				break;
 
 			case ABILITY_CLEARBODY:
+			case ABILITY_GOODASGOLD:
+			case ABILITY_WHITESMOKE:
 			#ifdef ABILITY_FULLMETALBODY
 			case ABILITY_FULLMETALBODY:
-			#endif
-			#ifdef ABILITY_WHITESMOKE
-			case ABILITY_WHITESMOKE:
 			#endif
 				if (CheckTableForMovesEffect(move, gStatLoweringMoveEffects)
 				|| move == MOVE_PARTINGSHOT)
@@ -526,6 +529,7 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 					break;
 
 				case ABILITY_STORMDRAIN:
+				case ABILITY_EVAPORATE:
 					if (moveType == TYPE_WATER
 					&& !(moveTarget & MOVE_TARGET_USER)
 					&& !IsMoveRedirectionPrevented(move, data->atkAbility))
@@ -569,9 +573,8 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 					break;
 
 				case ABILITY_DAZZLING:
-				#ifdef ABILITY_QUEENLYMAJESTY
+				case ABILITY_ARMORTAIL:
 				case ABILITY_QUEENLYMAJESTY:
-				#endif
 					if (PriorityCalc(bankAtk, ACTION_USE_MOVE, move) > 0) //Check if right num
 					{
 						DECREASE_VIABILITY(10);
@@ -596,6 +599,7 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 						break;
 
 					case ABILITY_STORMDRAIN:
+					case ABILITY_EVAPORATE:
 						if (moveType == TYPE_WATER
 						&& !(moveTarget & MOVE_TARGET_USER)
 						&& !IsMoveRedirectionPrevented(move, data->atkAbility))
@@ -2505,8 +2509,8 @@ SKIP_CHECK_TARGET:
 			break;
 
 		case EFFECT_ROLE_PLAY: ;
-			u8 atkAbility = *GetAbilityLocation(bankAtk);
-			u8 defAbility = *GetAbilityLocation(bankDef);
+			ability_t atkAbility = *GetAbilityLocation(bankAtk);
+			ability_t defAbility = *GetAbilityLocation(bankDef);
 
 			if (atkAbility == defAbility
 			||  defAbility == ABILITY_NONE
@@ -3346,7 +3350,7 @@ static void AI_Flee(void)
 
 u8 AIScript_Roaming(const u8 bankAtk, const unusedArg u8 bankDef, const unusedArg u16 move, const u8 originalViability, unusedArg struct AIScript* data)
 {
-	u8 atkAbility = ABILITY(bankAtk);
+	ability_t atkAbility = ABILITY(bankAtk);
 	u8 atkItemEffect = ITEM_EFFECT(bankAtk);
 
 	if (atkAbility == ABILITY_RUNAWAY

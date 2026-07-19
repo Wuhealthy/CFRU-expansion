@@ -185,7 +185,8 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 						}
 						break;
 
-					case ABILITY_POISONTOUCH: ;
+					case ABILITY_POISONTOUCH:
+					case ABILITY_TOXICCHAIN: ;
 						u8 chance = 30;
 						if (BankHasRainbow(gBankAttacker))
 							chance *= 2;
@@ -194,7 +195,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK
 						&& CanBePoisoned(gBankTarget, gBankAttacker, TRUE)
 						&& umodsi(Random(), 100) < chance
-						&& SpeciesHasToxicChain(SPECIES(gBankAttacker)))
+						&& (ABILITY(gBankAttacker) == ABILITY_TOXICCHAIN))
 						{
 							BattleScriptPushCursor();
 							gBattlescriptCurrInstr = BattleScript_ToxicChain;
@@ -873,9 +874,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 					break;
 
 				case ABILITY_MOXIE:
-				#ifdef ABILITY_CHILLINGNEIGH
 				case ABILITY_CHILLINGNEIGH:
-				#endif
 				#ifdef ABILITY_ASONE_CHILLING
 				case ABILITY_ASONE_CHILLING:
 				#endif
@@ -1221,7 +1220,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 					&&  !MoveBlockedBySubstitute(gCurrentMove, gBankAttacker, banks[i])
 					&&  ((gBattleTypeFlags & BATTLE_TYPE_TRAINER) || SIDE(i) == B_SIDE_PLAYER) //Wild's can't activate
 					&&  HasMonToSwitchTo(banks[i])
-					&&	!(SpeciesHasGuardDog(SPECIES(banks[i])) && ABILITY(banks[i]) == ABILITY_GUARDDOG))
+					&&	ABILITY(banks[i]) != ABILITY_GUARDDOG)
 					{
 						if (gBattleMoves[gCurrentMove].effect == EFFECT_BATON_PASS)
 							gBattlescriptCurrInstr = BattleScript_Atk49; //Cancel switchout for U-Turn & Volt Switch
@@ -1258,7 +1257,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 					&&  gNewBS->turnDamageTaken[banks[i]] != 0
 					&&  !MoveBlockedBySubstitute(gCurrentMove, gBankAttacker, banks[i])
 					&&  ((gBattleTypeFlags & BATTLE_TYPE_TRAINER) || IsRaidBattle() || SIDE(banks[i]) == B_SIDE_PLAYER)
-					&&	!(SpeciesHasGuardDog(SPECIES(banks[i])) && ABILITY(banks[i]) == ABILITY_GUARDDOG)) //Normal wild attackers can't activate
+					&&	ABILITY(banks[i]) != ABILITY_GUARDDOG) //Normal wild attackers can't activate
 					{
 						gNewBS->NoSymbiosisByte = TRUE;
 						gForceSwitchHelper = Force_Switch_Red_Card;
@@ -1376,7 +1375,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 			{
 				if (gNewBS->DisabledMoldBreakerAbilities[i])
 				{
-					gBattleMons[i].ability = gNewBS->DisabledMoldBreakerAbilities[i];
+					ABILITY(i) = gNewBS->DisabledMoldBreakerAbilities[i];
 					gNewBS->DisabledMoldBreakerAbilities[i] = 0;
 				}
 			}
@@ -1539,11 +1538,11 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 
 			if (!gNewBS->DancerInProgress
 			&& arg1 != ARG_IN_PURSUIT
-			&& ABILITY_ON_FIELD(ABILITY_DANCER)
+			&& ABILITY_ON_FIELD(ABILITY_OPPORTUNIST)
 			&& gNewBS->attackAnimationPlayed
 			&& !gNewBS->moveWasBouncedThisTurn
 			&& gSpecialMoveFlags[gCurrentMove].gBuffMoves
-			&& SpeciesHasOportunist(SPECIES(bank)))
+			&& ABILITY(bank) == ABILITY_OPPORTUNIST)
 			{
 				gNewBS->DancerInProgress = TRUE;
 				gNewBS->CurrentTurnAttacker = gBankAttacker;
@@ -1562,7 +1561,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 			&& gNewBS->attackAnimationPlayed
 			&& !gNewBS->moveWasBouncedThisTurn
 			&& gSpecialMoveFlags[gCurrentMove].gDanceMoves
-			&& !SpeciesHasOportunist(SPECIES(bank)))
+			&& ABILITY(bank) == ABILITY_DANCER)
 			{
 				gNewBS->DancerInProgress = TRUE;
 				gNewBS->CurrentTurnAttacker = gBankAttacker;

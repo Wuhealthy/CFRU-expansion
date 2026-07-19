@@ -315,7 +315,7 @@ u16 GetEvolutionTargetSpecies(struct Pokemon* mon, u8 type, u16 evolutionItem)
 		#ifdef SPECIES_SILVALLY
 		if (targetSpecies == SPECIES_SILVALLY
 		&& ItemId_GetHoldEffect(GetMonData(mon, MON_DATA_HELD_ITEM, NULL)) == ITEM_EFFECT_MEMORY
-		&& (!mon->hiddenAbility || gBaseStats[SPECIES_SILVALLY].hiddenAbility == ABILITY_NONE)) //Ensure the new mon will have RKS System
+		&& (!mon->hiddenAbility || GetHiddenAbility(SPECIES_SILVALLY) == ABILITY_NONE)) //Ensure the new mon will have RKS System
 		{
 			//Evolve into the Silvally of the correct type
 			u8 type = ItemId_GetHoldEffectParam(GetMonData(mon, MON_DATA_HELD_ITEM, NULL));

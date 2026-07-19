@@ -664,43 +664,59 @@ ExpandedItemNameFixPokemonStorageSystemHook:
 @0x80D860C with r0
 ExpandedAbilityNamesBattle2:
 	add r0, r5, r7
-	ldrb r0, [r0, #0x1]
+	add r0, #0x1
+	ldrh r0, [r0]
 	ldr r1, =ABILITY_POPUP_SPECIES
 	ldrh r1, [r1]
 	bl GetAbilityName
 	mov r1, r0
-	ldr r0, =0x80D8618 | 1
+	add r7, #0x3 @ B_BUFF_ABILITY now carries a u16 id
+	ldr r0, =0x80D861A | 1 @ skip the vanilla srcId += 2
 	bx r0
 
 .pool
 @0x8136714 with r1
 ExpandedAbilityNamesSummaryScreen:
-	mov r1, r4 @;Ability
-	push {r0-r1}
+	push {r4-r5, lr}
+	mov r5, r0 @ destination
+	ldr r4, [r6]
+	add r4, r8 @ Pokemon pointer
+	mov r0, r4
+	bl GetMonAbility
+	mov r4, r0 @ u16 ability
 	ldr r0, [r6]
 	add r0, r8
 	mov r1, #11 @;MON_DATA_SPECIES
 	ldr r2, =GetMonData
 	bl bxr2
 	mov r2, r0 @;Species
-	pop {r0-r1}
+	mov r1, r4 @;Ability
+	mov r0, r5 @ destination
 	bl CopyAbilityName
+	pop {r3-r5}
 	ldr r0, =0x8136720 | 1
 	bx r0
 
 .pool
 @0x8136728 with r1
 ExpandedAbilityDescriptionsSummaryScreen:
-	mov r1, r4 @;Ability
-	push {r0-r1}
+	push {r4-r5, lr}
+	mov r5, r0 @ destination
+	ldr r4, [r6]
+	add r4, r8 @ Pokemon pointer
+	mov r0, r4
+	bl GetMonAbility
+	mov r4, r0 @ u16 ability
 	ldr r0, [r6]
 	add r0, r8
 	mov r1, #11 @;MON_DATA_SPECIES
 	ldr r2, =GetMonData
 	bl bxr2
 	mov r2, r0 @;Species
-	pop {r0-r1}
+	mov r1, r4 @;Ability
+	mov r0, r5 @ destination
 	bl CopyAbilityDescription
+	pop {r3-r5}
 	ldr r0, =0x8136732 | 1
 	bx r0
 

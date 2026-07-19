@@ -166,6 +166,7 @@ extern const u8 BattleScript_QuarkDriveActivates[];
 extern const u8 BattleScript_QuarkDriveActivates2[];
 extern const u8 BattleScript_ProtosynthesisActivates[];
 extern const u8 BattleScript_ProtosynthesisActivates2[];
+extern const u8 BattleScript_BoosterEnergyActivates[];
 extern const u8 BattleScript_MoveEffectConfusion[];
 extern const u8 BattleScript_SetPuppetConfusion[];
 extern const u8 BattleScript_ToxicDebrisActivates[];

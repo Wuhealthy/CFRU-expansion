@@ -28,7 +28,7 @@ battle_util.c
 #define IS_BATTLE_CIRCUS (gBattleTypeFlags & BATTLE_TYPE_BATTLE_CIRCUS)
 
 static void TryRemoveUnburdenBoost(u8 bank);
-static bool8 CanBeGeneralStatused(u8 bankDef, u8 defAbility, u8 atkAbility, bool8 checkFlowerVeil);
+static bool8 CanBeGeneralStatused(u8 bankDef, ability_t defAbility, ability_t atkAbility, bool8 checkFlowerVeil);
 // For Terastallization
 extern bool8 IsTerastallized(u8 bank);
 
@@ -102,7 +102,7 @@ ability_t GetBankAbility(u8 bank) //Not actually used anymore
 	if (IsAbilitySuppressed(bank))
 		return ABILITY_NONE;
 
-	return gBattleMons[bank].ability;
+	return ABILITY(bank);
 }
 
 ability_t GetRecordedAbility(u8 bank)
@@ -110,13 +110,13 @@ ability_t GetRecordedAbility(u8 bank)
 	if (IsAbilitySuppressed(bank))
 		return ABILITY_NONE;
 
-	if (BATTLE_HISTORY->abilities[bank] != ABILITY_NONE)
-		return BATTLE_HISTORY->abilities[bank];
+	if (gNewBS->recordedAbilities[bank] != ABILITY_NONE)
+		return gNewBS->recordedAbilities[bank];
 
 	u16 species = SPECIES(bank);
-	u8 ability1 = GetAbility1(species);
-	u8 ability2 = GetAbility2(species);
-	u8 hiddenAbility = GetHiddenAbility(species);
+	ability_t ability1 = GetAbility1(species);
+	ability_t ability2 = GetAbility2(species);
+	ability_t hiddenAbility = GetHiddenAbility(species);
 
 	if (ability1 == ability2 && hiddenAbility == ABILITY_NONE)
 		return ability1;
@@ -139,7 +139,7 @@ ability_t CopyAbility(u8 bank)
 	else if (gNewBS->DisabledMoldBreakerAbilities[bank])
 		return gNewBS->DisabledMoldBreakerAbilities[bank];
 	else
-		return gBattleMons[bank].ability;
+		return ABILITY(bank);
 }
 
 ability_t* GetAbilityLocation(u8 bank)
@@ -151,7 +151,7 @@ ability_t* GetAbilityLocation(u8 bank)
 	else if (gNewBS->DisabledMoldBreakerAbilities[bank])
 		return &gNewBS->DisabledMoldBreakerAbilities[bank];
 	else
-		return &gBattleMons[bank].ability;
+		return &ABILITY(bank);
 }
 
 ability_t* GetAbilityLocationIgnoreNeutralizingGas(u8 bank)
@@ -161,17 +161,17 @@ ability_t* GetAbilityLocationIgnoreNeutralizingGas(u8 bank)
 	else if (gNewBS->DisabledMoldBreakerAbilities[bank])
 		return &gNewBS->DisabledMoldBreakerAbilities[bank];
 	else
-		return &gBattleMons[bank].ability;
+		return &ABILITY(bank);
 }
 
-void RecordAbilityBattle(u8 bank, u8 ability)
+void RecordAbilityBattle(u8 bank, ability_t ability)
 {
-	BATTLE_HISTORY->abilities[bank] = ability;
+	gNewBS->recordedAbilities[bank] = ability;
 }
 
 void ClearBattlerAbilityHistory(u8 bank)
 {
-	BATTLE_HISTORY->abilities[bank] = ABILITY_NONE;
+	gNewBS->recordedAbilities[bank] = ABILITY_NONE;
 }
 
 item_effect_t GetBankItemEffect(u8 bank)
@@ -314,7 +314,7 @@ bool8 CheckGrounding(u8 bank)
 	return GROUNDED;
 }
 
-bool8 NonInvasiveCheckGrounding(u8 bank, u8 defAbility, u8 defType1, u8 defType2, u8 defType3)
+bool8 NonInvasiveCheckGrounding(u8 bank, ability_t defAbility, u8 defType1, u8 defType2, u8 defType3)
 {
 	if (BATTLER_SEMI_INVULNERABLE(bank)) //Apparently a thing
 		return IN_AIR;
@@ -354,7 +354,7 @@ bool8 CheckMonGrounding(struct Pokemon* mon)
 	return GROUNDED;
 }
 
-bool8 CheckGroundingByDetails(u16 species, u16 item, u8 ability)
+bool8 CheckGroundingByDetails(u16 species, u16 item, ability_t ability)
 {
 	if (ability != ABILITY_KLUTZ && ItemId_GetHoldEffect(item) == ITEM_EFFECT_IRON_BALL)
 		return GROUNDED;
@@ -408,7 +408,7 @@ bool8 DoesShadowShieldPreventMonHazardDamage(struct Pokemon* mon)
 	return IsMonAffectedByShadowShieldBattle(mon) && mon->hp == mon->maxHP;
 }
 
-bool8 IsDamageHalvedDueToFullHP(u8 bank, u8 defAbility, u16 move, u8 atkAbility)
+bool8 IsDamageHalvedDueToFullHP(u8 bank, ability_t defAbility, u16 move, ability_t atkAbility)
 {
 	if (BATTLER_MAX_HP(bank))
 	{
@@ -421,7 +421,7 @@ bool8 IsDamageHalvedDueToFullHP(u8 bank, u8 defAbility, u16 move, u8 atkAbility)
 	return FALSE;
 }
 
-bool8 IsMonDamageHalvedDueToFullHP(struct Pokemon* mon, u8 defAbility, u16 move, u8 atkAbility)
+bool8 IsMonDamageHalvedDueToFullHP(struct Pokemon* mon, ability_t defAbility, u16 move, ability_t atkAbility)
 {
 	if (mon->hp == mon->maxHP)
 	{
@@ -535,7 +535,7 @@ bool8 CanMonNeverMakeContact(struct Pokemon* mon)
 	return CanNeverMakeContactByAbilityItemEffect(GetMonAbility(mon), GetMonItemEffect(mon));
 }
 
-bool8 CanNeverMakeContactByAbilityItemEffect(u8 ability, u8 itemEffect)
+bool8 CanNeverMakeContactByAbilityItemEffect(ability_t ability, u8 itemEffect)
 {
 	return ability == ABILITY_LONGREACH
 		|| CanNeverMakeContactByItemEffect(itemEffect);
@@ -724,7 +724,7 @@ bool8 AreDefensesHigherThanOffenses(u8 bank)
 
 u8 CheckMoveLimitations(u8 bank, u8 unusableMoves, u8 check)
 {
-	u8 ability = ABILITY(bank);
+	ability_t ability = ABILITY(bank);
 	u8 holdEffect = ITEM_EFFECT(bank);
 	u16 choicedMove = CHOICED_MOVE(bank);
 	int i;
@@ -747,7 +747,7 @@ u8 CheckMoveLimitations(u8 bank, u8 unusableMoves, u8 check)
 //MOVE_LIMITATION_DISABLED is checked specifically for Sleep Talk
 //MOVE_LIMITATION_TAUNT is checked for status Dynamax moves
 //Otherwise, limitations are checked all together
-bool8 IsUnusableMove(u16 move, u8 bank, u8 check, u8 pp, u8 ability, u8 holdEffect, u16 choicedMove)
+bool8 IsUnusableMove(u16 move, u8 bank, u8 check, u8 pp, ability_t ability, u8 holdEffect, u16 choicedMove)
 {
 	bool8 isMaxMove = IsAnyMaxMove(move);
 
@@ -855,7 +855,7 @@ bool8 IsMoveRedirectedByFollowMe(u16 move, u8 bankAtk, u8 defSide)
 	return TRUE;
 }
 
-bool8 IsMoveRedirectionPrevented(u16 move, u8 atkAbility)
+bool8 IsMoveRedirectionPrevented(u16 move, ability_t atkAbility)
 {
 	return move == MOVE_SNIPESHOT
 		|| (move != MOVE_NONE && gBattleMoves[move].effect == EFFECT_SKY_DROP)
@@ -872,7 +872,7 @@ u8 GetMoveTarget(u16 move, u8 useMoveTarget)
 	u8 bankDef = 0;
 	u8 atkSide, defSide;
 	u8 chosen = FALSE;
-	u8 atkAbility = ABILITY(bankAtk);
+	ability_t atkAbility = ABILITY(bankAtk);
 
 	if (useMoveTarget)
 		moveTarget = useMoveTarget - 1;
@@ -1399,7 +1399,7 @@ bool8 CanTransferItem(u16 species, u16 item)
 }
 
 //Make sure the input bank is any bank on the specific mon's side
-bool8 CanFling(u16 item, u16 species, u8 ability, u8 bankOnSide, u8 embargoTimer)
+bool8 CanFling(u16 item, u16 species, ability_t ability, u8 bankOnSide, u8 embargoTimer)
 {
 	u8 itemEffect = ItemId_GetHoldEffect(item);
 
@@ -1499,7 +1499,7 @@ bool8 IsAffectedByPowder(u8 bank)
 	return IsAffectedByPowderByDetails(gBattleMons[bank].type1, gBattleMons[bank].type2, gBattleMons[bank].type3, ABILITY(bank), ITEM_EFFECT(bank));
 }
 
-bool8 IsAffectedByPowderByDetails(u8 type1, u8 type2, u8 type3, u8 ability, u8 itemEffect)
+bool8 IsAffectedByPowderByDetails(u8 type1, u8 type2, u8 type3, ability_t ability, u8 itemEffect)
 {
 	return ability != ABILITY_OVERCOAT
 		&& itemEffect != ITEM_EFFECT_SAFETY_GOGGLES
@@ -1508,7 +1508,7 @@ bool8 IsAffectedByPowderByDetails(u8 type1, u8 type2, u8 type3, u8 ability, u8 i
 		&& type3 != TYPE_GRASS;
 }
 
-bool8 MoveIgnoresSubstitutes(u16 move, u8 atkAbility)
+bool8 MoveIgnoresSubstitutes(u16 move, ability_t atkAbility)
 {
 	return CheckSoundMove(move)
 		|| (BypassesScreens(atkAbility) && move != MOVE_TRANSFORM && gBattleMoves[move].effect != EFFECT_SKY_DROP)
@@ -1525,12 +1525,12 @@ bool8 MonMoveBlockedBySubstitute(u16 move, struct Pokemon* monAtk, u8 bankDef)
 	return IS_BEHIND_SUBSTITUTE(bankDef) && !MoveIgnoresSubstitutes(move, GetMonAbility(monAtk));
 }
 
-bool8 BypassesScreens(u8 ability)
+bool8 BypassesScreens(ability_t ability)
 {
 	return ability == ABILITY_INFILTRATOR;
 }
 
-bool8 BypassesFog(unusedArg u8 ability, unusedArg u8 itemEffect)
+bool8 BypassesFog(unusedArg ability_t ability, unusedArg u8 itemEffect)
 {
 	#ifdef UNBOUND
 	return BypassesScreens(ability) || ability == ABILITY_KEENEYE || ItemEffectIgnoresSunAndRain(itemEffect);
@@ -1806,7 +1806,7 @@ void GiveOmniboost(u8 bank)
 	}
 }
 
-bool8 WillPoltergeistFail(u16 item, u8 ability)
+bool8 WillPoltergeistFail(u16 item, ability_t ability)
 {
 	return item == ITEM_NONE
 		|| ability == ABILITY_KLUTZ
@@ -1901,7 +1901,7 @@ bool8 WeatherHasEffect(void)
 
 	for (i = 0; i < gBattlersCount; ++i)
 	{
-		u8 ability = ABILITY(i);
+		ability_t ability = ABILITY(i);
 
 		if ((ability == ABILITY_CLOUDNINE
 		#ifdef ABILITY_AIRLOCK
@@ -1941,7 +1941,7 @@ bool8 AffectedByRain(u8 bank)
 	return !IgnoresSunAndRain(bank);
 }
 
-bool8 IsChoiceItemEffectOrAbility(u8 itemEffect, u8 ability)
+bool8 IsChoiceItemEffectOrAbility(u8 itemEffect, ability_t ability)
 {
 	return itemEffect == ITEM_EFFECT_CHOICE_BAND || IsChoiceAbility(ability);
 }
@@ -2057,12 +2057,13 @@ bool8 DoesSleepClausePrevent(u8 bankToPutToSleep)
 	return FALSE;
 }
 
-static bool8 CanBeGeneralStatused(u8 bankDef, u8 defAbility, u8 atkAbility, bool8 checkFlowerVeil)
+static bool8 CanBeGeneralStatused(u8 bankDef, ability_t defAbility, ability_t atkAbility, bool8 checkFlowerVeil)
 {
 	if (!IsTargetAbilityIgnoredNoMove(defAbility, atkAbility)) //Target's Ability is not ignored
 	{
 		switch (defAbility) {
 			case ABILITY_COMATOSE:
+			case ABILITY_PURIFYINGSALT:
 				return FALSE;
 
 			case ABILITY_LEAFGUARD:
@@ -2106,8 +2107,8 @@ static bool8 CanBeGeneralStatused(u8 bankDef, u8 defAbility, u8 atkAbility, bool
 
 bool8 CanBePutToSleep(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 {
-	u8 atkAbility = ABILITY(bankAtk);
-	u8 defAbility = ABILITY(bankDef);
+	ability_t atkAbility = ABILITY(bankAtk);
+	ability_t defAbility = ABILITY(bankDef);
 
 	if (!CanBeGeneralStatused(bankDef, defAbility, atkAbility, checkFlowerVeil))
 		return FALSE;
@@ -2116,9 +2117,7 @@ bool8 CanBePutToSleep(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 	{
 		switch (defAbility) {
 			case ABILITY_INSOMNIA:
-			#ifdef ABILITY_VITALSPIRIT
 			case ABILITY_VITALSPIRIT:
-			#endif
 			case ABILITY_SWEETVEIL:
 				return FALSE;
 		}
@@ -2150,18 +2149,16 @@ bool8 CanBeYawned(u8 bankDef, u8 bankAtk)
 	if (!(gStatuses3[bankDef] & STATUS3_YAWN))
 		return FALSE;
 
-	u8 atkAbility = ABILITY(bankAtk);
+	ability_t atkAbility = ABILITY(bankAtk);
 	if (BankSideHasSafeguard(bankDef) && !BypassesScreens(atkAbility) && !(gHitMarker & HITMARKER_IGNORE_SAFEGUARD))
 		return FALSE;
 
-	u8 defAbility = ABILITY(bankDef);
+	ability_t defAbility = ABILITY(bankDef);
 	if (!IsTargetAbilityIgnoredNoMove(defAbility, atkAbility)) //Target's Ability is not ignored
 	{
 		switch (defAbility) {
 			case ABILITY_INSOMNIA:
-			#ifdef ABILITY_VITALSPIRIT
 			case ABILITY_VITALSPIRIT:
-			#endif
 			case ABILITY_SWEETVEIL:
 			case ABILITY_COMATOSE:
 				return FALSE;
@@ -2184,7 +2181,7 @@ bool8 CanBeYawned(u8 bankDef, u8 bankAtk)
 
 	if (IS_DOUBLE_BATTLE)
 	{
-		u8 defPartnerAbility = ABILITY(PARTNER(bankDef));
+		ability_t defPartnerAbility = ABILITY(PARTNER(bankDef));
 
 		if (!IsTargetAbilityIgnoredNoMove(defPartnerAbility, atkAbility)) //Target partner's Ability is not ignored
 		{
@@ -2236,11 +2233,10 @@ bool8 CanRest(u8 bank)
 
 	switch (ABILITY(bank)) {
 		case ABILITY_INSOMNIA:
-		#ifdef ABILITY_VITALSPIRIT
 		case ABILITY_VITALSPIRIT:
-		#endif
 		case ABILITY_SWEETVEIL:
 		case ABILITY_COMATOSE:
+		case ABILITY_PURIFYINGSALT:
 			return FALSE;
 		case ABILITY_LEAFGUARD:
 			if (gBattleWeather & WEATHER_SUN_ANY && WEATHER_HAS_EFFECT && AffectedBySun(bank))
@@ -2263,8 +2259,8 @@ bool8 CanRest(u8 bank)
 
 bool8 CanBePoisoned(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 {
-	u8 atkAbility = (bankAtk > gBattlersCount) ? 0 : ABILITY(bankAtk); //bankAtk == 0xFF means no attacker - eg. Toxic Spikes
-	u8 defAbility = ABILITY(bankDef);
+	ability_t atkAbility = (bankAtk > gBattlersCount) ? 0 : ABILITY(bankAtk); //bankAtk == 0xFF means no attacker - eg. Toxic Spikes
+	ability_t defAbility = ABILITY(bankDef);
 
 	if (!CanBeGeneralStatused(bankDef, defAbility, atkAbility, checkFlowerVeil))
 		return FALSE;
@@ -2273,6 +2269,7 @@ bool8 CanBePoisoned(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 	{
 		switch (defAbility) {
 			case ABILITY_IMMUNITY:
+			case ABILITY_PURIFYINGSALT:
 			case ABILITY_PASTELVEIL:
 				return FALSE;
 		}
@@ -2292,8 +2289,8 @@ bool8 CanBePoisoned(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 
 bool8 CanBeParalyzed(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 {
-	u8 atkAbility = ABILITY(bankAtk);
-	u8 defAbility = ABILITY(bankDef);
+	ability_t atkAbility = ABILITY(bankAtk);
+	ability_t defAbility = ABILITY(bankDef);
 
 	if (!CanBeGeneralStatused(bankDef, defAbility, atkAbility, checkFlowerVeil))
 		return FALSE;
@@ -2314,8 +2311,8 @@ bool8 CanBeParalyzed(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 
 bool8 CanBeBurned(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 {
-	u8 atkAbility = ABILITY(bankAtk);
-	u8 defAbility = ABILITY(bankDef);
+	ability_t atkAbility = ABILITY(bankAtk);
+	ability_t defAbility = ABILITY(bankDef);
 
 	if (!CanBeGeneralStatused(bankDef, defAbility, atkAbility, checkFlowerVeil))
 		return FALSE;
@@ -2342,8 +2339,8 @@ bool8 CanBeBurned(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 
 bool8 CanBeFrozen(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 {
-	u8 atkAbility = ABILITY(bankAtk);
-	u8 defAbility = ABILITY(bankDef);
+	ability_t atkAbility = ABILITY(bankAtk);
+	ability_t defAbility = ABILITY(bankDef);
 
 	if (!CanBeGeneralStatused(bankDef, defAbility, atkAbility, checkFlowerVeil))
 		return FALSE;
@@ -2378,8 +2375,8 @@ bool8 CanBeConfused(u8 bankDef, u8 bankAtk, u8 checkSafeguard)
 	if (gTerrainType == MISTY_TERRAIN && CheckGrounding(bankDef))
 		return FALSE;
 
-	u8 atkAbility = ABILITY(bankAtk);
-	u8 defAbility = ABILITY(bankDef);
+	ability_t atkAbility = ABILITY(bankAtk);
+	ability_t defAbility = ABILITY(bankDef);
 	if (!IsTargetAbilityIgnoredNoMove(defAbility, atkAbility)) //Target's Ability is not ignored
 	{
 		switch (defAbility) {
@@ -2423,7 +2420,7 @@ bool8 CanBeInfatuated(u8 bankDef, u8 bankAtk)
 		&& !AbilityBattleEffects(ABILITYEFFECT_CHECK_BANK_SIDE, bankDef, ABILITY_AROMAVEIL, 0, 0);
 }
 
-bool8 CanFlinch(u8 bank, u8 ability)
+bool8 CanFlinch(u8 bank, ability_t ability)
 {
 	return ability != ABILITY_INNERFOCUS && !IsDynamaxed(bank);
 }
@@ -2718,20 +2715,16 @@ bool8 IsSunWeatherActive(u8 bank) {
 
 bool32 IsMyceliumMightOnField(void)
 {
-    u32 i;
-
-    for (i = 0; i < gBattlersCount; i++)
-    {
-        if (IsBattlerAlive(i) && SpeciesHasMyceliumMight(gBattleMons[i].species) && SPLIT(gCurrentMove) == SPLIT_STATUS)
-            return TRUE;
-    }
-
-    return FALSE;
+    return IsBattlerAlive(gBankAttacker)
+        && ABILITY(gBankAttacker) == ABILITY_MYCELIUMMIGHT
+        && SPLIT(gCurrentMove) == SPLIT_STATUS;
 }
 
 void BS_ApplySaltCure(void)
 {
-    u8 battler = GetBattlerForBattleScript(gBattlerAttacker);
-    gStatuses4[battler] |= STATUS4_SALTCURE;
+    // callasm leaves the script cursor on the macro's battler argument.
+    u8 battler = GetBattlerForBattleScript(*gBattlescriptCurrInstr);
+    if (gNewBS != NULL && battler < gBattlersCount)
+        gNewBS->statuses4[battler] |= STATUS4_SALTCURE;
     gBattlescriptCurrInstr++;
 }

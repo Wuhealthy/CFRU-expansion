@@ -327,7 +327,7 @@
 	.macro jumpifability bank, ability, rom_address
 	.byte 0x1e
 	.byte \bank
-	.byte \ability
+	.2byte \ability
 	.4byte \rom_address
 	.endm
 
@@ -553,7 +553,7 @@
 
 	.macro jumpifabilitypresent ability, rom_address
 	.byte 0x43
-	.byte \ability
+	.2byte \ability
 	.4byte \rom_address
 	.endm
 
@@ -1433,7 +1433,7 @@
 
 	.macro jumpifabilitypresenttargetfield ability rom_address
 	.byte 0xfd
-	.byte \ability
+	.2byte \ability
 	.4byte \rom_address
 	.endm
 
@@ -1577,7 +1577,7 @@
 	
 	.macro jumpifabilitypresentattackerfield ability rom_address
 	.byte 0xFF, 0x1A
-	.byte \ability
+	.2byte \ability
 	.4byte \rom_address
 	.endm
 	

@@ -794,7 +794,7 @@ void SetMoveEffect(bool8 primary, u8 certain)
 				&&  GetBattlerTurnOrderNum(gEffectBank) < gCurrentTurnActionNumber) //Target moved before attacker
 				{
 					gNewBS->secondaryEffectApplied = TRUE;
-					u8* defAbilityLoc;
+				ability_t* defAbilityLoc;
 					defAbilityLoc = GetAbilityLocation(gBankTarget);
 
 					gStatuses3[gEffectBank] |= STATUS3_ABILITY_SUPPRESS;

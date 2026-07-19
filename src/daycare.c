@@ -899,7 +899,7 @@ static u8 GetEggStepsToSubtract(void)
 	
 		if (species != SPECIES_NONE && species != SPECIES_EGG)
 		{
-			u8 ability = GetMonAbility(&gPlayerParty[i]);
+			ability_t ability = GetMonAbility(&gPlayerParty[i]);
 
 			if (ability == ABILITY_MAGMAARMOR || ability == ABILITY_FLAMEBODY || ability == ABILITY_STEAMENGINE)
 			{

@@ -791,9 +791,15 @@ struct NewBattleStruct
 	u8 LastUsedTypes[MAX_BATTLERS_COUNT];
 	u8 lastTargeted[MAX_BATTLERS_COUNT];
 	u8 usedMoveIndices[MAX_BATTLERS_COUNT];
-	u8 DisabledMoldBreakerAbilities[MAX_BATTLERS_COUNT];
-	u8 SuppressedAbilities[MAX_BATTLERS_COUNT];
-	u8 neutralizingGasBlockedAbilities[MAX_BATTLERS_COUNT];
+	// Canonical ability state.  gBattleMons[].ability remains the vanilla u8
+	// compatibility mirror and must not be used as the authoritative value.
+	ability_t abilities[MAX_BATTLERS_COUNT];
+	ability_t recordedAbilities[MAX_BATTLERS_COUNT];
+	ability_t textAbilities[MAX_BATTLERS_COUNT];
+	ability_t lastUsedAbility;
+	ability_t DisabledMoldBreakerAbilities[MAX_BATTLERS_COUNT];
+	ability_t SuppressedAbilities[MAX_BATTLERS_COUNT];
+	ability_t neutralizingGasBlockedAbilities[MAX_BATTLERS_COUNT];
 	u8 skyDropAttackersTarget[MAX_BATTLERS_COUNT]; //skyDropAttackersTarget[gBankAttacker] = gBankTarget
 	u8 skyDropTargetsAttacker[MAX_BATTLERS_COUNT]; //skyDropTargetsAttacker[gBankTarget] = gBankAttacker
 	u8 pickupStack[MAX_BATTLERS_COUNT];
@@ -805,6 +811,7 @@ struct NewBattleStruct
 	u8 recalculatedBestDoublesKillingScores[MAX_BATTLERS_COUNT];
 	s8 lastBracketCalc[MAX_BATTLERS_COUNT]; //~0x2017A4C
 	u8 chiStrikeCritBoosts[MAX_BATTLERS_COUNT];
+	u8 dragonCheerCritBoosts[MAX_BATTLERS_COUNT];
 	u8 sandblastCentiferno[MAX_BATTLERS_COUNT]; //Records if any banks are trapped by G-Max Centiferno or G-Max Sandblast
 	u8 disguisedAs[MAX_BATTLERS_COUNT]; //The party index + 1 the mon with Illusion is disguised as
 	u8 quickClawRandomNumber[MAX_BATTLERS_COUNT];
@@ -817,6 +824,9 @@ struct NewBattleStruct
 	u8 ElectroCounter[MAX_BATTLERS_COUNT];
 	u8 quarkDriveActivated[MAX_BATTLERS_COUNT];
 	u8 ProtosynthesisActivated[MAX_BATTLERS_COUNT];
+	u8 boosterEnergyActivated[MAX_BATTLERS_COUNT];
+	u8 paradoxBoostedStat[MAX_BATTLERS_COUNT];
+	u32 statuses4[MAX_BATTLERS_COUNT]; //Volatile Gen 9 effects (currently Salt Cure)
 
 	//Bit Fields for Banks
 	u8 MicleBerryBits;

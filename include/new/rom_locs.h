@@ -11,6 +11,7 @@
 typedef u8 SpeciesNames_t[POKEMON_NAME_LENGTH + 1];
 #define gSpeciesNames ((SpeciesNames_t*) *((u32*) 0x8000144))
 #define gBaseStats ((struct BaseStats*) *((u32*) 0x80001BC))
+#define gSpeciesAbilities ((const struct SpeciesAbilities*) *((u32*) 0x80001D8))
 
 typedef struct Evolution EvolutionTableT[EVOS_PER_MON];
 #define gEvolutionTable ((EvolutionTableT*) *((u32*) 0x8042F6C))
@@ -36,5 +37,4 @@ extern const u32 gExperienceTables[][255 + 1];
 
 //typedef int TutorLearnsets[NUM_SPECIES];
 //#define sTutorLearnsets ((TutorLearnsets*) (*((u32*) 0x08120BE4)))
-
 

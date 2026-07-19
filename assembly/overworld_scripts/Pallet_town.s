@@ -262,3 +262,11 @@ EventScript_Pallet_AideGuy:
         end
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+.global EventScript_GiveMons_Special
+EventScript_GiveMons_Special:
+    lock
+    faceplayer
+    setflag 0x92B
+    release
+    end

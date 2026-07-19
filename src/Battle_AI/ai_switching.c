@@ -192,7 +192,7 @@ static bool8 PredictedMoveWontDoTooMuchToMon(u8 activeBattler, struct Pokemon* m
 
 	//Now run actual damage calc
 	u32 predictedDmg = 0;
-	u8 monAbility = GetMonAbility(mon);
+	ability_t monAbility = GetMonAbility(mon);
 	if (IsAffectedByDisguse(monAbility, mon->species, CalcMoveSplit(defMove, foe, activeBattler)))
 	{
 		if (monAbility == ABILITY_DISGUISE) //Disguise only - no Ice Face
@@ -225,7 +225,7 @@ static bool8 PredictedMoveWontKOMon(u8 activeBattler, struct Pokemon* mon, u8 fo
 
 	//Now run actual damage calc
 	u32 predictedDmg = 0;
-	u8 monAbility = GetMonAbility(mon);
+	ability_t monAbility = GetMonAbility(mon);
 	if (IsAffectedByDisguse(monAbility, mon->species, CalcMoveSplit(defMove, foe, activeBattler)))
 	{
 		if (monAbility == ABILITY_DISGUISE) //Disguise only - no Ice Face
@@ -359,7 +359,7 @@ static bool8 TypeAbosorbingSwitchAbilityCheck(struct Pokemon* mon, u8 monId, u16
 			return FALSE; //Only allow switching to this mon again for a type absorbing some of the time
 	}
 
-	u8 monAbility = GetMonAbilityAfterTrace(mon, FOE(gActiveBattler));
+	ability_t monAbility = GetMonAbilityAfterTrace(mon, FOE(gActiveBattler));
 	monAbility = TryReplaceImposterAbility(monAbility, gActiveBattler);
 
 	if (monAbility == absorbingTypeAbility1
@@ -513,7 +513,7 @@ static bool8 FindMonThatAbsorbsOpponentsMove(struct Pokemon* party, u8 firstId, 
 			absorbingTypeAbility1 = 0;
 			absorbingTypeAbility2 = 0;
 			absorbingTypeAbility3 = 0;
-			if (!SpeciesHasEarthEater(SPECIES(gBankTarget))){
+			if (!(ABILITY(gBankTarget) == ABILITY_EARTHEATER)){
 				absorbingTypeAbility1 = ABILITY_VOLTABSORB;
 				absorbingTypeAbility2 = ABILITY_LIGHTNINGROD;
 				absorbingTypeAbility3 = ABILITY_MOTORDRIVE;
@@ -533,7 +533,7 @@ static bool8 FindMonThatAbsorbsOpponentsMove(struct Pokemon* party, u8 firstId, 
 			absorbingTypeAbility1 = 0;
 			absorbingTypeAbility2 = 0;
 			absorbingTypeAbility3 = 0;
-			if (SpeciesHasEarthEater(SPECIES(gBankTarget))){
+			if ((ABILITY(gBankTarget) == ABILITY_EARTHEATER)){
 				absorbingTypeAbility1 = ABILITY_VOLTABSORB;
 				absorbingTypeAbility2 = ABILITY_VOLTABSORB;
 				absorbingTypeAbility3 = ABILITY_VOLTABSORB;
@@ -543,7 +543,7 @@ static bool8 FindMonThatAbsorbsOpponentsMove(struct Pokemon* party, u8 firstId, 
 			return FALSE;
 	}
 
-	u8 atkAbility = GetPredictedAIAbility(gActiveBattler, foe1);
+	ability_t atkAbility = GetPredictedAIAbility(gActiveBattler, foe1);
 	if (atkAbility == absorbingTypeAbility1
 	||  atkAbility == absorbingTypeAbility2
 	||  atkAbility == absorbingTypeAbility3)
@@ -1038,7 +1038,7 @@ static bool8 ShouldSwitchWhenYawned(void)
 			return FALSE;
 
 		//Don't switch if you can fight through the sleep
-		u8 ability = ABILITY(gActiveBattler);
+		ability_t ability = ABILITY(gActiveBattler);
 		if (/*itemEffect == ITEM_EFFECT_CURE_SLP //Checked above
 		|| itemEffect == ITEM_EFFECT_CURE_STATUS
 		||*/ ability == ABILITY_EARLYBIRD
@@ -1108,7 +1108,7 @@ static bool8 ShouldSwitchWhileAsleep(struct Pokemon* party)
 	&& (!IsDynamaxed(gActiveBattler) //Not Dynamaxed
 	 || (s8) (gBattleMons[gActiveBattler].status1 & STATUS1_SLEEP) > gNewBS->dynamaxData.timer[gActiveBattler])) //Or will wake up after the Dynamax ends
 	{
-		u8 ability = ABILITY(gActiveBattler);
+		ability_t ability = ABILITY(gActiveBattler);
 
 		if (STAT_STAGE(gActiveBattler, STAT_STAGE_ATK) >= 8
 		||  STAT_STAGE(gActiveBattler, STAT_STAGE_SPATK) >= 8
@@ -1193,7 +1193,7 @@ static bool8 AnnoyingSecondaryDamageSwitchCheck(u8 monId, u8 switchFlags, struct
 
 static bool8 IsTakingAnnoyingSecondaryDamage(struct Pokemon* party)
 {
-	u8 ability = GetPredictedAIAbility(gActiveBattler, FOE(gActiveBattler));
+	ability_t ability = GetPredictedAIAbility(gActiveBattler, FOE(gActiveBattler));
 
 	if (ability != ABILITY_MAGICGUARD
 	&& !CanKillAFoe(gActiveBattler)
@@ -1278,7 +1278,7 @@ static bool8 ShouldSwitchToAvoidDeath(struct Pokemon* party)
 		if (gBattleMons[gActiveBattler].status1 & STATUS1_PARALYSIS
 		&& gBattleMons[gActiveBattler].hp < gBattleMons[gActiveBattler].maxHP / 3)
 		{
-			u8 ability = ABILITY(gActiveBattler);
+			ability_t ability = ABILITY(gActiveBattler);
 			if (ability != ABILITY_QUICKFEET && ability != ABILITY_NATURALCURE)
 				return FALSE; //Don't switch out a paralyzed Pokemon that'll probably be KO'd when it switches back in
 		}
@@ -1369,7 +1369,7 @@ static bool8 ShouldSwitchIfWonderGuard(struct Pokemon* party, u8 firstId, u8 las
 
 			if (SPLIT(move) != SPLIT_STATUS)
 			{
-				u8 atkAbility = GetAIAbility(bankAtk, bankDef, move);
+				ability_t atkAbility = GetAIAbility(bankAtk, bankDef, move);
 				if (IsMoldBreakerAbility(atkAbility))
 					return FALSE;
 
@@ -1720,7 +1720,7 @@ static bool8 ShouldSaveSweeperForLater(struct Pokemon* party)
 	if (gNewBS->ai.switchingCooldown[gActiveBattler]) //Just switched in
 		return FALSE;
 
-	u8 ability;
+	ability_t ability;
 	u8 foe = FOE(gActiveBattler);
 	u16 foeMovePrediction = IsValidMovePrediction(foe, gActiveBattler);
 	u16 randVal;
@@ -2065,7 +2065,7 @@ u8 CalcMostSuitableMonToSwitchInto(void)
 		{
 			u8 foes[] = {foe1, foe2};
 			u8 moveLimitations = CheckMoveLimitationsFromParty(consideredMon, 0, 0xFF);
-			u8 ability = GetMonAbilityAfterTrace(consideredMon, foe1);
+			ability_t ability = GetMonAbilityAfterTrace(consideredMon, foe1);
 			ability = TryReplaceImposterAbility(ability, gActiveBattler);
 			u32 speed = SpeedCalcMon(SIDE(gActiveBattler), consideredMon);
 			bool8 isOneFoeOnField = IS_SINGLE_BATTLE || ViableMonCountFromBank(foe1) == 1;

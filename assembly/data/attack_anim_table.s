@@ -29170,7 +29170,34 @@ COMEUPPANCE_RIGHT: objtemplate ANIM_TAG_SCRATCH ANIM_TAG_SCRATCH OAM_NORMAL_32x3
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
 ANIM_DOODLE:
-	goto ANIM_SECRETPOWER
+	@ Based on pokeemerald-expansion: sketch the target, then pulse the
+	@ copied Ability back into the user's side.
+	loadparticle ANIM_TAG_PENCIL
+	loadparticle ANIM_TAG_HOLLOW_ORB
+	pokespritetoBG bank_target
+	launchtask 0x080A8875 0x2 0x0 @ AnimTask_SketchDrawMon
+	launchtemplate 0x083E3F4C TEMPLATE_TARGET | 2, 0x0 @ gPencilSpriteTemplate
+	waitanimation
+	pokespritefromBG bank_target
+	pause 0xC
+	launchtask AnimTask_BlendPalInAndOutByTag 0x5 0x5 ANIM_TAG_HOLLOW_ORB 0x03E0 0xE 0x0 0x3
+	playsound2 0xC4 SOUND_PAN_ATTACKER
+	launchtemplate Template_DragonDanceOrb TEMPLATE_ATTACKER | 2, 0x1 0x0
+	pause 0x6
+	launchtemplate Template_DragonDanceOrb TEMPLATE_ATTACKER | 2, 0x1 0x55
+	pause 0x6
+	launchtemplate Template_DragonDanceOrb TEMPLATE_ATTACKER | 2, 0x1 0xAA
+	pause 0x10
+	@ A second pulse mirrors Doodle affecting the ally in doubles.
+	playsound2 0xC4 SOUND_PAN_ATTACKER
+	launchtemplate Template_DragonDanceOrb TEMPLATE_ATTACKER | 2, 0x1 0x2B
+	pause 0x6
+	launchtemplate Template_DragonDanceOrb TEMPLATE_ATTACKER | 2, 0x1 0x80
+	pause 0x6
+	launchtemplate Template_DragonDanceOrb TEMPLATE_ATTACKER | 2, 0x1 0xD5
+	waitanimation
+	resetblends
+	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -29890,7 +29917,40 @@ RAGINGBULL_SCREEN_DESTROY_ANIM:
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
 ANIM_REVIVALBLESSING:
-	goto ANIM_LUNARDANCE
+	@ Adapted from pokeemerald-expansion's Lunar Blessing animation.
+	@ Keep the focus on the user because the revived party member is off-field.
+	loadparticle ANIM_TAG_MOON
+	loadparticle ANIM_TAG_SPARKLE_2
+	loadparticle ANIM_TAG_GUARD_RING
+	loadparticle ANIM_TAG_SMALL_EMBER
+	loadparticle ANIM_TAG_BLUE_STAR
+	pokespritetoBG side_attacker
+	setblends 0x1000
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0x10 0x0
+	launchtask AnimTask_BlendNonAttackerPalettes 0x2 0x4 0x1 0x0 0x10 0x0
+	waitanimation
+	launchtemplate Template_Moon TEMPLATE_ATTACKER | 2, 0x2 0x78 0x38
+	launchtask AnimTask_AlphaFadeIn 0x3 0x5 0x0 0x10 0x10 0x0 0x1
+	soundcomplex 0xbc SOUND_PAN_ATTACKER 0x10 0x3
+	call HEALING_STARS
+	launchtemplate LUNARDANCE_RING TEMPLATE_ATTACKER | 2, 0x0
+	pause 0x4
+	launchtemplate LUNARDANCE_RING TEMPLATE_ATTACKER | 2, 0x0
+	pause 0x4
+	launchtemplate LUNARDANCE_RING TEMPLATE_ATTACKER | 2, 0x0
+	pause 0x18
+	@ The second wave represents the blessing travelling to the party slot.
+	call HEALING_STARS
+	pause 0x18
+	waitforsound
+	pokespritefromBG side_attacker
+	launchtask AnimTask_AllBanksInvisibleExceptAttackerAndTarget 0xA 0x0
+	launchtask AnimTask_FadeScreenBlue 0x2 0x0
+	pause 0x10
+	launchtask AnimTask_AllBanksVisible 0xA 0x0
+	waitanimation
+	resetblends
+	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

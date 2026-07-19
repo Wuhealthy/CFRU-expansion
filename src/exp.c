@@ -522,7 +522,7 @@ void atk23_getexp(void)
 			{
 				END_EXP_GIVE:
 				gBattleMons[gBankFainted].item = 0;
-				gBattleMons[gBankFainted].ability = 0;
+				ABILITY(gBankFainted) = 0;
 				gBattlescriptCurrInstr += 2;
 			}
 		break;

@@ -90,7 +90,7 @@ SystemScript_PartyMenuFromField:
 	fadescreen FADEOUT_BLACK
 	callasm InitPartyMenuFromField
 	releaseall
-	end
+    end
 
 .global SystemScript_ItemMenuFromField
 SystemScript_ItemMenuFromField:

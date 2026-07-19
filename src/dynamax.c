@@ -509,6 +509,9 @@ static item_t FindBankDynamaxBand(u8 bank)
 
 bool8 DynamaxEnabled(u8 bank)
 {
+        if (gNewBS == NULL || bank >= gBattlersCount)
+                return FALSE;
+
         if (gBattleTypeFlags & BATTLE_TYPE_DYNAMAX)
         {
                 if (GetBattlerSide(bank) == B_SIDE_PLAYER)
@@ -522,7 +525,8 @@ bool8 DynamaxEnabled(u8 bank)
 
                 if (IsTerastallized(bank)
                 || gNewBS->teraData.chosen[bank]
-                || gNewBS->teraData.done[SIDE(bank)][gBattlerPartyIndexes[bank]])
+                || (gBattlerPartyIndexes[bank] < PARTY_SIZE
+                 && gNewBS->teraData.done[SIDE(bank)][gBattlerPartyIndexes[bank]]))
                         return FALSE;
 
                 if (FindBankDynamaxBand(bank) == ITEM_NONE)
@@ -569,6 +573,9 @@ bool8 IsGigantamaxSpecies(u16 species)
 
 bool8 IsDynamaxed(u8 bank)
 {
+	if (gNewBS == NULL || bank >= gBattlersCount)
+		return FALSE;
+
 	return gNewBS->dynamaxData.timer[bank] != 0;
 }
 

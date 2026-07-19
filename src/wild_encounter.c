@@ -81,7 +81,7 @@ static bool8 DoWildEncounterRateTest(u32 encounterRate, bool8 ignoreAbility);
 static bool8 DoWildEncounterRateDiceRoll(u16 encounterRate);
 static bool8 IsAbilityAllowingEncounter(u8 level);
 static bool8 TryGetRandomWildMonIndexByType(const struct WildPokemon* wildMon, u8 type, u8 numMon, u8* monIndex);
-static bool8 TryGetAbilityInfluencedWildMonIndex(const struct WildPokemon* wildMon, u8 type, u8 ability, u8* monIndex, u8 monsCount);
+static bool8 TryGetAbilityInfluencedWildMonIndex(const struct WildPokemon* wildMon, u8 type, ability_t ability, u8* monIndex, u8 monsCount);
 static void CreateScriptedWildMon(u16 species, u8 level, u16 item, u16* specialMoves, bool8 firstMon);
 static const struct WildPokemonInfo* LoadProperMonsPointer(const struct WildPokemonHeader* header, const u8 type);
 static void StartRoamerBattle(void);
@@ -180,7 +180,7 @@ static u8 ChooseWildMonLevel(const struct WildPokemon* wildPokemon)
 	//Check ability for max level mon
 	if (!GetMonData(&gPlayerParty[0], MON_DATA_IS_EGG, NULL))
 	{
-		u8 ability = GetMonAbility(&gPlayerParty[0]);
+		ability_t ability = GetMonAbility(&gPlayerParty[0]);
 
 		#ifndef ABILITY_VITALSPIRIT
 		if (IsVitalSpiritAbility(ability, GetMonData(&gPlayerParty[0], MON_DATA_SPECIES, NULL)))
@@ -821,7 +821,7 @@ bool8 DoesFishBite(void)
 
 		if (!GetMonData(&gPlayerParty[0], MON_DATA_IS_EGG, NULL))
 		{
-			u8 ability = GetMonAbility(&gPlayerParty[0]);
+			ability_t ability = GetMonAbility(&gPlayerParty[0]);
 			if (ability == ABILITY_SUCTIONCUPS || ability  == ABILITY_STICKYHOLD)
 				chance = 85; //85% chance with abilities
 		}
@@ -876,16 +876,13 @@ u8 GetAbilityEncounterRateModType(void)
 
     if (!GetMonData(&gPlayerParty[0], MON_DATA_IS_EGG, NULL))
     {
-        u8 ability = GetMonAbility(&gPlayerParty[0]);
+        ability_t ability = GetMonAbility(&gPlayerParty[0]);
 		#ifndef ABILITY_WHITESMOKE
 		if (IsWhiteSmokeAbility(ability, GetMonData(&gPlayerParty[0], MON_DATA_SPECIES, NULL)))
 			ability = ABILITY_STENCH;
 		#endif
 	
 		switch (ability) {
-			#ifdef ABILITY_WHITESMOKE
-			case ABILITY_WHITESMOKE:
-			#endif
 			case ABILITY_STENCH:
 			case ABILITY_QUICKFEET:
 			case ABILITY_INFILTRATOR:
@@ -1225,7 +1222,7 @@ bool8 StartRandomWildEncounter(bool8 waterMon)
 
 static bool8 IsAbilityAllowingEncounter(u8 level)
 {
-	u8 ability;
+	ability_t ability;
 
 	if (GetMonData(&gPlayerParty[0], MON_DATA_IS_EGG, NULL))
 		return TRUE;
@@ -1262,7 +1259,7 @@ static bool8 TryGetRandomWildMonIndexByType(const struct WildPokemon* wildMon, u
 	return TRUE;
 }
 
-static bool8 TryGetAbilityInfluencedWildMonIndex(const struct WildPokemon* wildMon, u8 type, u8 ability, u8* monIndex, u8 monsCount)
+static bool8 TryGetAbilityInfluencedWildMonIndex(const struct WildPokemon* wildMon, u8 type, ability_t ability, u8* monIndex, u8 monsCount)
 {
 	if (GetMonData(&gPlayerParty[0], MON_DATA_IS_EGG, NULL))
 		return FALSE;

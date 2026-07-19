@@ -14,8 +14,8 @@ struct AIScript
 {
 	u16 atkSpecies;
 	u16 defSpecies;
-	u8 atkAbility;
-	u8 defAbility;
+	ability_t atkAbility;
+	ability_t defAbility;
 
 	u8 atkItemEffect;
 	u8 defItemEffect;
@@ -47,8 +47,8 @@ struct AIScript
 
 	u8 bankAtkPartner;
 	u8 bankDefPartner;
-	u8 atkPartnerAbility;
-	u8 defPartnerAbility;
+	ability_t atkPartnerAbility;
+	ability_t defPartnerAbility;
 
 	u8 foe1;
 	u8 foe2;

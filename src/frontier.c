@@ -765,9 +765,9 @@ bool8 IsMoveBannedInRingChallengeByMon(u16 move, struct Pokemon* mon)
 
 #define LOAD_TIER_CHECKING_ABILITY										\
 {																		\
-	if (spread->ability == 0 && gBaseStats[species].hiddenAbility != 0)	\
+	if (spread->ability == 0 && GetHiddenAbility(species) != 0)			\
 		ability = GetHiddenAbility(species);							\
-	else if (spread->ability == 2 && gBaseStats[species].ability2 != 0)	\
+	else if (spread->ability == 2 && GetAbility2(species) != 0)			\
 		ability = GetAbility2(species);									\
 	else																\
 		ability = GetAbility1(species);									\
@@ -775,7 +775,7 @@ bool8 IsMoveBannedInRingChallengeByMon(u16 move, struct Pokemon* mon)
 bool8 PokemonTierBan(const u16 species, const u16 item, const struct BattleTowerSpread* const spread, const struct Pokemon* const mon, const u8 tier, const u8 checkFromLocationType)
 {
 	u32 i;
-	u8 ability;
+	ability_t ability;
 	const u16* moveLoc;
 
 	if (species == SPECIES_EGG
@@ -2315,7 +2315,7 @@ void sp0E9_ChooseRingChallengeOpponentMon(void)
 	for (i = 0; i < 3; ++i) //Each AI mon
 	{
 		struct Pokemon* mon = &gEnemyParty[i];
-		u8 atkAbility = GetMonAbility(mon); 
+		ability_t atkAbility = GetMonAbility(mon);
 		hasFocusSash[i] = GetMonData(mon, MON_DATA_HELD_ITEM, NULL) == ITEM_FOCUS_SASH || atkAbility == ABILITY_STURDY;
 
 		//Go through each of the AI mon's moves
