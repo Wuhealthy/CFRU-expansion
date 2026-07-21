@@ -123,7 +123,7 @@ static void SavePartyItems(void);
 static void TryPrepareTotemBoostInBattleSands(void);
 static void TrySetupRaidBossRepeatedAttack(u8 turnActionNumber);
 static u8 GetWhoStrikesFirstUseLastBracketCalc(u8 bank1, u8 bank2);
-static u32 BoostSpeedInWeather(u8 ability, u8 itemEffect, u32 speed, u8 bank);
+static u32 BoostSpeedInWeather(u8 ability, u8 itemEffect, u32 speed);
 static u32 BoostSpeedByItemEffect(u8 itemEffect, u8 itemQuality, u16 species, u32 speed, bool8 isDynamaxed);
 static void TryClearLevelCapKeptOn(void);
 extern void RemoveFollowerBeforeBattle(void);
@@ -2454,7 +2454,7 @@ s32 BracketCalc(u8 bank, u8 action, u16 move)
 	return 0;
 }
 
-static u32 BoostSpeedInWeather(u8 ability, u8 itemEffect, u32 speed, u8 bank)
+static u32 BoostSpeedInWeather(u8 ability, u8 itemEffect, u32 speed)
 {
 	if (WEATHER_HAS_EFFECT) {
 		switch (ability) {
@@ -2523,7 +2523,7 @@ u32 SpeedCalc(u8 bank)
 	speed = (rawSpeed * gStatStageRatios[gBattleMons[bank].statStages[STAT_STAGE_SPEED-1]][0]) / gStatStageRatios[gBattleMons[bank].statStages[STAT_STAGE_SPEED-1]][1];
 
 	//Check for abilities that alter speed
-	speed = BoostSpeedInWeather(ability, itemEffect, speed, bank);
+	speed = BoostSpeedInWeather(ability, itemEffect, speed);
 
 	switch (ability) {
 		case ABILITY_UNBURDEN:
@@ -2622,7 +2622,7 @@ u32 SpeedCalcMon(u8 side, struct Pokemon* mon) //Used for the AI
 	speed = (speed * gStatStageRatios[statVal][0]) / gStatStageRatios[statVal][1];
 
 	//Check for abilities that alter speed
-	speed = BoostSpeedInWeather(ability, itemEffect, speed, 255);
+	speed = BoostSpeedInWeather(ability, itemEffect, speed);
 
 	if(ability == ABILITY_QUARKDRIVE)
 	{
