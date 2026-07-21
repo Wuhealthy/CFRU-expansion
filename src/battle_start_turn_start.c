@@ -2305,7 +2305,8 @@ s8 PriorityCalc(u8 bank, u8 action, u16 move)
 					u16 species = GetProperAbilityPopUpSpecies(bank);
 					if (SpeciesHasGrassDash(species))
 					{
-						if (GetMoveTypeSpecial(bank, move) == TYPE_GRASS)
+						if (GetMoveTypeSpecial(bank, move) == TYPE_FIRE
+						&& BATTLER_MAX_HP(bank))
 							++priority;
 					}
 					else if (SpeciesHasSlipperyTail(species))

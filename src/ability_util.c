@@ -1008,8 +1008,8 @@ bool8 SpeciesHasFocusBelt(unusedArg u16 species) //Custom Unbound Ability
 
 bool8 SpeciesHasGrassDash(unusedArg u16 species) //Custom Unbound Ability
 {
-	#ifdef SPECIES_SUNFLORA
-	return species == SPECIES_SUNFLORA;
+	#ifdef SPECIES_TYPHLOSION_MEGA
+	return species == SPECIES_TYPHLOSION_MEGA;
 	#else
 	return FALSE;
 	#endif

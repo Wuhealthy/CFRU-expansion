@@ -347,7 +347,7 @@ HP全满时，受到的伤害会变少
 可以防住对手的球和弹类招式
 
 #org @DESC_GALEWINGS
-飞行属性的招式可以率先使出
+满HP可以率先使出飞行属性的招式
 
 #org @DESC_MOXIE
 #org @DESC_CHILLINGNEIGH
@@ -837,7 +837,7 @@ HP一半时就会把树果吃掉
 受到水属性的招式时，特攻会提高
 
 #org @gText_AbilityDescription_GrassDash
-草属性的招式可以率先使出
+满HP可以率先使出火属性的招式
 
 #org @gText_AbilityDescription_SlipperyTail
 尾巴类招式可以率先使出
