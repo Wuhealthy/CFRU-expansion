@@ -3103,26 +3103,6 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			defense = (defense * 15) / 10;
 	}
 
-	bool8 iceDeityOnField = FALSE;
-	for (u8 i = 0; i < gBattlersCount; i++)
-	{
-    	if (BATTLER_ALIVE(i))
-    	{
-        	u16 species = GetProperAbilityPopUpSpecies(i);
-        	if (SpeciesHasIceDeity(species))
-        	{
-            	iceDeityOnField = TRUE;
-            	break;
-        	}
-    	}
-	}
-
-	if (iceDeityOnField)
-	{
-    	if ((!useMonDef && IsOfType(bankDef, TYPE_ICE)) || (useMonDef && IsMonOfType(data->monDef, TYPE_ICE)))
-        	defense = (defense * 15) / 10;
-	}
-
 	bool8 beadsOfRuinOnField = FALSE;
 	bool8 tabletsOfRuinOnField = FALSE;
 	bool8 vesselOfRuinOnField = FALSE;
@@ -3341,6 +3321,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 	{
     	bool8 thunderDeityOnField = FALSE;
     	bool8 fireDeityOnField = FALSE;
+		bool8 iceDeityOnField = FALSE;
     
     	for (u8 i = 0; i < gBattlersCount; i++)
     	{
@@ -3351,6 +3332,8 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
             	thunderDeityOnField = TRUE;
         	if (SpeciesHasFireDeity(species))
             	fireDeityOnField = TRUE;
+        	if (SpeciesHasIceDeity(species))
+            	iceDeityOnField = TRUE;
     	}
     
     	if (thunderDeityOnField)
@@ -3372,6 +3355,18 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
                 	damage = (damage * 15) / 10;
                 	break;
             	case TYPE_WATER:
+                	damage /= 2;
+                	break;
+        	}
+    	}
+
+		if (iceDeityOnField)
+    	{
+        	switch (data->moveType) {
+            	case TYPE_ICE:
+                	damage = (damage * 15) / 10;
+                	break;
+            	case TYPE_FIRE:
                 	damage /= 2;
                 	break;
         	}
