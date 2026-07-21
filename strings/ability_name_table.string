@@ -1037,6 +1037,9 @@ AR系统
 #org @gText_AbilityName_AquaRegen
 水之再生
 
+#org @gText_AbilityName_MutantAdapt
+变异适应
+
 #org @gText_AbilityName_IceDeity
 冰之神
 

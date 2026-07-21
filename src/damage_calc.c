@@ -5094,6 +5094,7 @@ static void ApplySTABMultipliers(void)
 {
     u8 moveType = gBattleStruct->dynamicMoveType & 0x3F;
     u8 atkAbility = ABILITY(gBankAttacker);
+	u16 atkSpecies = GetProperAbilityPopUpSpecies(gBankAttacker);
 
     // Current battle types (may be modified by effects like Forest's Curse / Trick-or-Treat / Soak)
     u8 atkType1 = gBattleMons[gBankAttacker].type1;
@@ -5118,6 +5119,7 @@ static void ApplySTABMultipliers(void)
     bool8 isStellarBoostActive = !gNewBS->teraData.stellarBoostUsed[side][partyId][moveType];
     bool8 hasStellarTeraOriginalStab = isStellarTera && moveMatchesOriginalTypes;
     bool8 hasStellarTeraLesserStab = isStellarTera && !moveMatchesOriginalTypes;
+	bool8 hasAdaptability = ((atkAbility == ABILITY_ADAPTABILITY) || (atkAbility == ABILITY_INFILTRATOR && SpeciesHasMutantAdapt(atkSpecies)));
 
 
     // Apply STAB multipliers
@@ -5126,7 +5128,7 @@ static void ApplySTABMultipliers(void)
         if (hasDoubleTeraStab || hasStellarTeraOriginalStab)
         {   
             // 2.0× Boost (like a matching Tera-type boost)
-            gBattleMoveDamage = (atkAbility == ABILITY_ADAPTABILITY) 
+            gBattleMoveDamage = (hasAdaptability) 
                 ? (gBattleMoveDamage * 266) / 100                // 2.66×
                 : (gBattleMoveDamage * 20) / 10;          	     // 2.0×
 
@@ -5138,7 +5140,7 @@ static void ApplySTABMultipliers(void)
         {   
             // 1.2× Boost for Non-STAB moves
             // Double STAB (Tera matches original type)
-            gBattleMoveDamage = (atkAbility == ABILITY_ADAPTABILITY) 
+            gBattleMoveDamage = (hasAdaptability) 
                 ? (gBattleMoveDamage * 13) / 10                  // 1.3×Add commentMore actions
                 : (gBattleMoveDamage * 12) / 10;          	     // 1.2×
 
@@ -5147,7 +5149,7 @@ static void ApplySTABMultipliers(void)
         else
         {
             // Normal STAB (1.5× or 2.0× with Adaptability)
-            gBattleMoveDamage = (atkAbility == ABILITY_ADAPTABILITY)
+            gBattleMoveDamage = (hasAdaptability)
                 ? (gBattleMoveDamage * 20) / 10          	     // 2.0×Add commentMore actions
                 : (gBattleMoveDamage * 15) / 10;                 // 1.5×
         }

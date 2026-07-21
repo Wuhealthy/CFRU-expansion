@@ -103,6 +103,8 @@ extern const u8 gText_AbilityName_CudChew[];
 extern const u8 gText_AbilityDescription_CudChew[];
 extern const u8 gText_AbilityName_IceDeity[];
 extern const u8 gText_AbilityDescription_IceDeity[];
+extern const u8 gText_AbilityName_MutantAdapt[];
+extern const u8 gText_AbilityDescription_MutantAdapt[];
 extern const u8 gText_AbilityName_ThunderDeity[];
 extern const u8 gText_AbilityDescription_ThunderDeity[];
 extern const u8 gText_AbilityName_FireDeity[];
@@ -202,6 +204,10 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 			if (IsVitalSpiritAbility(ability, species))
 				return gText_AbilityName_VitalSpirit;
 			break;
+		case ABILITY_INFILTRATOR:
+    		if (SpeciesHasMutantAdapt(species))
+        		return gText_AbilityName_MutantAdapt;
+    		break;
 		case ABILITY_BULLETPROOF:
 			if (SpeciesHasGoodAsGold(species))
 				return gText_AbilityName_GoodAsGold;
@@ -738,6 +744,10 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 			if(SpeciesHasGoodAsGold(species))
 				return gText_AbilityDescription_GoodAsGold;
 			break;
+		case ABILITY_INFILTRATOR:
+    		if (SpeciesHasMutantAdapt(species))
+        		return gText_AbilityDescription_MutantAdapt;
+    		break;
 		case ABILITY_SUCTIONCUPS:
 			if(SpeciesHasGuardDog(species))
 				return gText_AbilityDescription_GuardDog;
@@ -1456,6 +1466,15 @@ bool8 SpeciesHasIceDeity(unusedArg u16 species)
 {
     #ifdef SPECIES_ARTICUNO_MEGA
     return species == SPECIES_ARTICUNO_MEGA;
+    #else
+    return FALSE;
+    #endif
+}
+
+bool8 SpeciesHasMutantAdapt(unusedArg u16 species)
+{
+    #ifdef SPECIES_CROBAT_MEGA
+    return species == SPECIES_CROBAT_MEGA;
     #else
     return FALSE;
     #endif
