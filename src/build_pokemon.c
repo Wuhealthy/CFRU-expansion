@@ -3119,6 +3119,7 @@ static void AddPlayerMoveTypesToBuilder(struct TeamBuilder* builder, u8 monsCoun
 						builder->moveTypeOnPlayerTeam[TYPE_WATER] = TRUE;
 						builder->moveTypeOnPlayerTeam[TYPE_ROCK] = TRUE;
 						builder->moveTypeOnPlayerTeam[TYPE_ICE] = TRUE;
+						builder->moveTypeOnPlayerTeam[TYPE_GHOST] = TRUE;
 						break;
 					case MOVE_TERRAINPULSE:
 						//Account for all Terrain Pulse types

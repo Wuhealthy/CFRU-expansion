@@ -1792,6 +1792,8 @@ u8 GetExceptionMoveType(u8 bankAtk, u16 move)
 				moveType = TYPE_FIRE;
 			else if (gBattleWeather & WEATHER_HAIL_ANY && WEATHER_HAS_EFFECT)
 				moveType = TYPE_ICE;
+			else if (gBattleWeather & WEATHER_FOG_ANY && WEATHER_HAS_EFFECT)
+				moveType = TYPE_GHOST;
 			break;
 
 		case MOVE_NATURALGIFT:
@@ -1957,6 +1959,8 @@ u8 GetMonExceptionMoveType(struct Pokemon* mon, u16 move)
 					moveType = TYPE_FIRE;
 				else if (gBattleWeather & WEATHER_HAIL_ANY && WEATHER_HAS_EFFECT)
 					moveType = TYPE_ICE;
+				else if (gBattleWeather & WEATHER_FOG_ANY && WEATHER_HAS_EFFECT)
+					moveType = TYPE_GHOST;
 			}
 			break;
 
