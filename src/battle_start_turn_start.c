@@ -2412,14 +2412,13 @@ static u32 BoostSpeedInWeather(ability_t ability, u8 itemEffect, u32 speed, u8 b
 				if (gBattleWeather & WEATHER_HAIL_ANY)
 					speed *= 2;
 				break;
-			case ABILITY_QUARKDRIVE:
-			case ABILITY_PROTOSYNTHESIS:
-				if (bank != 255 && IsParadoxBoostActive(bank)
-				&& GetParadoxBoostedStat(bank) == STAT_SPEED)
-					speed = (speed * 15) / 10;
-			break;
 		}
 	}
+
+	if (bank != 255
+	&& IsParadoxBoostActive(bank)
+	&& GetParadoxBoostedStat(bank) == STAT_SPEED)
+		speed = (speed * 15) / 10;
 
 	return speed;
 }
@@ -2558,14 +2557,14 @@ u32 SpeedCalcMon(u8 side, struct Pokemon* mon) //Used for the AI
 	//Check for abilities that alter speed
 	speed = BoostSpeedInWeather(ability, itemEffect, speed, 255);
 
-	if(ability == ABILITY_QUARKDRIVE)
-	{
-		if (gTerrainType == ELECTRIC_TERRAIN && GetHighestStatMon(mon) == STAT_SPEED && !(GetMonAbility(mon) == ABILITY_PROTOSYNTHESIS))
-				speed = (speed * 15) / 10;
-
-		if (IsSunWeatherActive(bank) && GetHighestStatMon(mon) == STAT_SPEED && (GetMonAbility(mon) == ABILITY_PROTOSYNTHESIS))
-				speed = (speed * 15) / 10;
-	}
+	if (ability == ABILITY_QUARKDRIVE
+	&& gTerrainType == ELECTRIC_TERRAIN
+	&& GetHighestStatMon(mon) == STAT_SPEED)
+		speed = (speed * 15) / 10;
+	else if (ability == ABILITY_PROTOSYNTHESIS
+	&& IsSunWeatherActive(bank)
+	&& GetHighestStatMon(mon) == STAT_SPEED)
+		speed = (speed * 15) / 10;
 
 	switch (ability) {
 		case ABILITY_SLOWSTART:

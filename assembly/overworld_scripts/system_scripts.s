@@ -1111,20 +1111,18 @@ SystemScript_DebugMenu:
 	lockall
 	multichoiceoption gText_DebugMenu_SetFlag 0
 	multichoiceoption gText_DebugMenu_GiveItem 1
-	multichoiceoption gText_DebugMenu_Level100Team 2
-	multichoiceoption gText_DebugMenu_MaxCoinage 3
-	multichoiceoption gText_DebugMenu_ShinyTeam 4
-	multichoiceoption gText_DebugMenu_Give 5
-	multichoiceoption gText_DebugMenu_Debug 6
-	multichoice 0x0 0x0 SEVEN_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_DebugMenu_Give 2
+	multichoiceoption gText_DebugMenu_Party 3
+	multichoiceoption gText_DebugMenu_MaxCoinage 4
+	multichoiceoption gText_DebugMenu_Debug 5
+	multichoice 0x0 0x0 SIX_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_DebugMenu_SetFlag
 	case 1, SystemScript_DebugMenu_GiveItem
-	case 2, SystemScript_DebugMenu_Level100Team
-	case 3, SystemScript_DebugMenu_MaxCoinage
-	case 4, SystemScript_DebugMenu_ShinyTeam
-	case 5, SystemScript_DebugMenu_Custom
-	case 6, SystemScript_DebugMenu_Debug
+	case 2, SystemScript_DebugMenu_Custom
+	case 3, SystemScript_DebugMenu_Party
+	case 4, SystemScript_DebugMenu_MaxCoinage
+	case 5, SystemScript_DebugMenu_Debug
 SystemScript_DebugMenu_End:
 	releaseall
 	end
@@ -1156,7 +1154,7 @@ SystemScript_DebugMenu_GiveItem:
 
 SystemScript_DebugMenu_Level100Team:
 	callasm DebugMenu_SetTeamToLevel100
-	goto SystemScript_DebugMenu
+	goto SystemScript_DebugMenu_Party
 
 SystemScript_DebugMenu_MaxCoinage:
 	callasm DebugMenu_MaxMoneyAndCoins
@@ -1164,7 +1162,22 @@ SystemScript_DebugMenu_MaxCoinage:
 
 SystemScript_DebugMenu_ShinyTeam:
 	callasm DebugMenu_ShinyTeam
+	goto SystemScript_DebugMenu_Party
+
+SystemScript_DebugMenu_Party:
+	multichoiceoption gText_DebugMenu_HealTeam 0
+	multichoiceoption gText_DebugMenu_Level100Team 1
+	multichoiceoption gText_DebugMenu_ShinyTeam 2
+	multichoice 0x0 0x0 THREE_MULTICHOICE_OPTIONS 0x0
+	switch LASTRESULT
+	case 0, SystemScript_DebugMenu_HealTeam
+	case 1, SystemScript_DebugMenu_Level100Team
+	case 2, SystemScript_DebugMenu_ShinyTeam
 	goto SystemScript_DebugMenu
+
+SystemScript_DebugMenu_HealTeam:
+	callasm DebugMenu_HealTeam
+	goto SystemScript_DebugMenu_Party
 
 .global SystemScript_DebugMenu_GiveCustom
 SystemScript_DebugMenu_Custom:
@@ -1207,62 +1220,63 @@ SystemScript_DebugMenu_DebugPokedex:
 
 .global SystemScript_DebugMenu_GivePokemonPrompt
 SystemScript_DebugMenu_GivePokemonPrompt:
-	msgbox gText_DebugMenu_EnterSpecies MSG_NORMAL
-	special 0xB3
+	callasm DebugMenu_StartPokemonSelector
 	waitstate
 	copyvar 0x8000, LASTRESULT
+	compare 0x8000 0x0
+	if equal _goto SystemScript_DebugMenu_Custom
 	callasm DebugMenu_GivePokemonFromVar
 	bufferpokemon 0x0 0x8000
+	compare LASTRESULT 0x1
 	if equal _goto SuccessFul
 	msgbox gText_Failed MSG_NORMAL
-	end
+	goto SystemScript_DebugMenu_Custom
 SuccessFul:
 	lock
 	msgbox gText_ReceivedPokemon MSG_NORMAL
 	setflag 0x828
-	release
-	end
+	goto SystemScript_DebugMenu_Custom
 
 .global SystemScript_DebugMenu_GiveItemPrompt
 SystemScript_DebugMenu_GiveItemPrompt:
 	lockall
-	msgbox Text_EnterItem MSG_NORMAL
-	special 0xB3
+	callasm DebugMenu_StartItemSelector
 	waitstate
 	copyvar 0x8000, LASTRESULT
+	compare 0x8001 0x0
+	if equal _goto SystemScript_DebugMenu_Custom
 	bufferitem 0x0 0x8000
-	callasm DebugMenu_GiveItemFromVar
 	giveitem 0x8000 0x1 MSG_OBTAIN
-	releaseall
-	end
+	goto SystemScript_DebugMenu_Custom
 
 .global SystemScript_DebugMenu_CustomSetFlag
 SystemScript_DebugMenu_CustomSetFlag:
 	lockall
-	msgbox Text_CustomSetFlag MSG_NORMAL
-	special 0xB3
+	callasm DebugMenu_StartFlagSelector
 	waitstate
 	copyvar 0x8000, LASTRESULT
+	compare 0x8001 0x0
+	if equal _goto SystemScript_DebugMenu_Custom
 	callasm DebugMenu_SetterFlag
 	msgbox Text_FlagSet MSG_NORMAL
-	releaseall
-	end
+	goto SystemScript_DebugMenu_Custom
 
 .global SystemScript_DebugMenu_SetVar
 SystemScript_DebugMenu_SetVar:
 	lockall
-	msgbox Text_CustomSetVar MSG_NORMAL
-	special 0xB3
+	callasm DebugMenu_StartVarSelector
 	waitstate
 	copyvar 0x5158, LASTRESULT
-	msgbox gText_VarValue MSG_NORMAL
-	special 0xB3
+	compare 0x8001 0x0
+	if equal _goto SystemScript_DebugMenu_Custom
+	callasm DebugMenu_StartValueSelector
 	waitstate
 	copyvar 0x5159, LASTRESULT
+	compare 0x8001 0x0
+	if equal _goto SystemScript_DebugMenu_Custom
 	callasm DebugMenu_SetterVar
 	msgbox Text_VarSet MSG_NORMAL
-	releaseall
-	end
+	goto SystemScript_DebugMenu_Custom
 
 .global SystemScript_DebugMenu_Trainerbattle
 SystemScript_DebugMenu_Trainerbattle:

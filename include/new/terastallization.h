@@ -16,6 +16,7 @@ extern u8 GetTeraType(u8 bank);
 extern void ChangeTeraTypeInOW(void);
 extern u8* DoTerastallize(u8 bank);
 extern void GetTeraTypeInOW(void);
+void TryActivateTeraFormAbility(void);
 extern bool8 CanTerastallize(u8 bank);
 bool8 ShouldAIDelayTerastallization(u8 bankAtk, u8 bankDef, u16 move, bool8 optimizeAndLookAtTeraPotential, bool8 runDamageCalcs);
 bool8 CalculateMoveKnocksOutXHitsFresh(u16 move, u8 bankAtk, u8 bankDef, u8 numHits);

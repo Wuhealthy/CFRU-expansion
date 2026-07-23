@@ -9,10 +9,9 @@
  */
 
 //Exported Functions
-ability_t PromoteLegacyAbility(u8 ability, u16 species);
-const u8* GetAbilityNameOverride(ability_t ability, u16 species);
 const u8* GetAbilityName(ability_t ability, u16 species);
 void CopyAbilityName(u8* dst, ability_t ability, u16 species);
+void CopyAbilityNameForSummary(u8* dst, ability_t ability, u16 species);
 u16 GetProperAbilityPopUpSpecies(u8 bank);
 void SetProperAbilityPopUpSpecies(u8 bank);
 void SetTookAbilityFrom(u8 taker, u8 takenFrom);

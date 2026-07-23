@@ -269,6 +269,17 @@ void SetMoveEffect(bool8 primary, u8 certain)
 		{
 			BattleScriptPush(gBattlescriptCurrInstr + 1);
 
+			if ((gBattleCommunication[MOVE_EFFECT_BYTE] == MOVE_EFFECT_POISON
+			  || gBattleCommunication[MOVE_EFFECT_BYTE] == MOVE_EFFECT_TOXIC)
+			 && ABILITY(gBankAttacker) == ABILITY_POISONPUPPETEER
+			 && SIDE(gEffectBank) != SIDE(gBankAttacker)
+			 && CanBeConfused(gEffectBank, gBankAttacker, TRUE))
+			{
+				gBattleMons[gEffectBank].status2 |= (Random() % 4) + 2;
+				gBattleScripting.bank = gBankAttacker;
+				BattleScriptPush(BattleScript_SetPuppetConfusion);
+			}
+
 			if (gBattleCommunication[MOVE_EFFECT_BYTE] == MOVE_EFFECT_TOXIC && IsDynamaxed(gEffectBank))
 				gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_POISON; //Toxic becomes regular poison on a Dynamaxed opponent
 

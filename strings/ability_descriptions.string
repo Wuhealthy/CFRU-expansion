@@ -71,7 +71,7 @@ Heat protection.
 Prefers the rain to heat.
 
 #org @DESC_TINTEDLENS
-Boosts "not very effective\" moves.
+Boosts resisted moves.
 
 #org @DESC_SOLIDROCK
 #org @DESC_FILTER
@@ -260,7 +260,7 @@ Takes one hit with no damage.
 Switches out below half HP.
 
 #org @DESC_FLUFFY
-Halves contact hits. Weak to Fire.
+Halves contact; weak to Fire.
 
 #org @DESC_BROKEN_1
 #org @DESC_BROKEN_2
@@ -327,13 +327,13 @@ Boosts Speed on Electric Terrain.
 Ups Defense on Grassy Terrain.
 
 #org @DESC_ANGERPOINT
-Maxes Attack after a critical hit.
+Critical hits maximize Attack.
 
 #org @DESC_ANTICIPATION
 Senses super effective moves.
 
 #org @DESC_FOREWARN
-Warns of the foe's strongest move.
+Reveals the foe's strongest move.
 
 #org @DESC_FRISK
 Reveals the foe's held item.
@@ -342,7 +342,7 @@ Reveals the foe's held item.
 Reverses stat changes.
 
 #org @DESC_UNNERVE
-Stops the foe from eating Berries.
+Stops foes from eating Berries.
 
 #org @DESC_WEAKARMOR
 Hits up Speed but drop Defense.
@@ -396,7 +396,7 @@ Weakens non-contact moves.
 Can poison foe on contact.
 
 #org @DESC_MAGICIAN
-Can steal foe's item after attack.
+May steal the foe's held item.
 
 #org @DESC_STANCECHANGE
 Switches form when attacking.
@@ -575,113 +575,137 @@ Boost stat in Electric Terrain.
 
 //Unbound Custom Abilities//
 
-#org @gText_AbilityDescription_Evaporate
-Nullifies all water to up Sp. Atk.
+#org @DESC_EVAPORATE
+Water moves raise Sp. Atk.
 
-#org @gText_AbilityDescription_GrassDash
+#org @DESC_GRASSDASH
 Grass-type moves hit first.
 
-#org @gText_AbilityDescription_SlipperyTail
+#org @DESC_SLIPPERYTAIL
 Tail moves hit first.
 
-#org @gText_AbilityDescription_DrillBeak
+#org @DESC_DRILLBEAK
 Drill moves land critical hits.
 
-#org @gText_AbilityDescription_AngerShell
-Boost and fall stats if halved HP.
+#org @DESC_ANGERSHELL
+Changes stats at half HP.
 
-#org @gText_AbilityDescription_BeadsofRuin
+#org @DESC_BEADSOFRUIN
 Lowers all Pokémon SpDef status.
 
-#org @gText_AbilityDescription_SwordofRuin
+#org @DESC_SWORDOFRUIN
 Lowers all Pokémon Def status.
 
-#org @gText_AbilityDescription_TabletsofRuin
+#org @DESC_TABLETSOFRUIN
 Lowers all Pokémon Atk status.
 
-#org @gText_AbilityDescription_VesselofRuin
+#org @DESC_VESSELOFRUIN
 Lowers all Pokémon SpAtk status.
 
-#org @gText_AbilityDescription_Costar
+#org @DESC_COSTAR
 Copies an ally[B4]s stat stages.
 
-#org @gText_AbilityDescription_CudChew
+#org @DESC_CUDCHEW
 Eat Berry again at next turn end.
 
-#org @gText_AbilityDescription_EarthEater
+#org @DESC_EARTHEATER
 Turns Ground move into HP.
 
-#org @gText_AbilityDescription_Electromorphosis
-Ups next electric move if damaged.
+#org @DESC_ELECTROMORPHOSIS
+Being hit charges Electric moves.
 
-#org @gText_AbilityDescription_GoodAsGold
+#org @DESC_GOODASGOLD
 Full immunity to status moves.
 
-#org @gText_AbilityDescription_GuardDog
+#org @DESC_GUARDDOG
 Blocks intimidate and switch out.
 
-#org @gText_AbilityDescription_HadronEngine
+#org @DESC_HADRONENGINE
 Calls Electric Terrain, up SpAtk.
 
-#org @gText_AbilityDescription_MindsEye
+#org @DESC_MINDSEYE
 Enables moves to hit Ghost-type.
 
-#org @gText_AbilityDescription_MyceliumMight
+#org @DESC_MYCELIUMMIGHT
 Low priority for Status Moves.
 
-#org @gText_AbilityDescription_Opportunist
+#org @DESC_OPPORTUNIST
 Copies foes status changes.
 
-#org @gText_AbilityDescription_OrichalcumPulse
+#org @DESC_ORICHALCUMPULSE
 Summons sunlight and ups Attack.
 
-#org @gText_AbilityDescription_Protosynthesis
+#org @DESC_PROTOSYNTHESIS
 Boost status when sunny.
 
-#org @gText_AbilityDescription_PurifyingSalt
-Protects against status contidions.
+#org @DESC_PURIFYINGSALT
+Prevents status conditions.
 
-#org @gText_AbilityDescription_RockyPayload
+#org @DESC_ROCKYPAYLOAD
 Powers up Rock-type moves.
 
-#org @gText_AbilityDescription_SeedSower
+#org @DESC_SEEDSOWER
 Creates a Grassy Terrain if hit.
 
-#org @gText_AbilityDescription_Sharpness
+#org @DESC_SHARPNESS
 Powers up slicing moves.
 
-#org @gText_AbilityDescription_SupremeOverlord
+#org @DESC_SUPREMEOVERLORD
 Boost power if an ally fainted.
 
-#org @gText_AbilityDescription_SuperSweetSyrup
+#org @DESC_SUPERSWEETSYRUP
 Lowers foe's evasiveness stat.
 
-#org @gText_AbilityDescription_TeraShift
-Transforms into its Terastal Form.
+#org @DESC_TERASHIFT
+Changes into its Terastal Form.
 
-#org @gText_AbilityDescription_TeraShell
+#org @DESC_TERASHELL
 Reduces damage when HP is full.
 
-#org @gText_AbilityDescription_ThermalExchange
+#org @DESC_THERMALEXCHANGE
 Fire hit ups Atk & Prevents burn.
 
-#org @gText_AbilityDescription_ToxicChain
+#org @DESC_TOXICCHAIN
 Can badly poison any foe on hit.
 
-#org @gText_AbilityDescription_PoisonPuppeteer
+#org @DESC_POISONPUPPETEER
 Foe become confused if poisoned.
 
-#org @gText_AbilityDescription_ToxicDebris
+#org @DESC_TOXICDEBRIS
 Set Toxic Spikes if physical hit.
 
-#org @gText_AbilityDescription_WellBakedBody
-Boost Defense if hit by Fire type.
+#org @DESC_WELLBAKEDBODY
+Fire hits boost Defense.
 
-#org @gText_AbilityDescription_WindPower
+#org @DESC_WINDPOWER
 Boost electricity if hit by Wind.
 
-#org @gText_AbilityDescription_WindRider
+#org @DESC_WINDRIDER
 Boost Atk if hits by Wind Moves.
 
-#org @gText_AbilityDescription_ZerotoHero
+#org @DESC_ZEROTOHERO
 Change Hero form when switch out.
+
+#org @DESC_LINGERINGAROMA
+Contact changes foe Ability.
+
+#org @DESC_COMMANDER
+Enters an ally Dondozo's mouth.
+
+#org @DESC_HOSPITALITY
+Restores an ally's HP on entry.
+
+#org @DESC_EMBODY_ASPECT_TEAL
+Terastallizing boosts Speed.
+
+#org @DESC_EMBODY_ASPECT_HEARTHFLAME
+Terastallizing boosts Attack.
+
+#org @DESC_EMBODY_ASPECT_WELLSPRING
+Terastallizing boosts Sp. Def.
+
+#org @DESC_EMBODY_ASPECT_CORNERSTONE
+Terastallizing boosts Defense.
+
+#org @DESC_TERAFORMZERO
+Clears weather and terrain.

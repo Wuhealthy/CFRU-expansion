@@ -13,711 +13,10 @@
 
 extern const u8 gAbilityNames[][ABILITY_NAME_LENGTH + 1];
 extern const u8* gAbilityDescriptions[];
-extern const u8 gText_AbilityName_AirLock[];
-extern const u8 gText_AbilityName_VitalSpirit[];
-extern const u8 gText_AbilityName_WhiteSmoke[];
-extern const u8 gText_AbilityName_PurePower[];
-extern const u8 gText_AbilityName_IronBarbs[];
-extern const u8 gText_AbilityName_SolidRock[];
-extern const u8 gText_AbilityName_Turboblaze[];
-extern const u8 gText_AbilityName_Teravolt[];
-extern const u8 gText_AbilityName_ChillingNeigh[];
-extern const u8 gText_AbilityName_Libero[];
-extern const u8 gText_AbilityName_TanglingHair[];
-extern const u8 gText_AbilityName_WimpOut[];
-extern const u8 gText_AbilityName_QueenlyMajesty[];
-extern const u8 gText_AbilityName_PowerOfAlchemy[];
-extern const u8 gText_AbilityName_PropellerTail[];
 
-//Unbound Custom Abilities
-extern const u8 gText_AbilityName_NineLives[];
-extern const u8 gText_AbilityName_FocusBelt[];
-extern const u8 gText_AbilityName_Evaporate[];
-extern const u8 gText_AbilityName_FieryNeigh[];
-extern const u8 gText_AbilityName_ShockingNeigh[];
-extern const u8 gText_AbilityName_Pride[];
-extern const u8 gText_AbilityName_Multieye[];
-extern const u8 gText_AbilityName_Subterfuge[];
-extern const u8 gText_AbilityName_TanglingWool[];
-extern const u8 gText_AbilityName_BrainBond[];
-extern const u8 gText_AbilityName_GrassDash[];
-extern const u8 gText_AbilityName_SlipperyTail[];
-extern const u8 gText_AbilityName_DrillBeak[];
-extern const u8 gText_AbilityName_CottonCloud[];
-extern const u8 gText_AbilityName_Bellow[];
-extern const u8 gText_AbilityName_SoundWaves[];
-extern const u8 gText_AbilityName_IcySkin[];
-extern const u8 gText_AbilityName_DustyScales[];
-extern const u8 gText_AbilityName_CrabbyTactics[];
-extern const u8 gText_AbilityName_HoneyArmor[];
-extern const u8 gText_AbilityName_FaceShield[];
-extern const u8 gText_AbilityName_RoyalRoar[];
-
-extern const u8 gText_AbilityDescription_Evaporate[];
-extern const u8 gText_AbilityDescription_GrassDash[];
-extern const u8 gText_AbilityDescription_SlipperyTail[];
-extern const u8 gText_AbilityDescription_DrillBeak[];
-
-//Gen 9 Abilities
-extern const u8 gText_AbilityName_AngerShell[];
-extern const u8 gText_AbilityDescription_AngerShell[];
-extern const u8 gText_AbilityName_ArmorTail[];
-extern const u8 gText_AbilityDescription_BeadsofRuin[];
-extern const u8 gText_AbilityDescription_SwordofRuin[];
-extern const u8 gText_AbilityDescription_TabletsofRuin[];
-extern const u8 gText_AbilityDescription_VesselofRuin[];
-extern const u8 gText_AbilityName_BeadsofRuin[];
-extern const u8 gText_AbilityName_SwordofRuin[];
-extern const u8 gText_AbilityName_TabletsofRuin[];
-extern const u8 gText_AbilityName_VesselofRuin[];
-extern const u8 gText_AbilityName_Costar[];
-extern const u8 gText_AbilityDescription_Costar[];
-extern const u8 gText_AbilityName_CudChew[];
-extern const u8 gText_AbilityDescription_CudChew[];
-extern const u8 gText_AbilityName_EarthEater[];
-extern const u8 gText_AbilityDescription_EarthEater[];
-extern const u8 gText_AbilityName_Electromorphosis[];
-extern const u8 gText_AbilityDescription_Electromorphosis[];
-extern const u8 gText_AbilityName_GoodAsGold[];
-extern const u8 gText_AbilityDescription_GoodAsGold[];
-extern const u8 gText_AbilityName_GuardDog[];
-extern const u8 gText_AbilityDescription_GuardDog[];
-extern const u8 gText_AbilityName_HadronEngine[];
-extern const u8 gText_AbilityDescription_HadronEngine[];
-extern const u8 gText_AbilityName_MindsEye[];
-extern const u8 gText_AbilityDescription_MindsEye[];
-extern const u8 gText_AbilityName_MyceliumMight[];
-extern const u8 gText_AbilityDescription_MyceliumMight[];
-extern const u8 gText_AbilityName_Opportunist[];
-extern const u8 gText_AbilityDescription_Opportunist[];
-extern const u8 NAME_FULL_METAL_BODY[];
-extern const u8 gText_AbilityName_OrichalcumPulse[];
-extern const u8 gText_AbilityDescription_OrichalcumPulse[];
-extern const u8 gText_AbilityName_Protosynthesis[];
-extern const u8 gText_AbilityDescription_Protosynthesis[];
-extern const u8 gText_AbilityName_PureSalt[];
-extern const u8 gText_AbilityDescription_PurifyingSalt[];
-extern const u8 gText_AbilityName_RockyPayload[];
-extern const u8 gText_AbilityDescription_RockyPayload[];
-extern const u8 gText_AbilityName_SeedSower[];
-extern const u8 gText_AbilityDescription_SeedSower[];
-extern const u8 gText_AbilityName_Sharpness[];
-extern const u8 gText_AbilityDescription_Sharpness[];
-extern const u8 gText_AbilityName_SupremeOverlord[];
-extern const u8 gText_AbilityDescription_SupremeOverlord[];
-extern const u8 gText_AbilityName_SuperSweetSyrup[];
-extern const u8 gText_AbilityDescription_SuperSweetSyrup[];
-extern const u8 gText_AbilityName_TeraShift[];
-extern const u8 gText_AbilityDescription_TeraShift[];
-extern const u8 gText_AbilityName_TeraShell[];
-extern const u8 gText_AbilityDescription_TeraShell[];
-extern const u8 gText_AbilityName_ThermalExchange[];
-extern const u8 gText_AbilityDescription_ThermalExchange[];
-extern const u8 gText_AbilityName_ToxicChain[];
-extern const u8 gText_AbilityDescription_ToxicChain[];
-extern const u8 gText_AbilityDescription_PoisonPuppeteer[];
-extern const u8 gText_AbilityName_PoisonPuppeteer[];
-extern const u8 gText_AbilityName_ToxicDebris[];
-extern const u8 gText_AbilityDescription_ToxicDebris[];
-extern const u8 gText_AbilityName_WellBakedBody[];
-extern const u8 gText_AbilityDescription_WellBakedBody[];
-extern const u8 gText_AbilityName_WindPower[];
-extern const u8 gText_AbilityDescription_WindPower[];
-extern const u8 gText_AbilityName_WindRider[];
-extern const u8 gText_AbilityDescription_WindRider[];
-extern const u8 gText_AbilityName_ZerotoHero[];
-extern const u8 gText_AbilityDescription_ZerotoHero[];
-
-const u8* GetAbilityNameOverride(ability_t ability, const u16 species) //Canonical names for promoted legacy abilities
+const u8* GetAbilityName(ability_t ability, unusedArg const u16 species)
 {
-	u16 dexNum = SpeciesToNationalPokedexNum(species);
-
-	// Once promoted, ability identity no longer depends on the species.
-	switch (ability)
-	{
-		case ABILITY_AIRLOCK: return gText_AbilityName_AirLock;
-		case ABILITY_VITALSPIRIT: return gText_AbilityName_VitalSpirit;
-		case ABILITY_WHITESMOKE: return gText_AbilityName_WhiteSmoke;
-		case ABILITY_PUREPOWER: return gText_AbilityName_PurePower;
-		case ABILITY_IRONBARBS: return gText_AbilityName_IronBarbs;
-		case ABILITY_SOLIDROCK: return gText_AbilityName_SolidRock;
-		case ABILITY_TURBOBLAZE: return gText_AbilityName_Turboblaze;
-		case ABILITY_TERAVOLT: return gText_AbilityName_Teravolt;
-		case ABILITY_LIBERO: return gText_AbilityName_Libero;
-		case ABILITY_WIMPOUT: return gText_AbilityName_WimpOut;
-		case ABILITY_QUEENLYMAJESTY: return gText_AbilityName_QueenlyMajesty;
-		case ABILITY_POWEROFALCHEMY: return gText_AbilityName_PowerOfAlchemy;
-		case ABILITY_PROPELLERTAIL: return gText_AbilityName_PropellerTail;
-		case ABILITY_TANGLINGHAIR: return gText_AbilityName_TanglingHair;
-		case ABILITY_CHILLINGNEIGH: return gText_AbilityName_ChillingNeigh;
-		case ABILITY_EVAPORATE: return gText_AbilityName_Evaporate;
-		case ABILITY_DRILLBEAK: return gText_AbilityName_DrillBeak;
-		case ABILITY_ANGERSHELL: return gText_AbilityName_AngerShell;
-		case ABILITY_ARMORTAIL: return gText_AbilityName_ArmorTail;
-		case ABILITY_BEADSOFRUIN: return gText_AbilityName_BeadsofRuin;
-		case ABILITY_SWORDOFRUIN: return gText_AbilityName_SwordofRuin;
-		case ABILITY_TABLETOFRUIN: return gText_AbilityName_TabletsofRuin;
-		case ABILITY_VESSELOFRUIN: return gText_AbilityName_VesselofRuin;
-		case ABILITY_COSTAR: return gText_AbilityName_Costar;
-		case ABILITY_CUDCHEW: return gText_AbilityName_CudChew;
-		case ABILITY_EARTHEATER: return gText_AbilityName_EarthEater;
-		case ABILITY_ELECTROMORPHOSIS: return gText_AbilityName_Electromorphosis;
-		case ABILITY_GOODASGOLD: return gText_AbilityName_GoodAsGold;
-		case ABILITY_GUARDDOG: return gText_AbilityName_GuardDog;
-		case ABILITY_HADRONENGINE: return gText_AbilityName_HadronEngine;
-		case ABILITY_MINDSEYE: return gText_AbilityName_MindsEye;
-		case ABILITY_MYCELIUMMIGHT: return gText_AbilityName_MyceliumMight;
-		case ABILITY_OPPORTUNIST: return gText_AbilityName_Opportunist;
-		case ABILITY_ORICHALCUMPULSE: return gText_AbilityName_OrichalcumPulse;
-		case ABILITY_POISONPUPPETEER: return gText_AbilityName_PoisonPuppeteer;
-		case ABILITY_PROTOSYNTHESIS: return gText_AbilityName_Protosynthesis;
-		case ABILITY_PURIFYINGSALT: return gText_AbilityName_PureSalt;
-		case ABILITY_ROCKYPAYLOAD: return gText_AbilityName_RockyPayload;
-		case ABILITY_SEEDSOWER: return gText_AbilityName_SeedSower;
-		case ABILITY_SHARPNESS: return gText_AbilityName_Sharpness;
-		case ABILITY_SUPREMEOVERLORD: return gText_AbilityName_SupremeOverlord;
-		case ABILITY_SUPERSWEETSYRUP: return gText_AbilityName_SuperSweetSyrup;
-		case ABILITY_TERASHIFT: return gText_AbilityName_TeraShift;
-		case ABILITY_TERASHELL: return gText_AbilityName_TeraShell;
-		case ABILITY_THERMALEXCHANGE: return gText_AbilityName_ThermalExchange;
-		case ABILITY_TOXICCHAIN: return gText_AbilityName_ToxicChain;
-		case ABILITY_TOXICDEBRIS: return gText_AbilityName_ToxicDebris;
-		case ABILITY_WELLBAKEDBODY: return gText_AbilityName_WellBakedBody;
-		case ABILITY_WINDPOWER: return gText_AbilityName_WindPower;
-		case ABILITY_WINDRIDER: return gText_AbilityName_WindRider;
-		case ABILITY_ZEROTOHERO: return gText_AbilityName_ZerotoHero;
-		case ABILITY_FULLMETALBODY: return NAME_FULL_METAL_BODY;
-	}
-
-	switch (ability)
-	{
-		case ABILITY_CLOUDNINE:
-			switch (dexNum)
-			{
-				#ifdef NATIONAL_DEX_RAYQUAZA
-				case NATIONAL_DEX_RAYQUAZA:
-					return gText_AbilityName_AirLock;
-				#endif
-			}
-			break;
-		case ABILITY_INSOMNIA:
-			if (IsVitalSpiritAbility(ability, species))
-				return gText_AbilityName_VitalSpirit;
-			break;
-		case ABILITY_CLEARBODY:
-			if (IsWhiteSmokeAbility(ability, species))
-				return gText_AbilityName_WhiteSmoke;
-			else if (SpeciesHasGoodAsGold(species))
-				return gText_AbilityName_GoodAsGold;
-			else if (IsFullMetalBodyAbility(ability, species))
-				return NAME_FULL_METAL_BODY;
-			break;
-		case ABILITY_HUGEPOWER:
-			switch (dexNum)
-			{
-				#if (defined NATIONAL_DEX_MEDITITE && defined NATIONAL_DEX_MEDICHAM)
-				case NATIONAL_DEX_MEDITITE:
-				case NATIONAL_DEX_MEDICHAM:
-					return gText_AbilityName_PurePower;
-				#endif
-			}
-			if (SpeciesHasSupremeOverlord(species))
-				return gText_AbilityName_SupremeOverlord;
-			break;
-		case ABILITY_ROUGHSKIN:
-			if (IsSpeciesOfType(species, TYPE_STEEL)) //Species original type is Steel - Assumes Ferroseed, Ferrothorn, and Togedemaru types haven't changed
-				return gText_AbilityName_IronBarbs; //Gives all Steel-types with Rough Skin in randomizers Iron Barbs instead
-			break;
-		case ABILITY_STURDY:
-			switch (dexNum)
-			{
-				#if (defined NATIONAL_DEX_MEOWTH && defined NATIONAL_DEX_PERSIAN)
-				case NATIONAL_DEX_MEOWTH:
-				case NATIONAL_DEX_PERSIAN:
-					return gText_AbilityName_NineLives;
-				#endif
-				#if (defined NATIONAL_DEX_MACHOKE && defined NATIONAL_DEX_MACHAMP)
-				case NATIONAL_DEX_MACHOKE:
-				case NATIONAL_DEX_MACHAMP:
-					return gText_AbilityName_FocusBelt;
-				#endif
-			}
-			break;
-		case ABILITY_FILTER:
-			switch (dexNum)
-			{
-				#if (defined NATIONAL_DEX_CAMERUPT && defined NATIONAL_DEX_RHYPERIOR && defined NATIONAL_DEX_TIRTOUGA && defined NATIONAL_DEX_CARRACOSTA)
-				case NATIONAL_DEX_CAMERUPT:
-				case NATIONAL_DEX_RHYPERIOR:
-				case NATIONAL_DEX_TIRTOUGA:
-				case NATIONAL_DEX_CARRACOSTA:
-				#ifdef NATIONAL_DEX_STONJOURNER
-				case NATIONAL_DEX_STONJOURNER:
-				#endif
-					return gText_AbilityName_SolidRock;
-				#endif
-			}
-			break;
-		case ABILITY_MOLDBREAKER:
-			if (SpeciesHasTurboblaze(species))
-				return gText_AbilityName_Turboblaze;
-			else if (SpeciesHasTeravolt(species))
-				return gText_AbilityName_Teravolt;
-			break;
-		case ABILITY_STORMDRAIN:
-			if (SpeciesHasEvaporate(species))
-				return gText_AbilityName_Evaporate;
-			break;
-		case ABILITY_MOXIE:
-			switch (dexNum)
-			{
-				#ifdef NATIONAL_DEX_GLASTRIER
-				case NATIONAL_DEX_GLASTRIER:
-					return gText_AbilityName_ChillingNeigh;
-				#endif
-				#if (defined NATIONAL_DEX_PONYTA && defined NATIONAL_DEX_RAPIDASH)
-				case NATIONAL_DEX_PONYTA:
-				case NATIONAL_DEX_RAPIDASH:
-					return gText_AbilityName_FieryNeigh;
-				#endif
-				#if (defined NATIONAL_DEX_BLITZLE && defined NATIONAL_DEX_ZEBSTRIKA)
-				case NATIONAL_DEX_BLITZLE:
-				case NATIONAL_DEX_ZEBSTRIKA:
-					return gText_AbilityName_ShockingNeigh;
-				#endif
-				#if (defined NATIONAL_DEX_PIDOVE && defined NATIONAL_DEX_TRANQUILL && defined NATIONAL_DEX_UNFEZANT)
-				case NATIONAL_DEX_PIDOVE:
-				case NATIONAL_DEX_TRANQUILL:
-				case NATIONAL_DEX_UNFEZANT:
-					return gText_AbilityName_Pride;
-				#endif
-			}
-			break;
-		case ABILITY_MULTISCALE:
-			switch (dexNum)
-			{
-				#if (defined NATIONAL_DEX_BALTOY && defined NATIONAL_DEX_CLAYDOL)
-				case NATIONAL_DEX_BALTOY:
-				case NATIONAL_DEX_CLAYDOL:
-					return gText_AbilityName_Multieye;
-				#endif
-			}
-			break;
-		case ABILITY_PROTEAN:
-			switch (dexNum)
-			{
-				#if (defined NATIONAL_DEX_SCORBUNNY && defined NATIONAL_DEX_RABOOT && defined NATIONAL_DEX_CINDERACE)
-				case NATIONAL_DEX_SCORBUNNY:
-				case NATIONAL_DEX_RABOOT:
-				case NATIONAL_DEX_CINDERACE:
-					return gText_AbilityName_Libero;
-				#endif
-				#ifdef NATIONAL_DEX_MOTHIM
-				case NATIONAL_DEX_MOTHIM:
-					return gText_AbilityName_Subterfuge;
-				#endif
-			}
-			break;
-		case ABILITY_GOOEY:
-			switch (dexNum)
-			{
-				#if (defined NATIONAL_DEX_DIGLETT && defined NATIONAL_DEX_DUGTRIO)
-				case NATIONAL_DEX_DIGLETT:
-				case NATIONAL_DEX_DUGTRIO:
-					return gText_AbilityName_TanglingHair;
-				#endif
-				#if (defined NATIONAL_DEX_MAREEP && defined NATIONAL_DEX_FLAAFFY && defined NATIONAL_DEX_AMPHAROS)
-				case NATIONAL_DEX_MAREEP:
-				case NATIONAL_DEX_FLAAFFY:
-				case NATIONAL_DEX_AMPHAROS:
-					return gText_AbilityName_TanglingWool;
-				#endif
-			}
-			break;
-		case ABILITY_PARENTALBOND:
-			switch (dexNum)
-			{
-				default:
-					break;
-				#ifdef NATIONAL_DEX_GIRAFARIG
-				case NATIONAL_DEX_GIRAFARIG:
-				#endif
-					return gText_AbilityName_BrainBond;
-			}
-			break;
-		case ABILITY_GALEWINGS:
-			if (SpeciesHasGrassDash(species))
-				return gText_AbilityName_GrassDash;
-			else if (SpeciesHasSlipperyTail(species))
-				return gText_AbilityName_SlipperyTail;
-			break;
-		case ABILITY_EMERGENCYEXIT:
-			switch (dexNum)
-			{
-				#ifdef NATIONAL_DEX_WIMPOD
-				case NATIONAL_DEX_WIMPOD:
-					return gText_AbilityName_WimpOut;
-				#endif
-			}
-			break;
-		case ABILITY_DAZZLING:
-			switch (dexNum)
-			{
-				default:
-					break;
-				#ifdef NATIONAL_DEX_TSAREENA
-				case NATIONAL_DEX_TSAREENA:
-				#endif
-				#ifdef NATIONAL_DEX_NIDOQUEEN
-				case NATIONAL_DEX_NIDOQUEEN:
-				#endif
-				#ifdef NATIONAL_DEX_VESPIQUEN
-				case NATIONAL_DEX_VESPIQUEN:
-				#endif
-					return gText_AbilityName_QueenlyMajesty;
-				if (SpeciesHasArmorTail(species))
-				return gText_AbilityName_ArmorTail;
-			}
-			break;
-		case ABILITY_RECEIVER:
-			switch (dexNum)
-			{
-				#if (defined NATIONAL_DEX_GRIMER && defined NATIONAL_DEX_MUK)
-				case NATIONAL_DEX_GRIMER:
-				case NATIONAL_DEX_MUK:
-					return gText_AbilityName_PowerOfAlchemy;
-				#endif
-			}
-			break;
-		case ABILITY_MERCILESS:
-			if (SpeciesHasDrillBeak(species))
-				return gText_AbilityName_DrillBeak;
-			break;
-		case ABILITY_STALWART:
-			switch (dexNum)
-			{
-				#if (defined NATIONAL_DEX_ARROKUDA && defined NATIONAL_DEX_BARRASKEWDA)
-				case NATIONAL_DEX_ARROKUDA:
-				case NATIONAL_DEX_BARRASKEWDA:
-					return gText_AbilityName_PropellerTail;
-				#endif
-			}
-			break;
-		case ABILITY_COTTONDOWN:
-			switch (dexNum)
-			{
-				#if (defined NATIONAL_DEX_SWABLU && defined NATIONAL_DEX_ALTARIA)
-				case NATIONAL_DEX_SWABLU:
-				case NATIONAL_DEX_ALTARIA:
-					return gText_AbilityName_CottonCloud;
-				#endif
-			}
-			break;
-		case ABILITY_PUNKROCK:
-			switch (dexNum)
-			{
-				#if (defined NATIONAL_DEX_WHISMUR && defined NATIONAL_DEX_LOUDRED && defined NATIONAL_DEX_EXPLOUD)
-				case NATIONAL_DEX_WHISMUR:
-				case NATIONAL_DEX_LOUDRED:
-				case NATIONAL_DEX_EXPLOUD:
-					return gText_AbilityName_Bellow;
-				#endif
-				#if (defined NATIONAL_DEX_VIBRAVA && defined NATIONAL_DEX_FLYGON)
-				case NATIONAL_DEX_VIBRAVA:
-				case NATIONAL_DEX_FLYGON:
-					return gText_AbilityName_SoundWaves;
-				#endif
-				#if (defined NATIONAL_DEX_NOIBAT && defined NATIONAL_DEX_NOIVERN)
-				case NATIONAL_DEX_NOIBAT:
-				case NATIONAL_DEX_NOIVERN:
-					return gText_AbilityName_SoundWaves;
-				#endif
-			}
-			break;
-		case ABILITY_ICESCALES:
-			switch (dexNum)
-			{
-				default:
-					break;
-				#ifdef NATIONAL_DEX_GLACEON
-				case NATIONAL_DEX_GLACEON:
-				#endif
-				#if (defined NATIONAL_DEX_SMOOCHUM && defined NATIONAL_DEX_JYNX)
-				case NATIONAL_DEX_SMOOCHUM:
-				case NATIONAL_DEX_JYNX:
-					return gText_AbilityName_IcySkin;
-				#endif
-				#ifdef NATIONAL_DEX_DUSTOX
-				case NATIONAL_DEX_DUSTOX:
-					return gText_AbilityName_DustyScales;
-				#endif
-			}
-			break;
-		case ABILITY_GORILLATACTICS:
-			switch (dexNum)
-			{
-				#ifdef NATIONAL_DEX_CRABOMINABLE
-				case NATIONAL_DEX_CRABOMINABLE:
-					return gText_AbilityName_CrabbyTactics;
-				#endif
-			}
-			break;
-		case ABILITY_DAUNTLESSSHIELD:
-			switch (dexNum)
-			{
-				#if (defined NATIONAL_DEX_SHIELDON && defined NATIONAL_DEX_BASTIODON)
-				case NATIONAL_DEX_SHIELDON:
-				case NATIONAL_DEX_BASTIODON:
-					return gText_AbilityName_FaceShield;
-				#endif
-				#ifdef NATIONAL_DEX_VESPIQUEN
-				case NATIONAL_DEX_VESPIQUEN:
-					return gText_AbilityName_HoneyArmor;
-				#endif
-			}
-			break;
-		case ABILITY_GRIMNEIGH:
-			switch (dexNum)
-			{
-				#if (defined NATIONAL_DEX_LITLEO && defined NATIONAL_DEX_PYROAR)
-				case NATIONAL_DEX_LITLEO:
-				case NATIONAL_DEX_PYROAR:
-					return gText_AbilityName_RoyalRoar;
-				#endif
-			}
-			break;
-		case ABILITY_WEAKARMOR:
-			if(SpeciesHasAngerShell(species))
-				return gText_AbilityName_AngerShell;
-			break;
-		case ABILITY_STALL:
-			if(SpeciesHasBeadsofRuin(species))
-				return gText_AbilityName_BeadsofRuin;
-			if(SpeciesHasSwordofRuin(species))
-				return gText_AbilityName_SwordofRuin;
-			if(SpeciesHasTabletsofRuin(species))
-				return gText_AbilityName_TabletsofRuin;
-			if(SpeciesHasVesselofRuin(species))
-				return gText_AbilityName_VesselofRuin;
-			break;
-		case ABILITY_CURIOUSMEDICINE:
-			if (SpeciesHasCostar(species))
-				return gText_AbilityName_Costar;
-			break;
-		case ABILITY_HARVEST:
-			if(SpeciesHasCudChew(species))
-				return gText_AbilityName_CudChew;
-			break;
-		case ABILITY_VOLTABSORB:
-			if(SpeciesHasEarthEater(species))
-				return gText_AbilityName_EarthEater;
-			break;
-		case ABILITY_COLORCHANGE:
-			if(SpeciesHasElectromorphosis(species))
-				return gText_AbilityName_Electromorphosis;
-			break;
-		case ABILITY_INNERFOCUS:
-			if(SpeciesHasGuardDog(species))
-				return gText_AbilityName_GuardDog;
-			break;
-		case ABILITY_ELECTRICSURGE:
-			if(SpeciesHasHadronEngine(species))
-				return gText_AbilityName_HadronEngine;
-			break;
-		case ABILITY_SCRAPPY:
-			if(SpeciesHasMindsEye(species))
-				return gText_AbilityName_MindsEye;
-			break;
-		case ABILITY_DANCER:
-			if(SpeciesHasOportunist(species))
-				return gText_AbilityName_Opportunist;
-			break;
-		case ABILITY_DROUGHT:
-			if(SpeciesHasOrichalcumPulse(species))
-				return gText_AbilityName_OrichalcumPulse;
-			break;
-		case ABILITY_QUARKDRIVE:
-			if (SpeciesHasProtosynthesis(species))
-				return gText_AbilityName_Protosynthesis;
-			break;
-		case ABILITY_IMMUNITY:
-			if (SpeciesHasPurifyingSalt(species))
-				return gText_AbilityName_PureSalt;
-			break;
-		case ABILITY_STEELWORKER:
-			if (SpeciesHasRockyPayload(species))
-				return gText_AbilityName_RockyPayload;
-			break;
-		case ABILITY_GRASSYSURGE:
-			if (SpeciesHasSeedSower(species))
-				return gText_AbilityName_SeedSower;
-			break;
-		case ABILITY_STRONGJAW:
-			if (SpeciesHasSharpness(species))
-				return gText_AbilityName_Sharpness;
-			break;
-		case ABILITY_INTIMIDATE:
-			if (SpeciesHasSuperSweetSyrup(species))
-				return gText_AbilityName_SuperSweetSyrup;
-			break;
-		case ABILITY_ICEFACE:
-				if (SpeciesHasTeraShift(species))
-					return gText_AbilityName_TeraShift;
-			break;
-		case ABILITY_BLAZE:
-			if (SpeciesHasTeraShell(species))
-				return gText_AbilityName_TeraShell;
-			break;
-		case ABILITY_STEAMENGINE:
-			if(SpeciesHasThermalExchange(species))
-				return gText_AbilityName_ThermalExchange;
-			else if(SpeciesHasWellBakedBody(species))
-				return gText_AbilityName_WellBakedBody;
-			break;
-		case ABILITY_POISONTOUCH:
-			if(SpeciesHasToxicChain(species))
-				return gText_AbilityName_ToxicChain;
-			break;
-		case ABILITY_PLUS:
-			if (SpeciesHasPoisonPuppeteer(species))
-				return gText_AbilityName_PoisonPuppeteer;
-			break;
-		case ABILITY_POISONPOINT:
-			if(SpeciesHasToxicDebris(species))
-				return gText_AbilityName_ToxicDebris;
-			break;
-		case ABILITY_BERSERK:
-			if(SpeciesHasWindPower(species))
-				return gText_AbilityName_WindPower;
-			break;
-		case ABILITY_ANGERPOINT:
-			if(SpeciesHasWindRider(species))
-				return gText_AbilityName_WindRider;
-			break;
-		case ABILITY_TORRENT:
-			if (SpeciesHasZerotoHero(species))
-				return gText_AbilityName_ZerotoHero;
-			break;
-		case ABILITY_MINUS:
-			if(SpeciesHasMyceliumMight(species))
-				return gText_AbilityName_MyceliumMight;
-	}
-
-	return NULL;
-}
-
-ability_t PromoteLegacyAbility(u8 ability, u16 species)
-{
-	switch (ability)
-	{
-		case ABILITY_LEGACY_GORILLATACTICS: return ABILITY_GORILLATACTICS;
-		case ABILITY_LEGACY_NEUTRALIZINGGAS: return ABILITY_NEUTRALIZINGGAS;
-		case ABILITY_LEGACY_PASTELVEIL: return ABILITY_PASTELVEIL;
-		case ABILITY_LEGACY_HUNGERSWITCH: return ABILITY_HUNGERSWITCH;
-		case ABILITY_LEGACY_QUICKDRAW: return ABILITY_QUICKDRAW;
-		case ABILITY_LEGACY_UNSEENFIST: return ABILITY_UNSEENFIST;
-		case ABILITY_LEGACY_CURIOUSMEDICINE:
-			return SpeciesHasCostar(species) ? ABILITY_COSTAR : ABILITY_CURIOUSMEDICINE;
-		case ABILITY_LEGACY_TRANSISTOR: return ABILITY_TRANSISTOR;
-		case ABILITY_LEGACY_DRAGONSMAW: return ABILITY_DRAGONSMAW;
-		case ABILITY_LEGACY_GRIMNEIGH: return ABILITY_GRIMNEIGH;
-		case ABILITY_LEGACY_ASONE_CHILLING: return ABILITY_ASONE_CHILLING;
-		case ABILITY_LEGACY_ASONE_GRIM: return ABILITY_ASONE_GRIM;
-		case ABILITY_LEGACY_LINGERINGAROMA: return ABILITY_LINGERINGAROMA;
-		case ABILITY_LEGACY_QUARKDRIVE:
-			return SpeciesHasProtosynthesis(species) ? ABILITY_PROTOSYNTHESIS : ABILITY_QUARKDRIVE;
-	}
-
-	const u8 *name = GetAbilityNameOverride(ability, species);
-	if (name == gText_AbilityName_AirLock) return ABILITY_AIRLOCK;
-	if (name == gText_AbilityName_VitalSpirit) return ABILITY_VITALSPIRIT;
-	if (name == gText_AbilityName_WhiteSmoke) return ABILITY_WHITESMOKE;
-	if (name == gText_AbilityName_PurePower) return ABILITY_PUREPOWER;
-	if (name == gText_AbilityName_IronBarbs) return ABILITY_IRONBARBS;
-	if (name == gText_AbilityName_SolidRock) return ABILITY_SOLIDROCK;
-	if (name == gText_AbilityName_Turboblaze) return ABILITY_TURBOBLAZE;
-	if (name == gText_AbilityName_Teravolt) return ABILITY_TERAVOLT;
-	if (name == gText_AbilityName_Libero) return ABILITY_LIBERO;
-	if (name == gText_AbilityName_WimpOut) return ABILITY_WIMPOUT;
-	if (name == gText_AbilityName_QueenlyMajesty) return ABILITY_QUEENLYMAJESTY;
-	if (name == gText_AbilityName_PowerOfAlchemy) return ABILITY_POWEROFALCHEMY;
-	if (name == gText_AbilityName_PropellerTail) return ABILITY_PROPELLERTAIL;
-	if (name == gText_AbilityName_TanglingHair) return ABILITY_TANGLINGHAIR;
-	if (name == gText_AbilityName_ChillingNeigh) return ABILITY_CHILLINGNEIGH;
-	if (name == gText_AbilityName_Evaporate) return ABILITY_EVAPORATE;
-	if (name == gText_AbilityName_DrillBeak) return ABILITY_DRILLBEAK;
-	if (name == gText_AbilityName_AngerShell) return ABILITY_ANGERSHELL;
-	if (name == gText_AbilityName_ArmorTail) return ABILITY_ARMORTAIL;
-	if (name == gText_AbilityName_BeadsofRuin) return ABILITY_BEADSOFRUIN;
-	if (name == gText_AbilityName_SwordofRuin) return ABILITY_SWORDOFRUIN;
-	if (name == gText_AbilityName_TabletsofRuin) return ABILITY_TABLETOFRUIN;
-	if (name == gText_AbilityName_VesselofRuin) return ABILITY_VESSELOFRUIN;
-	if (name == gText_AbilityName_Costar) return ABILITY_COSTAR;
-	if (name == gText_AbilityName_CudChew) return ABILITY_CUDCHEW;
-	if (name == gText_AbilityName_EarthEater) return ABILITY_EARTHEATER;
-	if (name == gText_AbilityName_Electromorphosis) return ABILITY_ELECTROMORPHOSIS;
-	if (name == gText_AbilityName_GoodAsGold) return ABILITY_GOODASGOLD;
-	if (name == gText_AbilityName_GuardDog) return ABILITY_GUARDDOG;
-	if (name == gText_AbilityName_HadronEngine) return ABILITY_HADRONENGINE;
-	if (name == gText_AbilityName_MindsEye) return ABILITY_MINDSEYE;
-	if (name == gText_AbilityName_MyceliumMight) return ABILITY_MYCELIUMMIGHT;
-	if (name == gText_AbilityName_Opportunist) return ABILITY_OPPORTUNIST;
-	if (name == gText_AbilityName_OrichalcumPulse) return ABILITY_ORICHALCUMPULSE;
-	if (name == gText_AbilityName_PoisonPuppeteer) return ABILITY_POISONPUPPETEER;
-	if (name == gText_AbilityName_Protosynthesis) return ABILITY_PROTOSYNTHESIS;
-	if (name == gText_AbilityName_PureSalt) return ABILITY_PURIFYINGSALT;
-	if (name == gText_AbilityName_RockyPayload) return ABILITY_ROCKYPAYLOAD;
-	if (name == gText_AbilityName_SeedSower) return ABILITY_SEEDSOWER;
-	if (name == gText_AbilityName_Sharpness) return ABILITY_SHARPNESS;
-	if (name == gText_AbilityName_SupremeOverlord) return ABILITY_SUPREMEOVERLORD;
-	if (name == gText_AbilityName_SuperSweetSyrup) return ABILITY_SUPERSWEETSYRUP;
-	if (name == gText_AbilityName_TeraShift) return ABILITY_TERASHIFT;
-	if (name == gText_AbilityName_TeraShell) return ABILITY_TERASHELL;
-	if (name == gText_AbilityName_ThermalExchange) return ABILITY_THERMALEXCHANGE;
-	if (name == gText_AbilityName_ToxicChain) return ABILITY_TOXICCHAIN;
-	if (name == gText_AbilityName_ToxicDebris) return ABILITY_TOXICDEBRIS;
-	if (name == gText_AbilityName_WellBakedBody) return ABILITY_WELLBAKEDBODY;
-	if (name == gText_AbilityName_WindPower) return ABILITY_WINDPOWER;
-	if (name == gText_AbilityName_WindRider) return ABILITY_WINDRIDER;
-	if (name == gText_AbilityName_ZerotoHero) return ABILITY_ZEROTOHERO;
-	if (name == NAME_FULL_METAL_BODY) return ABILITY_FULLMETALBODY;
-	if (name == gText_AbilityName_TeraShift) return ABILITY_TERASHIFT;
-	if (name == gText_AbilityName_TeraShell) return ABILITY_TERASHELL;
-	return ability;
-}
-
-static u8 CanonicalAbilityToLegacy(ability_t ability)
-{
-	switch (ability)
-	{
-		case ABILITY_GORILLATACTICS: return ABILITY_LEGACY_GORILLATACTICS;
-		case ABILITY_NEUTRALIZINGGAS: return ABILITY_LEGACY_NEUTRALIZINGGAS;
-		case ABILITY_PASTELVEIL: return ABILITY_LEGACY_PASTELVEIL;
-		case ABILITY_HUNGERSWITCH: return ABILITY_LEGACY_HUNGERSWITCH;
-		case ABILITY_QUICKDRAW: return ABILITY_LEGACY_QUICKDRAW;
-		case ABILITY_UNSEENFIST: return ABILITY_LEGACY_UNSEENFIST;
-		case ABILITY_CURIOUSMEDICINE: return ABILITY_LEGACY_CURIOUSMEDICINE;
-		case ABILITY_TRANSISTOR: return ABILITY_LEGACY_TRANSISTOR;
-		case ABILITY_DRAGONSMAW: return ABILITY_LEGACY_DRAGONSMAW;
-		case ABILITY_GRIMNEIGH: return ABILITY_LEGACY_GRIMNEIGH;
-		case ABILITY_ASONE_CHILLING: return ABILITY_LEGACY_ASONE_CHILLING;
-		case ABILITY_ASONE_GRIM: return ABILITY_LEGACY_ASONE_GRIM;
-		case ABILITY_LINGERINGAROMA: return ABILITY_LEGACY_LINGERINGAROMA;
-		case ABILITY_QUARKDRIVE: return ABILITY_LEGACY_QUARKDRIVE;
-		default: return ABILITY_NONE;
-	}
-}
-
-const u8* GetAbilityName(ability_t ability, const u16 species)
-{
-	const u8* override = GetAbilityNameOverride(ability, species);
-	if (override != NULL)
-		return override;
-
-	u8 legacyAbility = CanonicalAbilityToLegacy(ability);
-	if (legacyAbility != ABILITY_NONE)
-		ability = legacyAbility;
-	else if (ability >= 0xFF)
+	if (ability >= ABILITIES_COUNT)
 		ability = ABILITY_NONE;
 
 	const u8* ptr = gAbilityNames[ability];
@@ -728,227 +27,9 @@ const u8* GetAbilityName(ability_t ability, const u16 species)
 	return ptr;
 }
 
-const u8* GetAbilityDescriptionOverride(ability_t ability, const u16 species)
-{
-	// Canonical u16 identities must resolve before the legacy species-based
-	// compatibility cases below.
-	switch (ability)
-	{
-		case ABILITY_ANGERSHELL: return gText_AbilityDescription_AngerShell;
-		case ABILITY_BEADSOFRUIN: return gText_AbilityDescription_BeadsofRuin;
-		case ABILITY_SWORDOFRUIN: return gText_AbilityDescription_SwordofRuin;
-		case ABILITY_TABLETOFRUIN: return gText_AbilityDescription_TabletsofRuin;
-		case ABILITY_VESSELOFRUIN: return gText_AbilityDescription_VesselofRuin;
-		case ABILITY_COSTAR: return gText_AbilityDescription_Costar;
-		case ABILITY_CUDCHEW: return gText_AbilityDescription_CudChew;
-		case ABILITY_EARTHEATER: return gText_AbilityDescription_EarthEater;
-		case ABILITY_ELECTROMORPHOSIS: return gText_AbilityDescription_Electromorphosis;
-		case ABILITY_GOODASGOLD: return gText_AbilityDescription_GoodAsGold;
-		case ABILITY_GUARDDOG: return gText_AbilityDescription_GuardDog;
-		case ABILITY_HADRONENGINE: return gText_AbilityDescription_HadronEngine;
-		case ABILITY_MINDSEYE: return gText_AbilityDescription_MindsEye;
-		case ABILITY_MYCELIUMMIGHT: return gText_AbilityDescription_MyceliumMight;
-		case ABILITY_OPPORTUNIST: return gText_AbilityDescription_Opportunist;
-		case ABILITY_ORICHALCUMPULSE: return gText_AbilityDescription_OrichalcumPulse;
-		case ABILITY_POISONPUPPETEER: return gText_AbilityDescription_PoisonPuppeteer;
-		case ABILITY_PROTOSYNTHESIS: return gText_AbilityDescription_Protosynthesis;
-		case ABILITY_PURIFYINGSALT: return gText_AbilityDescription_PurifyingSalt;
-		case ABILITY_ROCKYPAYLOAD: return gText_AbilityDescription_RockyPayload;
-		case ABILITY_SEEDSOWER: return gText_AbilityDescription_SeedSower;
-		case ABILITY_SHARPNESS: return gText_AbilityDescription_Sharpness;
-		case ABILITY_SUPREMEOVERLORD: return gText_AbilityDescription_SupremeOverlord;
-		case ABILITY_SUPERSWEETSYRUP: return gText_AbilityDescription_SuperSweetSyrup;
-		case ABILITY_TERASHIFT: return gText_AbilityDescription_TeraShift;
-		case ABILITY_TERASHELL: return gText_AbilityDescription_TeraShell;
-		case ABILITY_THERMALEXCHANGE: return gText_AbilityDescription_ThermalExchange;
-		case ABILITY_TOXICCHAIN: return gText_AbilityDescription_ToxicChain;
-		case ABILITY_TOXICDEBRIS: return gText_AbilityDescription_ToxicDebris;
-		case ABILITY_WELLBAKEDBODY: return gText_AbilityDescription_WellBakedBody;
-		case ABILITY_WINDPOWER: return gText_AbilityDescription_WindPower;
-		case ABILITY_WINDRIDER: return gText_AbilityDescription_WindRider;
-		case ABILITY_ZEROTOHERO: return gText_AbilityDescription_ZerotoHero;
-	}
-
-	switch (ability)
-	{
-		case ABILITY_ARMORTAIL: return gAbilityDescriptions[ABILITY_DAZZLING];
-		case ABILITY_STORMDRAIN:
-			if (SpeciesHasEvaporate(species))
-				return gText_AbilityDescription_Evaporate;
-			break;
-		case ABILITY_GALEWINGS:
-			if (SpeciesHasGrassDash(species))
-				return gText_AbilityDescription_GrassDash;
-			else if (SpeciesHasSlipperyTail(species))
-				return gText_AbilityDescription_SlipperyTail;
-			break;
-		case ABILITY_MERCILESS:
-			if (SpeciesHasDrillBeak(species))
-				return gText_AbilityDescription_DrillBeak;
-			break;
-		case ABILITY_WEAKARMOR:
-			if(SpeciesHasAngerShell(species))
-				return gText_AbilityDescription_AngerShell;
-			break;
-		case ABILITY_STALL:
-			if(SpeciesHasBeadsofRuin(species))
-				return gText_AbilityDescription_BeadsofRuin;
-			if(SpeciesHasSwordofRuin(species))
-				return gText_AbilityDescription_SwordofRuin;
-			if(SpeciesHasTabletsofRuin(species))
-				return gText_AbilityDescription_TabletsofRuin;
-			if(SpeciesHasVesselofRuin(species))
-				return gText_AbilityDescription_VesselofRuin;
-			break;
-		case ABILITY_CURIOUSMEDICINE:
-			if (SpeciesHasCostar(species))
-				return gText_AbilityDescription_Costar;
-			break;
-		case ABILITY_HARVEST:
-			if(SpeciesHasCudChew(species))
-				return gText_AbilityDescription_CudChew;
-			break;
-		case ABILITY_VOLTABSORB:
-			if(SpeciesHasEarthEater(species))
-				return gText_AbilityDescription_EarthEater;
-			break;
-		case ABILITY_COLORCHANGE:
-			if(SpeciesHasElectromorphosis(species))
-				return gText_AbilityDescription_Electromorphosis;
-			break;
-		case ABILITY_CLEARBODY:
-			if(SpeciesHasGoodAsGold(species))
-				return gText_AbilityDescription_GoodAsGold;
-			
-			break;
-		case ABILITY_INNERFOCUS:
-			if(SpeciesHasGuardDog(species))
-				return gText_AbilityDescription_GuardDog;
-			break;
-		case ABILITY_ELECTRICSURGE:
-			if(SpeciesHasHadronEngine(species))
-				return gText_AbilityDescription_HadronEngine;
-			break;
-		case ABILITY_SCRAPPY:
-			if(SpeciesHasMindsEye(species))
-				return gText_AbilityDescription_MindsEye;
-			break;
-		case ABILITY_DANCER:
-			if(SpeciesHasOportunist(species))
-				return gText_AbilityDescription_Opportunist;
-			break;
-		case ABILITY_DROUGHT:
-			if(SpeciesHasOrichalcumPulse(species))
-				return gText_AbilityDescription_OrichalcumPulse;
-			break;
-		case ABILITY_QUARKDRIVE:
-			if (SpeciesHasProtosynthesis(species))
-				return gText_AbilityDescription_Protosynthesis;
-			break;
-		case ABILITY_IMMUNITY:
-		if (SpeciesHasPurifyingSalt(species))
-				return gText_AbilityDescription_PurifyingSalt;
-			break;
-		case ABILITY_STEELWORKER:
-			if (SpeciesHasRockyPayload(species))
-				return gText_AbilityDescription_RockyPayload;
-			break;
-		case ABILITY_GRASSYSURGE:
-			if (SpeciesHasSeedSower(species))
-				return gText_AbilityDescription_SeedSower;
-			break;
-		case ABILITY_STRONGJAW:
-			if (SpeciesHasSharpness(species))
-				return gText_AbilityDescription_Sharpness;
-			break;
-		case ABILITY_HUGEPOWER:
-			if (SpeciesHasSupremeOverlord(species))
-				return gText_AbilityDescription_SupremeOverlord;
-			break;
-		case ABILITY_INTIMIDATE:
-			if (SpeciesHasSuperSweetSyrup(species))
-				return gText_AbilityDescription_SuperSweetSyrup;
-			break;
-		case ABILITY_ICEFACE:
-			if(SpeciesHasTeraShift(species))
-				return gText_AbilityDescription_TeraShift;
-			break;
-		case ABILITY_BLAZE:
-			if (SpeciesHasTeraShell(species))
-				return gText_AbilityDescription_TeraShell;
-			break;
-		case ABILITY_STEAMENGINE:
-			if(SpeciesHasThermalExchange(species))
-				return gText_AbilityDescription_ThermalExchange;
-			else if(SpeciesHasWellBakedBody(species))
-				return gText_AbilityDescription_WellBakedBody;
-			break;
-		case ABILITY_POISONTOUCH:
-			if(SpeciesHasToxicChain(species))
-				return gText_AbilityDescription_ToxicChain;
-			break;
-		case ABILITY_PLUS:
-			if (SpeciesHasPoisonPuppeteer(species))
-				return gText_AbilityDescription_PoisonPuppeteer;
-			break;
-		case ABILITY_POISONPOINT:
-			if(SpeciesHasToxicDebris(species))
-				return gText_AbilityDescription_ToxicDebris;
-			break;
-		case ABILITY_BERSERK:
-			if(SpeciesHasWindPower(species))
-				return gText_AbilityDescription_WindPower;
-			break;
-		case ABILITY_ANGERPOINT:
-			if(SpeciesHasWindRider(species))
-				return gText_AbilityDescription_WindRider;
-			break;
-		case ABILITY_TORRENT:
-			if (SpeciesHasZerotoHero(species))
-				return gText_AbilityDescription_ZerotoHero;
-			break;
-		case ABILITY_MINUS:
-			if(SpeciesHasMyceliumMight(species))
-				return gText_AbilityDescription_MyceliumMight;
-			break;
-	}
-
-	return NULL;
-}
-
 const u8* GetAbilityDescription(ability_t ability, unusedArg const u16 species)
-{	
-	const u8* override = GetAbilityDescriptionOverride(ability, species);
-	if (override != NULL)
-		return override;
-
-	u8 legacyAbility = CanonicalAbilityToLegacy(ability);
-	if (legacyAbility != ABILITY_NONE)
-		ability = legacyAbility;
-
-	// Abilities that are mechanically identical still have distinct canonical
-	// ids.  Reuse only their description data, never their identity.
-	switch (ability)
-	{
-		case ABILITY_AIRLOCK: ability = ABILITY_CLOUDNINE; break;
-		case ABILITY_VITALSPIRIT: ability = ABILITY_INSOMNIA; break;
-		case ABILITY_WHITESMOKE:
-		case ABILITY_FULLMETALBODY: ability = ABILITY_CLEARBODY; break;
-		case ABILITY_PUREPOWER: ability = ABILITY_HUGEPOWER; break;
-		case ABILITY_IRONBARBS: ability = ABILITY_ROUGHSKIN; break;
-		case ABILITY_SOLIDROCK: ability = ABILITY_FILTER; break;
-		case ABILITY_TURBOBLAZE:
-		case ABILITY_TERAVOLT: ability = ABILITY_MOLDBREAKER; break;
-		case ABILITY_LIBERO: ability = ABILITY_PROTEAN; break;
-		case ABILITY_WIMPOUT: ability = ABILITY_EMERGENCYEXIT; break;
-		case ABILITY_QUEENLYMAJESTY: ability = ABILITY_DAZZLING; break;
-		case ABILITY_POWEROFALCHEMY: ability = ABILITY_RECEIVER; break;
-		case ABILITY_PROPELLERTAIL: ability = ABILITY_STALWART; break;
-		case ABILITY_TANGLINGHAIR: ability = ABILITY_GOOEY; break;
-		case ABILITY_CHILLINGNEIGH: ability = ABILITY_MOXIE; break;
-	}
-
-	if (ability >= 0xFF)
+{
+	if (ability >= ABILITIES_COUNT)
 		return gAbilityDescriptions[ABILITY_NONE];
 
 	const u8* desc = gAbilityDescriptions[ability];
@@ -958,6 +39,19 @@ const u8* GetAbilityDescription(ability_t ability, unusedArg const u16 species)
 void CopyAbilityName(u8* dst, ability_t ability, const u16 species)
 {
 	StringCopy(dst, GetAbilityName(ability, species));
+}
+
+// FireRed's summary struct reserves exactly 13 bytes for this field.  Keep the
+// full canonical name everywhere else, but always leave room for EOS here so a
+// long name cannot run into abilityDescStrBuf.
+void CopyAbilityNameForSummary(u8* dst, ability_t ability, const u16 species)
+{
+	const u8 *src = GetAbilityName(ability, species);
+	u32 i;
+
+	for (i = 0; i < 12 && src[i] != EOS; ++i)
+		dst[i] = src[i];
+	dst[i] = EOS;
 }
 
 void CopyAbilityDescription(u8* dst, ability_t ability, const u16 species)
@@ -1002,10 +96,10 @@ void ResetTookAbilityFrom(u8 bank)
 
 bool8 IsTargetAbilityIgnored(ability_t defAbility, ability_t atkAbility, u16 move)
 {
-	if (SpeciesHasMyceliumMight(SPECIES(gBankAttacker)))
-		return IS_MOLD_BREAKER(atkAbility, move) && gSpecialAbilityFlags[defAbility].gMyceliumMighIgnoredAbilities;
-	else
-		return IS_MOLD_BREAKER(atkAbility, move) && gSpecialAbilityFlags[defAbility].gMoldBreakerIgnoredAbilities;
+	if (atkAbility == ABILITY_MYCELIUMMIGHT && SPLIT(move) == SPLIT_STATUS)
+		return gSpecialAbilityFlags[defAbility].gMyceliumMighIgnoredAbilities;
+
+	return IS_MOLD_BREAKER(atkAbility, move) && gSpecialAbilityFlags[defAbility].gMoldBreakerIgnoredAbilities;
 }
 
 bool8 IsTargetAbilityIgnoredNoMove(ability_t defAbility, ability_t atkAbility)
@@ -1104,11 +198,11 @@ bool8 IsMoxieAbility(ability_t ability)
 		#ifdef ABILITY_CHILLINGNEIGH
 		case ABILITY_CHILLINGNEIGH:
 		#endif
-		#ifdef ABILITY_ASONE_GRIM
-		case ABILITY_ASONE_GRIM:
+		#ifdef ABILITY_ASONESHADOWRIDER
+		case ABILITY_ASONESHADOWRIDER:
 		#endif
-		#ifdef ABILITY_ASONE_CHILLING
-		case ABILITY_ASONE_CHILLING:
+		#ifdef ABILITY_ASONEICERIDER
+		case ABILITY_ASONEICERIDER:
 		#endif
 		case ABILITY_BEASTBOOST:
 		case ABILITY_SOULHEART:
@@ -1193,11 +287,11 @@ bool8 IsPriorityBlockingAbility(ability_t ability)
 bool8 IsUnnerveAbility(ability_t ability)
 {
 	return ability == ABILITY_UNNERVE
-		#ifdef ABILITY_ASONE_GRIM
-		|| ability == ABILITY_ASONE_GRIM
+		#ifdef ABILITY_ASONESHADOWRIDER
+		|| ability == ABILITY_ASONESHADOWRIDER
 		#endif
-		#ifdef ABILITY_ASONE_CHILLING
-		|| ability == ABILITY_ASONE_CHILLING
+		#ifdef ABILITY_ASONEICERIDER
+		|| ability == ABILITY_ASONEICERIDER
 		#endif
 		;
 }
@@ -1205,11 +299,11 @@ bool8 IsUnnerveAbility(ability_t ability)
 bool8 UnnerveOnOpposingField(u8 bank)
 {
 	return ABILITY_ON_OPPOSING_FIELD(bank, ABILITY_UNNERVE)
-		#ifdef ABILITY_ASONE_GRIM
-		|| ABILITY_ON_OPPOSING_FIELD(bank, ABILITY_ASONE_GRIM)
+		#ifdef ABILITY_ASONESHADOWRIDER
+		|| ABILITY_ON_OPPOSING_FIELD(bank, ABILITY_ASONESHADOWRIDER)
 		#endif
-		#ifdef ABILITY_ASONE_CHILLING
-		|| ABILITY_ON_OPPOSING_FIELD(bank, ABILITY_ASONE_CHILLING)
+		#ifdef ABILITY_ASONEICERIDER
+		|| ABILITY_ON_OPPOSING_FIELD(bank, ABILITY_ASONEICERIDER)
 		#endif
 		;
 }
@@ -1303,7 +397,7 @@ bool8 IsTrappedByAbility(u8 bankDef, ability_t trapAbility)
 
 bool8 BankHasEvaporate(u8 bank)
 {
-	return ABILITY(bank) == ABILITY_EVAPORATE
+	return ABILITY(bank) == ABILITY_314
 		&& SpeciesHasEvaporate(GetProperAbilityPopUpSpecies(bank));
 }
 
@@ -1322,81 +416,14 @@ bool8 BankOnFieldHasEvaporate(void)
 	return FALSE;
 }
 
-bool8 IsWhiteSmokeAbility(ability_t ability, u16 species)
+bool8 IsWhiteSmokeAbility(ability_t ability, unusedArg u16 species)
 {
-	if (!IsClearBodyAbility(ability))
-		return FALSE;
-
-	switch (SpeciesToNationalPokedexNum(species))
-	{
-		#if (defined NATIONAL_DEX_TORKOAL && defined NATIONAL_DEX_HEATMOR && defined NATIONAL_DEX_SIZZLIPEDE && defined NATIONAL_DEX_CENTISKORCH)
-		case NATIONAL_DEX_TORKOAL:
-		case NATIONAL_DEX_HEATMOR:
-		case NATIONAL_DEX_SIZZLIPEDE:
-		case NATIONAL_DEX_CENTISKORCH:
-			return TRUE;
-		#endif
-	}
-
-	return FALSE;
+	return ability == ABILITY_WHITESMOKE;
 }
 
-bool8 IsVitalSpiritAbility(ability_t ability, u16 species)
+bool8 IsVitalSpiritAbility(ability_t ability, unusedArg u16 species)
 {
-	if (ability != ABILITY_INSOMNIA)
-		return FALSE;
-
-	switch (SpeciesToNationalPokedexNum(species))
-	{
-		#ifdef NATIONAL_DEX_MANKEY
-		case NATIONAL_DEX_MANKEY:
-		#endif
-		#ifdef NATIONAL_DEX_PRIMEAPE
-		case NATIONAL_DEX_PRIMEAPE:
-		#endif
-		#ifdef NATIONAL_DEX_MR_MIME
-		case NATIONAL_DEX_MR_MIME:
-		#endif
-		#ifdef NATIONAL_DEX_ELECTABUZZ
-		case NATIONAL_DEX_ELECTABUZZ:
-		#endif
-		#ifdef NATIONAL_DEX_ELECTABUZZ
-		case NATIONAL_DEX_MAGMAR:
-		#endif
-		#ifdef NATIONAL_DEX_DELIBIRD
-		case NATIONAL_DEX_DELIBIRD:
-		#endif
-		#ifdef NATIONAL_DEX_TYROGUE
-		case NATIONAL_DEX_TYROGUE:
-		#endif
-		#ifdef NATIONAL_DEX_ELEKID
-		case NATIONAL_DEX_ELEKID:
-		#endif
-		#ifdef NATIONAL_DEX_MAGBY
-		case NATIONAL_DEX_MAGBY:
-		#endif
-		#ifdef NATIONAL_DEX_VIGOROTH
-		case NATIONAL_DEX_VIGOROTH:
-		#endif
-		#ifdef NATIONAL_DEX_ELECTIVIRE
-		case NATIONAL_DEX_ELECTIVIRE:
-		#endif
-		#ifdef NATIONAL_DEX_MAGMORTAR
-		case NATIONAL_DEX_MAGMORTAR:
-		#endif
-		#ifdef NATIONAL_DEX_LILLIPUP
-		case NATIONAL_DEX_LILLIPUP:
-		#endif
-		#ifdef NATIONAL_DEX_ROCKRUFF
-		case NATIONAL_DEX_ROCKRUFF:
-		#endif
-		#ifdef NATIONAL_DEX_LYCANROC
-		case NATIONAL_DEX_LYCANROC:
-		#endif
-			return TRUE;
-	}
-
-	return FALSE;
+	return ability == ABILITY_VITALSPIRIT;
 }
 
 bool8 SpeciesHasAngerShell(unusedArg u16 species)
@@ -1507,19 +534,9 @@ bool8 SpeciesHasGuardDog(unusedArg u16 species)
 	#endif
 }
 
-bool8 GuardDogPreventsLoweringStat(ability_t ability, u8 statId, u8 bank)
+bool8 GuardDogPreventsLoweringStat(ability_t ability, u8 statId, unusedArg u8 bank)
 {
-	switch (ability)
-	{
-		case ABILITY_INNERFOCUS:
-			if(SpeciesHasGuardDog(SPECIES(bank))){
-				return statId == STAT_STAGE_ATK;
-			}
-			else
-				return FALSE;
-		default:
-			return FALSE;
-	}
+	return ability == ABILITY_GUARDDOG && statId == STAT_STAGE_ATK;
 }
 
 bool8 SpeciesHasHadronEngine(unusedArg u16 species)
@@ -1542,13 +559,7 @@ bool8 SpeciesHasMindsEye(unusedArg u16 species)
 
 bool8 MindsEyePreventsLoweringStat(ability_t ability, u8 statId)
 {
-	switch (ability)
-	{
-		case ABILITY_SCRAPPY:
-			return statId == STAT_STAGE_ACC;
-		default:
-			return FALSE;
-	}
+	return ability == ABILITY_MINDSEYE && statId == STAT_STAGE_ACC;
 }	
 
 bool8 SpeciesHasMyceliumMight(unusedArg u16 species)
@@ -1578,20 +589,9 @@ bool8 SpeciesHasOrichalcumPulse(unusedArg u16 species)
 	#endif
 }
 
-bool8 IsFullMetalBodyAbility(ability_t ability, u16 species)
+bool8 IsFullMetalBodyAbility(ability_t ability, unusedArg u16 species)
 {
-	if (!IsClearBodyAbility(ability))
-		return FALSE;
-
-	switch (SpeciesToNationalPokedexNum(species))
-	{
-		#ifdef NATIONAL_DEX_SOLGALEO
-		case NATIONAL_DEX_SOLGALEO:
-			return TRUE;
-		#endif
-	}
-
-	return FALSE;
+	return ability == ABILITY_FULLMETALBODY;
 }
 
 bool8 SpeciesHasProtosynthesis(unusedArg u16 species) //Custom Unbound Ability
@@ -1679,8 +679,8 @@ bool8 SpeciesHasSuperSweetSyrup(unusedArg u16 species)
 
 bool8 SpeciesHasTeraShift(unusedArg u16 species)
 {
-	#if (defined SPECIES_TERAPAGOS && SPECIES_TERAPAGOS_TERA)
-	return species == SPECIES_TERAPAGOS || species == SPECIES_TERAPAGOS_TERA;
+	#if (defined SPECIES_TERAPAGOS && defined SPECIES_TERAPAGOS_TERASTAL)
+	return species == SPECIES_TERAPAGOS || species == SPECIES_TERAPAGOS_TERASTAL;
 	#else
 	return FALSE;
 	#endif
@@ -1688,8 +688,8 @@ bool8 SpeciesHasTeraShift(unusedArg u16 species)
 
 bool8 SpeciesHasTeraShell(unusedArg u16 species)
 {
-	#if (defined SPECIES_TERAPAGOS && SPECIES_TERAPAGOS_TERA)
-	return species == SPECIES_TERAPAGOS || species == SPECIES_TERAPAGOS_TERA;
+	#if (defined SPECIES_TERAPAGOS && defined SPECIES_TERAPAGOS_TERASTAL)
+	return species == SPECIES_TERAPAGOS || species == SPECIES_TERAPAGOS_TERASTAL;
 	#else
 	return FALSE;
 	#endif

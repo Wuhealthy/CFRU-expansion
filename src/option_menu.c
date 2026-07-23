@@ -259,6 +259,14 @@ void CB2_OptionsMenuFromStartMenu(void)
     SetMainCallback2(CB2_OptionMenu);
 }
 
+void CB2_OptionsMenuFromMainMenu(void)
+{
+    // Closing Options from the title screen must return to the title's main
+    // menu, not to the field/start menu.
+    gMain.savedCallback = CB2_InitMainMenu;
+    CB2_OptionsMenuFromStartMenu();
+}
+
 void Task_OptionMenu(u8 taskId)
 {
     u8 i;

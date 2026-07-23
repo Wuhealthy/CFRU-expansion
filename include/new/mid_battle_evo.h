@@ -35,7 +35,7 @@ void __attribute__((long_call)) BattleDestroyYesNoCursorAt2(void);
 bool32 __attribute__((long_call)) IsHMMove2(u16 move);
 void __attribute__((long_call)) RemoveBattleMonPPBonus(struct BattlePokemon *mon, u8 moveIndex);
 void __attribute__((long_call)) SetBattleMonMoveSlot(struct BattlePokemon *mon, u16 move, u8 slot);
-u8 __attribute__((long_call)) GetAbilityBySpecies(u16 species, bool8 altAbility);
+ability_t __attribute__((long_call)) GetAbilityBySpecies(u16 species, bool8 altAbility);
 u8 __attribute__((long_call)) GetPartyIdFromBattlePartyId(u8 battlePartyId);
 void VBlankCB_Battle(void);
 void ClearTemporarySpeciesSpriteData(u8 bank, bool8 dontClearSubstitute);

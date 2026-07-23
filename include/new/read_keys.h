@@ -11,6 +11,9 @@
 //Exported Functions
 bool8 StartLButtonFunc(void);
 bool8 StartRButtonFunc(void);
+#ifdef DEBUG_OVERWORLD_MENU
+bool8 DebugMenuComboPressed(void);
+#endif
 
 //Functions Hooked In
 void ReadKeys(void);

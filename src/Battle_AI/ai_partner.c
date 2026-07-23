@@ -95,7 +95,7 @@ u8 AIScript_Partner(const u8 bankAtk, const u8 bankAtkPartner, const u16 origina
 					IncreaseHealPartnerViability(&viability, class, bankAtkPartner);
 				break;
 			case ABILITY_STORMDRAIN:
-			case ABILITY_EVAPORATE:
+			case ABILITY_314:
 				if (moveType == TYPE_WATER
 				&&  !IsClassDoublesTotalTeamSupport(partnerClass)
 				&&  SpecialMoveInMoveset(bankAtkPartner)
@@ -120,10 +120,27 @@ u8 AIScript_Partner(const u8 bankAtk, const u8 bankAtkPartner, const u16 origina
 					IncreaseHelpingHandViability(&viability, class);
 				}
 				break;
+			case ABILITY_WELLBAKEDBODY:
+				if (moveType == TYPE_FIRE
+				&&  !IsClassDoublesTotalTeamSupport(partnerClass)
+				&&  AI_STAT_CAN_RISE(bankAtkPartner, STAT_STAGE_DEF))
+				{
+					IncreaseHelpingHandViability(&viability, class);
+				}
+				break;
 
 			// Grass
 			case ABILITY_SAPSIPPER:
 				if (moveType == TYPE_GRASS
+				&&  !IsClassDoublesTotalTeamSupport(partnerClass)
+				&&  RealPhysicalMoveInMoveset(bankAtkPartner)
+				&&  AI_STAT_CAN_RISE(bankAtkPartner, STAT_STAGE_ATK))
+				{
+					IncreaseHelpingHandViability(&viability, class);
+				}
+				break;
+			case ABILITY_WINDRIDER:
+				if (gSpecialMoveFlags[move].gWindMoves
 				&&  !IsClassDoublesTotalTeamSupport(partnerClass)
 				&&  RealPhysicalMoveInMoveset(bankAtkPartner)
 				&&  AI_STAT_CAN_RISE(bankAtkPartner, STAT_STAGE_ATK))
@@ -160,9 +177,18 @@ u8 AIScript_Partner(const u8 bankAtk, const u8 bankAtkPartner, const u16 origina
 					IncreaseHelpingHandViability(&viability, class);
 				}
 				break;
-			case ABILITY_STEAMENGINE:
-			case ABILITY_WELLBAKEDBODY:
 			case ABILITY_THERMALEXCHANGE:
+				if (moveSplit != SPLIT_STATUS
+				&&  !IsClassDoublesTotalTeamSupport(partnerClass)
+				&&  moveType == TYPE_FIRE
+				&&  AI_STAT_CAN_RISE(bankAtkPartner, STAT_STAGE_ATK)
+				&& !MoveKnocksOutXHits(move, bankAtk, bankAtkPartner, 1))
+				{
+					IncreaseHelpingHandViability(&viability, class);
+				}
+				break;
+
+			case ABILITY_STEAMENGINE:
 				if (moveSplit != SPLIT_STATUS
 				&&  !IsClassDoublesTotalTeamSupport(partnerClass)
 				&& (moveType == TYPE_WATER || moveType == TYPE_FIRE)

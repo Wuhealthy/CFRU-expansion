@@ -21,7 +21,9 @@ extern u8 SeverelyString[];
 
 static bool8 IsIntimidateActive(void)
 {
-	return gNewBS->intimidateActive != 0 && !gNewBS->cottonDownActive;
+	return gNewBS->intimidateActive != 0
+		&& !gNewBS->cottonDownActive
+		&& ABILITY(gNewBS->intimidateActive - 1) == ABILITY_INTIMIDATE;
 }
 
 static bool8 IsCottonDownActive(void)
@@ -414,7 +416,9 @@ u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8* BS_ptr)
 			}
 			return STAT_CHANGE_DIDNT_WORK;
 		}
-		else if (!certain && GuardDogPreventsLoweringStat(ability, statId, bank))
+		else if (!certain
+		&& IsIntimidateActive()
+		&& GuardDogPreventsLoweringStat(ability, statId, bank))
 		{
 			if (flags == STAT_CHANGE_BS_PTR)
 			{

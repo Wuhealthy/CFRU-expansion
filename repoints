@@ -1,5 +1,9 @@
 #include "src/config.h"
 
+# Main menu: reuse FireRed's Mystery Gift slot for Options.
+gText_MainMenuOptions 0800C9BC
+CB2_OptionsMenuFromMainMenu 0800CB8C 1
+
 ##Tables
 gMoveDescriptions 080E5440
 gMoveDescriptions 08137BC8

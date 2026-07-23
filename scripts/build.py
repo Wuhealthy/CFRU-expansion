@@ -391,8 +391,19 @@ def ProcessMusic(midiFile: str) -> str:
 
 def LinkObjects(objects: itertools.chain) -> str:
     """Link objects into one binary."""
-    linked = 'build/linked.o'
-    cmd = [LD] + LDFLAGS + ['-o', linked] + list(objects)
+    linked = os.path.join(BUILD, 'linked.o')
+    responseFile = os.path.join(BUILD, 'link_objects.rsp')
+
+    # Passing every object directly on the command line can exceed Windows'
+    # 32K command-line limit when the project contains many image assets.
+    # GNU ld accepts the same arguments from a response file instead.
+    with open(responseFile, 'w', encoding='utf-8', newline='\n') as file:
+        for objectFile in objects:
+            normalizedPath = os.path.normpath(objectFile).replace('\\', '/')
+            escapedPath = normalizedPath.replace('"', '\\"')
+            file.write('"{}"\n'.format(escapedPath))
+
+    cmd = [LD] + LDFLAGS + ['-o', linked, '@' + responseFile]
     RunCommand(cmd)
     return linked
 

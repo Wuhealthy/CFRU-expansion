@@ -22,6 +22,7 @@
 #include "../include/gba/macro.h"
 
 #include "../include/new/ai_util.h"
+#include "../include/new/ability_battle_scripts.h"
 #include "../include/new/battle_indicators.h"
 #include "../include/new/battle_script_util.h"
 #include "../include/new/dynamax.h"
@@ -224,22 +225,6 @@ u8 *DoTerastallize(u8 bank)
 
         switch (ABILITY(bank))
         {
-        case ABILITY_EMBODYASPECT_TEAL:
-            if (STAT_STAGE(bank, STAT_SPEED) < STAT_STAGE_MAX)
-                ++STAT_STAGE(bank, STAT_SPEED);
-            break;
-        case ABILITY_EMBODYASPECT_HEARTHFLAME:
-            if (STAT_STAGE(bank, STAT_ATK) < STAT_STAGE_MAX)
-                ++STAT_STAGE(bank, STAT_ATK);
-            break;
-        case ABILITY_EMBODYASPECT_WELLSPRING:
-            if (STAT_STAGE(bank, STAT_SPDEF) < STAT_STAGE_MAX)
-                ++STAT_STAGE(bank, STAT_SPDEF);
-            break;
-        case ABILITY_EMBODYASPECT_CORNERSTONE:
-            if (STAT_STAGE(bank, STAT_DEF) < STAT_STAGE_MAX)
-                ++STAT_STAGE(bank, STAT_DEF);
-            break;
         case ABILITY_TERAFORMZERO:
             gBattleWeather = 0;
             gWishFutureKnock.weatherDuration = 0;
@@ -253,6 +238,40 @@ u8 *DoTerastallize(u8 bank)
         return BattleScript_Terastallize;
     }
     return NULL;
+}
+
+void TryActivateTeraFormAbility(void)
+{
+	u8 bank = gBattleScripting.bank;
+	u8 stat = 0;
+
+	switch (ABILITY(bank))
+	{
+	case ABILITY_EMBODYASPECTTEALMASK:
+		stat = STAT_SPEED;
+		break;
+	case ABILITY_EMBODYASPECTHEARTHFLAMEMASK:
+		stat = STAT_ATK;
+		break;
+	case ABILITY_EMBODYASPECTWELLSPRINGMASK:
+		stat = STAT_SPDEF;
+		break;
+	case ABILITY_EMBODYASPECTCORNERSTONEMASK:
+		stat = STAT_DEF;
+		break;
+	case ABILITY_TERAFORMZERO:
+		BattleScriptPush(gBattlescriptCurrInstr + 5);
+		gBattlescriptCurrInstr = BattleScript_TeraformZeroActivates - 5;
+		return;
+	}
+
+	if (stat != 0 && STAT_STAGE(bank, stat) < STAT_STAGE_MAX)
+	{
+		gBankTarget = bank;
+		gBattleScripting.statChanger = stat | INCREASE_1;
+		BattleScriptPush(gBattlescriptCurrInstr + 5);
+		gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise - 5;
+	}
 }
 
 // AI Logic for Terastallization

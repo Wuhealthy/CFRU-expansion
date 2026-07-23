@@ -744,7 +744,7 @@ void HoldItemFormChange(struct Pokemon* mon, u16 item)
 		case SPECIES_SILVALLY_DRAGON:
 		case SPECIES_SILVALLY_DARK:
 		case SPECIES_SILVALLY_FAIRY:
-			if (ability == ABILITY_RKS_SYSTEM) //Only transform if set with proper ability
+			if (ability == ABILITY_RKSSYSTEM) //Only transform if set with proper ability
 			{
 				if (itemEffect == ITEM_EFFECT_MEMORY)
 					targetSpecies = gTypeToSilvallyForm[type];

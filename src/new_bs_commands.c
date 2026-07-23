@@ -1004,22 +1004,10 @@ void atkFE_prefaintmoveendeffects(void)
 						break;
 
 					case ABILITY_POISONTOUCH:
-					case ABILITY_TOXICCHAIN: ;
-						u8 chance = 30;
-						if (BankHasRainbow(gBankAttacker))
-							chance *= 2;
+					{
+						u8 chance = BankHasRainbow(gBankAttacker) ? 60 : 30;
 
-						if (ABILITY(gBankTarget) != ABILITY_SHIELDDUST
-						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK
-						&& CanBePoisoned(gBankTarget, gBankAttacker, TRUE)
-						&& umodsi(Random(), 100) < chance
-						&& (ABILITY(gBankAttacker) == ABILITY_TOXICCHAIN))
-						{
-							BattleScriptPushCursor();
-							gBattlescriptCurrInstr = BattleScript_ToxicChain;
-							effect = TRUE;
-						}
-						else if (CheckContact(gCurrentMove, gBankAttacker, gBankTarget)
+						if (CheckContact(gCurrentMove, gBankAttacker, gBankTarget)
 						&& ABILITY(gBankTarget) != ABILITY_SHIELDDUST
 						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK
 						&& CanBePoisoned(gBankTarget, gBankAttacker, TRUE)
@@ -1029,6 +1017,18 @@ void atkFE_prefaintmoveendeffects(void)
 							gBattlescriptCurrInstr = BattleScript_PoisonTouch;
 							effect = TRUE;
 						}
+						break;
+					}
+
+					case ABILITY_TOXICCHAIN:
+						if (CanBePoisoned(gBankTarget, gBankAttacker, TRUE)
+						&& umodsi(Random(), 100) < 30)
+						{
+							BattleScriptPushCursor();
+							gBattlescriptCurrInstr = BattleScript_ToxicChain;
+							effect = TRUE;
+						}
+						break;
 				}
 			}
 			gNewBS->preFaintEffectsState++;

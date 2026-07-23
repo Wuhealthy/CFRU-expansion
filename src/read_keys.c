@@ -45,6 +45,14 @@ void InitKeys(void)
 #define gKeyRepeatContinueDelay 5
 #define gKeyRepeatStartDelay 40
 
+#ifdef DEBUG_OVERWORLD_MENU
+bool8 DebugMenuComboPressed(void)
+{
+	return (gMain.newKeysRaw & START_BUTTON)
+		&& (gMain.heldKeysRaw & R_BUTTON);
+}
+#endif
+
 extern const u8 EventScript_SecondBagItemCanBeRegisteredToL[];
 extern const u8 SystemScript_EnableAutoRun[];
 extern const u8 SystemScript_DisableAutoRun[];
@@ -129,6 +137,16 @@ void ReadKeys(void)
 	gMain.newKeysRaw = keyInput & ~gMain.heldKeysRaw;
 	gMain.newKeys = gMain.newKeysRaw;
 	gMain.newAndRepeatedKeys = gMain.newKeysRaw;
+
+	#ifdef DEBUG_OVERWORLD_MENU
+	// Prevent FireRed from consuming START before the overworld hook handles the
+	// combo. newKeysRaw remains intact and is queried directly from EWRAM.
+	if ((gMain.newKeysRaw & START_BUTTON) && (keyInput & R_BUTTON))
+	{
+		gMain.newKeys &= ~START_BUTTON;
+		gMain.newAndRepeatedKeys &= ~START_BUTTON;
+	}
+	#endif
 
 	if (keyInput != 0 && gMain.heldKeysRaw == keyInput)
 	{
@@ -330,10 +348,12 @@ bool8 StartRButtonFunc(void)
 			}
 			#endif
 			break;
+		#ifdef DEBUG_OVERWORLD_MENU
 		case OPTIONS_R_BUTTON_MODE_DEBUG:
 			ScriptContext2_Enable();
 			ScriptContext1_SetupScript(SystemScript_DebugMenu);
 			return TRUE;
+		#endif
 	}
 
 	return FALSE;

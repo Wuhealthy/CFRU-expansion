@@ -715,15 +715,24 @@
 #0800CCEE 00 00 00 00
 
 # expand continue down a bit
-08234624 0e
+08234624 0a
 # move new game down a bit
-0823462A 11
+0823462A 0d
 # fuck mystery gift
-0806e2bc 70 47
+0806e2bc 00 b5
 # move window selection down
-0800CCCA 80
-0800CCCE 80 22 12 02 A0
-0823462E 51 01
+0800CCCA 60
+0800CCCE c0 22 d2 01 80
+0823462E f1 00
+
+# Treat the third main-menu entry as a regular action (Options), without
+# requiring a wireless adapter.
+0800CAFC 10 e0
+
+# Continue screen: print Badges directly below Time, leaving the former
+# Badges row available for the party icons.
+0800CFFE 32
+0800D024 32
 
 ## Remove gengar and nidoran battle scene
 080EC5D0 15 89 07

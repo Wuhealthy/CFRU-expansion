@@ -3236,7 +3236,7 @@ static void UpdateBuilderAfterSpread(struct TeamBuilder* builder, const struct B
 			case ABILITY_WATERABSORB:
 			case ABILITY_DRYSKIN:
 			case ABILITY_STORMDRAIN:
-			case ABILITY_EVAPORATE:
+			case ABILITY_314:
 				builder->partyIndex[WATER_IMMUNITY] = partyId;
 				break;
 
@@ -3336,7 +3336,7 @@ static bool8 IsSpreadWeakToType(u8 moveType, u8 defType1, u8 defType2, ability_t
 		case ABILITY_WATERABSORB:
 		case ABILITY_DRYSKIN:
 		case ABILITY_STORMDRAIN:
-		case ABILITY_EVAPORATE:
+		case ABILITY_314:
 		case ABILITY_DESOLATELAND:
 			if (moveType == TYPE_WATER)
 				typeDmg = 0;

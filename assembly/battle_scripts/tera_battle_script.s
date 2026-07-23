@@ -19,4 +19,5 @@ TeraAnimBS:
 	setword BATTLE_STRING_LOADER gText_TeraCompletedString
 	printstring 0x184
 	waitmessage DELAY_1SECOND
-    end3
+	callasm TryActivateTeraFormAbility
+	end3

@@ -431,7 +431,7 @@ static u32 AccuracyCalcPassDefAbilityItemEffect(u16 move, u8 bankAtk, u8 bankDef
 	u8 acc;
 	if (defAbility == ABILITY_UNAWARE)
 		acc = 6;
-	else if (defAbility == ABILITY_MINDSEYE)
+	else if (atkAbility == ABILITY_MINDSEYE)
 		acc = 6;
 	else
 		acc = STAT_STAGE(bankAtk, STAT_STAGE_ACC);
@@ -443,7 +443,7 @@ static u32 AccuracyCalcPassDefAbilityItemEffect(u16 move, u8 bankAtk, u8 bankDef
 	{
 		buff = acc;
 	}
-	else if (atkAbility == ABILITY_KEENEYE)
+	else if (atkAbility == ABILITY_KEENEYE || atkAbility == ABILITY_MINDSEYE)
 	{
 		if (STAT_STAGE(bankDef, STAT_STAGE_EVASION) > 6) //Stops higher evasion, allows lower
 			buff = acc;

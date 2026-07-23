@@ -2330,6 +2330,7 @@ bool8 CanBeBurned(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 		switch (defAbility) {
 			case ABILITY_WATERVEIL:
 			case ABILITY_WATERBUBBLE:
+			case ABILITY_THERMALEXCHANGE:
 				return FALSE;
 		}
 	}

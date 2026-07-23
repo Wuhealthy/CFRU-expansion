@@ -118,7 +118,7 @@ void atk04_critcalc(void)
 		}
 		else if (IsLaserFocused(gBankAttacker)
 		|| (atkAbility == ABILITY_MERCILESS && !SpeciesHasDrillBeak(GetProperAbilityPopUpSpecies(gBankAttacker)) && (gBattleMons[bankDef].status1 & STATUS_PSN_ANY))
-		|| (atkAbility == ABILITY_DRILLBEAK && SpeciesHasDrillBeak(GetProperAbilityPopUpSpecies(gBankAttacker)) && gSpecialMoveFlags[gCurrentMove].gDrillMoves) //Drill moves always crit
+		|| (atkAbility == ABILITY_PIERCINGDRILL && SpeciesHasDrillBeak(GetProperAbilityPopUpSpecies(gBankAttacker)) && gSpecialMoveFlags[gCurrentMove].gDrillMoves) //Drill moves always crit
 		|| gSpecialMoveFlags[gCurrentMove].gAlwaysCriticalMoves)
 		{
 			confirmedCrit = TRUE;
@@ -217,7 +217,7 @@ static u8 CalcPossibleCritChance(u8 bankAtk, u8 bankDef, u16 move, struct Pokemo
 	}
 	else if ((IsLaserFocused(bankAtk) && monAtk == NULL)
 	|| (atkAbility == ABILITY_MERCILESS && !SpeciesHasDrillBeak(atkAbilitySpecies) && (defStatus1 & STATUS_PSN_ANY))
-	|| (atkAbility == ABILITY_DRILLBEAK && SpeciesHasDrillBeak(atkAbilitySpecies) && gSpecialMoveFlags[move].gDrillMoves) //Drill moves always crit
+	|| (atkAbility == ABILITY_PIERCINGDRILL && SpeciesHasDrillBeak(atkAbilitySpecies) && gSpecialMoveFlags[move].gDrillMoves) //Drill moves always crit
 	|| gSpecialMoveFlags[move].gAlwaysCriticalMoves)
 	{
 		return TRUE;
@@ -1432,6 +1432,7 @@ void TypeDamageModification(ability_t atkAbility, u8 bankDef, u16 move, u8 moveT
 static void TypeDamageModificationByDefTypes(ability_t atkAbility, u8 bankDef, u16 move, u8 moveType, u8* flags, u8 defType1, u8 defType2, u8 defType3, struct Pokemon* monDef)
 {
 	u8 multiplier1, multiplier2, multiplier3;
+	s32 damageBeforeType = gBattleMoveDamage;
 
 TYPE_LOOP:
 	multiplier1 = gTypeEffectiveness[moveType][defType1];
@@ -1451,6 +1452,18 @@ TYPE_LOOP:
 	{
 		moveType = TYPE_FLYING;
 		goto TYPE_LOOP;
+	}
+
+	if (monDef == NULL
+	&& gBattleMons[bankDef].hp == gBattleMons[bankDef].maxHP
+	&& ABILITY(bankDef) == ABILITY_TERASHELL
+	&& !IsTargetAbilityIgnored(ABILITY(bankDef), atkAbility, move)
+	&& !(*flags & MOVE_RESULT_DOESNT_AFFECT_FOE)
+	&& SPLIT(move) != SPLIT_STATUS)
+	{
+		gBattleMoveDamage = MathMax(1, damageBeforeType / 2);
+		*flags &= ~MOVE_RESULT_SUPER_EFFECTIVE;
+		*flags |= MOVE_RESULT_NOT_VERY_EFFECTIVE;
 	}
 }
 
@@ -1496,12 +1509,6 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 				multiplier = TYPE_MUL_NOT_EFFECTIVE;
 				break;
 		}
-	}
-
-	if (gBattleMons[bankDef].hp == gBattleMons[bankDef].maxHP && ABILITY(bankDef) == ABILITY_TERASHELL) // Check if target's HP is full
-	{
-		if (multiplier != TYPE_MUL_NO_EFFECT)
-			multiplier = TYPE_MUL_NOT_EFFECTIVE; // Override the multiplier to "not very effective"
 	}
 
 	if (!checkMonDef && multiplier == TYPE_MUL_NO_EFFECT)
@@ -2544,7 +2551,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 					else
 						data->spAtkBuff = min(data->spAtkBuff + 1, STAT_STAGE_MAX);
 				}
-				else if (atkAbility == ABILITY_EVAPORATE
+				else if (atkAbility == ABILITY_314
 				&& RainCanBeEvaporated()
 				&& SpeciesHasEvaporate(data->atkSpecies)
 				&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect))
@@ -2780,7 +2787,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 
 		case ABILITY_HADRONENGINE:
 			//4/3x Boost
-			if (gTerrainType == ELECTRIC_TERRAIN && data->atkAbility == ABILITY_HADRONENGINE && data->atkIsGrounded)
+			if (gTerrainType == ELECTRIC_TERRAIN && data->atkAbility == ABILITY_HADRONENGINE)
 				spAttack = (spAttack * 4) / 3;
 			break;
 
@@ -2867,7 +2874,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			defense *= 2;
 			break;
 
-		case ABILITY_PORTALPOWER:
+		case ABILITY_313:
 		//0.75x Decrement
 		#ifdef PORTAL_POWER
 			if ((useMonAtk && !CheckContactByMon(move, data->monAtk))
@@ -3042,7 +3049,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 
 		switch (GetBankAbility(bank)) {
 			case ABILITY_BEADSOFRUIN: beadsOfRuinInField = TRUE; break;
-			case ABILITY_TABLETOFRUIN: tabletsOfRuinInField = TRUE; break;
+			case ABILITY_TABLETSOFRUIN: tabletsOfRuinInField = TRUE; break;
 			case ABILITY_VESSELOFRUIN: vesselOfRuinInField = TRUE; break;
 			case ABILITY_SWORDOFRUIN: swordOfRuinInField = TRUE; break;
 		}
@@ -3099,7 +3106,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 	// Effects of the same name do not stack and their holders are immune.
 	if (data->moveSplit == SPLIT_PHYSICAL)
 	{
-		if (tabletsOfRuinInField && data->atkAbility != ABILITY_TABLETOFRUIN)
+		if (tabletsOfRuinInField && data->atkAbility != ABILITY_TABLETSOFRUIN)
 			attack = (attack * 75) / 100;
 		if (swordOfRuinInField && data->defAbility != ABILITY_SWORDOFRUIN)
 			defense = (defense * 75) / 100;

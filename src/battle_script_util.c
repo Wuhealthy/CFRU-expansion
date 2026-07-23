@@ -963,7 +963,7 @@ void ChangeTargetTypeFunc(void)
 	switch (gCurrentMove) {
 		case MOVE_SOAK:
 			if (ABILITY(gBankTarget) == ABILITY_MULTITYPE
-			||  ABILITY(gBankTarget) == ABILITY_RKS_SYSTEM
+			||  ABILITY(gBankTarget) == ABILITY_RKSSYSTEM
 			|| (gBattleMons[gBankTarget].type1 == TYPE_WATER &&
 				gBattleMons[gBankTarget].type2 == TYPE_WATER &&
 				gBattleMons[gBankTarget].type3 == TYPE_BLANK))
@@ -986,7 +986,7 @@ void ChangeTargetTypeFunc(void)
 				gBattlescriptCurrInstr = BattleScript_NotAffected - 5;
 			}
 			else if (ABILITY(gBankTarget) == ABILITY_MULTITYPE
-			||  ABILITY(gBankTarget) == ABILITY_RKS_SYSTEM
+			||  ABILITY(gBankTarget) == ABILITY_RKSSYSTEM
 			|| (gBattleMons[gBankTarget].type1 == TYPE_PSYCHIC &&
 				gBattleMons[gBankTarget].type2 == TYPE_PSYCHIC &&
 				gBattleMons[gBankTarget].type3 == TYPE_BLANK))
@@ -1334,6 +1334,57 @@ void TailwindLuckyChantFunc(void)
 			}
 			break;
 	}
+}
+
+void TryActivateWindRiderFromTailwind(void)
+{
+	static u8 bank;
+
+	while (bank < gBattlersCount)
+	{
+		u8 windRiderBank = bank++;
+
+		if (SIDE(windRiderBank) == SIDE(gBankAttacker)
+		&& BATTLER_ALIVE(windRiderBank)
+		&& ABILITY(windRiderBank) == ABILITY_WINDRIDER
+		&& STAT_STAGE(windRiderBank, STAT_ATK) < STAT_STAGE_MAX)
+		{
+			gBankTarget = windRiderBank;
+			gBattleScripting.bank = windRiderBank;
+			gBattleScripting.statChanger = STAT_ATK | INCREASE_1;
+			BattleScriptPush(gBattlescriptCurrInstr);
+			gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise - 5;
+			return;
+		}
+
+		if (SIDE(windRiderBank) == SIDE(gBankAttacker)
+		&& BATTLER_ALIVE(windRiderBank)
+		&& ABILITY(windRiderBank) == ABILITY_WINDPOWER
+		&& !(gStatuses3[windRiderBank] & STATUS3_CHARGED_UP))
+		{
+			gBattleScripting.bank = windRiderBank;
+			BattleScriptPush(gBattlescriptCurrInstr);
+			gBattlescriptCurrInstr = BattleScript_WindPowerActivates - 5;
+			return;
+		}
+	}
+
+	bank = 0;
+}
+
+void CheckTargetGuardDog(void)
+{
+	gBattleCommunication[MULTISTRING_CHOOSER] = ABILITY(gBankTarget) == ABILITY_GUARDDOG;
+}
+
+void CheckAttackerGuardDog(void)
+{
+	gBattleCommunication[MULTISTRING_CHOOSER] = ABILITY(gBankAttacker) == ABILITY_GUARDDOG;
+}
+
+void CheckAttackerSuperSweetSyrup(void)
+{
+	gBattleCommunication[MULTISTRING_CHOOSER] = ABILITY(gBankAttacker) == ABILITY_SUPERSWEETSYRUP;
 }
 
 void FlameBurstFunc(void)
@@ -2787,17 +2838,6 @@ void TryActivateProtosynthesis(void)
             gBattlescriptCurrInstr = BattleScript_ProtosynthesisActivates2 - 5;
         }
     }
-}
-
-void TrySetPoisonPuppeterEffect(void)
-{
-	u32 status = gBattleMons[gBankTarget].status1;
-	
-	if (ABILITY(gBankAttacker) == ABILITY_POISONPUPPETEER && (status & STATUS_POISON) && !(gBattleMons[gBankTarget].status2 & STATUS2_CONFUSION))
-	{
-		gBattleMons[gBankTarget].status2 |= STATUS2_CONFUSION;
-		gBattlescriptCurrInstr = BattleScript_SetPuppetConfusion - 5;
-	}
 }
 
 void TryUpperHand(void)

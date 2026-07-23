@@ -186,22 +186,10 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 						break;
 
 					case ABILITY_POISONTOUCH:
-					case ABILITY_TOXICCHAIN: ;
-						u8 chance = 30;
-						if (BankHasRainbow(gBankAttacker))
-							chance *= 2;
+					{
+						u8 chance = BankHasRainbow(gBankAttacker) ? 60 : 30;
 
-						if (ABILITY(gBankTarget) != ABILITY_SHIELDDUST
-						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK
-						&& CanBePoisoned(gBankTarget, gBankAttacker, TRUE)
-						&& umodsi(Random(), 100) < chance
-						&& (ABILITY(gBankAttacker) == ABILITY_TOXICCHAIN))
-						{
-							BattleScriptPushCursor();
-							gBattlescriptCurrInstr = BattleScript_ToxicChain;
-							effect = TRUE;
-						}
-						else if (CheckContact(gCurrentMove, gBankAttacker, gBankTarget)
+						if (CheckContact(gCurrentMove, gBankAttacker, gBankTarget)
 						&& ABILITY(gBankTarget) != ABILITY_SHIELDDUST
 						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK
 						&& CanBePoisoned(gBankTarget, gBankAttacker, TRUE)
@@ -211,6 +199,18 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 							gBattlescriptCurrInstr = BattleScript_PoisonTouch;
 							effect = TRUE;
 						}
+						break;
+					}
+
+					case ABILITY_TOXICCHAIN:
+						if (CanBePoisoned(gBankTarget, gBankAttacker, TRUE)
+						&& umodsi(Random(), 100) < 30)
+						{
+							BattleScriptPushCursor();
+							gBattlescriptCurrInstr = BattleScript_ToxicChain;
+							effect = TRUE;
+						}
+						break;
 				}
 			}
 			gBattleScripting.atk49_state++;
@@ -875,8 +875,8 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 
 				case ABILITY_MOXIE:
 				case ABILITY_CHILLINGNEIGH:
-				#ifdef ABILITY_ASONE_CHILLING
-				case ABILITY_ASONE_CHILLING:
+				#ifdef ABILITY_ASONEICERIDER
+				case ABILITY_ASONEICERIDER:
 				#endif
 					if ((arg1 != ARG_IN_FUTURE_ATTACK || gWishFutureKnock.futureSightPartyIndex[bankDef] == gBattlerPartyIndexes[gBankAttacker])
 					&& gBattleMons[bankDef].hp == 0
@@ -900,12 +900,12 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 					}
 					break;
 
-				#if (defined ABILITY_GRIMNEIGH || defined ABILITY_ASONE_GRIM)
+				#if (defined ABILITY_GRIMNEIGH || defined ABILITY_ASONESHADOWRIDER)
 				#ifdef ABILITY_GRIMNEIGH
 				case ABILITY_GRIMNEIGH:
 				#endif
-				#ifdef ABILITY_ASONE_GRIM
-				case ABILITY_ASONE_GRIM:
+				#ifdef ABILITY_ASONESHADOWRIDER
+				case ABILITY_ASONESHADOWRIDER:
 				#endif
 					if ((arg1 != ARG_IN_FUTURE_ATTACK || gWishFutureKnock.futureSightPartyIndex[bankDef] == gBattlerPartyIndexes[gBankAttacker])
 					&& gBattleMons[bankDef].hp == 0
@@ -1219,8 +1219,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 					&&  gNewBS->turnDamageTaken[banks[i]] != 0
 					&&  !MoveBlockedBySubstitute(gCurrentMove, gBankAttacker, banks[i])
 					&&  ((gBattleTypeFlags & BATTLE_TYPE_TRAINER) || SIDE(i) == B_SIDE_PLAYER) //Wild's can't activate
-					&&  HasMonToSwitchTo(banks[i])
-					&&	ABILITY(banks[i]) != ABILITY_GUARDDOG)
+					&&  HasMonToSwitchTo(banks[i]))
 					{
 						if (gBattleMoves[gCurrentMove].effect == EFFECT_BATON_PASS)
 							gBattlescriptCurrInstr = BattleScript_Atk49; //Cancel switchout for U-Turn & Volt Switch
@@ -1256,8 +1255,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 					&&  !(gNewBS->ResultFlags[banks[i]] & MOVE_RESULT_NO_EFFECT)
 					&&  gNewBS->turnDamageTaken[banks[i]] != 0
 					&&  !MoveBlockedBySubstitute(gCurrentMove, gBankAttacker, banks[i])
-					&&  ((gBattleTypeFlags & BATTLE_TYPE_TRAINER) || IsRaidBattle() || SIDE(banks[i]) == B_SIDE_PLAYER)
-					&&	ABILITY(banks[i]) != ABILITY_GUARDDOG) //Normal wild attackers can't activate
+					&&  ((gBattleTypeFlags & BATTLE_TYPE_TRAINER) || IsRaidBattle() || SIDE(banks[i]) == B_SIDE_PLAYER))
 					{
 						gNewBS->NoSymbiosisByte = TRUE;
 						gForceSwitchHelper = Force_Switch_Red_Card;

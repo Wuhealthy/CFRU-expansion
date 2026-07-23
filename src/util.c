@@ -519,6 +519,7 @@ bool8 CanPartyMonBeBurned(struct Pokemon* mon)
 	switch (GetMonAbility(mon)) {
 		case ABILITY_WATERVEIL:
 		case ABILITY_WATERBUBBLE:
+		case ABILITY_THERMALEXCHANGE:
 			return FALSE;
 	}
 

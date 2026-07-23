@@ -391,7 +391,7 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 						case ABILITY_DRYSKIN:
 						case ABILITY_ICEBODY:
 						case ABILITY_SOLARPOWER:
-						case ABILITY_EVAPORATE:
+						case ABILITY_314:
 							if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, gActiveBattler, 0, 0, 0))
 								effect++;
 							break;

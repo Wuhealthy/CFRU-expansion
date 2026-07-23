@@ -13,6 +13,12 @@ Max Coinage
 #org @gText_DebugMenu_ShinyTeam
 Shiny Team
 
+#org @gText_DebugMenu_Party
+Party Options
+
+#org @gText_DebugMenu_HealTeam
+Heal Party
+
 #org @gText_DebugMenu_AllBadges
 All Badges
 
@@ -54,6 +60,39 @@ Pokémon
 
 #org @gText_DebugMenu_EnterSpecies
 Enter the Pokémon's National \nDex Number.
+
+#org @gText_DebugSelector_PokemonNo
+Pokémon No.:
+
+#org @gText_DebugSelector_Step1
+[DPAD_LEFT]+1[DPAD_RIGHT]
+
+#org @gText_DebugSelector_Step10
+[DPAD_LEFT]+10[DPAD_RIGHT]
+
+#org @gText_DebugSelector_Step100
+[DPAD_LEFT]+100[DPAD_RIGHT]
+
+#org @gText_DebugSelector_Step1000
+[DPAD_LEFT]+1000[DPAD_RIGHT]
+
+#org @gText_DebugSelector_Controls
+[DPAD_UP_DOWN]Step  [A_BUTTON]OK  [B_BUTTON]Back
+
+#org @gText_DebugSelector_ItemNo
+Item No.:
+
+#org @gText_DebugSelector_FlagNo
+Flag No.:
+
+#org @gText_DebugSelector_VarNo
+Var No.:
+
+#org @gText_DebugSelector_Value
+Value:
+
+#org @gText_DebugSelector_Step10000
+[DPAD_LEFT]+10000[DPAD_RIGHT]
 
 #org @gText_Failed
 Invalid species or party full.

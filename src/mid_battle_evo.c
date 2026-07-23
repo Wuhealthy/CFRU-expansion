@@ -763,9 +763,9 @@ void CopyPlayerPartyMonToBattleData(u8 battlerId, u8 partyIndex, bool8 resetStat
     gBattleMons[battlerId].otId = GetMonData(&gPlayerParty[partyIndex], MON_DATA_OT_ID, NULL);
     gBattleMons[battlerId].type1 = gSpeciesInfo[gBattleMons[battlerId].species].types[0];
     gBattleMons[battlerId].type2 = gSpeciesInfo[gBattleMons[battlerId].species].types[1];
-    ABILITY(battlerId) = PromoteLegacyAbility(
-        GetAbilityBySpecies(gBattleMons[battlerId].species, gBattleMons[battlerId].altAbility),
-        gBattleMons[battlerId].species);
+    ABILITY(battlerId) = GetAbilityBySpecies(
+        gBattleMons[battlerId].species,
+        gBattleMons[battlerId].altAbility);
     GetMonData(&gPlayerParty[partyIndex], MON_DATA_NICKNAME, nickname);
     StringCopy_Nickname(gBattleMons[battlerId].nickname, nickname);
     GetMonData(&gPlayerParty[partyIndex], MON_DATA_OT_NAME, gBattleMons[battlerId].otName);

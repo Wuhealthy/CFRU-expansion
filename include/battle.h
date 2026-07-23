@@ -827,6 +827,7 @@ struct NewBattleStruct
 	u8 boosterEnergyActivated[MAX_BATTLERS_COUNT];
 	u8 paradoxBoostedStat[MAX_BATTLERS_COUNT];
 	u32 statuses4[MAX_BATTLERS_COUNT]; //Volatile Gen 9 effects (currently Salt Cure)
+	u8 superSweetSyrupActivated[NUM_BATTLE_SIDES]; //Party-index bits; activates once per battle
 
 	//Bit Fields for Banks
 	u8 MicleBerryBits;

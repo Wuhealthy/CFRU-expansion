@@ -2840,6 +2840,10 @@ void WarpFadeOutScreen(void)
 }
 
 //Stuff to do with pressing buttons in the field//
+#ifdef DEBUG_OVERWORLD_MENU
+extern const u8 SystemScript_DebugMenu[];
+#endif
+
 static const u8* sRegisteredItemStringVars[][2] =
 {
 	{gStringVar7, gText_RegisteredItemSelectButton},
@@ -2862,6 +2866,17 @@ bool8 ProcessNewFieldPlayerInput(struct FieldInput* input)
 
 	if (IsDexNavHudActive())
 		return FALSE; //Can't force close this
+
+	#ifdef DEBUG_OVERWORLD_MENU
+	if (DebugMenuComboPressed()
+	&& !ScriptContext2_IsEnabled() && !gPaletteFade->active && !InUnionRoom())
+	{
+		DismissMapNamePopup();
+		ScriptContext2_Enable();
+		ScriptContext1_SetupScript(SystemScript_DebugMenu);
+		return TRUE;
+	}
+	#endif
 
 	if (input->pressedSelectButton && UseRegisteredKeyItemOnField())
     {

@@ -169,5 +169,8 @@ extern const u8 BattleScript_ProtosynthesisActivates2[];
 extern const u8 BattleScript_BoosterEnergyActivates[];
 extern const u8 BattleScript_MoveEffectConfusion[];
 extern const u8 BattleScript_SetPuppetConfusion[];
+extern const u8 BattleScript_HospitalityActivates[];
+extern const u8 BattleScript_TeraformZeroActivates[];
+extern const u8 BattleScript_WindPowerActivates[];
 extern const u8 BattleScript_ToxicDebrisActivates[];
 extern const u8 BattleScript_ToxicDebrisFailure[];

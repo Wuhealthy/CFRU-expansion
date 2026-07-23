@@ -53,11 +53,11 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_ANTICIPATION] = 2,
 	[ABILITY_ARENATRAP] = 9,
 	[ABILITY_AROMAVEIL] = 3,
-	#ifdef ABILITY_ASONE_GRIM
-	[ABILITY_ASONE_GRIM] = 7,
+	#ifdef ABILITY_ASONESHADOWRIDER
+	[ABILITY_ASONESHADOWRIDER] = 7,
 	#endif
-	#ifdef ABILITY_ASONE_CHILLING
-	[ABILITY_ASONE_CHILLING] = 7,
+	#ifdef ABILITY_ASONEICERIDER
+	[ABILITY_ASONEICERIDER] = 7,
 	#endif
 	[ABILITY_AURABREAK] = 3,
 	[ABILITY_BADDREAMS] = 4,
@@ -198,7 +198,7 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_POISONHEAL] = 8,
 	[ABILITY_POISONPOINT] = 4,
 	[ABILITY_POISONTOUCH] = 4,
-	[ABILITY_PORTALPOWER] = 8,
+	[ABILITY_313] = 8,
 	[ABILITY_POWERCONSTRUCT] = 10,
 	#ifdef ABILITY_POWEROFALCHEMY
 	[ABILITY_POWEROFALCHEMY] = 0,
@@ -223,7 +223,7 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_REFRIGERATE] = 8,
 	[ABILITY_REGENERATOR] = 8,
 	[ABILITY_RIVALRY] = 1,
-	[ABILITY_RKS_SYSTEM] = 8,
+	[ABILITY_RKSSYSTEM] = 8,
 	[ABILITY_ROCKHEAD] = 5,
 	[ABILITY_ROUGHSKIN] = 6,
 	[ABILITY_RUNAWAY] = 0,
@@ -502,11 +502,11 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				case ABILITY_FOREWARN:
 				case ABILITY_FRISK:
 				case ABILITY_IMPOSTER:
-				#ifdef ABILITY_ASONE_GRIM
-				case ABILITY_ASONE_GRIM:
+				#ifdef ABILITY_ASONESHADOWRIDER
+				case ABILITY_ASONESHADOWRIDER:
 				#endif
-				#ifdef ABILITY_ASONE_CHILLING
-				case ABILITY_ASONE_CHILLING:
+				#ifdef ABILITY_ASONEICERIDER
+				case ABILITY_ASONEICERIDER:
 				#endif
 					return FALSE;
 			}
@@ -536,6 +536,20 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 	{
 	case ABILITYEFFECT_ON_SWITCHIN: // 0;
 		gBattleScripting.bank = bank;
+
+		// Tera Shift is an intrinsic, non-suppressible entry transformation.
+		// Handle it before STATUS3_SWITCH_IN_ABILITY_DONE, since that marker may
+		// already be set while the initial battlers are being brought in.
+		#if (defined SPECIES_TERAPAGOS && defined SPECIES_TERAPAGOS_TERASTAL)
+		if (!IS_TRANSFORMED(bank) && SPECIES(bank) == SPECIES_TERAPAGOS)
+		{
+			gLastUsedAbility = ABILITY_TERASHIFT;
+			DoFormChange(bank, SPECIES_TERAPAGOS_TERASTAL, TRUE, TRUE, TRUE);
+			BattleScriptPushCursorAndCallback(BattleScript_TransformedEnd3);
+			++effect;
+			break;
+		}
+		#endif
 
 		if (gStatuses3[bank] & STATUS3_SWITCH_IN_ABILITY_DONE
 		&& gLastUsedAbility != ABILITYEFFECT_SWITCH_IN_WEATHER)
@@ -767,8 +781,14 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 
 		case ABILITY_INTIMIDATE:
 		case ABILITY_SUPERSWEETSYRUP:
+			if (ABILITY(bank) == ABILITY_SUPERSWEETSYRUP
+			&& gNewBS->superSweetSyrupActivated[SIDE(bank)] & gBitTable[gBattlerPartyIndexes[bank]])
+				break;
+
 			if (CanBeAffectedByIntimidate(FOE(bank)) || (IS_DOUBLE_BATTLE && CanBeAffectedByIntimidate(PARTNER(FOE(bank)))))
 			{
+				if (ABILITY(bank) == ABILITY_SUPERSWEETSYRUP)
+					gNewBS->superSweetSyrupActivated[SIDE(bank)] |= gBitTable[gBattlerPartyIndexes[bank]];
 				BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivatesEnd3);
 				gBattleStruct->intimidateBank = bank;
 				gNewBS->intimidateActive = bank + 1;
@@ -877,11 +897,11 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			break;
 
 		case ABILITY_UNNERVE:
-		#ifdef ABILITY_ASONE_GRIM
-		case ABILITY_ASONE_GRIM:
+		#ifdef ABILITY_ASONESHADOWRIDER
+		case ABILITY_ASONESHADOWRIDER:
 		#endif
-		#ifdef ABILITY_ASONE_CHILLING
-		case ABILITY_ASONE_CHILLING:
+		#ifdef ABILITY_ASONEICERIDER
+		case ABILITY_ASONEICERIDER:
 		#endif
 			gBankAttacker = bank;
 			gBattleStringLoader = gText_UnnerveActivate;
@@ -1102,11 +1122,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			effect = ImmunityAbilityCheck(bank, STATUS1_BURN, gStatusConditionString_Burn);
 			break;
 
-		case ABILITY_STEAMENGINE:
-		case ABILITY_WELLBAKEDBODY:
 		case ABILITY_THERMALEXCHANGE:
-			if ((ABILITY(bank) == ABILITY_THERMALEXCHANGE))
-				effect = ImmunityAbilityCheck(bank, STATUS1_BURN, gStatusConditionString_Burn);
+			effect = ImmunityAbilityCheck(bank, STATUS1_BURN, gStatusConditionString_Burn);
 			break;
 
 		case ABILITY_MAGMAARMOR:
@@ -1276,8 +1293,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			break;
 
 		case ABILITY_ICEFACE:
-		case ABILITY_TERASHIFT:
-			#if (defined SPECIES_EISCUE && defined SPECIES_EISCUE_NOICE && defined SPECIES_TERAPAGOS && defined SPECIES_TERAPAGOS_TERASTAL)
+			#if (defined SPECIES_EISCUE && defined SPECIES_EISCUE_NOICE)
 			if (!IS_TRANSFORMED(bank) && SPECIES(bank) == SPECIES_EISCUE_NOICE
 			&& WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_HAIL_ANY))
 			{
@@ -1285,9 +1301,14 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				BattleScriptPushCursorAndCallback(BattleScript_TransformedEnd3);
 				++effect;
 			}
-			else if (!IS_TRANSFORMED(bank) && SPECIES(bank) == SPECIES_TERAPAGOS)
+			#endif
+			break;
+
+		case ABILITY_TERASHIFT:
+			#if (defined SPECIES_TERAPAGOS && defined SPECIES_TERAPAGOS_TERASTAL)
+			if (!IS_TRANSFORMED(bank) && SPECIES(bank) == SPECIES_TERAPAGOS)
 			{
-				DoFormChange(bank, SPECIES_TERAPAGOS_TERASTAL, FALSE, FALSE, FALSE);
+				DoFormChange(bank, SPECIES_TERAPAGOS_TERASTAL, TRUE, TRUE, TRUE);
 				BattleScriptPushCursorAndCallback(BattleScript_TransformedEnd3);
 				++effect;
 			}
@@ -1412,6 +1433,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 
 		case ABILITY_CURIOUSMEDICINE:
 		case ABILITY_COSTAR:
+		case ABILITY_HOSPITALITY:
 			if (IS_DOUBLE_BATTLE)
 			{
 				u8 partner = PARTNER(bank);
@@ -1435,10 +1457,20 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
 					effect++;
 				}
+				else if (BATTLER_ALIVE(partner)
+				&& ABILITY(bank) == ABILITY_HOSPITALITY
+				&& !BATTLER_MAX_HP(partner))
+				{
+					gBankTarget = partner;
+					gBattleScripting.bank = bank;
+					gBattleMoveDamage = -MathMax(1, GetBaseMaxHP(partner) / 4);
+					BattleScriptPushCursorAndCallback(BattleScript_HospitalityActivates);
+					effect++;
+				}
 			}
 			break;
 
-		case ABILITY_EVAPORATE:
+		case ABILITY_314:
 			if (BankHasEvaporate(bank) && AffectedByRain(bank))
 			{
 				if (RainCanBeEvaporated())
@@ -1760,7 +1792,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					gNewBS->turnDamageTaken[bank] = 0; //Reset to prevent accidental triggering
 					break;
 				
-				case ABILITY_EVAPORATE:
+				case ABILITY_314:
 					if (RainCanBeEvaporated() && BankHasEvaporate(bank) && AffectedByRain(bank))
 					{
 						gBattleWeather = 0;
@@ -1784,12 +1816,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 
 					case ABILITY_BULLETPROOF:
 						if (gSpecialMoveFlags[move].gBallBombMoves)
-							effect = 1;
-						break;
-
-					case ABILITY_ANGERPOINT:
-					case ABILITY_WINDRIDER:
-						if (gSpecialMoveFlags[move].gWindMoves && (ABILITY(bank) == ABILITY_WINDRIDER))
 							effect = 1;
 						break;
 
@@ -1888,7 +1914,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					break;
 
 				case ABILITY_STORMDRAIN:
-				case ABILITY_EVAPORATE:
+				case ABILITY_314:
 					if (moveType == TYPE_WATER)
 						effect = 2, statId = STAT_SPATK;
 					break;
@@ -2096,7 +2122,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			case ABILITY_TOXICDEBRIS:
 				if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
-				&& BATTLER_ALIVE(gBankAttacker)
 				&& gBankAttacker != bank)
 				{
 					// Check Toxic Debris
@@ -2228,6 +2253,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				{
 					if (gBattleMons[bank].hp <= gBattleMons[bank].maxHP / 2
 					&& gBattleMons[bank].hp + gHpDealt > gBattleMons[bank].maxHP / 2 //Hp fell below half
+					&& gBankAttacker != bank
+					&& !gProtectStructs[gBankAttacker].confusionSelfDmg
 					&& AngerShellStatsCheck(bank)
 					&& (ABILITY(bank) == ABILITY_ANGERSHELL))
 					{
@@ -2277,7 +2304,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 						case ABILITY_DISGUISE:
 						case ABILITY_MULTITYPE:
 						case ABILITY_POWERCONSTRUCT:
-						case ABILITY_RKS_SYSTEM:
+						case ABILITY_RKSSYSTEM:
 						case ABILITY_SCHOOLING:
 						case ABILITY_SHIELDSDOWN:
 						case ABILITY_STANCECHANGE:
@@ -2302,17 +2329,22 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				{
 					switch (ABILITY(gBankAttacker)) {
 						case ABILITY_LINGERINGAROMA:
+						case ABILITY_ASONEICERIDER:
+						case ABILITY_ASONESHADOWRIDER:
 						case ABILITY_BATTLEBOND:
 						case ABILITY_COMATOSE:
+						case ABILITY_COMMANDER:
 						case ABILITY_DISGUISE:
+						case ABILITY_GULPMISSILE:
 						case ABILITY_MULTITYPE:
 						case ABILITY_POWERCONSTRUCT:
-						case ABILITY_RKS_SYSTEM:
+						case ABILITY_RKSSYSTEM:
 						case ABILITY_SCHOOLING:
 						case ABILITY_SHIELDSDOWN:
 						case ABILITY_STANCECHANGE:
 						case ABILITY_ICEFACE:
 						case ABILITY_TERASHIFT:
+						case ABILITY_ZEROTOHERO:
 							break;
 						default:
 							BattleScriptPushCursor();
@@ -2339,18 +2371,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				break;
 
 			case ABILITY_ANGERPOINT:
-			case ABILITY_WINDRIDER:
-				if ((ABILITY(bank) == ABILITY_WINDRIDER)
-				&& gSpecialMoveFlags[move].gWindMoves
-				&& BATTLER_ALIVE(bank)
-				&& STAT_STAGE(bank, STAT_ATK) < 12)
-				{
-					gBattleScripting.statChanger = STAT_ATK | INCREASE_1;
-					BattleScriptPushCursor();
-					gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
-					effect++;
-				}
-				else if (MOVE_HAD_EFFECT
+				if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
 				&& gCritMultiplier > BASE_CRIT_MULTIPLIER
 				&& BATTLER_ALIVE(bank)
@@ -2384,8 +2405,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			case ABILITY_BERSERK:
 			case ABILITY_WINDPOWER:
 				if (MOVE_HAD_EFFECT
-				&& TOOK_DAMAGE(bank)
 				&& BATTLER_ALIVE(bank)
+				&& gBankAttacker != bank
 				&& !(gStatuses3[bank] & STATUS3_CHARGED_UP)
 				&& ABILITY(bank) == ABILITY_WINDPOWER
 				&& gSpecialMoveFlags[move].gWindMoves)
@@ -2471,7 +2492,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				break;
 
 			case ABILITY_STEAMENGINE:
-			case ABILITY_WELLBAKEDBODY:
 			case ABILITY_THERMALEXCHANGE:
 				if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
@@ -2488,18 +2508,9 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 						gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
 						effect++;
 					}
-					// Check Well-Baked Body
-					else if ((ABILITY(bank) == ABILITY_WELLBAKEDBODY)
-						&& moveType == TYPE_FIRE
-						&& STAT_STAGE(bank, STAT_DEF) < STAT_STAGE_MAX)
-					{
-						gBattleScripting.statChanger = STAT_DEF | INCREASE_2;
-						BattleScriptPushCursor();
-						gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
-						effect++;
-					}
 					// Check Steam Engine
-					else if ((moveType == TYPE_WATER || moveType == TYPE_FIRE)
+					else if (ABILITY(bank) == ABILITY_STEAMENGINE
+						&& (moveType == TYPE_WATER || moveType == TYPE_FIRE)
 						&& STAT_STAGE(bank, STAT_SPEED) < STAT_STAGE_MAX)
 					{
 						gBattleScripting.statChanger = STAT_SPEED | INCREASE_6;
@@ -2616,10 +2627,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 						effect = 1;
 					}
 					break;
-				case ABILITY_STEAMENGINE:
-				case ABILITY_WELLBAKEDBODY:
 				case ABILITY_THERMALEXCHANGE:
-					if ((gBattleMons[bank].status1 & STATUS1_BURN) && (ABILITY(bank) == ABILITY_THERMALEXCHANGE))
+					if (gBattleMons[bank].status1 & STATUS1_BURN)
 					{
 						StringCopy(gBattleTextBuff1, gStatusConditionString_Burn);
 						effect = 1;

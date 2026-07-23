@@ -692,7 +692,7 @@ ExpandedAbilityNamesSummaryScreen:
 	mov r2, r0 @;Species
 	mov r1, r4 @;Ability
 	mov r0, r5 @ destination
-	bl CopyAbilityName
+	bl CopyAbilityNameForSummary
 	pop {r3-r5}
 	ldr r0, =0x8136720 | 1
 	bx r0

@@ -7,17 +7,21 @@
 #include "../include/pokemon_icon.h"
 #include "../include/gpu_regs.h"
 #include "../include/main_menu.h"
+#include "../include/task.h"
+#include "../include/easy_text.h"
 #define gMonIconPalettes ((u16 *)(0x083d3740))
+
+const u8 gText_MainMenuOptions[] = {_O, _P, _T, _I, _O, _N, _S, _END};
 
 
 
 u16 coords_menu[][2] = {
-    {40,      16+58+32},
-    {40+32,   16+58+32},
-    {40+32*2, 16+58+32},
-    {40+32*3, 16+58+32},
-    {40+32*4, 16+58+32},
-    {40+32*5, 16+58+32},
+    {40,      74},
+    {40+32,   74},
+    {40+32*2, 74},
+    {40+32*3, 74},
+    {40+32*4, 74},
+    {40+32*5, 74},
 };
 
 u8 sPokemonIconPalSlots[] = {10, 11, 12, 13, 14, 15};
@@ -126,6 +130,9 @@ void Task_WaitFadeAndPrintMainMenuText(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
+        // Reuse FireRed's third (Mystery Gift) main-menu slot for Options.
+        // This wrapper is only reached for menus with a valid save file.
+        gTasks[taskId].data[0] = 2;
         Task_PrintMainMenuText(taskId);
         PrintMonIcons();
     }

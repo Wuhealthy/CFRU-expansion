@@ -42,6 +42,11 @@ BS_StatusMoveFail:
 	pause DELAY_HALFSECOND
 	printstring 0x184
 	waitmessage DELAY_1SECOND
+	jumpifmove MOVE_TAILWIND TailwindActivateWindRider
+	goto BS_MOVE_END
+
+TailwindActivateWindRider:
+	callasm TryActivateWindRiderFromTailwind
 	goto BS_MOVE_END
 	
 ProtectedByTerrainBS:
@@ -112,7 +117,6 @@ BattleScript_PauseResultMessage:
 .global BS_002_SetPoisonChance
 BS_002_SetPoisonChance:
 	setmoveeffect MOVE_EFFECT_POISON
-	callasm TrySetPoisonPuppeterEffect
 	goto BS_STANDARD_HIT
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -617,6 +621,8 @@ RoarBS:
 	attackstring @;Still activates Protean even if move fails
 	ppreduce
 	jumpifability BANK_TARGET ABILITY_SUCTIONCUPS BattleScript_AbilityPreventsPhasingOut
+	callasm CheckTargetGuardDog
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x1 BattleScript_AbilityPreventsPhasingOut
 	jumpifspecialstatusflag BANK_TARGET STATUS3_ROOTED 0x0 0x81D8F27 @;BattleScript_PrintMonIsRooted
 	accuracycheck FAILED 0x0
 	forcerandomswitch BANK_TARGET BANK_ATTACKER FAILED
@@ -631,6 +637,8 @@ DragonTailBS:
 	jumpifdynamaxed BANK_TARGET BattleScript_DragonTailBlockedByDynamax
 	jumpifspecialstatusflag BANK_TARGET STATUS3_ROOTED 0x0 0x81D8F27 @;BattleScript_PrintMonIsRooted
 	jumpifability BANK_TARGET ABILITY_SUCTIONCUPS BattleScript_AbilityPreventsPhasingOutSkipFail
+	callasm CheckTargetGuardDog
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x1 BattleScript_AbilityPreventsPhasingOutSkipFail
 	setbyte CMD49_STATE 0x0
 	cmd49 0x6 0x0
 	setbyte FORCE_SWITCH_HELPER 0x1
@@ -956,7 +964,6 @@ BS_033_SetBadPoison:
 	waitanimation
 	setmoveeffect MOVE_EFFECT_TOXIC
 	seteffectprimary
-	callasm TrySetPoisonPuppeterEffect
 	goto BS_MOVE_END
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -1476,7 +1483,6 @@ PoisonChecks:
 	waitanimation
 	setmoveeffect MOVE_EFFECT_POISON
 	seteffectprimary
-	callasm TrySetPoisonPuppeterEffect
 	goto BS_MOVE_END
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -5281,7 +5287,6 @@ VictoryDance_Speed:
 .global BS_209_BadPoisonChance
 BS_209_BadPoisonChance:
 	setmoveeffect MOVE_EFFECT_TOXIC
-	callasm TrySetPoisonPuppeterEffect
 	goto BS_STANDARD_HIT
 	
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

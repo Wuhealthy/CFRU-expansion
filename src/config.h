@@ -6,6 +6,7 @@
  */
 
 /*===== Debugging Options =====*/
+#define DEBUG_OVERWORLD_MENU //Press R + START in the overworld to open the debug menu
 //#define DEBUG_QUICK_BATTLES //Battles will end after choosing the first attack
 //#define DEBUG_MEGA //Mega Evolution can always be used
 //#define DEBUG_HMS //HMs can always be used from the party screen, Surf, Waterfall, and Rock Climb can always be used

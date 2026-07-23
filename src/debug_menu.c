@@ -10,6 +10,356 @@
 #include "../include/new/util.h"
 #include "../include/script.h"
 #include "../include/random.h"
+#include "../include/menu.h"
+#include "../include/item_icon.h"
+#include "../include/pokemon_icon.h"
+#include "../include/sound.h"
+#include "../include/sprite.h"
+#include "../include/string_util.h"
+#include "../include/task.h"
+#include "../include/window.h"
+#include "../include/constants/songs.h"
+
+extern const u8 gText_DebugSelector_PokemonNo[];
+extern const u8 gText_DebugSelector_Step1[];
+extern const u8 gText_DebugSelector_Step10[];
+extern const u8 gText_DebugSelector_Step100[];
+extern const u8 gText_DebugSelector_Step1000[];
+extern const u8 gText_DebugSelector_Controls[];
+extern const u8 gText_DebugSelector_ItemNo[];
+extern const u8 gText_DebugSelector_FlagNo[];
+extern const u8 gText_DebugSelector_VarNo[];
+extern const u8 gText_DebugSelector_Value[];
+extern const u8 gText_DebugSelector_Step10000[];
+
+static const struct TextColor sDebugSelectorTextColor =
+{
+	.bgColor = TEXT_COLOR_TRANSPARENT,
+	.fgColor = TEXT_COLOR_DARK_GREY,
+	.shadowColor = TEXT_COLOR_LIGHT_GREY,
+};
+
+enum
+{
+	DEBUG_SELECTOR_SPECIES,
+	DEBUG_SELECTOR_DIGIT,
+	DEBUG_SELECTOR_WINDOW,
+	DEBUG_SELECTOR_ICON,
+};
+
+static void Task_DebugMenuPokemonSelector(u8 taskId);
+static void DebugMenu_DrawPokemonSelector(u8 taskId, bool8 updateIcon);
+static void DebugMenu_ClosePokemonSelector(u8 taskId, bool8 confirmed);
+
+static const u16 sDebugSelectorSteps[] = {1, 10, 100, 1000};
+static const u8 *const sDebugSelectorStepTexts[] =
+{
+	gText_DebugSelector_Step1,
+	gText_DebugSelector_Step10,
+	gText_DebugSelector_Step100,
+	gText_DebugSelector_Step1000,
+};
+
+void DebugMenu_StartPokemonSelector(void)
+{
+	u8 taskId = CreateTask(Task_DebugMenuPokemonSelector, 0x50);
+	struct Task *task = &gTasks[taskId];
+
+	task->data[DEBUG_SELECTOR_SPECIES] = 1;
+	task->data[DEBUG_SELECTOR_DIGIT] = 0;
+	task->data[DEBUG_SELECTOR_WINDOW] = CreateWindowFromRect(1, 1, 26, 9);
+	LoadMonIconPalette(1);
+	task->data[DEBUG_SELECTOR_ICON] = CreateMonIcon(1, SpriteCB_PokeIcon, 202, 47, 0, 0, FALSE);
+	if (task->data[DEBUG_SELECTOR_ICON] < MAX_SPRITES)
+	{
+		gSprites[task->data[DEBUG_SELECTOR_ICON]].oam.priority = 0;
+		gSprites[task->data[DEBUG_SELECTOR_ICON]].invisible = FALSE;
+	}
+	DrawStdWindowFrame(task->data[DEBUG_SELECTOR_WINDOW], TRUE);
+	DebugMenu_DrawPokemonSelector(taskId, FALSE);
+}
+
+static void DebugMenu_DrawPokemonSelector(u8 taskId, bool8 updateIcon)
+{
+	struct Task *task = &gTasks[taskId];
+	u16 species = task->data[DEBUG_SELECTOR_SPECIES];
+	u8 windowId = task->data[DEBUG_SELECTOR_WINDOW];
+
+	if (updateIcon && task->data[DEBUG_SELECTOR_ICON] < MAX_SPRITES)
+	{
+		DestroyMonIcon(&gSprites[task->data[DEBUG_SELECTOR_ICON]]);
+		task->data[DEBUG_SELECTOR_ICON] = CreateMonIcon(species, SpriteCB_PokeIcon, 202, 47, 0, 0, FALSE);
+		if (task->data[DEBUG_SELECTOR_ICON] < MAX_SPRITES)
+		{
+			gSprites[task->data[DEBUG_SELECTOR_ICON]].oam.priority = 0;
+			gSprites[task->data[DEBUG_SELECTOR_ICON]].invisible = FALSE;
+		}
+	}
+
+	FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
+	WindowPrint(windowId, 2, 4, 3, &sDebugSelectorTextColor, TEXT_SPEED_FF, gText_DebugSelector_PokemonNo);
+	ConvertIntToDecimalStringN(gStringVar1, species, STR_CONV_MODE_RIGHT_ALIGN, 4);
+	WindowPrint(windowId, 2, 92, 3, &sDebugSelectorTextColor, TEXT_SPEED_FF, gStringVar1);
+	WindowPrint(windowId, 2, 4, 20, &sDebugSelectorTextColor, TEXT_SPEED_FF, gSpeciesNames[species]);
+	WindowPrint(windowId, 2, 4, 39, &sDebugSelectorTextColor, TEXT_SPEED_FF,
+				sDebugSelectorStepTexts[task->data[DEBUG_SELECTOR_DIGIT]]);
+	WindowPrint(windowId, 2, 4, 55, &sDebugSelectorTextColor, TEXT_SPEED_FF, gText_DebugSelector_Controls);
+	CopyWindowToVram(windowId, COPYWIN_GFX);
+}
+
+static void Task_DebugMenuPokemonSelector(u8 taskId)
+{
+	struct Task *task = &gTasks[taskId];
+	s32 species = task->data[DEBUG_SELECTOR_SPECIES];
+	u16 step = sDebugSelectorSteps[task->data[DEBUG_SELECTOR_DIGIT]];
+	bool8 changed = FALSE;
+
+	if (JOY_NEW(DPAD_UP))
+	{
+		task->data[DEBUG_SELECTOR_DIGIT] = (task->data[DEBUG_SELECTOR_DIGIT] + 1) & 3;
+		PlaySE(SE_SELECT);
+		DebugMenu_DrawPokemonSelector(taskId, FALSE);
+	}
+	else if (JOY_NEW(DPAD_DOWN))
+	{
+		task->data[DEBUG_SELECTOR_DIGIT] = (task->data[DEBUG_SELECTOR_DIGIT] + 3) & 3;
+		PlaySE(SE_SELECT);
+		DebugMenu_DrawPokemonSelector(taskId, FALSE);
+	}
+	else if (JOY_NEW_AND_REPEATED(DPAD_RIGHT))
+	{
+		species += step;
+		if (species >= NUM_SPECIES)
+			species = 1;
+		changed = TRUE;
+	}
+	else if (JOY_NEW_AND_REPEATED(DPAD_LEFT))
+	{
+		species -= step;
+		if (species < 1)
+			species = NUM_SPECIES - 1;
+		changed = TRUE;
+	}
+	else if (JOY_NEW(A_BUTTON))
+	{
+		PlaySE(SE_SELECT);
+		DebugMenu_ClosePokemonSelector(taskId, TRUE);
+	}
+	else if (JOY_NEW(B_BUTTON))
+	{
+		DebugMenu_ClosePokemonSelector(taskId, FALSE);
+	}
+
+	if (changed)
+	{
+		SafeFreeMonIconPalette(task->data[DEBUG_SELECTOR_SPECIES]);
+		task->data[DEBUG_SELECTOR_SPECIES] = species;
+		SafeLoadMonIconPalette(species);
+		PlaySE(SE_SELECT);
+		DebugMenu_DrawPokemonSelector(taskId, TRUE);
+	}
+}
+
+static void DebugMenu_ClosePokemonSelector(u8 taskId, bool8 confirmed)
+{
+	struct Task *task = &gTasks[taskId];
+
+	gSpecialVar_LastResult = confirmed ? task->data[DEBUG_SELECTOR_SPECIES] : 0;
+	if (task->data[DEBUG_SELECTOR_ICON] < MAX_SPRITES)
+		DestroyMonIcon(&gSprites[task->data[DEBUG_SELECTOR_ICON]]);
+	SafeFreeMonIconPalette(task->data[DEBUG_SELECTOR_SPECIES]);
+	ClearStdWindowAndFrame(task->data[DEBUG_SELECTOR_WINDOW], TRUE);
+	RemoveWindow(task->data[DEBUG_SELECTOR_WINDOW]);
+	DestroyTask(taskId);
+	EnableBothScriptContexts();
+}
+
+enum
+{
+	DEBUG_NUMBER_ITEM,
+	DEBUG_NUMBER_FLAG,
+	DEBUG_NUMBER_VAR,
+	DEBUG_NUMBER_VALUE,
+};
+
+#define tNumber       data[0]
+#define tDigit        data[1]
+#define tWindow       data[2]
+#define tNumberType   data[3]
+#define tMinimum      data[4]
+#define tMaximum      data[5]
+#define tIcon         data[6]
+
+#define DEBUG_ITEM_ICON_TAG 0xDAF0
+
+static void Task_DebugMenuNumberSelector(u8 taskId);
+
+static const u8 *const sDebugNumberTitles[] =
+{
+	gText_DebugSelector_ItemNo,
+	gText_DebugSelector_FlagNo,
+	gText_DebugSelector_VarNo,
+	gText_DebugSelector_Value,
+};
+
+static void DebugMenu_DrawNumberSelector(u8 taskId)
+{
+	struct Task *task = &gTasks[taskId];
+	u16 number = (u16)task->tNumber;
+	u8 windowId = task->tWindow;
+	u8 digits = (task->tNumberType >= DEBUG_NUMBER_VAR) ? 5 : 4;
+
+	FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
+	WindowPrint(windowId, 2, 4, 3, &sDebugSelectorTextColor, TEXT_SPEED_FF,
+				sDebugNumberTitles[task->tNumberType]);
+	ConvertIntToDecimalStringN(gStringVar1, number, STR_CONV_MODE_RIGHT_ALIGN, digits);
+	WindowPrint(windowId, 2, 100, 3, &sDebugSelectorTextColor, TEXT_SPEED_FF, gStringVar1);
+	if (task->tNumberType == DEBUG_NUMBER_ITEM)
+		WindowPrint(windowId, 2, 4, 21, &sDebugSelectorTextColor, TEXT_SPEED_FF, ItemId_GetName(number));
+	else if (task->tNumberType == DEBUG_NUMBER_VAR)
+	{
+		ConvertIntToDecimalStringN(gStringVar2, VarGet(number), STR_CONV_MODE_RIGHT_ALIGN, 5);
+		WindowPrint(windowId, 2, 4, 21, &sDebugSelectorTextColor, TEXT_SPEED_FF, gStringVar2);
+	}
+	WindowPrint(windowId, 2, 4, 39, &sDebugSelectorTextColor, TEXT_SPEED_FF,
+				task->tDigit == 4 ? gText_DebugSelector_Step10000 : sDebugSelectorStepTexts[task->tDigit]);
+	WindowPrint(windowId, 2, 4, 55, &sDebugSelectorTextColor, TEXT_SPEED_FF, gText_DebugSelector_Controls);
+	CopyWindowToVram(windowId, COPYWIN_GFX);
+}
+
+static void DebugMenu_CreateItemSelectorIcon(struct Task *task, u16 item)
+{
+	if (task->tIcon < MAX_SPRITES)
+		DestroySprite(&gSprites[task->tIcon]);
+	FreeSpriteTilesByTag(DEBUG_ITEM_ICON_TAG);
+	FreeSpritePaletteByTag(DEBUG_ITEM_ICON_TAG);
+	task->tIcon = AddItemIconSprite(DEBUG_ITEM_ICON_TAG, DEBUG_ITEM_ICON_TAG, item);
+	if (task->tIcon < MAX_SPRITES)
+	{
+		gSprites[task->tIcon].pos1.x = 202;
+		gSprites[task->tIcon].pos1.y = 47;
+		gSprites[task->tIcon].oam.priority = 0;
+		gSprites[task->tIcon].invisible = FALSE;
+	}
+}
+
+static void DebugMenu_StartNumberSelector(u8 type, u16 minimum, u16 maximum)
+{
+	u8 taskId = CreateTask(Task_DebugMenuNumberSelector, 0x50);
+	struct Task *task = &gTasks[taskId];
+
+	task->tNumberType = type;
+	task->tMinimum = minimum;
+	task->tMaximum = maximum;
+	task->tNumber = minimum;
+	task->tDigit = 0;
+	task->tWindow = CreateWindowFromRect(1, 1, 26, 9);
+	task->tIcon = MAX_SPRITES;
+	Var8001 = FALSE;
+	DrawStdWindowFrame(task->tWindow, TRUE);
+	if (type == DEBUG_NUMBER_ITEM)
+		DebugMenu_CreateItemSelectorIcon(task, minimum);
+	DebugMenu_DrawNumberSelector(taskId);
+}
+
+void DebugMenu_StartItemSelector(void)
+{
+	DebugMenu_StartNumberSelector(DEBUG_NUMBER_ITEM, 1, ITEMS_COUNT - 1);
+}
+
+void DebugMenu_StartFlagSelector(void)
+{
+	DebugMenu_StartNumberSelector(DEBUG_NUMBER_FLAG, 0, 0x1FFF);
+}
+
+void DebugMenu_StartVarSelector(void)
+{
+	DebugMenu_StartNumberSelector(DEBUG_NUMBER_VAR, 0x4000, 0x51FF);
+}
+
+void DebugMenu_StartValueSelector(void)
+{
+	DebugMenu_StartNumberSelector(DEBUG_NUMBER_VALUE, 0, 0xFFFF);
+}
+
+static void DebugMenu_CloseNumberSelector(u8 taskId, bool8 confirmed)
+{
+	struct Task *task = &gTasks[taskId];
+	gSpecialVar_LastResult = (u16)task->tNumber;
+	Var8001 = confirmed;
+	if (task->tNumberType == DEBUG_NUMBER_ITEM)
+	{
+		if (task->tIcon < MAX_SPRITES)
+			DestroySprite(&gSprites[task->tIcon]);
+		FreeSpriteTilesByTag(DEBUG_ITEM_ICON_TAG);
+		FreeSpritePaletteByTag(DEBUG_ITEM_ICON_TAG);
+	}
+	ClearStdWindowAndFrame(task->tWindow, TRUE);
+	RemoveWindow(task->tWindow);
+	DestroyTask(taskId);
+	EnableBothScriptContexts();
+}
+
+static void Task_DebugMenuNumberSelector(u8 taskId)
+{
+	struct Task *task = &gTasks[taskId];
+	u32 number = (u16)task->tNumber;
+	u32 minimum = (u16)task->tMinimum;
+	u32 maximum = (u16)task->tMaximum;
+	u8 digitCount = (task->tNumberType >= DEBUG_NUMBER_VAR) ? 5 : 4;
+	u32 step = task->tDigit == 4 ? 10000 : sDebugSelectorSteps[task->tDigit];
+	bool8 changed = FALSE;
+
+	if (JOY_NEW(DPAD_UP))
+	{
+		task->tDigit = (task->tDigit + 1) % digitCount;
+		PlaySE(SE_SELECT);
+		DebugMenu_DrawNumberSelector(taskId);
+	}
+	else if (JOY_NEW(DPAD_DOWN))
+	{
+		task->tDigit = (task->tDigit + digitCount - 1) % digitCount;
+		PlaySE(SE_SELECT);
+		DebugMenu_DrawNumberSelector(taskId);
+	}
+	else if (JOY_NEW_AND_REPEATED(DPAD_RIGHT))
+	{
+		number = number + step > maximum ? minimum : number + step;
+		changed = TRUE;
+	}
+	else if (JOY_NEW_AND_REPEATED(DPAD_LEFT))
+	{
+		number = number < minimum + step ? maximum : number - step;
+		changed = TRUE;
+	}
+	else if (JOY_NEW(A_BUTTON))
+	{
+		PlaySE(SE_SELECT);
+		DebugMenu_CloseNumberSelector(taskId, TRUE);
+	}
+	else if (JOY_NEW(B_BUTTON))
+	{
+		DebugMenu_CloseNumberSelector(taskId, FALSE);
+	}
+
+	if (changed)
+	{
+		task->tNumber = number;
+		if (task->tNumberType == DEBUG_NUMBER_ITEM)
+			DebugMenu_CreateItemSelectorIcon(task, number);
+		PlaySE(SE_SELECT);
+		DebugMenu_DrawNumberSelector(taskId);
+	}
+}
+
+#undef tNumber
+#undef tDigit
+#undef tWindow
+#undef tNumberType
+#undef tMinimum
+#undef tMaximum
+#undef tIcon
+#undef DEBUG_ITEM_ICON_TAG
 
 void DebugMenu_ProcessSetFlag(void)
 {
@@ -176,6 +526,11 @@ void DebugMenu_ShinyTeam(void)
 			ForceMonShiny(&gPlayerParty[i]);
 	}
 }
+
+void DebugMenu_HealTeam(void)
+{
+	HealPlayerParty();
+}
 #include "../include/pokemon.h"
 #include "../include/constants/species.h"
 #include "../include/constants/pokemon.h"
@@ -188,6 +543,7 @@ void DebugMenu_GivePokemonFromVar(void)
 	u16 species = VarGet(VAR_8000);
 	struct Pokemon mon;
 
+	gSpecialVar_LastResult = FALSE;
 	if (species == 0 || species >= NUM_SPECIES)
 		return;
 
@@ -197,6 +553,7 @@ void DebugMenu_GivePokemonFromVar(void)
 
 	CreateMon(&mon, species, 50, 32, TRUE, 0, OT_ID_PLAYER_ID, 0);
 	gPlayerParty[slot] = mon;
+	gSpecialVar_LastResult = TRUE;
 }
 void DebugMenu_GiveItemFromVar(void)
 {

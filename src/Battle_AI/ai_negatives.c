@@ -231,7 +231,7 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			case ABILITY_WATERABSORB:
 			case ABILITY_DRYSKIN:
 			case ABILITY_STORMDRAIN:
-			case ABILITY_EVAPORATE:
+			case ABILITY_314:
 				if (moveType == TYPE_WATER)
 				{
 					if (!TARGETING_PARTNER) //Good idea to attack partner
@@ -249,6 +249,7 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 
 			//Fire
 			case ABILITY_FLASHFIRE:
+			case ABILITY_WELLBAKEDBODY:
 				if (moveType == TYPE_FIRE)
 				{
 					if (!TARGETING_PARTNER) //Good idea to attack partner
@@ -304,9 +305,25 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 					}
 				}
 				break;
-			case ABILITY_STEAMENGINE:
-			case ABILITY_WELLBAKEDBODY:
 			case ABILITY_THERMALEXCHANGE:
+				if (moveSplit != SPLIT_STATUS
+				&&  moveType == TYPE_FIRE)
+				{
+					if (!TARGETING_PARTNER //Don't decrement if the partner is the target (handled later)
+					&& AI_STAT_CAN_RISE(bankDef, STAT_ATK) //Ability can activate
+					&& !MoveKnocksOutXHits(move, bankAtk, bankDef, 1) //This attack won't KO yet
+					&& RealPhysicalMoveInMoveset(bankDef))
+					{
+						if (MoveKnocksOutXHits(move, bankAtk, bankDef, 2))
+							DECREASE_VIABILITY(5);
+						else
+							DECREASE_VIABILITY(9);
+						//Don't return because could get worse from here
+					}
+				}
+				break;
+
+			case ABILITY_STEAMENGINE:
 				if (moveSplit != SPLIT_STATUS
 				&& (moveType == TYPE_WATER || moveType == TYPE_FIRE))
 				{
@@ -529,7 +546,7 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 					break;
 
 				case ABILITY_STORMDRAIN:
-				case ABILITY_EVAPORATE:
+				case ABILITY_314:
 					if (moveType == TYPE_WATER
 					&& !(moveTarget & MOVE_TARGET_USER)
 					&& !IsMoveRedirectionPrevented(move, data->atkAbility))
@@ -599,7 +616,7 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 						break;
 
 					case ABILITY_STORMDRAIN:
-					case ABILITY_EVAPORATE:
+					case ABILITY_314:
 						if (moveType == TYPE_WATER
 						&& !(moveTarget & MOVE_TARGET_USER)
 						&& !IsMoveRedirectionPrevented(move, data->atkAbility))
@@ -1414,10 +1431,11 @@ SKIP_CHECK_TARGET:
 					case MOVE_CIRCLETHROW:
 						goto AI_STANDARD_DAMAGE;
 
-					default:
-						if (!HasMonToSwitchTo(bankDef)
-						||  data->defAbility == ABILITY_SUCTIONCUPS
-						||  data->defStatus3 & STATUS3_ROOTED)
+				default:
+					if (!HasMonToSwitchTo(bankDef)
+					||  data->defAbility == ABILITY_SUCTIONCUPS
+					||  data->defAbility == ABILITY_GUARDDOG
+					||  data->defStatus3 & STATUS3_ROOTED)
 							DECREASE_VIABILITY(10);
 				}
 			}

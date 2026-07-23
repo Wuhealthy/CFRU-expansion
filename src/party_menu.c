@@ -58,7 +58,7 @@ party_menu.c
 #define MENU_LEFT -2
 #define MENU_RIGHT 2
 #define MENU_NICKNAME 6
-#define MENU_MOVE_RELEARNER MENU_NO_ENTRY
+#define MENU_MOVE_RELEARNER (MENU_FIELD_MOVES + FIELD_MOVE_COUNT)
 
 struct PartyMenuBoxInfoRects
 {

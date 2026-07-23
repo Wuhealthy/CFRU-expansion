@@ -1470,7 +1470,7 @@ const struct BattleTowerSpread gMiddleCupTowerSpread_Palmer1[] =
 		.hpEv = 252,
 		.atkEv = 252,
 		.spAtkEv = 4,
-		.ability = FRONTIER_ABILITY_HIDDEN, //ABILITY_GALE_WINGS
+		.ability = FRONTIER_ABILITY_HIDDEN, //ABILITY_GALEWINGS
 		.item = ITEM_HEAVY_DUTY_BOOTS,
 		.moves =
 		{
@@ -6857,7 +6857,7 @@ const struct BattleTowerSpread gSpecialTowerSpread_Skeli[] =
 		.atkEv = 252,
 		.defEv = 252,
 		.spdEv = 4,
-		.ability = FRONTIER_ABILITY_HIDDEN, //ABILITY_PORTALPOWER
+		.ability = FRONTIER_ABILITY_HIDDEN, //ABILITY_313
 		.item = ITEM_DARKINIUM_Z,
 		.moves =
 		{
@@ -6883,7 +6883,7 @@ const struct BattleTowerSpread gSpecialTowerSpread_Skeli[] =
 		.defEv = 4,
 		.spAtkEv = 252,
 		.spdEv = 252,
-		.ability = FRONTIER_ABILITY_HIDDEN, //ABILITY_PORTALPOWER
+		.ability = FRONTIER_ABILITY_HIDDEN, //ABILITY_313
 		.item = ITEM_CHOICE_SCARF,
 		.moves =
 		{
@@ -6909,7 +6909,7 @@ const struct BattleTowerSpread gSpecialTowerSpread_Skeli[] =
 		.atkEv = 252,
 		.defEv = 4,
 		.spdEv = 252,
-		.ability = FRONTIER_ABILITY_HIDDEN, //ABILITY_PORTALPOWER
+		.ability = FRONTIER_ABILITY_HIDDEN, //ABILITY_313
 		.item = ITEM_GHOSTIUM_Z,
 		.moves =
 		{
