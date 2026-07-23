@@ -19,4 +19,5 @@ ShowPokemonSummaryScreen 0x081344F8 0 1
 
 SetTitleScreenScene_Cry 0x080791c0 0 1
 Task_OakSpeech_IsInhabitedFarAndWide 0x0812fa78 0 1
+DoNamingScreen_Pinyin 0809D954 6 1
 CreateOakIntroPokemonSprite 0x08130f2c 0 1

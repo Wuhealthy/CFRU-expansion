@@ -91,6 +91,9 @@
 #define CHAR_SPECIAL_F8     0xF8
 #define CHAR_SPECIAL_F9     0xF9
 #define CHAR_COLON          0xF0
+#define CHAR_SEMICOLON      0xF1
+#define CHAR_EQUALS         0xF2
+#define CHAR_AMPERSAND      0xF3
 #define CHAR_PROMPT_SCROLL  0xFA // waits for button press and scrolls dialog
 #define CHAR_PROMPT_CLEAR   0xFB // waits for button press and clears dialog
 #define EXT_CTRL_CODE_BEGIN 0xFC // extended control code
