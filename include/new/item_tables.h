@@ -1447,6 +1447,14 @@ extern const u32 gBag_BlazikeniteTiles[];
 extern const u32 gBag_BlazikenitePal[];
 extern const u32 gBag_SwampertiteTiles[];
 extern const u32 gBag_SwampertitePal[];
+extern const u32 gBag_GardevoiriteTiles[];
+extern const u32 gBag_GardevoiritePal[];
+extern const u32 gBag_SableniteTiles[];
+extern const u32 gBag_SablenitePal[];
+extern const u32 gBag_MawiliteTiles[];
+extern const u32 gBag_MawilitePal[];
+extern const u32 gBag_AggroniteTiles[];
+extern const u32 gBag_AggronitePal[];
 
 //Funcs
 void __attribute__((long_call)) FieldUseFunc_OakStopsYou(u8 taskId);

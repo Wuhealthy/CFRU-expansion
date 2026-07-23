@@ -451,6 +451,10 @@ const struct FlingStruct gFlingTable[ITEMS_COUNT] =
 	[ITEM_MEGANIUMITE] = {80, 0},
 	[ITEM_TYPHLOSIONITE] = {80, 0},
 	[ITEM_FERALIGATRITE] = {80, 0},
+	[ITEM_CROBATITE] = {80, 0},
+	[ITEM_JUMPLUFFITE] = {80, 0},
+	[ITEM_ESPEONITE] = {80, 0},
+	[ITEM_UMBREONITE] = {80, 0},
 	[ITEM_ASSAULT_VEST] = {80, 0},
 	[ITEM_DAWN_STONE] = {80, 0},
 	[ITEM_DUSK_STONE] = {80, 0},
@@ -957,6 +961,10 @@ const u16 gItemsByType[ITEMS_COUNT] =
 	[ITEM_MEGANIUMITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_TYPHLOSIONITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_FERALIGATRITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_CROBATITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_JUMPLUFFITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_ESPEONITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_UMBREONITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_NORMALIUM_Z] = ITEM_TYPE_Z_CRYSTAL,
 	[ITEM_FIGHTINIUM_Z] = ITEM_TYPE_Z_CRYSTAL,
 	[ITEM_FLYINIUM_Z] = ITEM_TYPE_Z_CRYSTAL,
@@ -1875,6 +1883,10 @@ const u32 *const gItemGraphicsTable[ITEMS_COUNT + 1][2] =
 	{gBag_SceptiliteTiles, gBag_SceptilitePal},
 	{gBag_BlazikeniteTiles, gBag_BlazikenitePal},
 	{gBag_SwampertiteTiles, gBag_SwampertitePal},
+	{gBag_GardevoiriteTiles, gBag_GardevoiritePal},
+	{gBag_SableniteTiles, gBag_SablenitePal},
+	{gBag_MawiliteTiles, gBag_MawilitePal},
+	{gBag_AggroniteTiles, gBag_AggronitePal},
 	{gBag_InterrogationTiles, gBag_InterrogationPal}, //Free space 1
 	{gBag_InterrogationTiles, gBag_InterrogationPal},
 	{gBag_InterrogationTiles, gBag_InterrogationPal},
@@ -14824,6 +14836,70 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x02, 0xD3, 0x08, 0x79, 0x1D, 0xF1, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_FERALIGATRITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x02, 0x0A, 0x11, 0x0E, 0x1C, 0x67, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_CROBATITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x18, 0x70, 0x11, 0x0B, 0x09, 0x76, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_JUMPLUFFITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x0C, 0xAC, 0x0E, 0xDD, 0x0F, 0x11, 0x01, 0xD7, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_ESPEONITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x0F, 0xCE, 0x08, 0x94, 0x0F, 0x11, 0x01, 0xD7, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_UMBREONITE,				//道具编号
 		.price = 0,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
