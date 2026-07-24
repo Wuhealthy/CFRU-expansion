@@ -1726,6 +1726,18 @@ void CheckTerrainAndSetVolatileExplosion(void)
     }
 }
 
+void CheckTerrainAndSetPsychicTerrain(void)
+{
+    if (gTerrainType != PSYCHIC_TERRAIN)
+    {
+        gTerrainType = PSYCHIC_TERRAIN;
+        gNewBS->TerrainTimer = 5;
+        gBattleStringLoader = PsychicTerrainSetString;
+        gBattleScripting.animArg1 = B_ANIM_PSYCHIC_SURGE;
+        gBattlescriptCurrInstr = BattleScript_PsychoReboundSetTerrain;
+    }
+}
+
 void LastResortFunc(void)
 {
 	if (!CanUseLastResort(gBankAttacker))

@@ -1141,12 +1141,24 @@ static bool8 TryActivateMagicBounce(u8 bankDef)
 {
 	if (ABILITY(bankDef) == ABILITY_MAGICBOUNCE && !BATTLER_SEMI_INVULNERABLE(bankDef))
 	{
-		gNewBS->MoveBounceInProgress = TRUE;
-		gNewBS->moveWasBouncedThisTurn = TRUE;
-		gBattleScripting.bank = bankDef;
-		BattleScriptPushCursor();
-		gBattlescriptCurrInstr = BattleScript_MagicBounce;
-		return TRUE;
+        if (SpeciesHasPsychoRebound(GetProperAbilityPopUpSpecies(bankDef)))
+        {
+            gNewBS->MoveBounceInProgress = TRUE;
+            gNewBS->moveWasBouncedThisTurn = TRUE;
+            gBattleScripting.bank = bankDef;
+            BattleScriptPushCursor();
+            gBattlescriptCurrInstr = BattleScript_PsychoRebound;
+            return TRUE;
+        }
+        else
+        {
+			gNewBS->MoveBounceInProgress = TRUE;
+			gNewBS->moveWasBouncedThisTurn = TRUE;
+			gBattleScripting.bank = bankDef;
+			BattleScriptPushCursor();
+			gBattlescriptCurrInstr = BattleScript_MagicBounce;
+			return TRUE;
+		}
 	}
 
 	return FALSE;

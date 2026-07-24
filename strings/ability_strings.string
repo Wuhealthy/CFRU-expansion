@@ -115,6 +115,9 @@
 #org @gText_PkmnHurtsWith
 [ATTACKER]受到了伤害！
 
+#org @gText_PkmnHurtsWiths
+[TARGET]受到了伤害！
+
 #org @gText_SymbiosisTransfer
 [SCRIPTING_BANK]将[LAST_ITEM]\n交给了[EFFECT_BANK]！
 

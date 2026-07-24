@@ -965,6 +965,9 @@ HP全满时受到的伤害变为效果不好
 #org @gText_AbilityDescription_MutantAdapt
 同时拥有穿透和适应力
 
+#org @gText_AbilityDescription_PsychoRebound
+触发魔法镜的同时布下精神场地
+
 #org @gText_AbilityDescription_IceDeity
 全体的冰属性招式变强，火变弱
 
