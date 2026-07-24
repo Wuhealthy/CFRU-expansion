@@ -1715,7 +1715,33 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 					break;
 
 				case ABILITY_HEALER:
+					if (SpeciesHasShadowHeal(GetProperAbilityPopUpSpecies(bank)))
+					{
+        				u8 statusedCount = 0;
+        				u32 healAmount;
+
+        				for (u8 i = 0; i < gBattlersCount; i++)
+        				{
+            				if (BATTLER_ALIVE(i) && (gBattleMons[i].status1 & STATUS1_ANY))
+                				statusedCount++;
+        				}
+        
+        				if (statusedCount > 0 && !BATTLER_MAX_HP(bank) && !IsHealBlocked(bank))
+        				{
+            				healAmount = (GetBaseMaxHP(bank) * statusedCount) / 16;
+                
+            				gBattleMoveDamage = healAmount;
+            				gBattleMoveDamage *= -1;
+            
+            				gBankAttacker = bank;
+            				gBattleScripting.bank = bank;
+            
+            				BattleScriptPushCursorAndCallback(BattleScript_ShadowHealActivates);
+            				effect++;
+        				}
+    				}
 					if (IS_DOUBLE_BATTLE
+					&& !SpeciesHasShadowHeal(GetProperAbilityPopUpSpecies(bank))
 					&& BATTLER_ALIVE(PARTNER(bank))
 					&& gBattleMons[PARTNER(bank)].status1
 					&& Random() % 100 < 50)

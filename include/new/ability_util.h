@@ -106,6 +106,7 @@ bool8 SpeciesHasThunderDeity(u16 species);
 bool8 SpeciesHasFireDeity(u16 species);
 bool8 SpeciesHasMutantAdapt(u16 species);
 bool8 SpeciesHasPsychoRebound(u16 species);
+bool8 SpeciesHasShadowHeal(u16 species);
 bool8 SpeciesHasWellBakedBody(u16 species);
 bool8 SpeciesHasWindPower(u16 species);
 bool8 AngerShellStatsCheck(u8 bank);

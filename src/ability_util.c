@@ -107,6 +107,8 @@ extern const u8 gText_AbilityName_MutantAdapt[];
 extern const u8 gText_AbilityDescription_MutantAdapt[];
 extern const u8 gText_AbilityName_PsychoRebound[];
 extern const u8 gText_AbilityDescription_PsychoRebound[];
+extern const u8 gText_AbilityName_ShadowHeal[];
+extern const u8 gText_AbilityDescription_ShadowHeal[];
 extern const u8 gText_AbilityName_ThunderDeity[];
 extern const u8 gText_AbilityDescription_ThunderDeity[];
 extern const u8 gText_AbilityName_FireDeity[];
@@ -213,6 +215,10 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 		case ABILITY_MAGICBOUNCE:
     		if (SpeciesHasPsychoRebound(species))
         		return gText_AbilityName_PsychoRebound;
+    		break;
+		case ABILITY_HEALER:
+    		if (SpeciesHasShadowHeal(species))
+        		return gText_AbilityName_ShadowHeal;
     		break;
 		case ABILITY_BULLETPROOF:
 			if (SpeciesHasGoodAsGold(species))
@@ -757,6 +763,10 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 		case ABILITY_MAGICBOUNCE:
     		if (SpeciesHasPsychoRebound(species))
         		return gText_AbilityDescription_PsychoRebound;
+    		break;
+		case ABILITY_HEALER:
+    		if (SpeciesHasShadowHeal(species))
+        		return gText_AbilityDescription_ShadowHeal;
     		break;
 		case ABILITY_SUCTIONCUPS:
 			if(SpeciesHasGuardDog(species))
@@ -1494,6 +1504,15 @@ bool8 SpeciesHasPsychoRebound(unusedArg u16 species)
 {
     #ifdef SPECIES_ESPEON_MEGA
     return species == SPECIES_ESPEON_MEGA;
+    #else
+    return FALSE;
+    #endif
+}
+
+bool8 SpeciesHasShadowHeal(unusedArg u16 species)
+{
+    #ifdef SPECIES_UMBREON_MEGA
+    return species == SPECIES_UMBREON_MEGA;
     #else
     return FALSE;
     #endif

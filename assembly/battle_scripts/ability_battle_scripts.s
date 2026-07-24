@@ -46,6 +46,7 @@ ability_battle_scripts.s
 .global BattleScript_DrySkinDamage
 .global BattleScript_SolarPowerDamage
 .global BattleScript_Healer
+.global BattleScript_ShadowHealActivates
 .global BattleScript_MoodySingleStat
 .global BattleScript_MoodyRegular
 .global BattleScript_BadDreams
@@ -571,6 +572,19 @@ BattleScript_Healer:
 	refreshhpbar BANK_EFFECT
 	call BattleScript_AbilityPopUpRevert
 	end3
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+BattleScript_ShadowHealActivates:
+    call BattleScript_AbilityPopUp
+    playanimation BANK_ATTACKER ANIM_HEALING_SPARKLES 0x0
+    orword HIT_MARKER, HITMARKER_IGNORE_SUBSTITUTE
+    graphicalhpupdate BANK_ATTACKER
+    datahpupdate BANK_ATTACKER
+    printstring 0x4B
+    waitmessage DELAY_1SECOND
+    call BattleScript_AbilityPopUpRevert
+    end3
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

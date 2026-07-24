@@ -40,6 +40,7 @@ extern const u8 BattleScript_RainDishActivatesS[];
 extern const u8 BattleScript_DrySkinDamage[];
 extern const u8 BattleScript_SolarPowerDamage[];
 extern const u8 BattleScript_Healer[];
+extern const u8 BattleScript_ShadowHealActivates[];
 extern const u8 BattleScript_MoodySingleStat[];
 extern const u8 BattleScript_MoodyRegular[];
 extern const u8 BattleScript_BadDreams[];
