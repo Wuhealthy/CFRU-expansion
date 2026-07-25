@@ -561,7 +561,7 @@ void atk52_switchineffects(void)
 			for (tableSlot = 0; tableSlot < PARTY_SIZE; tableSlot++)
 			{
 				u16 targetSpecies = table[tableSlot].species;
-				u8 targetAbility = table[tableSlot].ability;
+				ability_t targetAbility = table[tableSlot].ability;
 
 				// Quit on encountering SPECIES_NONE
 				if (targetSpecies == SPECIES_NONE)

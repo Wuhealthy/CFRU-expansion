@@ -288,7 +288,7 @@ void BattleBeginFirstTurn(void)
 					for (tableSlot = 0; tableSlot < PARTY_SIZE; tableSlot++)
 					{
 						u16 targetSpecies = table[tableSlot].species;
-						u8 targetAbility = table[tableSlot].ability;
+						ability_t targetAbility = table[tableSlot].ability;
 
 						// Quit on encountering SPECIES_NONE
 						if (targetSpecies == SPECIES_NONE)
@@ -594,6 +594,35 @@ void BattleBeginFirstTurn(void)
 				break;
 
 			case BTSTART_SWITCH_IN_ABILITIES:
+				// The vanilla battle startup may mark entry abilities as already
+				// handled before the CFRU field setters can run.  Switching clears
+				// this flag normally, which is why these abilities worked only
+				// after switching a battler back in.
+				if (*bank == 0)
+				{
+					for (i = 0; i < gBattlersCount; ++i)
+					{
+						switch (ABILITY(gBanksByTurnOrder[i]))
+						{
+							case ABILITY_DRIZZLE:
+							case ABILITY_SANDSTREAM:
+							case ABILITY_DROUGHT:
+							case ABILITY_ORICHALCUMPULSE:
+							case ABILITY_SNOWWARNING:
+							case ABILITY_PRIMORDIALSEA:
+							case ABILITY_DESOLATELAND:
+							case ABILITY_DELTASTREAM:
+							case ABILITY_ELECTRICSURGE:
+							case ABILITY_HADRONENGINE:
+							case ABILITY_GRASSYSURGE:
+							case ABILITY_MISTYSURGE:
+							case ABILITY_PSYCHICSURGE:
+								gStatuses3[gBanksByTurnOrder[i]] &= ~STATUS3_SWITCH_IN_ABILITY_DONE;
+								break;
+						}
+					}
+				}
+
 				for (; *bank < gBattlersCount; ++*bank)
 				{
 					if (AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, gBanksByTurnOrder[*bank], 0, 0, 0))
