@@ -78,9 +78,10 @@ Join us on discord: https://discord.com/invite/axNX3rhR9K
 - [Dynamic surf overworlds expansion](https://github.com/Shiny-Miner/dynamic_surf_ows_masters-expansion/tree/master)
 - [Option menu BW](https://github.com/Shiny-Miner/FR-OptionMenu)
 - [Modified Naming screen BW](https://github.com/Shiny-Miner/Naming-screen-BW)
+- [New DPE Gen 9 Update](https://github.com/grilokapu/Dynamic-Pokemon-Expansion-Gen-9)
 - Some music patches said in leon rombase + others...
 ###### Notes :
-- It is advised to use [DPE-gen-9](https://github.com/Shiny-Miner/Dynamic-Pokemon-Expansion-Gen-9) with it.
+- It is advised to use [New DPE Gen 9 Update](https://github.com/grilokapu/Dynamic-Pokemon-Expansion-Gen-9) with it.
 - If you want to see how potential this expansion would have in future read [this](https://github.com/Shiny-Miner/CFRU-expansion/blob/Experiments/todo.md)
 - Please don't try to use leon rombase on it as it already contains items + more
 - Added convienience for compiling, now run a_makepy.bat to make the project (it executes "python scripts//make.py") and run b_cleanpy.bat to clean repo (it runs python scripts//clean.py)
