@@ -452,6 +452,9 @@ BattleScript_TransformedEnd3:
 BattleScript_AbilityTransformed:
 	call BattleScript_AbilityPopUp
 	playanimation BANK_SCRIPTING ANIM_TRANSFORM 0x0
+	waitstateatk
+	reloadhealthbar BANK_SCRIPTING
+	callasm RefreshFormChangeHealthbox
 	setword BATTLE_STRING_LOADER TransformedString
 	printstring 0x184
 	waitmessage DELAY_1SECOND

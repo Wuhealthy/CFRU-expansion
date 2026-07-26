@@ -1227,6 +1227,7 @@ extern const struct SpritePalette* const gObjectEventSpritePalettesSwitcher[255]
 #define OBJ_EVENT_PAL_TAG_PECHARUNT 0x165A
 #define OBJ_EVENT_PAL_TAG_MAUSHOLD_F 0x165B
 #define OBJ_EVENT_PAL_TAG_URSALUNA_BM 0x165C
+#define OBJ_EVENT_PAL_TAG_PALAFIN_HERO 0x1ADB
 #define OBJ_EVENT_PAL_TAG_NINETALES 0x165D
 #define OBJ_EVENT_PAL_TAG_HAWLUCHA 0x165E
 #define OBJ_EVENT_PAL_TAG_DRIZZILE 0x165F
@@ -2364,6 +2365,7 @@ extern const struct SpritePalette* const gObjectEventSpritePalettesSwitcher[255]
 #define OBJ_EVENT_PAL_TAG_PECHARUNT_SHINY 0x1ACA
 #define OBJ_EVENT_PAL_TAG_MAUSHOLD_F_SHINY 0x1ACB
 #define OBJ_EVENT_PAL_TAG_URSALUNA_BM_SHINY 0x1ACC
+#define OBJ_EVENT_PAL_TAG_PALAFIN_HERO_SHINY 0x1ADC
 #define OBJ_EVENT_PAL_TAG_NINETALES_SHINY 0x1ACD
 #define OBJ_EVENT_PAL_TAG_HAWLUCHA_SHINY 0x1ACE
 #define OBJ_EVENT_PAL_TAG_DRIZZILE_SHINY 0x1ACF
@@ -3518,7 +3520,7 @@ extern const struct SpritePalette* const gObjectEventSpritePalettesSwitcher[255]
 #define EVENT_OBJ_GFX_SQUAWKABILLY_W 1192   //168
 #define EVENT_OBJ_GFX_FRILLISH_F 1193       //169
 #define EVENT_OBJ_GFX_JELLICENT_F 1194      //170
-#define EVENT_OBJ_GFX_DARK_LUGIA 1195       //171
+#define EVENT_OBJ_GFX_PALAFIN_HERO 1195     //171
 
 // Palette declarations
 //Normal Pal

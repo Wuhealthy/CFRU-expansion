@@ -36,6 +36,9 @@ EventScript_ChangeTeraTypeNPCNo:
 EventScript_ChangeTeraTypeNPCSelected:
     special2 0x8003 0x147
     bufferpokemon 0x0 0x8003
+    callasm CanChangeTeraTypeInOW
+    compare 0x4001 FALSE
+    if TRUE _goto EventScript_ChangeTeraTypeNPCLocked
     msgbox gText_ChangeTeraTypeNPCSelected MSG_NORMAL
 
     @ Reset 0x8004 and 0x800D (Required for Scrolling Multichoice)
@@ -70,6 +73,11 @@ EventScript_ChangeTeraTypeNPCSelected:
         case 17, EventScript_ChangeTeraTypeNPC_SetFairy
         case 18, EventScript_ChangeTeraTypeNPC_SetStellar
         case 0x7F, EventScript_ChangeTeraTypeNPCNo
+
+EventScript_ChangeTeraTypeNPCLocked:
+    msgbox gText_ChangeTeraTypeNPCLocked MSG_NORMAL
+    release
+    end
 
 
 EventScript_ChangeTeraTypeNPC_SetNormal:

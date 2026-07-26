@@ -1173,6 +1173,7 @@ extern const u8 gFollowingMonPic_1349_WugtrioTiles[];
 extern const u8 gFollowingMonPic_1350_BombirdierTiles[];
 extern const u8 gFollowingMonPic_1351_FinizenTiles[];
 extern const u8 gFollowingMonPic_1352_PalafinTiles[];
+extern const u8 gFollowingMonPic_1352_Palafin_HeroTiles[];
 extern const u8 gFollowingMonPic_1353_VaroomTiles[];
 extern const u8 gFollowingMonPic_1354_RevavroomTiles[];
 extern const u8 gFollowingMonPic_1355_CyclizarTiles[];

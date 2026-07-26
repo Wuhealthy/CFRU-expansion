@@ -47,6 +47,7 @@
 #include "../include/new/read_keys.h"
 #include "../include/new/roamer.h"
 #include "../include/new/text.h"
+#include "../include/new/terastallization.h"
 #include "../include/new/scrolling_multichoice.h"
 #include "../include/new/Vanilla_functions_battle.h"
 #include "../include/new/wild_encounter.h"
@@ -227,7 +228,7 @@ void PrintInfoPage(void)
         AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], FONT_SMALL, 47, 75, sLevelNickTextColors[0], TEXT_SKIP_DRAW, sMonSummaryScreen->summary.itemNameStrBuf);
 				// === Print Tera Type ===
 		{
-			u8 teraType = sMonSummaryScreen->currentMon.teraType;
+			u8 teraType = GetMonTeraType(&sMonSummaryScreen->currentMon);
 
 			if (teraType < NUMBER_OF_MON_TYPES)
 			{

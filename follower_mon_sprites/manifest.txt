@@ -1128,3 +1128,4 @@
 0x398400 0x0c00 0x0c00 gFollowingMonPic_1438_PecharuntTiles gFollowingMonPic_1438_Pecharunt.png -
 0x399000 0x0c00 0x0c00 gFollowingMonPic_1440_Maushold_FTiles gFollowingMonPic_1440_Maushold_F.png -
 0x399c00 0x0c00 0x0c00 gFollowingMonPic_1493_Ursaluna_BMTiles gFollowingMonPic_1493_Ursaluna_BM.png -
+0x39a800 0x0c00 0x0c00 gFollowingMonPic_1352_Palafin_HeroTiles gFollowingMonPic_1352_Palafin_Hero.png -

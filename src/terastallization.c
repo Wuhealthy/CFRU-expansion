@@ -25,6 +25,7 @@
 #include "../include/new/ability_battle_scripts.h"
 #include "../include/new/battle_indicators.h"
 #include "../include/new/battle_script_util.h"
+#include "../include/new/battle_util.h"
 #include "../include/new/dynamax.h"
 #include "../include/new/frontier.h"
 #include "../include/new/form_change.h"
@@ -93,6 +94,92 @@ bool8 IsTerastallized(u8 bank)
     return gNewBS->teraData.done[GetBattlerSide(bank)][partyIndex];
 }
 
+static bool8 IsOgerponSpecies(u16 species)
+{
+    switch (species)
+    {
+    case SPECIES_OGERPON:
+    case SPECIES_OGERPON_WELLSPRING_MASK:
+    case SPECIES_OGERPON_HEARTHFLAME_MASK:
+    case SPECIES_OGERPON_CORNERSTONE_MASK:
+    case SPECIES_OGERPON_GREEN:
+    case SPECIES_OGERPON_BLUE:
+    case SPECIES_OGERPON_RED:
+    case SPECIES_OGERPON_GREY:
+        return TRUE;
+    default:
+        return FALSE;
+    }
+}
+
+static u8 GetFixedTeraType(const struct Pokemon *mon)
+{
+    u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+
+    switch (species)
+    {
+    case SPECIES_TERAPAGOS:
+    case SPECIES_TERAPAGOS_TERASTAL:
+    case SPECIES_TERAPAGOS_STELLAR:
+        return TYPE_STELLAR;
+    }
+
+    if (!IsOgerponSpecies(species))
+        return TYPE_BLANK;
+
+    switch (GetMonData(mon, MON_DATA_HELD_ITEM, NULL))
+    {
+    case ITEM_WELLSPRING_MASK:
+        return TYPE_WATER;
+    case ITEM_HEARTHFLAME_MASK:
+        return TYPE_FIRE;
+    case ITEM_CORNERSTONE_MASK:
+        return TYPE_ROCK;
+    }
+
+    switch (species)
+    {
+    case SPECIES_OGERPON_WELLSPRING_MASK:
+    case SPECIES_OGERPON_BLUE:
+        return TYPE_WATER;
+    case SPECIES_OGERPON_HEARTHFLAME_MASK:
+    case SPECIES_OGERPON_RED:
+        return TYPE_FIRE;
+    case SPECIES_OGERPON_CORNERSTONE_MASK:
+    case SPECIES_OGERPON_GREY:
+        return TYPE_ROCK;
+    default:
+        return TYPE_GRASS;
+    }
+}
+
+u8 GetMonTeraType(const struct Pokemon *mon)
+{
+    u8 fixedType;
+
+    if (mon == NULL)
+        return TYPE_BLANK;
+
+    fixedType = GetFixedTeraType(mon);
+    if (fixedType != TYPE_BLANK)
+        return fixedType;
+
+    return mon->teraType < NUMBER_OF_MON_TYPES ? mon->teraType : TYPE_BLANK;
+}
+
+bool8 CanChangeMonTeraType(const struct Pokemon *mon)
+{
+    return mon != NULL && GetFixedTeraType(mon) == TYPE_BLANK;
+}
+
+void CanChangeTeraTypeInOW(void)
+{
+    u8 partySlot = VarGet(Var8002);
+
+    VarSet(VAR_TEMP_1, partySlot < PARTY_SIZE
+                         && CanChangeMonTeraType(&gPlayerParty[partySlot]));
+}
+
 // Fetch the Pokemon's current Tera Type
 u8 GetTeraType(u8 bank)
 {
@@ -106,7 +193,7 @@ u8 GetTeraType(u8 bank)
     else
         mon = &gEnemyParty[gBattlerPartyIndexes[bank]];
 
-    return mon->teraType < NUMBER_OF_MON_TYPES ? mon->teraType : TYPE_BLANK;
+    return GetMonTeraType(mon);
 }
 
 // Fetch the Pokemon's Tera Type from OW (scripts)
@@ -121,11 +208,7 @@ void GetTeraTypeInOW(void)
         return;
     }
 
-    // Fetch Correct Pokemon's Tera Type
-    u8 monTeraType = gPlayerParty[partySlot].teraType;
-
-    // Ensure Tera Type is within range
-    VarSet(VAR_TEMP_1, (monTeraType < NUMBER_OF_MON_TYPES) ? monTeraType : TYPE_BLANK);
+    VarSet(VAR_TEMP_1, GetMonTeraType(&gPlayerParty[partySlot]));
 }
 
 // Change the Pokemon's Tera type in OW
@@ -139,6 +222,9 @@ void ChangeTeraTypeInOW(void)
         return;
 
     if (newTeraType >= NUMBER_OF_MON_TYPES)
+        return;
+
+    if (!CanChangeMonTeraType(&gPlayerParty[partySlot]))
         return;
 
     gPlayerParty[partySlot].teraType = newTeraType;
@@ -238,6 +324,17 @@ u8 *DoTerastallize(u8 bank)
         return BattleScript_Terastallize;
     }
     return NULL;
+}
+
+// The Terapagos form change can alter max HP. The form-change controller
+// updates the party data asynchronously, so refresh the complete healthbox
+// after the battle script has waited for that transfer to finish.
+void RefreshFormChangeHealthbox(void)
+{
+    u8 bank = gBattleScripting.bank;
+
+    if (bank < gBattlersCount)
+        UpdateHealthboxAttribute(gHealthboxSpriteIds[bank], GetBankPartyData(bank), HEALTHBOX_ALL);
 }
 
 void TryActivateTeraFormAbility(void)
@@ -485,6 +582,13 @@ void SetGiftMonTeraType(void)
 
     struct Pokemon* mon = &gPlayerParty[partySlot];
     u16 species = mon->species;
+    u8 fixedType = GetFixedTeraType(mon);
+
+    if (fixedType != TYPE_BLANK)
+    {
+        mon->teraType = fixedType;
+        return;
+    }
 
     u8 type1 = gBaseStats[species].type1;
     u8 type2 = gBaseStats[species].type2;
@@ -831,7 +935,7 @@ static const struct SpriteTemplate *const gTeraTypeIconSpriteTemplates[NUMBER_OF
 void TeraIconSummaryScreen(void)
 {
     struct Sprite* ballSprite = &gSprites[sMonSummaryScreen->ballIconSpriteId];
-	u8 teraType = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_TERA_TYPE, NULL);
+	u8 teraType = GetMonTeraType(&sMonSummaryScreen->currentMon);
 	if (teraType < NUMBER_OF_MON_TYPES)
 	{
 		LoadSpriteSheet(sTeraTypeIconSheets[teraType]);

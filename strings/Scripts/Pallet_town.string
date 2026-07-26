@@ -16,6 +16,9 @@ Which Pok\emon's Tera Type\nwould you like me to change[.]?
 #org @gText_ChangeTeraTypeNPCSelected
 Ah, so you've selected\n[BUFFER1][.]\pWhich type would you like\nme to change it to[.]?
 
+#org @gText_ChangeTeraTypeNPCLocked
+[BUFFER1]'s Tera Type is intrinsic\nand cannot be changed.
+
 #org @gText_ChangeTeraTypeNPCFetchTeraNormal
 The Tera Type of [BUFFER1]\nis now Normal!
 

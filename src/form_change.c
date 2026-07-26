@@ -221,6 +221,19 @@ bool8 TryFormRevert(struct Pokemon* mon)
 	u16 species = mon->species;
 	u16 oldHP;
 
+	#if (defined SPECIES_TERAPAGOS && defined SPECIES_TERAPAGOS_TERASTAL && defined SPECIES_TERAPAGOS_STELLAR)
+	if (species == SPECIES_TERAPAGOS_TERASTAL || species == SPECIES_TERAPAGOS_STELLAR
+	 || mon->backupSpecies == SPECIES_TERAPAGOS_TERASTAL || mon->backupSpecies == SPECIES_TERAPAGOS_STELLAR)
+	{
+		mon->species = SPECIES_TERAPAGOS;
+		mon->backupSpecies = SPECIES_NONE;
+		oldHP = mon->hp;
+		CalculateMonStats(mon);
+		mon->hp = MathMin(mon->maxHP, oldHP);
+		return TRUE;
+	}
+	#endif
+
 	if (IsMinior(species))
 	{
 		mon->species = GetMiniorCoreSpecies(mon); //Get Minior Colour

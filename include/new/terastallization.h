@@ -13,7 +13,10 @@ extern u8 BattleScript_Terastallize[];
 // Custom Functions
 extern bool8 IsTerastallized(u8 bank);
 extern u8 GetTeraType(u8 bank);
+u8 GetMonTeraType(const struct Pokemon *mon);
+bool8 CanChangeMonTeraType(const struct Pokemon *mon);
 extern void ChangeTeraTypeInOW(void);
+void CanChangeTeraTypeInOW(void);
 extern u8* DoTerastallize(u8 bank);
 extern void GetTeraTypeInOW(void);
 void TryActivateTeraFormAbility(void);
