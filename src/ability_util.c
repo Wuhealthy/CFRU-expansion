@@ -38,6 +38,7 @@ extern const u8 gText_AbilityName_Galvanize[];
 extern const u8 gText_AbilityName_Dragonize[];
 extern const u8 gText_AbilityName_NineLives[];
 extern const u8 gText_AbilityName_FocusBelt[];
+extern const u8 gText_AbilityName_FlowerBlade[];
 extern const u8 gText_AbilityName_Evaporate[];
 extern const u8 gText_AbilityName_PiercingDrill[];
 extern const u8 gText_AbilityName_EmbodyAspect[];
@@ -79,6 +80,7 @@ extern const u8 gText_AbilityDescription_GrassDash[];
 extern const u8 gText_AbilityDescription_SlipperyTail[];
 extern const u8 gText_AbilityDescription_DrillBeak[];
 extern const u8 gText_AbilityDescription_FocusBelt[];
+extern const u8 gText_AbilityDescription_FlowerBlade[];
 extern const u8 gText_AbilityDescription_PsyGravity[];
 
 //Gen 9 Abilities
@@ -430,6 +432,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 				return gText_AbilityName_DrillBeak;
 			else if (SpeciesHasFocusBelt(species))
 				return gText_AbilityName_FocusBelt;
+			else if (SpeciesHasFlowerBlade(species))
+        		return gText_AbilityName_FlowerBlade;
 			break;
 		case ABILITY_STALWART:
 			switch (dexNum)
@@ -712,6 +716,8 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 				return gText_AbilityDescription_DrillBeak;
 			else if (SpeciesHasFocusBelt(species))
 				return gText_AbilityDescription_FocusBelt;
+			else if (SpeciesHasFlowerBlade(species))
+				return gText_AbilityDescription_FlowerBlade;
 			break;
 		case ABILITY_WEAKARMOR:
 			if(SpeciesHasAngerShell(species))
@@ -1048,6 +1054,15 @@ bool8 SpeciesHasGrassDash(unusedArg u16 species) //Custom Unbound Ability
 	#else
 	return FALSE;
 	#endif
+}
+
+bool8 SpeciesHasFlowerBlade(unusedArg u16 species)
+{
+    #ifdef SPECIES_ROSERADE_MEGA
+    return species == SPECIES_ROSERADE_MEGA;
+    #else
+    return FALSE;
+    #endif
 }
 
 bool8 SpeciesHasPixilate(unusedArg u16 species) //妖精皮肤

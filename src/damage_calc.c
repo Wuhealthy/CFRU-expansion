@@ -88,6 +88,7 @@ void atk04_critcalc(void)
 	u8 atkEffect = ITEM_EFFECT(gBankAttacker);
 	u8 moveTarget = GetBaseMoveTarget(gCurrentMove, gBankAttacker);
 	bool8 calcSpreadMove = IS_DOUBLE_BATTLE && moveTarget & (MOVE_TARGET_BOTH | MOVE_TARGET_ALL);
+	u8 moveType = gBattleStruct->dynamicMoveType;
 
 	gStringBank = gBankAttacker;
 
@@ -117,7 +118,8 @@ void atk04_critcalc(void)
 			confirmedCrit = FALSE;
 		}
 		else if (IsLaserFocused(gBankAttacker)
-		|| (atkAbility == ABILITY_MERCILESS && !SpeciesHasDrillBeak(GetProperAbilityPopUpSpecies(gBankAttacker)) && !SpeciesHasFocusBelt(GetProperAbilityPopUpSpecies(gBankAttacker)) && (gBattleMons[bankDef].status1 & STATUS_PSN_ANY))
+		|| (atkAbility == ABILITY_MERCILESS && !SpeciesHasFlowerBlade(GetProperAbilityPopUpSpecies(gBankAttacker)) && !SpeciesHasDrillBeak(GetProperAbilityPopUpSpecies(gBankAttacker)) && !SpeciesHasFocusBelt(GetProperAbilityPopUpSpecies(gBankAttacker)) && (gBattleMons[bankDef].status1 & STATUS_PSN_ANY))
+		|| (atkAbility == ABILITY_MERCILESS && SpeciesHasFlowerBlade(GetProperAbilityPopUpSpecies(gBankAttacker)) && gTerrainType == GRASSY_TERRAIN && moveType == TYPE_GRASS)
 		|| (atkAbility == ABILITY_DRILLBEAK && SpeciesHasDrillBeak(GetProperAbilityPopUpSpecies(gBankAttacker)) && gSpecialMoveFlags[gCurrentMove].gDrillMoves) //Drill moves always crit
 		|| (atkAbility == ABILITY_FOCUSBELT && SpeciesHasFocusBelt(GetProperAbilityPopUpSpecies(gBankAttacker)) && gSpecialMoveFlags[gCurrentMove].gBitingMoves) //Biting Moves always crit
 		|| gSpecialMoveFlags[gCurrentMove].gAlwaysCriticalMoves)
@@ -180,6 +182,7 @@ static u8 CalcPossibleCritChance(u8 bankAtk, u8 bankDef, u16 move, struct Pokemo
 
 	u8 atkEffect = 0;
 	u16 critChance = 0;
+	u8 moveType = gBattleStruct->dynamicMoveType;
 
 	if (monAtk != NULL)
 	{
@@ -220,7 +223,8 @@ static u8 CalcPossibleCritChance(u8 bankAtk, u8 bankDef, u16 move, struct Pokemo
 		return FALSE;
 	}
 	else if ((IsLaserFocused(bankAtk) && monAtk == NULL)
-	|| (atkAbility == ABILITY_MERCILESS && !SpeciesHasDrillBeak(atkAbilitySpecies) && !SpeciesHasFocusBelt(atkAbilitySpecies) && (defStatus1 & STATUS_PSN_ANY))
+	|| (atkAbility == ABILITY_MERCILESS && !SpeciesHasFlowerBlade(atkAbilitySpecies) && !SpeciesHasDrillBeak(atkAbilitySpecies) && !SpeciesHasFocusBelt(atkAbilitySpecies) && (defStatus1 & STATUS_PSN_ANY))
+	|| (atkAbility == ABILITY_MERCILESS && SpeciesHasFlowerBlade(atkAbilitySpecies) && gTerrainType == GRASSY_TERRAIN && moveType == TYPE_GRASS)
 	|| (atkAbility == ABILITY_DRILLBEAK && SpeciesHasDrillBeak(atkAbilitySpecies) && gSpecialMoveFlags[move].gDrillMoves) //Drill moves always crit
 	|| (atkAbility == ABILITY_FOCUSBELT && SpeciesHasFocusBelt(atkAbilitySpecies) && gSpecialMoveFlags[move].gBitingMoves) //Biting Moves always crit
 	|| gSpecialMoveFlags[move].gAlwaysCriticalMoves)

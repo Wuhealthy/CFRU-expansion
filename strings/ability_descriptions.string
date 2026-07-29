@@ -848,6 +848,9 @@ HP一半时就会把树果吃掉
 #org @gText_AbilityDescription_FocusBelt
 啃咬类招式必定击中要害
 
+#org @gText_AbilityDescription_FlowerBlade
+青草场地时，草招式必定击中要害
+
 #org @gText_AbilityDescription_AngerShell
 HP一半时降低双防提升双攻和速度
 

@@ -29,6 +29,7 @@ bool8 SpeciesHasDauntlessShield(u16 species);
 bool8 SpeciesHasTeravolt(u16 species);
 bool8 SpeciesHasDrillBeak(u16 species);
 bool8 SpeciesHasFocusBelt(u16 species);
+bool8 SpeciesHasFlowerBlade(u16 species);
 bool8 SpeciesHasPixilate(u16 species);
 bool8 SpeciesHasRefrigerate(u16 species);
 bool8 SpeciesHasGalvanize(u16 species);
