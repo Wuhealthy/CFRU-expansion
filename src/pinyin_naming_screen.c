@@ -620,10 +620,6 @@ static void CB2_LoadNamingScreen(void)
         DrawScreen();
         CopyBgTilemapBufferToVram(0);
         CopyBgTilemapBufferToVram(1);
-        MgbaPrintf(MGBA_LOG_INFO, "PYNAME Case7 done dispcnt=%x bg0=%x bg1=%x pal=%x/%x map30=%x/%x map31=%x/%x",
-            (u32)REG_DISPCNT, (u32)REG_BG0CNT, (u32)REG_BG1CNT, ((u16 *)PLTT)[0], ((u16 *)PLTT)[1],
-            ((u16 *)BG_SCREEN_ADDR(30))[0], ((u16 *)BG_SCREEN_ADDR(30))[1],
-            ((u16 *)BG_SCREEN_ADDR(31))[0], ((u16 *)BG_SCREEN_ADDR(31))[1]);
         UpdatePaletteFade();
         gMain.state++;
         break;
@@ -658,9 +654,6 @@ static void NamingScreen_Init(void)
 static void NamingScreen_InitBGs(void)
 {
     u8 i;
-
-    MgbaPrintf(MGBA_LOG_INFO, "PYNAME InitBGs entry state=%u dispcnt=%x bg0=%x bg1=%x bldcnt=%x bldy=%x",
-        gMain.state, (u32)REG_DISPCNT, (u32)REG_BG0CNT, (u32)REG_BG1CNT, (u32)REG_BLDCNT, (u32)REG_BLDY);
 
     DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000);
     DmaClear32(3, (void *)OAM, OAM_SIZE);
@@ -699,8 +692,6 @@ static void NamingScreen_InitBGs(void)
     REG_BG0CNT = BGCNT_PRIORITY(0) | BGCNT_CHARBASE(2) | BGCNT_16COLOR | BGCNT_SCREENBASE(30) | BGCNT_TXT256x256;
     REG_BG1CNT = BGCNT_PRIORITY(3) | BGCNT_CHARBASE(0) | BGCNT_16COLOR | BGCNT_SCREENBASE(31) | BGCNT_TXT256x256;
 
-    MgbaPrintf(MGBA_LOG_INFO, "PYNAME InitBGs exit dispcnt=%x bg0=%x bg1=%x bldcnt=%x bldy=%x win0=%u",
-        (u32)REG_DISPCNT, (u32)REG_BG0CNT, (u32)REG_BG1CNT, (u32)REG_BLDCNT, (u32)REG_BLDY, sNamingScreen->windows[0]);
 }
 
 static void LoadGfx(void)
@@ -710,11 +701,6 @@ static void LoadGfx(void)
     CpuCopy16(sPinyinNamingScreenBackgroundMap, (void *)BG_SCREEN_ADDR(31), 32 * 20 * sizeof(u16));
     LoadSpriteSheets(sPinyinCursorSpriteSheets);
 
-    MgbaPrintf(MGBA_LOG_INFO, "PYNAME LoadGfx map=%x/%x vram=%x/%x",
-        ((const u16 *)sPinyinNamingScreenBackgroundMap)[0],
-        ((const u16 *)sPinyinNamingScreenBackgroundMap)[1],
-        ((const u16 *)BG_CHAR_ADDR(0))[0],
-        ((const u16 *)BG_SCREEN_ADDR(31))[0]);
 }
 
 static void LoadPalettes(void)
@@ -748,13 +734,6 @@ static void LoadPalettes(void)
         CpuCopy16(sPinyinCursorButton_Pal, (void *)(OBJ_PLTT + buttonCursorPalSlot * PLTT_SIZE_4BPP), PLTT_SIZE_4BPP);
     }
 
-    MgbaPrintf(MGBA_LOG_INFO, "PYNAME LoadPal pal=%x/%x buf=%x/%x textpal=%x objSlot=%u/%u obj=%x/%x/%x/%x",
-        ((u16 *)PLTT)[0], ((u16 *)PLTT)[1], gPlttBufferFaded[0], gPlttBufferFaded[1], gPlttBufferFaded[BG_PLTT_ID(14) + 1],
-        smallCursorPalSlot, buttonCursorPalSlot,
-        smallCursorPalSlot == 0xFF ? 0 : ((u16 *)OBJ_PLTT)[smallCursorPalSlot * 16 + 1],
-        smallCursorPalSlot == 0xFF ? 0 : ((u16 *)OBJ_PLTT)[smallCursorPalSlot * 16 + 5],
-        buttonCursorPalSlot == 0xFF ? 0 : ((u16 *)OBJ_PLTT)[buttonCursorPalSlot * 16 + 1],
-        buttonCursorPalSlot == 0xFF ? 0 : ((u16 *)OBJ_PLTT)[buttonCursorPalSlot * 16 + 9]);
 }
 
 static void CreateCursorSprites(void)
@@ -779,20 +758,6 @@ static void CreateCursorSprites(void)
 
     if (sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_MODE_STATUS] != MAX_SPRITES)
         gSprites[sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_MODE_STATUS]].callback = SpriteCallbackDummy;
-
-    MgbaPrintf(MGBA_LOG_INFO, "PYNAME CursorSprites id=%u/%u/%u/%u pal=%u/%u/%u/%u tile=%u/%u/%u/%u",
-        sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_SMALL],
-        sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_BUTTON],
-        sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_LONG_BUTTON],
-        sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_MODE_STATUS],
-        sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_SMALL] == MAX_SPRITES ? 0xFF : gSprites[sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_SMALL]].oam.paletteNum,
-        sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_BUTTON] == MAX_SPRITES ? 0xFF : gSprites[sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_BUTTON]].oam.paletteNum,
-        sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_LONG_BUTTON] == MAX_SPRITES ? 0xFF : gSprites[sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_LONG_BUTTON]].oam.paletteNum,
-        sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_MODE_STATUS] == MAX_SPRITES ? 0xFF : gSprites[sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_MODE_STATUS]].oam.paletteNum,
-        sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_SMALL] == MAX_SPRITES ? 0xFFFF : gSprites[sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_SMALL]].oam.tileNum,
-        sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_BUTTON] == MAX_SPRITES ? 0xFFFF : gSprites[sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_BUTTON]].oam.tileNum,
-        sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_LONG_BUTTON] == MAX_SPRITES ? 0xFFFF : gSprites[sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_LONG_BUTTON]].oam.tileNum,
-        sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_MODE_STATUS] == MAX_SPRITES ? 0xFFFF : gSprites[sNamingScreen->cursorSpriteIds[CURSOR_SPRITE_MODE_STATUS]].oam.tileNum);
 
     UpdateCursorSprites();
 }
@@ -1142,7 +1107,6 @@ SaveInputText();
         WaitSentToPCMessage();
         break;
     case STATE_FADE_OUT:
-        MgbaPrintf(MGBA_LOG_INFO, "PYNAME FadeOut start return=%x", (u32)sNamingScreen->returnCallback);
         BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
         sNamingScreen->state++;
         break;
@@ -1429,12 +1393,6 @@ static void ActivateSelection(void)
 
 static void ConfirmNamingScreen(void)
 {
-    MgbaPrintf(MGBA_LOG_INFO, "PYNAME Confirm template=%u len=%u chars=%u party=%u return=%x",
-        sNamingScreen->templateNum,
-        sNamingScreen->textByteLength,
-        sNamingScreen->textCharCount,
-        CalculatePlayerPartyCount(),
-        (u32)sNamingScreen->returnCallback);
     SaveInputText();
     if (sNamingScreen->templateNum == NAMING_SCREEN_CAUGHT_MON
      && CalculatePlayerPartyCount() >= PARTY_SIZE)
@@ -2175,11 +2133,6 @@ static void CB2_NamingScreen(void)
     NamingScreen_ApplyDisplayState();
     if (sNamingScreen->debugFrameLogCount < 4)
     {
-        MgbaPrintf(MGBA_LOG_INFO, "PYNAME frame %u dispcnt=%x bg0=%x bg1=%x pal=%x/%x map31=%x/%x state=%u",
-            sNamingScreen->debugFrameLogCount, (u32)REG_DISPCNT, (u32)REG_BG0CNT, (u32)REG_BG1CNT,
-            ((u16 *)PLTT)[0], ((u16 *)PLTT)[1],
-            ((u16 *)BG_SCREEN_ADDR(31))[0], ((u16 *)BG_SCREEN_ADDR(31))[1],
-            sNamingScreen->state);
         sNamingScreen->debugFrameLogCount++;
     }
 }
@@ -2198,8 +2151,6 @@ static void NamingScreen_ShowBgs(void)
     ShowBg(1);
     NamingScreen_ApplyDisplayState();
 
-    MgbaPrintf(MGBA_LOG_INFO, "PYNAME ShowBgs dispcnt=%x bg0=%x bg1=%x pal=%x/%x",
-        (u32)REG_DISPCNT, (u32)REG_BG0CNT, (u32)REG_BG1CNT, ((u16 *)PLTT)[0], ((u16 *)PLTT)[1]);
 }
 
 static void NamingScreen_ApplyDisplayState(void)
