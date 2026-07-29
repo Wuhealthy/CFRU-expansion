@@ -204,6 +204,15 @@ void SwitchOutFormsRevert(u8 bank)
 			break;
 		#endif
 
+		#if (defined SPECIES_EEVEE && defined SPECIES_EEVEE_HERO)
+		case SPECIES_EEVEE:
+			if (backupSpecies != SPECIES_NONE && ability == ABILITY_TORRENT)
+				DoFormChange(bank, backupSpecies, FALSE, TRUE, FALSE);
+			else
+				DoFormChange(bank, SPECIES_EEVEE_HERO, FALSE, TRUE, FALSE);
+			break;
+		#endif
+
 	}
 }
 
@@ -352,12 +361,6 @@ bool8 TryFormRevert(struct Pokemon* mon)
 			u16 newMove = MOVE_IRONHEAD; //Zamazenta's Behemoth Bash changes to Iron Head in its base forme
 			SetMonData(mon, MON_DATA_MOVE1 + moveIndex, &newMove);
 		}
-	}
-	#endif
-	#ifdef SPECIES_SHADOW_WARRIOR
-	else if (mon->species == SPECIES_SHADOW_WARRIOR) //If it was hacked in
-	{
-		ZeroMonData(mon);
 	}
 	#endif
 

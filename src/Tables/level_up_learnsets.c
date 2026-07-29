@@ -2647,6 +2647,7 @@ static const struct LevelUpMove sDittoLevelUpLearnset[] = {
 static const struct LevelUpMove sEeveeLevelUpLearnset[] = {
 	LEVEL_UP_MOVE( 1, MOVE_COVET),
 	LEVEL_UP_MOVE( 1, MOVE_HELPINGHAND),
+	LEVEL_UP_MOVE( 1, MOVE_UTURN),
 	LEVEL_UP_MOVE( 1, MOVE_GROWL),
 	LEVEL_UP_MOVE( 1, MOVE_TACKLE),
 	LEVEL_UP_MOVE( 1, MOVE_TAILWHIP),
@@ -23056,7 +23057,7 @@ const struct LevelUpMove* const gLevelUpLearnsets[] =
 	[SPECIES_UNFEZANT_F] = sUnfezantLevelUpLearnset,
 	[SPECIES_FRILLISH_F] = sFrillishLevelUpLearnset,
 	[SPECIES_JELLICENT_F] = sJellicentLevelUpLearnset,
-	[SPECIES_SHADOW_WARRIOR] = sShadowWarriorLevelUpLearnset,
+	[SPECIES_EEVEE_HERO] = sEeveeLevelUpLearnset,
 	[SPECIES_BURMY_SANDY] = sBurmyLevelUpLearnset,
 	[SPECIES_BURMY_TRASH] = sBurmyLevelUpLearnset,
 	[SPECIES_WORMADAM_SANDY] = sWormadamSandyLevelUpLearnset,

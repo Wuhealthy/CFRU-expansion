@@ -1369,12 +1369,14 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, u8 ability, u8 special, u16 moveArg)
 			break;
 
 		case ABILITY_TORRENT:
-			if (SpeciesHasZerotoHero(GetProperAbilityPopUpSpecies(bank)))
+			if (SpeciesHasZerotoHero(GetProperAbilityPopUpSpecies(bank))
+			|| SpeciesHasEeveeHero(GetProperAbilityPopUpSpecies(bank)))
 				{
 					u8 side = SIDE(bank);
         			u8 partyId = gBattlerPartyIndexes[bank];
 
-					if (gBattleMons[bank].species == SPECIES_PALAFIN_HERO
+					if ((gBattleMons[bank].species == SPECIES_PALAFIN_HERO
+						|| gBattleMons[bank].species == SPECIES_EEVEE_HERO)
 						&&!gNewBS->oncePerBattleAbilityFlags[side][partyId])
 					{
 						gBattleStringLoader = gText_ZerotoHeroActivate;

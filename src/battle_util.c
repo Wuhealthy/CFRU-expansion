@@ -1981,7 +1981,7 @@ bool8 ImposterWorks(u8 bankAtk, bool8 checkingMonAtk) //bankAtk here is mainly u
 		&& !(gStatuses3[targetBank] & (STATUS3_SEMI_INVULNERABLE | STATUS3_ILLUSION))
 		&& (checkingMonAtk || !IS_TRANSFORMED(bankAtk)) //Obviously a party mon can't be transformed
 		#ifdef UNBOUND
-		&& SPECIES(targetBank) != SPECIES_SHADOW_WARRIOR
+		&& SPECIES(targetBank) != SPECIES_EEVEE_HERO
 		&& (SPECIES(targetBank) < SPECIES_CELEBI || SPECIES(targetBank) > SPECIES_TREECKO) //Those Pokemon in between are used for Fakemon bosses
 		#endif
 		&& !HasRaidShields(targetBank)
@@ -2331,7 +2331,7 @@ bool8 CanBeBurned(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 		return FALSE;
 
 	#ifdef UNBOUND
-	if (SPECIES(bankDef) == SPECIES_SHADOW_WARRIOR)
+	if (SPECIES(bankDef) == SPECIES_EEVEE_HERO)
 		return FALSE;
 	#endif
 
@@ -2359,7 +2359,7 @@ bool8 CanBeFrozen(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 		return FALSE;
 
 	#ifdef UNBOUND
-	if (SPECIES(bankDef) == SPECIES_SHADOW_WARRIOR)
+	if (SPECIES(bankDef) == SPECIES_EEVEE_HERO)
 		return FALSE;
 	#endif
 

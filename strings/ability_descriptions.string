@@ -989,5 +989,8 @@ HP全满时受到的伤害变为效果不好
 #org @gText_AbilityDescription_WindRider
 顺风或受风的招式攻击时提高攻击
 
+#org @gText_AbilityDescription_EeveeHero
+一般属性招式的效果一般变为绝佳
+
 #org @gText_AbilityDescription_ZerotoHero
 回到同行队伍后，会变为全能形态

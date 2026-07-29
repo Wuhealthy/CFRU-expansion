@@ -1540,6 +1540,12 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 	if (moveType == TYPE_FIRE && gNewBS->tarShotBits & gBitTable[bankDef]) //Fire always Super-Effective if covered in tar
 		multiplier = TYPE_MUL_SUPER_EFFECTIVE;
 
+	if (atkAbility == ABILITY_TORRENT && SpeciesHasEeveeHero(GetProperAbilityPopUpSpecies(bankAtk))
+	&& moveType == TYPE_NORMAL && !IsOfType(bankDef, TYPE_STEEL) && !IsOfType(bankDef, TYPE_GHOST) && !IsOfType(bankDef, TYPE_ROCK))
+	{
+		multiplier = TYPE_MUL_SUPER_EFFECTIVE;
+	}
+
 	// For Terastallization - Stellar Type Check
 	if (moveType == TYPE_STELLAR)
 	{
@@ -2848,10 +2854,14 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			break;
 		case ABILITY_TORRENT:
 		//1.5x Boost
-			if (data->moveType == TYPE_WATER && data->atkHP <= data->atkMaxHP / 3)
+			if (!SpeciesHasZerotoHero(GetProperAbilityPopUpSpecies(bankAtk))
+			&& !SpeciesHasEeveeHero(GetProperAbilityPopUpSpecies(bankAtk)))
 			{
-				attack = (attack * 15) / 10;
-				spAttack = (spAttack * 15) / 10;
+				if (data->moveType == TYPE_WATER && data->atkHP <= data->atkMaxHP / 3)
+				{
+					attack = (attack * 15) / 10;
+					spAttack = (spAttack * 15) / 10;
+				}
 			}
 			break;
 		case ABILITY_SWARM:

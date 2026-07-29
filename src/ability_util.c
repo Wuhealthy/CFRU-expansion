@@ -182,6 +182,7 @@ extern const u8 gText_AbilityName_WindRider[];
 extern const u8 gText_AbilityDescription_WindRider[];
 extern const u8 gText_AbilityName_ZerotoHero[];
 extern const u8 gText_AbilityDescription_ZerotoHero[];
+extern const u8 gText_AbilityDescription_EeveeHero[];
 
 const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过255个特性的限制并实现克隆能力
 {
@@ -660,6 +661,8 @@ const u8* GetAbilityNameOverride(const u8 ability, const u16 species) //绕过25
 		case ABILITY_TORRENT:
 			if (SpeciesHasZerotoHero(species))
 				return gText_AbilityName_ZerotoHero;
+			if (SpeciesHasEeveeHero(species))
+				return gText_AbilityName_ZerotoHero;
 			break;
 	}
 
@@ -902,6 +905,8 @@ const u8* GetAbilityDescriptionOverride(const u8 ability, const u16 species) //B
 		case ABILITY_TORRENT:
 			if (SpeciesHasZerotoHero(species))
 				return gText_AbilityDescription_ZerotoHero;
+			if (SpeciesHasEeveeHero(species))
+				return gText_AbilityDescription_EeveeHero;
 			break;
 		case ABILITY_MOLDBREAKER:
 			if(SpeciesHasMyceliumMight(species))
@@ -1954,6 +1959,15 @@ bool8 SpeciesHasWellBakedBody(unusedArg u16 species)
 	#endif
 }
 
+bool8 SpeciesHasEeveeHero(unusedArg u16 species)
+{
+	#ifdef SPECIES_EEVEE_HERO
+	return species == SPECIES_EEVEE_HERO;
+	#else
+	return FALSE;
+	#endif
+}
+
 bool8 AngerShellStatsCheck(u8 bank)
 {
     return (STAT_STAGE(bank, STAT_ATK) != STAT_STAGE_MAX
@@ -1983,8 +1997,8 @@ bool8 SpeciesHasWindRider(unusedArg u16 species)
 
 bool8 SpeciesHasZerotoHero(unusedArg u16 species) //Custom Unbound Ability
 {
-	#if (defined SPECIES_PALAFIN && defined SPECIES_PALAFIN_HERO)
-	return species == SPECIES_PALAFIN || species == SPECIES_PALAFIN_HERO;
+	#if (defined SPECIES_PALAFIN && defined SPECIES_PALAFIN_HERO && defined SPECIES_EEVEE)
+	return species == SPECIES_PALAFIN || species == SPECIES_PALAFIN_HERO || species == SPECIES_EEVEE;
 	#else
 	return FALSE;
 	#endif

@@ -1779,7 +1779,7 @@ void atkFF2B_trysetburn(void)
 	}
 	else if (IsOfType(bank, TYPE_FIRE)
 	#ifdef UNBOUND
-	|| SPECIES(bank) == SPECIES_SHADOW_WARRIOR
+	|| SPECIES(bank) == SPECIES_EEVEE_HERO
 	#endif
 	)
 	{
