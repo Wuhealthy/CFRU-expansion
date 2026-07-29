@@ -1455,6 +1455,26 @@ extern const u32 gBag_MawiliteTiles[];
 extern const u32 gBag_MawilitePal[];
 extern const u32 gBag_AggroniteTiles[];
 extern const u32 gBag_AggronitePal[];
+extern const u32 gBag_MedichamiteTiles[];
+extern const u32 gBag_MedichamitePal[];
+extern const u32 gBag_ManectiteTiles[];
+extern const u32 gBag_ManectitePal[];
+extern const u32 gBag_SharpedoniteTiles[];
+extern const u32 gBag_SharpedonitePal[];
+extern const u32 gBag_CameruptiteTiles[];
+extern const u32 gBag_CameruptitePal[];
+extern const u32 gBag_AltarianiteTiles[];
+extern const u32 gBag_AltarianitePal[];
+extern const u32 gBag_BanettiteTiles[];
+extern const u32 gBag_BanettitePal[];
+extern const u32 gBag_AbsoliteTiles[];
+extern const u32 gBag_AbsolitePal[];
+extern const u32 gBag_GlalititeTiles[];
+extern const u32 gBag_GlalititePal[];
+extern const u32 gBag_SalamenciteTiles[];
+extern const u32 gBag_SalamencitePal[];
+extern const u32 gBag_MetagrossiteTiles[];
+extern const u32 gBag_MetagrossitePal[];
 
 //Funcs
 void __attribute__((long_call)) FieldUseFunc_OakStopsYou(u8 taskId);
