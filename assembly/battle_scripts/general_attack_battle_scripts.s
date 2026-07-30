@@ -1034,9 +1034,10 @@ BS_042_TrapAndDamage:
 	goto BS_STANDARD_HIT
 
 SaltCureBS:
-    call STANDARD_DAMAGE
+	call STANDARD_DAMAGE
 	faintpokemon BANK_TARGET FALSE NULL
 	jumpiffaintedmon BANK_TARGET, TRUE, BS_EffectSaltCure_End
+	jumpifbehindsubstitute BANK_TARGET BS_EffectSaltCure_End
 	applysaltcure BANK_TARGET
 	setword BATTLE_STRING_LOADER sText_TargetIsBeingSaltCured
 	printstring 0x184

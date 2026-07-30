@@ -2726,7 +2726,9 @@ bool8 IsSunWeatherActive(u8 bank) {
 
 void BS_ApplySaltCure(void)
 {
-    u8 battler = GetBattlerForBattleScript(gBattlerAttacker);
-    gStatuses4[battler] |= STATUS4_SALTCURE;
+    // callasm leaves the script cursor on the macro's battler argument.
+    u8 battler = gBankTarget;
+    if (gNewBS != NULL && battler < gBattlersCount)
+        gNewBS->statuses4[battler] |= STATUS4_SALTCURE;
     gBattlescriptCurrInstr++;
 }

@@ -817,6 +817,7 @@ struct NewBattleStruct
 	bool8 oncePerBattleAbilityFlags[NUM_BATTLE_SIDES][PARTY_SIZE];
 	u8 quarkDriveActivated[MAX_BATTLERS_COUNT];
 	u8 ProtosynthesisActivated[MAX_BATTLERS_COUNT];
+	u32 statuses4[MAX_BATTLERS_COUNT]; //Volatile Gen 9 effects (currently Salt Cure)
 
 	//Bit Fields for Banks
 	u8 MicleBerryBits;
