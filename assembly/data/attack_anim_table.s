@@ -29170,7 +29170,34 @@ COMEUPPANCE_RIGHT: objtemplate ANIM_TAG_SCRATCH ANIM_TAG_SCRATCH OAM_NORMAL_32x3
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
 ANIM_DOODLE:
-	goto ANIM_SECRETPOWER
+	@ Based on pokeemerald-expansion: sketch the target, then pulse the
+	@ copied Ability back into the user's side.
+	loadparticle ANIM_TAG_PENCIL
+	loadparticle ANIM_TAG_HOLLOW_ORB
+	pokespritetoBG bank_target
+	launchtask 0x080A8875 0x2 0x0 @ AnimTask_SketchDrawMon
+	launchtemplate 0x083E3F4C TEMPLATE_TARGET | 2, 0x0 @ gPencilSpriteTemplate
+	waitanimation
+	pokespritefromBG bank_target
+	pause 0xC
+	launchtask AnimTask_BlendPalInAndOutByTag 0x5 0x5 ANIM_TAG_HOLLOW_ORB 0x03E0 0xE 0x0 0x3
+	playsound2 0xC4 SOUND_PAN_ATTACKER
+	launchtemplate Template_DragonDanceOrb TEMPLATE_ATTACKER | 2, 0x1 0x0
+	pause 0x6
+	launchtemplate Template_DragonDanceOrb TEMPLATE_ATTACKER | 2, 0x1 0x55
+	pause 0x6
+	launchtemplate Template_DragonDanceOrb TEMPLATE_ATTACKER | 2, 0x1 0xAA
+	pause 0x10
+	@ A second pulse mirrors Doodle affecting the ally in doubles.
+	playsound2 0xC4 SOUND_PAN_ATTACKER
+	launchtemplate Template_DragonDanceOrb TEMPLATE_ATTACKER | 2, 0x1 0x2B
+	pause 0x6
+	launchtemplate Template_DragonDanceOrb TEMPLATE_ATTACKER | 2, 0x1 0x80
+	pause 0x6
+	launchtemplate Template_DragonDanceOrb TEMPLATE_ATTACKER | 2, 0x1 0xD5
+	waitanimation
+	resetblends
+	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -29688,9 +29715,51 @@ COIN_SLIDE: objtemplate ANIM_TAG_COIN ANIM_TAG_COIN OAM_OFF_16x16 0x83E69DC 0x0 
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
-@Credits to -
+@Credits to WUHEALTHY
 ANIM_MORTALSPIN:
-	goto 0x81cb4e1
+    loadparticle ANIM_TAG_POISON_BUBBLE
+    loadparticle ANIM_TAG_POISON_JAB
+    loadparticle ANIM_TAG_IMPACT
+    loadparticle ANIM_TAG_SPORE
+    launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_POISON_BUBBLE 0x0 0xC 0xC 0x6038 @;Purple
+    launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_POISON_JAB 0x0 0xC 0xC 0x6038 @;Purple
+    launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_SPORE 0x0 0xA 0xA 0x6038 @;Purple
+    pokespritetoBG side_target
+    leftbankBG_over_partnerBG bank_target
+    setblends 0x80c
+    playsound2 0x88 SOUND_PAN_ATTACKER
+    launchtask AnimTask_Rollout 0x2 0x0
+    launchtask AnimTask_move_bank 0x2 0x5 bank_attacker 0x3 0x0 0x14 0x1
+    call MORTALSPIN_POISON_SPRAY
+    call MORTALSPIN_POISON_SPRAY
+    launchtask AnimTask_move_bank_2 0x2 0x5 bank_target 0x2 0x0 0x20 0x1
+    call MORTALSPIN_POISON_SPRAY
+    call MORTALSPIN_POISON_SPRAY
+    call MORTALSPIN_POISON_SPRAY
+    call MORTALSPIN_POISON_SPRAY
+    call MORTALSPIN_POISON_HIT
+    call MORTALSPIN_POISON_HIT
+    call MORTALSPIN_POISON_HIT
+    call MORTALSPIN_POISON_HIT
+    waitanimation
+    pokespritefromBG side_target
+    resetblends
+    endanimation
+
+MORTALSPIN_POISON_SPRAY:
+    launchtemplate MORTALSPIN_POISON_STREAM TEMPLATE_TARGET | 2, 0x5 0x0 0x0 0x0 0x0 0x14
+    pause 0x3
+    return
+
+MORTALSPIN_POISON_HIT:
+    playsound2 0x77 SOUND_PAN_TARGET
+    launchtemplate MORTALSPIN_POISON_SPLAT TEMPLATE_TARGET | 2, 0x4 0x0 0x0 0x1 0x1
+    pause 0x2
+    return
+
+.align 2
+MORTALSPIN_POISON_STREAM: objtemplate ANIM_TAG_POISON_BUBBLE ANIM_TAG_POISON_JAB OAM_DOUBLE_32x32 0x83E69DC 0x0 gDummySpriteAffineAnimTable 0x80B741D
+MORTALSPIN_POISON_SPLAT: objtemplate ANIM_TAG_IMPACT ANIM_TAG_POISON_BUBBLE OAM_NORMAL_BLEND_32x32 gDummySpriteAnimTable 0x0 0x83E7BF8 0x80BA561
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
