@@ -15170,10 +15170,10 @@ const struct BattleMove gBattleMoves[] =
 
 	[MOVE_FLOWERTRICK] =
     {	
-		.effect = EFFECT_HIT,
+		.effect = EFFECT_ALWAYS_HIT,
 		.power = 70,
 		.type = TYPE_GRASS,
-		.accuracy = 100,
+		.accuracy = 0,
 		.pp = 10,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_SELECTED,
