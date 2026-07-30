@@ -31,6 +31,7 @@ static void TryRemoveUnburdenBoost(u8 bank);
 static bool8 CanBeGeneralStatused(u8 bankDef, u8 defAbility, u8 atkAbility, bool8 checkFlowerVeil);
 // For Terastallization
 extern bool8 IsTerastallized(u8 bank);
+extern bool8 IsTargetItemIgnoredByFlowerBlade(u8 bankAtk, u8 bankDef);
 
 
 u8 GetBankForBattleScript(u8 caseId)
@@ -176,7 +177,7 @@ void ClearBattlerAbilityHistory(u8 bank)
 
 item_effect_t GetBankItemEffect(u8 bank)
 {
-	if (ABILITY(bank) != ABILITY_KLUTZ && !gNewBS->EmbargoTimers[bank] && !IsMagicRoomActive())
+	if (ABILITY(bank) != ABILITY_KLUTZ && !gNewBS->EmbargoTimers[bank] && !IsMagicRoomActive() && !IsTargetItemIgnoredByFlowerBlade(gBankAttacker, bank))
 		return ItemId_GetHoldEffect(ITEM(bank));
 
 	return 0;

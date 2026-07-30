@@ -1065,6 +1065,19 @@ bool8 SpeciesHasFlowerBlade(unusedArg u16 species)
     #endif
 }
 
+bool8 IsTargetItemIgnoredByFlowerBlade(u8 bankAtk, u8 bankDef)
+{
+    // 检查攻击方是否有花刃特性
+    if (!SpeciesHasFlowerBlade(GetProperAbilityPopUpSpecies(bankAtk)))
+        return FALSE;
+    
+    // 必须是草属性攻击招式
+    if (gBattleStruct->dynamicMoveType != TYPE_GRASS)
+        return FALSE;
+    
+    return TRUE;
+}
+
 bool8 SpeciesHasPixilate(unusedArg u16 species) //妖精皮肤
 {
 	#if (defined SPECIES_GARDEVOIR_MEGA && defined SPECIES_ALTARIA_MEGA && defined SPECIES_SYLVEON)

@@ -119,7 +119,7 @@ void atk04_critcalc(void)
 		}
 		else if (IsLaserFocused(gBankAttacker)
 		|| (atkAbility == ABILITY_MERCILESS && !SpeciesHasFlowerBlade(GetProperAbilityPopUpSpecies(gBankAttacker)) && !SpeciesHasDrillBeak(GetProperAbilityPopUpSpecies(gBankAttacker)) && !SpeciesHasFocusBelt(GetProperAbilityPopUpSpecies(gBankAttacker)) && (gBattleMons[bankDef].status1 & STATUS_PSN_ANY))
-		|| (atkAbility == ABILITY_MERCILESS && SpeciesHasFlowerBlade(GetProperAbilityPopUpSpecies(gBankAttacker)) && gTerrainType == GRASSY_TERRAIN && moveType == TYPE_GRASS)
+		|| (atkAbility == ABILITY_MERCILESS && SpeciesHasFlowerBlade(GetProperAbilityPopUpSpecies(gBankAttacker)) && moveType == TYPE_GRASS)
 		|| (atkAbility == ABILITY_DRILLBEAK && SpeciesHasDrillBeak(GetProperAbilityPopUpSpecies(gBankAttacker)) && gSpecialMoveFlags[gCurrentMove].gDrillMoves) //Drill moves always crit
 		|| (atkAbility == ABILITY_FOCUSBELT && SpeciesHasFocusBelt(GetProperAbilityPopUpSpecies(gBankAttacker)) && gSpecialMoveFlags[gCurrentMove].gBitingMoves) //Biting Moves always crit
 		|| gSpecialMoveFlags[gCurrentMove].gAlwaysCriticalMoves)
@@ -224,7 +224,7 @@ static u8 CalcPossibleCritChance(u8 bankAtk, u8 bankDef, u16 move, struct Pokemo
 	}
 	else if ((IsLaserFocused(bankAtk) && monAtk == NULL)
 	|| (atkAbility == ABILITY_MERCILESS && !SpeciesHasFlowerBlade(atkAbilitySpecies) && !SpeciesHasDrillBeak(atkAbilitySpecies) && !SpeciesHasFocusBelt(atkAbilitySpecies) && (defStatus1 & STATUS_PSN_ANY))
-	|| (atkAbility == ABILITY_MERCILESS && SpeciesHasFlowerBlade(atkAbilitySpecies) && gTerrainType == GRASSY_TERRAIN && moveType == TYPE_GRASS)
+	|| (atkAbility == ABILITY_MERCILESS && SpeciesHasFlowerBlade(atkAbilitySpecies) && moveType == TYPE_GRASS)
 	|| (atkAbility == ABILITY_DRILLBEAK && SpeciesHasDrillBeak(atkAbilitySpecies) && gSpecialMoveFlags[move].gDrillMoves) //Drill moves always crit
 	|| (atkAbility == ABILITY_FOCUSBELT && SpeciesHasFocusBelt(atkAbilitySpecies) && gSpecialMoveFlags[move].gBitingMoves) //Biting Moves always crit
 	|| gSpecialMoveFlags[move].gAlwaysCriticalMoves)
