@@ -1555,28 +1555,44 @@ void AbilityChangeBSFunc(void)
 			break;
 
 		case MOVE_DOODLE:
+		{
+			u8 partner = PARTNER(gBankAttacker);
+			bool8 hasPartner = IS_DOUBLE_BATTLE && BATTLER_ALIVE(partner);
+			ability_t partnerAbility = hasPartner ? ABILITY(partner) : ABILITY_NONE;
+
 			if (defAbility == ABILITY_NONE
 			||  IsDynamaxed(gBankTarget)
-			||  *defAbilityLoc == *atkAbilityLoc
-			||  gSpecialAbilityFlags[atkAbility].gEntrainmentBannedAbilitiesAttacker
+			||  (defAbility == atkAbility && (!hasPartner || defAbility == partnerAbility))
 			||  gSpecialAbilityFlags[defAbility].gEntrainmentBannedAbilitiesTarget)
 				gBattlescriptCurrInstr = BattleScript_ButItFailed - 5;
 			else
 			{
+				gNewBS->backupAbility = atkAbility;
 				*atkAbilityLoc = defAbility;
-				//SetTookAbilityFrom(gBankTarget, gBankAttacker); //Set after the first Ability pop up
+				SetTookAbilityFrom(gBankAttacker, gBankTarget);
 				gLastUsedAbility = atkAbility; //Original ability
 				ResetVarsForAbilityChange(gBankAttacker);
-				gBattleStringLoader = EntrainmentString;
+
+				if (hasPartner)
+				{
+					*GetAbilityLocation(partner) = defAbility;
+					SetTookAbilityFrom(partner, gBankTarget);
+					ResetVarsForAbilityChange(partner);
+					if (partnerAbility == ABILITY_TRUANT)
+						gDisableStructs[partner].truantCounter = 0;
+				}
+
+				gBattleStringLoader = DoodleString;
 
 				if (gLastUsedAbility == ABILITY_TRUANT)
 					gDisableStructs[gBankAttacker].truantCounter = 0; //Reset counter
 			}
 			break;
+		}
 	}
 
 	if (gBattlescriptCurrInstr != BattleScript_ButItFailed - 5)
-		TransferAbilityPopUp(gBankTarget, gLastUsedAbility);
+		TransferAbilityPopUp(gCurrentMove == MOVE_DOODLE ? gBankAttacker : gBankTarget, gLastUsedAbility);
 }
 
 void EntrainmentSetCorrectTookAbilityFrom(void)

@@ -4428,7 +4428,7 @@ BS_191_SkillSwap:
 	jumpifmove MOVE_ENTRAINMENT EntrainmentBS
 	jumpifmove MOVE_COREENFORCER CoreEnforcerBS
 	jumpifmove MOVE_SIMPLEBEAM SimpleBeamBS
-	jumpifmove MOVE_DOODLE EntrainmentBS
+	jumpifmove MOVE_DOODLE DoodleBS
 	
 SkillSwapBS:
 	attackcanceler
@@ -4484,6 +4484,36 @@ EntrainmentBS:
 	ppreduce
 	callasm FailMoveIfAura
 	goto WorrySeedBS_ChangeAbility
+
+DoodleBS:
+	attackcanceler
+	jumpifbehindsubstitute BANK_TARGET FAILED_PRE
+	accuracycheck BS_MOVE_MISSED 0x0
+	attackstringnoprotean
+	ppreduce
+	callasm FailMoveIfAura
+	callasm AbilityChangeBSFunc
+	tryactivateprotean
+	attackanimation
+	waitanimation
+
+	copyarray BATTLE_SCRIPTING_BANK USER_BANK 0x1
+	playanimation BANK_ATTACKER ANIM_LOAD_ABILITY_POP_UP 0x0
+	call BattleScript_AbilityPopUpRevert
+	call BattleScript_AbilityPopUp
+	pause DELAY_HALFSECOND
+	call BattleScript_AbilityPopUpRevert
+
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	copyarray BATTLE_SCRIPTING_BANK USER_BANK 0x1
+	call BattleScript_TryRemoveIllusion
+	callasm TryRemovePrimalWeatherAfterAbilityChange
+	call 0x81D92DC @;Try to revert Cherrim and Castform
+	callasm RestoreOriginalAttackerAndTarget
+	tryactivateswitchinability BANK_ATTACKER
+	callasm RestoreOriginalAttackerAndTarget
+	goto BS_MOVE_END
 
 WorrySeedBS:
 SimpleBeamBS:
