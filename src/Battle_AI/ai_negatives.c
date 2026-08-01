@@ -2624,8 +2624,8 @@ SKIP_CHECK_TARGET:
 			break;
 
 		case EFFECT_SKILL_SWAP: ;
-			u8 atkAbility2 = *GetAbilityLocation(bankAtk); //Get actual abilities
-			u8 defAbility2 = *GetAbilityLocation(bankDef);
+			ability_t atkAbility2 = *GetAbilityLocation(bankAtk); //Get actual abilities
+			ability_t defAbility2 = *GetAbilityLocation(bankDef);
 
 			switch (move) {
 				case MOVE_WORRYSEED:

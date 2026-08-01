@@ -280,6 +280,12 @@ void BattleBeginFirstTurn(void)
 				break;
 			
 			case BTSTART_TRY_CHANGE_ABILITY:
+				// The vanilla battle data only has an 8-bit ability field. Rebuild
+				// the canonical ability state before any initial switch-in effects
+				// are ordered or processed.
+				for (i = 0; i < gBattlersCount; ++i)
+					ABILITY(i) = GetMonAbility(GetBankPartyData(i));
+
 			#ifdef EXPAND_TRAINERS
 				for (i = 0; i < gBattlersCount; ++i)
 				{
@@ -323,7 +329,7 @@ void BattleBeginFirstTurn(void)
 				break;
 
 			case BTSTART_ACTIVATE_OW_WEATHER:
-				if (!gBattleStruct->overworldWeatherDone && AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, 0, 0, 0xFF, 0))
+				if (!gBattleStruct->overworldWeatherDone && AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, 0, 0, ABILITYEFFECT_SWITCH_IN_WEATHER, 0))
 				{
 					gBattleStruct->overworldWeatherDone = TRUE;
 					return;
@@ -594,32 +600,17 @@ void BattleBeginFirstTurn(void)
 				break;
 
 			case BTSTART_SWITCH_IN_ABILITIES:
-				// The vanilla battle startup may mark entry abilities as already
-				// handled before the CFRU field setters can run.  Switching clears
-				// this flag normally, which is why these abilities worked only
-				// after switching a battler back in.
+				// Initial battle setup may inherit the vanilla "ability done" bit.
+				// Clear it once for every initial battler so all switch-in abilities
+				// use the same clean state as the normal switching path. Neutralizing
+				// Gas is excluded because it is handled by the dedicated state above.
 				if (*bank == 0)
 				{
 					for (i = 0; i < gBattlersCount; ++i)
 					{
-						switch (ABILITY(gBanksByTurnOrder[i]))
-						{
-							case ABILITY_DRIZZLE:
-							case ABILITY_SANDSTREAM:
-							case ABILITY_DROUGHT:
-							case ABILITY_ORICHALCUMPULSE:
-							case ABILITY_SNOWWARNING:
-							case ABILITY_PRIMORDIALSEA:
-							case ABILITY_DESOLATELAND:
-							case ABILITY_DELTASTREAM:
-							case ABILITY_ELECTRICSURGE:
-							case ABILITY_HADRONENGINE:
-							case ABILITY_GRASSYSURGE:
-							case ABILITY_MISTYSURGE:
-							case ABILITY_PSYCHICSURGE:
-								gStatuses3[gBanksByTurnOrder[i]] &= ~STATUS3_SWITCH_IN_ABILITY_DONE;
-								break;
-						}
+						u8 battler = gBanksByTurnOrder[i];
+						if (ABILITY(battler) != ABILITY_NEUTRALIZINGGAS)
+							gStatuses3[battler] &= ~STATUS3_SWITCH_IN_ABILITY_DONE;
 					}
 				}
 

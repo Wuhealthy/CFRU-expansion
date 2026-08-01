@@ -550,7 +550,7 @@ const item_t gSmogon350Cup_ItemBanList[] =
 	ITEM_TABLES_TERMIN
 };
 
-const u8 gSmogon350Cup_AbilityBanList[] =
+const ability_t gSmogon350Cup_AbilityBanList[] =
 {
 	ABILITY_SHADOWTAG,
 	ABILITY_ARENATRAP,

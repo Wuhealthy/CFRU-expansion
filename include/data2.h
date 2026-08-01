@@ -25,7 +25,7 @@ extern struct MonCoords gTrainerFrontPicCoords[];
 
 extern u8 gSpeciesNames[][POKEMON_NAME_LENGTH + 1];
 extern u8 gMoveNames[][13];
-extern const u8 gAbilityNames[][13];
+extern const u8 gAbilityNames[][ABILITY_NAME_LENGTH + 1];
 extern u8 gTypeNames[][7];
 */
 

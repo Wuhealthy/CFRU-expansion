@@ -880,7 +880,7 @@ struct NewBattleStruct
 	u8 savedObjId;
 	u8 lastFainted;
 	s8 intimidateActive;
-	u8 backupAbility;
+	ability_t backupAbility;
 	u8 switchOutBankLooper;
 	u8 skipBankStatAnim;
 	u8 maxGoldrushUses;
@@ -1067,7 +1067,7 @@ struct NewBattleStruct
 		u8 secondPreviousMonIn[MAX_BATTLERS_COUNT];
 		bool8 suckerPunchOkay[MAX_BATTLERS_COUNT];
 		u8 itemEffects[MAX_BATTLERS_COUNT];
-		u8 backupAbilities[MAX_BATTLERS_COUNT]; //For when Pokemon are temp Mega Evolved
+		ability_t backupAbilities[MAX_BATTLERS_COUNT]; //For when Pokemon are temp Mega Evolved
 		u16 movePredictions[MAX_BATTLERS_COUNT][MAX_BATTLERS_COUNT]; //movePredictions[bankAtk][bankDef]
 		u16 previousMovePredictions[MAX_BATTLERS_COUNT][MAX_BATTLERS_COUNT]; //previousMovePredictions[bankAtk][bankDef]
 		u16 strongestMove[MAX_BATTLERS_COUNT][MAX_BATTLERS_COUNT]; //strongestMove[bankAtk][bankDef]
@@ -1582,7 +1582,7 @@ extern s32 gBattleMoveDamage;
 extern s32 gHpDealt;
 extern s32 gTakenDmg[MAX_BATTLERS_COUNT];
 extern u16 gLastUsedItem;
-extern u8 gLastUsedAbility;
+extern ability_t gLastUsedAbility;
 extern u8 gBankAttacker;
 extern u8 gBankTarget;
 extern u8 gBankFainted;

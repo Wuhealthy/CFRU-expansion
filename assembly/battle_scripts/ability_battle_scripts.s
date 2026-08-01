@@ -296,7 +296,8 @@ BattleScript_TraceActivates:
 	call BattleScript_AbilityPopUpRevert
 	clearspecialstatusbit BANK_SCRIPTING STATUS3_SWITCH_IN_ABILITY_DONE
 	call BattleScript_AbilityPopUp
-	printstring 0xD0 @;STRINGID_PKMNTRACED
+	setword BATTLE_STRING_LOADER gText_TraceActivate
+	printstring 0x184
 	waitmessage DELAY_1SECOND
 	call BattleScript_AbilityPopUpRevert
 	tryactivateswitchinability BANK_SCRIPTING

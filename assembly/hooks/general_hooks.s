@@ -666,7 +666,8 @@ ExpandedAbilityNamesBattle2:
 	add r0, r5, r7
 	add r0, #0x1
 	ldrh r0, [r0]
-	ldr r1, =ABILITY_POPUP_SPECIES
+	@ gAbilityPopUpHelper is a u16 at 0x203E03C; species follows it.
+	ldr r1, =0x203E03E
 	ldrh r1, [r1]
 	bl GetAbilityName
 	mov r1, r0

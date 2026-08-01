@@ -118,15 +118,15 @@
 	.macro jumpifabilitypreventsstatloss bank rom_address
 	.byte 0x1E
 	.byte \bank
-	.byte ABILITY_CLEARBODY
+	.2byte ABILITY_CLEARBODY
 	.word \rom_address
 	.byte 0x1E
 	.byte \bank
-	.byte ABILITY_WHITESMOKE
+	.2byte ABILITY_WHITESMOKE
 	.word \rom_address
 	.byte 0x1E
 	.byte \bank
-	.byte ABILITY_FULLMETALBODY 
+	.2byte ABILITY_FULLMETALBODY
 	.word \rom_address
 	.endm
 	
@@ -1485,7 +1485,7 @@
 	.macro setability bank ability
 	.byte 0xFF, 0x0A
 	.byte \bank
-	.byte \ability
+	.2byte \ability
 	.endm
 	
 	.macro jumpiftargetpartner rom_address
