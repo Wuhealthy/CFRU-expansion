@@ -79,6 +79,11 @@ STAT_ALIASES = {
 }
 
 
+def remove_prefix(value: str, prefix: str) -> str:
+    """Python 3.7-compatible equivalent of str.removeprefix()."""
+    return value[len(prefix):] if value.startswith(prefix) else value
+
+
 @dataclass
 class PokemonEntry:
     title: str
@@ -91,7 +96,7 @@ class PokemonEntry:
         title = self.title.strip()
         match = re.search(r"\((SPECIES_[A-Z0-9_]+|[^)]+)\)", title)
         if match:
-            return match.group(1).removeprefix("SPECIES_")
+            return remove_prefix(match.group(1), "SPECIES_")
         before_item = title.split("@", 1)[0].strip()
         before_gender = re.sub(r"\s+\([MF]\)\s*$", "", before_item).strip()
         return before_gender
@@ -238,7 +243,7 @@ def format_trainer_block(trainer: TrainerBlock) -> str:
 
 
 def normalize_name(value: str) -> str:
-    value = value.strip().removeprefix("SPECIES_").removeprefix("TRAINER_PIC_FRONT_")
+    value = remove_prefix(remove_prefix(value.strip(), "SPECIES_"), "TRAINER_PIC_FRONT_")
     value = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", value)
     value = value.replace("-", " ").replace("_", " ")
     value = re.sub(r"\s+", " ", value).strip().lower()
@@ -250,7 +255,7 @@ def snake_name(value: str) -> str:
 
 
 def title_from_symbol(symbol: str) -> str:
-    value = symbol.removeprefix("gTrainerFrontPic_")
+    value = remove_prefix(symbol, "gTrainerFrontPic_")
     value = re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", value)
     value = value.replace("Frlg", " FRLG")
     return re.sub(r"\s+", " ", value).strip()
@@ -380,13 +385,13 @@ def load_move_choices() -> list[str]:
     for symbol in c_defines(MOVES_HEADER, "MOVE_"):
         if symbol in {"MOVE_NONE", "MOVE_DEFAULT", "MOVE_UNAVAILABLE"}:
             continue
-        key = re.sub(r"[^A-Z0-9]", "", symbol.removeprefix("MOVE_"))
+        key = re.sub(r"[^A-Z0-9]", "", remove_prefix(symbol, "MOVE_"))
         moves.append(names.get(key, symbol_to_display_name(symbol, "MOVE_")))
     return moves
 
 
 def symbol_to_display_name(symbol: str, prefix: str) -> str:
-    return symbol.removeprefix(prefix).replace("_", " ").title()
+    return remove_prefix(symbol, prefix).replace("_", " ").title()
 
 
 def display_name_to_symbol(value: str, prefix: str) -> str:
@@ -545,7 +550,7 @@ def find_opponent_header_clone(trainer_id: str) -> str | None:
 def pokemon_preview_path(species: str) -> Path | None:
     wanted = re.sub(r"[^A-Z0-9]", "", species.upper())
     for symbol, index in c_defines(SPECIES_HEADER, "SPECIES_").items():
-        if re.sub(r"[^A-Z0-9]", "", symbol.removeprefix("SPECIES_")) == wanted:
+        if re.sub(r"[^A-Z0-9]", "", remove_prefix(symbol, "SPECIES_")) == wanted:
             return extract_rom_sprite("pokemon", index)
     return None
 
@@ -584,7 +589,7 @@ class PartyRepository:
             start=len(self.text),
             end=len(self.text),
             fields={
-                "Name": trainer_id.removeprefix("TRAINER_").replace("_", " ")[:12],
+                "Name": remove_prefix(trainer_id, "TRAINER_").replace("_", " ")[:12],
                 "Class": "Pkmn Trainer",
                 "Pic": "Youngster",
                 "Gender": "Male",
@@ -1053,7 +1058,7 @@ class PartyTab(ttk.Frame):
             set_field_case_insensitive(mon.fields, "IVs", format_stat_spread(iv_values))
         if any(ev_values.values()) or get_field_case_insensitive(mon.fields, "EVs"):
             set_field_case_insensitive(mon.fields, "EVs", format_stat_spread(ev_values))
-        mon.moves = [var.get().strip().removeprefix("- ").strip() for var in self.move_vars if var.get().strip()]
+        mon.moves = [remove_prefix(var.get().strip(), "- ").strip() for var in self.move_vars if var.get().strip()]
         self.update_party_list_row(self.current_mon_index)
         self.update_mon_preview(mon)
         self.render_party_previews()
