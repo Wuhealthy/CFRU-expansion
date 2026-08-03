@@ -23,8 +23,6 @@ from pathlib import Path
 from typing import Optional
 
 
-ROM_GBA_ADDRESS = 0x0839FDB0
-ROM_FILE_OFFSET = ROM_GBA_ADDRESS - 0x08000000
 ROM_POINTER_MIN = 0x08000000
 ROM_POINTER_MAX = 0x0A000000
 MAX_TABLE_ENTRIES = 240
@@ -157,7 +155,7 @@ def locate_array(text: str, name: str) -> SourceArray:
     return SourceArray(name, body_start, body_end, entries, spans)
 
 
-def parse_switcher_arrays(text: str) -> list[str]:
+def parse_switcher_configuration(text: str) -> tuple[int, list[str]]:
     matches = list(
         re.finditer(
             r"\bgOverworldTableSwitcher\s*\[\s*255\s*\]\s*=\s*\{",
@@ -172,19 +170,35 @@ def parse_switcher_arrays(text: str) -> list[str]:
     closing = find_matching_brace(text, opening)
     body = re.sub(r"//[^\r\n]*|/\*.*?\*/", "", text[opening + 1 : closing], flags=re.S)
     values = [part.strip() for part in body.split(",") if part.strip()]
-    if not values or "0X839FDB0" not in values[0].upper().replace(" ", ""):
-        raise EditorError("The first switcher table does not point to 0x839FDB0")
-    return [value for value in values[1:] if re.fullmatch(r"sOverworldTable\d+", value)]
+    if not values:
+        raise EditorError("gOverworldTableSwitcher has no table entries")
+    address_match = re.search(r"0[xX]([0-9A-Fa-f]+)", values[0])
+    if not address_match:
+        raise EditorError(
+            "The first gOverworldTableSwitcher entry must contain a hexadecimal ROM address"
+        )
+    address = int(address_match.group(0), 16)
+    if not ROM_POINTER_MIN <= address < ROM_POINTER_MAX or address & 3:
+        raise EditorError(
+            f"The first gOverworldTableSwitcher address is invalid: 0x{address:08X}"
+        )
+    arrays = [value for value in values[1:] if re.fullmatch(r"sOverworldTable\d+", value)]
+    return address, arrays
 
 
-def read_rom_entries(path: Path) -> list[Entry]:
-    required_size = ROM_FILE_OFFSET + ROM_TABLE_ENTRY_COUNT * 4
+def parse_switcher_arrays(text: str) -> list[str]:
+    return parse_switcher_configuration(text)[1]
+
+
+def read_rom_entries(path: Path, gba_address: int) -> list[Entry]:
+    file_offset = gba_address - ROM_POINTER_MIN
+    required_size = file_offset + ROM_TABLE_ENTRY_COUNT * 4
     size = path.stat().st_size
     if size < required_size:
-        raise EditorError(f"ROM is too small for offset 0x{ROM_FILE_OFFSET:X}")
+        raise EditorError(f"ROM is too small for address 0x{gba_address:08X}")
     entries: list[Entry] = []
     with path.open("rb") as rom:
-        rom.seek(ROM_FILE_OFFSET)
+        rom.seek(file_offset)
         for index in range(ROM_TABLE_ENTRY_COUNT):
             raw = rom.read(4)
             value = struct.unpack("<I", raw)[0]
@@ -237,6 +251,8 @@ class ProjectModel:
         self.names_path = self.root / "include" / "constants" / "event_objects.h"
         self.source_text = ""
         self.newline = "\n"
+        self.rom_gba_address = 0
+        self.rom_file_offset = 0
         self.array_names: list[str] = []
         self.tables: list[list[Entry]] = []
         self.names: dict[int, str] = {}
@@ -254,7 +270,8 @@ class ProjectModel:
                 raise EditorError(f"Required file not found: {path}")
         self.source_text, self.newline = read_text_preserving(self.c_path)
         self.rom_data = self.rom_path.read_bytes()
-        self.array_names = parse_switcher_arrays(self.source_text)
+        self.rom_gba_address, self.array_names = parse_switcher_configuration(self.source_text)
+        self.rom_file_offset = self.rom_gba_address - ROM_POINTER_MIN
         self.names = self._load_names()
         self.follower_sprites = self._load_follower_sprites()
         custom_path = self.root / "overworld_editor.json"
@@ -271,10 +288,10 @@ class ProjectModel:
             repoints_text = repoints_path.read_text(encoding="utf-8")
             for name, address_text in re.findall(r"(?m)^gOverworldEditorGfx_([A-Za-z0-9_]+)\s+([0-9A-Fa-f]{8})\s*$", repoints_text):
                 address = int(address_text, 16)
-                delta = address - ROM_GBA_ADDRESS
+                delta = address - self.rom_gba_address
                 if delta >= 0 and delta % 4 == 0 and delta // 4 < ROM_TABLE_ENTRY_COUNT and name in self.custom_sprites:
                     self.custom_overrides[(0, delta // 4)] = self.custom_sprites[name]
-        self.tables = [read_rom_entries(self.rom_path)]
+        self.tables = [read_rom_entries(self.rom_path, self.rom_gba_address)]
         for array_name in self.array_names:
             self.tables.append(locate_array(self.source_text, array_name).entries)
         for table in self.tables:
@@ -444,7 +461,7 @@ class ProjectModel:
 
     def table_label(self, index: int) -> str:
         if index == 0:
-            return f"Table 0 - ROM 0x{ROM_GBA_ADDRESS:08X} ({len(self.tables[0])} entries)"
+            return f"Table 0 - ROM 0x{self.rom_gba_address:08X} ({len(self.tables[0])} entries)"
         return f"Table {index} - {self.array_names[index - 1]} ({len(self.tables[index])} entries)"
 
     def set_value(self, table: int, index: int, value: str) -> str:
@@ -602,7 +619,7 @@ class ProjectModel:
         new_items=metadata[-len(pending):]
         for request,item in zip(pending,new_items):
             if request.mode=="resize" and request.target_table==0:
-                line=f"gOverworldEditorGfx_{item['name']} {ROM_GBA_ADDRESS + request.target_index * 4:08X}"
+                line=f"gOverworldEditorGfx_{item['name']} {self.rom_gba_address + request.target_index * 4:08X}"
                 if line not in repoint_text: repoint_text += "\n"+line
             elif request.mode=="resize":
                 array=locate_array(text,self.array_names[request.target_table-1])
@@ -620,7 +637,7 @@ class ProjectModel:
                 for index, value in sorted(self.dirty[0].items()):
                     if index >= len(self.tables[0]):
                         raise EditorError("Attempted to write past the detected end of table 0")
-                    rom.seek(ROM_FILE_OFFSET + index * 4)
+                    rom.seek(self.rom_file_offset + index * 4)
                     rom.write(struct.pack("<I", parse_int_pointer(value)))
                 rom.flush()
                 os.fsync(rom.fileno())
@@ -846,7 +863,7 @@ def launch_gui(project_root: Path) -> None:
         def show_sprite(self,index):
             self.preview_frames,info=self.load_frames(index); self.current_frame=0
             value=self.effective_value(self.current_table,index)
-            pointer=f"0x{ROM_GBA_ADDRESS+index*4:08X}" if self.current_table==0 else f"{self.model.array_names[self.current_table-1]}[{index}]"
+            pointer=f"0x{self.model.rom_gba_address+index*4:08X}" if self.current_table==0 else f"{self.model.array_names[self.current_table-1]}[{index}]"
             self.info_vars["pointer"].set(pointer)
             if info:
                 self.info_vars["type"].set(f"{info.width}x{info.height}"); self.info_vars["frames"].set(str(info.frames)); self.info_vars["data"].set(info.data_address); self.info_vars["frames_addr"].set(info.frames_address); self.info_vars["palette"].set(info.palette_tag)
