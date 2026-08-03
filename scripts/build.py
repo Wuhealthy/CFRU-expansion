@@ -467,6 +467,8 @@ def RunGlob(globString: str, fn) -> map:
 def main():
     Master.init()
     startTime = datetime.now()
+    # Convert Showdown-style trainer overrides before compiling C sources.
+    RunCommand([sys.executable, 'scripts/trainer_party.py', 'build'])
     globs = {
             '**/*.s': ProcessAssembly,
             '**/*.c': ProcessC,
