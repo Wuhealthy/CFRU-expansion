@@ -168,7 +168,10 @@ def c_name(name: str) -> str:
 
 
 def party_symbol(trainer_id: str) -> str:
-    return "sShowdownParty_" + "".join(word.title() for word in trainer_id.removeprefix("TRAINER_").split("_"))
+    # str.removeprefix() was introduced in Python 3.9. Keep the build scripts
+    # compatible with the Python 3.7 version traditionally used by CFRU.
+    short_id = trainer_id[len("TRAINER_"):] if trainer_id.startswith("TRAINER_") else trainer_id
+    return "sShowdownParty_" + "".join(word.title() for word in short_id.split("_"))
 
 
 def generate_mon(mon: Pokemon, symbols: Symbols) -> tuple[str, bool, bool]:
