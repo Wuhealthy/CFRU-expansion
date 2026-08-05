@@ -1,14 +1,14 @@
 #org @TextAsk
-I'm the Egg Hatcher. Want me to\nhatch your Egg for \$5000?
+我是孵蛋人。要我帮你孵化蛋吗？\n只要5000元就行。
 
 #org @TextNo
-If you change your mind, talk to\nme again.
+如果你改变主意了，\n就再来找我吧。
 
 #org @TextNoMoney
-Sorry, you don't have enough money.
+抱歉，你的钱不够。
 
 #org @TextCancel
-Hey, this isn't an Egg!
+喂，这不是蛋啊！
 
 #org @TextProcessing
-Alright, let's hatch your Egg.
+好，那我来帮你孵蛋。

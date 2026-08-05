@@ -1,146 +1,146 @@
 #org @gText_SwapItemsPart1
-[BUFFER1]'s [BUFFER2] and
+[BUFFER1]的[BUFFER2]和
 
 #org @gText_SwapItemsPart2
-\n[BUFFER1]'s [BUFFER2]\lwere swapped![PAUSE_UNTIL_PRESS]
+\n[BUFFER1]的[BUFFER2]\l进行了交换！[PAUSE_UNTIL_PRESS]
 
 #org @gMenuText_Move
-Move
+移动
 
 #org @gText_MoveItemWhere
-Move to where?
+移动到何处？
 
 #org @gText_FieldMoveDesc_RockClimb
-Scale rocky cliffs.
+攀登岩石峭壁。
 
 #org @gText_FieldMoveDesc_Defog
-Remove foggy weather.
+清除雾气天气。
 
 #org @gText_FieldMoveDesc_Dive
-Dive underwater.
+潜入水下。
 
 #org @gText_EVReducingBerryBothEffects
-[BUFFER1] became more friendly.\nHowever, its base [BUFFER2] fell![PAUSE_UNTIL_PRESS]
+[BUFFER1]变得更亲密了。\n但是，它的基础[BUFFER2]降低了！[PAUSE_UNTIL_PRESS]
 
 #org @gText_EVReducingBerryLoweredStat
-[BUFFER1] adores you!\nIts base [BUFFER2] fell![PAUSE_UNTIL_PRESS]
+[BUFFER1]非常喜欢你！\n它的基础[BUFFER2]降低了！[PAUSE_UNTIL_PRESS]
 
 #org @gText_EVReducingBerryIncreasedFriendship
-[BUFFER1] became more friendly.\nIts base [BUFFER2] can't go lower.[PAUSE_UNTIL_PRESS]
+[BUFFER1]变得更亲密了。\n它的基础[BUFFER2]无法再降低了。[PAUSE_UNTIL_PRESS]
 
 #org @gText_FormChangeItem
-[BUFFER1] changed Forme![PAUSE_UNTIL_PRESS]
+[BUFFER1]改变了形态！[PAUSE_UNTIL_PRESS]
 
 #org @gText_DNASplicersFuseWithWhich
-Fuse with which Pok\emon?[PAUSE_UNTIL_PRESS]
+要与哪只宝可梦合体？[PAUSE_UNTIL_PRESS]
 
 #org @gText_AlreadyHaveFused
-You already have a [BUFFER1]\nfused with a [BUFFER2].[PAUSE_UNTIL_PRESS]
+你已经有一只[BUFFER1]\n与[BUFFER2]合体了。[PAUSE_UNTIL_PRESS]
 
 #org @gText_NoSpaceForDefuse
-You have no room to\nseparate the Pok\emon.[PAUSE_UNTIL_PRESS]
+没有足够的空间来\n分离宝可梦。[PAUSE_UNTIL_PRESS]
 
 #org @gText_CantFuseWithPokemon
-It cannot be fused with\nthat Pok\emon.[PAUSE_UNTIL_PRESS]
+无法与那只宝可梦合体。[PAUSE_UNTIL_PRESS]
 
 #org @gText_AbilityCapsuleOfferChange
-Change [BUFFER1]'s Ability\nto [BUFFER2]?
+要将[BUFFER1]的特性\n更改为[BUFFER2]吗？
 
 #org @gText_AbilityCapsuleChangedAbility
-[BUFFER1]'s Ability has been\nchanged to [BUFFER2].[PAUSE_UNTIL_PRESS]
+[BUFFER1]的特性已更改\n为[BUFFER2]。[PAUSE_UNTIL_PRESS]
 
 #org @gText_MaxPowderOfferGive
-Give the Gigantamax factor to\n[BUFFER1]?
+要将超极巨化因子交给\n[BUFFER1]吗？
 
 #org @gText_MaxPowderOfferRevert
-Remove the Gigantamax factor from\n[BUFFER1]?
+要移除[BUFFER1]的\n超极巨化因子吗？
 
 #org @gText_MaxPowderAllowsGigantamax
-[BUFFER1] can now Gigantamax![PAUSE_UNTIL_PRESS]
+[BUFFER1]现在可以\n超极巨化了！[PAUSE_UNTIL_PRESS]
 
 #org @gText_MaxPowderRemovesGigantamax
-[BUFFER1] can no longer Gigantamax.[PAUSE_UNTIL_PRESS]
+[BUFFER1]无法再\n超极巨化了。[PAUSE_UNTIL_PRESS]
 
 #org @gMenuText_NickName
-NICKNAME
+更改昵称
 
 #org @gMenuText_MoveRelearner
-MOVE RELEARNER
+回忆招式
  
 #org @gText_Slash
 /
 
 #org @gText_MintOfferGive
-It might affect [BUFFER1]'s stats.\nAre you sure you want to use it?
+这可能会影响[BUFFER1]的能力。\n确定要使用它吗？
 
 #org @gText_MintUsed
-[BUFFER1] nature changed to\n[BUFFER2] nature.[PAUSE_UNTIL_PRESS]
+[BUFFER1]的性格变为了\n[BUFFER2]。[PAUSE_UNTIL_PRESS]
 
 #org @sText_Nature_Lonely
-Lonely
+怕寂寞
 
 #org @sText_Nature_Brave
-Brave
+勇敢
 
 #org @sText_Nature_Adamant
-Adamant
+固执
 
 #org @sText_Nature_Naughty
-Naughty
+顽皮
 
 #org @sText_Nature_Bold
-Bold
+大胆
 
 #org @sText_Nature_Docile
-Docile
+坦率
 
 #org @sText_Nature_Relaxed
-Relaxed
+悠闲
 
 #org @sText_Nature_Impish
-Impish
+淘气
 
 #org @sText_Nature_Lax
-Lax
+乐天
 
 #org @sText_Nature_Timid
-Timid
+胆小
 
 #org @sText_Nature_Hasty
-Hasty
+急躁
 
 #org @sText_Nature_Serious
-Serious
+认真
 
 #org @sText_Nature_Jolly
-Jolly
+爽朗
 
 #org @sText_Nature_Naive
-Naive
+天真
 
 #org @sText_Nature_Modest
-Modest
+内敛
 
 #org @sText_Nature_Mild
-Mild
+慢吞吞
 
 #org @sText_Nature_Quiet
-Quiet
+冷静
 
 #org @sText_Nature_Bashful
-Bashful
+害羞
 
 #org @sText_Nature_Rash
-Rash
+马虎
 
 #org @sText_Nature_Calm
-Calm
+温和
 
 #org @sText_Nature_Gentle
-Gentle
+温顺
 
 #org @sText_Nature_Sassy
-Sassy
+自大
 
 #org @sText_Nature_Careful
-Careful
+慎重

@@ -180,6 +180,7 @@ extern const u8 BattleScript_DrizzleActivates[];
 extern const u8 BattleScript_SpeedBoostActivates[];
 extern const u8 BattleScript_TraceActivates[];
 extern const u8 BattleScript_RainDishActivates[];
+extern const u8 BattleScript_RainDishActivatesS[];
 extern const u8 BattleScript_SandstreamActivates[];
 extern const u8 BattleScript_ShedSkinActivates[];
 extern const u8 BattleScript_WeatherFormChanges[];
@@ -215,6 +216,9 @@ extern const u8 BattleScript_AbilityNoSpecificStatLoss[];
 extern const u8 BattleScript_StickyHoldActivates[];
 extern const u8 BattleScript_ColorChangeActivates[];
 extern const u8 BattleScript_RoughSkinActivates[];
+extern const u8 BattleScript_VolatileExplosionActivates[];
+extern const u8 BattleScript_VolatileExplosion_SetTerrain[];
+extern const u8 BattleScript_PsychoReboundSetTerrain[];
 extern const u8 BattleScript_CuteCharmActivates[];
 extern const u8 BattleScript_ApplySecondaryEffect[];
 extern const u8 BattleScript_SynchronizeActivates[];
@@ -288,6 +292,7 @@ extern const u8 BattleScript_ActionWatchesCarefully[];
 extern const u8 BattleScript_ActionGetNear[];
 extern const u8 BattleScript_ActionThrowPokeblock[];
 extern const u8 BattleScript_82DBEE3[];
-extern const u8 BattleScript_GuardDogActivates[];
+extern const u8 BattleScript_PsyGravityActivates[];
+extern const u8 BattleScript_TelekinesisEnd[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

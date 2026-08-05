@@ -276,6 +276,7 @@ u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8* BS_ptr)
 	bool8 notProtectAffected = FALSE;
 	u32 index;
 	u8 bank = GetBankForBattleScript(gBattlescriptCurrInstr[1]);
+	(void)bank;
 
 	if (flags & MOVE_EFFECT_AFFECTS_USER)
 	{
@@ -385,8 +386,7 @@ u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8* BS_ptr)
 
 		else if (!certain
 		&& (AbilityPreventsLoweringStat(ability, statId)
-		 || MindsEyePreventsLoweringStat(ability, statId)
-		 || (IsIntimidateActive() && AbilityBlocksIntimidate(ability))))
+		|| (IsIntimidateActive() && AbilityBlocksIntimidate(ability))))
 		{
 			if (flags == STAT_CHANGE_BS_PTR)
 			{
@@ -416,18 +416,21 @@ u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8* BS_ptr)
 			}
 			return STAT_CHANGE_DIDNT_WORK;
 		}
-		else if (!certain
-		&& IsIntimidateActive()
-		&& GuardDogPreventsLoweringStat(ability, statId, bank))
-		{
-			if (flags == STAT_CHANGE_BS_PTR)
-			{
-				BattleScriptPush(BS_ptr);
-				gBattleScripting.bank = gActiveBattler;
-				gBattlescriptCurrInstr = BattleScript_GuardDogActivates;
-			}
-			return STAT_CHANGE_DIDNT_WORK;
-		}
+		else if (!certain 
+        		&& ABILITY(gActiveBattler) == ABILITY_GUARDDOG
+        		&& IsIntimidateActive()
+        		&& statId == STAT_STAGE_ATK
+        		&& gBattleMons[gActiveBattler].statStages[STAT_STAGE_ATK - 1] < STAT_STAGE_MAX)
+    	{
+        	if (flags == STAT_CHANGE_BS_PTR)
+        	{
+            	gBattleScripting.statChanger = STAT_STAGE_ATK | INCREASE_1;
+            	BattleScriptPush(BS_ptr);
+            	gBattleScripting.bank = gActiveBattler;
+            	gBattlescriptCurrInstr = BattleScript_DefiantCompetitive;
+        	}
+        	return STAT_CHANGE_DIDNT_WORK;
+    	}
 		else if ((ability == ABILITY_SHIELDDUST || SheerForceCheck() || ITEM_EFFECT(gActiveBattler) == ITEM_EFFECT_COVERT_CLOAK) && !(gHitMarker & HITMARKER_IGNORE_SUBSTITUTE) && flags == 0)
 		{
 			return STAT_CHANGE_DIDNT_WORK;
@@ -560,7 +563,7 @@ u8 CanStatNotBeLowered(u8 statId, u8 bankDef, u8 bankAtk, ability_t defAbility)
 		return STAT_PROTECTED_BY_GENERAL_ABILITY;
 	else if (ABILITY(PARTNER(bankDef)) == ABILITY_FLOWERVEIL && IsOfType(bankDef, TYPE_GRASS))
 		return STAT_PROTECTED_BY_PARTNER_ABILITY;
-	else if (AbilityPreventsLoweringStat(defAbility, statId) || MindsEyePreventsLoweringStat(defAbility, statId))
+	else if (AbilityPreventsLoweringStat(defAbility, statId))
 		return STAT_PROTECTED_BY_SPECIFIC_ABILITY;
 
 	return STAT_CAN_BE_LOWERED;

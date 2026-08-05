@@ -419,6 +419,66 @@ const struct FlingStruct gFlingTable[ITEMS_COUNT] =
 	[ITEM_GALLADITE] = {80, 0},
 	[ITEM_AUDINITE] = {80, 0},
 	[ITEM_DIANCITE] = {80, 0},
+	[ITEM_RATICATEITE] = {80, 0},
+	[ITEM_ARBOKITE] = {80, 0},
+	[ITEM_RAICHUXITE] = {80, 0},
+	[ITEM_RAICHUYITE] = {80, 0},
+	[ITEM_SANDSLASHITE] = {80, 0},
+	[ITEM_NIDOQUEENITE] = {80, 0},
+	[ITEM_NIDOKINGITE] = {80, 0},
+	[ITEM_CLEFABLEITE] = {80, 0},
+	[ITEM_NINETALESITE] = {80, 0},
+	[ITEM_WIGGLYTUFFITE] = {80, 0},
+	[ITEM_VENOMOTHITE] = {80, 0},
+	[ITEM_POLIWRATHITE] = {80, 0},
+	[ITEM_VICTREEBELITE] = {80, 0},
+	[ITEM_GOLEMITE] = {80, 0},
+	[ITEM_RAPIDASHITE] = {80, 0},
+	[ITEM_DODRIOITE] = {80, 0},
+	[ITEM_HYPNOITE] = {80, 0},
+	[ITEM_ELECTRODEITE] = {80, 0},
+	[ITEM_MAROWAKITE] = {80, 0},
+	[ITEM_STARMIEITE] = {80, 0},
+	[ITEM_JYNXITE] = {80, 0},
+	[ITEM_TAUROSITE] = {80, 0},
+	[ITEM_VAPOREONITE] = {80, 0},
+	[ITEM_JOLTEONITE] = {80, 0},
+	[ITEM_FLAREONITE] = {80, 0},
+	[ITEM_ARTICUNOITE] = {80, 0},
+	[ITEM_ZAPDOSITE] = {80, 0},
+	[ITEM_MOLTRESITE] = {80, 0},
+	[ITEM_DRAGONITEITE] = {80, 0},
+	[ITEM_MEGANIUMITE] = {80, 0},
+	[ITEM_TYPHLOSIONITE] = {80, 0},
+	[ITEM_FERALIGATRITE] = {80, 0},
+	[ITEM_CROBATITE] = {80, 0},
+	[ITEM_JUMPLUFFITE] = {80, 0},
+	[ITEM_ESPEONITE] = {80, 0},
+	[ITEM_UMBREONITE] = {80, 0},
+	[ITEM_GRANBULLITE] = {80, 0},
+	[ITEM_SKARMORYITE] = {80, 0},
+	[ITEM_KINGDRAITE] = {80, 0},
+	[ITEM_DONPHANITE] = {80, 0},
+	[ITEM_RAIKOUITE] = {80, 0},
+	[ITEM_ENTEIITE] = {80, 0},
+	[ITEM_SUICUNEITE] = {80, 0},
+	[ITEM_LUGIAITE] = {80, 0},
+	[ITEM_HOOHITE] = {80, 0},
+	[ITEM_SLAKINGITE] = {80, 0},
+	[ITEM_TORKOALITE] = {80, 0},
+	[ITEM_FLYGONITE] = {80, 0},
+	[ITEM_KINGDRAYITE] = {80, 0},
+	[ITEM_MILOTICITE] = {80, 0},
+	[ITEM_TROPIUSITE] = {80, 0},
+	[ITEM_CHIMECHOITE] = {80, 0},
+	[ITEM_ABSOLZITE] = {80, 0},
+	[ITEM_DEOXYSITE] = {80, 0},
+	[ITEM_TORTERRAITE] = {80, 0},
+	[ITEM_INFERNAPEITE] = {80, 0},
+	[ITEM_EMPOLEONITE] = {80, 0},
+	[ITEM_STARAPTORITE] = {80, 0},
+	[ITEM_LUXRAYITE] = {80, 0},
+	[ITEM_ROSERADEITE] = {80, 0},
 	[ITEM_ASSAULT_VEST] = {80, 0},
 	[ITEM_DAWN_STONE] = {80, 0},
 	[ITEM_DUSK_STONE] = {80, 0},
@@ -893,7 +953,66 @@ const u16 gItemsByType[ITEMS_COUNT] =
 	[ITEM_DIANCITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_RED_ORB] = ITEM_TYPE_PRIMAL_ORB,
 	[ITEM_BLUE_ORB] = ITEM_TYPE_PRIMAL_ORB,
-
+	[ITEM_RATICATEITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_ARBOKITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_RAICHUXITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_RAICHUYITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_SANDSLASHITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_NIDOQUEENITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_NIDOKINGITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_CLEFABLEITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_NINETALESITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_WIGGLYTUFFITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_VENOMOTHITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_POLIWRATHITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_VICTREEBELITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_GOLEMITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_RAPIDASHITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_DODRIOITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_HYPNOITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_ELECTRODEITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_MAROWAKITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_STARMIEITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_JYNXITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_TAUROSITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_VAPOREONITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_JOLTEONITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_FLAREONITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_ARTICUNOITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_ZAPDOSITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_MOLTRESITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_DRAGONITEITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_MEGANIUMITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_TYPHLOSIONITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_FERALIGATRITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_CROBATITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_JUMPLUFFITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_ESPEONITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_UMBREONITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_GRANBULLITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_SKARMORYITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_KINGDRAITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_DONPHANITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_RAIKOUITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_ENTEIITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_SUICUNEITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_LUGIAITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_HOOHITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_SLAKINGITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_TORKOALITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_FLYGONITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_KINGDRAYITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_MILOTICITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_TROPIUSITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_CHIMECHOITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_ABSOLZITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_DEOXYSITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_TORTERRAITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_INFERNAPEITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_EMPOLEONITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_STARAPTORITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_LUXRAYITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_ROSERADEITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_NORMALIUM_Z] = ITEM_TYPE_Z_CRYSTAL,
 	[ITEM_FIGHTINIUM_Z] = ITEM_TYPE_Z_CRYSTAL,
 	[ITEM_FLYINIUM_Z] = ITEM_TYPE_Z_CRYSTAL,
@@ -1780,6 +1899,66 @@ const u32 *const gItemGraphicsTable[ITEMS_COUNT + 1][2] =
 	{unremarkable_teacupTiles, unremarkable_teacupPal},
 	{tera_orbTiles, tera_orbPal},
 	{Portable_PCTiles, Portable_PCPal},
+	{gBag_SteelixiteTiles, gBag_SteelixitePal},
+	{gBag_VenusauriteTiles, gBag_VenusauritePal},
+	{gBag_CharizarditeXTiles, gBag_CharizarditeXPal},
+	{gBag_CharizarditeYTiles, gBag_CharizarditeYPal},
+	{gBag_BlastoiseniteTiles, gBag_BlastoisenitePal},
+	{gBag_BeedrilliteTiles, gBag_BeedrillitePal},
+	{gBag_PidgeotiteTiles, gBag_PidgeotitePal},
+	{gBag_AlakaziteTiles, gBag_AlakazitePal},
+	{gBag_SteelixiteTiles, gBag_SteelixitePal},
+	{gBag_VenusauriteTiles, gBag_VenusauritePal},
+	{gBag_CharizarditeXTiles, gBag_CharizarditeXPal},
+	{gBag_ScizoriteTiles, gBag_ScizoritePal},
+	{gBag_HeracroniteTiles, gBag_HeracronitePal},
+	{gBag_HoundoomniteTiles, gBag_HoundoomnitePal},
+	{gBag_TyranitariteTiles, gBag_TyranitaritePal},
+	{gBag_SceptiliteTiles, gBag_SceptilitePal},
+	{gBag_BlazikeniteTiles, gBag_BlazikenitePal},
+	{gBag_SwampertiteTiles, gBag_SwampertitePal},
+	{gBag_GardevoiriteTiles, gBag_GardevoiritePal},
+	{gBag_SableniteTiles, gBag_SablenitePal},
+	{gBag_MawiliteTiles, gBag_MawilitePal},
+	{gBag_AggroniteTiles, gBag_AggronitePal},
+	{gBag_SteelixiteTiles, gBag_SteelixitePal},
+	{gBag_VenusauriteTiles, gBag_VenusauritePal},
+	{gBag_CharizarditeXTiles, gBag_CharizarditeXPal},
+	{gBag_ScizoriteTiles, gBag_ScizoritePal},
+	{gBag_HeracroniteTiles, gBag_HeracronitePal},
+	{gBag_HoundoomniteTiles, gBag_HoundoomnitePal},
+	{gBag_TyranitariteTiles, gBag_TyranitaritePal},
+	{gBag_SceptiliteTiles, gBag_SceptilitePal},
+	{gBag_BlazikeniteTiles, gBag_BlazikenitePal},
+	{gBag_SwampertiteTiles, gBag_SwampertitePal},
+	{gBag_GardevoiriteTiles, gBag_GardevoiritePal},
+	{gBag_SableniteTiles, gBag_SablenitePal},
+	{gBag_MawiliteTiles, gBag_MawilitePal},
+	{gBag_AggroniteTiles, gBag_AggronitePal},
+	{gBag_MedichamiteTiles, gBag_MedichamitePal},
+	{gBag_ManectiteTiles, gBag_ManectitePal},
+	{gBag_SharpedoniteTiles, gBag_SharpedonitePal},
+	{gBag_CameruptiteTiles, gBag_CameruptitePal},
+	{gBag_AltarianiteTiles, gBag_AltarianitePal},
+	{gBag_BanettiteTiles, gBag_BanettitePal},
+	{gBag_AbsoliteTiles, gBag_AbsolitePal},
+	{gBag_GlalititeTiles, gBag_GlalititePal},
+	{gBag_SalamenciteTiles, gBag_SalamencitePal},
+	{gBag_MetagrossiteTiles, gBag_MetagrossitePal},
+	{gBag_LatiasiteTiles, gBag_LatiasitePal},
+	{gBag_LatiositeTiles, gBag_LatiositePal},
+	{gBag_LopunniteTiles, gBag_LopunnitePal},
+	{gBag_GarchompiteTiles, gBag_GarchompitePal},
+	{gBag_LucarioniteTiles, gBag_LucarionitePal},
+	{gBag_AbomasiteTiles, gBag_AbomasitePal},
+	{gBag_GalladiteTiles, gBag_GalladitePal},
+	{gBag_AudiniteTiles, gBag_AudinitePal},
+	{gBag_DianciteTiles, gBag_DiancitePal},
+	{gBag_SteelixiteTiles, gBag_SteelixitePal},
+	{gBag_VenusauriteTiles, gBag_VenusauritePal},
+	{gBag_CharizarditeXTiles, gBag_CharizarditeXPal},
+	{gBag_CharizarditeYTiles, gBag_CharizarditeYPal},
+	{gBag_BlastoiseniteTiles, gBag_BlastoisenitePal},
 	{gBag_InterrogationTiles, gBag_InterrogationPal}, //Free space 1
 	{gBag_InterrogationTiles, gBag_InterrogationPal},
 	{gBag_InterrogationTiles, gBag_InterrogationPal},
@@ -1804,7 +1983,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _s, _t, _e, _r, _SPACE, _B, _a, _l, _l, _END},
+		.name = { 0x02, 0xD3, 0x0B, 0xE2, 0x0B, 0x14, 0xFF},
 		.itemId = ITEM_MASTER_BALL,
 		.price = 0,
 		.holdEffect = 0,
@@ -1820,7 +1999,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_U, _l, _t, _r, _a, _SPACE, _B, _a, _l, _l, _END},
+		.name = { 0x04, 0x49, 0x05, 0xA1, 0x0B, 0x14, 0xFF},
 		.itemId = ITEM_ULTRA_BALL,
 		.price = 800,
 		.holdEffect = 0,
@@ -1836,7 +2015,7 @@ const struct Item gItemData[] =
         .secondaryId = 1
 	},
 	{
-		.name = {_G, _r, _e, _a, _t, _SPACE, _B, _a, _l, _l, _END},
+		.name = { 0x02, 0x2E, 0x05, 0xA1, 0x0B, 0x14, 0xFF},
 		.itemId = ITEM_GREAT_BALL,
 		.price = 600,
 		.holdEffect = 0,
@@ -1852,7 +2031,7 @@ const struct Item gItemData[] =
         .secondaryId = 2
 	},
 	{
-		.name = {_P, _o, _k, _eACUTE, _SPACE, _B, _a, _l, _l, _END},
+		.name = { 0x07, 0x5B, 0x08, 0xBC, 0x0B, 0x14, 0xFF},
 		.itemId = ITEM_POKE_BALL,
 		.price = 200,
 		.holdEffect = 0,
@@ -1868,7 +2047,7 @@ const struct Item gItemData[] =
         .secondaryId = 3
 	},
 	{
-		.name = {_S, _a, _f, _a, _r, _i, _SPACE, _B, _a, _l, _l, _END},
+		.name = { 0x14, 0xF1, 0x08, 0xA7, 0x0B, 0x14, 0xFF},
 		.itemId = ITEM_SAFARI_BALL,
 		.price = 0,
 		.holdEffect = 0,
@@ -13696,7 +13875,7 @@ const struct Item gItemData[] =
         .itemId = ITEM_WELLSPRING_MASK,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_MASKS,
-        .holdEffectParam = 0,
+        .holdEffectParam = TYPE_WATER,
         .description = DESC_WELLSPRING_MASK,
         .importance = 0,
         .unk19 = 0,
@@ -13712,7 +13891,7 @@ const struct Item gItemData[] =
         .itemId = ITEM_HEARTHFLAME_MASK,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_MASKS,
-        .holdEffectParam = 0,
+        .holdEffectParam = TYPE_FIRE,
         .description = DESC_HEARTHFLAME_MASK,
         .importance = 0,
         .unk19 = 0,
@@ -13728,7 +13907,7 @@ const struct Item gItemData[] =
         .itemId = ITEM_CORNERSTONE_MASK,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_MASKS,
-        .holdEffectParam = 0,
+        .holdEffectParam = TYPE_ROCK,
         .description = DESC_CORNERSTONE_MASK,
         .importance = 0,
         .unk19 = 0,
@@ -14229,6 +14408,966 @@ const struct Item gItemData[] =
 		.battleUsage = 0,
 		.battleUseFunc = NULL,
 		.secondaryId = 0
+	},
+	{
+		.name = { 0x01, 0x01, 0x08, 0x70, 0x03, 0x85, 0x0C, 0x5C, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF},	//阿利多斯石
+		.itemId = ITEM_RATICATEITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x01, 0x01, 0x01, 0x37, 0x04, 0x9E, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_ARBOKITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x08, 0x4C, 0x0B, 0x12, 0x0B, 0xEB, 0xD2, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_RAICHUXITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x08, 0x4C, 0x0B, 0x12, 0x0B, 0xEB, 0xD3, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_RAICHUYITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x02, 0x89, 0x0B, 0x9B, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_SANDSLASHITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x09, 0xD7, 0x03, 0x85, 0x05, 0x22, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_NIDOQUEENITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x09, 0xD7, 0x03, 0x85, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_NIDOKINGITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x0A, 0x5F, 0x07, 0xD7, 0x0D, 0xBD, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_CLEFABLEITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x07, 0x75, 0x0D, 0x78, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_NINETALESITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x0A, 0x33, 0x07, 0xD7, 0x03, 0x46, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_WIGGLYTUFFITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x09, 0x40, 0x08, 0x44, 0x02, 0xD3, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_VENOMOTHITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x0D, 0x89, 0x0E, 0x10, 0x0F, 0x6C, 0x0C, 0x04, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_POLIWRATHITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x02, 0xD3, 0x0B, 0xEF, 0x05, 0x35, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_VICTREEBELITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x03, 0xEA, 0x0C, 0x7C, 0x04, 0x7F, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_GOLEMITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x08, 0xA5, 0x0E, 0xCF, 0x09, 0x27, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_RAPIDASHITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x14, 0x59, 0x14, 0x59, 0x08, 0x70, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_DODRIOITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x0F, 0x4D, 0x09, 0x66, 0x1D, 0x92, 0x0B, 0x4B, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_HYPNOITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x0D, 0x4F, 0x0A, 0x5F, 0x08, 0x4C, 0x02, 0xED, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_ELECTRODEITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x04, 0x2C, 0x08, 0x27, 0x04, 0x2C, 0x08, 0x27, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_MAROWAKITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x01, 0x63, 0x0B, 0xEB, 0x04, 0xC9, 0x0E, 0x52, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_STARMIEITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x09, 0x6C, 0x02, 0x9D, 0x07, 0x35, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_JYNXITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x07, 0xDD, 0x0C, 0xAA, 0x09, 0x18, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.itemId = ITEM_TAUROSITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x0C, 0x51, 0x0F, 0x11, 0x01, 0xD7, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_VAPOREONITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x08, 0x4C, 0x0F, 0x11, 0x01, 0xD7, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_JOLTEONITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x05, 0x7D, 0x0F, 0x11, 0x01, 0xD7, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_FLAREONITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x05, 0x9C, 0x03, 0x58, 0x09, 0xE7, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_ARTICUNOITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x0B, 0x9F, 0x03, 0x2E, 0x09, 0xE7, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_ZAPDOSITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x05, 0x7D, 0x0E, 0xCF, 0x09, 0xE7, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_MOLTRESITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x08, 0x03, 0x08, 0xCD, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_DRAGONITEITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x02, 0xD3, 0x1C, 0x98, 0x08, 0x12, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_MEGANIUMITE,					//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x05, 0x7D, 0x01, 0x66, 0x0C, 0x23, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_TYPHLOSIONITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x02, 0xD3, 0x08, 0x79, 0x1D, 0xF1, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_FERALIGATRITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x02, 0x0A, 0x11, 0x0E, 0x1C, 0x67, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_CROBATITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x18, 0x70, 0x11, 0x0B, 0x09, 0x76, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_JUMPLUFFITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x0C, 0xAC, 0x0E, 0xDD, 0x0F, 0x11, 0x01, 0xD7, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_ESPEONITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x0F, 0xCE, 0x08, 0x94, 0x0F, 0x11, 0x01, 0xD7, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_UMBREONITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x01, 0xD7, 0x08, 0xE4, 0x05, 0x57, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_GRANBULLITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x08, 0x0F, 0x05, 0xC2, 0x09, 0xE7, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_SKARMORYITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x02, 0xAC, 0x08, 0xCD, 0x0D, 0x5D, 0x0B, 0xEB, 0xD2, 0xFF},
+		.itemId = ITEM_KINGDRAITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x03, 0x7E, 0x05, 0xC2, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_DONPHANITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x08, 0x4C, 0x04, 0x73, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_RAIKOUITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x0E, 0xC0, 0x03, 0x22, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_ENTEIITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x0C, 0x51, 0x07, 0xAD, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_SUICUNEITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x09, 0x1F, 0x0A, 0xA1, 0x0E, 0xB0, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_LUGIAITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x03, 0xF2, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_HOOHITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x0B, 0x0D, 0x05, 0xC4, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_SLAKINGITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x09, 0x52, 0x0C, 0xC0, 0x04, 0xB2, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_TORKOALITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x0B, 0x91, 0x09, 0xA4, 0x1C, 0x56, 0x1C, 0x48, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_FLYGONITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x02, 0xAC, 0x08, 0xCD, 0x0D, 0x5D, 0x0B, 0xEB, 0xD3, 0xFF},
+		.itemId = ITEM_KINGDRAYITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x09, 0x58, 0x09, 0xBF, 0x0C, 0x5C, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_MILOTICITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x0B, 0x48, 0x02, 0xD8, 0x08, 0xCD, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_TROPIUSITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x03, 0xEA, 0x08, 0xB8, 0x08, 0xB8, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_CHIMECHOITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x01, 0x01, 0x01, 0xC5, 0x0C, 0x96, 0x08, 0xE4, 0x0B, 0xEB, 0xD4, 0xFF},
+		.itemId = ITEM_ABSOLZITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x02, 0xDA, 0x0A, 0x14, 0x0A, 0xA1, 0x0D, 0xC7, 0x0C, 0x5C, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_DEOXYSITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x0D, 0x29, 0x0C, 0xA9, 0x04, 0xB2, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_TORTERRAITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x08, 0xA5, 0x0E, 0xCF, 0x05, 0x1E, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_INFERNAPEITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x03, 0x22, 0x0D, 0x5D, 0x09, 0xB9, 0x01, 0xC3, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_EMPOLEONITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x09, 0xAD, 0x07, 0xD9, 0x0F, 0x53, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_STARAPTORITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x09, 0x11, 0x0A, 0xF2, 0x09, 0x40, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_LUXRAYITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+	},
+	{
+		.name = { 0x09, 0x18, 0x0C, 0x62, 0x08, 0x4C, 0x03, 0x89, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_ROSERADEITE,				//道具编号
+		.price = 0,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
 	},
 	{
         .name = {_F, _r, _e, _e, _SPACE, _S, _p, _a, _c, _e, _SPACE, _1, _END},

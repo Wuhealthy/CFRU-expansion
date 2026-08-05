@@ -1059,11 +1059,17 @@ static void SpriteCB_TeraTrigger(struct Sprite* self)
     struct ChooseMoveStruct* moveInfo = (struct ChooseMoveStruct*) (&gBattleBufferA[TRIGGER_BANK][4]);
 
     if (!moveInfo->canTera)
+	{
         PALETTE_STATE = TriggerGrayscale;
+	}
     else if (gNewBS->teraData.chosen[TRIGGER_BANK])
+	{
         PALETTE_STATE = TriggerLightUp;
+	}
     else
+	{
         PALETTE_STATE = TriggerNormalColour;
+	}
 
 	// Only change the palette if the state has changed
 	if (PALETTE_STATE != self->data[2])

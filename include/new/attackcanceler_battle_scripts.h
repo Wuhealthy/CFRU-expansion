@@ -9,6 +9,7 @@
  */
 
 extern const u8 BattleScript_MagicBounce[];
+extern const u8 BattleScript_PsychoRebound[];
 extern const u8 BattleScript_MoveUsedFlinched[]; //0x81D90B1
 extern const u8 BattleScript_MoveUsedDevolvedForgot[];
 extern const u8 BattleScript_MoveUsedIsConfused[]; //0x81D90D3

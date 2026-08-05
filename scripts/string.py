@@ -216,6 +216,7 @@ def StringFileConverter(fileName: str):
 def ProcessString(string: str, lineNum: int, maxLength=0, fillWithFF=False) -> str:
     charMap = PokeByteTableMaker()
     stringToWrite = ".byte "
+    stringToWrite2 = ".word "
     buffer = False
     escapeChar = False
     bufferChars = ""
@@ -265,8 +266,17 @@ def ProcessString(string: str, lineNum: int, maxLength=0, fillWithFF=False) -> s
 
         else:
             try:
-                stringToWrite += hex(charMap[char]) + ", "
-                strLen += 1
+                if (charMap[char] > 255):
+                        if (charMap[char] < 4096):
+                            stringToWrite += hex(charMap[char])[0:2] + "0" + hex(charMap[char])[2] +", "
+                            stringToWrite += "0x" + hex(charMap[char])[3:5] + ", "
+                        else:
+                            stringToWrite += hex(charMap[char])[0:4] + ", ";
+                            stringToWrite += "0x" + hex(charMap[char])[4:6] + ", ";
+                        strLen += 2
+                else:
+                    stringToWrite += hex(charMap[char]) + ", "
+                    strLen += 1
 
             except KeyError:
                 if char == '[':
@@ -301,5 +311,10 @@ def PokeByteTableMaker():
                             dictionary[line[3]] = int(line.split('=')[0], 16)
                     except:
                         pass
+                if (line[4] == '=' and line[5] != ""):
+                        try:
+                                dictionary[line[5]] = int(line.split('=')[0], 16)
+                        except:
+                            pass
         dictionary[' '] = 0
     return dictionary

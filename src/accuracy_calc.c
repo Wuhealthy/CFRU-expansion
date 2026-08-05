@@ -129,9 +129,6 @@ ACCURACY_CHECK_START:
 						if (atkItemEffect == ITEM_EFFECT_BLUNDER_POLICY)
 							gNewBS->activateBlunderPolicy = TRUE;
 
-						if (gCurrentMove == MOVE_TEMPERFLARE)
-							gNewBS->activateTemperFlare = TRUE;
-
 						if (gCurrentMove == MOVE_DRAGONDARTS
 						&& !recalculatedDragonDarts //So don't jump back and forth between targets
 						&& CanTargetPartner(bankDef)
@@ -195,7 +192,7 @@ bool8 ProtectAffects(u16 move, u8 bankAtk, u8 bankDef, bool8 set)
 	u8 defSide = SIDE(bankDef);
 
 	#ifdef ABILITY_UNSEENFIST
-	if (protectFlag && IsContactMove(move, bankAtk, bankDef) && ABILITY(bankAtk) == ABILITY_UNSEENFIST) //Uses IsContactMove instead of CheckContact because Protective Pads don't affect this Ability
+	if (protectFlag && IsContactMove(move, bankAtk, bankDef) && (ABILITY(bankAtk) == ABILITY_UNSEENFIST || ABILITY(bankAtk) == ABILITY_PIERCINGDRILL)) //Uses IsContactMove instead of CheckContact because Protective Pads don't affect this Ability
 		protectFlag = FALSE;
 	#endif
 
@@ -318,6 +315,7 @@ bool8 DoesProtectionMoveBlockMove(u8 bankAtk, u8 bankDef, u16 atkMove, u16 prote
 	if (!gSpecialMoveFlags[atkMove].gMovesThatLiftProtectTable
 	#ifdef ABILITY_UNSEENFIST
 	&& ABILITY(bankAtk) != ABILITY_UNSEENFIST
+	&& ABILITY(bankAtk) != ABILITY_PIERCINGDRILL
 	#endif
 	)
 	{
@@ -389,6 +387,7 @@ static bool8 AccuracyCalcHelper(u16 move, u8 bankDef)
 	||   (move == MOVE_TOXIC && IsOfType(gBankAttacker, TYPE_POISON))
 	||   (gSpecialMoveFlags[move].gAlwaysHitWhenMinimizedMoves && gStatuses3[bankDef] & STATUS3_MINIMIZED)
 	||  ((gStatuses3[bankDef] & STATUS3_TELEKINESIS) && gBattleMoves[move].effect != EFFECT_0HKO)
+	||  (ABILITY(gBankAttacker) == ABILITY_DESPERATESTRIKE && gBattleMoves[move].power > 100 && SPLIT(move) != SPLIT_STATUS)
 	||	 gBattleMoves[move].accuracy == 0
 	||  ((gStatuses3[bankDef] & STATUS3_GLAIVERUSH) && SIDE(gBankAttacker) != SIDE(bankDef))
 	||  (move == MOVE_TACHYONCUTTER))
@@ -443,7 +442,7 @@ static u32 AccuracyCalcPassDefAbilityItemEffect(u16 move, u8 bankAtk, u8 bankDef
 	{
 		buff = acc;
 	}
-	else if (atkAbility == ABILITY_KEENEYE || atkAbility == ABILITY_MINDSEYE)
+	else if (atkAbility == ABILITY_KEENEYE || atkAbility == ABILITY_MINDSEYE || atkAbility == ABILITY_ILLUMINATE)
 	{
 		if (STAT_STAGE(bankDef, STAT_STAGE_EVASION) > 6) //Stops higher evasion, allows lower
 			buff = acc;
@@ -507,7 +506,7 @@ static u32 AccuracyCalcPassDefAbilityItemEffect(u16 move, u8 bankAtk, u8 bankDef
 
 		if (gBattleWeather & WEATHER_FOG_ANY)
 		{
-			if (!BypassesFog(atkAbility, atkEffect))
+			if (!IsOfType(bankAtk, TYPE_GHOST) && !BypassesFog(atkAbility, atkEffect))
 			{
 				#ifdef VAR_GAME_DIFFICULTY
 				if (VarGet(VAR_GAME_DIFFICULTY) == OPTIONS_EASY_DIFFICULTY
@@ -564,7 +563,8 @@ u32 VisualAccuracyCalc(u16 move, u8 bankAtk, u8 bankDef)
 	|| (gStatuses3[bankDef] & STATUS3_ALWAYS_HITS && gDisableStructs[bankDef].bankWithSureHit == bankAtk)
 	|| (move == MOVE_TOXIC && IsOfType(bankAtk, TYPE_POISON))
 	|| (gSpecialMoveFlags[move].gAlwaysHitWhenMinimizedMoves && gStatuses3[bankDef] & STATUS3_MINIMIZED)
-	|| ((gStatuses3[bankDef] & STATUS3_TELEKINESIS) && gBattleMoves[move].effect != EFFECT_0HKO))
+	|| ((gStatuses3[bankDef] & STATUS3_TELEKINESIS) && gBattleMoves[move].effect != EFFECT_0HKO)
+	|| (ABILITY(bankAtk) == ABILITY_DESPERATESTRIKE && gBattleMoves[move].power > 100 && SPLIT(move) != SPLIT_STATUS))
 		acc = 0xFFFF; //No Miss
 	else if (WEATHER_HAS_EFFECT)
 	{
@@ -618,7 +618,7 @@ u32 VisualAccuracyCalc_NoTarget(u16 move, u8 bankAtk)
 
 	if (WEATHER_HAS_EFFECT && gBattleWeather & WEATHER_FOG_ANY)
 	{
-		if (!BypassesFog(atkAbility, atkEffect))
+		if (!IsOfType(bankAtk, TYPE_GHOST) && !BypassesFog(atkAbility, atkEffect))
 		{
 			#ifdef VAR_GAME_DIFFICULTY
 			if (VarGet(VAR_GAME_DIFFICULTY) == OPTIONS_EASY_DIFFICULTY

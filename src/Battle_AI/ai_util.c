@@ -2212,21 +2212,23 @@ ability_t TryReplaceImposterAbility(ability_t ability, u8 monBank) //monBank is 
 //These by default are not handled in IsUnusableMove
 bool8 IsDamagingMoveUnusable(u16 move, u8 bankAtk, u8 bankDef)
 {
-	bool8 EarthEater = (ABILITY(bankDef) == ABILITY_EARTHEATER);
-	
 	if (NO_MOLD_BREAKERS(ABILITY(bankAtk), move))
 	{
 		switch (ABILITY(bankDef))
 		{
 			//Electric
 			case ABILITY_VOLTABSORB:
-			case ABILITY_EARTHEATER:
 			case ABILITY_MOTORDRIVE:
 			case ABILITY_LIGHTNINGROD:
-				if ((GetMoveTypeSpecial(bankAtk, move) == TYPE_ELECTRIC && !EarthEater)
-				|| (GetMoveTypeSpecial(bankAtk, move) == TYPE_GROUND && EarthEater))
-					return TRUE;
-				break;
+				if (GetMoveTypeSpecial(bankAtk, move) == TYPE_ELECTRIC)
+                    return TRUE;
+                break;
+
+			//Ground
+			case ABILITY_EARTHEATER:
+                if (GetMoveTypeSpecial(bankAtk, move) == TYPE_GROUND)
+                    return TRUE;
+                break;
 
 			//Water
 			case ABILITY_WATERABSORB:
@@ -2260,9 +2262,8 @@ bool8 IsDamagingMoveUnusable(u16 move, u8 bankAtk, u8 bankDef)
 					return TRUE;
 				break;
 
-			case ABILITY_ANGERPOINT:
 			case ABILITY_WINDRIDER:
-				if (gSpecialMoveFlags[move].gWindMoves && (ABILITY(bankDef) == ABILITY_WINDRIDER))
+				if (gSpecialMoveFlags[move].gWindMoves)
 					return TRUE;
 				break;
 
@@ -2336,21 +2337,22 @@ bool8 IsDamagingMoveUnusable(u16 move, u8 bankAtk, u8 bankDef)
 
 bool8 IsDamagingMoveUnusableByMon(u16 move, struct Pokemon* monAtk, u8 bankDef)
 {
-	bool8 EarthEater = (ABILITY(bankDef) == ABILITY_EARTHEATER);
-
 	if (NO_MOLD_BREAKERS(GetMonAbilityAfterTrace(monAtk, bankDef), move))
 	{
 		switch (ABILITY(bankDef))
 		{
 			//Electric
 			case ABILITY_VOLTABSORB:
-			case ABILITY_EARTHEATER:
 			case ABILITY_MOTORDRIVE:
 			case ABILITY_LIGHTNINGROD:
-				if ((GetMonMoveTypeSpecial(monAtk, move) == TYPE_ELECTRIC && !EarthEater)
-				|| (GetMonMoveTypeSpecial(monAtk, move) == TYPE_GROUND && EarthEater))
-					return TRUE;
-				break;
+				if (GetMonMoveTypeSpecial(monAtk, move) == TYPE_ELECTRIC)
+        			return TRUE;
+    			break;
+
+			case ABILITY_EARTHEATER:
+    			if (GetMonMoveTypeSpecial(monAtk, move) == TYPE_GROUND)
+        			return TRUE;
+    			break;
 
 			//Water
 			case ABILITY_WATERABSORB:
@@ -2384,9 +2386,8 @@ bool8 IsDamagingMoveUnusableByMon(u16 move, struct Pokemon* monAtk, u8 bankDef)
 					return TRUE;
 				break;
 			
-			case ABILITY_ANGERPOINT:
 			case ABILITY_WINDRIDER:
-				if (gSpecialMoveFlags[move].gWindMoves && (ABILITY(bankDef) == ABILITY_WINDRIDER))
+				if (gSpecialMoveFlags[move].gWindMoves)
 					return TRUE;
 				break;
 
@@ -3045,7 +3046,6 @@ bool8 BadIdeaToMakeContactWith(u8 bankAtk, u8 bankDef)
 			badIdea = CanBePoisoned(bankAtk, bankDef, TRUE) || CanBeParalyzed(bankAtk, bankDef, TRUE) || CanBePutToSleep(bankAtk, bankDef, TRUE);
 			break;
 		case ABILITY_POISONPOINT:
-		case ABILITY_TOXICDEBRIS:
 			badIdea = CanBePoisoned(bankAtk, bankDef, TRUE);
 			break;
 		case ABILITY_STATIC:

@@ -6,2302 +6,2302 @@ FILL_FF=True
 -
 
 #org @NAME_POUND
-Pound
+拍击
 
 #org @NAME_KARATE_CHOP
-Karate Chop
+空手劈
 
 #org @NAME_DOUBLESLAP
-Double Slap
+连环巴掌
 
 #org @NAME_COMET_PUNCH
-Comet Punch
+连续拳
 
 #org @NAME_MEGA_PUNCH
-Mega Punch
+百万吨重拳
 
 #org @NAME_PAY_DAY
-Pay Day
+聚宝功
 
 #org @NAME_FIRE_PUNCH
-Fire Punch
+火焰拳
 
 #org @NAME_ICE_PUNCH
-Ice Punch
+冰冻拳
 
 #org @NAME_THUNDERPUNCH
-ThunderPunch
+雷电拳
 
 #org @NAME_SCRATCH
-Scratch
+抓
 
 #org @NAME_VISE_GRIP
-Vise Grip
+夹住
 
 #org @NAME_GUILLOTINE
-Guillotine
+极落钳
 
 #org @NAME_RAZOR_WIND
-Razor Wind
+旋风刀
 
 #org @NAME_SWORDS_DANCE
-Swords Dance
+剑舞
 
 #org @NAME_CUT
-Cut
+居合劈
 
 #org @NAME_GUST
-Gust
+起风
 
 #org @NAME_WING_ATTACK
-Wing Attack
+翅膀攻击
 
 #org @NAME_WHIRLWIND
-Whirlwind
+吹飞
 
 #org @NAME_FLY
-Fly
+飞翔
 
 #org @NAME_BIND
-Bind
+绑紧
 
 #org @NAME_SLAM
-Slam
+摔打
 
 #org @NAME_VINE_WHIP
-Vine Whip
+藤鞭
 
 #org @NAME_STOMP
-Stomp
+踩踏
 
 #org @NAME_DOUBLE_KICK
-Double Kick
+二连踢
 
 #org @NAME_MEGA_KICK
-Mega Kick
+百万吨重踢
 
 #org @NAME_JUMP_KICK
-Jump Kick
+飞踢
 
 #org @NAME_ROLLING_KICK
-Rolling Kick
+回旋踢
 
 #org @NAME_SAND_ATTACK
-Sand Attack
+泼沙
 
 #org @NAME_HEADBUTT
-Headbutt
+头锤
 
 #org @NAME_HORN_ATTACK
-Horn Attack
+角撞
 
 #org @NAME_FURY_ATTACK
-Fury Attack
+乱击
 
 #org @NAME_HORN_DRILL
-Horn Drill
+角钻
 
 #org @NAME_TACKLE
-Tackle
+撞击
 
 #org @NAME_BODY_SLAM
-Body Slam
+泰山压顶
 
 #org @NAME_WRAP
-Wrap
+紧束
 
 #org @NAME_TAKE_DOWN
-Take Down
+猛撞
 
 #org @NAME_THRASH
-Thrash
+大闹一番
 
 #org @NAME_DOUBLE_EDGE
-Double-Edge
+舍身冲撞
 
 #org @NAME_TAIL_WHIP
-Tail Whip
+摇尾巴
 
 #org @NAME_POISON_STING
-Poison Sting
+毒针
 
 #org @NAME_TWINEEDLE
-Twineedle
+双针
 
 #org @NAME_PIN_MISSILE
-Pin Missile
+飞弹针
 
 #org @NAME_LEER
-Leer
+瞪眼
 
 #org @NAME_BITE
-Bite
+咬住
 
 #org @NAME_GROWL
-Growl
+叫声
 
 #org @NAME_ROAR
-Roar
+吼叫
 
 #org @NAME_SING
-Sing
+唱歌
 
 #org @NAME_SUPERSONIC
-Supersonic
+超音波
 
 #org @NAME_SONIC_BOOM
-Sonic Boom
+音爆
 
 #org @NAME_DISABLE
-Disable
+定身法
 
 #org @NAME_ACID
-Acid
+溶解液
 
 #org @NAME_EMBER
-Ember
+火花
 
 #org @NAME_FLAMETHROWER
-Flamethrower
+喷射火焰
 
 #org @NAME_MIST
-Mist
+白雾
 
 #org @NAME_WATER_GUN
-Water Gun
+水枪
 
 #org @NAME_HYDRO_PUMP
-Hydro Pump
+水炮
 
 #org @NAME_SURF
-Surf
+冲浪
 
 #org @NAME_ICE_BEAM
-Ice Beam
+冰冻光束
 
 #org @NAME_BLIZZARD
-Blizzard
+暴风雪
 
 #org @NAME_PSYBEAM
-Psybeam
+幻象光线
 
 #org @NAME_BUBBLE_BEAM
-Bubble Beam
+泡沫光线
 
 #org @NAME_AURORA_BEAM
-Aurora Beam
+极光束
 
 #org @NAME_HYPER_BEAM
-Hyper Beam
+破坏光线
 
 #org @NAME_PECK
-Peck
+啄
 
 #org @NAME_DRILL_PECK
-Drill Peck
+啄钻
 
 #org @NAME_SUBMISSION
-Submission
+深渊翻滚
 
 #org @NAME_LOW_KICK
-Low Kick
+踢倒
 
 #org @NAME_COUNTER
-Counter
+双倍奉还
 
 #org @NAME_SEISMIC_TOSS
-Seismic Toss
+地球上投
 
 #org @NAME_STRENGTH
-Strength
+怪力
 
 #org @NAME_ABSORB
-Absorb
+吸取
 
 #org @NAME_MEGA_DRAIN
-Mega Drain
+超级吸取
 
 #org @NAME_LEECH_SEED
-Leech Seed
+寄生种子
 
 #org @NAME_GROWTH
-Growth
+生长
 
 #org @NAME_RAZOR_LEAF
-Razor Leaf
+飞叶快刀
 
 #org @NAME_SOLAR_BEAM
-Solar Beam
+日光束
 
 #org @NAME_POISONPOWDER
-PoisonPowder
+毒粉
 
 #org @NAME_STUN_SPORE
-Stun Spore
+麻痹粉
 
 #org @NAME_SLEEP_POWDER
-Sleep Powder
+催眠粉
 
 #org @NAME_PETAL_DANCE
-Petal Dance
+花瓣舞
 
 #org @NAME_STRING_SHOT
-String Shot
+吐丝
 
 #org @NAME_DRAGON_RAGE
-Dragon Rage
+龙之怒
 
 #org @NAME_FIRE_SPIN
-Fire Spin
+火焰旋涡
 
 #org @NAME_THUNDERSHOCK
-ThunderShock
+电击
 
 #org @NAME_THUNDERBOLT
-Thunderbolt
+十万伏特
 
 #org @NAME_THUNDER_WAVE
-Thunder Wave
+电磁波
 
 #org @NAME_THUNDER
-Thunder
+打雷
 
 #org @NAME_ROCK_THROW
-Rock Throw
+落石
 
 #org @NAME_EARTHQUAKE
-Earthquake
+地震
 
 #org @NAME_FISSURE
-Fissure
+地裂
 
 #org @NAME_DIG
-Dig
+挖洞
 
 #org @NAME_TOXIC
-Toxic
+剧毒
 
 #org @NAME_CONFUSION
-Confusion
+念力
 
 #org @NAME_PSYCHIC
-Psychic
+精神强念
 
 #org @NAME_HYPNOSIS
-Hypnosis
+催眠术
 
 #org @NAME_MEDITATE
-Meditate
+瑜伽姿势
 
 #org @NAME_AGILITY
-Agility
+高速移动
 
 #org @NAME_QUICK_ATTACK
-Quick Attack
+电光一闪
 
 #org @NAME_RAGE
-Rage
+愤怒
 
 #org @NAME_TELEPORT
-Teleport
+瞬间移动
 
 #org @NAME_NIGHT_SHADE
-Night Shade
+黑夜魔影
 
 #org @NAME_MIMIC
-Mimic
+模仿
 
 #org @NAME_SCREECH
-Screech
+刺耳声
 
 #org @NAME_DOUBLE_TEAM
-Double Team
+影子分身
 
 #org @NAME_RECOVER
-Recover
+自我再生
 
 #org @NAME_HARDEN
-Harden
+变硬
 
 #org @NAME_MINIMIZE
-Minimize
+变小
 
 #org @NAME_SMOKESCREEN
-Smokescreen
+烟幕
 
 #org @NAME_CONFUSE_RAY
-Confuse Ray
+奇异之光
 
 #org @NAME_WITHDRAW
-Withdraw
+缩入壳中
 
 #org @NAME_DEFENSE_CURL
-Defense Curl
+变圆
 
 #org @NAME_BARRIER
-Barrier
+屏障
 
 #org @NAME_LIGHT_SCREEN
-Light Screen
+光墙
 
 #org @NAME_HAZE
-Haze
+黑雾
 
 #org @NAME_REFLECT
-Reflect
+反射壁
 
 #org @NAME_FOCUS_ENERGY
-Focus Energy
+聚气
 
 #org @NAME_BIDE
-Bide
+忍耐
 
 #org @NAME_METRONOME
-Metronome
+挥指
 
 #org @NAME_MIRROR_MOVE
-Mirror Move
+鹦鹉学舌
 
 #org @NAME_SELFDESTRUCT
-Selfdestruct
+玉石俱碎
 
 #org @NAME_EGG_BOMB
-Egg Bomb
+炸蛋
 
 #org @NAME_LICK
-Lick
+舌舔
 
 #org @NAME_SMOG
-Smog
+浊雾
 
 #org @NAME_SLUDGE
-Sludge
+污泥攻击
 
 #org @NAME_BONE_CLUB
-Bone Club
+骨棒
 
 #org @NAME_FIRE_BLAST
-Fire Blast
+大字爆炎
 
 #org @NAME_WATERFALL
-Waterfall
+攀瀑
 
 #org @NAME_CLAMP
-Clamp
+贝壳夹击
 
 #org @NAME_SWIFT
-Swift
+高速星星
 
 #org @NAME_SKULL_BASH
-Skull Bash
+火箭头锤
 
 #org @NAME_SPIKE_CANNON
-Spike Cannon
+尖刺加农炮
 
 #org @NAME_CONSTRICT
-Constrict
+缠绕
 
 #org @NAME_AMNESIA
-Amnesia
+瞬间失忆
 
 #org @NAME_KINESIS
-Kinesis
+折弯汤匙
 
 #org @NAME_SOFT_BOILED
-Soft-Boiled
+生蛋
 
 #org @NAME_HI_JUMP_KICK
-Hi Jump Kick
+飞膝踢
 
 #org @NAME_GLARE
-Glare
+大蛇瞪眼
 
 #org @NAME_DREAM_EATER
-Dream Eater
+食梦
 
 #org @NAME_POISON_GAS
-Poison Gas
+毒瓦斯
 
 #org @NAME_BARRAGE
-Barrage
+投球
 
 #org @NAME_LEECH_LIFE
-Leech Life
+吸血
 
 #org @NAME_LOVELY_KISS
-Lovely Kiss
+恶魔之吻
 
 #org @NAME_SKY_ATTACK
-Sky Attack
+神鸟猛击
 
 #org @NAME_TRANSFORM
-Transform
+变身
 
 #org @NAME_BUBBLE
-Bubble
+泡沫
 
 #org @NAME_DIZZY_PUNCH
-Dizzy Punch
+迷昏拳
 
 #org @NAME_SPORE
-Spore
+蘑菇孢子
 
 #org @NAME_FLASH
-Flash
+闪光
 
 #org @NAME_PSYWAVE
-Psywave
+精神波
 
 #org @NAME_SPLASH
-Splash
+跃起
 
 #org @NAME_ACID_ARMOR
-Acid Armor
+溶化
 
 #org @NAME_CRABHAMMER
-Crabhammer
+蟹钳锤
 
 #org @NAME_EXPLOSION
-Explosion
+大爆炸
 
 #org @NAME_FURY_SWIPES
-Fury Swipes
+乱抓
 
 #org @NAME_BONEMERANG
-Bonemerang
+骨头回力镖
 
 #org @NAME_REST
-Rest
+睡觉
 
 #org @NAME_ROCK_SLIDE
-Rock Slide
+岩崩
 
 #org @NAME_HYPER_FANG
-Hyper Fang
+终结门牙
 
 #org @NAME_SHARPEN
-Sharpen
+棱角化
 
 #org @NAME_CONVERSION
-Conversion
+纹理
 
 #org @NAME_TRI_ATTACK
-Tri Attack
+三重攻击
 
 #org @NAME_SUPER_FANG
-Super Fang
+愤怒门牙
 
 #org @NAME_SLASH
-Slash
+劈开
 
 #org @NAME_SUBSTITUTE
-Substitute
+替身
 
 #org @NAME_STRUGGLE
-Struggle
+挣扎
 
 #org @NAME_SKETCH
-Sketch
+写生
 
 #org @NAME_TRIPLE_KICK
-Triple Kick
+三连踢
 
 #org @NAME_THIEF
-Thief
+小偷
 
 #org @NAME_SPIDER_WEB
-Spider Web
+蛛网
 
 #org @NAME_MIND_READER
-Mind Reader
+心之眼
 
 #org @NAME_NIGHTMARE
-Nightmare
+恶梦
 
 #org @NAME_FLAME_WHEEL
-Flame Wheel
+火焰轮
 
 #org @NAME_SNORE
-Snore
+打鼾
 
 #org @NAME_CURSE
-Curse
+诅咒
 
 #org @NAME_FLAIL
-Flail
+抓狂
 
 #org @NAME_CONVERSION_2
-Conversion 2
+纹理2
 
 #org @NAME_AEROBLAST
-Aeroblast
+气旋攻击
 
 #org @NAME_COTTON_SPORE
-Cotton Spore
+棉孢子
 
 #org @NAME_REVERSAL
-Reversal
+绝处逢生
 
 #org @NAME_SPITE
-Spite
+怨恨
 
 #org @NAME_POWDER_SNOW
-Powder Snow
+细雪
 
 #org @NAME_PROTECT
-Protect
+守住
 
 #org @NAME_MACH_PUNCH
-Mach Punch
+音速拳
 
 #org @NAME_SCARY_FACE
-Scary Face
+可怕面孔
 
 #org @NAME_FEINT_ATTACK
-Feint Attack
+出奇一击
 
 #org @NAME_SWEET_KISS
-Sweet Kiss
+天使之吻
 
 #org @NAME_BELLY_DRUM
-Belly Drum
+腹鼓
 
 #org @NAME_SLUDGE_BOMB
-Sludge Bomb
+污泥炸弹
 
 #org @NAME_MUD_SLAP
-Mud-Slap
+掷泥
 
 #org @NAME_OCTAZOOKA
-Octazooka
+章鱼桶炮
 
 #org @NAME_SPIKES
-Spikes
+撒菱
 
 #org @NAME_ZAP_CANNON
-Zap Cannon
+电磁炮
 
 #org @NAME_FORESIGHT
-Foresight
+识破
 
 #org @NAME_DESTINY_BOND
-Destiny Bond
+同命
 
 #org @NAME_PERISH_SONG
-Perish Song
+终焉之歌
 
 #org @NAME_ICY_WIND
-Icy Wind
+冰冻之风
 
 #org @NAME_DETECT
-Detect
+看穿
 
 #org @NAME_BONE_RUSH
-Bone Rush
+骨棒乱打
 
 #org @NAME_LOCK_ON
-Lock-On
+锁定
 
 #org @NAME_OUTRAGE
-Outrage
+逆鳞
 
 #org @NAME_SANDSTORM
-Sandstorm
+沙暴
 
 #org @NAME_GIGA_DRAIN
-Giga Drain
+终极吸取
 
 #org @NAME_ENDURE
-Endure
+挺住
 
 #org @NAME_CHARM
-Charm
+撒娇
 
 #org @NAME_ROLLOUT
-Rollout
+滚动
 
 #org @NAME_FALSE_SWIPE
-False Swipe
+点到为止
 
 #org @NAME_SWAGGER
-Swagger
+虚张声势
 
 #org @NAME_MILK_DRINK
-Milk Drink
+喝牛奶
 
 #org @NAME_SPARK
-Spark
+电光
 
 #org @NAME_FURY_CUTTER
-Fury Cutter
+连斩
 
 #org @NAME_STEEL_WING
-Steel Wing
+钢翼
 
 #org @NAME_MEAN_LOOK
-Mean Look
+黑色目光
 
 #org @NAME_ATTRACT
-Attract
+迷人
 
 #org @NAME_SLEEP_TALK
-Sleep Talk
+梦话
 
 #org @NAME_HEAL_BELL
-Heal Bell
+治愈铃声
 
 #org @NAME_RETURN
-Return
+报恩
 
 #org @NAME_PRESENT
-Present
+礼物
 
 #org @NAME_FRUSTRATION
-Frustration
+迁怒
 
 #org @NAME_SAFEGUARD
-Safeguard
+神秘守护
 
 #org @NAME_PAIN_SPLIT
-Pain Split
+分担痛楚
 
 #org @NAME_SACRED_FIRE
-Sacred Fire
+神圣之火
 
 #org @NAME_MAGNITUDE
-Magnitude
+震级
 
 #org @NAME_DYNAMICPUNCH
-DynamicPunch
+爆裂拳
 
 #org @NAME_MEGAHORN
-Megahorn
+超级角击
 
 #org @NAME_DRAGONBREATH
-DragonBreath
+龙息
 
 #org @NAME_BATON_PASS
-Baton Pass
+接棒
 
 #org @NAME_ENCORE
-Encore
+再来一次
 
 #org @NAME_PURSUIT
-Pursuit
+追打
 
 #org @NAME_RAPID_SPIN
-Rapid Spin
+高速旋转
 
 #org @NAME_SWEET_SCENT
-Sweet Scent
+甜甜香气
 
 #org @NAME_IRON_TAIL
-Iron Tail
+铁尾
 
 #org @NAME_METAL_CLAW
-Metal Claw
+金属爪
 
 #org @NAME_VITAL_THROW
-Vital Throw
+借力摔
 
 #org @NAME_MORNING_SUN
-Morning Sun
+晨光
 
 #org @NAME_SYNTHESIS
-Synthesis
+光合作用
 
 #org @NAME_MOONLIGHT
-Moonlight
+月光
 
 #org @NAME_HIDDEN_POWER
-Hidden Power
+觉醒力量
 
 #org @NAME_CROSS_CHOP
-Cross Chop
+十字劈
 
 #org @NAME_TWISTER
-Twister
+龙卷风
 
 #org @NAME_RAIN_DANCE
-Rain Dance
+求雨
 
 #org @NAME_SUNNY_DAY
-Sunny Day
+大晴天
 
 #org @NAME_CRUNCH
-Crunch
+咬碎
 
 #org @NAME_MIRROR_COAT
-Mirror Coat
+镜面反射
 
 #org @NAME_PSYCH_UP
-Psych Up
+自我暗示
 
 #org @NAME_EXTREMESPEED
-ExtremeSpeed
+神速
 
 #org @NAME_ANCIENTPOWER
-AncientPower
+原始之力
 
 #org @NAME_SHADOW_BALL
-Shadow Ball
+暗影球
 
 #org @NAME_FUTURE_SIGHT
-Future Sight
+预知未来
 
 #org @NAME_ROCK_SMASH
-Rock Smash
+碎岩
 
 #org @NAME_WHIRLPOOL
-Whirlpool
+潮旋
 
 #org @NAME_BEAT_UP
-Beat Up
+围攻
 
 #org @NAME_FAKE_OUT
-Fake Out
+击掌奇袭
 
 #org @NAME_UPROAR
-Uproar
+吵闹
 
 #org @NAME_STOCKPILE
-Stockpile
+蓄力
 
 #org @NAME_SPIT_UP
-Spit Up
+喷出
 
 #org @NAME_SWALLOW
-Swallow
+吞下
 
 #org @NAME_HEAT_WAVE
-Heat Wave
+热风
 
 #org @NAME_HAIL
-Hail
+冰雹
 
 #org @NAME_TORMENT
-Torment
+无理取闹
 
 #org @NAME_FLATTER
-Flatter
+吹捧
 
 #org @NAME_WILL_O_WISP
-Will-O-Wisp
+磷火
 
 #org @NAME_MEMENTO
-Memento
+临别礼物
 
 #org @NAME_FACADE
-Facade
+硬撑
 
 #org @NAME_FOCUS_PUNCH
-Focus Punch
+真气拳
 
 #org @NAME_SMELLINGSALT
-SmellingSalt
+清醒
 
 #org @NAME_FOLLOW_ME
-Follow Me
+看我嘛
 
 #org @NAME_NATURE_POWER
-Nature Power
+自然之力
 
 #org @NAME_CHARGE
-Charge
+充电
 
 #org @NAME_TAUNT
-Taunt
+挑衅
 
 #org @NAME_HELPING_HAND
-Helping Hand
+帮助
 
 #org @NAME_TRICK
-Trick
+戏法
 
 #org @NAME_ROLE_PLAY
-Role Play
+扮演
 
 #org @NAME_WISH
-Wish
+祈愿
 
 #org @NAME_ASSIST
-Assist
+借助
 
 #org @NAME_INGRAIN
-Ingrain
+扎根
 
 #org @NAME_SUPERPOWER
-Superpower
+蛮力
 
 #org @NAME_MAGIC_COAT
-Magic Coat
+魔法反射
 
 #org @NAME_RECYCLE
-Recycle
+回收利用
 
 #org @NAME_REVENGE
-Revenge
+报复
 
 #org @NAME_BRICK_BREAK
-Brick Break
+劈瓦
 
 #org @NAME_YAWN
-Yawn
+哈欠
 
 #org @NAME_KNOCK_OFF
-Knock Off
+拍落
 
 #org @NAME_ENDEAVOR
-Endeavor
+蛮干
 
 #org @NAME_ERUPTION
-Eruption
+喷火
 
 #org @NAME_SKILL_SWAP
-Skill Swap
+特性互换
 
 #org @NAME_IMPRISON
-Imprison
+封印
 
 #org @NAME_REFRESH
-Refresh
+焕然一新
 
 #org @NAME_GRUDGE
-Grudge
+怨念
 
 #org @NAME_SNATCH
-Snatch
+抢夺
 
 #org @NAME_SECRET_POWER
-Secret Power
+秘密之力
 
 #org @NAME_DIVE
-Dive
+潜水
 
 #org @NAME_ARM_THRUST
-Arm Thrust
+猛推
 
 #org @NAME_CAMOUFLAGE
-Camouflage
+保护色
 
 #org @NAME_TAIL_GLOW
-Tail Glow
+萤火
 
 #org @NAME_LUSTER_PURGE
-Luster Purge
+洁净光芒
 
 #org @NAME_MIST_BALL
-Mist Ball
+薄雾球
 
 #org @NAME_FEATHERDANCE
-FeatherDance
+羽毛舞
 
 #org @NAME_TEETER_DANCE
-Teeter Dance
+摇晃舞
 
 #org @NAME_BLAZE_KICK
-Blaze Kick
+火焰踢
 
 #org @NAME_MUD_SPORT
-Mud Sport
+玩泥巴
 
 #org @NAME_ICE_BALL
-Ice Ball
+冰球
 
 #org @NAME_NEEDLE_ARM
-Needle Arm
+尖刺臂
 
 #org @NAME_SLACK_OFF
-Slack Off
+偷懒
 
 #org @NAME_HYPER_VOICE
-Hyper Voice
+巨声
 
 #org @NAME_POISON_FANG
-Poison Fang
+剧毒牙
 
 #org @NAME_CRUSH_CLAW
-Crush Claw
+撕裂爪
 
 #org @NAME_BLAST_BURN
-Blast Burn
+爆炸烈焰
 
 #org @NAME_HYDRO_CANNON
-Hydro Cannon
+加农水炮
 
 #org @NAME_METEOR_MASH
-Meteor Mash
+彗星拳
 
 #org @NAME_ASTONISH
-Astonish
+惊吓
 
 #org @NAME_WEATHER_BALL
-Weather Ball
+气象球
 
 #org @NAME_AROMATHERAPY
-Aromatherapy
+芳香治疗
 
 #org @NAME_FAKE_TEARS
-Fake Tears
+假哭
 
 #org @NAME_AIR_CUTTER
-Air Cutter
+空气利刃
 
 #org @NAME_OVERHEAT
-Overheat
+过热
 
 #org @NAME_ODOR_SLEUTH
-Odor Sleuth
+气味侦测
 
 #org @NAME_ROCK_TOMB
-Rock Tomb
+岩石封锁
 
 #org @NAME_SILVER_WIND
-Silver Wind
+银色旋风
 
 #org @NAME_METAL_SOUND
-Metal Sound
+金属音
 
 #org @NAME_GRASSWHISTLE
-Grasswhistle
+草笛
 
 #org @NAME_TICKLE
-Tickle
+挠痒
 
 #org @NAME_COSMIC_POWER
-Cosmic Power
+宇宙力量
 
 #org @NAME_WATER_SPOUT
-Water Spout
+喷水
 
 #org @NAME_SIGNAL_BEAM
-Signal Beam
+信号光束
 
 #org @NAME_SHADOW_PUNCH
-Shadow Punch
+暗影拳
 
 #org @NAME_EXTRASENSORY
-Extrasensory
+神通力
 
 #org @NAME_SKY_UPPERCUT
-Sky Uppercut
+冲天拳
 
 #org @NAME_SAND_TOMB
-Sand Tomb
+流沙深渊
 
 #org @NAME_SHEER_COLD
-Sheer Cold
+绝对零度
 
 #org @NAME_MUDDY_WATER
-Muddy Water
+浊流
 
 #org @NAME_BULLET_SEED
-Bullet Seed
+种子机关枪
 
 #org @NAME_AERIAL_ACE
-Aerial Ace
+燕返
 
 #org @NAME_ICICLE_SPEAR
-Icicle Spear
+冰锥
 
 #org @NAME_IRON_DEFENSE
-Iron Defense
+铁壁
 
 #org @NAME_BLOCK
-Block
+挡路
 
 #org @NAME_HOWL
-Howl
+长嚎
 
 #org @NAME_DRAGON_CLAW
-Dragon Claw
+龙爪
 
 #org @NAME_FRENZY_PLANT
-Frenzy Plant
+疯狂植物
 
 #org @NAME_BULK_UP
-Bulk Up
+健美
 
 #org @NAME_BOUNCE
-Bounce
+弹跳
 
 #org @NAME_MUD_SHOT
-Mud Shot
+泥巴射击
 
 #org @NAME_POISON_TAIL
-Poison Tail
+毒尾
 
 #org @NAME_COVET
-Covet
+渴望
 
 #org @NAME_VOLT_TACKLE
-Volt Tackle
+伏特攻击
 
 #org @NAME_MAGICAL_LEAF
-Magical Leaf
+魔法叶
 
 #org @NAME_WATER_SPORT
-Water Sport
+玩水
 
 #org @NAME_CALM_MIND
-Calm Mind
+冥想
 
 #org @NAME_LEAF_BLADE
-Leaf Blade
+叶刃
 
 #org @NAME_DRAGON_DANCE
-Dragon Dance
+龙之舞
 
 #org @NAME_ROCK_BLAST
-Rock Blast
+岩石爆击
 
 #org @NAME_SHOCK_WAVE
-Shock Wave
+电击波
 
 #org @NAME_WATER_PULSE
-Water Pulse
+水之波动
 
 #org @NAME_DOOM_DESIRE
-Doom Desire
+破灭之愿
 
 #org @NAME_PSYCHO_BOOST
-Psycho Boost
+精神突进
 
 #org @NAME_LEECH_FANG
-Leech Fang
+吸血之牙
 
 #org @NAME_AIR_SLASH
-Air Slash
+空气之刃
 
 #org @NAME_AQUA_JET
-Aqua Jet
+水流喷射
 
 #org @NAME_AQUA_TAIL
-Aqua Tail
+水流尾
 
 #org @NAME_AURA_SPHERE
-Aura Sphere
+波导弹
 
 #org @NAME_AVALANCHE
-Avalanche
+雪崩
 
 #org @NAME_BRAVE_BIRD
-Brave Bird
+勇鸟猛攻
 
 #org @NAME_BUG_BUZZ
-Bug Buzz
+虫鸣
 
 #org @NAME_BULLET_PUNCH
-Bullet Punch
+子弹拳
 
 #org @NAME_CHARGE_BEAM
-Charge Beam
+充电光束
 
 #org @NAME_CLOSE_COMBAT
-Close Combat
+近身战
 
 #org @NAME_CROSS_POISON
-Cross Poison
+十字毒刃
 
 #org @NAME_DARK_PULSE
-Dark Pulse
+恶之波动
 
 #org @NAME_DISCHARGE
-Discharge
+放电
 
 #org @NAME_DRACO_METEOR
-Draco Meteor
+流星群
 
 #org @NAME_DRAGON_PULSE
-Dragon Pulse
+龙之波动
 
 #org @NAME_DRAIN_PUNCH
-Drain Punch
+吸取拳
 
 #org @NAME_EARTH_POWER
-Earth Power
+大地之力
 
 #org @NAME_ENERGY_BALL
-Energy Ball
+能量球
 
 #org @NAME_FOCUS_BLAST
-Focus Blast
+真气弹
 
 #org @NAME_FORCE_PALM
-Force Palm
+发劲
 
 #org @NAME_GIGA_IMPACT
-Giga Impact
+终极冲击
 
 #org @NAME_GRASS_KNOT
-Grass Knot
+打草结
 
 #org @NAME_GUNK_SHOT
-Gunk Shot
+垃圾射击
 
 #org @NAME_HAMMER_ARM
-Hammer Arm
+臂锤
 
 #org @NAME_HEAD_SMASH
-Head Smash
+双刃头锤
 
 #org @NAME_ICE_SHARD
-Ice Shard
+冰砾
 
 #org @NAME_IRON_HEAD
-Iron Head
+铁头
 
 #org @NAME_LAVA_PLUME
-Lava Plume
+喷烟
 
 #org @NAME_MAGNET_BOMB
-Magnet Bomb
+磁铁炸弹
 
 #org @NAME_MUD_BOMB
-Mud Bomb
+泥巴炸弹
 
 #org @NAME_NASTY_PLOT
-Nasty Plot
+诡计
 
 #org @NAME_NIGHT_SLASH
-Night Slash
+暗袭要害
 
 #org @NAME_OMINOUS_WIND
-Ominous Wind
+奇异之风
 
 #org @NAME_POWER_GEM
-Power Gem
+力量宝石
 
 #org @NAME_POWER_WHIP
-Power Whip
+强力鞭打
 
 #org @NAME_PSYCHO_CUT
-Psycho Cut
+精神利刃
 
 #org @NAME_ROCK_CLIMB
-Rock Climb
+攀岩
 
 #org @NAME_ROCK_POLISH
-Rock Polish
+岩石打磨
 
 #org @NAME_ROCK_WRECKER
-Rock Wrecker
+岩石炮
 
 #org @NAME_ROOST
-Roost
+羽栖
 
 #org @NAME_SEED_BOMB
-Seed Bomb
+种子炸弹
 
 #org @NAME_SHADOW_CLAW
-Shadow Claw
+暗影爪
 
 #org @NAME_SHADOW_SNEAK
-Shadow Sneak
+影子偷袭
 
 #org @NAME_VACUUM_WAVE
-Vacuum Wave
+真空波
 
 #org @NAME_X_SCISSOR
-X-Scissor
+十字剪
 
 #org @NAME_ZEN_HEADBUTT
-Zen Headbutt
+意念头锤
 
 #org @NAME_SWITCHEROO
-Switcheroo
+掉包
 
 #org @NAME_DRILL_RUN
-Drill Run
+直冲钻
 
 #org @NAME_BULLDOZE
-Bulldoze
+重踏
 
 #org @NAME_ELECTROWEB
-Electroweb
+电网
 
 #org @NAME_FLAME_CHARGE
-Flame Charge
+蓄能焰袭
 
 #org @NAME_FROST_BREATH
-Frost Breath
+冰息
 
 #org @NAME_HEART_STAMP
-Heart Stamp
+爱心印章
 
 #org @NAME_HONE_CLAWS
-Hone Claws
+磨爪
 
 #org @NAME_HORN_LEECH
-Horn Leech
+木角
 
 #org @NAME_COIL
-Coil
+盘蜷
 
 #org @NAME_HURRICANE
-Hurricane
+暴风
 
 #org @NAME_ICICLE_CRASH
-Icicle Crash
+冰柱坠击
 
 #org @NAME_WORK_UP
-Work Up
+自我激励
 
 #org @NAME_QUIVER_DANCE
-Quiver Dance
+蝶舞
 
 #org @NAME_LEAF_TORNADO
-Leaf Tornado
+青草搅拌器
 
 #org @NAME_LOW_SWEEP
-Low Sweep
+下盘踢
 
 #org @NAME_SNARL
-Snarl
+大声咆哮
 
 #org @NAME_STRUGGLE_BUG
-Struggle Bug
+虫之抵抗
 
 #org @NAME_STEAMROLLER
-Steamroller
+疯狂滚压
 
 #org @NAME_STORM_THROW
-Storm Throw
+山岚摔
 
 #org @NAME_VENOSHOCK
-Venoshock
+毒液冲击
 
 #org @NAME_WILD_CHARGE
-Wild Charge
+疯狂伏特
 
 #org @NAME_POISON_JAB
-Poison Jab
+毒击
 
 #org @NAME_ACID_SPRAY
-Acid Spray
+酸液炸弹
 
 #org @NAME_FIERY_DANCE
-Fiery Dance
+火之舞
 
 #org @NAME_CLEAR_SMOG
-Clear Smog
+清除之烟
 
 #org @NAME_LEAF_STORM
-Leaf Storm
+飞叶风暴
 
 #org @NAME_STONE_EDGE
-Stone Edge
+尖石攻击
 
 #org @NAME_PAYBACK
-Payback
+以牙还牙
 
 #org @NAME_FIRE_FANG
-Fire Fang
+火焰牙
 
 #org @NAME_ICE_FANG
-Ice Fang
+冰冻牙
 
 #org @NAME_THUNDER_FANG
-Thunder Fang
+雷电牙
 
 #org @NAME_FLARE_BLITZ
-Flare Blitz
+闪焰冲锋
 
 #org @NAME_INFERNO
-Inferno
+烈火深渊
 
 #org @NAME_HEX
-Hex
+祸不单行
 
 #org @NAME_DUAL_CHOP
-Dual Chop
+二连劈
 
 #org @NAME_DOUBLE_HIT
-Double Hit
+二连击
 
 #org @NAME_COTTON_GUARD
-Cotton Guard
+棉花防守
 
 #org @NAME_ACROBATICS
-Acrobatics
+杂技
 
 #org @NAME_FLAME_BURST
-Flame Burst
+烈焰溅射
 
 #org @NAME_U_TURN
-U-turn
+急速折返
 
 #org @NAME_VOLT_SWITCH
-Volt Switch
+伏特替换
 
 #org @NAME_DRAGON_TAIL
-Dragon Tail
+龙尾
 
 #org @NAME_CIRCLE_THROW
-Circle Throw
+巴投
 
 #org @NAME_MIRROR_SHOT
-Mirror Shot
+镜光射击
 
 #org @NAME_WOOD_HAMMER
-Wood Hammer
+木槌
 
 #org @NAME_HEAL_PULSE
-Heal Pulse
+治愈波动
 
 #org @NAME_FLASH_CANNON
-Flash Cannon
+加农光炮
 
 #org @NAME_BUG_BITE
-Bug Bite
+虫咬
 
 #org @NAME_PLUCK
-Pluck
+啄食
 
 #org @NAME_SHELL_SMASH
-Shell Smash
+破壳
 
 #org @NAME_RAGE_POWDER
-Rage Powder
+愤怒粉
 
 #org @NAME_WAKE_UP_SLAP
-Wake-Up Slap
+唤醒巴掌
 
 #org @NAME_RAZOR_SHELL
-Razor Shell
+贝壳刃
 
 #org @NAME_COPYCAT
-Copycat
+仿效
 
 #org @NAME_MIRACLE_EYE
-Miracle Eye
+奇迹之眼
 
 #org @NAME_SUCKER_PUNCH
-Sucker Punch
+突袭
 
 #org @NAME_SCALD
-Scald
+热水
 
 #org @NAME_BRINE
-Brine
+盐水
 
 #org @NAME_FAIRY_WIND
-Fairy Wind
+妖精之风
 
 #org @NAME_DOLL_EYES
-Doll Eyes
+圆瞳
 
 #org @NAME_PLAY_ROUGH
-Play Rough
+嬉闹
 
 #org @NAME_MOONBLAST
-Moonblast
+月亮之力
 
 #org @NAME_DRAIN_KISS
-Drain Kiss
+吸取之吻
 
 #org @NAME_DAZZLE_GLEAM
-Dazzle Gleam
+魔法闪耀
 
 #org @NAME_DISARM_CRY
-Disarm Cry
+魅惑之声
 
 #org @NAME_STEALTH_ROCK
-Stealth Rock
+隐形岩
 
 #org @NAME_TOXIC_SPIKES
-Toxic Spikes
+毒菱
 
 #org @NAME_HEALING_WISH
-Healing Wish
+治愈之愿
 
 #org @NAME_LUNAR_DANCE
-Lunar Dance
+新月舞
 
 #org @NAME_TAILWIND
-Tailwind
+顺风
 
 #org @NAME_BOOMBURST
-Boomburst
+爆音波
 
 #org @NAME_INCINERATE
-Incinerate
+烧净
 
 #org @NAME_WORRY_SEED
-Worry Seed
+烦恼种子
 
 #org @NAME_GASTRO_ACID
-Gastro Acid
+胃液
 
 #org @NAME_GEOMANCY
-Geomancy
+大地掌控
 
 #org @NAME_FLOWER_GUARD
-Flower Guard
+鲜花防守
 
 #org @NAME_ROTOTILLER
-Rototiller
+耕地
 
 #org @NAME_SHIFT_GEAR
-Shift Gear
+换档
 
 #org @NAME_STICKY_WEB
-Sticky Web
+黏黏网
 
 #org @NAME_STORED_POWER
-Stored Power
+辅助力量
 
 #org @NAME_ACUPRESSURE
-Acupressure
+点穴
 
 #org @NAME_PUNISHMENT
-Punishment
+惩罚
 
 #org @NAME_ASSURANCE
-Assurance
+恶意追击
 
 #org @NAME_DRAGON_RUSH
-Dragon Rush
+龙之俯冲
 
 #org @NAME_DARK_VOID
-Dark Void
+暗黑洞
 
 #org @NAME_FEINT
-Feint
+佯攻
 
 #org @NAME_PHANTOM_FORCE
-PhantomForce
+潜灵奇袭
 
 #org @NAME_PETAL_STORM
-Petal Storm
+落英缤纷
 
 #org @NAME_PLAY_NICE
-Play Nice
+和睦相处
 
 #org @NAME_ROAR_OF_TIME
-Roar of Time
+时光咆哮
 
 #org @NAME_SPACIAL_REND
-Spacial Rend
+亚空裂斩
 
 #org @NAME_MAGMA_STORM
-Magma Storm
+熔岩风暴
 
 #org @NAME_FINAL_GAMBIT
-Final Gambit
+搏命
 
 #org @NAME_SHADOW_FORCE
-Shadow Force
+暗影潜袭
 
 #org @NAME_NUZZLE
-Nuzzle
+蹭蹭脸颊
 
 #org @NAME_RETALIATE
-Retaliate
+报仇
 
 #org @NAME_METAL_BASH
-Metal Bash
+金属猛撞
 
 #org @NAME_JUDGMENT
-Judgment
+制裁光砾
 
 #org @NAME_FREEZE_DRY
-Freeze-Dry
+冷冻干燥
 
 #org @NAME_PSYSHOCK
-Psyshock
+精神冲击
 
 #org @NAME_ROUND
-Round
+轮唱
 
 #org @NAME_TAIL_SLAP
-Tail Slap
+扫尾拍打
 
 #org @NAME_GEAR_GRIND
-Gear Grind
+齿轮飞盘
 
 #org @NAME_NATURAL_GIFT
-Natural Gift
+自然之恩
 
 #org @NAME_CHIP_AWAY
-Chip Away
+逐步击破
 
 #org @NAME_SMACK_DOWN
-Smack Down
+击落
 
 #org @NAME_SPACE_HOLE
-Space Hole
+异次元洞
 
 #org @NAME_GYRO_BALL
-Gyro Ball
+陀螺球
 
 #org @NAME_SPACE_FURY
-Space Fury
+异次元猛攻
 
 #org @NAME_ATTACK_ORDER
-Attack Order
+攻击指令
 
 #org @NAME_DEFEND_ORDER
-Defend Order
+防御指令
 
 #org @NAME_HEAL_ORDER
-Heal Order
+回复指令
 
 #org @NAME_CAPTIVATE
-Captivate
+诱惑
 
 #org @NAME_DEFOG
-Defog
+清除浓雾
 
 #org @NAME_ORIGIN_PULSE
-Origin Pulse
+根源波动
 
 #org @NAME_CLIFF_BLADES
-Cliff Blades
+断崖之剑
 
 #org @NAME_GUARD_SWAP
-Guard Swap
+防守互换
 
 #org @NAME_STEAM_PUMP
-Steam Pump
+蒸汽爆炸
 
 #org @NAME_METAL_BURST
-Metal Burst
+金属爆炸
 
 #org @NAME_ME_FIRST
-Me First
+抢先一步
 
 #org @NAME_POWER_SWAP
-Power Swap
+力量互换
 
 #org @NAME_POWER_TRICK
-Power Trick
+力量戏法
 
 #org @NAME_PSYCHO_SHIFT
-Psycho Shift
+精神转移
 
 #org @NAME_WRING_OUT
-Wring Out
+绞紧
 
 #org @NAME_KINGS_SHIELD
-Kings Shield
+王者盾牌
 
 #org @NAME_PSYSTRIKE
-Psystrike
+精神击破
 
 #org @NAME_AUTOTOMIZE
-Autotomize
+身体轻量化
 
 #org @NAME_DIAMOND_STORM
-DiamondStorm
+钻石风暴
 
 #org @NAME_SLUDGE_WAVE
-Sludge Wave
+污泥波
 
 #org @NAME_HEAVY_SLAM
-Heavy Slam
+重磅冲撞
 
 #org @NAME_SYNCHRONOISE
-Synchronoise
+同步干扰
 
 #org @NAME_ELECTRO_BALL
-Electro Ball
+电球
 
 #org @NAME_FOUL_PLAY
-Foul Play
+欺诈
 
 #org @NAME_ENTRAINMENT
-Entrainment
+找伙伴
 
 #org @NAME_NIGHT_DAZE
-Night Daze
+暗黑爆破
 
 #org @NAME_ECHOED_VOICE
-Echoed Voice
+回声
 
 #org @NAME_LAND'S_WRATH
-Land's Wrath
+大地神力
 
 #org @NAME_OBLIVIONWING
-OblivionWing
+归天之翼
 
 #org @NAME_HEART_SWAP
-Heart Swap
+心灵互换
 
 #org @NAME_CRUSH_GRIP
-Crush Grip
+捏碎
 
 #org @NAME_SACRED_SWORD
-Sacred Sword
+圣剑
 
 #org @NAME_HEAT_CRASH
-Heat Crash
+高温重压
 
 #org @NAME_HEAD_CHARGE
-Head Charge
+爆炸头突击
 
 #org @NAME_TECHNO_BLAST
-Techno Blast
+高科技光炮
 
 #org @NAME_RELIC_SONG
-Relic Song
+古老之歌
 
 #org @NAME_SECRET_SWORD
-Secret Sword
+神秘之剑
 
 #org @NAME_GLACIATE
-Glaciate
+冰封世界
 
 #org @NAME_BOLT_STRIKE
-Bolt Strike
+雷击
 
 #org @NAME_BLUE_FLARE
-Blue Flare
+青焰
 
 #org @NAME_FREEZE_SHOCK
-Freeze Shock
+冰冻伏特
 
 #org @NAME_ICE_BURN
-Ice Burn
+极寒冷焰
 
 #org @NAME_V_CREATE
-V-create
+V热焰
 
 #org @NAME_FUSION_FLARE
-Fusion Flare
+交错火焰
 
 #org @NAME_FUSION_BOLT
-Fusion Bolt
+交错闪电
 
 #org @NAME_FELL_STINGER
-Fell Stinger
+致命针刺
 
 #org @NAME_NOBLE_ROAR
-Noble Roar
+战吼
 
 #org @NAME_DRAGON_RISE
-DragonAscent
+画龙点睛
 
 #org @NAME_PARTING_SHOT
-Parting Shot
+抛下狠话
 
 #org @NAME_TOPSY_TURVY
-Topsy-Turvy
+颠倒
 
 #org @NAME_CORE_ENFORCE
-Core Enforce
+核心惩罚者
 
 #org @NAME_CHATTER
-Chatter
+喋喋不休
 
 #org @NAME_CONFIDE
-Confide
+密语
 
 #org @NAME_WATER_STAR
-Water Star
+飞水手里剑
 
 #org @NAME_MYSTIC_FIRE
-Mystic Fire
+魔法火焰
 
 #org @NAME_SPIKY_SHIELD
-Spiky Shield
+尖刺防守
 
 #org @NAME_EERIEIMPULSE
-EerieImpulse
+怪异电波
 
 #org @NAME_HOLD_BACK
-Hold Back
+手下留情
 
 #org @NAME_INFESTATION
-Infestation
+纠缠不休
 
 #org @NAME_POWER_UP_HIT
-Power-Up Hit
+增强拳
 
 #org @NAME_1000_ARROWS
-1000 Arrows
+千箭齐发
 
 #org @NAME_1000_WAVES
-1000 Waves
+千波激荡
 
 #org @NAME_PARA_CHARGE
-Para Charge
+抛物面充电
 
 #org @NAME_SEARING_SHOT
-Searing Shot
+火焰弹
 
 #org @NAME_SEED_FLARE
-Seed Flare
+种子闪光
 
 #org @NAME_ACCELEROCK
-Accelerock
+冲岩
 
 #org @NAME_ANCHOR_SHOT
-Anchor Shot
+掷锚
 
 #org @NAME_AURORA_VEIL
-Aurora Veil
+极光幕
 
 #org @NAME_BANEFUL_BUNK
-Baneful Bunk
+碉堡
 
 #org @NAME_BEAK_BLAST
-Beak Blast
+鸟嘴加农炮
 
 #org @NAME_BRUTAL_SWING
-Brutal Swing
+狂舞挥打
 
 #org @NAME_BURN_UP
-Burn Up
+燃尽
 
 #org @NAME_CLANG_SCALES
-Clang Scales
+鳞片噪音
 
 #org @NAME_DARK_LARIAT
-Dark Lariat
+DD金勾臂
 
 #org @NAME_DRACO_HAMMER
-Draco Hammer
+龙锤
 
 #org @NAME_FIRE_LASH
-Fire Lash
+火焰鞭
 
 #org @NAME_FIRST_PRESS
-First Press
+迎头一击
 
 #org @NAME_FLEUR_CANNON
-Fleur Cannon
+花朵加农炮
 
 #org @NAME_FLORAL_HEAL
-Floral Heal
+花疗
 
 #org @NAME_GEAR_UP
-Gear Up
+辅助齿轮
 
 #org @NAME_HIGH_HORSEPOWER
-HiHorsepower
+十万马力
 
 #org @NAME_ICE_HAMMER
-Ice Hammer
+冰锤
 
 #org @NAME_LASER_FOCUS
-Laser Focus
+磨砺
 
 #org @NAME_LEAFAGE
-Leafage
+树叶
 
 #org @NAME_LIQUIDATION
-Liquidation
+水流裂破
 
 #org @NAME_LUNGE
-Lunge
+猛扑
 
 #org @NAME_GEIST_BEAM
-Geist Beam
+暗影之光
 
 #org @NAME_MULTI_ATTACK
-Multi-Attack
+多属性攻击
 
 #org @NAME_NATURE'S_MAD
-Nature's Mad
+自然之怒
 
 #org @NAME_POLLEN_PUFF
-Pollen Puff
+花粉团
 
 #org @NAME_POWER_TRIP
-Power Trip
+嚣张
 
 #org @NAME_PRISM_LASER
-Prism Laser
+棱镜镭射
 
 #org @NAME_PSYCHIC_FANG
-Psychic Fang
+精神之牙
 
 #org @NAME_PURIFY
-Purify
+净化
 
 #org @NAME_REVEL_DANCE
-Revel Dance
+觉醒之舞
 
 #org @NAME_SHADOW_BONE
-Shadow Bone
+暗影之骨
 
 #org @NAME_SHELL_TRAP
-Shell Trap
+陷阱甲壳
 
 #org @NAME_SHORE_UP
-Shore Up
+集沙
 
 #org @NAME_SMART_STRIKE
-Smart Strike
+修长之角
 
 #org @NAME_SOLAR_BLADE
-Solar Blade
+日光刃
 
 #org @NAME_SPARKLE_ARIA
-Sparkle Aria
+泡影咏叹调
 
 #org @NAME_SPECT_THIEF
-Spect Thief
+暗影偷盗
 
 #org @NAME_SPEED_SWAP
-Speed Swap
+速度互换
 
 #org @NAME_SPIRIT_LOCK
-Spirit Lock
+缝影
 
 #org @NAME_SPOTLIGHT
-Spotlight
+聚光灯
 
 #org @NAME_BAD_TANTRUM
-Bad Tantrum
+跺脚
 
 #org @NAME_STRENGTH_SAP
-Strength Sap
+吸取力量
 
 #org @NAME_SUNSTEEL_RAM
-Sunsteel Ram
+流星闪冲
 
 #org @NAME_TEARY_LOOK
-Teary Look
+泪眼汪汪
 
 #org @NAME_THROAT_CHOP
-Throat Chop
+深渊突刺
 
 #org @NAME_TOXIC_THREAD
-Toxic Thread
+毒丝
 
 #org @NAME_TROP_KICK
-Trop Kick
+热带踢
 
 #org @NAME_ZING_ZAP
-Zing Zap
+麻麻刺刺
 
 #org @NAME_ELEC_TERRAIN
-Elec Terrain
+电气场地
 
 #org @NAME_GRAS_TERRAIN
-GrassTerrain
+青草场地
 
 #org @NAME_MIST_TERRAIN
-Mist Terrain
+薄雾场地
 
 #org @NAME_PSYC_TERRAIN
-Psyc Terrain
+精神场地
 
 #org @NAME_GRASS_PLEDGE
-Grass Pledge
+草之誓约
 
 #org @NAME_FIRE_PLEDGE
-Fire Pledge
+火之誓约
 
 #org @NAME_WATER_PLEDGE
-Water Pledge
+水之誓约
 
 #org @NAME_TRICK_ROOM
-Trick Room
+戏法空间
 
 #org @NAME_MAGIC_ROOM
-Magic Room
+魔法空间
 
 #org @NAME_WONDER_ROOM
-Wonder Room
+奇妙空间
 
 #org @NAME_CRAFTY_GUARD
-Crafty Guard
+戏法防守
 
 #org @NAME_MAT_BLOCK
-Mat Block
+掀榻榻米
 
 #org @NAME_QUICK_GUARD
-Quick Guard
+快速防守
 
 #org @NAME_WIDE_GUARD
-Wide Guard
+广域防守
 
 #org @NAME_AQUA_RING
-Aqua Ring
+水流环
 
 #org @NAME_AROMA_MIST
-Aroma Mist
+芳香薄雾
 
 #org @NAME_BELCH
-Belch
+打嗝
 
 #org @NAME_BESTOW
-Bestow
+传递礼物
 
 #org @NAME_FLING
-Fling
+投掷
 
 #org @NAME_FLYING_PRESS
-Flying Press
+飞身重压
 
 #org @NAME_GRAVITY
-Gravity
+重力
 
 #org @NAME_GUARD_SPLIT
-Guard Split
+防守平分
 
 #org @NAME_HEAL_BLOCK
-Heal Block
+回复封锁
 
 #org @NAME_ION_DELUGE
-Ion Deluge
+等离子浴
 
 #org @NAME_LUCKY_CHANT
-Lucky Chant
+幸运咒语
 
 #org @NAME_MAGNET_RISE
-Magnet Rise
+电磁飘浮
 
 #org @NAME_MAGNET_FLUX
-Magnet Flux
+磁场操控
 
 #org @NAME_POWDER
-Powder
+粉尘
 
 #org @NAME_POWER_SPLIT
-Power Split
+力量平分
 
 #org @NAME_REFLECT_TYPE
-Reflect Type
+镜面属性
 
 #org @NAME_SIMPLE_BEAM
-Simple Beam
+单纯光束
 
 #org @NAME_SOAK
-Soak
+浸水
 
 #org @NAME_TELEKINESIS
-Telekinesis
+意念移物
 
 #org @NAME_TRICKOTREAT
-TrickoTreat
+万圣夜
 
 #org @NAME_VENOM_DRENCH
-Venom Drench
+毒液陷阱
 
 #org @NAME_WOODS_CURSE
-Woods Curse
+森林咒术
 
 #org @NAME_MIND_BLOWN
-Mind Blown
+惊爆大头
 
 #org @NAME_PHOTONGEYSER
-PhotonGeyser
+光子喷涌
 
 #org @NAME_PLASMA_FISTS
-Plasma Fists
+等离子电拳
 
 #org @NAME_ELECTRIFY
-Electrify
+输电
 
 #org @NAME_EMBARGO
-Embargo
+查封
 
 #org @NAME_FAIRY_LOCK
-Fairy Lock
+妖精之锁
 
 #org @NAME_LIGHT_O_RUIN
-Light o Ruin
+破灭之光
 
 #org @NAME_TRUMP_CARD
-Trump Card
+王牌
 
 #org @NAME_AFTER_YOU
-After You
+您先请
 
 #org @NAME_INSTRUCT
-Instruct
+号令
 
 #org @NAME_QUASH
-Quash
+延后
 
 #org @NAME_HAPPY_HOUR
-Happy Hour
+欢乐时光
 
 #org @NAME_DOUBLE_IRON
-Double Iron
+钢拳双击
 
 #org @NAME_LAST_RESORT
-Last Resort
+珍藏
 
 #org @NAME_SKY_DROP
-Sky Drop
+自由落体
 
 #org @NAME_CELEBRATE
-Celebrate
+庆祝
 
 #org @NAME_HOLD_HANDS
-Hold Hands
+牵手
 
 #org @NAME_DYNAMAX_CANNON
-DMax Cannon
+极巨炮
 
 #org @NAME_SNIPE_SHOT
-Snipe Shot
+狙击
 
 #org @NAME_JAW_LOCK
-Jaw Lock
+紧咬不放
 
 #org @NAME_STUFF_CHEEKS
-Stuff Cheeks
+大快朵颐
 
 #org @NAME_NO_RETREAT
-No Retreat
+背水一战
 
 #org @NAME_TAR_SHOT
-Tar Shot
+沥青射击
 
 #org @NAME_MAGIC_POWDER
-Magic Powder
+魔法粉
 
 #org @NAME_DRAGON_DARTS
-Dragon Darts
+龙箭
 
 #org @NAME_TEATIME
-Teatime
+茶会
 
 #org @NAME_OCTOLOCK
-Octolock
+蛸固
 
 #org @NAME_BOLT_BEAK
-Bolt Beak
+电喙
 
 #org @NAME_FISHIOUS_REND
-FishiousRend
+鳃咬
 
 #org @NAME_COURT_CHANGE
-Court Change
+换场
 
 #org @NAME_CLANGOROUS_SOUL
-Clang Soul
+魂舞烈音爆
 
 #org @NAME_BODY_PRESS
-Body Press
+扑击
 
 #org @NAME_DECORATE
-Decorate
+装饰
 
 #org @NAME_DRUM_BEATING
-Drum Beating
+鼓击
 
 #org @NAME_SNAP_TRAP
-Snap Trap
+捕兽夹
 
 #org @NAME_PYRO_BALL
-Pyro Ball
+火焰球
 
 #org @NAME_BEHEMOTH_BLADE
-Giant Blade
+巨兽斩
 
 #org @NAME_BEHEMOTH_BASH
-Giant Bash
+巨兽弹
 
 #org @NAME_AURA_WHEEL
-Aura Wheel
+气场轮
 
 #org @NAME_BREAKING_SWIPE
-Break Swipe
+广域破坏
 
 #org @NAME_BRANCH_POKE
-Branch Poke
+木枝突刺
 
 #org @NAME_OVERDRIVE
-Overdrive
+破音
 
 #org @NAME_APPLE_ACID
-Apple Acid
+苹果酸
 
 #org @NAME_GRAV_APPLE
-Grav Apple
+万有引力
 
 #org @NAME_SPIRIT_BREAK
-Spirit Break
+灵魂冲击
 
 #org @NAME_STRANGE_STEAM
-Weird Steam
+神奇蒸汽
 
 #org @NAME_LIFE_DEW
-Life Dew
+生命水滴
 
 #org @NAME_OBSTRUCT
-Obstruct
+拦堵
 
 #org @NAME_FALSE_SURRENDER
-False Yield
+假跪真撞
 
 #org @NAME_METEOR_ASSAULT
-Meteor Rush
+流星突击
 
 #org @NAME_ETERNABEAM
-Eternabeam
+无极光束
 
 #org @NAME_STEEL_BEAM
-Steel Beam
+铁蹄光线
 
 #org @NAME_EXPANDING_FORCE
-Expand Force
+广域战力
 
 #org @NAME_STEEL_ROLLER
-Steel Roller
+铁滚轮
 
 #org @NAME_SCALE_SHOT
-Scale Shot
+鳞射
 
 #org @NAME_METEOR_BEAM
-Meteor Beam
+流星光束
 
 #org @NAME_SHELL_SIDE_ARM
-ShellSideArm
+臂贝武器
 
 #org @NAME_MISTY_EXPLOSION
-MistyExplode
+薄雾炸裂
 
 #org @NAME_GRASSY_GLIDE
-Grassy Glide
+青草滑梯
 
 #org @NAME_RISING_VOLTAGE
-Rising Volt
+电力上升
 
 #org @NAME_TERRAIN_PULSE
-TerrainPulse
+大地波动
 
 #org @NAME_SKITTER_SMACK
-SkitterSmack
+爬击
 
 #org @NAME_BURNING_JEALOUSY
-Jealous Burn
+妒火
 
 #org @NAME_LASH_OUT
-Lash Out
+泄愤
 
 #org @NAME_POLTERGEIST
-Poltergeist
+灵骚
 
 #org @NAME_CORROSIVE_GAS
-Corrode Gas
+腐蚀气体
 
 #org @NAME_COACHING
-Coaching
+指导
 
 #org @NAME_FLIP_TURN
-Flip Turn
+快速折返
 
 #org @NAME_TRIPLE_AXEL
-Triple Axel
+三旋击
 
 #org @NAME_DUAL_WINGBEAT
-DualWingbeat
+双翼
 
 #org @NAME_SCORCHING_SANDS
-Scorch Sands
+热沙大地
 
 #org @NAME_JUNGLE_HEALING
-Jungle Heal
+丛林治疗
 
 #org @NAME_WICKED_BLOW
-Wicked Blow
+暗冥强击
 
 #org @NAME_SURGING_STRIKES
-SurgeStrikes
+水流连打
 
 #org @NAME_FREEZING_GLARE
-Freeze Glare
+冰冷视线
 
 #org @NAME_THUNDEROUS_KICK
-Thunder Kick
+雷鸣蹴击
 
 #org @NAME_FIERY_WRATH
-Fiery Wrath
+怒火中烧
 
 #org @NAME_EERIE_SPEELL
-Eerie Spell
+诡异咒语
 
 #org @NAME_THUNDER_CAGE
-Thunder Cage
+雷电囚笼
 
 #org @NAME_DRAGON_ENERGY
-DragonEnergy
+巨龙威能
 
 #org @NAME_ASTRAL_BARRAGE
-Astral Storm
+星碎
 
 #org @NAME_GLACIAL_LANCE
-GlacialLance
+雪矛
 
 #org @NAME_DIRE_CLAW
-Dire Claw
+克命爪
 
 #org @NAME_PSYSHIELD_BASH
-PsyshieldRam
+屏障猛攻
 
 #org @NAME_POWER_SHIFT
-Power Shift
+力量转换
 
 #org @NAME_STONE_AXE
-Stone Axe
+岩斧
 
 #org @NAME_MYSTICAL_POWER
-Mystic Power
+神秘之力
 
 #org @NAME_RAGING_FURY
-Raging Fury
+大愤慨
 
 #org @NAME_WAVE_CRASH
-Wave Crash
+波动冲
 
 #org @NAME_CHLOROBLAST
-Chloroblast
+叶绿爆震
 
 #org @NAME_MOUNTAIN_GALE
-MountainGale
+冰山风
 
 #org @NAME_VICTORY_DANCE
-VictoryDance
+胜利之舞
 
 #org @NAME_HEADLONG_RUSH
-HeadlongRush
+突飞猛扑
 
 #org @NAME_BARB_BARRAGE
-Barb Barrage
+毒千针
 
 #org @NAME_ESPER_WING
-Esper Wing
+气场之翼
 
 #org @NAME_BITTER_MALICE
-BitterMalice
+冤冤相报
 
 #org @NAME_SHELTER
-Shelter
+闭关
 
 #org @NAME_TRIPLE_ARROWS
-TripleArrows
+三连箭
 
 #org @NAME_INFERNAL_PARADE
-InfernalRage
+群魔乱舞
 
 #org @NAME_CEASELESS_EDGE
-Endless Edge
+秘剑千重涛
 
 #org @NAME_BLEAKWIND_STORM
-BleakiceWind
+枯叶风暴
 
 #org @NAME_WILDBOLT_STORM
-WildboltWind
+鸣雷风暴
 
 #org @NAME_SANDSEAR_STORM
-SandsearWind
+热沙风暴
 
 #org @NAME_SPRINGTIDE_STORM
-Spring Wind
+阳春风暴
 
 #org @NAME_LUNAR_BLESSING
-Lunar Bless
+新月祈祷
 
 #org @NAME_TAKE_HEART
-Take Heart
+勇气填充
 
 #org @Z_Move_1
 Z-Move 1
@@ -2463,517 +2463,517 @@ Z-Move 52
 Z-Move 53
 
 #org @NAME_MAX_GUARD
-Guard
+防壁
 
 #org @NAME_MAX_STRIKE_P
-Strike
+攻击
 
 #org @NAME_MAX_STRIKE_S
-Strike
+攻击
 
 #org @NAME_MAX_KNUCKLE_P
-Knuckle
+拳斗
 
 #org @NAME_MAX_KNUCKLE_S
-Knuckle
+拳斗
 
 #org @NAME_MAX_AIRSTREAM_P
-Airstream
+飞冲
 
 #org @NAME_MAX_AIRSTREAM_S
-Airstream
+飞冲
 
 #org @NAME_MAX_OOZE_P
-Ooze
+酸毒
 
 #org @NAME_MAX_OOZE_S
-Ooze
+酸毒
 
 #org @NAME_MAX_QUAKE_P
-Quake
+大地
 
 #org @NAME_MAX_QUAKE_S
-Quake
+大地
 
 #org @NAME_MAX_ROCKFALL_P
-Rockfall
+岩石
 
 #org @NAME_MAX_ROCKFALL_S
-Rockfall
+岩石
 
 #org @NAME_MAX_FLUTTERBY_P
-Flutterby
+虫蛊
 
 #org @NAME_MAX_FLUTTERBY_S
-Flutterby
+虫蛊
 
 #org @NAME_MAX_PHANTASM_P
-Phantasm
+幽魂
 
 #org @NAME_MAX_PHANTASM_S
-Phantasm
+幽魂
 
 #org @NAME_MAX_STEELSPIKE_P
-Steelspike
+钢铁
 
 #org @NAME_MAX_STEELSPIKE_S
-Steelspike
+钢铁
 
 #org @NAME_MAX_FLARE_P
-Flare
+火爆
 
 #org @NAME_MAX_FLARE_S
-Flare
+火爆
 
 #org @NAME_MAX_GEYSER_P
-Geyser
+水流
 
 #org @NAME_MAX_GEYSER_S
-Geyser
+水流
 
 #org @NAME_MAX_OVERGROWTH_P
-Overgrowth
+草原
 
 #org @NAME_MAX_OVERGROWTH_S
-Overgrowth
+草原
 
 #org @NAME_MAX_LIGHTNING_P
-Lightning
+闪电
 
 #org @NAME_MAX_LIGHTNING_S
-Lightning
+闪电
 
 #org @NAME_MAX_MINDSTORM_P
-Mindstorm
+超能
 
 #org @NAME_MAX_MINDSTORM_S
-Mindstorm
+超能
 
 #org @NAME_MAX_HAILSTORM_P
-Hailstorm
+寒冰
 
 #org @NAME_MAX_HAILSTORM_S
-Hailstorm
+寒冰
 
 #org @NAME_MAX_WYRMWIND_P
-Wyrmwind
+龙骑
 
 #org @NAME_MAX_WYRMWIND_S
-Wyrmwind
+龙骑
 
 #org @NAME_MAX_DARKNESS_P
-Darkness
+恶霸
 
 #org @NAME_MAX_DARKNESS_S
-Darkness
+恶霸
 
 #org @NAME_MAX_STARFALL_P
-Starfall
+妖精
 
 #org @NAME_MAX_STARFALL_S
-Starfall
+妖精
 
 #org @NAME_G_MAX_VINE_LASH_P
-Vine Lash
+灰飞鞭灭
 
 #org @NAME_G_MAX_VINE_LASH_S
-Vine Lash
+灰飞鞭灭
 
 #org @NAME_G_MAX_WILDFIRE_P
-Wildfire
+地狱灭焰
 
 #org @NAME_G_MAX_WILDFIRE_S
-Wildfire
+地狱灭焰
 
 #org @NAME_G_MAX_CANNONADE_P
-Cannonade
+水炮轰灭
 
 #org @NAME_G_MAX_CANNONADE_S
-Cannonade
+水炮轰灭
 
 #org @NAME_G_MAX_BEFUDDLE_P
-Befuddle
+蝶影蛊惑
 
 #org @NAME_G_MAX_BEFUDDLE_S
-Befuddle
+蝶影蛊惑
 
 #org @NAME_G_MAX_VOLTCRASH_P
-Voltcrash
+万雷轰顶
 
 #org @NAME_G_MAX_VOLTCRASH_S
-Voltcrash
+万雷轰顶
 
 #org @NAME_G_MAX_GOLDRUSH_P
-Goldrush
+特大金币
 
 #org @NAME_G_MAX_GOLDRUSH_S
-Goldrush
+特大金币
 
 #org @NAME_G_MAX_CHISTRIKE_P
-Chistrike
+会心一击
 
 #org @NAME_G_MAX_CHISTRIKE_S
-Chistrike
+会心一击
 
 #org @NAME_G_MAX_TERROR_P
-Terror
+幻影幽魂
 
 #org @NAME_G_MAX_TERROR_S
-Terror
+幻影幽魂
 
 #org @NAME_G_MAX_FOAMBURST_P
-Foamburst
+激漩泡涡
 
 #org @NAME_G_MAX_FOAMBURST_S
-Foamburst
+激漩泡涡
 
 #org @NAME_G_MAX_RESONANCE_P
-Resonance
+极光旋律
 
 #org @NAME_G_MAX_RESONANCE_S
-Resonance
+极光旋律
 
 #org @NAME_G_MAX_CUDDLE_P
-Cuddle
+热情拥抱
 
 #org @NAME_G_MAX_CUDDLE_S
-Cuddle
+热情拥抱
 
 #org @NAME_G_MAX_REPLENISH_P
-Replenish
+资源再生
 
 #org @NAME_G_MAX_REPLENISH_S
-Replenish
+资源再生
 
 #org @NAME_G_MAX_MALODOR_P
-Malodor
+臭气冲天
 
 #org @NAME_G_MAX_MALODOR_S
-Malodor
+臭气冲天
 
 #org @NAME_G_MAX_MELTDOWN_P
-Meltdown
+液金熔击
 
 #org @NAME_G_MAX_MELTDOWN_S
-Meltdown
+液金熔击
 
 #org @NAME_G_MAX_DRUM_SOLO_P
-Drum Solo
+狂擂乱打
 
 #org @NAME_G_MAX_DRUM_SOLO_S
-Drum Solo
+狂擂乱打
 
 #org @NAME_G_MAX_FIREBALL_P
-Fireball
+破阵火球
 
 #org @NAME_G_MAX_FIREBALL_S
-Fireball
+破阵火球
 
 #org @NAME_G_MAX_HYDROSNIPE_P
-Hydrosnipe
+狙击神射
 
 #org @NAME_G_MAX_HYDROSNIPE_S
-Hydrosnipe
+狙击神射
 
 #org @NAME_G_MAX_WINDRAGE_P
-Windrage
+旋风袭卷
 
 #org @NAME_G_MAX_WINDRAGE_S
-Windrage
+旋风袭卷
 
 #org @NAME_G_MAX_GRAVITAS_P
-Gravitas
+天道七星
 
 #org @NAME_G_MAX_GRAVITAS_S
-Gravitas
+天道七星
 
 #org @NAME_G_MAX_STONESURGE_P
-Stonesurge
+岩阵以待
 
 #org @NAME_G_MAX_STONESURGE_S
-Stonesurge
+岩阵以待
 
 #org @NAME_G_MAX_VOLCALITH_P
-Volcalith
+炎石喷发
 
 #org @NAME_G_MAX_VOLCALITH_S
-Volcalith
+炎石喷发
 
 #org @NAME_G_MAX_TARTNESS_P
-Tartness
+酸不溜丢
 
 #org @NAME_G_MAX_TARTNESS_S
-Tartness
+酸不溜丢
 
 #org @NAME_G_MAX_SWEETNESS_P
-Sweetness
+琼浆玉液
 
 #org @NAME_G_MAX_SWEETNESS_S
-Sweetness
+琼浆玉液
 
 #org @NAME_G_MAX_SANDBLAST_P
-Sandblast
+沙尘漫天
 
 #org @NAME_G_MAX_SANDBLAST_S
-Sandblast
+沙尘漫天
 
 #org @NAME_G_MAX_STUNSHOCK_P
-Stunshock
+异毒电场
 
 #org @NAME_G_MAX_STUNSHOCK_S
-Stunshock
+异毒电场
 
 #org @NAME_G_MAX_CENTIFERNO_P
-Centiferno
+百火焚野
 
 #org @NAME_G_MAX_CENTIFERNO_S
-Centiferno
+百火焚野
 
 #org @NAME_G_MAX_SMITE_P
-Smite
+天谴雷诛
 
 #org @NAME_G_MAX_SMITE_S
-Smite
+天谴雷诛
 
 #org @NAME_G_MAX_SNOOZE_P
-Snooze
+睡魔降临
 
 #org @NAME_G_MAX_SNOOZE_S
-Snooze
+睡魔降临
 
 #org @NAME_G_MAX_FINALE_P
-Finale
+幸福圆满
 
 #org @NAME_G_MAX_FINALE_S
-Finale
+幸福圆满
 
 #org @NAME_G_MAX_STEELSURGE_P
-Steelsurge
+钢铁阵法
 
 #org @NAME_G_MAX_STEELSURGE_S
-Steelsurge
+钢铁阵法
 
 #org @NAME_G_MAX_DEPLETION_P
-Depletion
+劣化衰变
 
 #org @NAME_G_MAX_DEPLETION_S
-Depletion
+劣化衰变
 
 #org @NAME_G_MAX_ONE_BLOW_P
-One Blow
+夺命一击
 
 #org @NAME_G_MAX_ONE_BLOW_S
-One Blow
+夺命一击
 
 #org @NAME_G_MAX_RAPID_FLOW_P
-Rapid Flow
+流水连击
 
 #org @NAME_G_MAX_RAPID_FLOW_S
-Rapid Flow
+流水连击
 
 #org @NAME_AQUACUTTER
-Aqua Cutter
+水波刀
 
 #org @NAME_AQUASTEP
-Aqua Step
+流水旋舞
 
 #org @NAME_ARMORCANNON
-Armor Cannon
+铠农炮
 
 #org @NAME_AXEKICK
-Axe Kick
+下压踢
 
 #org @NAME_BITTERBLADE
-Bitter Blade
+悔念剑
 
 #org @NAME_BLAZINGTORQUE
-Blaze Torque
+灼热暴冲
 
 #org @NAME_CHILLINGWATER
-Eery Water
+泼冷水
 
 #org @NAME_CHILLYRECEPTION
-ChillyRecept
+冷笑话
 
 #org @NAME_COLLISIONCOURSE
-Crash Course
+全开猛撞
 
 #org @NAME_COMBATTORQUE
-CombatTorque
+格斗暴冲
 
 #org @NAME_COMEUPPANCE
-Comeuppance
+复仇
 
 #org @NAME_DOODLE
-Doodle
+描绘
 
 #org @NAME_DOUBLESHOCK
-Double Shock
+电光双击
 
 #org @NAME_ELECTRODRIFT
-ElectroDrift
+闪电猛冲
 
 #org @NAME_FILLETAWAY
-Fillet Away
+甩肉
 
 #org @NAME_FLOWERTRICK
-Flower Trick
+千变万花
 
 #org @NAME_GIGATONHAMMER
-GigtonHammer
+巨力锤
 
 #org @NAME_GLAIVERUSH
-Glaive Rush
+巨剑突击
 
 #org @NAME_HYDROSTEAM
-Hydro Steam
+水蒸气
 
 #org @NAME_HYPERDRILL
-Hyper Drill
+强力钻
 
 #org @NAME_ICESPINNER
-Ice Spinner
+冰旋
 
 #org @NAME_JETPUNCH
-Jet Punch
+喷射拳
 
 #org @NAME_KOWTOWCLEAVE
-KowtowKleave
+仆刀
 
 #org @NAME_LASTRESPECTS
-LastRespects
+扫墓
 
 #org @NAME_LUMINACRASH
-Lumina Crash
+琉光冲激
 
 #org @NAME_MAGICALTORQUE
-Magic Torque
+魔法暴冲
 
 #org @NAME_MAKEITRAIN
-Make It Rain
+淘金潮
 
 #org @NAME_MORTALSPIN
-Mortal Spin
+晶光转转
 
 #org @NAME_NOXIOUSTORQUE
-Nox Torque
+剧毒暴冲
 
 #org @NAME_ORDERUP
-Order Up
+上菜
 
 #org @NAME_POPULATIONBOMB
-PopulaceBomb
+鼠数儿
 
 #org @NAME_POUNCE
-Pounce
+虫扑
 
 #org @NAME_PSYBLADE
-Psyblade
+精神剑
 
 #org @NAME_RAGEFIST
-Rage Fist
+愤怒之拳
 
 #org @NAME_RAGINGBULL
-Raging Bull
+怒牛
 
 #org @NAME_REVIVALBLESSING
-Revive Bless
+复生祈祷
 
 #org @NAME_RUINATION
-Ruination
+大灾难
 
 #org @NAME_SALTCURE
-Salt Cure
+盐腌
 
 #org @NAME_SHEDTAIL
-Shed Tail
+断尾
 
 #org @NAME_SILKTRAP
-Silk Trap
+线阱
 
 #org @NAME_SNOWSCAPE
-Snowscape
+雪景
 
 #org @NAME_SPICYEXTRACT
-SpicyExtract
+辣椒精华
 
 #org @NAME_SPINOUT
-Spin Out
+疾速转轮
 
 #org @NAME_TERABLAST
-Tera Blast
+太晶爆发
 
 #org @NAME_TIDYUP
-Tidy Up
+大扫除
 
 #org @NAME_TORCHSONG
-Torch Song
+闪焰高歌
 
 #org @NAME_TRAILBLAZE
-Trailblaze
+起草
 
 #org @NAME_TRIPLEDIVE
-Triple Dive
+三连钻
 
 #org @NAME_TWINBEAM
-Twin Beam
+双光束
 
 #org @NAME_WICKEDTORQUE
-WickedTorque
+黑暗暴冲
 
 #org @NAME_BLOODMOON
-Blood Moon
+血月
 
 #org @NAME_UPPERHAND
-Upper Hand
+快手还击
 
 #org @NAME_MATCHAGOTCHA
-MatchaGotcha
+刷刷茶炮
 
 #org @NAME_SYRUPBOMB
-Syrup Bomb
+糖浆炸弹
 
 #org @NAME_IVYCUDGEL
-Ivy Cudgel
+棘藤棒
 
 #org @NAME_ELECTROSHOT
-Electro Shot
+电光束
 
 #org @NAME_TERASTARSTORM
-Tera S-storm
+晶光星群
 
 #org @NAME_FICKLEBEAM
-Fickle Beam
+随机光
 
 #org @NAME_BURNINGBULWARK
-Burn Bulwark
+火焰守护
 
 #org @NAME_MIGHTYCLEAVE
-Might Cleave
+强刃攻击
 
 #org @NAME_TACHYONCUTTER
-Tachyon Cut
+迅子利刃
 
 #org @NAME_DRAGONCHEER
-Dragon Cheer
+龙声鼓舞
 
 #org @NAME_MALIGNANTCHAIN
-Malign Chain
+邪毒锁链
 
 #org @NAME_THUNDERCLAP
-Thunderclap
+迅雷
 
 #org @NAME_HARDPRESS
-Hard Press
+硬压
 
 #org @NAME_ALLURINGVOICE
-Allure Voice
+魅诱之声
 
 #org @NAME_TEMPERFLARE
-Temper Flare
+豁出去
 
 #org @NAME_SUPERCELLSLAM
-S-cell Slam
+闪电强袭
 
 #org @NAME_PSYCHICNOISE
-PsychicNoise
+精神噪音

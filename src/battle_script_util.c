@@ -32,6 +32,9 @@
 #include "../include/new/switching.h"
 #include "../include/new/util.h"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
+
 /*
 battle_script_util.c
 	general functions that aide in battle scripting via callasm.
@@ -87,9 +90,9 @@ void IncreaseNimbleCounter(void)
 void ModifyGrowthInSun(void)
 {
 	if (gCurrentMove == MOVE_GROWTH
-	&& WEATHER_HAS_EFFECT
+	&& ((WEATHER_HAS_EFFECT
 	&& gBattleWeather & WEATHER_SUN_ANY
-	&& AffectedBySun(gBankAttacker))
+	&& AffectedBySun(gBankAttacker))|| ABILITY(gBankAttacker) == ABILITY_MEGASOL ))
 		gBattleScripting.statChanger += INCREASE_1;
 }
 
@@ -132,6 +135,7 @@ void SetStatSwapSplit(void)
 	const u8* string = NULL;
 
 	switch (gCurrentMove) {
+		case MOVE_POWERSHIFT:
 		case MOVE_POWERTRICK:
 			temp = gBattleMons[bankAtk].attack;
 			gBattleMons[bankAtk].attack = gBattleMons[bankAtk].defense;
@@ -139,18 +143,6 @@ void SetStatSwapSplit(void)
 			gStatuses3[bankAtk] ^= STATUS3_POWER_TRICK;
 
 			string = PowerTrickString;
-			break;
-
-		case MOVE_POWERSHIFT: //Swaps both offenses with both defenses
-			temp = gBattleMons[bankAtk].attack;
-			gBattleMons[bankAtk].attack = gBattleMons[bankAtk].defense;
-			gBattleMons[bankAtk].defense = temp;
-			temp = gBattleMons[bankAtk].spAttack;
-			gBattleMons[bankAtk].spAttack = gBattleMons[bankAtk].spDefense;
-			gBattleMons[bankAtk].spDefense = temp;
-			gNewBS->powerShifted[bankAtk] ^= 1; //Mainly for the AI
-
-			string = gText_PowerShiftSwappedStats;
 			break;
 
 		case MOVE_POWERSWAP:	;
@@ -275,8 +267,12 @@ void MoldBreakerRemoveAbilitiesOnForceSwitchIn(void)
 
 	if (IsMoldBreakerAbility(ABILITY(bank)))
 	{
-		if (gSpecialAbilityFlags[ABILITY(gBankSwitching)].gMoldBreakerIgnoredAbilities
-		|| gSpecialAbilityFlags[ABILITY(gBankSwitching)].gMyceliumMighIgnoredAbilities)
+		if (ABILITY(bank) == ABILITY_MYCELIUMMIGHT
+            && SPLIT(gCurrentMove) != SPLIT_STATUS)
+        {
+            return;
+        }
+		if (gSpecialAbilityFlags[ABILITY(gBankSwitching)].gMoldBreakerIgnoredAbilities)
 		{
 			gNewBS->DisabledMoldBreakerAbilities[gBankSwitching] = ABILITY(gBankSwitching);
 			ABILITY(gBankSwitching) = 0;
@@ -1340,6 +1336,9 @@ void TryActivateWindRiderFromTailwind(void)
 {
 	static u8 bank;
 
+	if (!gNewBS->TailwindTimers[SIDE(gBankAttacker)])
+        return;
+
 	while (bank < gBattlersCount)
 	{
 		u8 windRiderBank = bank++;
@@ -1359,32 +1358,19 @@ void TryActivateWindRiderFromTailwind(void)
 
 		if (SIDE(windRiderBank) == SIDE(gBankAttacker)
 		&& BATTLER_ALIVE(windRiderBank)
-		&& ABILITY(windRiderBank) == ABILITY_WINDPOWER
+		&& (ABILITY(windRiderBank) == ABILITY_WINDPOWER || ABILITY(windRiderBank) == ABILITY_QUICKCHARGE)
 		&& !(gStatuses3[windRiderBank] & STATUS3_CHARGED_UP))
 		{
+			gStatuses3[windRiderBank] |= STATUS3_CHARGED_UP;
+			gNewBS->ElectroCounter[windRiderBank] = TRUE;
 			gBattleScripting.bank = windRiderBank;
 			BattleScriptPush(gBattlescriptCurrInstr);
-			gBattlescriptCurrInstr = BattleScript_WindPowerActivates - 5;
+			gBattlescriptCurrInstr = BattleScript_ElectromorphosisActivates - 5;
 			return;
 		}
 	}
 
 	bank = 0;
-}
-
-void CheckTargetGuardDog(void)
-{
-	gBattleCommunication[MULTISTRING_CHOOSER] = ABILITY(gBankTarget) == ABILITY_GUARDDOG;
-}
-
-void CheckAttackerGuardDog(void)
-{
-	gBattleCommunication[MULTISTRING_CHOOSER] = ABILITY(gBankAttacker) == ABILITY_GUARDDOG;
-}
-
-void CheckAttackerSuperSweetSyrup(void)
-{
-	gBattleCommunication[MULTISTRING_CHOOSER] = ABILITY(gBankAttacker) == ABILITY_SUPERSWEETSYRUP;
 }
 
 void FlameBurstFunc(void)
@@ -1459,12 +1445,6 @@ void AbilityChangeBSFunc(void)
 	defAbility = *defAbilityLoc;
 
 	gNewBS->backupAbility = *defAbilityLoc;
-
-	if (IsMyceliumMightOnField())
-    {
-        *defAbilityLoc = ABILITY_NONE;
-        defAbility = ABILITY_NONE;
-    }
 
 	switch (gCurrentMove) {
 		case MOVE_WORRYSEED:
@@ -1669,7 +1649,45 @@ void SeedRoomServiceLooper(void)
 				return;
 			}
 		}
+		if (BATTLER_ALIVE(bank)
+        && ABILITY(bank) == ABILITY_QUARKDRIVE
+        && !gNewBS->quarkDriveActivated[bank]
+        && gTerrainType == ELECTRIC_TERRAIN)
+        {
+            gNewBS->quarkDriveActivated[bank] = TRUE;
+            gBankAttacker = bank;
+            gActiveBattler = bank;
+            PREPARE_STAT_BUFFER(gBattleTextBuff1, GetHighestStat(gBankAttacker));
+            BattleScriptPushCursorAndCallback(BattleScript_QuarkDriveActivates);
+            
+            gBattlescriptCurrInstr -= 5;
+            return;
+        }
 	}
+}
+
+void CheckTerrainAndSetVolatileExplosion(void)
+{
+    if (gTerrainType != ELECTRIC_TERRAIN)
+    {
+        gTerrainType = ELECTRIC_TERRAIN;
+        gNewBS->TerrainTimer = 5;
+        gBattleStringLoader = ElectricTerrainSetString;
+        gBattleScripting.animArg1 = B_ANIM_ELECTRIC_SURGE;
+        gBattlescriptCurrInstr = BattleScript_VolatileExplosion_SetTerrain;
+    }
+}
+
+void CheckTerrainAndSetPsychicTerrain(void)
+{
+    if (gTerrainType != PSYCHIC_TERRAIN)
+    {
+        gTerrainType = PSYCHIC_TERRAIN;
+        gNewBS->TerrainTimer = 5;
+        gBattleStringLoader = PsychicTerrainSetString;
+        gBattleScripting.animArg1 = B_ANIM_PSYCHIC_SURGE;
+        gBattlescriptCurrInstr = BattleScript_PsychoReboundSetTerrain;
+    }
 }
 
 void LastResortFunc(void)
@@ -2264,13 +2282,6 @@ void SetThroatChopTimer(void)
 		gNewBS->ThroatChopTimers[gBankTarget] = 2;
 }
 
-void GlaiveRushTimer(void)
-{
-	gNewBS->GlaiveRushTimers[gBankAttacker] = 1;
-	// The vulnerability belongs to the user, not to the Pokemon it hit.
-	gStatuses3[gBankAttacker] |= STATUS3_GLAIVERUSH;
-}
-
 void SetNoMoreMovingThisTurnSwitchingBank(void)
 {
 	gNewBS->NoMoreMovingThisTurn |= gBitTable[gBankSwitching];
@@ -2352,23 +2363,6 @@ void TryFailJungleHealing(void)
 {
 	if (ShouldJungleHealingFail(gBankAttacker))
 		gBattlescriptCurrInstr = BattleScript_LifeDewFail - 5;
-}
-
-bool8 ShouldLunarBlessingFail(u8 bankAtk)
-{
-	if (!BATTLER_MAX_HP(bankAtk) || gBattleMons[bankAtk].status1 != 0)
-		return FALSE; //It will work
-
-	if (STAT_CAN_RISE(bankAtk, STAT_STAGE_EVASION))
-		return FALSE;
-
-	return TRUE;
-}
-
-void TryFailLunarBlessing(void)
-{
-	if (ShouldLunarBlessingFail(gBankAttacker))
-		gBattlescriptCurrInstr = BattleScript_LunarBlessingFail - 5;
 }
 
 void SetStickyWebActive(void)
@@ -2842,21 +2836,13 @@ void TryActivateProtosynthesis(void)
 
 void TryUpperHand(void)
 {
-	if (PRIORITY(gChosenMovesByBanks[gBankTarget]) >= 1 && PRIORITY(gChosenMovesByBanks[gBankTarget]) <= 3)
-		return;
-
-	gBattlescriptCurrInstr = BattleScript_ButItFailed - 5 - 2;
-}
-
-void TrySetDragonCheer(void)
-{
-	if (!BATTLER_ALIVE(gBankTarget) || gNewBS->dragonCheerCritBoosts[gBankTarget])
+	u32 status = gBattleMons[gBankTarget].status1;
+	
+	if (ABILITY(gBankAttacker) == ABILITY_POISONPUPPETEER && (status & STATUS_POISON) && !(gBattleMons[gBankTarget].status2 & STATUS2_CONFUSION))
 	{
-		gBattlescriptCurrInstr = BattleScript_ButItFailed - 5;
-		return;
+		gBattleMons[gBankTarget].status2 |= STATUS2_CONFUSION;
+		gBattlescriptCurrInstr = BattleScript_SetPuppetConfusion - 5;
 	}
-
-	gNewBS->dragonCheerCritBoosts[gBankTarget] = IsOfType(gBankTarget, TYPE_DRAGON) ? 2 : 1;
 }
 
 void TryRevivalBlessing(void)
@@ -2885,3 +2871,17 @@ void TryRevivalBlessing(void)
 	SetMonData(&party[chosen], MON_DATA_HP, &hp);
 	PREPARE_MON_NICK_BUFFER(gBattleTextBuff1, gBankAttacker, chosen);
 }
+
+void TripleArrowsFlinchCheck(void)
+{
+    if (Random() % 100 < 30)  // 30% 畏缩
+    {
+        if (CanFlinch(gBankTarget, ABILITY(gBankTarget)))
+        {
+            gBattleMons[gBankTarget].status2 |= STATUS2_FLINCHED;
+            gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_FLINCH;
+        }
+    }
+}
+
+#pragma GCC diagnostic pop

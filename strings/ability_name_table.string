@@ -6,1177 +6,1027 @@ FILL_FF=True
 -------
 
 #org @NAME_ABILITY_001_STENCH
-Stench
+恶臭
 
 #org @NAME_ABILITY_002_DRIZZLE
-Drizzle
+降雨
 
 #org @NAME_ABILITY_003_SPEED_BOOST
-Speed Boost
+加速
 
 #org @NAME_ABILITY_004_BATTLE_ARMOR
-Battle Armor
+战斗盔甲
 
 #org @NAME_ABILITY_005_STURDY
-Sturdy
+结实
 
 #org @NAME_ABILITY_006_DAMP
-Damp
+湿气
 
 #org @NAME_ABILITY_007_LIMBER
-Limber
+柔软
 
 #org @NAME_ABILITY_008_SAND_VEIL
-Sand Veil
+沙隐
 
 #org @NAME_ABILITY_009_STATIC
-Static
+静电
 
 #org @NAME_ABILITY_010_VOLT_ABSORB
-Volt Absorb
+蓄电
 
 #org @NAME_ABILITY_011_WATER_ABSORB
-Water Absorb
+储水
 
 #org @NAME_ABILITY_012_OBLIVIOUS
-Oblivious
+迟钝
 
 #org @NAME_ABILITY_013_CLOUD_NINE
-Cloud Nine
+无关天气
 
 #org @NAME_ABILITY_014_COMPOUND_EYES
-Compound Eyes
+复眼
 
 #org @NAME_ABILITY_015_INSOMNIA
-Insomnia
+不眠
 
 #org @NAME_ABILITY_016_COLOR_CHANGE
-Color Change
+变色
 
 #org @NAME_ABILITY_017_IMMUNITY
-Immunity
+免疫
 
 #org @NAME_ABILITY_018_FLASH_FIRE
-Flash Fire
+引火
 
 #org @NAME_ABILITY_019_SHIELD_DUST
-Shield Dust
+鳞粉
 
 #org @NAME_ABILITY_020_OWN_TEMPO
-Own Tempo
+我行我素
 
 #org @NAME_ABILITY_021_SUCTION_CUPS
-Suction Cups
+吸盘
 
 #org @NAME_ABILITY_022_INTIMIDATE
-Intimidate
+威吓
 
 #org @NAME_ABILITY_023_SHADOW_TAG
-Shadow Tag
+踩影
 
 #org @NAME_ABILITY_024_ROUGH_SKIN
-Rough Skin
+粗糙皮肤
 
 #org @NAME_ABILITY_025_WONDER_GUARD
-Wonder Guard
+神奇守护
 
 #org @NAME_ABILITY_026_LEVITATE
-Levitate
+飘浮
 
 #org @NAME_ABILITY_027_EFFECT_SPORE
-Effect Spore
+孢子
 
 #org @NAME_ABILITY_028_SYNCHRONIZE
-Synchronize
+同步
 
 #org @NAME_ABILITY_029_CLEAR_BODY
-Clear Body
+恒净之躯
 
 #org @NAME_ABILITY_030_NATURAL_CURE
-Natural Cure
+自然回复
 
 #org @NAME_ABILITY_031_LIGHTNING_ROD
-Lightning Rod
+避雷针
 
 #org @NAME_ABILITY_032_SERENE_GRACE
-Serene Grace
+天恩
 
 #org @NAME_ABILITY_033_SWIFT_SWIM
-Swift Swim
+悠游自如
 
 #org @NAME_ABILITY_034_CHLOROPHYLL
-Chlorophyll
+叶绿素
 
 #org @NAME_ABILITY_035_ILLUMINATE
-Illuminate
+发光
 
 #org @NAME_ABILITY_036_TRACE
-Trace
+复制
 
 #org @NAME_ABILITY_037_HUGE_POWER
-Huge Power
+大力士
 
 #org @NAME_ABILITY_038_POISON_POINT
-Poison Point
+毒刺
 
 #org @NAME_ABILITY_039_INNER_FOCUS
-Inner Focus
+精神力
 
 #org @NAME_ABILITY_040_MAGMA_ARMOR
-Magma Armor
+熔岩铠甲
 
 #org @NAME_ABILITY_041_WATER_VEIL
-Water Veil
+水幕
 
 #org @NAME_ABILITY_042_MAGNET_PULL
-Magnet Pull
+磁力
 
 #org @NAME_ABILITY_043_SOUNDPROOF
-Soundproof
+隔音
 
 #org @NAME_ABILITY_044_RAIN_DISH
-Rain Dish
+雨盘
 
 #org @NAME_ABILITY_045_SAND_STREAM
-Sand Stream
+扬沙
 
 #org @NAME_ABILITY_046_PRESSURE
-Pressure
+压迫感
 
 #org @NAME_ABILITY_047_THICK_FAT
-Thick Fat
+厚脂肪
 
 #org @NAME_ABILITY_048_EARLY_BIRD
-Early Bird
+早起
 
 #org @NAME_ABILITY_049_FLAME_BODY
-Flame Body
+火焰之躯
 
 #org @NAME_ABILITY_050_RUN_AWAY
-Run Away
+逃跑
 
 #org @NAME_ABILITY_051_KEEN_EYE
-Keen Eye
+锐利目光
 
 #org @NAME_ABILITY_052_HYPER_CUTTER
-Hyper Cutter
+怪力钳
 
 #org @NAME_ABILITY_053_PICKUP
-Pickup
+捡拾
 
 #org @NAME_ABILITY_054_TRUANT
-Truant
+懒惰
 
 #org @NAME_ABILITY_055_HUSTLE
-Hustle
+活力
 
 #org @NAME_ABILITY_056_CUTE_CHARM
-Cute Charm
+迷人之躯
 
 #org @NAME_ABILITY_057_PLUS
-Plus
+正电
 
 #org @NAME_ABILITY_058_MINUS
-Minus
+负电
 
 #org @NAME_ABILITY_059_FORECAST
-Forecast
+阴晴不定
 
 #org @NAME_ABILITY_060_STICKY_HOLD
-Sticky Hold
+黏着
 
 #org @NAME_ABILITY_061_SHED_SKIN
-Shed Skin
+蜕皮
 
 #org @NAME_ABILITY_062_GUTS
-Guts
+毅力
 
 #org @NAME_ABILITY_063_MARVEL_SCALE
-Marvel Scale
+神奇鳞片
 
 #org @NAME_ABILITY_064_LIQUID_OOZE
-Liquid Ooze
+污泥浆
 
 #org @NAME_ABILITY_065_OVERGROW
-Overgrow
+茂盛
 
 #org @NAME_ABILITY_066_BLAZE
-Blaze
+猛火
 
 #org @NAME_ABILITY_067_TORRENT
-Torrent
+激流
 
 #org @NAME_ABILITY_068_SWARM
-Swarm
+虫之预感
 
 #org @NAME_ABILITY_069_ROCK_HEAD
-Rock Head
+坚硬脑袋
 
 #org @NAME_ABILITY_070_DROUGHT
-Drought
+日照
 
 #org @NAME_ABILITY_071_ARENA_TRAP
-Arena Trap
+沙穴
 
 #org @NAME_ABILITY_072_VITAL_SPIRIT
-Vital Spirit
+干劲
 
 #org @NAME_ABILITY_073_WHITE_SMOKE
-White Smoke
+白色烟雾
 
 #org @NAME_ABILITY_074_PURE_POWER
-Pure Power
+瑜伽之力
 
 #org @NAME_ABILITY_075_SHELL_ARMOR
-Shell Armor
+硬壳盔甲
 
 #org @NAME_ABILITY_076_AIR_LOCK
-Air Lock
+气闸
 
 #org @NAME_ABILITY_077_TANGLED_FEET
-Tangled Feet
+蹒跚
 
 #org @NAME_ABILITY_078_MOTOR_DRIVE
-Motor Drive
+电气引擎
 
 #org @NAME_ABILITY_079_RIVALRY
-Rivalry
+斗争心
 
 #org @NAME_ABILITY_080_STEADFAST
-Steadfast
+不屈之心
 
 #org @NAME_ABILITY_081_SNOW_CLOAK
-Snow Cloak
+雪隐
 
 #org @NAME_ABILITY_082_GLUTTONY
-Gluttony
+贪吃鬼
 
 #org @NAME_ABILITY_083_ANGER_POINT
-Anger Point
+愤怒穴位
 
 #org @NAME_ABILITY_084_UNBURDEN
-Unburden
+轻装
 
 #org @NAME_ABILITY_085_HEATPROOF
-Heatproof
+耐热
 
 #org @NAME_ABILITY_086_SIMPLE
-Simple
+单纯
 
 #org @NAME_ABILITY_087_DRY_SKIN
-Dry Skin
+干燥皮肤
 
 #org @NAME_ABILITY_088_DOWNLOAD
-Download
+下载
 
 #org @NAME_ABILITY_089_IRON_FIST
-Iron Fist
+铁拳
 
 #org @NAME_ABILITY_090_POISON_HEAL
-Poison Heal
+毒疗
 
 #org @NAME_ABILITY_091_ADAPTABILITY
-Adaptability
+适应力
 
 #org @NAME_ABILITY_092_SKILL_LINK
-Skill Link
+连续攻击
 
 #org @NAME_ABILITY_093_HYDRATION
-Hydration
+湿润之躯
 
 #org @NAME_ABILITY_094_SOLAR_POWER
-Solar Power
+太阳之力
 
 #org @NAME_ABILITY_095_QUICK_FEET
-Quick Feet
+飞毛腿
 
 #org @NAME_ABILITY_096_NORMALIZE
-Normalize
+一般皮肤
 
 #org @NAME_ABILITY_097_SNIPER
-Sniper
+狙击手
 
 #org @NAME_ABILITY_098_MAGIC_GUARD
-Magic Guard
+魔法防守
 
 #org @NAME_ABILITY_099_NO_GUARD
-No Guard
+无防守
 
 #org @NAME_ABILITY_100_STALL
-Stall
+慢出
 
 #org @NAME_ABILITY_101_TECHNICIAN
-Technician
+技术高手
 
 #org @NAME_ABILITY_102_LEAF_GUARD
-Leaf Guard
+叶子防守
 
 #org @NAME_ABILITY_103_KLUTZ
-Klutz
+笨拙
 
 #org @NAME_ABILITY_104_MOLD_BREAKER
-Mold Breaker
+破格
 
 #org @NAME_ABILITY_105_SUPER_LUCK
-Super Luck
+超幸运
 
 #org @NAME_ABILITY_106_AFTERMATH
-Aftermath
+诱爆
 
 #org @NAME_ABILITY_107_ANTICIPATION
-Anticipation
+危险预知
 
 #org @NAME_ABILITY_108_FOREWARN
-Forewarn
+预知梦
 
 #org @NAME_ABILITY_109_UNAWARE
-Unaware
+纯朴
 
 #org @NAME_ABILITY_110_TINTED_LENS
-Tinted Lens
+有色眼镜
 
 #org @NAME_ABILITY_111_FILTER
-Filter
+过滤
 
 #org @NAME_ABILITY_112_SLOW_START
-Slow Start
+慢启动
 
 #org @NAME_ABILITY_113_SCRAPPY
-Scrappy
+胆量
 
 #org @NAME_ABILITY_114_STORM_DRAIN
-Storm Drain
+引水
 
 #org @NAME_ABILITY_115_ICE_BODY
-Ice Body
+冰冻之躯
 
 #org @NAME_ABILITY_116_SOLID_ROCK
-Solid Rock
+坚硬岩石
 
 #org @NAME_ABILITY_117_SNOW_WARNING
-Snow Warning
+降雪
 
 #org @NAME_ABILITY_118_HONEY_GATHER
-Honey Gather
+采蜜
 
 #org @NAME_ABILITY_119_FRISK
-Frisk
+察觉
 
 #org @NAME_ABILITY_120_RECKLESS
-Reckless
+舍身
 
 #org @NAME_ABILITY_121_MULTITYPE
-Multitype
+多属性
 
 #org @NAME_ABILITY_122_FLOWER_GIFT
-Flower Gift
+花之礼
 
 #org @NAME_ABILITY_123_BAD_DREAMS
-Bad Dreams
+梦魇
 
 #org @NAME_ABILITY_124_PICKPOCKET
-Pickpocket
+顺手牵羊
 
 #org @NAME_ABILITY_125_SHEER_FORCE
-Sheer Force
+强行
 
 #org @NAME_ABILITY_126_CONTRARY
-Contrary
+唱反调
 
 #org @NAME_ABILITY_127_UNNERVE
-Unnerve
+紧张感
 
 #org @NAME_ABILITY_128_DEFIANT
-Defiant
+不服输
 
 #org @NAME_ABILITY_129_DEFEATIST
-Defeatist
+软弱
 
 #org @NAME_ABILITY_130_CURSED_BODY
-Cursed Body
+咒术之躯
 
 #org @NAME_ABILITY_131_HEALER
-Healer
+治愈之心
 
 #org @NAME_ABILITY_132_FRIEND_GUARD
-Friend Guard
+友情防守
 
 #org @NAME_ABILITY_133_WEAK_ARMOR
-Weak Armor
+碎裂铠甲
 
 #org @NAME_ABILITY_134_HEAVY_METAL
-Heavy Metal
+重金属
 
 #org @NAME_ABILITY_135_LIGHT_METAL
-Light Metal
+轻金属
 
 #org @NAME_ABILITY_136_MULTISCALE
-Multiscale
+多重鳞片
 
 #org @NAME_ABILITY_137_TOXIC_BOOST
-Toxic Boost
+中毒激升
 
 #org @NAME_ABILITY_138_FLARE_BOOST
-Flare Boost
+受热激升
 
 #org @NAME_ABILITY_139_HARVEST
-Harvest
+收获
 
 #org @NAME_ABILITY_140_TELEPATHY
-Telepathy
+心灵感应
 
 #org @NAME_ABILITY_141_MOODY
-Moody
+心情不定
 
 #org @NAME_ABILITY_142_OVERCOAT
-Overcoat
+防尘
 
 #org @NAME_ABILITY_143_POISON_TOUCH
-Poison Touch
+毒手
 
 #org @NAME_ABILITY_144_REGENERATOR
-Regenerator
+再生力
 
 #org @NAME_ABILITY_145_BIG_PECKS
-Big Pecks
+健壮胸肌
 
 #org @NAME_ABILITY_146_SAND_RUSH
-Sand Rush
+拨沙
 
 #org @NAME_ABILITY_147_WONDER_SKIN
-Wonder Skin
+奇迹皮肤
 
 #org @NAME_ABILITY_148_ANALYTIC
-Analytic
+分析
 
 #org @NAME_ABILITY_149_ILLUSION
-Illusion
+幻觉
 
 #org @NAME_ABILITY_150_IMPOSTER
-Imposter
+变身者
 
 #org @NAME_ABILITY_151_INFILTRATOR
-Infiltrator
+穿透
 
 #org @NAME_ABILITY_152_MUMMY
-Mummy
+木乃伊
 
 #org @NAME_ABILITY_153_MOXIE
-Moxie
+自信过度
 
 #org @NAME_ABILITY_154_JUSTIFIED
-Justified
+正义之心
 
 #org @NAME_ABILITY_155_RATTLED
-Rattled
+胆怯
 
 #org @NAME_ABILITY_156_MAGIC_BOUNCE
-Magic Bounce
+魔法镜
 
 #org @NAME_ABILITY_157_SAP_SIPPER
-Sap Sipper
+食草
 
 #org @NAME_ABILITY_158_PRANKSTER
-Prankster
+恶作剧之心
 
 #org @NAME_ABILITY_159_SAND_FORCE
-Sand Force
+沙之力
 
 #org @NAME_ABILITY_160_IRON_BARBS
-Iron Barbs
+铁刺
 
 #org @NAME_ABILITY_161_ZEN_MODE
-Zen Mode
+达摩模式
 
 #org @NAME_ABILITY_162_VICTORY_STAR
-Victory Star
+胜利之星
 
 #org @NAME_ABILITY_163_TURBOBLAZE
-Turboblaze
+涡轮火焰
 
 #org @NAME_ABILITY_164_TERAVOLT
-Teravolt
+兆级电压
 
 #org @NAME_ABILITY_165_AROMA_VEIL
-Aroma Veil
+芳香幕
 
 #org @NAME_ABILITY_166_FLOWER_VEIL
-Flower Veil
+花幕
 
 #org @NAME_ABILITY_167_CHEEK_POUCH
-Cheek Pouch
+颊囊
 
 #org @NAME_ABILITY_168_PROTEAN
-Protean
+变幻自如
 
 #org @NAME_ABILITY_169_FUR_COAT
-Fur Coat
+毛皮大衣
 
 #org @NAME_ABILITY_170_MAGICIAN
-Magician
+魔术师
 
 #org @NAME_ABILITY_171_BULLETPROOF
-Bulletproof
+防弹
 
 #org @NAME_ABILITY_172_COMPETITIVE
-Competitive
+好胜
 
 #org @NAME_ABILITY_173_STRONG_JAW
-Strong Jaw
+强壮之颚
 
 #org @NAME_ABILITY_174_REFRIGERATE
-Refrigerate
+冰冻皮肤
 
 #org @NAME_ABILITY_175_SWEET_VEIL
-Sweet Veil
+甜幕
 
 #org @NAME_ABILITY_176_STANCE_CHANGE
-Stance Change
+战斗切换
 
 #org @NAME_ABILITY_177_GALE_WINGS
-Gale Wings
+疾风之翼
 
 #org @NAME_ABILITY_178_MEGA_LAUNCHER
-Mega Launcher
+超级发射器
 
 #org @NAME_ABILITY_179_GRASS_PELT
-Grass Pelt
+草之毛皮
 
 #org @NAME_ABILITY_180_SYMBIOSIS
-Symbiosis
+共生
 
 #org @NAME_ABILITY_181_TOUGH_CLAWS
-Tough Claws
+硬爪
 
 #org @NAME_ABILITY_182_PIXILATE
-Pixilate
+妖精皮肤
 
 #org @NAME_ABILITY_183_GOOEY
-Gooey
+黏滑
 
 #org @NAME_ABILITY_184_AERILATE
-Aerilate
+飞行皮肤
 
 #org @NAME_ABILITY_185_PARENTAL_BOND
-Parental Bond
+亲子爱
 
 #org @NAME_ABILITY_186_DARK_AURA
-Dark Aura
+暗黑气场
 
 #org @NAME_ABILITY_187_FAIRY_AURA
-Fairy Aura
+妖精气场
 
 #org @NAME_ABILITY_188_AURA_BREAK
-Aura Break
+气场破坏
 
 #org @NAME_ABILITY_189_PRIMORDIAL_SEA
-Primordial Sea
+始源之海
 
 #org @NAME_ABILITY_190_DESOLATE_LAND
-Desolate Land
+终结之地
 
 #org @NAME_ABILITY_191_DELTA_STREAM
-Delta Stream
+德尔塔气流
 
 #org @NAME_ABILITY_192_STAMINA
-Stamina
+持久力
 
 #org @NAME_ABILITY_193_WIMP_OUT
-Wimp Out
+跃跃欲逃
 
 #org @NAME_ABILITY_194_EMERGENCY_EXIT
-Emergency Exit
+危险回避
 
 #org @NAME_ABILITY_195_WATER_COMPACTION
-Water Compact
+遇水凝固
 
 #org @NAME_ABILITY_196_MERCILESS
-Merciless
+不仁不义
 
 #org @NAME_ABILITY_197_SHIELDS_DOWN
-Shields Down
+界限盾壳
 
 #org @NAME_ABILITY_198_STAKEOUT
-Stakeout
+蹲守
 
 #org @NAME_ABILITY_199_WATER_BUBBLE
-Water Bubble
+水泡
 
 #org @NAME_ABILITY_200_STEELWORKER
-Steelworker
+钢能力者
 
 #org @NAME_ABILITY_201_BERSERK
-Berserk
+怒火冲天
 
 #org @NAME_ABILITY_202_SLUSH_RUSH
-Slush Rush
+拨雪
 
 #org @NAME_ABILITY_203_LONG_REACH
-Long Reach
+远隔
 
 #org @NAME_ABILITY_204_LIQUID_VOICE
-Liquid Voice
+湿润之声
 
 #org @NAME_ABILITY_205_TRIAGE
-Triage
+先行治疗
 
 #org @NAME_ABILITY_206_GALVANIZE
-Galvanize
+电气皮肤
 
 #org @NAME_ABILITY_207_SURGE_SURFER
-Surge Surfer
+冲浪之尾
 
 #org @NAME_ABILITY_208_SCHOOLING
-Schooling
+鱼群
 
 #org @NAME_ABILITY_209_DISGUISE
-Disguise
+画皮
 
 #org @NAME_ABILITY_210_BATTLE_BOND
-Battle Bond
+牵绊变身
 
 #org @NAME_ABILITY_211_POWER_CONSTRUCT
-Power Construct
+群聚变形
 
 #org @NAME_ABILITY_212_CORROSION
-Corrosion
+腐蚀
 
 #org @NAME_ABILITY_213_COMATOSE
-Comatose
+绝对睡眠
 
 #org @NAME_ABILITY_214_QUEENLY_MAJESTY
-Queenly Majesty
+女王的威严
 
 #org @NAME_ABILITY_215_INNARDS_OUT
-Innards Out
+飞出的内在物
 
 #org @NAME_ABILITY_216_DANCER
-Dancer
+舞者
 
 #org @NAME_ABILITY_217_BATTERY
-Battery
+蓄电池
 
 #org @NAME_ABILITY_218_FLUFFY
-Fluffy
+毛茸茸
 
 #org @NAME_ABILITY_219_DAZZLING
-Dazzling
+鲜艳之躯
 
 #org @NAME_ABILITY_220_SOUL_HEART
-Soul-Heart
+魂心
 
 #org @NAME_ABILITY_221_TANGLING_HAIR
-Tangling Hair
+卷发
 
 #org @NAME_ABILITY_222_RECEIVER
-Receiver
+接球手
 
 #org @NAME_ABILITY_223_POWER_OF_ALCHEMY
-Power of Alchemy
+化学之力
 
 #org @NAME_ABILITY_224_BEAST_BOOST
-Beast Boost
+异兽提升
 
 #org @NAME_ABILITY_225_RKS_SYSTEM
-RKS System
+AR系统
 
 #org @NAME_ABILITY_226_ELECTRIC_SURGE
-Electric Surge
+电气制造者
 
 #org @NAME_ABILITY_227_PSYCHIC_SURGE
-Psychic Surge
+精神制造者
 
 #org @NAME_ABILITY_228_MISTY_SURGE
-Misty Surge
+薄雾制造者
 
 #org @NAME_ABILITY_229_GRASSY_SURGE
-Grassy Surge
+青草制造者
 
 #org @NAME_ABILITY_230_FULL_METAL_BODY
-Full Metal Body
+金属防护
 
 #org @NAME_ABILITY_231_SHADOW_SHIELD
-Shadow Shield
+幻影防守
 
 #org @NAME_ABILITY_232_PRISM_ARMOR
-Prism Armor
+棱镜装甲
 
 #org @NAME_ABILITY_233_NEUROFORCE
-Neuroforce
+脑核之力
 
 #org @NAME_ABILITY_234_INTREPID_SWORD
-Intrepid Sword
+不挠之剑
 
 #org @NAME_ABILITY_235_DAUNTLESS_SHIELD
-Valiant Shield
+不屈之盾
 
 #org @NAME_ABILITY_236_LIBERO
-Libero
+自由者
 
 #org @NAME_ABILITY_237_BALL_FETCH
-Ball Fetch
+捡球
 
 #org @NAME_ABILITY_238_COTTON_DOWN
-Cotton Down
+棉絮
 
 #org @NAME_ABILITY_239_PROPELLER_TAIL
-Propeller Tail
+螺旋尾鳍
 
 #org @NAME_ABILITY_240_MIRROR_ARMOR
-Mirror Armor
+镜甲
 
 #org @NAME_ABILITY_241_GULP_MISSILE
-Gulp Missile
+一口导弹
 
 #org @NAME_ABILITY_242_STALWART
-Stalwart
+坚毅
 
 #org @NAME_ABILITY_243_STEAM_ENGINE
-Steam Engine
+蒸汽机
 
 #org @NAME_ABILITY_244_PUNK_ROCK
-Punk Rock
+庞克摇滚
 
 #org @NAME_ABILITY_245_SAND_SPIT
-Sand Spit
+吐沙
 
 #org @NAME_ABILITY_246_ICE_SCALES
-Ice Scales
+冰鳞粉
 
 #org @NAME_ABILITY_247_RIPEN
-Ripen
+熟成
 
 #org @NAME_ABILITY_248_ICE_FACE
-Ice Face
+结冻头
 
 #org @NAME_ABILITY_249_POWER_SPOT
-Power Spot
+能量点
 
 #org @NAME_ABILITY_250_MIMICRY
-Mimicry
+拟态
 
 #org @NAME_ABILITY_251_SCREEN_CLEANER
-Screen Cleaner
+除障
 
 #org @NAME_ABILITY_252_STEELY_SPIRIT
-Steely Spirit
+钢之意志
 
 #org @NAME_ABILITY_253_PERISH_BODY
-Perish Body
+灭亡之躯
 
 #org @NAME_ABILITY_254_WANDERING_SPIRIT
-Wandering Soul
+游魂
 
 #org @NAME_ABILITY_255_GORILLA_TACTICS
-Gorilla Tactics
+一猩一意
 
 #org @NAME_ABILITY_256_NEUTRALIZING_GAS
-Neutralizing Gas
+化学变化气体
 
 #org @NAME_ABILITY_257_PASTEL_VEIL
-Pastel Veil
+粉彩护幕
 
 #org @NAME_ABILITY_258_HUNGER_SWITCH
-Hunger Switch
+饱了又饿
 
 #org @NAME_ABILITY_259_QUICK_DRAW
-Quick Draw
+速击
 
 #org @NAME_ABILITY_260_UNSEEN_FIST
-Unseen Fist
+无形拳
 
 #org @NAME_ABILITY_261_CURIOUS_MEDICINE
-Curious Medicine
+怪药
 
 #org @NAME_ABILITY_262_TRANSISTOR
-Transistor
+电晶体
 
 #org @NAME_ABILITY_263_DRAGONS_MAW
-Dragon's Maw
+龙颚
 
 #org @NAME_ABILITY_264_CHILLING_NEIGH
-Chilling Neigh
+苍白嘶鸣
 
 #org @NAME_ABILITY_265_GRIM_NEIGH
-Grim Neigh
+漆黑嘶鸣
 
 #org @NAME_ABILITY_266_AS_ONE_ICE_RIDER
-As One
+人马一体
 
 #org @NAME_ABILITY_267_AS_ONE_SHADOW_RIDER
-As One
+人马一体
 
-#org @NAME_ABILITY_268_LINGERING_AROMA
-Lingering Aroma
+#org @NAME_ABILITY_268_LINGERINGAROMA
+甩不掉的气味
 
-#org @NAME_ABILITY_269_SEED_SOWER
-Seed Sower
+#org @NAME_ABILITY_269_SEEDSOWER
+掉出种子
 
-#org @NAME_ABILITY_270_THERMAL_EXCHANGE
-Thermal Exchange
+#org @NAME_ABILITY_270_THERMALEXCHANGE
+热交换
 
-#org @NAME_ABILITY_271_ANGER_SHELL
-Anger Shell
+#org @NAME_ABILITY_271_ANGERSHELL
+愤怒甲壳
 
-#org @NAME_ABILITY_272_PURIFYING_SALT
-Purifying Salt
+#org @NAME_ABILITY_272_PURIFYINGSALT
+洁净之盐
 
-#org @NAME_ABILITY_273_WELL_BAKED_BODY
-Well-Baked Body
+#org @NAME_ABILITY_273_WELLBAKEDBODY
+焦香之躯
 
-#org @NAME_ABILITY_274_WIND_RIDER
-Wind Rider
+#org @NAME_ABILITY_274_WINDRIDER
+乘风
 
-#org @NAME_ABILITY_275_GUARD_DOG
-Guard Dog
+#org @NAME_ABILITY_275_GUARDDOG
+看门犬
 
-#org @NAME_ABILITY_276_ROCKY_PAYLOAD
-Rocky Payload
+#org @NAME_ABILITY_276_ROCKYPAYLOAD
+搬岩
 
-#org @NAME_ABILITY_277_WIND_POWER
-Wind Power
+#org @NAME_ABILITY_277_WINDPOWER
+风力发电
 
-#org @NAME_ABILITY_278_ZERO_TO_HERO
-Zero to Hero
+#org @NAME_ABILITY_278_ZEROTOHERO
+全能变身
 
 #org @NAME_ABILITY_279_COMMANDER
-Commander
+发号施令
 
 #org @NAME_ABILITY_280_ELECTROMORPHOSIS
-Electromorphosis
+电力转换
 
 #org @NAME_ABILITY_281_PROTOSYNTHESIS
-Protosynthesis
+古代活性
 
-#org @NAME_ABILITY_282_QUARK_DRIVE
-Quark Drive
+#org @NAME_ABILITY_282_QUARKDRIVE
+夸克充能
 
-#org @NAME_ABILITY_283_GOOD_AS_GOLD
-Good as Gold
+#org @NAME_ABILITY_283_GOODASGOLD
+黄金之躯
 
-#org @NAME_ABILITY_284_VESSEL_OF_RUIN
-Vessel of Ruin
+#org @NAME_ABILITY_284_VESSELOFRUIN
+灾祸之鼎
 
-#org @NAME_ABILITY_285_SWORD_OF_RUIN
-Sword of Ruin
+#org @NAME_ABILITY_285_SWORDOFRUIN
+灾祸之剑
 
-#org @NAME_ABILITY_286_TABLETS_OF_RUIN
-Tablets of Ruin
+#org @NAME_ABILITY_286_TABLETSOFRUIN
+灾祸之简
 
-#org @NAME_ABILITY_287_BEADS_OF_RUIN
-Beads of Ruin
+#org @NAME_ABILITY_287_BEADSOFRUIN
+灾祸之玉
 
-#org @NAME_ABILITY_288_ORICHALCUM_PULSE
-Orichalcum Pulse
+#org @NAME_ABILITY_288_ORICHALCUMPULSE
+绯红脉动
 
-#org @NAME_ABILITY_289_HADRON_ENGINE
-Hadron Engine
+#org @NAME_ABILITY_289_HADRONENGINE
+强子引擎
 
 #org @NAME_ABILITY_290_OPPORTUNIST
-Opportunist
+跟风
 
-#org @NAME_ABILITY_291_CUD_CHEW
-Cud Chew
+#org @NAME_ABILITY_291_CUDCHEW
+反刍
 
 #org @NAME_ABILITY_292_SHARPNESS
-Sharpness
+锋锐
 
-#org @NAME_ABILITY_293_SUPREME_OVERLORD
-Supreme Overlord
+#org @NAME_ABILITY_293_SUPREMEOVERLORD
+大将
 
 #org @NAME_ABILITY_294_COSTAR
-Costar
+同台共演
 
-#org @NAME_ABILITY_295_TOXIC_DEBRIS
-Toxic Debris
+#org @NAME_ABILITY_295_TOXICDEBRIS
+毒满地
 
-#org @NAME_ABILITY_296_ARMOR_TAIL
-Armor Tail
+#org @NAME_ABILITY_296_ARMORTAIL
+尾甲
 
-#org @NAME_ABILITY_297_EARTH_EATER
-Earth Eater
+#org @NAME_ABILITY_297_EARTHEATER
+食土
 
-#org @NAME_ABILITY_298_MYCELIUM_MIGHT
-Mycelium Might
+#org @NAME_ABILITY_298_MYCELIUMMIGHT
+菌丝之力
 
 #org @NAME_ABILITY_299_HOSPITALITY
-Hospitality
+款待
 
-#org @NAME_ABILITY_300_MINDS_EYE
-Mind[B4]s Eye
+#org @NAME_ABILITY_300_MINDSEYE
+心眼
 
-#org @NAME_ABILITY_301_EMBODY_ASPECT_TEAL_MASK
-Embody Aspect
+#org @NAME_ABILITY_301_EMBODYASPECTTEALMASK
+面影辉映
 
-#org @NAME_ABILITY_302_EMBODY_ASPECT_HEARTHFLAME_MASK
-Embody Aspect
+#org @NAME_ABILITY_302_EMBODYASPECTHEARTHFLAMEMASK
+面影辉映
 
-#org @NAME_ABILITY_303_EMBODY_ASPECT_WELLSPRING_MASK
-Embody Aspect
+#org @NAME_ABILITY_303_EMBODYASPECTWELLSPRINGMASK
+面影辉映
 
-#org @NAME_ABILITY_304_EMBODY_ASPECT_CORNERSTONE_MASK
-Embody Aspect
+#org @NAME_ABILITY_304_EMBODYASPECTCORNERSTONEMASK
+面影辉映
 
-#org @NAME_ABILITY_305_TOXIC_CHAIN
-Toxic Chain
+#org @NAME_ABILITY_305_TOXICCHAIN
+毒锁链
 
-#org @NAME_ABILITY_306_SUPERSWEET_SYRUP
-Supersweet Syrup
+#org @NAME_ABILITY_306_SUPERSWEETSYRUP
+甘露之蜜
 
-#org @NAME_ABILITY_307_TERA_SHIFT
-Tera Shift
+#org @NAME_ABILITY_307_TERASHIFT
+太晶变形
 
-#org @NAME_ABILITY_308_TERA_SHELL
-Tera Shell
+#org @NAME_ABILITY_308_TERASHELL
+太晶甲壳
 
-#org @NAME_ABILITY_309_TERAFORM_ZERO
-Teraform Zero
+#org @NAME_ABILITY_309_TERAFORMZERO
+归零化境
 
-#org @NAME_ABILITY_310_POISON_PUPPETEER
-Poison Puppeteer
+#org @NAME_ABILITY_310_POISONPUPPETEER
+毒傀儡
 
-#org @NAME_ABILITY_311_PIERCING_DRILL
-Piercing Drill
+#org @NAME_ABILITY_311_PIERCINGDRILL
+贯穿钻
 
 #org @NAME_ABILITY_312_DRAGONIZE
-Dragonize
+龙皮肤
 
-#org @NAME_ABILITY_313_313
-Portal Power
+#org @NAME_ABILITY_313_EELEVATE
+鳗鳗高升
 
 #org @NAME_ABILITY_314_314
-Evaporate
-
-#org @NAME_ABILITY_315_MEGA_SOL
-Mega Sol
-
-#org @NAME_ABILITY_316_316
 -
+
+#org @NAME_ABILITY_315_MEGASOL
+超级日光
+
+#org @NAME_ABILITY_316_FIREMANE
+火焰鬃毛
 
 #org @NAME_ABILITY_317_317
 -
 
-#org @NAME_ABILITY_318_SPICY_SPRAY
-Spicy Spray
+#org @NAME_ABILITY_318_SPICYSPRAY
+辣椒喷发
+
+#org @NAME_ABILITY_319_FOCUSBELT
+噬喉啮心
+
+#org @NAME_ABILITY_320_SONILATE
+音浪皮肤
+
+#org @NAME_ABILITY_321_IMPROVISE
+随机应变
+
+#org @NAME_ABILITY_322_WAVEFIST
+浪花之拳
+
+#org @NAME_ABILITY_323_DESPERATESTRIKE
+殊死一搏
+
+#org @NAME_ABILITY_324_PSYGRAVITY
+意念控制
+
+#org @NAME_ABILITY_325_VOLATILEEXPLOSION
+一触即爆
+
+#org @NAME_ABILITY_326_STICKSTICKPASS
+棒棒相传
+
+#org @NAME_ABILITY_327_HEAVYARMOR
+重甲
+
+#org @NAME_ABILITY_328_VENOMFORTE
+强注毒液
+
+#org @NAME_ABILITY_329_SPIDERSENSE
+蜘蛛感应
+
+#org @NAME_ABILITY_330_UNICORNPEGASUS
+冲锋
+
+#org @NAME_ABILITY_331_AQUAREGEN
+水之再生
+
+#org @NAME_ABILITY_332_QUICKCHARGE
+雷厉风行
+
+#org @NAME_ABILITY_333_ICEDEITY
+冰之神
+
+#org @NAME_ABILITY_334_THUNDERDEITY
+雷之神
+
+#org @NAME_ABILITY_335_FIREDEITY
+火之神
+
+#org @NAME_ABILITY_336_GRASSDASH
+燃烧之魂
+
+#org @NAME_ABILITY_337_MUTANTADAPT
+变异适应
+
+#org @NAME_ABILITY_338_PSYCHOREBOUND
+精神棱镜
+
+#org @NAME_ABILITY_339_SHADOWHEAL
+暗影治愈
+
+#org @NAME_ABILITY_340_EEVEEHERO
+全能变身
+
+#org @NAME_ABILITY_341_FLOWERBLADE
+花刃
 
 #org @NAME_LAST_ABILITY
 -
-
-//Below Abilities are loaded dynamically by the engine
-#org @NAME_ABILITY_AIRLOCK
-Air Lock
-
-#org @NAME_ABILITY_VITALSPIRIT
-Vital Spirit
-
-#org @NAME_ABILITY_WHITESMOKE
-White Smoke
-
-#org @NAME_ABILITY_PUREPOWER
-Pure Power
-
-#org @NAME_ABILITY_IRONBARBS
-Iron Barbs
-
-#org @NAME_ABILITY_SOLIDROCK
-Solid Rock
-
-#org @NAME_ABILITY_TURBOBLAZE
-Turboblaze
-
-#org @NAME_ABILITY_TERAVOLT
-Teravolt
-
-#org @NAME_ABILITY_CHILLINGNEIGH
-Chilling Neigh
-
-#org @NAME_ABILITY_LIBERO
-Libero
-
-#org @NAME_ABILITY_TANGLINGHAIR
-Tangling Hair
-
-#org @NAME_ABILITY_WIMPOUT
-Wimp Out
-
-#org @NAME_ABILITY_QUEENLYMAJESTY
-Queenly Majesty
-
-#org @NAME_ABILITY_POWEROFALCHEMY
-Alchemic Power
-
-#org @NAME_ABILITY_PROPELLERTAIL
-Propeller Tail
-
-//Unbound Custom Abilities//
-
-#org @NAME_ABILITY_NINELIVES
-Nine Lives
-
-#org @NAME_ABILITY_FOCUSBELT
-Focus Belt
-
-#org @NAME_ABILITY_EVAPORATE
-Evaporate
-
-#org @NAME_ABILITY_FIERYNEIGH
-Fiery Neigh
-
-#org @NAME_ABILITY_SHOCKINGNEIGH
-Shocking Neigh
-
-#org @NAME_ABILITY_PRIDE
-Pride
-
-#org @NAME_ABILITY_MULTIEYE
-Multieye
-
-#org @NAME_ABILITY_SUBTERFUGE
-Subterfuge
-
-#org @NAME_ABILITY_HONEYARMOR
-Honey Armor
-
-#org @NAME_ABILITY_TANGLINGWOOL
-Tangling Wool
-
-#org @NAME_ABILITY_BRAINBOND
-Brain Bond
-
-#org @NAME_ABILITY_GRASSDASH
-Grass Dash
-
-#org @NAME_ABILITY_SLIPPERYTAIL
-Slippery Tail
-
-#org @NAME_ABILITY_DRILLBEAK
-Drill Beak
-
-#org @NAME_ABILITY_COTTONCLOUD
-Cotton Cloud
-
-#org @NAME_ABILITY_BELLOW
-Bellow
-
-#org @NAME_ABILITY_SOUNDWAVES
-Sound Waves
-
-#org @NAME_ABILITY_ICYSKIN
-Icy Skin
-
-#org @NAME_ABILITY_DUSTYSCALES
-Dusty Scales
-
-#org @NAME_ABILITY_CRABBYTACTICS
-Crabby Tactics
-
-#org @NAME_ABILITY_FACESHIELD
-Face Shield
-
-#org @NAME_ABILITY_ROYALROAR
-Royal Roar
-
-#org @NAME_ABILITY_ANGERSHELL
-Anger Shell
-
-#org @NAME_ABILITY_ARMORTAIL
-Armor Tail
-
-#org @NAME_ABILITY_BEADSOFRUIN
-Beads O'Ruin
-
-#org @NAME_ABILITY_SWORDOFRUIN
-Sword O'Ruin
-
-#org @NAME_ABILITY_TABLETSOFRUIN
-Tablet O'Ruin
-
-#org @NAME_ABILITY_VESSELOFRUIN
-Vessel O'Ruin
-
-#org @NAME_ABILITY_COSTAR
-Costar
-
-#org @NAME_ABILITY_CUDCHEW
-Cud Chew
-
-#org @NAME_ABILITY_EARTHEATER
-Earth Eater
-
-#org @NAME_ABILITY_ELECTROMORPHOSIS
-Electromorphosis
-
-#org @NAME_ABILITY_GOODASGOLD
-Good As Gold
-
-#org @NAME_ABILITY_GUARDDOG
-Guard Dog
-
-#org @NAME_ABILITY_HADRONENGINE
-HadronEngine
-
-#org @NAME_ABILITY_MINDSEYE
-Mind[B4]s Eye
-
-#org @NAME_ABILITY_MYCELIUMMIGHT
-Mycelium Might
-
-#org @NAME_ABILITY_OPPORTUNIST
-Opportunist
-
-#org @NAME_ABILITY_ORICHALCUMPULSE
-Orichalcum Pulse
-
-#org @NAME_FULL_METAL_BODY
-Full Metal Body
-
-#org @NAME_ABILITY_PROTOSYNTHESIS
-Protosynthesis
-
-#org @NAME_ABILITY_PURESALT
-Purifying Salt
-
-#org @NAME_ABILITY_ROCKYPAYLOAD
-Rock Payload
-
-#org @NAME_ABILITY_SEEDSOWER
-Seed Sower
-
-#org @NAME_ABILITY_SHARPNESS
-Sharpness
-
-#org @NAME_ABILITY_SUPREMEOVERLORD
-Supreme Overlord
-
-#org @NAME_ABILITY_SUPERSWEETSYRUP
-Supsweet Syrup
-
-#org @NAME_ABILITY_TERASHIFT
-Tera Shift
-
-#org @NAME_ABILITY_TERASHELL
-Tera Shell
-
-#org @NAME_ABILITY_THERMALEXCHANGE
-Thermal Exchange
-
-#org @NAME_ABILITY_TOXICCHAIN
-Toxic Chain
-
-#org @NAME_ABILITY_POISONPUPPETEER
-Poison Puppeter
-
-#org @NAME_ABILITY_TOXICDEBRIS
-Toxic Debris
-
-#org @NAME_ABILITY_WELLBAKEDBODY
-Well-Baked Body
-
-#org @NAME_ABILITY_WINDPOWER
-Wind Power
-
-#org @NAME_ABILITY_WINDRIDER
-Wind Rider
-
-#org @NAME_ABILITY_ZEROTOHERO
-Zero to Hero

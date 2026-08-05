@@ -1,711 +1,996 @@
 #include "src/config.h"
 
+#org @DESC_NONE
+没有特别的能力
+
+#org @DESC_STENCH
+在攻击的时候，有时会使对手畏缩
+
+#org @DESC_DRIZZLE
+出场时，会将天气变为下雨
+
+#org @DESC_SPEEDBOOST
+每一回合速度会变快
+
+#org @DESC_BATTLEARMOR
+不会被对手的攻击击中要害
+
+#org @DESC_STURDY
+HP全满时，不会被一击打倒
+
+#org @DESC_DAMP
+全场无法使用自爆等爆炸类的招式
+
+#org @DESC_LIMBER
+不会变为麻痹状态
+
+#org @DESC_SANDVEIL
+在沙暴的时候，闪避率会提高
+
+#org @DESC_STATIC
+有时会让接触到自己的对手麻痹
+
+#org @DESC_VOLTABSORB
+受到电属性的招式攻击会回复HP
+
+#org @DESC_WATERABSORB
+受到水属性的招式攻击会回复HP
+
+#org @DESC_OBLIVIOUS
+不会变为着迷状态也不受威吓影响
+
+#org @DESC_CLOUDNINE
+任何天气的影响都会消失
+
+#org @DESC_COMPOUNDEYES
+招式的命中率会提高
+
+#org @DESC_INSOMNIA
+不会陷入睡眠状态
+
+#org @DESC_COLORCHANGE
+属性变为从对手处所受招式的属性
+
+#org @DESC_IMMUNITY
+不会变为中毒状态
+
+#org @DESC_FLASHFIRE
+受到火属性的招式攻击会变强
+
+#org @DESC_SHIELDDUST
+不会受到招式的追加效果影响
+
+#org @DESC_OWNTEMPO
+不会变为混乱状态也不受威吓影响
+
+#org @DESC_SUCTIONCUPS
+让替换宝可梦的招式和道具无效
+
+#org @DESC_INTIMIDATE
+降低对手的攻击
+
+#org @DESC_SHADOWTAG
+对手无法逃走或替换
+
+#org @DESC_ROUGHSKIN
+弄伤接触到自己的对手
+
+#org @DESC_WONDERGUARD
+只有效果绝佳的招式才能击中
+
+#org @DESC_LEVITATE
+不会受到地面属性招式的攻击
+
+#org @DESC_EFFECTSPORE
+接触到自己的对手有时会染上异常
+
+#org @DESC_SYNCHRONIZE
+将中毒、麻痹或灼伤传染给对手
+
+#org @DESC_CLEARBODY
+不会因对手的招式或特性降低能力
+
+#org @DESC_NATURALCURE
+回到同行队伍后，异常状态会治愈
+
+#org @DESC_LIGHTNINGROD
+吸引电属性的招式，会提高特攻
+
+#org @DESC_SERENEGRACE
+招式的追加效果容易出现
+
+#org @DESC_SWIFTSWIM
+下雨天气时，速度会提高
+
+#org @DESC_CHLOROPHYLL
+晴朗天气时，速度会提高
+
+#org @DESC_ILLUMINATE
+命中不会被降低且无视对手闪避率
+
+#org @DESC_TRACE
+出场时，变为与对手相同的特性
+
+#org @DESC_HUGEPOWER
+物理攻击的威力会变为2倍
+
+#org @DESC_POISONPOINT
+有时会让接触到自己的对手中毒
+
+#org @DESC_INNERFOCUS
+不会因攻击而畏缩也不受威吓影响
+
 #org @DESC_MAGMAARMOR
 #ifdef FROSTBITE
-Can't get frostbite.
+不会变为冻伤状态
 #else
-Can't be frozen solid.
+不会变为冰冻状态
 #endif
 
-#org @DESC_SWEETVEIL
-Keeps user and allies awake.
+#org @DESC_WATERVEIL
+不会变为灼伤状态
 
-#org @DESC_SKILLLINK
-Multi-hit moves hit five times.
+#org @DESC_MAGNETPULL
+钢属性的宝可梦无法逃走
+
+#org @DESC_SOUNDPROOF
+不受到声音招式的影响
+
+#org @DESC_RAINDISH
+下雨天气时，会缓缓回复HP
+
+#org @DESC_SANDSTREAM
+出场时，会把天气变为沙暴
+
+#org @DESC_PRESSURE
+增加对手使用招式的PP消耗
+
+#org @DESC_THICKFAT
+受火属性和冰属性的招式伤害减半
+
+#org @DESC_EARLYBIRD
+睡眠时能以2倍的速度提早醒来
+
+#org @DESC_FLAMEBODY
+有时会让接触到自己的对手灼伤
+
+#org @DESC_RUNAWAY
+一定能从野生宝可梦那儿逃走
+
+#org @DESC_KEENEYE
+命中不会被降低且无视对手闪避率
+
+#org @DESC_HYPERCUTTER
+不会被对手降低攻击
+
+#org @DESC_PICKUP
+冒险过程中有时会捡到道具
+
+#org @DESC_TRUANT
+如果使出招式，下一回合就会休息
+
+#org @DESC_HUSTLE
+自己的攻击变高，但命中率会降低
+
+#org @DESC_CUTECHARM
+有时会让接触到自己的对手着迷
+
+#org @DESC_PLUS
+同伴有负电特性时，自己特攻提高
+
+#org @DESC_MINUS
+同伴有正电特性时，自己特攻提高
+
+#org @DESC_FORECAST
+有天气影响时，会改变形态
+
+#org @DESC_STICKYHOLD
+不会被对手夺走道具
+
+#org @DESC_SHEDSKIN
+有时会治愈异常状态
+
+#org @DESC_GUTS
+变为异常状态时，攻击会提高
+
+#org @DESC_MARVELSCALE
+变为异常状态时，防御会提高
+
+#org @DESC_LIQUIDOOZE
+受到吸收HP的攻击时，会伤害对手
+
+#org @DESC_OVERGROW
+HP低于1/3时，草属性威力会提高
+
+#org @DESC_BLAZE
+HP低于1/3时，火属性威力会提高
+
+#org @DESC_TORRENT
+HP低于1/3时，水属性威力会提高
+
+#org @DESC_SWARM
+HP低于1/3时，虫属性威力会提高
+
+#org @DESC_ROCKHEAD
+不会受到自身招式的反作用力伤害
+
+#org @DESC_DROUGHT
+出场时，会将天气变为晴朗
+
+#org @DESC_ARENATRAP
+在战斗中让对手无法逃走
+
+#org @DESC_VITALSPIRIT
+不会陷入睡眠状态
+
+#org @DESC_PUREPOWER
+物理攻击的威力会变为2倍
+
+#org @DESC_SHELLARMOR
+不会被对手的攻击击中要害
+
+#org @DESC_AIRLOCK
+任何天气的影响都会消失
+
+#org @DESC_TANGLEDFEET
+在混乱状态时，闪避率会提高
 
 #org @DESC_MOTORDRIVE
-Turns electricity into Speed.
-
-#org @DESC_MULTISCALE
-Reduces damage at full HP.
-
-#org @DESC_TECHNICIAN
-Boosts weaker moves.
-
-#org @DESC_SCRAPPY
-Moves hit Ghost-type Pok\emon.
-
-#org @DESC_SUPERLUCK
-Critical hits land more often.
-
-#org @DESC_SNIPER
-Boosts critical hits.
-
-#org @DESC_REGENERATOR
-Heals upon switching out.
-
-#org @DESC_PRANKSTER
-Status moves hit first.
-
-#org @DESC_ADAPTABILITY
-Boosts same type attacks.
-
-#org @DESC_BIGPECKS
-Prevents Defense reduction.
-
-#org @DESC_MAGICBOUNCE
-Reflects status moves.
-
-#org @DESC_RECKLESS
-Boosts moves with recoil.
-
-#org @DESC_SHEERFORCE
-Trades added effects for power.
-
-#org @DESC_IRONFIST
-Boosts punching moves.
+受到电属性的招式时，速度会提高
 
 #org @DESC_RIVALRY
-Ups power against same gender.
+面对同性会变强，面对异性会变弱
 
-#org @DESC_SANDFORCE
-Boosts moves in a sandstorm.
+#org @DESC_STEADFAST
+每次畏缩时，速度会提高
 
-#org @DESC_SOLARPOWER
-Trades HP for power in sunshine.
+#org @DESC_SNOWCLOAK
+下雪天气时，闪避率会提高
+
+#org @DESC_GLUTTONY
+HP一半时就会把树果吃掉
+
+#org @DESC_ANGERPOINT
+要害被击中时，攻击力变为最大
+
+#org @DESC_UNBURDEN
+失去所持有的道具时，速度会提高
 
 #org @DESC_HEATPROOF
-Heat protection.
+受到火属性的招式伤害减半
+
+#org @DESC_SIMPLE
+能力变化会变为平时的2倍
 
 #org @DESC_DRYSKIN
-Prefers the rain to heat.
+遇水HP会回复，遇火HP会减少
+
+#org @DESC_DOWNLOAD
+根据对手相应地提高攻击或特攻
+
+#org @DESC_IRONFIST
+使用拳类招式的威力会提高
+
+#org @DESC_POISONHEAL
+中毒状态时，HP不会减少而会回复
+
+#org @DESC_ADAPTABILITY
+与自身同属性的招式威力会提高
+
+#org @DESC_SKILLLINK
+连续招式总是能使出最高次数
+
+#org @DESC_HYDRATION
+下雨天气时，异常状态会治愈
+
+#org @DESC_SOLARPOWER
+晴朗天气时，特攻会提高，HP减少
+
+#org @DESC_QUICKFEET
+变为异常状态时，速度会提高
+
+#org @DESC_NORMALIZE
+全部招式都会变为一般属性
+
+#org @DESC_SNIPER
+击中要害时，威力会变得更强
+
+#org @DESC_MAGICGUARD
+不会受到攻击以外的伤害
+
+#org @DESC_NOGUARD
+双方使出的招式都必定会击中
+
+#org @DESC_STALL
+使出招式的顺序必定会变为最后
+
+#org @DESC_TECHNICIAN
+低威力招式的威力提高
+
+#org @DESC_LEAFGUARD
+晴朗天气时，不会变为异常状态
+
+#org @DESC_KLUTZ
+无法使用持有的道具
+
+#org @DESC_MOLDBREAKER
+使出招式不受对手特性的干扰
+
+#org @DESC_SUPERLUCK
+攻击容易击中对手的要害
+
+#org @DESC_AFTERMATH
+濒死时，会炸伤接触到自己的对手
+
+#org @DESC_ANTICIPATION
+可以察觉到对手拥有的危险招式
+
+#org @DESC_FOREWARN
+出场时，读取1个对手拥有的招式
+
+#org @DESC_UNAWARE
+攻击时，无视对手能力的变化
 
 #org @DESC_TINTEDLENS
-Boosts resisted moves.
+效果不好的招式以通常的威力使出
 
-#org @DESC_SOLIDROCK
 #org @DESC_FILTER
-#org @DESC_PRISMARMOR
-Weakens super effective moves.
+减弱受到效果绝佳的攻击招式威力
+
+#org @DESC_SLOWSTART
+在5回合内，攻击和速度减半
+
+#org @DESC_SCRAPPY
+招式可以击中幽灵属性的宝可梦
+
+#org @DESC_STORMDRAIN
+吸引水属性的招式，会提高特攻
+
+#org @DESC_ICEBODY
+下雪天气时，会缓缓回复HP
+
+#org @DESC_SNOWWARNING
+出场时，会将天气变为下雪
+
+#org @DESC_HONEYGATHER
+战斗结束时，有时候会捡来甜甜蜜
+
+#org @DESC_FRISK
+出场时，可以察觉对手的持有物
+
+#org @DESC_RECKLESS
+具有反作用力伤害的招式威力提高
+
+#org @DESC_MULTITYPE
+自己的属性根据持有的石板而改变
+
+#org @DESC_FLOWERGIFT
+晴朗天气时，我方攻击和特防提高
+
+#org @DESC_BADDREAMS
+给予睡眠状态的对手伤害
+
+#org @DESC_PICKPOCKET
+盗取接触到自己的对手的道具
+
+#org @DESC_SHEERFORCE
+招式的追加效果消失，但威力更高
+
+#org @DESC_CONTRARY
+能力的变化发生逆转
+
+#org @DESC_UNNERVE
+让对手紧张，使其无法食用树果
+
+#org @DESC_DEFIANT
+被对手降低能力时，攻击大幅提高
+
+#org @DESC_DEFEATIST
+HP减半时，攻击和特攻会减半
+
+#org @DESC_CURSEDBODY
+有时会让接触到自己的对手定身法
+
+#org @DESC_HEALER
+有时会治愈异常状态的同伴
+
+#org @DESC_FRIENDGUARD
+可以减少我方的伤害
+
+#org @DESC_WEAKARMOR
+受伤时，防御降低，速度大幅提高
+
+#org @DESC_HEAVYMETAL
+自身的重量会变为2倍
+
+#org @DESC_LIGHTMETAL
+自身的重量会减半
+
+#org @DESC_MULTISCALE
+HP全满时，受到的伤害会变少
+
+#org @DESC_TOXICBOOST
+变为中毒状态时，物理威力会提高
+
+#org @DESC_FLAREBOOST
+变为灼伤状态时，特殊威力会提高
+
+#org @DESC_HARVEST
+可以多次制作出已被使用掉的树果
+
+#org @DESC_TELEPATHY
+读取我方的攻击并闪避其招式伤害
+
+#org @DESC_MOODY
+每一回合随机提高和降低某项能力
+
+#org @DESC_OVERCOAT
+免疫沙暴的伤害和粉末类招式
+
+#org @DESC_POISONTOUCH
+使用接触类招式有时会让对手中毒
+
+#org @DESC_REGENERATOR
+退回同行队伍后，HP会少量回复
+
+#org @DESC_BIGPECKS
+不会受到防御降低的效果
+
+#org @DESC_SANDRUSH
+沙暴天气时，速度会提高
+
+#org @DESC_WONDERSKIN
+成为不易受到变化招式攻击的身体
+
+#org @DESC_ANALYTIC
+在最后使出招式，招式威力会提高
+
+#org @DESC_ILLUSION
+假扮成队伍中最后一只宝可梦出场
+
+#org @DESC_IMPOSTER
+变身为当前面对的宝可梦
 
 #org @DESC_INFILTRATOR
 #ifdef UNBOUND
-Passes through barriers and Fog.
+穿透对手的壁障或替身进行攻击
 #else
-Passes through barriers.
+穿透对手的壁障或替身进行攻击
 #endif
 
-#org @DESC_DOWNLOAD
-Adjusts power from foe's stats.
-
-#org @DESC_POISONHEAL
-Restores HP if poisoned.
-
-#org @DESC_ICEBODY
-Slight HP recovery in hail.
-
-#org @DESC_MOODY
-Ups one stat and downs another.
-
-#org @DESC_HYDRATION
-Heals status problems in rain.
-
-#org @DESC_HEALER
-May heal ally's status problems.
-
-#org @DESC_SNOWCLOAK
-Ups evasion in hail.
-
-#org @DESC_TANGLEDFEET
-Ups evasion if confused.
-
-#org @DESC_SNOWWARNING
-Summons a hailstorm in battle.
-
-#org @DESC_QUICKFEET
-Ups Speed if suffering.
-
-#org @DESC_SAPSIPPER
-Boosts Attack if hit by Grass.
-
-#org @DESC_OVERCOAT
-Immune to weather and powder.
-
-#org @DESC_MAGICGUARD
-Only damaged by attacks.
-
-#org @DESC_BULLETPROOF
-Avoids ball and bomb moves.
-
-#org @DESC_GALEWINGS
-Flying-type moves hit first.
+#org @DESC_MUMMY
+接触到自己的对手，会变成木乃伊
 
 #org @DESC_MOXIE
-#org @DESC_CHILLINGNEIGH
-Knockouts boost Attack.
-
-#org @DESC_AFTERMATH
-Fainting damages the foe.
-
-#org @DESC_CURSEDBODY
-May disable a foe's move.
-
-#org @DESC_GOOEY
-#org @DESC_TANGLINGHAIR
-Lowers the foe's Speed if hit.
-
-#org @DESC_MUMMY
-Spreads with contact.
-
-#org @DESC_IRONBARBS
-Hurts to touch.
-
-#org @DESC_SANDRUSH
-Raises Speed in a sandstorm.
-
-#org @DESC_ANALYTIC
-Moving last boosts power.
-
-#org @DESC_NOGUARD
-Ensures that all moves land.
-
-#org @DESC_MEGALAUNCHER
-Boosts aura and pulse moves.
-
-#org @DESC_TOUGHCLAWS
-Boosts moves that make contact.
-
-#org @DESC_STRONGJAW
-Boosts biting moves.
-
-#org @DESC_VICTORYSTAR
-Raises own and ally's accuracy.
-
-#org @DESC_STORMDRAIN
-Draws in water to up Sp. Atk.
-
-#org @DESC_DARKAURA
-Powers up Dark-type moves.
-
-#org @DESC_FAIRYAURA
-Powers up Fairy-type moves.
-
-#org @DESC_AURABREAK
-Reverses Aura Abilities.
-
-#org @DESC_REFRIGERATE
-Normal moves become Ice.
-
-#org @DESC_PIXILATE
-Normal moves become Fairy.
-
-#org @DESC_AERILATE
-Normal moves become Flying.
-
-#org @DESC_NORMALIZE
-All moves become Normal-type.
-
-#org @DESC_UNBURDEN
-Doubles Speed if item is lost.
-
-#org @DESC_SIMPLE
-Doubles stat changes.
-
-#org @DESC_UNAWARE
-Ignores foe's stat changes.
-
-#org @DESC_DEFIANT
-Attack rises when stats fall.
-
-#org @DESC_COMPETITIVE
-Sp. Atk rises when stats fall.
-
-#org @DESC_DEFEATIST
-Gives up at half HP.
-
-#org @DESC_SLOWSTART
-Takes a while to get going.
-
-#org @DESC_TOXICBOOST
-Attack rises when poisoned.
-
-#org @DESC_FLAREBOOST
-Sp. Atk rises when burned.
-
-#org @DESC_FURCOAT
-Halves physical damage.
-
-#org @DESC_WONDERSKIN
-Ups status move evasion.
-
-#org @DESC_PROTEAN
-#org @DESC_LIBERO
-Changes type to match move.
-
-#org @DESC_PARENTALBOND
-Moves get a weaker second hit.
-
-#org @DESC_MOLDBREAKER
-#org @DESC_TURBOBLAZE
-#org @DESC_TERAVOLT
-Moves ignore Abilities.
-
-#org @DESC_ZENMODE
-Transforms below half HP.
-
-#org @DESC_BATTLEBOND
-Transforms after a KO.
-
-#org @DESC_BEASTBOOST
-KOing a foe ups highest stat.
-
-#org @DESC_CORROSION
-May poison any type.
-
-#org @DESC_DISGUISE
-Takes one hit with no damage.
-
-#org @DESC_EMERGENCYEXIT
-#org @DESC_WIMPOUT
-Switches out below half HP.
-
-#org @DESC_FLUFFY
-Halves contact; weak to Fire.
-
-#org @DESC_BROKEN_1
-#org @DESC_BROKEN_2
-No special Ability.
-
-#org @DESC_POWERCONSTRUCT
-Transforms below half HP.
-
-#org @DESC_RKS_SYSTEM
-Changes type to match Memory.
-
-#org @DESC_SCHOOLING
-Schools up with high HP.
-
-#org @DESC_SHADOWSHIELD
-Reduces damage at full HP.
-
-#org @DESC_SHIELDSDOWN
-Lowers shields below half HP.
-
-#org @DESC_SLUSHRUSH
-Boosts speed in Hail.
-
-#org @DESC_SOULHEART
-Knockouts boost Sp. Atk.
-
-#org @DESC_STAMINA
-Taking a hit raises Defense.
-
-#org @DESC_STEELWORKER
-Powers up Steel-type moves.
-
-#org @DESC_TRIAGE
-Gives priority to healing moves.
-
-#org @DESC_WATERBUBBLE
-Ups Water attacks. Prevents burn.
-
-#org @DESC_WATERCOMPACTION
-Water-type hits raise Defense.
-
-#org @DESC_STALL
-Often attacks last.
-
-#org @DESC_MULTITYPE
-Changes type to match held Plate.
-
-#org @DESC_ELECTRICSURGE
-Creates an Electric Terrain.
-
-#org @DESC_GRASSYSURGE
-Creates a Grassy Terrain.
-
-#org @DESC_MISTYSURGE
-Creates a Misty Terrain.
-
-#org @DESC_PSYCHICSURGE
-Creates a Psychic Terrain.
-
-#org @DESC_SURGESURFER
-Boosts Speed on Electric Terrain.
-
-#org @DESC_GRASSPELT
-Ups Defense on Grassy Terrain.
-
-#org @DESC_ANGERPOINT
-Critical hits maximize Attack.
-
-#org @DESC_ANTICIPATION
-Senses super effective moves.
-
-#org @DESC_FOREWARN
-Reveals the foe's strongest move.
-
-#org @DESC_FRISK
-Reveals the foe's held item.
-
-#org @DESC_CONTRARY
-Reverses stat changes.
-
-#org @DESC_UNNERVE
-Stops foes from eating Berries.
-
-#org @DESC_WEAKARMOR
-Hits up Speed but drop Defense.
-
-#org @DESC_HEAVYMETAL
-Doubles weight.
-
-#org @DESC_LIGHTMETAL
-Halves weight.
-
-#org @DESC_STEADFAST
-Flinching raises Speed.
-
-#org @DESC_IMPOSTER
-Transforms upon entering battle.
+如果打倒对手，攻击会提高
 
 #org @DESC_JUSTIFIED
-Dark-type hits raise Attack.
+受到恶属性攻击时，攻击会提高
 
 #org @DESC_RATTLED
-Scary move types raise Speed.
+受恶幽灵虫攻击或威吓时速度提高
 
-#org @DESC_MERCILESS
-Critically hits poisoned foes.
+#org @DESC_MAGICBOUNCE
+免疫由对手使出的变化招式并反弹
+
+#org @DESC_SAPSIPPER
+受到草属性的招式时，攻击会提高
+
+#org @DESC_PRANKSTER
+可以率先使出变化招式
+
+#org @DESC_SANDFORCE
+沙暴天气时，岩地钢属性威力提高
+
+#org @DESC_ZENMODE
+HP变为一半以下时，样子会改变
+
+#org @DESC_VICTORYSTAR
+自己和同伴的命中率会提高
 
 #org @DESC_AROMAVEIL
-Protects against mental problems.
+防住向自己和同伴发出的心灵攻击
 
 #org @DESC_FLOWERVEIL
-Protects Grass-types from status.
-
-#org @DESC_LEAFGUARD
-Protects from status when sunny.
-
-#org @DESC_KLUTZ
-Can't use items.
-
-#org @DESC_FLOWERGIFT
-Powers up team when sunny.
-
-#org @DESC_BADDREAMS
-Hurts sleeping foes.
-
-#org @DESC_PICKPOCKET
-Steals foe's item when hit.
-
-#org @DESC_PORTALPOWER
-Weakens non-contact moves.
-
-#org @DESC_POISONTOUCH
-Can poison foe on contact.
-
-#org @DESC_MAGICIAN
-May steal the foe's held item.
-
-#org @DESC_STANCECHANGE
-Switches form when attacking.
-
-#org @DESC_PRIMORDIALSEA
-Summons a heavy rainstorm.
-
-#org @DESC_DESOLATELAND
-Summons extremely harsh sunlight.
-
-#org @DESC_DELTASTREAM
-Summons a mysterious air current.
-
-#org @DESC_BERSERK
-Ups Sp. Atk below half HP.
-
-#org @DESC_LONGREACH
-Never makes contact.
-
-#org @DESC_LIQUIDVOICE
-Sound moves become Water-type.
-
-#org @DESC_QUEENLYMAJESTY
-Blocks priority moves.
-
-#org @DESC_INNARDSOUT
-Fainting damages the foe.
-
-#org @DESC_DAZZLING
-Blocks priority moves.
-
-#org @DESC_GLUTTONY
-Eats Berries early.
-
-#org @DESC_HONEYGATHER
-Picks up Honey after battle.
-
-#org @DESC_FRIENDGUARD
-Reduces damage done to allies.
-
-#org @DESC_HARVEST
-Can regain consumed Berries.
-
-#org @DESC_TELEPATHY
-Protects from allies' moves.
-
-#org @DESC_ILLUSION
-Enters battle disguised.
+我方草宝可梦免疫能力降低和异常
 
 #org @DESC_CHEEKPOUCH
-Eating Berries restores HP.
+食用树果后，都会回复HP
+
+#org @DESC_PROTEAN
+变为与自己使出的招式相同的属性
+
+#org @DESC_FURCOAT
+对手给予的物理招式的伤害会减半
+
+#org @DESC_MAGICIAN
+夺走被自己招式击中的对手的道具
+
+#org @DESC_BULLETPROOF
+可以防住对手的球和弹类招式
+
+#org @DESC_COMPETITIVE
+被对手降低能力时，特攻大幅提高
+
+#org @DESC_STRONGJAW
+啃咬类招式的威力会提高
+
+#org @DESC_REFRIGERATE
+一般属性的招式会变为冰属性
+
+#org @DESC_SWEETVEIL
+自己和同伴不会变为睡眠状态
+
+#org @DESC_STANCECHANGE
+使出攻击招式，会变为刀剑形态
+
+#org @DESC_GALEWINGS
+满HP可以率先使出飞行属性的招式
+
+#org @DESC_MEGALAUNCHER
+波动和炮类招式的威力会提高
+
+#org @DESC_GRASSPELT
+在青草场地时，防御会提高
 
 #org @DESC_SYMBIOSIS
-Gives item to ally after use.
+同伴消耗道具时，把道具传给同伴
+
+#org @DESC_TOUGHCLAWS
+接触到对手的招式威力会提高
+
+#org @DESC_PIXILATE
+一般属性的招式会变为妖精属性
+
+#org @DESC_GOOEY
+接触到自己的对手，速度会降低
+
+#org @DESC_AERILATE
+一般属性的招式会变为飞行属性
+
+#org @DESC_PARENTALBOND
+亲子俩可以合计攻击2次
+
+#org @DESC_DARKAURA
+全体的恶属性招式变强
+
+#org @DESC_FAIRYAURA
+全体的妖精属性招式变强
+
+#org @DESC_AURABREAK
+让气场的效果发生逆转，降低威力
+
+#org @DESC_PRIMORDIALSEA
+变为不会受到火属性攻击的天气
+
+#org @DESC_DESOLATELAND
+变为不会受到水属性攻击的天气
+
+#org @DESC_DELTASTREAM
+变为令飞行属性的弱点消失的天气
+
+#org @DESC_STAMINA
+受到攻击时，防御会提高
+
+#org @DESC_EMERGENCYEXIT
+HP变为一半时，会退回同行队伍中
+
+#org @DESC_WATERCOMPACTION
+受到水属性攻击时，防御大幅提高
+
+#org @DESC_MERCILESS
+攻击中毒对手时，必定会击中要害
+
+#org @DESC_SHIELDSDOWN
+HP变为一半时，会变得有攻击性
 
 #org @DESC_STAKEOUT
-Doubles damage on replacements.
+对替换出场的对手造成2倍的伤害
+
+#org @DESC_WATERBUBBLE
+降低受到的火属性伤害，不会灼伤
+
+#org @DESC_STEELWORKER
+钢属性的招式威力会提高
+
+#org @DESC_BERSERK
+HP因对手攻击变为一半时特攻提高
+
+#org @DESC_SLUSHRUSH
+下雪天气时，速度会提高
+
+#org @DESC_LONGREACH
+可以不接触对手就使出所有的招式
+
+#org @DESC_LIQUIDVOICE
+所有的声音招式都变为水属性
+
+#org @DESC_TRIAGE
+可以率先使出回复招式
+
+#org @DESC_GALVANIZE
+一般属性的招式会变为电属性
+
+#org @DESC_SURGESURFER
+电气场地时，速度会变为2倍
+
+#org @DESC_SCHOOLING
+HP多的时候会聚起来变强
+
+#org @DESC_DISGUISE
+可以防住1次攻击
+
+#org @DESC_BATTLEBOND
+打倒对手时，会提升能力并变身
+
+#org @DESC_POWERCONSTRUCT
+HP变为一半时，变为完全体形态
+
+#org @DESC_CORROSION
+可以使钢和毒属性的宝可梦中毒
 
 #org @DESC_COMATOSE
-Acts as if asleep.
+视为睡眠，不会陷入任何异常状态
+
+#org @DESC_INNARDSOUT
+被打倒会给予对手倒下前HP的伤害
 
 #org @DESC_DANCER
-Copies dance moves.
+会跟着其他宝可梦使出跳舞招式
 
 #org @DESC_BATTERY
-Powers up allies.
+会提高我方的特殊招式的威力
+
+#org @DESC_FLUFFY
+受接触伤害减半，火属性伤害2倍
+
+#org @DESC_DAZZLING
+对手无法对我方使出先制招式
+
+#org @DESC_SOULHEART
+有宝可梦变为濒死时，特攻会提高
+
+#org @DESC_TANGLINGHAIR
+接触到自己的对手，速度会降低
 
 #org @DESC_RECEIVER
 #org @DESC_POWEROFALCHEMY
-Takes over a KOed ally's Ability.
+继承被打倒的同伴的特性
+
+#org @DESC_BEASTBOOST
+打倒对手时，最高那项能力会提高
+
+#org @DESC_RKS_SYSTEM
+根据持有的存储碟改变自己的属性
+
+#org @DESC_ELECTRICSURGE
+出场时，会布下电气场地
+
+#org @DESC_PSYCHICSURGE
+出场时，会布下精神场地
+
+#org @DESC_MISTYSURGE
+出场时，会布下薄雾场地
+
+#org @DESC_GRASSYSURGE
+出场时，会布下青草场地
+
+#org @DESC_SHADOWSHIELD
+HP全满时，受到的伤害会变少
+
+#org @DESC_PRISMARMOR
+减弱受到效果绝佳的攻击招式威力
 
 #org @DESC_NEUROFORCE
-Powers up super effective hits.
-
-#org @DESC_GALVANIZE
-Normal moves become Electric.
-
-//Sword and Shield Abilities.
+效果绝佳的攻击，威力会变得更强
 
 #org @DESC_INTREPIDSWORD
-Ups Attack on entry.
+出场时，攻击会提高
 
 #org @DESC_DAUNTLESSSHIELD
-Ups Defense on entry.
+出场时，防御会提高
+
+#org @DESC_LIBERO
+变为与自己使出的招式相同的属性
 
 #org @DESC_BALLFETCH
-Fetches first failed Pok\e Ball.
+没道具会拾取第1个捕捉失败的球
 
 #org @DESC_COTTONDOWN
-Lowers everyone's Speed when hit.
-
-#org @DESC_MIRRORARMOR
-Bounces back stat decreases.
-
-#org @DESC_GULPMISSILE
-Spits prey if hit after a swim.
+受到攻击会降低除自己以外的速度
 
 #org @DESC_STALWART
 #org @DESC_PROPELLERTAIL
-Moves ignore redirection.
+无视具有吸引效果的特性或招式
+
+#org @DESC_MIRRORARMOR
+只反弹自己受到的能力降低效果
+
+#org @DESC_GULPMISSILE
+受伤吐出冲浪或潜水时叼来的猎物
 
 #org @DESC_STEAMENGINE
-Fire and Water hits boost Speed.
+受水或火攻击时，速度会巨幅提高
 
 #org @DESC_PUNKROCK
-Ups and resists sound moves.
+声音招式的威力会提高
 
 #org @DESC_SANDSPIT
-Creates a sandstorm when hit.
+受到攻击时，会刮起沙暴
 
 #org @DESC_ICESCALES
-Halves special damage.
+受到的特殊攻击伤害会减半
 
 #org @DESC_RIPEN
-Doubles Berry effects.
+使树果成熟，效果变为2倍
 
 #org @DESC_ICEFACE
-Free physical hit. Hail renews.
+头部的冰能承受1次物理攻击
 
 #org @DESC_POWERSPOT
-Powers up ally moves.
+同伴的招式威力会提高
 
 #org @DESC_MIMICRY
-Changes type with terrain.
+属性会根据场地的状态而变化
 
 #org @DESC_SCREENCLEANER
-Screens are removed on entry.
+出场时除掉光墙、反射壁和极光幕
 
 #org @DESC_STEELYSPIRIT
-Boosts own and ally Steel moves.
+我方的钢属性攻击威力会提高
 
 #org @DESC_PERISHBODY
-Gives a perish count on contact.
+受接触攻击时令双方陷入终焉之歌
 
 #org @DESC_WANDERINGSPIRIT
-Trades Abilities on contact.
+与接触自己的宝可梦互换特性
 
 #org @DESC_GORILLATACTICS
-Ups Attack, but allows one move.
+攻击会提高，但只能使出一种招式
 
 #org @DESC_NEUTRALISINGGAS
-All Abilities are nullified.
+场上所有的特性效果无法生效
 
 #org @DESC_PASTEL_VEIL
-Protects team from poison.
+自己和同伴都不会陷入中毒状态
 
 #org @DESC_HUNGERSWITCH
-Changes form each turn.
-
-#org @DESC_UNSEENFIST
-Contact moves bypass Protect.
-
-#org @DESC_DRAGONSMAW
-Powers up Dragon-type moves.
-
-#org @DESC_TRANSISTOR
-Powers up Electric-type moves.
-
-#org @DESC_GRIMNEIGH
-Knockouts boost Sp. Atk.
-
-#org @DESC_ASONE_GRIM
-Both Unnerve and Grim Neigh.
-
-#org @DESC_ASONE_CHILLING
-Both Unnerve and Chilling Neigh.
+每回合结束时会交替改变样子
 
 #org @DESC_QUICKDRAW
-Sometimes moves quicker.
+有时能比对手先一步行动
+
+#org @DESC_PIERCINGDRILL
+#org @DESC_UNSEENFIST
+使用接触类招式时，无视守护效果
 
 #org @DESC_CURIOUSMEDICINE
-Resets ally's stat changes.
+出场时，将我方的能力变化复原
 
-#org @DESC_QUARKDRIVE
-Boost stat in Electric Terrain.
+#org @DESC_TRANSISTOR
+电属性的招式威力会提高
 
-//Unbound Custom Abilities//
+#org @DESC_DRAGONSMAW
+龙属性的招式威力会提高
 
-#org @DESC_EVAPORATE
-Water moves raise Sp. Atk.
+#org @DESC_CHILLINGNEIGH
+如果打倒对手，攻击会提高
 
-#org @DESC_GRASSDASH
-Grass-type moves hit first.
+#org @DESC_GRIMNEIGH
+如果打倒对手，特攻会提高
 
-#org @DESC_SLIPPERYTAIL
-Tail moves hit first.
+#org @DESC_ASONE_CHILLING
+同时拥有紧张感和苍白嘶鸣
 
-#org @DESC_DRILLBEAK
-Drill moves land critical hits.
-
-#org @DESC_ANGERSHELL
-Changes stats at half HP.
-
-#org @DESC_BEADSOFRUIN
-Lowers all Pokémon SpDef status.
-
-#org @DESC_SWORDOFRUIN
-Lowers all Pokémon Def status.
-
-#org @DESC_TABLETSOFRUIN
-Lowers all Pokémon Atk status.
-
-#org @DESC_VESSELOFRUIN
-Lowers all Pokémon SpAtk status.
-
-#org @DESC_COSTAR
-Copies an ally[B4]s stat stages.
-
-#org @DESC_CUDCHEW
-Eat Berry again at next turn end.
-
-#org @DESC_EARTHEATER
-Turns Ground move into HP.
-
-#org @DESC_ELECTROMORPHOSIS
-Being hit charges Electric moves.
-
-#org @DESC_GOODASGOLD
-Full immunity to status moves.
-
-#org @DESC_GUARDDOG
-Blocks intimidate and switch out.
-
-#org @DESC_HADRONENGINE
-Calls Electric Terrain, up SpAtk.
-
-#org @DESC_MINDSEYE
-Enables moves to hit Ghost-type.
-
-#org @DESC_MYCELIUMMIGHT
-Low priority for Status Moves.
-
-#org @DESC_OPPORTUNIST
-Copies foes status changes.
-
-#org @DESC_ORICHALCUMPULSE
-Summons sunlight and ups Attack.
-
-#org @DESC_PROTOSYNTHESIS
-Boost status when sunny.
-
-#org @DESC_PURIFYINGSALT
-Prevents status conditions.
-
-#org @DESC_ROCKYPAYLOAD
-Powers up Rock-type moves.
-
-#org @DESC_SEEDSOWER
-Creates a Grassy Terrain if hit.
-
-#org @DESC_SHARPNESS
-Powers up slicing moves.
-
-#org @DESC_SUPREMEOVERLORD
-Boost power if an ally fainted.
-
-#org @DESC_SUPERSWEETSYRUP
-Lowers foe's evasiveness stat.
-
-#org @DESC_TERASHIFT
-Changes into its Terastal Form.
-
-#org @DESC_TERASHELL
-Reduces damage when HP is full.
-
-#org @DESC_THERMALEXCHANGE
-Fire hit ups Atk & Prevents burn.
-
-#org @DESC_TOXICCHAIN
-Can badly poison any foe on hit.
-
-#org @DESC_POISONPUPPETEER
-Foe become confused if poisoned.
-
-#org @DESC_TOXICDEBRIS
-Set Toxic Spikes if physical hit.
-
-#org @DESC_WELLBAKEDBODY
-Fire hits boost Defense.
-
-#org @DESC_WINDPOWER
-Boost electricity if hit by Wind.
-
-#org @DESC_WINDRIDER
-Boost Atk if hits by Wind Moves.
-
-#org @DESC_ZEROTOHERO
-Change Hero form when switch out.
+#org @DESC_ASONE_GRIM
+同时拥有紧张感和漆黑嘶鸣
 
 #org @DESC_LINGERINGAROMA
-Contact changes foe Ability.
+被接触会有甩不掉的气味沾上对手
+
+#org @DESC_SEEDSOWER
+受到攻击会将脚下变成青草场地
+
+#org @DESC_THERMALEXCHANGE
+受火攻击时攻击会提高，不会灼伤
+
+#org @DESC_ANGERSHELL
+HP一半时降低双防提升双攻和速度
+
+#org @DESC_PURIFYINGSALT
+受幽灵伤害减半，不会陷入异常
+
+#org @DESC_WELLBAKEDBODY
+受到火属性攻击时，大幅提高防御
+
+#org @DESC_WINDRIDER
+顺风或受风的招式攻击时提高攻击
+
+#org @DESC_GUARDDOG
+受到威吓时，攻击会提高
+
+#org @DESC_ROCKYPAYLOAD
+岩石属性的招式威力会提高
+
+#org @DESC_WINDPOWER
+受到风的招式攻击时变为充电状态
+
+#org @DESC_ZEROTOHERO
+回到同行队伍后，会变为全能形态
 
 #org @DESC_COMMANDER
-Enters an ally Dondozo's mouth.
+出场时，进入吃吼霸口中发出指令
+
+#org @DESC_ELECTROMORPHOSIS
+受到伤害时，会变为充电状态
+
+#org @DESC_PROTOSYNTHESIS
+在晴朗天气会提高数值最高的能力
+
+#org @DESC_QUARKDRIVE
+在电气场地会提高数值最高的能力
+
+#org @DESC_GOODASGOLD
+不会受到对手的变化招式的影响
+
+#org @DESC_VESSELOFRUIN
+在场时，降低除自己以外的特攻
+
+#org @DESC_SWORDOFRUIN
+在场时，降低除自己以外的防御
+
+#org @DESC_TABLETSOFRUIN
+在场时，降低除自己以外的攻击
+
+#org @DESC_BEADSOFRUIN
+在场时，降低除自己以外的特防
+
+#org @DESC_ORICHALCUMPULSE
+出场时，天气会变为晴朗提高攻击
+
+#org @DESC_HADRONENGINE
+出场时，会布下电气场地提高特攻
+
+#org @DESC_OPPORTUNIST
+对手的能力提高时，自己也会提高
+
+#org @DESC_CUDCHEW
+吃树果后，会在下一回合再吃1次
+
+#org @DESC_SHARPNESS
+提高切割对手的招式的威力
+
+#org @DESC_SUPREMEOVERLORD
+出场时按照倒下同伴数量提高双攻
+
+#org @DESC_COSTAR
+出场时，复制同伴的能力变化
+
+#org @DESC_TOXICDEBRIS
+受到物理伤害时，会给对手放毒菱
+
+#org @DESC_EARTHEATER
+受到地面属性的招式攻击会回复HP
+
+#org @DESC_MYCELIUMMIGHT
+慢出变化招式，但不受特性妨碍
 
 #org @DESC_HOSPITALITY
-Restores an ally's HP on entry.
+出场时款待同伴，回复其少量HP
+
+#org @DESC_MINDSEYE
+同时拥有胆量和锐利目光
 
 #org @DESC_EMBODY_ASPECT_TEAL
-Terastallizing boosts Speed.
+出场时，速度会提高
 
 #org @DESC_EMBODY_ASPECT_HEARTHFLAME
-Terastallizing boosts Attack.
+出场时，攻击会提高
 
 #org @DESC_EMBODY_ASPECT_WELLSPRING
-Terastallizing boosts Sp. Def.
+出场时，特防会提高
 
 #org @DESC_EMBODY_ASPECT_CORNERSTONE
-Terastallizing boosts Defense.
+出场时，防御会提高
+
+#org @DESC_TOXICCHAIN
+攻击有时能让对手陷入剧毒状态
+
+#org @DESC_SUPERSWEETSYRUP
+首次出场时，降低对手的闪避率
+
+#org @DESC_TERASHIFT
+出场时，变为太晶形态
+
+#org @DESC_TERASHELL
+HP全满时受到的伤害变为效果不好
 
 #org @DESC_TERAFORMZERO
-Clears weather and terrain.
+首次出场会将天气和场地全部归零
+
+#org @DESC_POISONPUPPETEER
+对手陷入中毒状态的同时也会混乱
+
+#org @DESC_DRAGONIZE
+一般属性的招式会变为龙属性
+
+#org @DESC_EELEVATE
+同时拥有飘浮和异兽提升
+
+#org @DESC_MEGASOL
+使用招式时，视为在大晴天下使用
+
+#org @DESC_FIREMANE
+火属性的招式威力会提高
+
+#org @DESC_SPICYSPRAY
+受到伤害时，会让对手灼伤
+
+#org @DESC_FOCUSBELT
+啃咬类招式必定击中要害
+
+#org @DESC_SONILATE
+全部招式都会变为声音的招式
+
+#org @DESC_IMPROVISE
+用能力值最高的一项进行计算伤害
+
+#org @DESC_WAVEFIST
+拳类招式威力提高并带有水属性
+
+#org @DESC_DESPERATESTRIKE
+只能进攻，有威力的招式获得效果
+
+#org @DESC_PSYGRAVITY
+出场时，让对手进入意念移物状态
+
+#org @DESC_VOLATILEEXPLOSION
+被接触会炸伤对手并布下电气场地
+
+#org @DESC_STICKSTICKPASS
+连续攻击两次的招式威力会翻倍
+
+#org @DESC_HEAVYARMOR
+自身防御比对手攻击高时威力提高
+
+#org @DESC_VENOMFORTE
+对未中毒对手威力提高且让其中毒
+
+#org @DESC_SPIDERSENSE
+同时攻击且同优先度下必定先出招
+
+#org @DESC_UNICORNPEGASUS
+蓄力的招式威力会提高且无需蓄力
+
+#org @DESC_AQUAREGEN
+攻击或受到攻击后，会回复少量HP
+
+#org @DESC_QUICKCHARGE
+出场或受到风的招式时，会充电
+
+#org @DESC_ICEDEITY
+全体的冰属性招式变强，火变弱
+
+#org @DESC_THUNDERDEITY
+全体的电属性招式变强，地面变弱
+
+#org @DESC_FIREDEITY
+全体的火属性招式变强，水变弱
+
+#org @DESC_GRASSDASH
+满HP可以率先使出火属性的招式
+
+#org @DESC_MUTANTADAPT
+同时拥有穿透和适应力
+
+#org @DESC_PSYCHOREBOUND
+触发魔法镜的同时布下精神场地
+
+#org @DESC_SHADOWHEAL
+每回合根据场上异常数量回复HP
+
+#org @DESC_EEVEEHERO
+一般属性招式的效果一般变为绝佳
+
+#org @DESC_FLOWERBLADE
+草招式会击中要害且无视道具效果

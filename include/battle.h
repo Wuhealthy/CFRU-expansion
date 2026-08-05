@@ -811,23 +811,21 @@ struct NewBattleStruct
 	u8 recalculatedBestDoublesKillingScores[MAX_BATTLERS_COUNT];
 	s8 lastBracketCalc[MAX_BATTLERS_COUNT]; //~0x2017A4C
 	u8 chiStrikeCritBoosts[MAX_BATTLERS_COUNT];
-	u8 dragonCheerCritBoosts[MAX_BATTLERS_COUNT];
 	u8 sandblastCentiferno[MAX_BATTLERS_COUNT]; //Records if any banks are trapped by G-Max Centiferno or G-Max Sandblast
 	u8 disguisedAs[MAX_BATTLERS_COUNT]; //The party index + 1 the mon with Illusion is disguised as
 	u8 quickClawRandomNumber[MAX_BATTLERS_COUNT];
 	u8 quickDrawRandomNumber[MAX_BATTLERS_COUNT];
-	u8 powerShifted[MAX_BATTLERS_COUNT];
 	u16 tookAbilityFrom[MAX_BATTLERS_COUNT]; //Helps display the correct Ability when one has been passed around
-	u8 GlaiveRushTimers[MAX_BATTLERS_COUNT];
 	u8 rageFistCounter[MAX_BATTLERS_COUNT];
 	u8 CudChewCounter[MAX_BATTLERS_COUNT];
-	u8 ElectroCounter[MAX_BATTLERS_COUNT];
+	bool8 ElectroCounter[MAX_BATTLERS_COUNT];
+	bool8 windRiderTailwindBoosted[MAX_BATTLERS_COUNT];
+	bool8 oncePerBattleAbilityFlags[NUM_BATTLE_SIDES][PARTY_SIZE];
 	u8 quarkDriveActivated[MAX_BATTLERS_COUNT];
 	u8 ProtosynthesisActivated[MAX_BATTLERS_COUNT];
 	u8 boosterEnergyActivated[MAX_BATTLERS_COUNT];
 	u8 paradoxBoostedStat[MAX_BATTLERS_COUNT];
 	u32 statuses4[MAX_BATTLERS_COUNT]; //Volatile Gen 9 effects (currently Salt Cure)
-	u8 superSweetSyrupActivated[NUM_BATTLE_SIDES]; //Party-index bits; activates once per battle
 
 	//Bit Fields for Banks
 	u8 MicleBerryBits;
@@ -951,7 +949,6 @@ struct NewBattleStruct
 	bool8 isTrainerBattle : 1;
 	bool8 cottonDownActive : 1;
 	bool8 cramorantTransformed : 1;
-	bool8 activateTemperFlare : 1;
 
 	//Other
 	u16 LastUsedMove;
@@ -1312,6 +1309,7 @@ struct FlingStruct
 #define B_ANIM_AI_ITEM_HEAL 0x4E
 #define B_ANIM_HOOPA_RING_SPAWN 0x4F
 #define B_ANIM_SPLINTER_DAMAGE 0x50
+#define B_ANIM_PSY_GRAVITY 0x58
 
 #define B_ANIM_TRANSFORM_MOVE 0xFF
 

@@ -213,11 +213,9 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 		{
 			//Electric
 			case ABILITY_VOLTABSORB:
-			case ABILITY_EARTHEATER:
 			case ABILITY_MOTORDRIVE:
 			case ABILITY_LIGHTNINGROD:
-				if ((moveType == TYPE_ELECTRIC && !(ABILITY(gBankTarget) == ABILITY_EARTHEATER))
-				|| (moveType == TYPE_GROUND && (ABILITY(gBankTarget) == ABILITY_EARTHEATER)))		 // && (moveSplit != SPLIT_STATUS))
+				if (moveType == TYPE_ELECTRIC)
 				{
 					if (!TARGETING_PARTNER) //Good idea to attack partner
 					{
@@ -225,7 +223,18 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 						return viability;
 					}
 				}
-				break;
+    			break;
+
+			case ABILITY_EARTHEATER:
+				if (moveType == TYPE_GROUND)
+				{
+					if (!TARGETING_PARTNER) //Good idea to attack partner
+					{
+						DECREASE_VIABILITY(20);
+						return viability;
+					}
+				}
+    			break;
 
 			//Water
 			case ABILITY_WATERABSORB:
@@ -358,9 +367,8 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				}
 				break;
 				
-			case ABILITY_ANGERPOINT:
 			case ABILITY_WINDRIDER:
-				if (specialMoveFlags->gWindMoves && (ABILITY(bankDef) == ABILITY_WINDRIDER))
+				if (specialMoveFlags->gWindMoves)
 				{
 					DECREASE_VIABILITY(10);
 					return viability;
@@ -1527,13 +1535,9 @@ SKIP_CHECK_TARGET:
 						DECREASE_VIABILITY(8); //No point in healing, but should at least do it if nothing better
 					break;
 
+				case MOVE_LUNARBLESSING:
 				case MOVE_JUNGLEHEALING:
 					if (!ShouldJungleHealingFail(bankAtk))
-						break; //If it'll work, no point in not using it
-					goto DEFAULT_RECOVERY; //Even if it'll fail due to full HP, there may be logic to use it preemptively
-
-				case MOVE_LUNARBLESSING:
-					if (!ShouldLunarBlessingFail(bankAtk))
 						break; //If it'll work, no point in not using it
 					goto DEFAULT_RECOVERY; //Even if it'll fail due to full HP, there may be logic to use it preemptively
 
@@ -2749,14 +2753,10 @@ SKIP_CHECK_TARGET:
 			else
 			{
 				switch (move) {
+					case MOVE_POWERSHIFT:
 					case MOVE_POWERTRICK:
 						if (gBattleMons[bankAtk].attack >= gBattleMons[bankAtk].defense //Already stronger
 						|| !RealPhysicalMoveInMoveset(bankAtk))
-							DECREASE_VIABILITY(10);
-						break;
-
-					case MOVE_POWERSHIFT:
-						if (gNewBS->powerShifted[bankAtk]) //Prevent the AI from getting in a loop
 							DECREASE_VIABILITY(10);
 						break;
 

@@ -31,6 +31,7 @@ static void TryRemoveUnburdenBoost(u8 bank);
 static bool8 CanBeGeneralStatused(u8 bankDef, ability_t defAbility, ability_t atkAbility, bool8 checkFlowerVeil);
 // For Terastallization
 extern bool8 IsTerastallized(u8 bank);
+extern bool8 IsTargetItemIgnoredByAbility(u8 bankAtk, u8 bankDef);
 
 
 u8 GetBankForBattleScript(u8 caseId)
@@ -176,7 +177,7 @@ void ClearBattlerAbilityHistory(u8 bank)
 
 item_effect_t GetBankItemEffect(u8 bank)
 {
-	if (ABILITY(bank) != ABILITY_KLUTZ && !gNewBS->EmbargoTimers[bank] && !IsMagicRoomActive())
+	if (ABILITY(bank) != ABILITY_KLUTZ && !gNewBS->EmbargoTimers[bank] && !IsMagicRoomActive() && !IsTargetItemIgnoredByAbility(gBankAttacker, bank))
 		return ItemId_GetHoldEffect(ITEM(bank));
 
 	return 0;
@@ -305,6 +306,7 @@ bool8 CheckGrounding(u8 bank)
 	else if ((gStatuses3[bank] & (STATUS3_LEVITATING | STATUS3_TELEKINESIS | STATUS3_IN_AIR))
 	|| ITEM_EFFECT(bank) == ITEM_EFFECT_AIR_BALLOON
 	|| ABILITY(bank) == ABILITY_LEVITATE
+	|| ABILITY(bank) == ABILITY_EELEVATE
 	|| IsFloatingWithMagnetism(bank)
 	|| gBattleMons[bank].type3 == TYPE_FLYING
 	|| gBattleMons[bank].type1 == TYPE_FLYING
@@ -328,6 +330,7 @@ bool8 NonInvasiveCheckGrounding(u8 bank, ability_t defAbility, u8 defType1, u8 d
    || GetRecordedItemEffect(bank) == ITEM_EFFECT_AIR_BALLOON
    || IsFloatingWithMagnetism(bank)
    || defAbility == ABILITY_LEVITATE
+   || defAbility == ABILITY_EELEVATE
    || defType1 == TYPE_FLYING
    || defType2 == TYPE_FLYING
    || defType3 == TYPE_FLYING)
@@ -345,7 +348,7 @@ bool8 CheckMonGrounding(struct Pokemon* mon)
 	|| (ItemId_GetHoldEffect(item) == ITEM_EFFECT_IRON_BALL && GetMonAbility(mon) != ABILITY_KLUTZ))
 		return GROUNDED;
 
-	else if (GetMonAbility(mon) == ABILITY_LEVITATE
+	else if (GetMonAbility(mon) == ABILITY_LEVITATE || GetMonAbility(mon) == ABILITY_EELEVATE
 	|| IsMonFloatingWithMagnetism(mon)
 	|| gBaseStats[species].type1 == TYPE_FLYING
 	|| gBaseStats[species].type2 == TYPE_FLYING)
@@ -358,7 +361,7 @@ bool8 CheckGroundingByDetails(u16 species, u16 item, ability_t ability)
 {
 	if (ability != ABILITY_KLUTZ && ItemId_GetHoldEffect(item) == ITEM_EFFECT_IRON_BALL)
 		return GROUNDED;
-	else if (ability == ABILITY_LEVITATE
+	else if (ability == ABILITY_LEVITATE || ability == ABILITY_EELEVATE
 	|| gBaseStats[species].type1 == TYPE_FLYING
 	|| gBaseStats[species].type2 == TYPE_FLYING)
 		return IN_AIR;
@@ -774,6 +777,9 @@ bool8 IsUnusableMove(u16 move, u8 bank, u8 check, u8 pp, ability_t ability, u8 h
 	}
 	else if (holdEffect == ITEM_EFFECT_ASSAULT_VEST && IsMoveBannedByAssaultVest(move) && check & MOVE_LIMITATION_TAUNT)
 		return TRUE;
+	// 殊死一搏：无法使用变化招式（类似突击背心）
+	else if (ability == ABILITY_DESPERATESTRIKE && IsMoveBannedByAssaultVest(move) && check & MOVE_LIMITATION_TAUNT)
+		return TRUE;
 	#ifdef FLAG_SKY_BATTLE
 	else if (gSpecialMoveFlags[move].gSkyBattleBannedMoves && FlagGet(FLAG_SKY_BATTLE) && check & MOVE_LIMITATION_ENCORE)
 		return TRUE;
@@ -799,6 +805,7 @@ bool8 IsUnusableMove(u16 move, u8 bank, u8 check, u8 pp, ability_t ability, u8 h
 u8 CheckMoveLimitationsFromParty(struct Pokemon* mon, u8 unusableMoves, u8 check)
 {
 	u8 holdEffect = GetMonItemEffect(mon);
+	ability_t ability = GetMonAbility(mon);
 
 	for (int i = 0; i < MAX_MON_MOVES; ++i)
 	{
@@ -809,6 +816,9 @@ u8 CheckMoveLimitationsFromParty(struct Pokemon* mon, u8 unusableMoves, u8 check
 		else if (GetMonData(mon, MON_DATA_PP1 + i, NULL) == 0 && check & MOVE_LIMITATION_PP)
 			unusableMoves |= gBitTable[i];
 		else if (holdEffect == ITEM_EFFECT_ASSAULT_VEST && IsMoveBannedByAssaultVest(move))
+			unusableMoves |= gBitTable[i];
+		// 殊死一搏：无法使用变化招式
+		else if (ability == ABILITY_DESPERATESTRIKE && IsMoveBannedByAssaultVest(move))
 			unusableMoves |= gBitTable[i];
 		#ifdef FLAG_SKY_BATTLE
 		else if (check & MOVE_LIMITATION_ENCORE && FlagGet(FLAG_SKY_BATTLE) && gSpecialMoveFlags[move].gSkyBattleBannedMoves)
@@ -1510,7 +1520,7 @@ bool8 IsAffectedByPowderByDetails(u8 type1, u8 type2, u8 type3, ability_t abilit
 
 bool8 MoveIgnoresSubstitutes(u16 move, ability_t atkAbility)
 {
-	return CheckSoundMove(move)
+	return (CheckSoundMove(move) || atkAbility == ABILITY_SONILATE)
 		|| (BypassesScreens(atkAbility) && move != MOVE_TRANSFORM && gBattleMoves[move].effect != EFFECT_SKY_DROP)
 		|| gSpecialMoveFlags[move].gSubstituteBypassMoves;
 }
@@ -1527,13 +1537,13 @@ bool8 MonMoveBlockedBySubstitute(u16 move, struct Pokemon* monAtk, u8 bankDef)
 
 bool8 BypassesScreens(ability_t ability)
 {
-	return ability == ABILITY_INFILTRATOR;
+	return ability == ABILITY_INFILTRATOR || ability == ABILITY_MUTANTADAPT;
 }
 
 bool8 BypassesFog(unusedArg ability_t ability, unusedArg u8 itemEffect)
 {
 	#ifdef UNBOUND
-	return BypassesScreens(ability) || ability == ABILITY_KEENEYE || ItemEffectIgnoresSunAndRain(itemEffect);
+	return BypassesScreens(ability) || ability == ABILITY_KEENEYE || ability == ABILITY_MINDSEYE || ability == ABILITY_ILLUMINATE || ItemEffectIgnoresSunAndRain(itemEffect);
 	#else
 	return FALSE;
 	#endif
@@ -1670,7 +1680,7 @@ u8 AttacksThisTurn(u8 bank, u16 move) // Note: returns 1 if it's a charging turn
 	if (ITEM_EFFECT(bank) == ITEM_EFFECT_POWER_HERB)
 		return 2;
 
-	if (moveEffect == EFFECT_SOLARBEAM && (gBattleWeather & WEATHER_SUN_ANY) && WEATHER_HAS_EFFECT)
+	if ((moveEffect == EFFECT_SOLARBEAM && (gBattleWeather & WEATHER_SUN_ANY) && WEATHER_HAS_EFFECT) || ABILITY(bank) == ABILITY_MEGASOL || ABILITY(bank) == ABILITY_UNICORNPEGASUS)
 		return 2;
 
 	if (moveEffect == EFFECT_SKULL_BASH
@@ -1904,10 +1914,10 @@ bool8 WeatherHasEffect(void)
 		ability_t ability = ABILITY(i);
 
 		if ((ability == ABILITY_CLOUDNINE
-		#ifdef ABILITY_AIRLOCK
-		|| ability == ABILITY_AIRLOCK
-		#endif
-		)
+		|| ability == ABILITY_ICEDEITY
+		|| ability == ABILITY_THUNDERDEITY
+		|| ability == ABILITY_FIREDEITY
+		|| ability == ABILITY_AIRLOCK)
 		&& BATTLER_ALIVE(i))
 			return FALSE;
 	}
@@ -1974,7 +1984,7 @@ bool8 ImposterWorks(u8 bankAtk, bool8 checkingMonAtk) //bankAtk here is mainly u
 		&& !(gStatuses3[targetBank] & (STATUS3_SEMI_INVULNERABLE | STATUS3_ILLUSION))
 		&& (checkingMonAtk || !IS_TRANSFORMED(bankAtk)) //Obviously a party mon can't be transformed
 		#ifdef UNBOUND
-		&& SPECIES(targetBank) != SPECIES_SHADOW_WARRIOR
+		&& SPECIES(targetBank) != SPECIES_EEVEE_HERO
 		&& (SPECIES(targetBank) < SPECIES_CELEBI || SPECIES(targetBank) > SPECIES_TREECKO) //Those Pokemon in between are used for Fakemon bosses
 		#endif
 		&& !HasRaidShields(targetBank)
@@ -2321,7 +2331,7 @@ bool8 CanBeBurned(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 		return FALSE;
 
 	#ifdef UNBOUND
-	if (SPECIES(bankDef) == SPECIES_SHADOW_WARRIOR)
+	if (SPECIES(bankDef) == SPECIES_EEVEE_HERO)
 		return FALSE;
 	#endif
 
@@ -2350,7 +2360,7 @@ bool8 CanBeFrozen(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 		return FALSE;
 
 	#ifdef UNBOUND
-	if (SPECIES(bankDef) == SPECIES_SHADOW_WARRIOR)
+	if (SPECIES(bankDef) == SPECIES_EEVEE_HERO)
 		return FALSE;
 	#endif
 
@@ -2714,17 +2724,10 @@ bool8 IsSunWeatherActive(u8 bank) {
     return gBattleWeather & WEATHER_SUN_ANY && WEATHER_HAS_EFFECT && AffectedBySun(bank);
 }
 
-bool32 IsMyceliumMightOnField(void)
-{
-    return IsBattlerAlive(gBankAttacker)
-        && ABILITY(gBankAttacker) == ABILITY_MYCELIUMMIGHT
-        && SPLIT(gCurrentMove) == SPLIT_STATUS;
-}
-
 void BS_ApplySaltCure(void)
 {
     // callasm leaves the script cursor on the macro's battler argument.
-    u8 battler = GetBattlerForBattleScript(*gBattlescriptCurrInstr);
+    u8 battler = gBankTarget;
     if (gNewBS != NULL && battler < gBattlersCount)
         gNewBS->statuses4[battler] |= STATUS4_SALTCURE;
     gBattlescriptCurrInstr++;

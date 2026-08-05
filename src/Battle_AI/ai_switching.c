@@ -346,7 +346,7 @@ Don't switch to mon if:
 2. It will faint from entry hazards (100%)
 3. The mon to switch to has an HP absorption Ability and will be switched in at full health, and the mon out can take a couple hits (100% in Singles).
 */
-static bool8 TypeAbosorbingSwitchAbilityCheck(struct Pokemon* mon, u8 monId, u16 predictedMove, u8 absorbingTypeAbility1, u8 absorbingTypeAbility2, u8 absorbingTypeAbility3)
+static bool8 TypeAbosorbingSwitchAbilityCheck(struct Pokemon* mon, u8 monId, u16 predictedMove, u16 absorbingTypeAbility1, u16 absorbingTypeAbility2, u16 absorbingTypeAbility3)
 {
 	u8 side = SIDE(gActiveBattler);
 
@@ -405,7 +405,7 @@ static bool8 FindMonThatAbsorbsOpponentsMove(struct Pokemon* party, u8 firstId, 
 	u8 battlerIn1, battlerIn2;
 	u8 foe1, foe2;
 	u16 predictedMove1, predictedMove2;
-	u8 absorbingTypeAbility1, absorbingTypeAbility2, absorbingTypeAbility3;
+	u16 absorbingTypeAbility1, absorbingTypeAbility2, absorbingTypeAbility3;
 
 	LoadBattlersAndFoes(&battlerIn1, &battlerIn2, &foe1, &foe2);
 
@@ -510,14 +510,9 @@ static bool8 FindMonThatAbsorbsOpponentsMove(struct Pokemon* party, u8 firstId, 
 			absorbingTypeAbility3 = ABILITY_FLASHFIRE;
 			break;
 		case TYPE_ELECTRIC:
-			absorbingTypeAbility1 = 0;
-			absorbingTypeAbility2 = 0;
-			absorbingTypeAbility3 = 0;
-			if (!(ABILITY(gBankTarget) == ABILITY_EARTHEATER)){
-				absorbingTypeAbility1 = ABILITY_VOLTABSORB;
-				absorbingTypeAbility2 = ABILITY_LIGHTNINGROD;
-				absorbingTypeAbility3 = ABILITY_MOTORDRIVE;
-				}
+			absorbingTypeAbility1 = ABILITY_VOLTABSORB;
+			absorbingTypeAbility2 = ABILITY_LIGHTNINGROD;
+			absorbingTypeAbility3 = ABILITY_MOTORDRIVE;
 			break;
 		case TYPE_WATER:
 			absorbingTypeAbility1 = ABILITY_WATERABSORB;
@@ -530,14 +525,9 @@ static bool8 FindMonThatAbsorbsOpponentsMove(struct Pokemon* party, u8 firstId, 
 			absorbingTypeAbility3 = ABILITY_SAPSIPPER;
 			break;
 		case TYPE_GROUND:
-			absorbingTypeAbility1 = 0;
-			absorbingTypeAbility2 = 0;
-			absorbingTypeAbility3 = 0;
-			if ((ABILITY(gBankTarget) == ABILITY_EARTHEATER)){
-				absorbingTypeAbility1 = ABILITY_VOLTABSORB;
-				absorbingTypeAbility2 = ABILITY_VOLTABSORB;
-				absorbingTypeAbility3 = ABILITY_VOLTABSORB;
-				}
+			absorbingTypeAbility1 = ABILITY_EARTHEATER;
+			absorbingTypeAbility2 = ABILITY_EARTHEATER;
+			absorbingTypeAbility3 = ABILITY_EARTHEATER;
 			break;
 		default:
 			return FALSE;
@@ -2666,5 +2656,5 @@ void ShouldDoAIShiftSwitch(void)
 	}
 	#endif
 
-	gBattlescriptCurrInstr = BattleScript_FaintedMonChooseAnotherRejoin - 5;
+	gBattlescriptCurrInstr = (const u8*)((uintptr_t)BattleScript_FaintedMonChooseAnotherRejoin - 5);
 }

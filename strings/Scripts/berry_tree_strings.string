@@ -1,36 +1,36 @@
 
 #org @gText_Berry_Received
-[PLAYER] found [BUFFER1] [BUFFER2]!
+[PLAYER]找到了[BUFFER1]个[BUFFER2]！
 
 #org @gText_Berry_Returned
-The soil returned to it's soft and\nloamy state.
+土壤恢复了柔软蓬松的状态。
 
 #org @gText_None_Planted
-The soil is soft here[.]\nPlant a berry?
+这里的土壤很松软。\n要种下树果吗？
 
 #org @gText_Added_Berry
-You planted a [BUFFER1] here.
+你在这种下了一颗[BUFFER1]。
 
 #org @gText_New_Plant
-A [BUFFER1] was planted here.
+这里种下了一颗[BUFFER1]。
 
 #org @gText_Watered_Already
-It's been watered already.
+这里已经浇过水了。
 
 #org @gText_Berry_Sprouted
-The [BUFFER1] has sprouted.
+[BUFFER1]长出了幼苗。
 
 #org @gText_Berry_Is_Tall
-The [BUFFER1] plant\nis growing bigger.
+[BUFFER1]的植株\n长得更高了。
 
 #org @gText_Berry_Bloom
-The [BUFFER1] plant is in bloom!
+[BUFFER1]开花了！
 
 #org @gText_Berry_Want_Water
-The plant can use some water[.]\nWould you like to water it?
+这株植物需要浇水。\n要给它浇水吗？
 
 #org @gText_Berry_Finished_Watering
-You finished watering!
+你浇完了水！
 
 #org @gText_Berry_WrongItem
-Silly child[.]\nYou can't plant that
+傻孩子。\n那个不能种在这里。

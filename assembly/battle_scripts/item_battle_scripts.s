@@ -508,8 +508,7 @@ BattleScript_RedCard:
 	jumpifdynamaxed BANK_ATTACKER RedCard_Dynamax
 	jumpifspecialstatusflag BANK_ATTACKER STATUS3_ROOTED 0x0 RedCard_Ingrain
 	jumpifability BANK_ATTACKER ABILITY_SUCTIONCUPS RedCard_SuctionCups
-	callasm CheckAttackerGuardDog
-	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x1 RedCard_GuardDog
+	jumpifability BANK_ATTACKER ABILITY_GUARDDOG RedCard_SuctionCups
 	forcerandomswitch BANK_ATTACKER BANK_TARGET RedCardEnd
 
 RedCardEnd:
@@ -531,16 +530,11 @@ RedCard_Ingrain:
 	goto RedCardEnd
 
 RedCard_SuctionCups:
-	setword BATTLE_STRING_LOADER RedCardSuctionCupsString
-	printstring 0x184
-	waitmessage DELAY_1SECOND
-	goto RedCardEnd
-
-RedCard_GuardDog:
 	copybyte FORM_COUNTER BATTLE_SCRIPTING_BANK
 	copyarray BATTLE_SCRIPTING_BANK USER_BANK 0x1
 	call BattleScript_AbilityPopUp
-	printstring 0xCC @STRINGID_PKMNANCHORSITSELFWITH
+	setword BATTLE_STRING_LOADER RedCardSuctionCupsString
+	printstring 0x184
 	waitmessage DELAY_1SECOND
 	call BattleScript_AbilityPopUpRevert
 	copybyte BATTLE_SCRIPTING_BANK FORM_COUNTER

@@ -677,7 +677,7 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				if (MoveInMoveset(MOVE_VENOSHOCK, bankAtk)
 				||  MoveInMoveset(MOVE_BARBBARRAGE, bankAtk)
 				||  MoveEffectInMoveset(EFFECT_VENOM_DRENCH, bankAtk)
-				|| (atkAbility == ABILITY_MERCILESS && !SpeciesHasDrillBeak(GetProperAbilityPopUpSpecies(bankAtk))))
+				|| atkAbility == ABILITY_MERCILESS)
 					INCREASE_STATUS_VIABILITY(2);
 				else if ((DoubleDamageWithStatusMoveInMovesetThatAffects(bankAtk, bankDef) || (IS_DOUBLE_BATTLE && DoubleDamageWithStatusMoveInMovesetThatAffects(data->bankAtkPartner, bankDef)))
 					&& MoveEffectInMoveset(EFFECT_WILL_O_WISP, bankAtk) //Can either poison or burn
@@ -2297,6 +2297,7 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 						INCREASE_STATUS_VIABILITY(1);
 					break;
 
+				case MOVE_POWERSHIFT:
 				case MOVE_POWERTRICK:
 					if (!(data->atkStatus3 & STATUS3_POWER_TRICK))
 					{
@@ -2304,13 +2305,6 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 							INCREASE_STATUS_VIABILITY(2);
 						break;
 					}
-					break;
-
-				case MOVE_POWERSHIFT:
-					if (IsClassDamager(class) //Moveset is set up to dish out damage
-					&& ((data->atkDefense > data->atkAttack && RealPhysicalMoveInMoveset(bankAtk))
-					 || (data->atkSpDef > data->atkSpAtk && SpecialMoveInMoveset(bankAtk))))
-						INCREASE_STATUS_VIABILITY(2);
 					break;
 
 				case MOVE_HEARTSWAP:
@@ -2464,7 +2458,7 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 					{
 						if (SleepMoveInMovesetWithLowAccuracy(bankAtk, bankDef)) //Has Gravity for a move like Hypnosis
 							IncreaseSleepViability(&viability, class, bankAtk, bankDef, move);
-						else if (atkAbility != ABILITY_LEVITATE && !IsFloatingWithMagnetism(bankAtk)) //Would have Gravity to revert the Gravity
+						else if (atkAbility != ABILITY_LEVITATE && atkAbility != ABILITY_EELEVATE && !IsFloatingWithMagnetism(bankAtk)) //Would have Gravity to revert the Gravity
 						{
 							if (MoveInMovesetWithAccuracyLessThan(bankAtk, bankDef, 90, FALSE))
 								INCREASE_STATUS_VIABILITY(2);
@@ -2474,7 +2468,7 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 					}
 					else //Gravity active
 					{
-						if (atkAbility == ABILITY_LEVITATE || IsFloatingWithMagnetism(bankAtk))
+						if (atkAbility == ABILITY_LEVITATE || atkAbility == ABILITY_EELEVATE || IsFloatingWithMagnetism(bankAtk))
 							INCREASE_STATUS_VIABILITY(2); //Undo the Gravity
 					}
 					break;

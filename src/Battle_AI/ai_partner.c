@@ -65,11 +65,13 @@ u8 AIScript_Partner(const u8 bankAtk, const u8 bankAtkPartner, const u16 origina
 		{
 			//Electric
 			case ABILITY_VOLTABSORB:
+    			if (moveType == TYPE_ELECTRIC)
+        			IncreaseHealPartnerViability(&viability, class, bankAtkPartner);
+    			break;
 			case ABILITY_EARTHEATER:
-				if ((moveType == TYPE_ELECTRIC && !(ABILITY(gBankTarget) == ABILITY_EARTHEATER))
-				|| (moveType == TYPE_GROUND && (ABILITY(gBankTarget) == ABILITY_EARTHEATER)))
-					IncreaseHealPartnerViability(&viability, class, bankAtkPartner);
-				break;
+    			if (moveType == TYPE_GROUND)
+        			IncreaseHealPartnerViability(&viability, class, bankAtkPartner);
+    			break;
 			case ABILITY_MOTORDRIVE:
 				if (moveType == TYPE_ELECTRIC
 				&&  !IsClassDoublesTotalTeamSupport(partnerClass) //Don't help out a partner that's meant to be doing the helping out

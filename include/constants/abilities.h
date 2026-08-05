@@ -316,11 +316,34 @@
 #define ABILITY_POISONPUPPETEER                      310
 #define ABILITY_PIERCINGDRILL                        311
 #define ABILITY_DRAGONIZE                            312
-#define ABILITY_313                                  313
+#define ABILITY_EELEVATE                             313
 #define ABILITY_314                                  314
-#define ABILITY_MEGA_SOL                             315
-#define ABILITY_316                                  316
+#define ABILITY_MEGASOL                              315
+#define ABILITY_FIREMANE                             316
 #define ABILITY_317                                  317
-#define ABILITY_SPICY_SPRAY                          318
+#define ABILITY_SPICYSPRAY                           318
+#define ABILITY_FOCUSBELT                            319    //噬喉啮心
+#define ABILITY_SONILATE                             320    //音浪皮肤
+#define ABILITY_IMPROVISE                            321    //随机应变
+#define ABILITY_WAVEFIST                             322    //浪花之拳
+#define ABILITY_DESPERATESTRIKE                      323    //殊死一搏
+#define ABILITY_PSYGRAVITY                           324    //意念控制
+#define ABILITY_VOLATILEEXPLOSION                    325    //一触即爆
+#define ABILITY_STICKSTICKPASS                       326    //棒棒相传
+#define ABILITY_HEAVYARMOR                           327    //重甲
+#define ABILITY_VENOMFORTE                           328    //强注毒液
+#define ABILITY_SPIDERSENSE                          329    //蜘蛛感应
+#define ABILITY_UNICORNPEGASUS                       330    //冲锋
+#define ABILITY_AQUAREGEN                            331    //水之再生
+#define ABILITY_QUICKCHARGE                          332    //雷厉风行
+#define ABILITY_ICEDEITY                             333    //冰之神
+#define ABILITY_THUNDERDEITY                         334    //雷之神
+#define ABILITY_FIREDEITY                            335    //火之神
+#define ABILITY_GRASSDASH                            336    //燃烧之魂
+#define ABILITY_MUTANTADAPT                          337    //变异适应
+#define ABILITY_PSYCHOREBOUND                        338    //精神棱镜
+#define ABILITY_SHADOWHEAL                           339    //暗影治愈
+#define ABILITY_EEVEEHERO                            340    //全能变身伊布
+#define ABILITY_FLOWERBLADE                          341    //花刃
 
-#define ABILITIES_COUNT                              319
+#define ABILITIES_COUNT                              342

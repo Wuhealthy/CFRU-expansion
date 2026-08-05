@@ -30,6 +30,9 @@ attackcanceler.c
 
 //TODO: Make sure Powder stops Inferno Overdrive and not Pledge moves
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Warray-bounds"
+
 #ifdef UNBOUND
 typedef bool8 (*IsIngameTradeMon_T) (struct Pokemon* mon);
 #define IsIngameTradeMon ((IsIngameTradeMon_T) (0x801D86C |1)) //From Battle Tower Scripts
@@ -64,6 +67,11 @@ void atk00_attackcanceler(void)
 		return;
 	}
 
+	if (gStatuses3[gBankAttacker] & STATUS3_GLAIVERUSH)
+	{
+    	gStatuses3[gBankAttacker] &= ~STATUS3_GLAIVERUSH;
+	}
+
 	if (IS_MOLD_BREAKER(ABILITY(gBankAttacker), gCurrentMove) || gNewBS->dynamaxData.nullifiedStats) //There is a Mold Breaker
 	{
 		if (!gNewBS->dontActivateMoldBreakersAnymoreThisTurn) //Like after Neutralizing Gas disappears during a spread move
@@ -73,8 +81,14 @@ void atk00_attackcanceler(void)
 				if (i != gBankAttacker
 				&& (gSpecialAbilityFlags[ABILITY(i)].gMoldBreakerIgnoredAbilities))
 				{
-					gNewBS->DisabledMoldBreakerAbilities[i] = ABILITY(i); //Temporarily disable all relevant abilities on the field
-					ABILITY(i) = ABILITY_NONE;
+					if (ABILITY(gBankAttacker) == ABILITY_MYCELIUMMIGHT
+                    	&& SPLIT(gCurrentMove) != SPLIT_STATUS)
+                	{
+                    	// 菌丝之力使用攻击招式 → 不破格
+                    	continue;  // 跳过这个目标，不禁用特性
+                	}
+					gNewBS->DisabledMoldBreakerAbilities[i] = gBattleMons[i].ability; //Temporarily disable all relevant abilities on the field
+					gBattleMons[i].ability = ABILITY_NONE;
 				}
 			}
 		}
@@ -210,8 +224,7 @@ static u8 AtkCanceller_UnableToUseMove(void)
 		case CANCELLER_FLAGS: // flags clear
 			gBattleMons[gBankAttacker].status2 &= ~(STATUS2_DESTINY_BOND);
 			gStatuses3[gBankAttacker] &= ~(STATUS3_GRUDGE);
-			gStatuses3[gBankAttacker] &= ~(STATUS3_GLAIVERUSH);
-			gNewBS->GlaiveRushTimers[gBankAttacker] = 0;
+			//gStatuses3[gBankAttacker] &= ~(STATUS3_GLAIVERUSH);
 			gBattleScripting.tripleKickPower = 0;
 			gNewBS->ai.zMoveHelper = 0;
 			gBattleStruct->atkCancellerTracker++;
@@ -489,7 +502,7 @@ static u8 AtkCanceller_UnableToUseMove(void)
 		case CANCELLER_THROAT_CHOP:
 		case CANCELLER_THROAT_CHOP_2:
 			if (CantUseSoundMoves(gBankAttacker)
-			&& CheckSoundMove(gCurrentMove)
+			&& (CheckSoundMove(gCurrentMove) || ABILITY(gBankAttacker) == ABILITY_SONILATE)
 			&& !gNewBS->zMoveData.active
 			&& !IsAnyMaxMove(gCurrentMove))
 			{
@@ -954,15 +967,16 @@ static u8 AtkCanceller_UnableToUseMove(void)
 			{
 				ability_t ability = ABILITY(gBankAttacker);
 
-				if (gCurrentMove == MOVE_SURGINGSTRIKES)
+				if (gCurrentMove == MOVE_SURGINGSTRIKES || gCurrentMove == MOVE_TRIPLEDIVE
+				|| gCurrentMove == MOVE_TRIPLEKICK || gCurrentMove == MOVE_TRIPLEAXEL)
 				{
 					gMultiHitCounter = 3;
 				}
-				else if (ability == ABILITY_SKILLLINK)
+				else if (gCurrentMove == MOVE_POPULATIONBOMB)
 				{
-					gMultiHitCounter = 5;
+					gMultiHitCounter = 10;
 				}
-				else if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_LOADED_DICE &&  gCurrentMove != MOVE_TRIPLEKICK &&  gCurrentMove != MOVE_TRIPLEAXEL)
+				else if (ability == ABILITY_SKILLLINK)
 				{
 					gMultiHitCounter = 5;
 				}
@@ -972,6 +986,10 @@ static u8 AtkCanceller_UnableToUseMove(void)
 				&& SPECIES(gBankAttacker) == SPECIES_ASHGRENINJA)
 				{
 					gMultiHitCounter = 3;
+				}
+				else if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_LOADED_DICE)
+				{
+					gMultiHitCounter = (Random() & 1) ? 4 : 5;
 				}
 				else
 				#endif
@@ -994,7 +1012,7 @@ static u8 AtkCanceller_UnableToUseMove(void)
 					}
 				}
 
-				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
+				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 2, 0)
 			}
 			else if (gSpecialMoveFlags[gCurrentMove].gTwoStrikesMoves)
 			{
@@ -1008,16 +1026,6 @@ static u8 AtkCanceller_UnableToUseMove(void)
 					//Smart target to partner
 					gBankTarget = PARTNER(gBankTarget);
 				}
-			}
-			else if (gSpecialMoveFlags[gCurrentMove].gTenStrikesMoves)
-			{
-				gMultiHitCounter = 10;
-				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
-			}
-			else if (gBattleMoves[gCurrentMove].effect == EFFECT_TRIPLE_KICK)
-			{
-				gMultiHitCounter = 3;
-				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
 			}
 			else if (gBattleMoves[gCurrentMove].effect == EFFECT_BEAT_UP)
 			{
@@ -1139,6 +1147,15 @@ static bool8 TryActivateMagicBounce(u8 bankDef)
 		BattleScriptPushCursor();
 		gBattlescriptCurrInstr = BattleScript_MagicBounce;
 		return TRUE;
+	}
+	if (ABILITY(bankDef) == ABILITY_PSYCHOREBOUND && !BATTLER_SEMI_INVULNERABLE(bankDef))
+	{
+		gNewBS->MoveBounceInProgress = TRUE;
+        gNewBS->moveWasBouncedThisTurn = TRUE;
+        gBattleScripting.bank = bankDef;
+        BattleScriptPushCursor();
+        gBattlescriptCurrInstr = BattleScript_PsychoRebound;
+        return TRUE;
 	}
 
 	return FALSE;
@@ -1380,3 +1397,5 @@ bool8 DoesTargetHaveAbilityImmunity(void)
 	BattleScriptPop(); //Restore the original script
 	return FALSE;
 }
+
+#pragma GCC diagnostic pop

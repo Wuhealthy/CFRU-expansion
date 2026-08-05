@@ -1,38 +1,38 @@
 #org @SpikesLayString
-Spikes were scattered all\naround [FD][35] team!
+[FD][35]脚下\n散落着撒菱！
 
 #org @ToxicSpikesLayString
-Poison spikes were scattered all\naround [FD][35] team!
+[FD][35]脚下\n散落着毒菱！
 
 #org @StealthRockLayString
-Pointed stones float in the air\naround [FD][35] team!
+[FD][35]周围开始浮现出\n尖锐的岩石！
 
 #org @StickyWebLayString
-A sticky web has been laid out\naround [FD][35] team!
+[FD][35]的脚下\n延伸出了黏黏网！
 
 #org @gText_SteelsurgeLay
-Sharp pieces of steel started\nfloating around [FD][35] team!
+[FD][35]周围开始悬浮起\n尖锐的钢刺！
 
 #org @RemovedEntryHazardsString
-The entry hazards around\n[FD][36] side were blown away!
+[FD][36]周围的\n场地状态消失不见了！
 
 #org @RemovedEntryHazardsTargetSideString
-The entry hazards around\n[FD][35] side were blown away!
+[FD][35]周围的\n场地状态消失不见了！
 
 #org @gText_HurtBySpikes
-[TARGET] is hurt\nby the Spikes!
+[TARGET]\n受到了撒菱的伤害！
 
 #org @gText_HurtByStealthRock
-Pointed stones dug into\n[TARGET]!
+尖锐的岩石扎进了\n[TARGET]体内！
 
 #org @gText_HurtBySteelsurge
-The sharp steel bit into\n[TARGET]!
+尖锐的钢刺扎进了\n[TARGET]体内！
 
 #org @gText_AbsorbedToxicSpikes
-The Toxic Spikes disappeared from\naround [TARGET]'s feet!
+[TARGET]脚下的\n毒菱消失了！
 
 #org @gText_CaughtInStickyWeb
-[TARGET] was caught\nin a Sticky Web!
+[TARGET]\n被黏黏网粘住了！
 
 #org @gText_HazardsBlownAway
-The hazards were blown away from\naround [ATTACKER]!
+[ATTACKER]周围的\n场地状态消失不见了！

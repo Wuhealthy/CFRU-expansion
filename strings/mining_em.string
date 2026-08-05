@@ -1,23 +1,23 @@
 #org @gText_UndergroundMining_Offer
-The wall is bulging slightly.\nTry digging into it?
+墙壁微微凸起。\n要试着挖掘一下吗？
 
 #org @gText_UndergroundMining_DisplayPossiblePrizes
-Something pinged in the wall!\n[BUFFER1] confirmed!
+墙壁里传来了响声！\n[BUFFER1]已确认！
 
 #org @gText_UndergroundMining_Instructions
-[.]\pOh? There's a note taped inside\nthe ADM.\p"Digging for Treasure!\"\pThe ADM comes equipped with its\nvery own sledgehammer and pickax!\pPress [A_BUTTON], and ye'll be able to dig\nout all sorts of stuff!\pIf at any point ye want to change\ntools, just press [L_BUTTON] or [R_BUTTON]!\pI'm sure ye can dig them out\nbefore the wall comes tumblin'\ldown!\pYe can do it!\nGood luck!
+[.]\p哦？探险套装里面\n贴着一张便条。\p"寻宝挖掘指南！\"\p探险套装自带锤和镐！\p按[A_BUTTON]就能挖出各种东西！\p如果想随时更换工具，\n按[L_BUTTON]或[R_BUTTON]就行！\p我相信你一定能在墙壁\n倒塌前把它们都挖出来的！\p你能行的！\n祝你好运！
 
 #org @gText_UndergroundMining_WallCollapsed
-The wall collapsed!
+墙壁倒塌了！
 
 #org @gText_UndergroundMining_GotAllItems
-Everything was dug up!
+所有东西都挖出来了！
 
 #org @gText_UndergroundMining_FoundItem
-A[BUFFER2] [BUFFER1]\nwas found.
+找到了[BUFFER2][BUFFER1]。
 
 #org @gText_UndergroundMining_NoSpace
-A[BUFFER2] [BUFFER1]\nwas found.\pToo bad! There's no space for it in\nthe Cube.
+找到了[BUFFER2][BUFFER1]。\p太可惜了！\n包包里已经没有空间了。
 
 #org @gText_UndergroundMining_ToolSwapInstructions
 [L_BUTTON][R_BUTTON]

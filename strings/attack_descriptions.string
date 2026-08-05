@@ -4,1365 +4,2394 @@
 -
 
 #org @DESC_NO_MOVE
-No move information.
+没有招式信息。
 
 #org @DESC_ICEPUNCH
 #ifdef FROSTBITE
-The foe is punched\nwith an icy fist.\nIt may leave the\nfoe with frostbite.
+用充满寒气的拳头攻\n击对手。有时会让对\n手陷入冻伤状态。
 #else
-The foe is punched\nwith an icy fist.\nIt may leave the\nfoe frozen.
+用充满寒气的拳头攻\n击对手。有时会让对\n手陷入冰冻状态。
 #endif
 
 #org @DESC_ICEBEAM
 #ifdef FROSTBITE
-The foe is struck\nwith an icy beam.\nIt may leave the\nfoe with frostbite.
+向对手发射冰冻光束\n进行攻击。有时会让\n对手陷入冻伤状态。
 #else
-The foe is struck\nwith an icy beam.\nIt may leave the\nfoe frozen.
+向对手发射冰冻光束\n进行攻击。有时会让\n对手陷入冰冻状态。
 #endif
 
 #org @DESC_BLIZZARD
 #ifdef FROSTBITE
-A blizzard strikes\nthe opposing team.\nIt may also leave\nthem with frostbite.
+将猛烈的暴风雪刮向\n对手进行攻击。有时\n会让对手陷入冻伤状\n态。
 #else
-A blizzard strikes\nthe opposing team.\nIt may also freeze\nthem solid.
+将猛烈的暴风雪刮向\n对手进行攻击。有时\n会让对手陷入冰冻状\n态。
 #endif
 
 #org @DESC_GROWTH
-The user's body is\nforced to grow,\nraising the Attack\nand Sp. Atk stats.
+让身体一下子长大，\n从而提高攻击和特攻。
 
 #org @DESC_TRIATTACK
 #ifdef FROSTBITE
-A simultaneous\n3-beam attack that\nmay paralyze, burn,\nor frostbite the foe.
+用3种光线进行攻击。\n有时会让对手陷入麻\n痹、灼伤或冻伤的状\n态。
 #else
-A simultaneous\n3-beam attack that\nmay paralyze, burn,\nor freeze the foe.
+用3种光线进行攻击。\n有时会让对手陷入麻\n痹、灼伤或冰冻的状\n态。
 #endif
 
 #org @DESC_POWDERSNOW
 #ifdef FROSTBITE
-The opposing team is\nhit with powdery snow\nthat may leave them\nwith frostbite.
+将冰冷的细雪吹向对\n手进行攻击。有时会\n让对手陷入冻伤状态。
 #else
-The opposing team is\nhit with powdery snow\nthat may leave them\nfrozen solid.
+将冰冷的细雪吹向对\n手进行攻击。有时会\n让对手陷入冰冻状态。
 #endif
 
 #org @DESC_RAPIDSPIN
-An attack that frees\nthe user from traps\nand hazards. Also\nraises Speed.
+通过旋转来攻击对手。\n可以摆脱绑紧、紧束、\n寄生种子等招式。\n还能提高自己的速度。
 
 #org @DESC_HOWL
-The user howls to\nraise its team's\nspirit and boost\ntheir Attack stats.
+大声吼叫提高气势，\n从而提高自己和同伴\n的攻击。
+
+#org @DESC_POUND
+使用长长的尾巴或手\n等拍打对手进行攻击。
+
+#org @DESC_KARATECHOP
+用锋利的手刀劈向对\n手进行攻击。容易击\n中要害。
+
+#org @DESC_DOUBLESLAP
+用连环巴掌拍打对手\n进行攻击。连续攻击\n2至5次。
+
+#org @DESC_COMETPUNCH
+用拳头怒涛般的殴打\n对手进行攻击。连续\n攻击2至5次。
+
+#org @DESC_MEGAPUNCH
+用充满力量的拳头攻\n击对手。
+
+#org @DESC_PAYDAY
+向对手的身体投掷小\n金币进行攻击。战斗\n后可以拿到钱。
+
+#org @DESC_FIREPUNCH
+用充满火焰的拳头攻\n击对手。有时会让对\n手陷入灼伤状态。
+
+#org @DESC_THUNDERPUNCH
+用充满电流的拳头攻\n击对手。有时会让对\n手陷入麻痹状态。
+
+#org @DESC_SCRATCH
+用坚硬且无比锋利的\n爪子抓对手进行攻击。
+
+#org @DESC_VICEGRIP
+将对手从两侧夹住，\n给予伤害。
+
+#org @DESC_GUILLOTINE
+用大钳子或剪刀等夹\n断对手进行攻击。只\n要命中就会一击昏厥。
+
+#org @DESC_RAZORWIND
+制造风之刃，于第2回\n合攻击对手。容易击\n中要害。
+
+#org @DESC_SWORDSDANCE
+激烈地跳起战舞提高\n气势。大幅提高自己\n的攻击。
+
+#org @DESC_CUT
+用镰刀或爪子等切斩\n对手进行攻击。野外\n使用可以清除挡在路\n上的细小树木和草丛。
+
+#org @DESC_GUST
+用翅膀将刮起的狂风\n袭向对手进行攻击。
+
+#org @DESC_WINGATTACK
+大大地展开美丽的翅\n膀，将其撞向对手进\n行攻击。
+
+#org @DESC_WHIRLWIND
+吹飞对手，强制拉后\n备宝可梦上场。如果\n对手为野生宝可梦，\n战斗将直接结束。
+
+#org @DESC_FLY
+第1回合飞上天空，\n第2回合攻击对手。\n野外使用可以前往去\n过的城市。
+
+#org @DESC_BIND
+使用长长的身体或藤\n蔓等，在4至5回合内\n绑紧对手进行攻击。
+
+#org @DESC_SLAM
+使用长长的尾巴或藤\n蔓等摔打对手进行攻\n击。
+
+#org @DESC_VINEWHIP
+用如同鞭子般弯曲而\n细长的藤蔓摔打对手\n进行攻击。
+
+#org @DESC_STOMP
+用大脚踩踏对手进行\n攻击。有时会使对手\n畏缩。
+
+#org @DESC_DOUBLEKICK
+用2只脚踢飞对手进行\n攻击。连续2次给予\n伤害。
+
+#org @DESC_MEGAKICK
+使出力大无穷的重踢\n踢飞对手进行攻击。
+
+#org @DESC_JUMPKICK
+使出高高的腾空踢攻\n击对手。如果踢偏则\n自己会受到伤害。
+
+#org @DESC_ROLLINGKICK
+一边使身体快速旋转，\n一边踢飞对手进行攻\n击。有时会使对手畏\n缩。
+
+#org @DESC_SANDATTACK
+向对手脸上泼沙子，\n从而降低命中率。
+
+#org @DESC_HEADBUTT
+将头伸出，笔直地扑\n向对手进行攻击。有\n时会使对手畏缩。
+
+#org @DESC_HORNATTACK
+用尖锐的角攻击对手。
+
+#org @DESC_FURYATTACK
+用角或喙刺向对手进\n行攻击。连续攻击2\n至5次。
+
+#org @DESC_HORNDRILL
+用旋转的角刺入对手\n进行攻击。只要命中\n就会一击昏厥。
+
+#org @DESC_TACKLE
+用整个身体撞向对手\n进行攻击。
+
+#org @DESC_BODYSLAM
+用整个身体压住对手\n进行攻击。有时会让\n对手陷入麻痹状态。
+
+#org @DESC_WRAP
+使用长长的身体或藤\n蔓等，在4至5回合内\n紧束对手进行攻击。
+
+#org @DESC_TAKEDOWN
+以惊人的气势撞向对\n手进行攻击。自己也\n会受到少许伤害。
+
+#org @DESC_THRASH
+在2至3回合内，乱打\n一气地攻击对手。大\n闹一番后自己会陷入\n混乱。
+
+#org @DESC_DOUBLEEDGE
+拼命地猛撞向对手进\n行攻击。自己也会受\n到不小的伤害。
+
+#org @DESC_TAILWHIP
+可爱地左右摇晃尾巴，\n诱使对手疏忽大意。\n会降低对手的防御。
+
+#org @DESC_POISONSTING
+将有毒的针刺入对手\n进行攻击。有时会让\n对手陷入中毒状态。
+
+#org @DESC_TWINEEDLE
+将2根针刺入对手，\n连续2次给予伤害。\n有时会让对手陷入\n中毒状态。
+
+#org @DESC_PINMISSILE
+向对手发射锐针进行\n攻击。连续攻击2至5\n次。
+
+#org @DESC_LEER
+用犀利的眼神使其害\n怕，从而降低对手的\n防御。
+
+#org @DESC_BITE
+用尖锐的牙咬住对手\n进行攻击。有时会使\n对手畏缩。
+
+#org @DESC_GROWL
+让对手听可爱的叫声，\n引开注意力使其疏忽，\n从而降低对手的攻击。
+
+#org @DESC_ROAR
+放走对手，强制拉后\n备宝可梦上场。如果\n对手为野生宝可梦，\n战斗将直接结束。
+
+#org @DESC_SING
+让对手听舒适、美妙\n的歌声，从而陷入睡\n眠状态。
+
+#org @DESC_SUPERSONIC
+从身体发出特殊的音\n波，从而使对手混乱。
+
+#org @DESC_SONICBOOM
+将冲击波撞向对手进\n行攻击。必定会给予\n20的伤害。
+
+#org @DESC_DISABLE
+阻碍对手行动，之前\n使出的招式将在4回合\n内无法使用。
+
+#org @DESC_ACID
+将强酸泼向对手进行\n攻击。有时会降低对\n手的特防。
+
+#org @DESC_EMBER
+向对手发射小型火焰\n进行攻击。有时会让\n对手陷入灼伤状态。
+
+#org @DESC_FLAMETHROWER
+向对手发射烈焰进行\n攻击。有时会让对手\n陷入灼伤状态。
+
+#org @DESC_MIST
+用白雾覆盖身体。在\n5回合内不会让对手\n降低自己的能力。
+
+#org @DESC_WATERGUN
+向对手猛烈地喷射水\n流进行攻击。
+
+#org @DESC_HYDROPUMP
+向对手猛烈地喷射大\n量水流进行攻击。
+
+#org @DESC_SURF
+利用大浪攻击自己周\n围所有的宝可梦。野\n外使用可以在水上移\n动。
+
+#org @DESC_PSYBEAM
+向对手发射神奇的光\n线进行攻击。有时会\n使对手混乱。
+
+#org @DESC_BUBBLEBEAM
+向对手猛烈地喷射泡\n沫进行攻击。有时会\n降低对手的速度。
+
+#org @DESC_AURORABEAM
+向对手发射虹色光束\n进行攻击。有时会降\n低对手的攻击。
+
+#org @DESC_HYPERBEAM
+向对手发射强烈的光\n线进行攻击。下一回\n合自己将无法动弹。
+
+#org @DESC_PECK
+用尖锐的喙或角刺向\n对手进行攻击。
+
+#org @DESC_DRILLPECK
+一边旋转，一边将尖\n喙刺入对手进行攻击。
+
+#org @DESC_SUBMISSION
+将对手连同自己一起\n摔向地面进行攻击。\n有时会让对手陷入灼\n伤状态。
+
+#org @DESC_LOWKICK
+用力踢对手的脚，使\n其摔倒进行攻击。对\n手越重，威力越大。
+
+#org @DESC_COUNTER
+从对手那里受到物理\n攻击的伤害将以2倍\n返还给同一个对手。
+
+#org @DESC_SEISMICTOSS
+利用引力将对手甩飞\n出去。给予对手和自\n己等级相同的伤害。
+
+#org @DESC_STRENGTH
+使出浑身力气殴打对\n手进行攻击。野外使\n用可以推动石头。
+
+#org @DESC_ABSORB
+吸取对手的养分进行\n攻击。可以回复给予\n对手伤害的一半HP。
+
+#org @DESC_MEGADRAIN
+吸取对手的养分进行\n攻击。可以回复给予\n对手伤害的一半HP。
+
+#org @DESC_LEECHSEED
+植入寄生种子后，将\n在每回合一点一点吸\n取对手的HP，从而用\n来回复自己的HP。
+
+#org @DESC_RAZORLEAF
+飞出叶片，切斩对手\n进行攻击。容易击中\n要害。
+
+#org @DESC_SOLARBEAM
+第1回合收集满满的\n日光，第2回合发射\n光束进行攻击。
+
+#org @DESC_POISONPOWDER
+撒出毒粉，从而让对\n手陷入中毒状态。
+
+#org @DESC_STUNSPORE
+撒出麻痹粉，从而让\n对手陷入麻痹状态。
+
+#org @DESC_SLEEPPOWDER
+撒出催眠粉，从而让\n对手陷入睡眠状态。
+
+#org @DESC_PETALDANCE
+在2至3回合内，散落\n花瓣攻击对手。之后\n自己会陷入混乱。
+
+#org @DESC_STRINGSHOT
+用口中吐出的丝缠绕\n对手，从而大幅降低\n对手的速度。
+
+#org @DESC_DRAGONRAGE
+将愤怒的冲击波撞向\n对手进行攻击。必定\n会给予40的伤害。
+
+#org @DESC_FIRESPIN
+将对手困在激烈的火\n焰旋涡中，在4至5回\n合内进行攻击。
+
+#org @DESC_THUNDERSHOCK
+发出电流刺激对手进\n行攻击。有时会让对\n手陷入麻痹状态。
+
+#org @DESC_THUNDERBOLT
+向对手发出强力电击\n进行攻击。有时会让\n对手陷入麻痹状态。
+
+#org @DESC_THUNDERWAVE
+向对手发出微弱的电\n击，从而让对手陷入\n麻痹状态。
+
+#org @DESC_THUNDER
+向对手劈下暴雷进行\n攻击。有时会让对手\n陷入麻痹状态。
+
+#org @DESC_ROCKTHROW
+拿起小岩石，投掷对\n手进行攻击。
+
+#org @DESC_EARTHQUAKE
+利用地震的冲击，攻\n击自己周围所有的宝\n可梦。
+
+#org @DESC_FISSURE
+让对手掉落于地裂的\n裂缝中进行攻击。只\n要命中就会一击昏厥。
+
+#org @DESC_DIG
+第1回合钻入，第2回\n合攻击对手。
+
+#org @DESC_TOXIC
+让对手陷入剧毒状态。\n随着回合的推进，\n中毒伤害会增加。
+
+#org @DESC_CONFUSION
+向对手发送微弱的念\n力进行攻击。有时会\n使对手混乱。
+
+#org @DESC_PSYCHIC
+向对手发送强大的念\n力进行攻击。有时会\n降低对手的特防。
+
+#org @DESC_HYPNOSIS
+施以诱导睡意的暗示，\n让对手陷入睡眠状态。
+
+#org @DESC_MEDITATE
+唤醒身体深处沉睡的\n力量，从而提高自己\n的攻击。
+
+#org @DESC_AGILITY
+让身体放松变得轻盈，\n以便高速移动。大幅\n提高自己的速度。
+
+#org @DESC_QUICKATTACK
+以迅雷不及掩耳之势\n扑向对手。必定能够\n先制攻击。
+
+#org @DESC_RAGE
+如果在使出招式后受\n到攻击的话，会因愤\n怒的力量而提高攻击。
+
+#org @DESC_TELEPORT
+停止和野生宝可梦战\n斗并逃走。野外使用\n可以传送到最近一次\n进入过的宝可梦中心。
+
+#org @DESC_NIGHTSHADE
+显示恐怖幻影，只给\n予对手和自己等级相\n同的伤害。
+
+#org @DESC_MIMIC
+可以将对手最后使用\n的招式，在战斗内变\n成自己的招式。
+
+#org @DESC_SCREECH
+发出不由自主想要捂\n起耳朵的刺耳声，从\n而大幅降低对手的防\n御。
+
+#org @DESC_DOUBLETEAM
+通过快速移动来制造\n分身，扰乱对手，从\n而提高闪避率。
+
+#org @DESC_RECOVER
+让细胞再生，从而回\n复自己最大HP的一半。
+
+#org @DESC_HARDEN
+全身使劲，让身体变\n硬，从而提高自己的\n防御。
+
+#org @DESC_MINIMIZE
+蜷缩身体显得很小，\n从而大幅提高自己的\n闪避率。
+
+#org @DESC_SMOKESCREEN
+向对手喷出烟或墨汁\n等，从而降低对手的\n命中率。
+
+#org @DESC_CONFUSERAY
+显示奇怪的光，扰乱\n对手。使对手混乱。
+
+#org @DESC_WITHDRAW
+缩入壳里保护身体，\n从而提高自己的防御。
+
+#org @DESC_DEFENSECURL
+将身体蜷曲变圆，从\n而提高自己的防御。
+
+#org @DESC_BARRIER
+制造坚固的壁障，从\n而大幅提高自己的防\n御。
+
+#org @DESC_LIGHTSCREEN
+利用神奇的墙壁，在\n5回合内减弱从对手\n那里受到的特殊攻击\n的伤害。
+
+#org @DESC_HAZE
+升起黑雾，将正在场\n上战斗的全体宝可梦\n的能力变回原点。
+
+#org @DESC_REFLECT
+利用神奇的墙壁，在\n5回合内减弱从对手\n那里受到的物理攻击\n的伤害。
+
+#org @DESC_FOCUSENERGY
+深深地吸口气，集中\n精神。自己的攻击会\n变得容易击中要害。
+
+#org @DESC_BIDE
+在2回合内忍受攻击，\n受到的伤害会2倍返还\n给对手。
+
+#org @DESC_METRONOMES
+挥动手指刺激自己的\n大脑，从许多的招式\n中随机使出1个。
+
+#org @DESC_MIRRORMOVE
+模仿对手使用的招式，\n自己也使用相同招式。
+
+#org @DESC_SELFDESTRUCT
+引发爆炸，攻击自己\n周围所有的宝可梦。\n使用后陷入昏厥。
+
+#org @DESC_EGGBOMB
+向对手用力投掷大大\n的蛋进行攻击。
+
+#org @DESC_LICK
+用长长的舌头，舔遍\n对手进行攻击。有时\n会让对手陷入麻痹状\n态。
+
+#org @DESC_SMOG
+将肮脏的浓雾吹向对\n手进行攻击。有时会\n让对手陷入中毒状态。
+
+#org @DESC_SLUDGE
+用污泥投掷对手进行\n攻击。有时会让对手\n陷入中毒状态。
+
+#org @DESC_BONECLUB
+用手中的骨头殴打对\n手进行攻击。有时会\n使对手畏缩。
+
+#org @DESC_FIREBLAST
+用大字形状的火焰烧\n尽对手。有时会让对\n手陷入灼伤状态。
+
+#org @DESC_WATERFALL
+以惊人的气势扑向对\n手。有时会使对手畏\n缩。野外使用可以登\n上巨大的瀑布。
+
+#org @DESC_CLAMP
+用非常坚固且厚实的\n贝壳，在4至5回合内\n夹住对手进行攻击。
+
+#org @DESC_SWIFT
+发射星形的光攻击对\n手。攻击必定会命中。
+
+#org @DESC_SKULLBASH
+把头缩进去攻击对手。\n下一回合自己将无法\n动弹。
+
+#org @DESC_SPIKECANNON
+向对手发射锐针进行\n攻击。连续攻击2至5\n次。
+
+#org @DESC_CONSTRICT
+用触手或青藤等缠绕\n进行攻击。有时会降\n低对手的速度。
+
+#org @DESC_AMNESIA
+将头脑清空，瞬间忘\n记某事，从而大幅提\n高自己的特防。
+
+#org @DESC_KINESIS
+折弯汤匙引开注意，\n从而降低对手的命中\n率。
+
+#org @DESC_SOFTBOILED
+回复自己最大HP的一\n半。野外使用可以用\n来治疗队友。
+
+#org @DESC_HIGHJUMPKICK
+跳起后用膝盖撞对手\n进行攻击。如果撞偏\n则自己会受到伤害。
+
+#org @DESC_GLARE
+用腹部的花纹使对手\n害怕，从而让其陷入\n麻痹状态。
+
+#org @DESC_DREAMEATER
+吃掉正在睡觉的对手\n的梦进行攻击。回复\n对手所受到伤害的一\n半HP。
+
+#org @DESC_POISONGAS
+将毒瓦斯吹到对手的\n脸上，从而让对手陷\n入中毒状态。
+
+#org @DESC_BARRAGE
+向对手投掷圆形物体\n进行攻击。连续攻击\n2至5次。
+
+#org @DESC_LEECHLIFE
+吸取血液攻击对手。\n可以回复给予对手伤\n害的一半HP。
+
+#org @DESC_LOVELYKISS
+用恐怖的脸强吻对手。\n让对手陷入睡眠状态。
+
+#org @DESC_SKYATTACK
+第2回合攻击对手。\n偶尔使对手畏缩。也\n容易击中要害。
+
+#org @DESC_TRANSFORM
+变身成对手宝可梦的\n样子，能够使用和对\n手完全相同的招式。
+
+#org @DESC_BUBBLE
+向对手用力吹起无数\n泡泡进行攻击。有时\n会降低对手的速度。
+
+#org @DESC_DIZZYPUNCH
+有节奏地出拳攻击对\n手。有时会使对手混\n乱。
+
+#org @DESC_SPORE
+沙沙沙地撒满具有催\n眠效果的孢子，从而\n让对手陷入睡眠状态。
+
+#org @DESC_FLASH
+使出光芒，从而降低\n对手的命中率。也可\n在阴暗的洞窟里照亮\n四周。
+
+#org @DESC_PSYWAVE
+向对手发射神奇的念\n波进行攻击。每次使\n用，伤害都会改变。
+
+#org @DESC_SPLASH
+也不攻击只是一蹦一\n蹦地跳，什么都不会\n发生……
+
+#org @DESC_ACIDARMOR
+通过细胞的变化进行\n液化，从而大幅提高\n自己的防御。
+
+#org @DESC_CRABHAMMER
+用大钳子敲打对手进\n行攻击。容易击中要\n害。
+
+#org @DESC_EXPLOSION
+引发大爆炸，攻击自\n己周围所有的宝可梦。\n使用后自己会陷入昏\n厥。
+
+#org @DESC_FURYSWIPES
+用爪子或镰刀等抓对\n手进行攻击。连续攻\n击2至5次。
+
+#org @DESC_BONEMERANG
+用手中的骨头投掷对\n手，来回连续2次给\n予伤害。
+
+#org @DESC_REST
+连续睡上2回合。回\n复自己的全部HP以及\n治愈所有异常状态。
+
+#org @DESC_ROCKSLIDE
+将大岩石猛烈地撞向\n对手进行攻击。有时\n会使对手畏缩。
+
+#org @DESC_HYPERFANG
+用锋利的门牙牢牢地\n咬住对手进行攻击。\n有时会使对手畏缩。
+
+#org @DESC_SHARPEN
+增加身体的角，变得\n棱棱角角，从而提高\n自己的攻击。
+
+#org @DESC_CONVERSION
+将自己的属性转换成\n和已学会的招式中第\n一个招式相同的属性。
+
+#org @DESC_SUPERFANG
+用锋利的门牙猛烈地\n咬住对手进行攻击。\n对手的HP减半。
+
+#org @DESC_SLASH
+用爪子或镰刀等劈开\n对手进行攻击。容易\n击中要害。
+
+#org @DESC_SUBSTITUTE
+削减少许自己的HP，\n制造分身。分身将成\n为自己的替身。
+
+#org @DESC_STRUGGLE
+当自己的PP耗尽时，\n努力挣扎攻击对手。\n自己也会受到少许伤\n害。
+
+#org @DESC_SKETCH
+将对手使用的招式变\n成自己的招式。使用\n1次后写生消失。
+
+#org @DESC_TRIPLEKICK
+连续3次踢对手进行\n攻击。每踢中一次，\n威力就会提高。
+
+#org @DESC_THIEF
+攻击的同时盗取道具。\n当自己携带道具时，\n不会去盗取。
+
+#org @DESC_SPIDERWEB
+将黏糊糊的细丝一层\n一层缠住对手，使其\n不能从战斗中逃走。
+
+#org @DESC_MINDREADER
+用心感受对手的行动，\n下次攻击必定会击中\n对手。
+
+#org @DESC_NIGHTMARE
+让在睡眠状态下的对\n手做恶梦，每回合会\n缓缓减少HP。
+
+#org @DESC_FLAMEWHEEL
+让火焰覆盖全身，猛\n撞向对手进行攻击。\n有时会让对手陷入灼\n伤状态。
+
+#org @DESC_SNORE
+在自己睡觉时，发出\n噪音进行攻击。有时\n会使对手畏缩。
+
+#org @DESC_CURSE
+使用该招式的宝可梦，\n其属性是幽灵属性或\n其他属性时，效果会\n不一样。
+
+#org @DESC_FLAIL
+抓狂般乱打进行攻击。\n自己的HP越少，招式\n的威力越大。
+
+#org @DESC_CONVERSION2
+为了可以抵抗对手最\n后使用的招式，从而\n使自己的属性发生变\n化。
+
+#org @DESC_AEROBLAST
+发射空气旋涡进行攻\n击。容易击中要害。
+
+#org @DESC_COTTONSPORE
+将棉花般柔软的孢子\n紧贴对手，从而大幅\n降低对手的速度。
+
+#org @DESC_REVERSAL
+竭尽全力进行攻击。\n自己的HP越少，招式\n的威力越大。
+
+#org @DESC_SPITE
+对对手最后使用的招\n式怀有怨恨，减少4PP\n该招式。
+
+#org @DESC_PROTECT
+完全抵挡对手的攻击。\n连续使出则容易失败。
+
+#org @DESC_MACHPUNCH
+以迅雷不及掩耳之势\n出拳。必定能够先制\n攻击。
+
+#org @DESC_SCARYFACE
+用恐怖的脸瞪着对手，\n使其害怕，从而大幅\n降低对手的速度。
+
+#org @DESC_FEINTATTACK
+悄悄地靠近对手，趁\n其不备进行殴打。攻\n击必定会命中。
+
+#org @DESC_SWEETKISS
+像天使般可爱地亲吻\n对手，从而使对手混\n乱。
+
+#org @DESC_BELLYDRUM
+将自己的HP减少到最\n大HP的一半，从而最\n大限度提高自己的攻\n击。
+
+#org @DESC_SLUDGEBOMB
+用污泥投掷对手进行\n攻击。有时会让对手\n陷入中毒状态。
+
+#org @DESC_MUDSLAP
+向对手的脸等投掷泥\n块进行攻击。会降低\n对手的命中率。
+
+#org @DESC_OCTAZOOKA
+向对手的脸等喷出墨\n汁进行攻击。有时会\n降低对手的命中率。
+
+#org @DESC_SPIKES
+在对手的脚下扔撒菱。\n对替换出场的对手的\n宝可梦给予伤害。
+
+#org @DESC_ZAPCANNON
+发射大炮一样的电流\n进行攻击。让对手陷\n入麻痹状态。
+
+#org @DESC_FORESIGHT
+对幽灵属性宝可梦没\n有效果的招式以及闪\n避率高的对手，使用\n后变得能够打中。
+
+#org @DESC_DESTINYBOND
+使出招式后，当受到\n对手攻击陷入昏厥时，\n对手也会一同昏厥。\n连续使出则会失败。
+
+#org @DESC_PERISHSONG
+倾听歌声的宝可梦经\n过3回合陷入昏厥。\n替换后效果消失。
+
+#org @DESC_ICYWIND
+将结冰的冷气吹向对\n手进行攻击。会降低\n对手的速度。
+
+#org @DESC_DETECT
+完全抵挡对手的攻击。\n连续使出则容易失败。
+
+#org @DESC_BONERUSH
+用坚硬的骨头殴打对\n手进行攻击。连续攻\n击2至5次。
+
+#org @DESC_LOCKON
+紧紧瞄准对手，下次\n攻击必定会打中。
+
+#org @DESC_OUTRAGE
+在2至3回合内，乱打\n一气地进行攻击。大\n闹一番后自己会陷入\n混乱。
+
+#org @DESC_SANDSTORM
+在5回合内扬起沙暴，\n除岩石、地面和钢属\n性以外的宝可梦，都\n会受到伤害。
+
+#org @DESC_GIGADRAIN
+吸取对手的养分进行\n攻击。可以回复给予\n对手伤害的一半HP。
+
+#org @DESC_ENDURE
+即使受到攻击，也至\n少会留下1HP。连续\n使出则容易失败。
+
+#org @DESC_CHARM
+可爱地凝视，诱使对\n手疏忽大意，从而大\n幅降低对手的攻击。
+
+#org @DESC_ROLLOUT
+在5回合内连续滚动\n攻击对手。招式每次\n击中，威力就会提高。
+
+#org @DESC_FALSESWIPE
+对手的HP至少会留下\n1HP，如此般手下留\n情地攻击。
+
+#org @DESC_SWAGGER
+激怒对手，使其混乱。\n因为愤怒，对手的攻\n击会大幅提高。
+
+#org @DESC_MILKDRINK
+回复自己最大HP的一\n半。野外使用可以用\n来治疗队友。
+
+#org @DESC_SPARK
+让电流覆盖全身，猛\n撞向对手进行攻击。\n有时会让对手陷入麻\n痹状态。
+
+#org @DESC_FURYCUTTER
+用镰刀或爪子等切斩\n对手进行攻击。连续\n击中，威力就会提高。
+
+#org @DESC_STEELWING
+用坚硬的翅膀敲打对\n手进行攻击。有时会\n提高自己的防御。
+
+#org @DESC_MEANLOOK
+用好似要勾人心魂的\n黑色目光一动不动地\n凝视对手，使其不能\n从战斗中逃走。
+
+#org @DESC_ATTRACT
+诱惑异性，让对手着\n迷。对手将很难使出\n招式。
+
+#org @DESC_SLEEPTALK
+从自己已学会的招式\n中任意使出1个。只\n能在自己睡觉时使用。
+
+#org @DESC_HEALBELL
+让同伴听舒适的铃音，\n从而治愈我方全员的\n异常状态。
+
+#org @DESC_RETURN
+为了训练家而全力攻\n击对手。亲密度越高，\n威力越大。
+
+#org @DESC_PRESENT
+递给对手设有圈套的\n盒子进行攻击。也有\n可能回复对手HP。
+
+#org @DESC_FRUSTRATION
+为了发泄不满而全力\n攻击对手。亲密度越\n低，威力越大。
+
+#org @DESC_SAFEGUARD
+在5回合内被神奇的\n力量守护，从而不会\n陷入异常状态。
+
+#org @DESC_PAINSPLIT
+将自己的HP和对手的\nHP相加，然后自己和\n对手友好地平分。
+
+#org @DESC_SACREDFIRE
+用神秘的火焰烧尽对\n手进行攻击。有时会\n让对手陷入灼伤状态。
+
+#org @DESC_MAGNITUDE
+晃动地面，攻击自己\n周围所有的宝可梦。\n招式的威力会有各种\n变化。
+
+#org @DESC_DYNAMICPUNCH
+使出浑身力气出拳进\n行攻击。必定会使对\n手混乱。
+
+#org @DESC_MEGAHORN
+用坚硬且华丽的角狠\n狠地刺入对手进行攻\n击。
+
+#org @DESC_DRAGONBREATH
+将强烈的气息吹向对\n手进行攻击。有时会\n让对手陷入麻痹状态。
+
+#org @DESC_BATONPASS
+和后备宝可梦进行替\n换。换上的宝可梦能\n直接继承其能力的变\n化。
+
+#org @DESC_ENCORE
+让对手接受再来一次，\n连续3次使出最后使用\n的招式。
+
+#org @DESC_PURSUIT
+当对手替换宝可梦上\n场时使出此招式的话，\n能够以2倍的威力进行\n攻击。
+
+#org @DESC_SWEETSCENT
+用香气大幅降低对手\n的闪避率。野外使用\n可以使野生宝可梦出\n现。
+
+#org @DESC_IRONTAIL
+使用坚硬的尾巴摔打\n对手进行攻击。有时\n会降低对手的防御。
+
+#org @DESC_METALCLAW
+用钢铁之爪劈开对手\n进行攻击。有时会提\n高自己的攻击。
+
+#org @DESC_VITALTHROW
+会在对手之后进行攻\n击。但是自己的攻击\n必定会命中。
+
+#org @DESC_MORNINGSUN
+回复自己的HP。根据\n天气的不同，回复量\n也会有所变化。
+
+#org @DESC_SYNTHESIS
+回复自己的HP。根据\n天气的不同，回复量\n也会有所变化。
+
+#org @DESC_MOONLIGHT
+回复自己的HP。根据\n天气的不同，回复量\n也会有所变化。
+
+#org @DESC_HIDDENPOWER
+招式的属性会随着使\n用此招式的宝可梦而\n改变。
+
+#org @DESC_CROSSCHOP
+用两手呈十字劈打对\n手进行攻击。容易击\n中要害。
+
+#org @DESC_TWISTER
+兴起龙卷风，将对手\n卷入进行攻击。有时\n会使对手畏缩。
+
+#org @DESC_RAINDANCE
+在5回合内一直降雨，\n从而提高水属性的招\n式威力。火属性的招\n式威力则降低。
+
+#org @DESC_SUNNYDAY
+在5回合内让日照变得\n强烈，从而提高火属\n性的招式威力。水属\n性的招式威力则降低。
+
+#org @DESC_CRUNCH
+用利牙咬碎对手进行\n攻击。有时会降低对\n手的防御。
+
+#org @DESC_MIRRORCOAT
+从对手那里受到特殊\n攻击的伤害将以2倍\n返还给同一个对手。
+
+#org @DESC_PSYCHUP
+向自己施以自我暗示，\n将能力变化的状态变\n得和对手一样。
+
+#org @DESC_EXTREMESPEED
+以迅雷不及掩耳之势\n猛撞向对手进行攻击。\n必定能够先制攻击。
+
+#org @DESC_ANCIENTPOWER
+用原始之力进行攻击。\n有时会提高自己所有\n的能力。
+
+#org @DESC_SHADOWBALL
+投掷一团黑影进行攻\n击。有时会降低对手\n的特防。
+
+#org @DESC_FUTURESIGHT
+在使用招式2回合后，\n向对手发送一团念力\n进行攻击。
+
+#org @DESC_ROCKSMASH
+用拳头进行攻击。有\n时会降低对手的防御。\n野外使用可以粉碎路\n中岩石。
+
+#org @DESC_WHIRLPOOL
+将对手困在激烈的水\n流旋涡中，在4至5回\n合内进行攻击。
+
+#org @DESC_BEATUP
+我方全员进行攻击。\n同行的宝可梦越多，\n招式的攻击次数越多。
+
+#org @DESC_FAKEOUT
+进行先制攻击，使对\n手畏缩。要在出场后\n立刻使出才能成功。
+
+#org @DESC_UPROAR
+在3回合内大吵大闹\n攻击对手。在此期间\n谁都不能入眠。
+
+#org @DESC_STOCKPILE
+积蓄力量，提高自己\n的防御和特防。最多\n积蓄3次。
+
+#org @DESC_SPITUP
+将积蓄的力量撞向对\n手进行攻击。积蓄得\n越多，威力越大。
+
+#org @DESC_SWALLOW
+将积蓄的力量吞下，\n从而回复自己的HP。\n积蓄得越多，回复越\n大。
+
+#org @DESC_HEATWAVE
+将炎热的气息吹向对\n手进行攻击。有时会\n让对手陷入灼伤状态。
+
+#org @DESC_HAIL
+在5回合内一直降冰\n雹，除冰属性的宝可\n梦以外，给予全体宝\n可梦伤害。
+
+#org @DESC_TORMENT
+向对手无理取闹，令\n其不能连续2次使出\n相同招式。
+
+#org @DESC_FLATTER
+吹捧对手，使其混乱。\n同时还会提高对手的\n特攻。
+
+#org @DESC_WILLOWISP
+放出怪异的火焰，从\n而让对手陷入灼伤状\n态。
+
+#org @DESC_MEMENTO
+虽然会使自己陷入昏\n厥，但是能够大幅降\n低对手的攻击和特攻。
+
+#org @DESC_FACADE
+当自己处于中毒、麻\n痹、灼伤状态时，向\n对手使出此招式的话，\n威力会变成2倍。
+
+#org @DESC_FOCUSPUNCH
+集中精神出拳。在招\n式使出前若受到攻击\n则会失败。
+
+#org @DESC_SMELLINGSALTS
+对于麻痹状态下的对\n手，威力会变成2倍。\n但相反对手的麻痹也\n会被治愈。
+
+#org @DESC_FOLLOWME
+引起对手的注意，将\n对手的攻击全部转移\n到自己身上。
+
+#org @DESC_NATUREPOWER
+用自然之力进行攻击。\n根据所使用场所的\n不同，使出的招式也\n会有所变化。
+
+#org @DESC_CHARGE
+变为充电状态，提高\n下次使出的电属性的\n招式威力。自己的特\n防也会提高。
+
+#org @DESC_TAUNT
+使对手愤怒。在3回\n合内让对手只能使出\n给予伤害的招式。
+
+#org @DESC_HELPINGHAND
+帮助伙伴。被帮助的\n宝可梦，其招式威力\n变得比平时大。
+
+#org @DESC_TRICK
+抓住对手的空隙，交\n换自己和对手的持有\n物。
+
+#org @DESC_ROLEPLAY
+扮演对手，让自己的\n特性变得和对手相同。
+
+#org @DESC_WISH
+在下一回合回复自己\n或是替换出场的宝可\n梦最大HP的一半。
+
+#org @DESC_ASSIST
+向同伴紧急求助，从\n我方宝可梦已学会的\n招式中随机使用1个。
+
+#org @DESC_INGRAIN
+在大地上扎根，每回\n合回复自己的HP。\n因为扎根了，所以\n不能替换宝可梦。
+
+#org @DESC_SUPERPOWER
+发挥惊人的力量攻击\n对手。自己的攻击和\n防御会降低。
+
+#org @DESC_MAGICCOAT
+当对手使出会变成异\n常状态的招式或寄生\n种子等时，会将对手\n的招式反射回去。
+
+#org @DESC_RECYCLE
+使战斗中已经消耗掉\n的自己的持有物再生，\n并可以再次使用。
+
+#org @DESC_REVENGE
+如果受到对手的招式\n攻击，就能给予对手\n2倍的伤害。
+
+#org @DESC_BRICKBREAK
+将手刀猛烈地挥下攻\n击对手。还可以破坏\n光墙和反射壁等。
+
+#org @DESC_YAWN
+打个大哈欠引起瞌睡。\n在下一回合让对手\n陷入睡眠状态。
+
+#org @DESC_KNOCKOFF
+拍落对手的持有物，\n直到战斗结束都不能\n使用。
+
+#org @DESC_ENDEAVOR
+给予伤害，使对手的\nHP变得和自己的HP一\n样。
+
+#org @DESC_ERUPTION
+爆发怒火攻击对手。\n自己的HP越少，招式\n的威力越小。
+
+#org @DESC_SKILLSWAP
+利用超能力互换自己\n和对手的特性。
+
+#org @DESC_IMPRISON
+如果对手有和自己相\n同的招式，那么只有\n对手无法使用该招式。
+
+#org @DESC_REFRESH
+让身体休息，治愈自\n己身上所中的毒、麻\n痹、灼伤的异常状态。
+
+#org @DESC_GRUDGE
+因对手的招式而陷入\n昏厥时给对手施加怨\n念，让该招式的PP变\n成0。
+
+#org @DESC_SNATCH
+将对手打算使用的回\n复招式或能力变化招\n式夺为己用。
+
+#org @DESC_SECRETPOWER
+根据使用场所不同，\n该招式的追加效果也\n会有所变化。
+
+#org @DESC_DIVE
+第1回合潜入，第2回\n合浮上来进行攻击。
+
+#org @DESC_ARMTHRUST
+用张开着的双手猛推\n对手进行攻击。连续\n攻击2至5次。
+
+#org @DESC_CAMOUFLAGE
+根据所在场所不同，\n如水边、草丛和洞窟\n等，可以改变自己的\n属性。
+
+#org @DESC_TAILGLOW
+凝视闪烁的光芒，集\n中自己的精神，从而\n巨幅提高特攻。
+
+#org @DESC_LUSTERPURGE
+释放耀眼的光芒进行\n攻击。有时会降低对\n手的特防。
+
+#org @DESC_MISTBALL
+用围绕着雾状羽毛的\n球进行攻击。有时会\n降低对手的特攻。
+
+#org @DESC_FEATHERDANCE
+撒出羽毛，笼罩在对\n手的周围。大幅降低\n对手的攻击。
+
+#org @DESC_TEETERDANCE
+摇摇晃晃地跳起舞蹈，\n让自己周围的宝可梦\n陷入混乱状态。
+
+#org @DESC_BLAZEKICK
+攻击对手后，有时会\n使其陷入灼伤状态。\n也容易击中要害。
+
+#org @DESC_MUDSPORT
+一旦使用此招式，周\n围就会弄得到处是泥。\n在5回合内减弱电属\n性的招式。
+
+#org @DESC_ICEBALL
+在5回合内攻击对手。\n招式每次击中，威力\n就会提高。
+
+#org @DESC_NEEDLEARM
+用带刺的手臂猛烈地\n挥舞进行攻击。有时\n会使对手畏缩。
+
+#org @DESC_SLACKOFF
+偷懒休息。回复自己\n最大HP的一半。
+
+#org @DESC_HYPERVOICE
+给予对手又吵又响的\n巨大震动进行攻击。
+
+#org @DESC_POISONFANG
+用有毒的牙齿咬住对\n手进行攻击。有时会\n使对手中剧毒。
+
+#org @DESC_CRUSHCLAW
+用坚硬的锐爪劈开对\n手进行攻击。有时会\n降低对手的防御。
+
+#org @DESC_BLASTBURN
+用爆炸的火焰烧尽对\n手进行攻击。下一回\n合自己将无法动弹。
+
+#org @DESC_HYDROCANNON
+向对手喷射水炮进行\n攻击。下一回合自己\n将无法动弹。
+
+#org @DESC_METEORMASH
+使出彗星般的拳头攻\n击对手。有时会提高\n自己的攻击。
+
+#org @DESC_ASTONISH
+用尖叫声等突然惊吓\n对手进行攻击。有时\n会使对手畏缩。
+
+#org @DESC_WEATHERBALL
+根据使用时的天气，\n招式属性和威力会改\n变。
+
+#org @DESC_AROMATHERAPY
+让同伴闻沁人心脾的\n香气，从而治愈我方\n全员的异常状态。
+
+#org @DESC_FAKETEARS
+装哭流泪。使对手不\n知所措，从而大幅降\n低对手的特防。
+
+#org @DESC_AIRCUTTER
+用锐利的风切斩对手\n进行攻击。容易击中\n要害。
+
+#org @DESC_OVERHEAT
+使出全部力量攻击对\n手。使用之后会因为\n反作用力，自己的特\n攻大幅降低。
+
+#org @DESC_ODORSLEUTH
+使出后对幽灵属性宝\n可梦没有效果的招式\n以及闪避率高的对手，\n变得能够打中。
+
+#org @DESC_ROCKTOMB
+投掷岩石进行攻击。\n封住对手的行动，从\n而降低速度。
+
+#org @DESC_SILVERWIND
+在风中掺入鳞粉攻击\n对手。有时会提高自\n己的全部能力。
+
+#org @DESC_METALSOUND
+让对手听摩擦金属般\n讨厌的声音。大幅降\n低对手的特防。
+
+#org @DESC_GRASSWHISTLE
+让对手听舒适的笛声，\n从而陷入睡眠状态。
+
+#org @DESC_TICKLE
+给对手挠痒，使其发\n笑，从而降低对手的\n攻击和防御。
+
+#org @DESC_COSMICPOWER
+汲取宇宙中神秘的力\n量，从而提高自己的\n防御和特防。
+
+#org @DESC_WATERSPOUT
+掀起潮水进行攻击。\n自己的HP越少，招式\n的威力越小。
+
+#org @DESC_SIGNALBEAM
+发射神奇的光线进行\n攻击。有时会使对手\n混乱。
+
+#org @DESC_SHADOWPUNCH
+使出混影之拳。攻击\n必定会命中。
+
+#org @DESC_EXTRASENSORY
+发出看不见的神奇力\n量进行攻击。有时会\n使对手畏缩。
+
+#org @DESC_SKYUPPERCUT
+用冲向天空般高高的\n上勾拳顶起对手进行\n攻击。
+
+#org @DESC_SANDTOMB
+将对手困在铺天盖地\n的沙暴中，在4至5回\n合内进行攻击。
+
+#org @DESC_SHEERCOLD
+将极致寒气吹向对手\n进行攻击。只要命中\n就会一击昏厥。
+
+#org @DESC_MUDDYWATER
+向对手喷射浑浊的水\n进行攻击。有时会降\n低对手的命中率。
+
+#org @DESC_BULLETSEED
+向对手猛烈地发射种\n子进行攻击。连续攻\n击2至5次。
+
+#org @DESC_AERIALACE
+以敏捷的动作戏弄对\n手后进行切斩。攻击\n必定会命中。
+
+#org @DESC_ICICLESPEAR
+向对手发射锋利的冰\n柱进行攻击。连续攻\n击2至5次。
+
+#org @DESC_IRONDEFENSE
+将皮肤变得坚硬如铁，\n从而大幅提高自己的\n防御。
+
+#org @DESC_BLOCK
+张开双手进行阻挡，\n封住对手的退路，使\n其不能逃走。
+
+#org @DESC_DRAGONCLAW
+用尖锐的巨爪劈开对\n手进行攻击。
+
+#org @DESC_FRENZYPLANT
+用大树摔打对手进行\n攻击。下一回合自己\n将无法动弹。
+
+#org @DESC_BULKUP
+使出全身力气绷紧肌\n肉，从而提高自己的\n攻击和防御。
+
+#org @DESC_BOUNCE
+弹跳到高高的空中，\n第2回合攻击对手。\n有时会让对手陷入麻\n痹状态。
+
+#org @DESC_MUDSHOT
+向对手投掷泥块进行\n攻击。同时降低对手\n的速度。
+
+#org @DESC_POISONTAIL
+用尾巴拍打。有时会\n让对手陷入中毒状态，\n也容易击中要害。
+
+#org @DESC_COVET
+一边可爱地撒娇，一\n边靠近对手进行攻击，\n还能夺取对手携带的\n道具。
+
+#org @DESC_VOLTTACKLE
+让电流覆盖全身猛撞\n向对手。自己也会受\n到不小的伤害。
+
+#org @DESC_MAGICALLEAF
+散落可以追踪对手的\n神奇叶片。攻击必定\n会命中。
+
+#org @DESC_WATERSPORT
+用水湿透周围。在5\n回合内减弱火属性的\n招式。
+
+#org @DESC_CALMMIND
+静心凝神，从而提高\n自己的特攻和特防。
+
+#org @DESC_LEAFBLADE
+像用剑一般操纵叶片\n切斩对手进行攻击。\n容易击中要害。
+
+#org @DESC_DRAGONDANCE
+激烈地跳起神秘且强\n有力的舞蹈。从而提\n高自己的攻击和速度。
+
+#org @DESC_ROCKBLAST
+向对手发射坚硬的岩\n石进行攻击。连续攻\n击2至5次。
+
+#org @DESC_SHOCKWAVE
+向对手快速发出电击。\n攻击必定会命中。
+
+#org @DESC_WATERPULSE
+用水的震动攻击对手。\n有时会使对手混乱。
+
+#org @DESC_DOOMDESIRE
+使用招式2回合后，\n会用无数道光束攻击\n对手。
+
+#org @DESC_PSYCHOBOOST
+使出全部力量攻击对\n手。使用之后会因为\n反作用力，自己的特\n攻大幅降低。
 
 #org @DESC_LEECHFANG
-An attack that\nabsorbs half the\ndamage it inflicted\nto restore HP.
+吸取血液攻击对手。\n可以回复给予对手伤\n害的一半HP。
 
 #org @DESC_AIRSLASH
-The foe is sliced\nby a blade of air.\nIt may also make\nthe foe flinch.
+用连天空也能劈开的\n空气之刃进行攻击。\n有时会使对手畏缩。
 
 #org @DESC_AQUAJET
-An almost invisibly\nfast lunge that\nis certain to strike\nfirst.
+以迅雷不及掩耳之势\n扑向对手。必定能够\n先制攻击。
 
 #org @DESC_AQUATAIL
-The foe is attacked\nwith a swinging tail\nas vicious as a\nwave in a storm.
+如惊涛骇浪般挥动大\n尾巴攻击对手。
 
 #org @DESC_AURASPHERE
-A blast of aura\npower is let loose\nat the foe. It is\nsure to hit.
+从体内产生出波导之\n力，然后向对手发出。\n攻击必定会命中。
 
 #org @DESC_AVALANCHE
-An attack move that\ngains in intensity\nif the target has\nhurt the user.
+如果受到对手的招式\n攻击，就能给予该对\n手2倍威力的攻击。
 
 #org @DESC_BRAVEBIRD
-The user tucks in\nits wings and\ncharges. It also\nhurts the user.         
+收拢翅膀，通过低空\n飞行突击对手。自己\n也会受到不小的伤害。
 
 #org @DESC_BUGBUZZ
-The user creates a\ndamaging sound\nwave that may lower\nthe foe's Sp. Def.
+利用振动发出音波进\n行攻击。有时会降低\n对手的特防。
 
 #org @DESC_BULLETPUNCH
-The user strikes\nwith a tough punch\nthat is certain to\nstrike first.
+向对手使出如子弹般\n快速而坚硬的拳头。\n必定能够先制攻击。
 
 #org @DESC_CHARGEBEAM
-The user fires a\nload of electricity\nthat may raise the\nuser's Sp. Atk.  
+向对手发射电击光束。\n由于蓄满电流，有时\n会提高自己的特攻。
 
 #org @DESC_CLOSECOMBAT
-The foe is fought\nup close. This cuts\nthe user's Defense\nand Sp. Def stats.
+放弃守护，向对手的\n怀里突击。自己的防\n御和特防会降低。
 
 #org @DESC_CROSSPOISON
-An attack with a\nhigh critical-hit\nratio. It may also\npoison the foe.
+用毒刃劈开对手。有\n时会让对手陷入中毒\n状态，也容易击中要\n害。
 
 #org @DESC_DARKPULSE
-The user releases\na horrible aura that\nmay also make the\nfoe flinch.
+从体内发出充满恶意\n的恐怖气场。有时会\n使对手畏缩。
 
 #org @DESC_DISCHARGE
-The user looses an\nelectric flare that\nhits all Pok\emon\nand may paralyze.         
+用耀眼的电击攻击自\n己周围所有的宝可梦。\n有时会陷入麻痹状态。
 
 #org @DESC_DRACOMETEOR
-An intense attack\nthat also sharply\nreduces the user's\nSp. Atk stat.
+从天空中向对手落下\n陨石。使用之后因为\n反作用力，自己的特\n攻会大幅降低。
 
 #org @DESC_DRAGONPULSE
-The foe is attacked\nwith a shock wave\ngenerated by the\nuser's gaping mouth.
+从大大的口中掀起冲\n击波攻击对手。
 
 #org @DESC_DRAINPUNCH
-A harsh punch that\nabsorbs half the\ndamage it inflicted\nto restore HP.
+用拳头吸取对手的力\n量。可以回复给予对\n手伤害的一半HP。
 
 #org @DESC_EARTHPOWER
-The ground under the\nfoe erupts. It may\nalso lower the foe's\nSp. Def.          
+向对手脚下释放出大\n地之力。有时会降低\n对手的特防。
 
 #org @DESC_ENERGYBALL
-The foe is blasted\nwith natural energy.\nIt may also lower\nthe foe's Sp. Def.
+发射从自然收集的生\n命力量。有时会降低\n对手的特防。
 
 #org @DESC_FOCUSBLAST
-The user unleashes\nits power. It may\nalso lower the\nfoe's Sp. Def.
+提高气势，释放出全\n部力量。有时会降低\n对手的特防。
 
 #org @DESC_FORCEPALM
-The foe is attacked\nwith a shock wave\nthat may also leave\nit paralyzed.
+向对手的身体发出冲\n击波进行攻击。有时\n会让对手陷入麻痹状\n态。
 
 #org @DESC_GIGAIMPACT
-A severely damaging\nattack that makes\nthe user rest on\nthe next turn.
+使出自己浑身力量突\n击对手。下一回合自\n己将无法动弹。
 
 #org @DESC_GRASSKNOT
-Grass snares and\ntrips the foe. It\ndoes more damage\nto heavier foes.
+用草缠住并绊倒对手。\n对手越重，威力越大。
 
 #org @DESC_GUNKSHOT
-Filthy garbage is\nshot at the foe.\nIt may also poison\nthe target.
+用肮脏的垃圾撞向对\n手进行攻击。有时会\n让对手陷入中毒状态。
 
 #org @DESC_HAMMERARM
-The user swings\nits heavy fist.\nIt also lowers the\nuser's Speed.
+挥舞强力而沉重的拳\n头，给予对手伤害。\n自己的速度会降低。
 
 #org @DESC_HEADSMASH
-A reckless, life-\nrisking tackle that\nalso hurts the user\nterribly.
+拼命使出浑身力气，\n向对手进行头锤攻击。\n自己也会受到非常大\n的伤害。
 
 #org @DESC_ICESHARD
-The user hurls\nchunks of ice\nthat are certain to\nstrike first.
+瞬间制作冰块，快速\n地扔向对手。必定能\n够先制攻击。
 
 #org @DESC_IRONHEAD
-The foe is slammed\nwith its hard head.\nIt may also make\nthe foe flinch.
+用钢铁般坚硬的头部\n进行攻击。有时会使\n对手畏缩。
 
 #org @DESC_LAVAPLUME
-Scarlet flames wash\nover all Pok\emon in\nbattle. It may also\ninflict burns.
+用熊熊烈火攻击自己\n周围所有的宝可梦。\n有时会陷入灼伤状态。
 
 #org @DESC_MAGNETBOMB
-A steel bomb is\nstuck to the foe.\nIt is sure to hit.
+发射吸住对手的钢铁\n炸弹。攻击必定会命\n中。
 
 #org @DESC_MUDBOMB
-The foe is struck\nwith a mud ball\nthat may also lower\nits accuracy.
+向对手发射坚硬的泥\n弹进行攻击。有时会\n降低对手的命中率。
 
 #org @DESC_NASTYPLOT
-The user thinks\nbad thoughts. It\nsharply raises the\nSp. Atk stat.
+谋划诡计，激活头脑。\n大幅提高自己的特攻。
 
 #org @DESC_NIGHTSLASH
-The user slashes the\nfoe when opportune.\nIt has a high\ncritical-hit ratio.
+抓住瞬间的空隙切斩\n对手。容易击中要害。
 
 #org @DESC_OMINOUSWIND
-Repulsive wind is\nused to attack. It\nmay also raise all\nthe user's stats.
+突然刮起毛骨悚然的\n暴风攻击对手。有时\n会提高自己的全部能\n力。
 
 #org @DESC_POWERGEM
-The user attacks\nwith a ray of light\nthat sparkles like\ngemstones.
+发射如宝石般闪耀的\n光芒攻击对手。
 
 #org @DESC_POWERWHIP
-The user violently\nwhirls its vines or\ntentacles to lash\nthe foe.
+激烈地挥舞青藤或触\n手摔打对手进行攻击。
 
 #org @DESC_PSYCHOCUT
-The user tears the\nfoe with psychic\nblades. It has a\nhigh crit ratio.        
+用实体化的心之利刃\n劈开对手。容易击中\n要害。
 
 #org @DESC_ROCKCLIMB
-A charging attack\nthat may confuse\nthe foe. Can also be\nused to scale walls.
+用尽全力扑向对手进\n行攻击。有时会使对\n手混乱。
 
 #org @DESC_ROCKPOLISH
-The user polishes\nits body to sharply\nboost its Speed.
+打磨自己的身体，减\n少空气阻力。可以大\n幅提高自己的速度。
 
 #org @DESC_ROCKWRECKER
-The foe is hit with\na huge boulder.\nThe user can't move\non the next turn.
+向对手发射巨大的岩\n石进行攻击。下一回\n合自己将无法动弹。
 
 #org @DESC_ROOST
-A self-healing move\nthat restores HP by\nup to half of the\nuser's maximum HP.
+降到地面，使身体休\n息。回复自己最大HP\n的一半。
 
 #org @DESC_SEEDBOMB
-The user shoots a\nbarrage of hard\nseeds at the foe.
+将外壳坚硬的大种子，\n从上方砸下攻击对手。
 
 #org @DESC_SHADOWCLAW
-Claws made of\nshadows rake the\nfoe. It has a high\ncritical-hit ratio.
+以影子做成的锐爪，\n劈开对手。容易击中\n要害。
 
 #org @DESC_SHADOWSNEAK
-The user extends\nits shadow to\nattack. It will\nstrike first.         
+伸长影子，从对手的\n背后进行攻击。必定\n能够先制攻击。
 
 #org @DESC_VACUUMWAVE
-The user sends a\nwave of vacuum at\nthe foe. It will\nstrike first.         
+挥动拳头，掀起真空\n波。必定能够先制攻\n击。
 
 #org @DESC_XSCISSOR
-The user slashes\nthe foe with crossed\nclaws as if they\nwere scissors.
+将镰刀或爪子像剪刀\n般地交叉，顺势劈开\n对手。
 
 #org @DESC_ZENHEADBUTT
-The user focuses\nand rams the foe.\nIt may also make\nthe foe flinch.
+将思念的力量集中在\n前额进行攻击。有时\n会使对手畏缩。
 
 #org @DESC_SWITCHEROO
-The user trades held\nitems with the foe\nfaster than the eye\ncan follow.
+用一闪而过的速度交\n换自己和对手的持有\n物。
 
 #org @DESC_DRILLRUN
-The user rotates\nits body like a\ndrill. It has a high\ncritical-hit ratio.
+像钢钻一样，一边旋\n转身体一边撞击对手。\n容易击中要害。
 
 #org @DESC_BULLDOZE
-The user hits all\nPok\emon in battle\nby stomping. Lowers\nSpeed of those hit.     
+用力踩踏地面并攻击\n自己周围所有的宝可\n梦。会降低对方的速\n度。
 
 #org @DESC_ELECTROWEB
-The user traps the\nfoe in an electric\nnet. It also lowers\nthe foe's Speed.
+用电网捉住对手进行\n攻击。降低对手的速\n度。
 
 #org @DESC_FLAMECHARGE
-The user cloaks\nitself in flames and\nattacks. It also ups\nthe user's Speed.   
+让火焰覆盖全身，攻\n击对手。积蓄力量并\n提高自己的速度。
 
 #org @DESC_FROSTBREATH
-The user blows\ncold air at the foe.\nIt always results in\na critical hit.
+将冰冷的气息吹向对\n手进行攻击。必定会\n击中要害。
 
 #org @DESC_HEARTSTAMP
-The foe is hit\nafter a cute act.\nIt may also make\nthe foe flinch.
+以可爱的动作使对手\n疏忽，乘机给出强烈\n的一击。有时会使对\n手畏缩。
 
 #org @DESC_HONECLAWS
-The user sharpens\nits claws to raise\nits Attack and\naccuracy.
+将爪子磨得更加锋利。\n提高自己的攻击和\n命中率。
 
 #org @DESC_HORNLEECH
-A harsh attack that\nabsorbs half the\ndamage it inflicted\nto restore HP.
+将角刺入，吸取对手\n的养分。可以回复给\n予对手伤害的一半HP。
 
 #org @DESC_COIL
-The user coils up,\nraising its Attack,\nDefense, and\naccuracy.
+盘蜷着集中精神。提\n高自己的攻击、防御\n和命中率。
 
 #org @DESC_HURRICANE
-The foe is caught\nin a fierce wind.\nIt may also confuse\nthe foe.
+用强烈的风席卷对手\n进行攻击。有时会使\n对手混乱。
 
 #org @DESC_ICICLECRASH
-Icicles are dropped\non the foe. It may\nalso make the foe\nflinch.
+用大冰柱激烈地撞向\n对手进行攻击。有时\n会使对手畏缩。
 
 #org @DESC_WORKUP
-The user rouses\nitself to raise\nits Attack and\nSp. Atk stats.
+激励自己，从而提高\n攻击和特攻。
 
 #org @DESC_QUIVERDANCE
-The user mystically\ndances, raising its\nSp. Atk, Sp. Def,\nand Speed.
+轻巧地跳起神秘而又\n美丽的舞蹈。提高自\n己的特攻、特防和速\n度。
 
 #org @DESC_LEAFTORNADO
-Sharp leaves circle\nthe foe. It may also\nlower the foe's\naccuracy.
+用锋利的叶片包裹住\n对手进行攻击。有时\n会降低对手的命中率。
 
 #org @DESC_LOWSWEEP
-The user attacks\nthe foe's legs,\nlowering its\nSpeed stat.
+以敏捷的动作瞄准对\n手的脚进行攻击。降\n低对手的速度。
 
 #org @DESC_SNARL
-The user barks\nmenacingly. It\nalso lowers the\nfoe's Sp. Atk.
+没完没了地大声斥责，\n从而降低对手的特攻。
 
 #org @DESC_STRUGGLEBUG
-While resisting, the\nuser attacks the\nfoe, lowering its\nSp. Atk stat.
+抵抗并攻击对手。降\n低对手的特攻。
 
 #org @DESC_STEAMROLLER
-The user crushes\nthe foe with its\nbody. It may also\nmake the foe flinch.
+旋转揉成团的身体压\n扁对手。有时会使对\n手畏缩。
 
 #org @DESC_STORMTHROW
-The user strikes\nthe foe fiercely.\nIt always results in\na critical hit.
+向对手使出强烈的一\n击。攻击必定会击中\n要害。
 
 #org @DESC_VENOSHOCK
-The foe is soaked\nby a special acid.\nIts power doubles if\nthe foe is poisoned.
+将特殊的毒液泼向对\n手。对处于中毒状态\n的对手，威力会变成\n2倍。
 
 #org @DESC_WILDCHARGE
-The user throws an\nelectrified tackle.\nIt hurts the user\na little.
+让电流覆盖全身撞向\n对手进行攻击。自己\n也会受到少许伤害。
 
 #org @DESC_POISONJAB
-The foe is stabbed\nby an arm steeped\nin poison. It may\nalso poison the foe.
+用带毒的触手或手臂\n刺入对手。有时会让\n对手陷入中毒状态。
 
 #org @DESC_ACIDSPRAY
-The user spits fluid\nthat melts the foe.\nIt harshly lowers\nthe foe's Sp. Def.
+喷出能溶化对手的液\n体进行攻击。大幅降\n低对手的特防。
 
 #org @DESC_FIERYDANCE
-Cloaked in flames,\nthe user dances.\nIt may also raise\nthe user's Sp. Atk.
+让火焰覆盖全身，振\n翅攻击对手。有时会\n提高自己的特攻。
 
 #org @DESC_CLEARSMOG
-The user throws a\nclump of special\nmud that reverts\nall stat changes.
+向对手投掷特殊的泥\n块进行攻击。使其能\n力变回原点。
 
 #org @DESC_LEAFSTORM
-An intense attack\nthat also sharply\nreduces the user's\nSp. Atk stat.
+用尖尖的叶片向对手\n卷起风暴。使用之后\n因为反作用力自己的\n特攻会大幅降低。
 
 #org @DESC_STONEEDGE
-The foe is stabbed\nby sharpened stones.\nIt has a high\ncritical-hit ratio.
+用尖尖的岩石刺入对\n手进行攻击。容易击\n中要害。
 
 #org @DESC_PAYBACK
-If the user moves\nafter the target,\nthis attack's power\nwill be doubled.
+蓄力攻击。如果能在\n对手之后攻击，招式\n的威力会变成2倍。
 
 #org @DESC_FIREFANG
-The user bites the\nfoe. It may make\nthe foe flinch or\nleave it burned.
+用覆盖着火焰的牙齿\n咬住对手。有时会使\n对手畏缩或陷入灼伤\n状态。
 
 #org @DESC_ICEFANG
 #ifdef FROSTBITE
-The user bites the\nfoe. It may make\nthe foe flinch or\nleave it frostbitten.
+用藏有冷气的牙齿咬\n住对手。有时会使对\n手畏缩或陷入冻伤状\n态。
 #else
-The user bites the\nfoe. It may make\nthe foe flinch or\nleave it frozen.
+用藏有冷气的牙齿咬\n住对手。有时会使对\n手畏缩或陷入冰冻状\n态。
 #endif
 
 #org @DESC_THUNDERFANG
-The user bites the\nfoe. It may make\nthe foe flinch or\nleave it paralyzed.   
+用蓄满电流的牙齿咬\n住对手。有时会使对\n手畏缩或陷入麻痹状\n态。
 
 #org @DESC_FLAREBLITZ
-A fiery tackle that\nmay leave the foe\nburned. It also hurts\nthe user a little.
+让火焰覆盖全身猛撞\n向对手。自己也会受\n到不小的伤害。有时\n会让对手陷入灼伤状\n态。
 
 #org @DESC_INFERNO
-The foe is engulfed\nby an intense fire\nthat is sure to\nleave a burn.
+用烈焰包裹住对手进\n行攻击。让对手陷入\n灼伤状态。
 
 #org @DESC_HEX
-This attack does\ndouble damage to a\ntarget affected by\na status problem.
+接二连三地进行攻击。\n对处于异常状态的对\n手给予较大的伤害。
 
 #org @DESC_DUALCHOP
-The user hits\nthe foe with two\nbrutal strikes\nin one turn.
+用身体坚硬的部分拍\n打对手进行攻击。连\n续2次给予伤害。
 
 #org @DESC_DOUBLEHIT
-The user slams the\nfoe twice in a row\nwith a long tail,\nvines, etc.
+使用尾巴等拍打对手\n进行攻击。连续2次\n给予伤害。
 
 #org @DESC_COTTONGUARD
-The user protects\nitself with cotton,\ndrastically raising\nits Defense.
+用软绵绵的绒毛包裹\n住自己的身体进行守\n护。巨幅提高自己的\n防御。
 
 #org @DESC_ACROBATICS
-A nimble attack\nthat does double\ndamage if the user\nhas no held item.
+轻巧地攻击对手。自\n己没有携带道具时，\n会给予较大的伤害。
 
 #org @DESC_FLAMEBURST
-The user attacks\nthe foe with a\nbursting flame.
+如果击中，爆裂的火\n焰会攻击到对手。爆\n裂出的火焰还会飞溅\n到旁边的对手。
 
 #org @DESC_UTURN
-After attacking,\nthe user switches\nplaces with a\nparty Pok\emon.
+在攻击之后急速返回，\n和后备宝可梦进行替\n换。
 
 #org @DESC_VOLTSWITCH
-After attacking,\nthe user switches\nplaces with a\nparty Pok\emon.
+在攻击之后急速返回，\n和后备宝可梦进行替\n换。
 
 #org @DESC_DRAGONTAIL
-The foe is made to\nswitch out with an\nally. In the wild,\nthe battle ends.
+弹飞对手，强制拉后\n备宝可梦上场。如果\n对手为野生宝可梦，\n战斗将直接结束。
 
 #org @DESC_CIRCLETHROW
-The foe is made to\nswitch out with an\nally. In the wild,\nthe battle ends.
+扔飞对手，强制拉后\n备宝可梦上场。如果\n对手为野生宝可梦，\n战斗将直接结束。
 
 #org @DESC_MIRRORSHOT
-The user looses\na flash of energy\nto damage and\nlower accuracy.
+抛光自己的身体，向\n对手释放出闪光之力。\n有时会降低对手的命\n中率。
 
 #org @DESC_WOODHAMMER
-The user slams the\nfoe with its hard\nbody, also hurting\nitself a little.
+用坚硬的躯体撞击对\n手进行攻击。自己也\n会受到不小的伤害。
 
 #org @DESC_HEALPULSE
-The user emits a\nhealing pulse that\nrestores a target's\nHP by up to half.
+放出治愈波动，从而\n回复对手最大HP的\n一半。
 
 #org @DESC_FLASHCANNON
-Light energy is\nshot at the foe.\nIt may also lower\nthe foe's Sp. Def.
+将身体的光芒聚集在\n一点释放出去。有时\n会降低对手的特防。
 
 #org @DESC_BUGBITE
-The user bites\nthe foe, eating\nits berry if it is\nholding one.
+咬住进行攻击。当对\n手携带树果时，可以\n食用并获得其效果。
 
 #org @DESC_PLUCK
-The user pecks\nthe foe, plucking\nits berry if it is\nholding one.
+用喙进行攻击。当对\n手携带树果时，可以\n食用并获得其效果。
 
 #org @DESC_SHELLSMASH
-Sharply raises\nAttack, Sp. Atk, and\nSpeed, but lowers\nDefense and Sp. Def.
+打破外壳，降低自己\n的防御和特防，但大\n幅提高攻击、特攻和\n速度。
 
 #org @DESC_RAGEPOWDER
-The user scatters\na cloud of powder,\nmaking foes attack\nonly the user.
+将令人烦躁的粉末撒\n在自己身上，用以吸\n引对手的注意。使对\n手的攻击全部指向自\n己。
 
 #org @DESC_WAKEUPSLAP
-Does double damage\nto a sleeping foe.\nIt also wakes the\nfoe up, however.
+给予睡眠状态下的对\n手较大的伤害。但相\n反对手会从睡眠中醒\n过来。
 
 #org @DESC_RAZORSHELL
-The foe is cut\nby sharp shells.\nIt may also lower\nthe foe's Defense.
+用锋利的贝壳切斩对\n手进行攻击。有时会\n降低对手的防御。
 
 #org @DESC_COPYCAT
-The user mimics the\nlast move used.\nFails if no move\nhas been used yet.
+模仿对手刚才使出的\n招式，并使出相同招\n式。如果对手还没出\n招则会失败。
 
 #org @DESC_MIRACLEEYE
-Completely negates\nthe foe's efforts to\nheighten its ability\nto evade.
+使出后对恶属性宝可\n梦没有效果的招式以\n及闪避率高的对手，\n变得能够打中。
 
 #org @DESC_SUCKERPUNCH
-This move allows\nthe user to strike\nfirst, if the foe is\nreadying an attack.
+可以比对手先攻击。\n对手使出的招式如果\n不是攻击招式则会失\n败。
 
 #org @DESC_SCALD
-Boiling water is\nshot at the foe.\nIt may also cause\na burn.
+向对手喷射煮得翻滚\n的开水进行攻击。有\n时会让对手陷入灼伤\n状态。
 
 #org @DESC_BRINE
-If the foe's HP is\ndown to half, this\nattack does double\ndamage.
+当对手的HP负伤到一\n半左右时，招式威力\n会变成2倍。
 
 #org @DESC_FAIRYWIND
-The user stirs up\na fairy wind and\nstrikes the foe\nwith it.
+刮起妖精之风，吹向\n对手进行攻击。
 
 #org @DESC_BABYDOLLEYES
-A cute stare that\nlowers the foe's\nAttack stat. It is\nsure to go first.
+用圆瞳凝视对手，从\n而降低其攻击。必定\n能够先制攻击。
 
 #org @DESC_PLAYROUGH
-The foe is roughed\nup by the user.\nThis may lower the\nfoe's Attack.
+与对手嬉闹并攻击。\n有时会降低对手的攻\n击。
 
 #org @DESC_MOONBLAST
-The foe is attacked\nwith the power of\nthe moon. This may\nlower its Sp. Atk.
+借用月亮的力量攻击\n对手。有时会降低对\n手的特攻。
 
 #org @DESC_DRAININGKISS
-A sweet kiss that\nabsorbs over half\nthe damage inflicted\nto restore HP.
+用一个吻吸取对手的\nHP。回复给予对手伤\n害的一半以上的HP。
 
 #org @DESC_DAZZLINGGLEAM
-The user damages\nopposing Pok\emon\nby emitting a\npowerful flash.
+向对手发射强光，并\n给予伤害。
 
 #org @DESC_DISARMINGVOICE
-The user lets out\na charming cry\nthat cannot be\nevaded.
+发出魅惑的叫声，给\n予对手精神上的伤害。\n攻击必定会命中。
 
 #org @DESC_STEALTHROCK
-Levitating rocks\nare laid around the\nfoe's party to hurt\nfoes switching in.
+将无数岩石悬浮在对\n手的周围，从而对替\n换出场的对手的宝可\n梦给予伤害。
 
 #org @DESC_TOXICSPIKES
-Poisoned spikes\nare laid around the\nfoe's party to hurt\nfoes switching in.
+在对手的脚下撒毒菱。\n使对手替换出场的\n宝可梦中毒。
 
 #org @DESC_HEALINGWISH
-The user faints,\nbut will fully\nheal the Pok\emon\ntaking its place.
+虽然自己陷入昏厥，\n但可以治愈后备上场\n的宝可梦的异常状态\n以及回复HP。
 
 #org @DESC_LUNARDANCE
-The user faints,\nbut will fully\nheal the Pok\emon\ntaking its place.
+虽然自己陷入昏厥，\n但可以治愈后备上场\n的宝可梦的全部状态。
 
 #org @DESC_TAILWIND
-Whips up a tailwind\nthat ups the Speed\nof all party Pok\emon\nfor four turns.
+刮起猛烈的旋风，在\n4回合内提高我方全\n员的速度。
 
 #org @DESC_BOOMBURST
-The user emits a\nterrible soundwave\nthat hits everything\naround it.
+通过震耳欲聋的爆炸\n声产生的破坏力，攻\n击自己周围所有的宝\n可梦。
 
 #org @DESC_INCINERATE
-The user burns\nthe foe completely,\nrendering a held Gem\nor Berry useless.
+用火焰攻击对手。对\n手携带树果等时，会\n烧掉，使其不能使用。
 
 #org @DESC_WORRYSEED
-A worrying seed is\nplanted on the foe,\nmaking its ability\nInsomnia.
+种植心神不宁的种子。\n使对手不能入眠，\n并将特性变成不眠。
 
 #org @DESC_GASTROACID
-Stomach acid is\nhurled onto the\nfoe, suppressing\nits ability.
+将胃液吐向对手的身\n体。沾上的胃液会消\n除对手的特性效果。
 
 #org @DESC_GEOMANCY
-The user's Sp. Atk,\nSp. Def, and Speed\nrise sharply on the\nsecond turn.
+第1回合吸收能量，\n第2回合大幅提高特\n攻、特防和速度。
 
 #org @DESC_FLOWERSHIELD
-The Defense stat\nof all Grass-type\nPok\emon is raised\nby a strange power.
+使用神奇的力量提高\n在场的所有草属性宝\n可梦的防御。
 
 #org @DESC_ROTOTILLER
-The Attack and\nSp. Atk stats of\nall Grass-type\nPok\emon are raised.
+翻耕土地，使草木更\n容易成长。会提高草\n属性宝可梦的攻击和\n特攻。
 
 #org @DESC_SHIFTGEAR
-Rotating its gears,\nthe user raises its\nAttack and sharply\nraises its Speed.
+转动齿轮，不仅提高\n自己的攻击，还会大\n幅提高速度。
 
 #org @DESC_STICKYWEB
-A sticky net is\nwoven around the\nfoe's party to slow\nfoes switching in.
+在对手周围围上黏黏\n的网，降低替换出场\n的对手的速度。
 
 #org @DESC_STOREDPOWER
-The user attacks\nwith a stored power\nthat grows with\neach raised stat.
+用蓄积起来的力量攻\n击对手。自己的能力\n提高得越多，威力就\n越大。
 
 #org @DESC_ACUPRESSURE
-The user sharply\nraises one of its\nstats by pressing\nits stress points.
+通过点穴让身体舒筋\n活络。大幅提高某1项\n能力。
 
 #org @DESC_PUNISHMENT
-The more the foe\nhas raised its\nstats, the greater\nthe move's power.
+根据能力变化，对手\n提高的力量越大，招\n式的威力越大。
 
 #org @DESC_ASSURANCE
-Does double damage\nif the foe has\nalready taken\ndamage this turn.
+如果此回合内对手已\n经受到伤害的话，招\n式威力会变成2倍。
 
 #org @DESC_DRAGONRUSH
-A tackle exhibiting\ndevastating menace.\nThis may also make\nthe target flinch.
+释放出骇人的杀气，\n一边威慑一边撞击对\n手。有时会使对手畏\n缩。
 
 #org @DESC_DARKVOID
-All foes are taken\ninto a world of\ntotal darkness that\nmakes them sleep.
+将对手强制拖入黑暗\n的世界，从而让对手\n陷入睡眠状态。
 
 #org @DESC_FEINT
-An attack that hits\na protected target.\nThis also lifts the\nprotection.
+能够攻击正在使用守\n住或看穿等招式的对\n手。解除其守护效果。
 
 #org @DESC_PHANTOMFORCE
-The user vanishes,\nthen strikes on the\nnext turn, hitting\neven protected foes.
+第1回合消失在某处，\n第2回合攻击对手。\n可以无视守护进行攻\n击。
 
 #org @DESC_PETALBLIZZARD
-Stirs up a violent\npetal blizzard,\nhitting everything\naround it.
+猛烈地刮起飞雪般的\n落花，攻击周围所有\n的宝可梦，并给予伤\n害。
 
 #org @DESC_PLAYNICE
-The target loses\nits will to fight.\nThis lowers its\nAttack.
+和对手和睦相处，使\n其失去战斗的气力，\n从而降低对手的攻击。
 
 #org @DESC_ROAROFTIME
-An attack which\ndistorts time. The\nuser must rest on\nthe next turn.
+释放出扭曲时间般的\n强大力量攻击对手。\n下一回合自己将无法\n动弹。
 
 #org @DESC_SPACIALREND
-An attack that\ntears the space\naround it. Critical\nhits land more\neasily.
+将对手连同周围的空\n间一起撕裂并给予伤\n害。容易击中要害。
 
 #org @DESC_MAGMASTORM
-A maelstrom of fire\nrages that traps\nthe target for four\nto five turns.
+将对手困在熊熊燃烧\n的火焰中，在4至5回\n合内进行攻击。
 
 #org @DESC_FINALGAMBIT
-The user risks all,\ndealing damage\nequal to its HP\nand then fainting\nfrom exhaustion.
+拼命攻击对手。虽然\n自己陷入濒死，但会\n给予对手和自己目前\nHP等量的伤害。
 
 #org @DESC_SHADOWFORCE
-The user vanishes,\nthen strikes on the\nnext turn, hitting\neven protected foes.
+第1回合消失踪影，\n第2回合攻击对手。\n即使对手正受保护，\n也能击中。
 
 #org @DESC_NUZZLE
-The target is\nattacked with\nelectrified cheeks\nthat leave it\nparalyzed.
+将带电的脸颊蹭蹭对\n手进行攻击。让对手\n陷入麻痹状态。
 
 #org @DESC_RETALIATE
-If an ally fainted\nin the previous\nturn, this attack's\ndamage increases.
+为倒下的同伴报仇。\n如果上一回合有同伴\n倒下，威力就会提高。
 
 #org @DESC_STEELYHIT
-A physical attack\nin which the user\ncharges, full body,\ninto the foe.
+用全身撞向对手进行\n攻击。
 
 #org @DESC_JUDGMENT
-An attack which\nchanges type,\ndepending on which\nkind of Plate the\nuser is holding.
+向对手放出无数的光\n弹。属性会根据自己\n携带的石板不同而改\n变。
 
 #org @DESC_FREEZEDRY
 #ifdef FROSTBITE
-An attack which may\nleave the foe with\nfrostbite. It is also\nsuper effective on\nWater-types.
+急剧冷冻对手，有时\n会让对手陷入冻伤状\n态。对于水属性宝可\n梦也是效果绝佳。
 #else
-An attack which may\nleave the target\nfrozen. It is also\nsuper effective on\nWater types.
+急剧冷冻对手，有时\n会让对手陷入冰冻状\n态。对于水属性宝可\n梦也是效果绝佳。
 #endif
 
 #org @DESC_PSYSHOCK
-An odd psychic wave\nattacks the target.\nThis attack does\nphysical damage.
+将神奇的念波实体化\n攻击对手。给予物理\n伤害。
 
 #org @DESC_ROUND
-The user attacks\nwith a song. Others\ncan join in, doing\nmore damage.
+用歌声攻击对手。同\n伴还可以接着使出轮\n唱招式，威力也会提\n高。
 
 #org @DESC_TAILSLAP
-The user attacks by\nhitting the target\nwith its hard tail.\nIt hits two to five\ntimes in a row.
+用坚硬的尾巴拍打对\n手进行攻击。连续攻\n击2至5次。
 
 #org @DESC_GEARGRIND
-The user attacks by\nthrowing two steel\ngears at it target.\nThis attack hits\ntwice in a row.
+向对手投掷钢铁齿轮\n进行攻击。连续2次\n给予伤害。
 
 #org @DESC_NATURALGIFT
-The type and base\npower of this move\nis determined by\nthe user's Berry.
+从树果上获得力量进\n行攻击。根据携带的\n树果，招式属性和威\n力会改变。
 
 #org @DESC_CHIPAWAY
-An attack which is\nnot affected by the\ntarget's stat\nchanges.
+看准机会稳步攻击。\n无视对手的能力变化，\n直接给予伤害。
 
 #org @DESC_SMACKDOWN
-A projectile is\nthrown at the\nopponent. A flying\nPok\emon will fall\nto the ground.
+扔石头或炮弹，攻击\n飞行的对手。对手会\n被击落，掉到地面。
 
 #org @DESC_HYPERSPACEHOLE
-The user attacks\nfrom a hyperspace\nhole, hitting even\nprotected targets.
+通过异次元洞，突然\n出现在对手的侧面进\n行攻击。还可以无视\n守住和看穿等招式。
 
 #org @DESC_GYROBALL
-A high-speed spin.\nThe slower the user\nis than the foe, the\ngreater the damage.
+让身体高速旋转并撞\n击对手。速度比对手\n越慢，威力越大。
 
 #org @DESC_HYPERSPACEFURY
-The target is hit\nwith many arms.\nThis hits protected\nfoes, and lowers\nthe user's Defense.
+用许多手臂，无视对\n手的守住或看穿等招\n式进行连续攻击，自\n己的防御会降低。
 
 #org @DESC_ATTACKORDER
-The user calls out\nits underlings to\npummel the foe.\nIt has a high\ncritical-hit ratio.
+召唤手下，让其朝对\n手发起攻击。容易击\n中要害。
 
 #org @DESC_DEFENDORDER
-The user calls out\nits underlings to\nshield its body,\nraising its Defense\nand Sp. Def stats.
+召唤手下，让其附在\n自己的身体上。可以\n提高自己的防御和特\n防。
 
 #org @DESC_HEALORDER
-The user calls out\nits underlings to\nheal it. The user\nregains up to half\nof its max HP.
+召唤手下疗伤。回复\n自己最大HP的一半。
 
 #org @DESC_CAPTIVATE
-If the foe is the\nopposite gender of\nthe user, the foe's\nSpecial Attack is\nharshly lowered.
+♂诱惑♀或♀诱惑♂，\n从而大幅降低对手的\n特攻。
 
 #org @DESC_DEFOG
-A strong wind blows\naway the target's\nobstacles. It also\nlowers the target's\nevasiveness.
+用强风吹开对手的反\n射壁或光墙等。也会\n降低对手的闪避率。
 
 #org @DESC_ORIGINPULSE
-The user attacks\nopposing Pok\emon\nwith countless\nbeams of light that\nglow a deep blue.
+用无数青白色且闪耀\n的光线攻击对手。
 
 #org @DESC_PRECIPICEBLADES
-The user attacks\nopposing Pok\emon by\nmanifesting the\npower of the land\nin blades of stone.
+将大地的力量变化为\n利刃攻击对手。
 
 #org @DESC_GUARDSWAP
-The user uses its\npsychic power to\nswitch changes to\nits Defense and Sp.\nDef with the foe.
+利用超能力互换自己\n和对手的防御以及特\n防的能力变化。
 
 #org @DESC_STEAMERUPTION
-The user immerses\nthe target in\nsuperheated steam.\nThis may also burn\nthe target.
+将滚烫的蒸汽喷向对\n手。有时会让对手灼\n伤。
 
 #org @DESC_METALBURST
-The user retaliates\nwith much greater\nforce against the\nopponent that last\ndid damage to it.
+使出招式前，将最后\n受到的招式的伤害大\n力返还给对手。
 
 #org @DESC_MEFIRST
-The user tries to\ncut ahead of the\ntarget to steal and\nuse its intended\nmove with more power.
+提高威力，抢先使出\n对手想要使出的招式。\n如果不先使出则会失\n败。
 
 #org @DESC_POWERSWAP
-The user uses its\npsychic power to\nswitch changes to\nits Attack and Sp.\nAttack with the foe.
+利用超能力互换自己\n和对手的攻击以及特\n攻的能力变化。
 
 #org @DESC_POWERTRICK
-The user employs\nits psychic power\nto switch its\nAttack stat with\nits Defense stat.
+利用超能力交换自己\n的攻击和防御的力量。
 
 #org @DESC_PSYCHOSHIFT
-Using its psychic\npower of suggestion,\nthe user transfers\nits status problems\nto the target.
+利用超能力施以暗示，\n从而将自己受到的\n异常状态转移给对手。
 
 #org @DESC_WRINGOUT
-The user powerfully\nwrings the target.\nThe more HP the\ntarget has, the\ngreater the power.
+用力勒紧对手进行攻\n击。对手的HP越多，\n威力越大。
 
 #org @DESC_KINGSSHIELD
-The user protects\nitself from damage,\nand harshly lowers\nthe foe's Attack if\nit makes contact.
+防住对手攻击的同时，\n自己变为防御姿态。\n降低所接触到的对手\n的攻击。
 
 #org @DESC_PSYSTRIKE
-An odd psychic wave\nattacks the target.\nThis attack does\nphysical damage.
+将神奇的念波实体化\n攻击对手。给予物理\n伤害。
 
 #org @DESC_AUTOTOMIZE
-The user sheds part\nof its body to make\nitself lighter and\nsharply raise its\nSpeed stat.
+削掉身体上没用的部\n分。大幅提高自己的\n速度，同时体重也会\n变轻。
 
 #org @DESC_DIAMONDSTORM
-The user whips up a\nstorm of diamonds\nto damage the foes.\nThis may also raise\nthe user's Defense. 
+掀起钻石风暴给予伤\n害。有时会大幅提高\n自己的防御。
 
 #org @DESC_SLUDGEWAVE
-The area around the\nuser is swamped by\na giant sludge wave.\nIt may also poison\nthose hit.
+用污泥波攻击自己周\n围所有的宝可梦。有\n时会陷入中毒状态。
 
 #org @DESC_HEAVYSLAM
-The user slams into\nthe target. The\ngreater the weight\ndifference, the\ngreater the damage.
+用沉重的身体撞向对\n手进行攻击。自己比\n对手越重，威力越大。
 
 #org @DESC_SYNCHRONOISE
-Using an odd shock\nwave, the user\ndamages same-type\nPok\emon in the\nsurrounding area.
+用神奇电波对周围所\n有和自己属性相同的\n宝可梦给予伤害。
 
 #org @DESC_ELECTROBALL
-The user hurls an\nelectric orb. The\nfaster the user is\nthan the foe, the\ngreater the damage.
+用电气团撞向对手。\n自己比对手速度越快，\n威力越大。
 
 #org @DESC_FOULPLAY
-The user turns the\nfoe's power against\nit. This uses the\nfoe's Attack stat.
+利用对手的力量进行\n攻击。正和自己战斗\n的对手，其攻击越高，\n伤害越大。
 
 #org @DESC_ENTRAINMENT
-The user dances\nwith an odd rhythm,\nmaking the target's\nAbility the same as\nthe user's Ability.
+用神奇的节奏跳舞。\n使对手模仿自己的动\n作，从而将特性变成\n一样。
 
 #org @DESC_NIGHTDAZE
-The user releases a\npitch-black blast\nat its target. May\nalso lower target's\naccuracy.
+放出黑暗的冲击波攻\n击对手。有时会降低\n对手的命中率。
 
 #org @DESC_ECHOEDVOICE
-The user attacks\nthe target with a\nharsh echo.\nIf used every turn,\npower increases.
+用回声攻击对手。如\n果每回合都有宝可梦\n接着使用该招式，威\n力就会提高。
 
 #org @DESC_LANDSWRATH
-The user gathers\nenergy from the\nland and damages\nthe opposing Pok\emon\nwith its power.
+聚集大地的力量，将\n此力量集中攻击对手，\n并给予伤害。
 
 #org @DESC_OBLIVIONWING
-The user absorbs its\ntarget's HP. The\nuser's HP is restored\nby over half the\ndamage.
+从锁定的对手身上吸\n取HP。回复给予对手\n伤害的一半以上的HP。
 
 #org @DESC_HEARTSWAP
-The user employs its\npsychic power to\nswitch stat changes\nwith the target.
+利用超能力互换自己\n和对手之间的能力变\n化。
 
 #org @DESC_CRUSHGRIP
-The foe's crushed\nwith great force. The\nmore HP the foe has,\nthe stronger the\npower.
+用骇人的力量捏碎对\n手。对手剩余的HP越\n多，威力越大。
 
 #org @DESC_SACREDSWORD
-The user attacks by\nslicing with a long\nhorn. The target's\nstat changes are\nignored.
+用长角切斩对手进行\n攻击。无视对手的能\n力变化，直接给予伤\n害。
 
 #org @DESC_HEATCRASH
-The user slams down\nwith fire. The more\nthe user outweighs\nthe foe, the greater\nthe damage.
+用燃烧的身体撞向对\n手进行攻击。自己比\n对手越重，威力越大。
 
 #org @DESC_HEADCHARGE
-The user charges its\nhead into its foe,\nusing its guard hair.\nIt slightly damages\nthe user.
+用厉害的爆炸头猛撞\n向对手进行攻击。自\n己也会受到少许伤害。
 
 #org @DESC_TECHNOBLAST
-The user fires a beam\nof light at its foe.\nThe type changes\ndepending on the\nDrive held.
+向对手放出光弹。属\n性会根据自己携带的\n卡带不同而改变。
 
 #org @DESC_RELICSONG
-The user sings an\nancient song and\nattacks the hearts of\nthe listeners. It\nmay induce sleep.
+让对手听古老之歌，\n打动对手的内心进行\n攻击。有时会让对手\n陷入睡眠状态。
 
 #org @DESC_SECRETSWORD
-The user cuts with\nits long horn. The\nodd power in the\nhorn does physical\ndamage to the foe.
+用长角切斩对手进行\n攻击。角上拥有的神\n奇力量将给予物理伤\n害。
 
 #org @DESC_GLACIATE
-The user attacks by\nblowing freezing cold\nair at opposing\nPok\emon. This lowers\ntheir Speed.
+将冰冻的冷气吹向对\n手进行攻击。会降低\n对手的速度。
 
 #org @DESC_BOLTSTRIKE
-The user surrounds\nitself with abundant\nelectricity that can\nparalyze and charges\nits target.
+让强大的电流覆盖全\n身，猛撞向对手进行\n攻击。有时会让对手\n陷入麻痹状态。
 
 #org @DESC_BLUEFLARE
-The user attacks by\nengulfing the foe in\na severe, beautiful,\nblue flame. It may\nburn the foe.
+用美丽而激烈的青焰\n包裹住对手进行攻击。\n有时会让对手陷入\n灼伤状态。
 
 #org @DESC_FREEZESHOCK
-A two-turn attack\nthat hits the foe\nwith electrically\ncharged ice. It may\nparalyze the foe.
+用覆盖着电流的冰块，\n在第2回合撞向对手。\n有时会让对手陷入麻\n痹状态。
 
 #org @DESC_ICEBURN
-A two-turn attack\nthat surrounds the\nfoe with ultracold,\nfreezing wind. It\nmay burn the foe.
+用能够冻结一切的强\n烈冷气，在第2回合\n包裹住对手。有时会\n让对手陷入灼伤状态。
 
 #org @DESC_VCREATE
-The user hurls the\nhot flame on its\nforehead. It lowers\nthe user's Def, Sp.\nDef, and Speed.
+从前额产生灼热的火\n焰，舍身撞击对手。\n防御、特防和速度会\n降低。
 
 #org @DESC_FUSIONFLARE
-The user brings down\na huge flame. It does\nmore damage when\ninfluenced by an\nenormous bolt.
+释放出巨大的火焰。\n受到巨大的闪电影响\n时，招式威力会提高。
 
 #org @DESC_FUSIONBOLT
-The user throws down\na giant bolt. It does\nmore damage when\ninfluenced by an\nenormous flame.
+释放出巨大的闪电。\n受到巨大的火焰影响\n时，招式威力会提高。
 
 #org @DESC_FELLSTINGER
-When the user knocks\nout a target with\nthis move, the user's\nAttack stat rises\ndrastically.
+如果使用此招式打倒\n对手，攻击会巨幅提\n高。
 
 #org @DESC_NOBLEROAR
-Letting out a noble\nroar, the user\nintimidates the\ntarget and lowers its\nAttack and Sp. Atk.
+发出战吼威吓对手，\n从而降低对手的攻击\n和特攻。
 
 #org @DESC_DRAGONASCENT
-The user attacks by\ndropping off from\nthe sky at high speed.\nThis cuts the user's\nDefense and Sp. Def.
+从天空中急速下降攻\n击对手。自己的防御\n和特防会降低。
 
 #org @DESC_PARTINGSHOT
-With a parting threat,\nthe user lowers the\nfoe's Attack and Sp.\nAtk stats then\nswitches out.
+抛下狠话威吓对手，\n降低攻击和特攻后，\n和后备宝可梦进行替\n换。
 
 #org @DESC_TOPSYTURVY
-All stat changes\naffecting the target\nturn topsy-turvy and\nbecome the opposite\nof them.
+颠倒对手身上的所有\n能力变化，变成和原\n来相反的状态。
 
 #org @DESC_COREENFORCER
-If the target has\nalready used its\nmove this turn, it\nnullifies the effect\nof its Ability.
+使出后能够消除已经\n在该回合使出招式的\n对手的特性。
 
 #org @DESC_CHATTER
-The user attacks the\ntarget with sound\nwaves of deafening\nchatter. This\nconfuses the target.
+用非常烦人的，喋喋\n不休的音波攻击对手。\n使对手混乱。
 
 #org @DESC_CONFIDE
-The user tells the\nfoe a secret and it\nloses concentration.\nThis lowers Sp. Atk.
+和对手进行密语，使\n其失去集中力，从而\n降低对手的特攻。
 
 #org @DESC_WATERSHURIKEN
-The user throws stars\nat the foe 2 to 5\ntimes in a row. This\nalways strikes first.
+用粘液制成的手里剑，\n连续攻击2至5次。\n必定能够先制攻击。
 
 #org @DESC_MYSTICALFIRE
-The user attacks by\nbreathing a special,\nhot fire. This also\nlowers the target's\nSp. Atk stat.
+从口中喷出特别灼热\n的火焰进行攻击。降\n低对手的特攻。
 
 #org @DESC_SPIKYSHIELD
-Aside from protecting\nthe user from attacks,\nthis also damages\nattackers who make\ncontact.
+防住对手攻击的同时，\n削减接触到自己的\n对手的体力。
 
 #org @DESC_EERIEIMPULSE
-The user's body\ngenerates an impulse.\nExposing the foe to\nit harshly lowers\nits Sp. Atk stat.
+从身体放射出怪异电\n波，让对手沐浴其中，\n从而大幅降低其特攻。
 
 #org @DESC_HOLDBACK
-The user holds back\nwhen it attacks, and\nthe target is left\nwith at least 1 HP.
+在攻击的时候手下留\n情，从而使对手的HP\n至少会留下1HP。
 
 #org @DESC_INFESTATION
-The foe is infested\nand attacked for four\nto five turns. The\ntarget can't flee\nduring this.
+在4至5回合内纠缠不\n休地进行攻击。在此\n期间对手将无法逃走。
 
 #org @DESC_POWERUPPUNCH
-Striking over and\nover hardens the\nuser's fists.\nHitting a target\nraises Attack.
+通过反复击打对手，\n使自己的拳头慢慢变\n硬。打中对手攻击就\n会提高。
 
 #org @DESC_THOUSANDARROWS
-This move also hits\nopposing Pok\emon in\nthe air. They are\nknocked down to the\nground.
+可以击中浮在空中的\n宝可梦。空中的对手\n被击落后，会掉到地\n面。
 
 #org @DESC_THOUSANDWAVES
-The user attacks with\na wave that crawls\nalong the ground.\nThose hit can't flee\nfrom battle.
+从地面掀起波浪进行\n攻击。被掀入波浪中\n的对手，将无法从战\n斗中逃走。
 
 #org @DESC_PARABOLICCHARGE
-The user attacks\neverything around it.\nThe user's HP is\nrestored by half the\ndamage.
+给周围全体宝可梦造\n成伤害。可以回复给\n予伤害的一半HP。
 
 #org @DESC_SEARINGSHOT
-The user torches\neverything around it\nin an inferno of\nscarlet flames.\nIt may cause burns.
+用熊熊烈火攻击自己\n周围所有的宝可梦。\n有时会陷入灼伤状态。
 
 #org @DESC_SEEDFLARE
-The user emits a\nshock wave from its\nbody. This may also\nharshly lower the\ntarget's Sp. Def.
+从身体里产生冲击波。\n有时会大幅降低对手\n的特防。
 
 #org @DESC_ACCELEROCK
-The user smashes into\nthe target at high\nspeed. This move\nalways goes first.
+透过敏捷的动作撞击\n对手，一定能先发制\n人进行攻击。
 
 #org @DESC_ANCHORSHOT
-The user entangles\nthe target with its\nanchor chain while\nattacking. The target\ncannot flee.
+将锚缠住对手进行攻\n击。使对手无法逃走。
 
 #org @DESC_AURORAVEIL
-This move reduces\ndamage from physical\nand special moves for\nfive turns during a\nhailstorm.
+在5回合内减弱物理\n和特殊的伤害。只有\n下雪时才能使出。
 
 #org @DESC_BANEFULBUNKER
-Aside from protecting\nthe user from attacks,\nthis also poisons\nattackers who make\ncontact.
+防住对手攻击的同时，\n让接触到自己的对手\n中毒。
 
 #org @DESC_BEAKBLAST
-The user heats up its\nbeak and attacks.\nContact during heating\ncauses a burn.
+先加热鸟嘴后再进行\n攻击。鸟嘴在加热时\n对手触碰的话，就会\n使其灼伤。
 
 #org @DESC_BRUTALSWING
-The user swings its\nbody around violently\nto inflict damage on\neverything in its\nvicinity.
+用自己的身体狂舞挥\n打，给予对手伤害。
 
 #org @DESC_BURNUP
-The user burns\nitself out. After\nusing this move,\nthe user will no\nlonger be Fire type.
+将自己全身燃烧起火\n焰来，给予对手大大\n的伤害。自己的火属\n性将会消失。
 
 #org @DESC_CLANGINGSCALES
-The user rubs its\nscales and makes a\nhuge noise to\nattack. The user's\nDef stat goes down.
+摩擦全身鳞片，发出\n响亮的声音进行攻击。\n攻击后自己的防御会\n降低。
 
 #org @DESC_DARKESTLARIAT
-The user swings both\narms and hits the\ntarget. The target's\nstat changes are\nignored.
+在不受到对手能力变\n化影响的情况下给予\n对手伤害。
 
 #org @DESC_DRAGONHAMMER
-The user uses its\nbody like a hammer\nto attack the target\nand inflict damage.
+将身体当作锤子，向\n对手发动袭击，给予\n伤害。
 
 #org @DESC_FIRELASH
-The user strikes the\ntarget with a burning\nlash. This also\nlowers the target's\nDefense stat.
+用燃烧的鞭子抽打对\n手。受到攻击的对手\n防御会降低。
 
 #org @DESC_FIRSTIMPRESSION
-Although this move\nhas great power, it\nonly works the first\nturn the user is in\nbattle.
+威力很高的招式，但\n只有在出场战斗时，\n立刻使出才能成功。
 
 #org @DESC_FLEURCANNON
-The user unleashes a\nstrong beam. The\nattack's recoil\nharshly lowers the\nuser's Sp. Atk stat.
+放出强力光束后，自\n己的特攻会大幅降低。
 
 #org @DESC_FLORALHEALING
-The user restores up\nto half the max HP\nof the target. It\nrestores more HP\non Grassy Terrain.
+回复对手最大HP的一\n半。在青草场地时，\n效果会提高。
 
 #org @DESC_GEARUP
-The user engages its\ngears to raise the\nAttack and Sp. Atk\nof allies with the\nPlus or Minus Ability.
+启动齿轮，提高特性\n为正电和负电的宝可\n梦的攻击和特攻。
 
 #org @DESC_HIGHHORSEPOWER
-The user fiercely\nattacks the target\nusing its entire\nbody.
+使出全身力量，猛攻\n对手。
 
 #org @DESC_ICEHAMMER
-The user swings\nits heavy fist.\nIt also lowers the\nuser's Speed.
+挥舞强力而沉重的拳\n头，给予对手伤害。\n自己的速度会降低。
 
 #org @DESC_LASERFOCUS
-The user concentrates\nintensely. The\nattack on the next\nturn always results\nin a critical hit.
+集中精神，下次攻击\n必定会击中要害。
 
 #org @DESC_LEAFAGE
-The user attacks by\npelting the target\nwith leaves.
+将叶片打向对手，进\n行攻击。
 
 #org @DESC_LIQUIDATION
-The user slams into\nthe foe using a\nfull-force water\nblast. It may lower\nthe foe's Defense.
+用水之力量撞向对手\n进行攻击。有时会降\n低对手的防御。
 
 #org @DESC_LUNGE
-The user makes a\nlunge at the foe,\nattacking with full\nforce. This lowers\nthe foe's Attack.
+全力猛扑对手进行攻\n击。从而降低对手的\n攻击。
 
 #org @DESC_MOONGEISTBEAM
-The user emits a\nsinister ray. This\ncan be used on the\ntarget regardless\nof its Ability.
+放出奇异的光线攻击\n对手，可无视对手的\n特性进行攻击。
 
 #org @DESC_MULTIATTACK
-Cloaking itself in\nhigh energy, the user\nslams into the foe.\nIts type depends on\nthe memory.
+一边覆盖高能量，一\n边撞向对手进行攻击。\n根据存储碟不同，属\n性会改变。
 
 #org @DESC_NATURESMADNESS
-The user hits the\ntarget with the\nforce of nature. It\nhalves the target's\nHP.
+向对手发泄自然之怒，\n使对手的HP减半。
 
 #org @DESC_POLLENPUFF
-The user attacks the\nfoe with exploding\npollen puff. If\ntarget is an ally, it\nheals instead.
+对敌人使用是会爆炸\n的团子。对我方使用\n则是给予回复的团子。
 
 #org @DESC_POWERTRIP
-The user boasts its\nstrength. The more\nthe user's stats are\nraised, the greater\nthe power.
+耀武扬威地攻击对手，\n自己的能力提高得\n越多，威力就越大。
 
 #org @DESC_PRISMATICLASER
-The user shoots\npowerful lasers using\nprism power. The\nuser can't move on\nthe next turn.
+用棱镜的力量发射强\n烈光线。下一回合自\n己将无法动弹。
 
 #org @DESC_PSYCHICFANGS
-The user bites the\ntarget with psychic\ncapabilities. This\ndestroys Light\nScreen and Reflect.
+利用精神力量咬住对\n手进行攻击。还可以\n破坏光墙和反射壁等。
 
 #org @DESC_PURIFY
-The user heals the\ntarget's status\ncondition. If this\nsucceeds, it also\nheals the user's HP.
+治愈对手的异常状态。\n治愈后可以回复自己\n的HP。
 
 #org @DESC_REVELATIONDANCE
-The user attacks the\ntarget by dancing\nvery hard. The user's\ntype determines this\nmove's type.
+全力跳舞进行攻击。\n此招式的属性将变得\n和自己的属性相同。
 
 #org @DESC_SHADOWBONE
-The user attacks the\nfoe with a bone of\nspirit. It may lower\nthe foe's Defense.
+用附有灵魂的骨头殴\n打对手进行攻击。有\n时会降低对手的防御。
 
 #org @DESC_SHELLTRAP
-The user sets a\nshell trap. If the\nuser is hit by a\nphysical move, the\ntrap will explode.
+回合开始时，设下陷\n阱，若该回合中受到\n来自对手的物理攻击，\n可引起爆炸并给予对\n手重大的伤害。
 
 #org @DESC_SHOREUP
-The user regains up\nto half of its max\nHP. It restores\nmore HP in a\nsandstorm.
+回复自己最大HP的一\n半。在沙暴中回复得\n更多。
 
 #org @DESC_SMARTSTRIKE
-The user stabs the\ntarget with a sharp\nhorn. This attack\nnever misses.
+用尖尖的角刺入对手\n进行攻击。攻击必定\n会命中。
 
 #org @DESC_SOLARBLADE
-In this two-turn move,\nthe user gathers\nlight and fills a\nblade with light's\nenergy to attack.
+在第1回合储存日光\n的能量，然后在第2\n回合使出高威力攻击。
 
 #org @DESC_SPARKLINGARIA
-The user bursts into\nsong, emitting\nbubbles. Any burnt\nPok\emon will be\nhealed.
+受到这招式攻击的对\n手身上的灼伤状态将\n会痊愈。
 
 #org @DESC_SPECTRALTHIEF
-The user hides in\nthe target's shadow,\nsteals the target's\nstat boosts, and\nthen attacks.
+潜入对手的影子进行\n攻击。会夺取对手的\n能力提升。
 
 #org @DESC_SPEEDSWAP
-The user exchanges\nSpeed stats with\nthe target.
+将对手和自己的速度\n进行互换。
 
 #org @DESC_SPIRITSHACKLE
-The user attacks\nwhile stitching the\ntarget's shadow to\nthe ground to\nprevent escape.
+攻击的同时，缝住对\n手的影子，使其无法\n逃走。
 
 #org @DESC_SPOTLIGHT
-The user shines a\nspotlight on the\ntarget so that only\nthe target will be\nattacked.
+给宝可梦打上聚光灯，\n该回合只能瞄准该\n宝可梦。
 
 #org @DESC_STOMPINGTANTRUM
-If the previous move\nfailed, frustration\ndoubles the power of\nthis move.
+化悔恨为力量进行攻\n击。如果上一回合招\n式没有打中，威力就\n会翻倍。
 
 #org @DESC_STRENGTHSAP
-The user drains HP\nequal to the foe's\nAttack stat. It\nalso lowers the\nfoe's Attack stat.
+给自己回复和对手攻\n击力相同数值的HP，\n然后降低对手的攻击。
 
 #org @DESC_SUNSTEELSTRIKE
-The user slams the\ntarget with a meteor\nforce. This move\ndisregards the\ntarget's Ability.
+以流星般的气势猛撞\n对手，可无视对手的\n特性并进行攻击。
 
 #org @DESC_TEARFULLOOK
-The user gets teary\neyed to look pitiful.\nThis lowers the\ntarget's Attack and\nSp. Atk stats.
+变得泪眼汪汪，让对\n手丧失斗志。从而降\n低对手的攻击和特攻。
 
 #org @DESC_THROATCHOP
-The user attacks the\nfoe's throat to\nprevent it from\nusing moves that emit\nsound for two turns.
+受到此招式攻击的对\n手，会因为地狱般的\n痛苦，在2回合内，\n变得无法使出声音类\n招式。
 
 #org @DESC_TOXICTHREAD
-The user shoots\npoisonous threads to\npoison the target\nand lower the\ntarget's Speed stat.
+将混有毒的丝吐向对\n手。使其中毒，从而\n降低对手的速度。
 
 #org @DESC_TROPKICK
-The user lands a\ntropical kick on the\nfoe. It also lowers\nthe foe's Attack.
+向对手使出来自南国\n的火热脚踢。从而降\n低对手的攻击。
 
 #org @DESC_ZINGZAP
-A strong electric\nblast crashes down\non the target. This\nmay make the target\nflinch.
+撞向对手，并发出强\n电，使其感到麻麻刺\n刺的。有时会使对手\n畏缩。
 
 #org @DESC_ELECTRICTERRAIN
-The user electrifies\nthe ground for five\nturns, powering up\nElectric moves and\neluding sleep.
+在5回合内变成电气\n场地。地面上的宝可\n梦将无法入眠。电属\n性的招式威力还会提\n高。
 
 #org @DESC_GRASSYTERRAIN
-The user turns the\nground to grass for\nfive turns, powering\nup Grass moves and\nrestoring HP.
+在5回合内变成青草\n场地。地面上的宝可\n梦每回合都能回复。\n草属性的招式威力还\n会提高。
 
 #org @DESC_MISTYTERRAIN
-The user covers the\nground in mist for\nfive turns, halving\nDragon moves and\npreventing status.
+在5回合内，地面上\n的宝可梦不会陷入异\n常状态。龙属性招式\n的伤害也会减半。
 
 #org @DESC_PSYCHICTERRAIN
-The user makes the\nground weird for\nfive turns, boosting\nPsychic moves and\nblocking priority.
+在5回合内，地面上\n的宝可梦不会受到先\n制招式的攻击。超能\n力属性的招式威力会\n提高。
 
 #org @DESC_GRASSPLEDGE
-When combined with\nWater Pledge, its\npower increases and\na vast swamp appears.
+用草柱进行攻击。如\n果和水组合，威力就\n会提高，周围会变成\n湿地。
 
 #org @DESC_FIREPLEDGE
-When combined with\nGrass Pledge, its\npower increases and a\nsea of fire appears.
+用火柱进行攻击。如\n果和草组合，威力就\n会提高，周围会变成\n火海。
 
 #org @DESC_WATERPLEDGE
-When combined with\nFire Pledge, its\npower increases and\na rainbow appears.
+用水柱进行攻击。如\n果和火组合，威力就\n会提高，天空中会挂\n上彩虹。
 
 #org @DESC_TRICKROOM
-The user creates a\nbizarre area in\nwhich slower Pok\emon\nget to move first\nfor five turns.
+制造出离奇的空间。\n在5回合内速度慢的\n宝可梦可以先行动。
 
 #org @DESC_MAGICROOM
-The user creates a\nbizarre area in\nwhich Pok\emon's held\nitems lose effect\nfor five turns.
+制造出离奇的空间。\n在5回合内所有宝可\n梦携带道具的效果都\n会消失。
 
 #org @DESC_WONDERROOM
-The user creates a\nbizarre area where\nPok\emon's Defense\nand Sp. Def swap\nfor five turns.
+制造出离奇的空间。\n在5回合内互换所有\n宝可梦的防御和特防。
 
 #org @DESC_CRAFTYSHIELD
-The user protects\nitself and its\nallies from status\nmoves with a\nmysterious power.
+使用神奇的力量防住\n攻击我方的变化招式。\n但无法防住伤害招式\n的攻击。
 
 #org @DESC_MATBLOCK
-Using a pulled-up\nmat as a shield,\nthe user protects\nitself and its allies\nfrom damaging moves.
+将掀起来的榻榻米当\n作盾牌，防住自己和\n同伴免受招式伤害。\n变化招式无法防住。
 
 #org @DESC_QUICKGUARD
-The user protects\nitself and its\nallies from priority\nmoves.
+守护自己和同伴，以\n防对手的先制攻击。
 
 #org @DESC_WIDEGUARD
-The user protects\nitself and its\nallies from wide-\nranged attacks.
+在1回合内防住击打\n我方全员的攻击。
 
 #org @DESC_AQUARING
-The user envelops\nitself in a veil\nmade of water. It\nregains some HP\nevery turn.
+在自己身体的周围覆\n盖用水制造的幕。每\n回合回复HP。
 
 #org @DESC_AROMATICMIST
-The user raises the\nSp. Def stat of an\nally Pok\emon by\nusing a mysterious\naroma.
+通过神奇的芳香，提\n高我方宝可梦的特防。
 
 #org @DESC_BELCH
-The user lets out a\ndamaging belch at\nthe target. The user\nmust eat a held\nBerry to use this.
+朝着对手打嗝，并给\n予伤害。如果不吃树\n果则无法使出。
 
 #org @DESC_BESTOW
-The user passes its\nheld item to the\ntarget when the\ntarget isn't\nholding an item.
+当对手未携带道具时，\n能够将自己携带的\n道具交给对手。
 
 #org @DESC_FLING
-The user flings its\nheld item at the\ntarget to attack.\nIts power and effect\ndepend on the item.
+快速投掷携带的道具\n进行攻击。根据道具\n不同，威力和效果会\n改变。
 
 #org @DESC_FLYINGPRESS
-The user dives down\nonto the target from\nthe sky. This move\nis both Fighting\nand Flying type.
+从空中俯冲向对手。\n此招式同时带有格斗\n属性和飞行属性。
 
 #org @DESC_GRAVITY
-Gravity intensifies\nfor five turns,\npreventing moves\nthat use flight and\nnegating Levitate.
+在5回合内，飘浮特\n性和飞行属性的宝可\n梦会被地面属性的招\n式击中。飞向空中的\n招式也将无法使用。
 
 #org @DESC_GUARDSPLIT
-The user employs its\npsychic power to\naverage its Defense\nand Sp. Def stats\nwith the target.
+利用超能力将自己和\n对手的防御和特防相\n加，再进行平分。
 
 #org @DESC_HEALBLOCK
-The user prevents\nthe opposing team\nfrom using any HP\nrecovery for five\nturns.
+在5回合内无法通过\n招式、特性或携带的\n道具来回复HP。
 
 #org @DESC_IONDELUGE
-The user disperses\nelectrically charged\nparticles, changing\nNormal- to Electric-\ntype moves.
+将带电粒子扩散开来，\n使一般属性的招式\n变成电属性。
 
 #org @DESC_LUCKYCHANT
-The user chants an\nincantation that\nprevents foes from\nlanding critical\nhits for five turns.
+向天许愿，从而在5\n回合内不会被对手的\n攻击打中要害。
 
 #org @DESC_MAGNETRISE
-The user levitates\nusing electrically\ngenerated magnetism\nfor five turns.
+利用电气产生的磁力\n浮在空中。在5回合\n内可以飘浮。
 
 #org @DESC_MAGNETICFLUX
-The user manipulates\nmagnets to up Def\nand Sp. Def stats of\nallies with Plus or\nMinus Ability.
+通过操控磁场，会提\n高特性为正电和负电\n的宝可梦的防御和特\n防。
 
 #org @DESC_POWDER
-The user covers the\ntarget in a powder\nthat explodes if it\nuses a Fire-type\nmove.
+如果被撒到粉尘的对\n手使用火招式，则会\n爆炸并给予伤害。
 
 #org @DESC_POWERSPLIT
-The user employs its\npsychic power to\naverage its Attack\nand Sp. Atk stats\nwith the target.
+利用超能力将自己和\n对手的攻击和特攻相\n加，再进行平分。
 
 #org @DESC_REFLECTTYPE
-The user reflects\nthe target's type,\nmaking it the same\ntype as the target.
+反射对手的属性，让\n自己也变成一样的属\n性。
 
 #org @DESC_SIMPLEBEAM
-The user's\nmysterious psychic\nwave changes the\ntarget's Ability to\nSimple.
+向对手发送谜之念波。\n接收到念波的对手，\n其特性会变为单纯。
 
 #org @DESC_SOAK
-The user shoots a\ntorrent of water at\nthe target and\nchanges the target's\ntype to Water.
+将大量的水泼向对手，\n从而使其变成水属性。
 
 #org @DESC_TELEKINESIS
-The user makes the\ntarget float with\npsychic power. The\ntarget is easier to\nhit for three turns.
+利用超能力使对手浮\n起来。在3回合内攻\n击会变得容易打中对\n手。
 
 #org @DESC_TRICKORTREAT
-The foe is brought\ntrick-or-treating.\nThis adds Ghost type\nto the target's type.
+邀请对手参加万圣夜。\n使对手被追加幽灵\n属性。
 
 #org @DESC_VENOMDRENCH
-The user sprays a\npoisonous liquid\nthat lowers Attack,\nSp. Atk, and Speed\nof poisoned foes.
+将特殊的毒液泼向对\n手。对处于中毒状态\n的对手，其攻击、特\n攻和速度都会降低。
 
 #org @DESC_FORESTSCURSE
-The user puts a\nforest curse on the\ntarget. The target\nis now Grass type\nas well.
+向对手施加森林咒术。\n中了诅咒的对手会被\n追加草属性。
 
 #org @DESC_MINDBLOWN
-The user attacks\neverything around it\nby making its head\nexplode. This also\ndamages the user.
+让自己的头爆炸，来\n攻击周围的一切。自\n己也会受到伤害。
 
 #org @DESC_PHOTONGEYSER
-A pillar of light\nthat deals physical\nor special damage\nbased on the user's\nbetter stat.
+用光柱来进行攻击。\n比较自己的攻击和特\n攻，用数值相对较高\n的一项给予对方伤害。
 
 #org @DESC_PLASMAFISTS
-The user attacks\nwith electrically\ncharged fists. This\nmakes Normal-type\nmoves Electric-type.
+用覆盖着电流的拳头\n进行攻击。使一般属\n性的招式变成电属性。
 
 #org @DESC_ELECTRIFY
-If the target is\nelectrified before\nits move in the turn,\nthe target's move\nbecomes Electric.
+对手使出招式前，如\n果输电，则该回合对\n手的招式变成电属性。
 
 #org @DESC_EMBARGO
-It prevents the\ntarget from using\nitems. Its Trainer\nalso can't use\nitems on it.
+让对手在5回合内不\n能使用宝可梦携带的\n道具。训练家也不能\n给那只宝可梦使用道\n具。
 
 #org @DESC_FAIRYLOCK
-By locking down the\nbattlefield, the\nuser keeps all\nPok\emon from fleeing\nduring the next turn.
+通过封锁，下一回合\n所有的宝可梦都无法\n逃走。
 
 #org @DESC_LIGHTOFRUIN
-The user fires a\npowerful beam of\nlight from the\nEternal Flower. This\ndamages the user.
+借用永恒之花的力量，\n发射出强力光线。\n自己也会受到不小的\n伤害。
 
 #org @DESC_TRUMPCARD
-The fewer PP this\nmove has, the\ngreater its power.
+王牌招式的剩余PP越\n少，招式的威力越大。
 
 #org @DESC_AFTERYOU
-The user helps the\ntarget and makes it\nuse its move right\nafter the user.
+支援我方或对手的行\n动，使其紧接着此招\n式之后行动。
 
 #org @DESC_INSTRUCT
-The user instructs\nthe target to use\nthe target's last\nmove again.
+向对手下达指示，让\n其再次使出刚才的招\n式。
 
 #org @DESC_QUASH
-The user suppresses\nthe target and makes\nits move go last.
+压制对手，从而将其\n行动顺序放到最后。
 
 #org @DESC_HAPPYHOUR
-Using Happy Hour\ndoubles the amount\nof prize money\nreceived after\nbattle.
+如果使用欢乐时光，\n战斗后得到的钱会翻\n倍。
 
 #org @DESC_DOUBLEIRONBASH
-The user centers\nits hex nut and\nstrikes twice with\nits arms. It may\ncause flinching.
+以胸口的螺帽为中心\n旋转，并连续2次挥\n动手臂打击对手。有\n时会使对手畏缩。
 
 #org @DESC_LASTRESORT
-It can only be\nused after the\nuser has exhausted\nall other moves it\nknows in battle.
+当战斗中已学会的招\n式全部使用过后，才\n能开始使出珍藏的招\n式。
 
 #org @DESC_SKYDROP
-It takes the enemy\ninto the sky,\nwhere it can't\nattack. It is\ndropped next turn.
+第1回合将对手带到\n空中，第2回合将其\n摔下进行攻击。被带\n到空中的对手不能动\n弹。
 
 #org @DESC_CELEBRATE
-The Pok\emon\ncongratulates you\non your special\nday!
+宝可梦为十分开心的\n你庆祝。
 
 #org @DESC_HOLDHANDS
-The user and an\nally hold hands.\nThis makes them\nvery happy.
+我方宝可梦之间牵手。\n能带来非常幸福的\n心情。
 
 #org @DESC_DYNAMAX_CANNON
-The user unleashes\na strong beam that\ndeals double damage\nto Dynamaxed targets.
+从核心放出光束进行\n攻击。如果对手正处\n于极巨化状态，则造\n成的伤害会变为2倍。
 
 #org @DESC_SNIPE_SHOT
-The user ignores\nthe effects of moves\nand Abilities that\ndraw in moves.
+能无视具有吸引对手\n招式效果的特性或招\n式的影响。可以向选\n定的对手进行攻击。
 
 #org @DESC_JAW_LOCK
-The user bites down,\npreventing itself\nand the target from\nswitching out.
+使双方直到一方濒死\n为止无法替换宝可梦。\n其中一方退场则可以\n解除效果。
 
 #org @DESC_STUFF_CHEEKS
-The user consumes\nits held Berry,\nthen raises its\nDefense sharply.
+吃掉携带的树果，大\n幅提高防御。
 
 #org @DESC_NO_RETREAT
-All of the user's\nstats are raised,\nbut it can no longer\nswitch out or flee.
+提高自己的所有能力，\n但无法替换或逃走。
 
 #org @DESC_TAR_SHOT
-Sticky tar lowers\nthe target's Speed,\nand makes it weaker\nto Fire-type moves.
+泼洒黏糊糊的沥青，\n降低对手的速度，并\n且使对手的弱点变为\n火。
 
 #org @DESC_MAGIC_POWDER
-The user scatters\nmagic powder that\nchanges the target\ninto a Psychic-type.
+向对手喷洒魔法粉，\n使对手变为超能力属\n性。
 
 #org @DESC_DRAGON_DARTS
-The user attacks\ntwice. If there\nare two targets,\neach is hit once.
+让多龙梅西亚进行2\n次攻击。如果对手有\n2只宝可梦，则对它\n们各进行1次攻击。
 
 #org @DESC_TEATIME
-All Pok\emon on the\nfield have teatime.\nEach Pok\emon eats\nits held Berry.
+举办一场茶会，场上\n的所有宝可梦都会吃\n掉自己携带的树果。
 
 #org @DESC_OCTOLOCK
-The user traps the\nfoe and makes its\nDefense and Sp. Def\nfall each turn.
+让对手无法逃走。对\n手被固定后，每回合\n都会降低防御和特防。
 
 #org @DESC_BOLT_BEAK
-If the user moves\nbefore the target,\nthe power of this\nmove is doubled.
+用带电的喙啄刺对手。\n如果比对手先出手攻\n击，招式的威力会变\n成2倍。
 
 #org @DESC_FISHIOUS_REND
-If the user moves\nbefore the target,\nthe power of this\nmove is doubled.
+用坚硬的腮咬住对手。\n如果比对手先出手攻\n击，招式的威力会变\n成2倍。
 
 #org @DESC_COURT_CHANGE
-The user swaps\nthe effects on\neither side of\nthe field.
+用神奇的力量交换双\n方的场地效果。
 
 #org @DESC_CLANGOROUS_SOUL
-The user raises\nall of its stats\nby using some of\nits HP.
+削减少许自己的HP，\n使所有能力都提高。
 
 #org @DESC_BODY_PRESS
-The higher the\nuser's Defense,\nthe more damage\nit will inflict.
+用身体撞向对手进行\n攻击。防御越高，给\n予的伤害就越高。
 
 #org @DESC_DECORATE
-The user sharply\nraises the target's\nAttack and Sp. Atk\nby decorating it.
+通过装饰，大幅提高\n对方的攻击和特攻。
 
 #org @DESC_DRUM_BEATING
-The user plays its\ndrum to attack.\nThe target's Speed\nstat is lowered.
+用鼓点来控制鼓的根\n部进行攻击，从而降\n低对手的速度。
 
 #org @DESC_SNAP_TRAP
-The user snares\nthe target in a\nsnap trap for four\nto five turns.
+使用捕兽夹，在4至5\n回合内，夹住对手进\n行攻击。
 
 #org @DESC_PYRO_BALL
-The user launches\na fiery ball at\nthe target. It may\nalso cause a burn.
+点燃小石子，形成火\n球攻击对手。有时会\n使对手陷入灼伤状态。
 
 #org @DESC_BEHEMOTH_BLADE
-The user becomes a\nsword and strikes.\nDouble damage on\nDynamaxed targets.
+变身为巨大的剑，挥\n斩对手。如果对手正\n处于极巨化状态，则\n造成的伤害会变为2\n倍。
 
 #org @DESC_BEHEMOTH_BASH
-The user becomes a\nshield and strikes.\nDouble damage on\nDynamaxed targets.
+变身为巨大的盾，撞\n击对手。如果对手正\n处于极巨化状态，则\n造成的伤害会变为2\n倍。
 
 #org @DESC_AURA_WHEEL
-Morpeko raises its\nSpeed and attacks.\nThe move's type is\nbased on its form.
+用储存在颊囊里的能\n量进行攻击，并提高\n自己的速度。其属性\n会随着莫鲁贝可的样\n子而改变。
 
 #org @DESC_BREAKING_SWIPE
-The user attacks the\nfoes by swinging its\ntail wildly, lowering\ntheir Attack.
+用坚韧的尾巴猛扫对\n手进行攻击，从而降\n低对手的攻击。
 
 #org @DESC_BRANCH_POKE
-The user attacks\nthe target by\npoking it with a\npointed branch.
+使用尖锐的树枝刺向\n对手进行攻击。
 
 #org @DESC_OVERDRIVE
-The user twangs\nits guitar, which\ncauses an echo and\nstrong vibrations.
+奏响吉他和贝斯，释\n放出发出巨响的剧烈\n震动攻击对手。
 
 #org @DESC_APPLE_ACID
-The user attacks\nwith acid made from\ntart apples. Lowers\nthe foe's Sp. Def.
+使用从酸苹果中提取\n出来的酸性液体进行\n攻击。降低对手的特\n防。
 
 #org @DESC_GRAV_APPLE
-The user attacks by\ndropping an apple\nfrom above. Lowers\nthe foe's Defense.
+从高处落下苹果，给\n予对手伤害。可降低\n对手的防御。
 
 #org @DESC_SPIRIT_BREAK
-The user attacks\nwith spirit-breaking\nforce, lowering the\ntarget's Sp. Atk.
+用足以让对手一蹶不\n振的气势进行攻击。\n会降低对手的特攻。
 
 #org @DESC_STRANGE_STEAM
-The user attacks\nby emitting steam.\nThe steam may also\nconfuse the target.
+喷出烟雾攻击对手。\n有时会使对手混乱。
 
 #org @DESC_LIFE_DEW
-The user scatters\nwater that restores\nthe HP of itself\nand its allies.
+喷洒出神奇的水，回\n复自己和场上同伴的\nHP。
 
 #org @DESC_OBSTRUCT
-The user protects\nitself, and harshly\nlowers the foe's\nDefense on contact.
+完全抵挡对手的攻击。\n连续使出则容易失败。\n一旦触碰，防御就会\n大幅降低。
 
 #org @DESC_FALSE_SURRENDER
-The user bows,\nthen uses its hair\nto stab the foe.\nIt never misses.
+装作低头认错的样子，\n用凌乱的头发进行突\n刺。攻击必定会命中。
 
 #org @DESC_METEOR_ASSAULT
-The user attacks\nwith its thick leek.\nThe user must rest\non the next turn.
+大力挥舞粗壮的茎进\n行攻击。但同时自己\n也会被晃晕，下一回\n合自己将无法动弹。
 
 #org @DESC_ETERNABEAM
-Eternatus's most\npowerful attack.\nThe user must rest\non the next turn.
+无极汰那变回原来的\n样子后，发动的最强\n攻击。下一回合自己\n将无法动弹。
 
 #org @DESC_STEEL_BEAM
-It fires a beam\nof steel from its\nbody, which also\nhurts the user.
+将从全身聚集的钢铁\n化为光束，激烈地发\n射出去。自己也会受\n到伤害。
 
 #org @DESC_EXPANDING_FORCE
-The move's power\nincreases and damages\nall opposing targets\nin Psychic Terrain.
+利用精神力量攻击对\n手。在精神场地上威\n力会有所提高，能对\n所有对手造成伤害。
 
 #org @DESC_STEEL_ROLLER
-The user attacks and\ndestroys the terrain.\nThe move fails if\nthere is no terrain.
+在破坏场地的同时攻\n击对手。如果脚下没\n有任何场地状态存在，\n使出此招式时便会失\n败。
 
 #org @DESC_SCALE_SHOT
-It hits two to five\ntimes in a row.\nRaises Speed, but\nlowers Defense.
+发射鳞片进行攻击。\n连续攻击2至5次。速\n度会提高但防御会降\n低。
 
 #org @DESC_METEOR_BEAM
-In this two-turn move,\nthe user gathers\nspace power and\nincreases Sp. Atk.
+第1回合聚集宇宙之\n力提高特攻，第2回\n合攻击对手。
 
 #org @DESC_SHELL_SIDE_ARM
-Inflicts the more\neffective of physical\nor special damage.\nMay poison the foe.
+从物理攻击和特殊攻\n击中选择可造成较多\n伤害的方式进行攻击。\n有时会让对手陷入中\n毒状态。
 
 #org @DESC_MISTY_EXPLOSION
-The user explodes\nand faints itself.\nIts power increases\non Misty Terrain.
+对自己周围的所有宝\n可梦进行攻击，但使\n出后，自己会陷入濒\n死。在薄雾场地上，\n招式威力会提高。
 
 #org @DESC_GRASSY_GLIDE
-The user glides\non the ground to\nattack. Hits first\non Grassy Terrain.
+仿佛在地面上滑行般\n地攻击对手。在青草\n场地上，必定能够先\n制攻击。
 
 #org @DESC_RISING_VOLTAGE
-The user attacks with\nearthly voltage. It\ndoubles in power on\nElectric Terrain.
+用从地面升腾而起的\n电击进行攻击。当对\n手处于电气场地上时，\n招式威力会变成2倍。
 
 #org @DESC_TERRAIN_PULSE
-The move's type\nand power depends on\nthe terrain currently\nused in battle.
+借助场地的力量进行\n攻击。视使出招式时\n场地状态不同，招式\n的属性和威力会有所\n变化。
 
 #org @DESC_SKITTER_SMACK
-The user skitters\nbehind the target to\nattack. It lowers the\nfoe's Sp.Atk stat.
+从对手背后爬近后进\n行攻击。会降低对手\n的特攻。
 
 #org @DESC_BURNING_JEALOUSY
-Inflicts a burn on\ntargets that had\ntheir stats boosted\nduring the turn used.
+用嫉妒的能量攻击对\n手。会让在该回合内\n能力有所提高的宝可\n梦陷入灼伤状态。
 
 #org @DESC_LASH_OUT
-The move's power\ndoubles if the user's\nstats have fallen\nduring the turn.
+攻击对手以发泄对其\n感到的恼怒情绪。如\n果在该回合内自身能\n力遭到降低，招式的\n威力会变成2倍。
 
 #org @DESC_POLTERGEIST
-The user controls\nthe target's item to\nattack. Fails if the\ntarget has no item.
+操纵对手的持有物进\n行攻击。当对手没有\n携带道具时，使出此\n招式时便会失败。
 
 #org @DESC_CORROSIVE_GAS
-The user cloaks\nitself in acidic gas.\nIt melts away the\ntarget's held item.
+用具有强酸性的气体\n包裹住自己周围所有\n的宝可梦，并融化其\n所携带的道具。
 
 #org @DESC_COACHING
-The user coaches\nits ally, raising\nthe ally's Attack\nand Defense stats.
+通过进行正确合理的\n指导，提高我方全员\n的攻击和防御。
 
 #org @DESC_FLIP_TURN
-After attacking,\nthe user switches\nplaces with a\nparty Pok\emon.
+在攻击之后急速返回，\n和后备宝可梦进行\n替换。
 
 #org @DESC_TRIPLE_AXEL
-A 3-kick attack\nthat becomes more\npowerful with each\nsuccessive hit.
+连续3次踢对手进行\n攻击。每踢中一次，\n威力就会提高。
 
 #org @DESC_DUAL_WINGBEAT
-The user slams\nthe target with its\nwings. The target is\nhit twice in a row.
+将翅膀撞向对手进行\n攻击。连续2次给予\n伤害。
 
 #org @DESC_SCORCHING_SANDS
-The user throws\nscorching sand at the\ntarget. It may also\ninflict a burn.
+将滚烫的沙子砸向对\n手进行攻击。有时会\n让对手陷入灼伤状态。
 
 #org @DESC_JUNGLE_HEALING
-The user restores\nHP and the status\nof itself and its\nally in battle.
+与丛林融为一体，回\n复自己和场上同伴的\nHP和状态。
 
 #org @DESC_WICKED_BLOW
-The user strikes\nthe foe fiercely.\nIt always results in\na critical hit.
+将恶之流派修炼至大\n成的猛烈一击。必定\n会击中要害。
 
 #org @DESC_SURGING_STRIKES
-The user strikes\nthree times in a row.\nIt always results in\na critical hit.
+将水之流派修炼至大\n成的仿若行云流水般\n的3次连击。必定会\n击中要害。
 
 #org @DESC_FREEZING_GLARE
 #ifdef FROSTBITE
-The user attacks\nwith psychic power.\nIt may leave the\ntarget with frostbite.
+从双眼发射精神力量\n进行攻击。有时会让\n对手陷入冻伤状态。
 #else
-The user attacks\nwith psychic power.\nIt may leave the\ntarget frozen.
+从双眼发射精神力量\n进行攻击。有时会让\n对手陷入冰冻状态。
 #endif
 
 #org @DESC_THUNDEROUS_KICK
-The user delivers\na fierce kick that\nlowers the target's\ndefense stat.
+以雷电般的动作戏耍\n对手的同时使出脚踢。\n可降低对手的防御。
 
 #org @DESC_FIERY_WRATH
-The user attacks with\nintense, dark flames.\nIt may also make\nthe foe flinch.
+将愤怒转化为火焰般\n的气场进行攻击。有\n时会使对手畏缩。
 
 #org @DESC_EERIE_SPELL
-The user attacks with\npsychic power that\nremoves 3 PP from\nthe foe's last move.
+用强大的精神力量攻\n击。让对手最后使用\n的招式减少3PP。
 
 #org @DESC_THUNDER_CAGE
-A cage made of\nelectricity that traps\nthe target for four\nto five turns.
+将对手困在电流四溅\n的囚笼中，在4至5回\n合内进行攻击。
 
 #org @DESC_DRAGON_ENERGY
-The higher the\nuser's HP, the\nmore powerful this\nattack becomes.
+把生命力转换为力量\n攻击对手。自己的HP\n越少，招式的威力越\n小。
 
 #org @DESC_ASTRAL_BARRAGE
-A frightful amount of\nsmall ghosts are sent\nto attack opposing\nPok\emon.
+用大量的小灵体向对\n手发起攻击。
 
 #org @DESC_GLACIAL_LANCE
-The user attacks by\nhurling a blizzard-\ncloaked icicle lance\nat opposing Pok\emon.
+向对手投掷掀起暴风\n雪的冰矛进行攻击。
 
 #org @DESC_DIRE_CLAW
-A slash that may\npoison, paralyze, or\nsleep the foe. It\nhas a high crit ratio.
+以破灭之爪进行攻击。\n有时还会让对手陷入\n中毒、麻痹、睡眠之\n中的一种状态。
 
 #org @DESC_PSYSHIELD_BASH
-The user slams into\nthe foe with psychic\nenergy. It raises the\nuser's Defense too.
+让意念的能量覆盖全\n身，撞向对手进行攻\n击。会提高自己的防\n御。
 
 #org @DESC_POWER_SHIFT
-The user swaps its\noffensive and\ndefensive stats.
+将自己的攻击与防御\n互相交换。
 
 #org @DESC_STONE_AXE
-The foe is hit with\nan axe that leaves\nbehind splinters. It\nhas a high crit ratio.
+用岩石之斧进行攻击。\n散落的岩石碎片会飘\n浮在对手周围。
 
 #org @DESC_MYSTICAL_POWER
-After dealing damage,\nthe user raises the\nhigher stats of its\noffenses or defenses.
+放出不可思议的力量\n攻击。会提高自己的\n特攻。
 
 #org @DESC_RAGING_FURY
-The user rampages\nand spews vicious\nflames for two to\nthree turns.
+在2至3回合内，一边\n放出火焰，一边疯狂\n乱打。大闹一番后自\n己会陷入混乱。
 
 #org @DESC_WAVE_CRASH
-The user slams into\nthe target, hurting\nitself a little. This\nmove strikes first.
+让水覆盖全身后撞向\n对手。自己也会受到\n不少伤害。
 
 #org @DESC_CHLOROBLAST
-The user launches its\namassed chlorophyll\nat the foe. This also\nhurts the user.
+将自己的叶绿素凝聚\n起来后放出去进行攻\n击。自己也会受到伤\n害。
 
 #org @DESC_MOUNTAIN_GALE
-The user hurls giant\nchunks of ice at\nthe foe that may\ncause it to flinch.
+将冰山般巨大的冰块\n砸向对手进行攻击。\n有时会使对手畏缩。
 
 #org @DESC_VICTORY_DANCE
-The user dances to\nusher in victory.\nThis raises Attack,\nDefense, and Speed.
+激烈地跳起唤来胜利\n的舞蹈，提高自己的\n攻击、防御和速度。
 
 #org @DESC_HEADLONG_RUSH
-The user smashes into\nthe foe. This cuts\nthe user's Defense\nand Sp. Def stats.
+向对手使出灌注了全\n心全力的撞击。自己\n的防御和特防会降低。
 
 #org @DESC_BARB_BARRAGE
-Barbs that may poison\nare shot at the foe.\nIts power doubles if\nthe foe is poisoned.
+用无数的毒针进行攻\n击。有时还会让对手\n陷入中毒状态。攻击\n处于中毒状态的对手\n时，威力会变成2倍。
 
 #org @DESC_ESPER_WING
-//The foe is slashed\nwith wings of light.\nThis has a high crit\nratio and goes first.
-The foe is slashed\nwith wings of light.\nThis goes first and\nhas a high crit ratio.
+用经过气场强化的翅\n膀撕裂对手。容易击\n中要害。会提高自己\n的速度。
 
 #org @DESC_BITTER_MALICE
-#ifdef FROSTBITE
-The user attacks and\nmay inflict the foe\nwith frostbite. Its\npower doubles if the\nfoe has frostbite.
-#else
-Resentment that may\nfreeze hits the foe.\nIts power doubles if\nthe foe is frozen.
-#endif
+用令人毛骨悚然的怨\n念进行攻击。会降低\n对手的攻击。
 
 #org @DESC_SHELTER
-The user makes its\nskin iron-hard to\nraise its Defense\nand its Speed.
+将皮肤变得坚硬如铁\n盾，从而大幅提高自\n己的防御。
 
 #org @DESC_TRIPLE_ARROWS
-The foe is shot with\narrows that raise the\ncrit ratio and lower\nthe foe's Defense.
+使出一记腿技后同时\n发射3箭。有时会降\n低对手的防御或使对\n手畏缩。容易击中要\n害。
 
 #org @DESC_INFERNAL_PARADE
-Myriad fireballs that\nmay burn hit the foe.\nIts power doubles if\nthe foe is burned.
+用无数的火球进行攻\n击。有时会让对手陷\n入灼伤状态。攻击处\n于异常状态的对手时，\n威力会变成2倍。
 
 #org @DESC_CEASELESS_EDGE
-The foe is slashed.\nThis leaves behind\nsplinters. It has a\nhigh crit ratio.
+用贝壳之剑进行攻击。\n散落的贝壳碎片会\n散落在对手脚下成为\n撒菱。
 
 #org @DESC_BLEAKWIND_STORM
-#ifdef FROSTBITE
-The user attacks\nwith savagely cold\nwinds. This may\ncause a frostbite.
-#else
-The user attacks\nwith savagely cold\nwinds. This may\nfreeze the foe.
-#endif
+用足以让身心都止不\n住颤抖的冰冷狂风进\n行攻击。有时会降低\n对手的速度。
 
 #org @DESC_WILDBOLT_STORM
-The user savagely\nattacks with wind\nand lightning. This\nmay cause paralysis.
+呼唤雷云引起风暴，\n用雷与风进行激烈的\n攻击。有时会让对手\n陷入麻痹状态。
 
 #org @DESC_SANDSEAR_STORM
-The user attacks\nwith fierce winds\nand hot sand. This\nmay cause a burn.
+用灼热的沙子和强烈\n的风席卷对手进行攻\n击。有时会让对手陷\n入灼伤状态。
 
 #org @DESC_SPRINGTIDE_STORM
-The user attacks\nwith love and hate.\nThe effects depend\non the user's form.
+用交织着爱与恨的烈\n风席卷对手进行攻击。\n有时会降低对手的攻\n击。
 
 #org @DESC_LUNAR_BLESSING
-The user heals its\nown statuses and\nrestores HP. It also\nraises evasiveness.
+向新月献上祈祷，回\n复自己和场上同伴的\nHP和状态。
 
 #org @DESC_TAKE_HEART
-The user heals its\nown statuses and\nraises its Sp. Atk\nand Sp. Def.
+鼓起冲劲，治愈自己\n的异常状态，同时提\n高自己的特攻和特防。
 
 #org @DESC_MAX_GUARD
-Enables the user to\nevade all attacks.\nIt may fail if used\nin succession.
+完全抵挡对手的攻击。\n连续使出则容易失败。
 
 #org @DESC_MAX_FLARE
-Fire-Type Dynamax\nmove. It causes the\nsun to intensify\nfor five turns.
+极巨化宝可梦使出的\n火属性攻击。可在5\n回合内让日照变得强\n烈。
 
 #org @DESC_MAX_FLUTTERBY
-Bug-Type Dynamax\nmove. It lowers\nthe target's\nSp. Atk stat.
+极巨化宝可梦使出的\n虫属性攻击。会降低\n对手的特攻。
 
 #org @DESC_MAX_LIGHTNING
-Electric Dynamax\nmove. It activates\nElectric Terrain\nfor five turns.
+极巨化宝可梦使出的\n电属性攻击。可在5\n回合内将脚下变成电\n气场地。
 
 #org @DESC_MAX_STRIKE
-Normal-Type Dynamax\nmove. It lowers\nthe target's Speed\nstat.
+极巨化宝可梦使出的\n一般属性攻击。会降\n低对手的速度。
 
 #org @DESC_MAX_KNUCKLE
-Fighting Dynamax\nmove. It raises\nally Pok\emon's\nAttack stats.
+极巨化宝可梦使出的\n格斗属性攻击。会提\n高我方的攻击。
 
 #org @DESC_MAX_PHANTASM
-Ghost-Type Dynamax\nmove. It lowers\nthe target's\nDefense stat.
+极巨化宝可梦使出的\n幽灵属性攻击。会降\n低对手的防御。
 
 #org @DESC_MAX_HAILSTORM
-Ice-Type Dynamax\nmove. It summons\na hailstorm for\nfive turns.
+极巨化宝可梦才能使\n出的冰属性攻击。在\n5回合内会降下冰雹。
 
 #org @DESC_MAX_OOZE
-Poison-Type Dynamax\nmove. It raises\nally Pok\emon's\nSp. Atk stats.
+极巨化宝可梦使出的\n毒属性攻击。会提高\n我方的特攻。
 
 #org @DESC_MAX_GEYSER
-Water-Type Dynamax\nmove. It summons\nrain that falls\nfor five turns.
+极巨化宝可梦使出的\n水属性攻击。可在5\n回合内降下大雨。
 
 #org @DESC_MAX_AIRSTREAM
-Flying-Type Dynamax\nmove. It raises\nally Pok\emon's\nSpeed stats.
+极巨化宝可梦使出的\n飞行属性攻击。会提\n高我方的速度。
 
 #org @DESC_MAX_STARFALL
-Fairy-Type Dynamax\nmove. It activates\nMisty Terrain for\nfive turns.
+极巨化宝可梦使出的\n妖精属性攻击。可在\n5回合内将脚下变成\n薄雾场地。
 
 #org @DESC_MAX_WYRMWIND
-Dragon-Type Dynamax\nmove. It lowers\nthe target's Attack\nstat.
+极巨化宝可梦使出的\n龙属性攻击。会降低\n对手的攻击。
 
 #org @DESC_MAX_MINDSTORM
-Psychic Dynamax\nmove. It activates\nPsychic Terrain\nfor five turns.
+极巨化宝可梦使出的\n超能力属性攻击。可\n在5回合内将脚下变\n成精神场地。
 
 #org @DESC_MAX_ROCKFALL
-Rock-Type Dynamax\nmove. It summons\na sandstorm that\nlasts five turns.
+极巨化宝可梦使出的\n岩石属性攻击。可在\n5回合内卷起沙暴。
 
 #org @DESC_MAX_QUAKE
-Ground-Type Dynamax\nmove. It raises\nally Pok\emon's\nSp. Def stats.
+极巨化宝可梦使出的\n地面属性攻击。会提\n高我方的特防。
 
 #org @DESC_MAX_DARKNESS
-Dark-Type Dynamax\nmove. It lowers\nthe target's\nSp. Def stat.
+极巨化宝可梦使出的\n恶属性攻击。会降低\n对手的特防。
 
 #org @DESC_MAX_OVERGROWTH
-Grass-Type Dynamax\nmove. It activates\nGrassy Terrain for\nfive turns.
+极巨化宝可梦使出的\n草属性攻击。可在5\n回合内将脚下变成青\n草场地。
 
 #org @DESC_MAX_STEELSPIKE
-Steel-Type Dynamax\nmove. It raises\nally Pok\emon's\nDefense stats.
+极巨化宝可梦使出的\n钢属性攻击。会提高\n我方的防御。
 
 #org @DESC_G_MAX_VINE_LASH
 G-Max Venusaur's\nsignature move. It\ndeals damage for\nfour turns.
@@ -1464,208 +2493,208 @@ G-Max Single Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guar
 G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard.
 
 #org @DESC_AQUACUTTER
-Expels pressurized\nwater to cut at the\ntarget like a blade.\nHigh critic ratio.
+如刀刃般喷射出加压\n的水切开对手。容易\n击中要害。
 
 #org @DESC_AQUASTEP
-User toys with the\nfoe attacking with\ndance steps. Boosts\nuser's Speed stat.
+以盈盈欲滴的轻快步\n伐戏耍对手并给予其\n伤害。会提高自己的\n速度。
 
 #org @DESC_ARMORCANNON
-User shoots its own\narmor out as fiery\nprojectiles. Lowers\nDef and Sp. Def.
+熊熊燃烧自己的铠甲，\n将其做成炮弹射出攻\n击。自己的防御和特\n防会降低。
 
 #org @DESC_AXEKICK
-A strong kick that\ncauses confision on\nfoe. If it misses,\nthe user is hurt.
+将踢起的脚跟往下劈\n向对手进行攻击。有\n时会使对手混乱。如\n果劈偏则自己会受到\n伤害。
 
 #org @DESC_BITTERBLADE
-Focuses its bitter\nfeelings into a \nblade. The half the\ndamage restores HP.
+将对世间的留恋聚集\n于剑尖，并斩击对手。\n可以回复给予对手伤\n害的一半HP。
 
 #org @DESC_BLAZINGTORQUE
-Inflicts damage and\nhas a 30[5B] chance of\nburning the target.
+释放出全身的热量猛\n冲向对手。有时会让\n对手陷入灼伤状态。
 
 #org @DESC_CHILLINGWATER
-Attacks the target\nby bathing it with\ncold water. Lower\nfoe's Attack stat.
+泼洒冰冷得足以让对\n手失去活力的水进行\n攻击。会降低对手的\n攻击。
 
 #org @DESC_CHILLYRECEPTION
-Switches place with\na party Pokémon in\nwaiting. This\nsummons a snowstorm.
+留下冷场的冷笑话后，\n和后备宝可梦进行\n替换。在5回合内会\n下雪。
 
 #org @DESC_COLLISIONCOURSE
-Transforms and\ncrashes to ground,\ncausing a massive\nancient explosion.
+边变形边凶暴地落下，\n并引发起古老的大爆\n炸。若针对到弱点，\n威力会进一步。
 
 #org @DESC_COMBATTORQUE
-Inflicts damage and\nhas a 30[5B] chance of\nparalyze the target.
+释放出全身的力量猛\n冲向对手。有时会让\n对手陷入麻痹状态。
 
 #org @DESC_COMEUPPANCE
-Retaliates the\nopponent that last\ninflicted damage\non it.
+使出招式前，将最后\n受到的招式的伤害大\n力返还给对手。
 
 #org @DESC_DOODLE
-Changes Abilities\nof the user and its\nally to that of\nthe target.
+把握并映射出对手的\n本质，让自己和同伴\n宝可梦的特性变得和\n对手相同。
 
 #org @DESC_DOUBLESHOCK
-Discharges all the\nelectricity from\nits body to perform\na strongest attack.
+将全身所有的电力放\n出，给予对手大大的\n伤害。自己的电属性\n将会消失。
 
 #org @DESC_ELECTRODRIFT
-Races forward at\nultrafast speeds,\npiercing foe with\nunborn electricity.
+边变形边高速奔走，\n并以未知的电击贯穿\n对手。若针对到弱点，\n威力会进一步。
 
 #org @DESC_FILLETAWAY
-The user sharply\nboosts Atk, Sp Atk,\nand Speed stats by\nusing its own HP.
+削减自己的HP，大幅\n提高攻击和特攻以及\n速度。
 
 #org @DESC_FLOWERTRICK
-A rigged bouquet of\nflowers. Never miss\nand always lands a\ncritical hit.
+将做了手脚的花束扔\n向对手进行攻击。必\n定会命中，且会击中\n要害。
 
 #org @DESC_GIGATONHAMMER
-User swings its\nwhole body around\nto attack with its\nhuge hammer.
+连同身体转起巨大的\n锤子进行攻击。这个\n招式无法连续使出\n2次。
 
 #org @DESC_GLAIVERUSH
-The user throws its\nentire body into a\nreckless charge.\nFoes cant miss atk.
+有勇无谋的舍身突击。\n使出招式后，对手的\n攻击必定会命中，且\n伤害会变成2倍。
 
 #org @DESC_HYDROSTEAM
-Blasts the target\nwith boiling water.\nPower boost 50[5B] in\nSunlight weather.
+将煮得翻滚的开水猛\n烈地喷向对手。日照\n强烈时，招式威力不\n但不会降低，还会变\n成1.5倍。
 
 #org @DESC_HYPERDRILL
-Spins the pointed\npart of its body at\nhigh speed to\npierce the target.
+急速旋转尖锐的身体\n部位贯穿对手。可以\n无视守住和看穿等招\n式。
 
 #org @DESC_ICESPINNER
-Covers feet in Ice\nand twirls slams\ninto the foe. Also\ndestroys terrains.
+脚上覆盖薄冰，旋转\n着撞击对手。通过旋\n转的动作破坏场地。
 
 #org @DESC_JETPUNCH
-Summons a torrent\naround its fist.\nThis move always\ngoes first.
+将激流覆盖于拳头，\n以肉眼无法辨识的速\n度打出拳击。必定能\n够先制攻击。
 
 #org @DESC_KOWTOWCLEAVE
-Slashes the target\nto make it let down\nits guard. The\nattack Never Misses.
+下跪让对手大意后发\n起袭击劈向对手。攻\n击必定会命中。
 
 #org @DESC_LASTRESPECTS
-The more defeated\nallies there are in\nthe user's party,\ngreater move power.
+为了化解伙伴的悔恨\n而进行攻击。被打倒\n的我方宝可梦越多，\n招式的威力越高。
 
 #org @DESC_LUMINACRASH
-Unleashes a peculiar\nlight. Also harshly\nlowers target's\nSp. Def stat.
+放出连精神都能影响\n到的奇妙怪光进行攻\n击。会大幅降低对方\n的特防。
 
 #org @DESC_MAGICALTORQUE
-Inflicts damage and\nhas a 30[5B] chance of\nconfuses the target.
+释放出全身的魔力猛\n冲向对手。有时会让\n对手陷入混乱状态。
 
 #org @DESC_MAKEITRAIN
-Attacks by throwing\ncoins. Lowers foe\nSp. Atk and earn\nmoney after battle.
+扔出大量硬币攻击。\n自己的特攻会降低，\n战斗后还可以拿到钱。
 
 #org @DESC_MORTALSPIN
-Great spin attack\nthat can eliminate\nharzards. May also\npoisons foe Pok\emon.
+通过旋转来攻击对手。\n可以摆脱绑紧、紧束、\n寄生种子等招式。还\n能让对手陷入中毒状\n态。
 
 #org @DESC_NOXIOUSTORQUE
-Inflicts damage and\nhas a 30[5B] chance of\npoison the target.
+释放出全身的毒素猛\n冲向对手。有时会让\n对手陷入中毒状态。
 
 #org @DESC_ORDERUP
-Boosts one of the\nusers stats based\non the\nTatsugiris form. 
+以潇洒的身手进行攻\n击。若口中有米立龙，\n会按其样子提高能力。
 
 #org @DESC_POPULATIONBOMB
-Performes a combo\nattack that hits\ntarget one to ten\ntimes in a row.
+伙伴们会纷纷赶来集\n合，以群体行动给予\n对手攻击。连续命中\n1至10次。
 
 #org @DESC_POUNCE
-User attacks by\npouncing on the\ntarget. Also lowers\nfoe's Speed stat.
+飞扑向对手攻击。会\n降低对手的速度。
 
 #org @DESC_PSYBLADE
-If the current\nterrain is Electric\nTerrain, boost power\nby 1.5x.
+用无形的利刃劈开对\n手。处于电气场地时，\n招式威力会变成1.5倍。
 
 #org @DESC_RAGEFIST
-User converts its\nrage into energy to\nattack. Ups attack\nif has been hit.
+将愤怒化为力量攻击。\n受到攻击的次数越多，\n招式的威力越高。
 
 #org @DESC_RAGINGBULL
-The user performs a\ntackle like a raging\nbull. Breaks Light\nScream and Reflect.
+狂怒暴牛的猛烈冲撞。\n招式的属性随形态\n改变，光墙和反射壁\n等招式也能破坏。
 
 #org @DESC_REVIVALBLESSING
-The user bestows a\nloving blessing and\nrevives a party\nPokémon.
+通过以慈爱之心祈祷，\n让陷入昏厥的后备宝\n可梦以回复一半HP的\n状态复活。
 
 #org @DESC_RUINATION
-The user summons a\nruinous disaster.\nThis cuts the\ntarget's HP in half.
+引发毁灭性的灾厄，\n使对手的HP减半。
 
 #org @DESC_SALTCURE
-The user inflict\ndamage every turn.\nMore damage against\nSteel or Water type.
+使对手陷入盐腌状态，\n每回合给予对手伤害。\n对手为钢或水属性时\n会更痛苦。
 
 #org @DESC_SHEDTAIL
-Creates a substitute\nfor itself using its\nown HP and switch to\na party Pokémon.
+削减自己的HP，制造\n分身后会返回，并和\n后备宝可梦进行替换。
 
 #org @DESC_SILKTRAP
-Protect itself from\ndamage. Also lowers\nSpeed stat if foe\nmakes contact.
+用丝设置陷阱。防住\n对方攻击的同时，能\n够降低所接触到的对\n手的速度。
 
 #org @DESC_SNOWSCAPE
-Summons snowstorm.\nThis boosts the\nDefense stats of\nIce-types.
+在5回合内会下雪。\n冰属性的防御会提高。
 
 #org @DESC_SPICYEXTRACT
-Emits an incredibly\nspicy extract. Ups\ntarget's Attack and\nlower it's Defense.
+放出极为辛辣的精华。\n对手的攻击会大幅提\n高，防御会大幅降低。
 
 #org @DESC_SPINOUT
-User spins furiously\nagainst foe\ninflicting damage.\nAlso lower Speed.
+通过往腿上增加负荷，\n以激烈的旋转给予对\n手伤害。自己的速度\n会大幅降低。
 
 #org @DESC_TERABLAST
-If the user has\nTerastallized, it\nunleashes energy of\nits Tera Type.
+太晶化时，会放出太\n晶属性的能量攻击。\n比较自己的攻击和特\n攻，用数值相对较高\n的一项给予对方伤害。
 
 #org @DESC_TIDYUP
-Tidies up and clean\nhazards effects.\nAlso boosts user's\nAttack and Speed.
+将撒菱、隐形岩、黏\n黏网、毒菱、替身全\n部扫除掉。自己的攻\n击和速度会提高。
 
 #org @DESC_TORCHSONG
-Blows out flames as\nif singing a song.\nThis also boosts\nthe user's Sp. Atk.
+如唱歌一样喷出熊熊\n燃烧的火焰烧焦对手。\n会提高自己的特攻。
 
 #org @DESC_TRAILBLAZE
-Attacks suddenly\nas if leaping out\nfrom tall grass.\nAlso boost Speed.
+跳出草丛进行攻击。\n通过轻快的步伐会提\n高自己的速度。
 
 #org @DESC_TRIPLEDIVE
-Performs a perfect\ntimed triple dive.\nHit foe three times\nin a row.
+以默契的跳跃溅起水\n花击向对手。连续3\n次给予伤害。
 
 #org @DESC_TWINBEAM
-Shoots mystical\nbeams from its eyes.\nThe target is hit\ntwice in a row.
+从两眼发射出神奇的\n光线攻击。连续2次\n给予伤害。
 
 #org @DESC_WICKEDTORQUE
-Inflicts damage and\nhas a 10[5B] chance of\nput target to sleep.
+释放出全身的黑暗之\n力猛冲向对手。有时\n会让对手陷入睡眠状\n态。
 
 #org @DESC_BLOODMOON
-Unleashes full brunt\nof its spirit from a\nfull moon that shine\nas red as blood.
+从赤红如血的满月发\n射出全部的气势。这\n个招式无法连续使出\n2次。
 
 #org @DESC_UPPERHAND
-This move allows\nthe user to strike\nfirst, if the foe is\nreadying an attack.
+察觉到对手的动作后\n用掌根攻击，让对手\n畏缩。如果对手使出\n的招式不是先制攻击，\n则会失败。
 
 #org @DESC_MATCHAGOTCHA
-User fires a blast\nof tea that mixed.\nUse restore HP and\nmay cause burn.
+发射经搅拌的茶的大\n炮，可以回复给予对\n手伤害的一半HP，有\n时会让对手陷入灼伤\n状态。
 
 #org @DESC_SYRUPBOMB
-User sets off an\nexplosion of sticky\ncandy syrup, also\ndecreases foe Speed.
+使粘稠的麦芽糖浆爆\n炸，让对手陷入满身\n糖状态，在3回合内\n持续降低其速度。
 
 #org @DESC_IVYCUDGEL
-User strikes with an\nivy-wrapped cudgel.\nIt has a high\ncritical-hit ratio.
+用缠有藤蔓的棍棒殴\n打。属性会随所戴的\n面具而改变。容易击\n中要害。
 
 #org @DESC_ELECTROSHOT
-In this two-turn move,\nthe user gathers\nspace power and\nincreases Sp. Atk.
+第1回合收集电力提高\n特攻，第2回合将高压\n的电力发射出去。下\n雨天气时能立刻发射。
 
 #org @DESC_TERASTARSTORM
-With the power of\nits crystals, the\nuser bombards and\neliminates the foe.
+照射出结晶的力量来\n驱逐敌人。太乐巴戈\n斯在星晶形态下使出\n时，能对所有对手造\n成伤害。
 
 #org @DESC_FICKLEBEAM
-The user shoots a\nbeam of light to\ninflict damage.\n30% for 2x power.
+发射光线进行攻击。\n有时其他的头也会合\n力发射镭射，让招式\n威力变成2倍。
 
 #org @DESC_BURNINGBULWARK
-Protects the user\nfrom attacks, this\nalso burns attackers\nwho make contact.
+用超高温的体毛防住\n对手攻击的同时，让\n接触到自己的对手灼\n伤。
 
 #org @DESC_MIGHTYCLEAVE
-A wields the light\nthat has accumulated\natop its head to \ncleave the target.\nBypasses protect.
+用积蓄在头部的光来\n斩切对手。可以无视\n守护进行攻击。
 
 #org @DESC_TACHYONCUTTER
-The user attacks by\nlaunching particle\nblades at the target\ntwice in a row.\nIt never misses.
+接连发射出粒子的利\n刃，连续2次给予伤\n害。攻击必定会命中。
 
 #org @DESC_DRAGONCHEER
-The User raises its\nallies morale with\na draconic cry.\nRaises target\ncritical ratio.
+以龙之鼓舞提高士气，\n让我方的招式变得容\n易击中要害。对龙属\n性的鼓舞效果会更强。
 
 #org @DESC_MALIGNANTCHAIN
-User pours toxins\ninto the target by\nwrapping them in a\ntoxic, corrosive\nchain.
+用由毒形成的锁链缠\n住对手注入毒素加以\n侵蚀。有时会让对手\n陷入剧毒状态。
 
 #org @DESC_THUNDERCLAP
-This move allows\nthe user to strike\nfirst, if the foe is\nreadying an attack.
+可以比对手先使出电\n击进行攻击。对手使\n出的招式如果不是攻\n击招式则会失败。
 
 #org @DESC_HARDPRESS
-Foe is crushed by\nan arm or a claw.\nMore target HP,\ngreater the power.
+用手臂或钳子压迫对\n手。对手剩余的HP越\n多，威力越大。
 
 #org @DESC_ALLURINGVOICE
-The user attacks\nthe target using\nits angelic voice.
+用天使般的歌声攻击\n对手。会让此回合内\n能力有提高的宝可梦\n陷入混乱状态。
 
 #org @DESC_TEMPERFLARE
-Move's power is\ndoubled if the\nuser's previous\nmove failed.
+以自暴自弃的气势进\n行攻击。如果上一回\n合招式没有命中，威\n力就会翻倍。
 
 #org @DESC_SUPERCELLSLAM
-User electrifies\nits body and drops\nonto the target.\nTake damage if fail.
+让身体带电后压向对\n手。如果没有命中则\n自己会受到伤害。
 
 #org @DESC_PSYCHICNOISE
-Foe is prevented\nfrom recovering HP\nfor two turns.
+用令对手不舒服的音\n波进行攻击。让对手\n在2回合内无法通过\n招式、特性或携带的\n道具回复HP。

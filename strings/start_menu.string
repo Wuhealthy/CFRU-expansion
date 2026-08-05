@@ -1,38 +1,38 @@
 #org @gText_MenuDexNav
-DexNav
+图鉴导航
 
 #org @gText_StartMenu_MissionLog
-Mission Log
+任务日志
 
 #org @gText_StartMenu_CostumeBox
-Costume Box
+服装盒
 
 #org @gText_StartMenu_PokemonList
-Pok\emon List
+宝可梦列表
 
 #org @gText_StartMenu_Cube
-Cube V3
+立方体 V3
 
 #org @gText_StartMenu_Save
-Save Game
+保存游戏
 
 #org @gText_StartMenu_Options
-Game Settings
+游戏设置
 
 #org @gText_MenuExitRight
-Exit  [DPAD_RIGHT]
+退出  [DPAD_RIGHT]
 
 #org @gText_MenuExitLeft
-Exit  [DPAD_LEFT]
+退出  [DPAD_LEFT]
 
 #org @gText_StartMenu_SafariZoneBase
-[BUFFER1]/[BUFFER2][ALIGN][2C][BUFFER3] Ball
+[BUFFER1]/[BUFFER2][ALIGN][2C][BUFFER3] 球
 
 #org @gText_StartMenu_TimeBase
-[BUFFER][0C]. [BUFFER1]:[BUFFER2]:[BUFFER3]
+[BUFFER][0C] [BUFFER1]:[BUFFER2]:[BUFFER3]
 
 #org @gText_StartMenu_TimeBase_12Hr
-[BUFFER][0C]. [BUFFER1]:[BUFFER2] [BUFFER3]
+[BUFFER][0C] [BUFFER1]:[BUFFER2] [BUFFER3]
 
 #org @gText_StartMenu_AM
 AM
@@ -47,25 +47,25 @@ PM
 [MAIN_COLOUR][0E][SHADOW_COLOUR][0F]
 
 #org @gText_StartMenu_Sunday
-Sun
+周日
 
 #org @gText_StartMenu_Monday
-Mon
+周一
 
 #org @gText_StartMenu_Tuesday
-Tue
+周二
 
 #org @gText_StartMenu_Wednesday
-Wed
+周三
 
 #org @gText_StartMenu_Thursday
-Thu
+周四
 
 #org @gText_StartMenu_Friday
-Fri
+周五
 
 #org @gText_StartMenu_Saturday
-Sat
+周六
 
 #org @gText_StartMenu_Error
-Err
+报错

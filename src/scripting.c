@@ -1180,7 +1180,8 @@ bool8 CanMonParticipateInASkyBattle(struct Pokemon* mon)
 
 	if (gBaseStats[species].type1 == TYPE_FLYING
 	||  gBaseStats[species].type2 == TYPE_FLYING
-	||  GetMonAbility(mon) == ABILITY_LEVITATE)
+	||  GetMonAbility(mon) == ABILITY_LEVITATE
+	||  GetMonAbility(mon) == ABILITY_EELEVATE)
 		return TRUE;
 
 	return FALSE;
@@ -3266,7 +3267,7 @@ void CreateOakIntroPokemonSprite(u8 taskId)
 
 #define OakSpeechPrintMessage(str, speed) ({                                                                                                                 \
     DrawDialogueFrame(WIN_INTRO_TEXTBOX, FALSE);                                                                                                             \
-    if (str != gStringVar4)                                                                                                                                  \
+    if ((const u8*)str != (const u8*)gStringVar4)                                                                                                                                  \
     {                                                                                                                                                        \
         StringExpandPlaceholders(gStringVar4, str);                                                                                                          \
         AddTextPrinterParameterized2(WIN_INTRO_TEXTBOX, FONT_MALE, gStringVar4, speed, NULL, 2, TEXT_COLOR_WHITE, 3); \

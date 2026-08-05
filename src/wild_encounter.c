@@ -1531,7 +1531,7 @@ static void CreateScriptedWildMon(u16 species, u8 level, u16 item, u16* moves, b
 		gEnemyParty[index].hiddenAbility = TRUE;
 
 	#ifdef UNBOUND
-	if (species == SPECIES_SHADOW_WARRIOR)
+	if (species == SPECIES_EEVEE_HERO)
 	{
 		//Shadow Warriors have preset natures and can't be shiny
 		u32 shadowWarriorPersonalities[] = {0xCC94DC29, 0xEB9752E1}; //Either Adamant or Jolly

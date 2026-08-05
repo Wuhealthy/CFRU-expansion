@@ -29715,9 +29715,51 @@ COIN_SLIDE: objtemplate ANIM_TAG_COIN ANIM_TAG_COIN OAM_OFF_16x16 0x83E69DC 0x0 
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
-@Credits to -
+@Credits to WUHEALTHY
 ANIM_MORTALSPIN:
-	goto 0x81cb4e1
+    loadparticle ANIM_TAG_POISON_BUBBLE
+    loadparticle ANIM_TAG_POISON_JAB
+    loadparticle ANIM_TAG_IMPACT
+    loadparticle ANIM_TAG_SPORE
+    launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_POISON_BUBBLE 0x0 0xC 0xC 0x6038 @;Purple
+    launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_POISON_JAB 0x0 0xC 0xC 0x6038 @;Purple
+    launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_SPORE 0x0 0xA 0xA 0x6038 @;Purple
+    pokespritetoBG side_target
+    leftbankBG_over_partnerBG bank_target
+    setblends 0x80c
+    playsound2 0x88 SOUND_PAN_ATTACKER
+    launchtask AnimTask_Rollout 0x2 0x0
+    launchtask AnimTask_move_bank 0x2 0x5 bank_attacker 0x3 0x0 0x14 0x1
+    call MORTALSPIN_POISON_SPRAY
+    call MORTALSPIN_POISON_SPRAY
+    launchtask AnimTask_move_bank_2 0x2 0x5 bank_target 0x2 0x0 0x20 0x1
+    call MORTALSPIN_POISON_SPRAY
+    call MORTALSPIN_POISON_SPRAY
+    call MORTALSPIN_POISON_SPRAY
+    call MORTALSPIN_POISON_SPRAY
+    call MORTALSPIN_POISON_HIT
+    call MORTALSPIN_POISON_HIT
+    call MORTALSPIN_POISON_HIT
+    call MORTALSPIN_POISON_HIT
+    waitanimation
+    pokespritefromBG side_target
+    resetblends
+    endanimation
+
+MORTALSPIN_POISON_SPRAY:
+    launchtemplate MORTALSPIN_POISON_STREAM TEMPLATE_TARGET | 2, 0x5 0x0 0x0 0x0 0x0 0x14
+    pause 0x3
+    return
+
+MORTALSPIN_POISON_HIT:
+    playsound2 0x77 SOUND_PAN_TARGET
+    launchtemplate MORTALSPIN_POISON_SPLAT TEMPLATE_TARGET | 2, 0x4 0x0 0x0 0x1 0x1
+    pause 0x2
+    return
+
+.align 2
+MORTALSPIN_POISON_STREAM: objtemplate ANIM_TAG_POISON_BUBBLE ANIM_TAG_POISON_JAB OAM_DOUBLE_32x32 0x83E69DC 0x0 gDummySpriteAffineAnimTable 0x80B741D
+MORTALSPIN_POISON_SPLAT: objtemplate ANIM_TAG_IMPACT ANIM_TAG_POISON_BUBBLE OAM_NORMAL_BLEND_32x32 gDummySpriteAnimTable 0x0 0x83E7BF8 0x80BA561
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -29759,15 +29801,18 @@ ANIM_ORDERUP:
 .pool
 @Credits to André Freitas
 ANIM_POPULATIONBOMB:
-	loadparticle ANIM_TAG_EXPLOSION
-	playsound2 0x88 SOUND_PAN_ATTACKER
-	pause 0x2
-	launchtask AnimTask_Rollout 0x2 0x0
-	pause 0x30
-	launchtask AnimTask_AttackerFadeToInvisible 0x5 0x1 0x0
-	waitanimation
-	call GENERIC_EXPLOSION
-	launchtask AnimTask_AttackerFadeFromInvisible 0x5 0x1 0x1
+	loadparticle ANIM_TAG_CUT
+    loadparticle ANIM_TAG_IMPACT
+    loadparticle ANIM_TAG_SPEED_DUST
+	playsound2 0x99 SOUND_PAN_ATTACKER
+	launchtask AnimTask_move_bank 0x5 0x5 bank_attacker 0x4 0x0 0x8 0x1
+	pause 0x6
+    playsound2 0x81 SOUND_PAN_TARGET
+    launchtemplate Template_CuttingSlice 0x2 0x3 0x28 0xFFE0 0x0
+    launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4, 0x8, 0xFFF4, 0x1, 0x1
+    launchtask AnimTask_move_bank 0x5 0x5 bank_target 0x2 0x0 0x3 0x1
+	pause 0x8
+    launchtask AnimTask_move_bank 0x5 0x5 bank_attacker 0x0 0x3 0xA 0x1
 	waitanimation
 	endanimation
 

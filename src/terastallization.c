@@ -102,10 +102,10 @@ static bool8 IsOgerponSpecies(u16 species)
     case SPECIES_OGERPON_WELLSPRING_MASK:
     case SPECIES_OGERPON_HEARTHFLAME_MASK:
     case SPECIES_OGERPON_CORNERSTONE_MASK:
-    case SPECIES_OGERPON_GREEN:
-    case SPECIES_OGERPON_BLUE:
-    case SPECIES_OGERPON_RED:
-    case SPECIES_OGERPON_GREY:
+    case SPECIES_OGERPON_TERASTAL:
+    case SPECIES_OGERPON_WELLSPRING_TERASTAL:
+    case SPECIES_OGERPON_HEARTHFLAME_TERASTAL:
+    case SPECIES_OGERPON_CORNERSTONE_TERASTAL:
         return TRUE;
     default:
         return FALSE;
@@ -140,13 +140,13 @@ static u8 GetFixedTeraType(const struct Pokemon *mon)
     switch (species)
     {
     case SPECIES_OGERPON_WELLSPRING_MASK:
-    case SPECIES_OGERPON_BLUE:
+    case SPECIES_OGERPON_WELLSPRING_TERASTAL:
         return TYPE_WATER;
     case SPECIES_OGERPON_HEARTHFLAME_MASK:
-    case SPECIES_OGERPON_RED:
+    case SPECIES_OGERPON_HEARTHFLAME_TERASTAL:
         return TYPE_FIRE;
     case SPECIES_OGERPON_CORNERSTONE_MASK:
-    case SPECIES_OGERPON_GREY:
+    case SPECIES_OGERPON_CORNERSTONE_TERASTAL:
         return TYPE_ROCK;
     default:
         return TYPE_GRASS;
@@ -293,16 +293,16 @@ u8 *DoTerastallize(u8 bank)
         switch (species)
         {
         case SPECIES_OGERPON:
-            DoFormChange(bank, SPECIES_OGERPON_GREEN, TRUE, TRUE, TRUE);
+            DoFormChange(bank, SPECIES_OGERPON_TERASTAL, TRUE, TRUE, TRUE);
             break;
         case SPECIES_OGERPON_WELLSPRING_MASK:
-            DoFormChange(bank, SPECIES_OGERPON_BLUE, TRUE, TRUE, TRUE);
+            DoFormChange(bank, SPECIES_OGERPON_WELLSPRING_TERASTAL, TRUE, TRUE, TRUE);
             break;
         case SPECIES_OGERPON_HEARTHFLAME_MASK:
-            DoFormChange(bank, SPECIES_OGERPON_RED, TRUE, TRUE, TRUE);
+            DoFormChange(bank, SPECIES_OGERPON_HEARTHFLAME_TERASTAL, TRUE, TRUE, TRUE);
             break;
         case SPECIES_OGERPON_CORNERSTONE_MASK:
-            DoFormChange(bank, SPECIES_OGERPON_GREY, TRUE, TRUE, TRUE);
+            DoFormChange(bank, SPECIES_OGERPON_CORNERSTONE_TERASTAL, TRUE, TRUE, TRUE);
             break;
         case SPECIES_TERAPAGOS_TERASTAL:
             DoFormChange(bank, SPECIES_TERAPAGOS_STELLAR, TRUE, TRUE, TRUE);
@@ -356,10 +356,10 @@ void TryActivateTeraFormAbility(void)
 	case ABILITY_EMBODYASPECTCORNERSTONEMASK:
 		stat = STAT_DEF;
 		break;
-	case ABILITY_TERAFORMZERO:
-		BattleScriptPush(gBattlescriptCurrInstr + 5);
-		gBattlescriptCurrInstr = BattleScript_TeraformZeroActivates - 5;
-		return;
+	//case ABILITY_TERAFORMZERO:
+	//	BattleScriptPush(gBattlescriptCurrInstr + 5);
+	//	gBattlescriptCurrInstr = BattleScript_TeraformZeroActivates - 5;
+	//	return;
 	}
 
 	if (stat != 0 && STAT_STAGE(bank, stat) < STAT_STAGE_MAX)

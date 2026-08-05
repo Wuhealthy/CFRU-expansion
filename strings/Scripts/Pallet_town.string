@@ -1,80 +1,80 @@
 #org @gText_TestScript
-Creating following mon.
+正在生成跟随的宝可梦。
 
 #org @gText_PalletGirl_Text1
-Show or hide follower mon?\nSelect Yes to show or No to hide.
+是否显示跟随的宝可梦？\n选择是则显示，否则隐藏。
 
 #org @gText_ChangeTeraTypeNPCAsk
-Ah, hi there[.]\pI can change your Pok\emon's\nTera Type!\pWould you like me to change it?
+啊，你好。\p我可以改变你的宝可梦的\n太晶属性！\p需要我帮你改变吗？
 
 #org @gText_ChangeTeraTypeNPCNo
-Oh, I see[.]\pPlease do visit again\nnext time!
+哦，这样啊。\p欢迎下次再来！
 
 #org @gText_ChangeTeraTypeNPCOpenMenu
-Which Pok\emon's Tera Type\nwould you like me to change[.]?
+你希望改变哪只\n宝可梦的太晶属性？
 
 #org @gText_ChangeTeraTypeNPCSelected
-Ah, so you've selected\n[BUFFER1][.]\pWhich type would you like\nme to change it to[.]?
+啊，你选择了\n[BUFFER1]。\p你想把它变成\n哪种属性？
 
 #org @gText_ChangeTeraTypeNPCLocked
-[BUFFER1]'s Tera Type is intrinsic\nand cannot be changed.
+[BUFFER1]的太晶属性\n是固定的，无法更改。
 
 #org @gText_ChangeTeraTypeNPCFetchTeraNormal
-The Tera Type of [BUFFER1]\nis now Normal!
+[BUFFER1]的太晶属性\n现在变为一般属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraFighting
-The Tera Type of [BUFFER1]\nis now Fighting!
+[BUFFER1]的太晶属性\n现在变为格斗属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraFlying
-The Tera Type of [BUFFER1]\nis now Flying!
+[BUFFER1]的太晶属性\n现在变为飞行属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraPoison
-The Tera Type of [BUFFER1]\nis now Poison!
+[BUFFER1]的太晶属性\n现在变为毒属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraGround
-The Tera Type of [BUFFER1]\nis now Ground!
+[BUFFER1]的太晶属性\n现在变为地面属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraRock
-The Tera Type of [BUFFER1]\nis now Rock!
+[BUFFER1]的太晶属性\n现在变为岩石属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraBug
-The Tera Type of [BUFFER1]\nis now Bug!
+[BUFFER1]的太晶属性\n现在变为虫属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraGhost
-The Tera Type of [BUFFER1]\nis now Ghost!
+[BUFFER1]的太晶属性\n现在变为幽灵属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraSteel
-The Tera Type of [BUFFER1]\nis now Steel!
+[BUFFER1]的太晶属性\n现在变为钢属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraFire
-The Tera Type of [BUFFER1]\nis now Fire!
+[BUFFER1]的太晶属性\n现在变为火属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraWater
-The Tera Type of [BUFFER1]\nis now Water!
+[BUFFER1]的太晶属性\n现在变为水属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraGrass
-The Tera Type of [BUFFER1]\nis now Grass!
+[BUFFER1]的太晶属性\n现在变为草属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraElectric
-The Tera Type of [BUFFER1]\nis now Electric!
+[BUFFER1]的太晶属性\n现在变为电属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraPsychic
-The Tera Type of [BUFFER1]\nis now Psychic!
+[BUFFER1]的太晶属性\n现在变为超能力属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraIce
-The Tera Type of [BUFFER1]\nis now Ice!
+[BUFFER1]的太晶属性\n现在变为冰属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraDragon
-The Tera Type of [BUFFER1]\nis now Dragon!
+[BUFFER1]的太晶属性\n现在变为龙属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraDark
-The Tera Type of [BUFFER1]\nis now Dark!
+[BUFFER1]的太晶属性\n现在变为恶属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraFairy
-The Tera Type of [BUFFER1]\nis now Fairy!
+[BUFFER1]的太晶属性\n现在变为妖精属性了！
 
 #org @gText_ChangeTeraTypeNPCFetchTeraStellar
-The Tera Type of [BUFFER1]\nis now Stellar!
+[BUFFER1]的太晶属性\n现在变为星晶属性了！
 
 #org @gText_TestScript2
-Tera Flag is now set!
+太晶标志已设定！

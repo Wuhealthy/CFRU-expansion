@@ -1,668 +1,668 @@
 #org @DESC_MASTER_BALL
-The best BALL with the ultimate\nperformance. It will catch any wild\nPOK\eMON without fail.
+必定能捉到野生宝可梦的，\n性能最好的球。
 
 #org @DESC_ULTRA_BALL
-A very high-grade BALL that offers\na higher POK\eMON catch rate than\na GREAT BALL.
+比起超级球来更容易捉到宝可梦的，\n性能非常不错的球。
 
 #org @DESC_GREAT_BALL
-A good, quality BALL that offers\na higher POK\eMON catch rate than\na standard POK\e BALL.
+比起精灵球来更容易捉到宝可梦的，\n性能还算不错的球。
 
 #org @DESC_POKE_BALL
-A BALL thrown to catch a wild\nPOK\eMON. It is designed in a\ncapsule style.
+用于投向野生宝可梦并将其捕捉的球。\n它是胶囊样式的。
 
 #org @DESC_SAFARI_BALL
-A special BALL that is used only in\nthe SAFARI ZONE. It is finished in\na camouflage pattern.
+仅能在狩猎地带中进行捕捉的\n特殊的球。上面有迷彩花纹。
 
 #org @DESC_NET_BALL
-A somewhat different BALL that\nworks especially well on WATER- and\nBUG-type POK\eMON.
+有点与众不同的球。\n能很容易地捕捉水属性和虫属性\n的宝可梦。
 
 #org @DESC_DIVE_BALL
-A somewhat different BALL that\nworks especially well on POK\eMON\ndeep in the sea.
+有点与众不同的球。\n能很容易地捕捉生活在水世界里\n的宝可梦。
 
 #org @DESC_NEST_BALL
-A somewhat different BALL that\nworks especially well on weaker\nPOK\eMON.
+有点与众不同的球。\n捕捉的野生宝可梦越弱，\n就会越容易捕捉。
 
 #org @DESC_REPEAT_BALL
-A somewhat different BALL that\nworks especially well on POK\eMON\ncaught before.
+有点与众不同的球。\n能很容易地捕捉以前曾捉到过\n的宝可梦。
 
 #org @DESC_TIMER_BALL
-A somewhat different BALL that\nbecomes progressively better the\nmore turns there are in a battle.
+有点与众不同的球。\n回合数花费得越多，\n宝可梦就会越容易捕捉。
 
 #org @DESC_LUXURY_BALL
-A comfortable BALL that makes a\ncaptured wild POK\eMON quickly grow\nfriendly.
+住着十分惬意的球。\n捉到的野生宝可梦会变得容易\n和训练家亲密。
 
 #org @DESC_PREMIER_BALL
-A rare BALL that has been\nspecially made to commemorate an\nevent of some sort.
+有点珍贵的球。\n特制出来的某种纪念品。
 
 #org @DESC_POTION
-A spray-type wound medicine.\nIt restores the HP of one POK\eMON\nby 20 points.
+喷雾式伤药。\n能让1只宝可梦回复20HP。
 
 #org @DESC_ANTIDOTE
-A spray-type medicine.\nIt heals one POK\eMON from a\npoisoning.
+喷雾式药水。\n能治愈1只宝可梦的中毒状态。
 
 #org @DESC_BURN_HEAL
-A spray-type medicine.\nIt heals one POK\eMON of a burn.
+喷雾式药水。\n能治愈1只宝可梦的灼伤状态。
 
 #org @DESC_ICE_HEAL
-A spray-type medicine.\nIt defrosts a frozen POK\eMON.
+喷雾式药水。\n能治愈1只宝可梦的冰冻状态。
 
 #org @DESC_AWAKENING
-A spray-type medicine.\nIt awakens a sleeping POK\eMON.
+喷雾式药水。\n能治愈1只宝可梦的睡眠状态。
 
 #org @DESC_PARALYZE_HEAL
-A spray-type medicine.\nIt heals one POK\eMON from\nparalysis.
+喷雾式药水。\n能治愈1只宝可梦的麻痹状态。
 
 #org @DESC_FULL_RESTORE
-A medicine that fully restores the\nHP and heals any status problems\nof one POK\eMON.
+完全治愈1只宝可梦的异常状态，\n并完全回复HP。
 
 #org @DESC_MAX_POTION
-A spray-type wound medicine.\nIt fully restores the HP of one\nPOK\eMON.
+喷雾式伤药。\n能让1只宝可梦回复所有HP。
 
 #org @DESC_HYPER_POTION
-A spray-type wound medicine.\nIt restores the HP of one POK\eMON\nby 200 points.
+喷雾式伤药。\n能让1只宝可梦回复200HP。
 
 #org @DESC_SUPER_POTION
-A spray-type wound medicine.\nIt restores the HP of one POK\eMON\nby 50 points.
+喷雾式伤药。\n能让1只宝可梦回复50HP。
 
 #org @DESC_FULL_HEAL
-A spray-type medicine.\nIt heals all the status problems of\none POK\eMON.
+喷雾式药水。\n能治愈1只宝可梦的所有异常状态。
 
 #org @DESC_REVIVE
-A medicine that revives a fainted\nPOK\eMON, restoring HP by half the\nmaximum amount.
+使1只昏厥的宝可梦的HP\n回复到一半。
 
 #org @DESC_MAX_REVIVE
-A medicine that revives a fainted\nPOK\eMON, restoring HP fully.
+使1只昏厥的宝可梦的HP\n完全回复。
 
 #org @DESC_FRESH_WATER
-Water with a high mineral content.\nIt restores the HP of one POK\eMON\nby 50 points.
+富含矿物质的水。\n能让1只宝可梦回复50HP。
 
 #org @DESC_SODA_POP
-A fizzy soda drink.\nIt restores the HP of one POK\eMON\nby 60 points.
+翻腾着气泡的汽水。\n能让1只宝可梦回复60HP。
 
 #org @DESC_LEMONADE
-A very sweet drink.\nIt restores the HP of one POK\eMON\nby 80 points.
+非常香甜的牛奶。\n能让1只宝可梦回复80HP。
 
 #org @DESC_MOOMOO_MILK
-Highly nutritious milk.\nIt restores the HP of one POK\eMON\nby 100 points.
+营养百分百的牛奶。\n能让1只宝可梦回复100HP。
 
 #org @DESC_ENERGY_POWDER
-A very bitter medicine powder.\nIt restores the HP of one POK\eMON\nby 50 points.
+非常苦的药粉。\n能让1只宝可梦回复50HP。
 
 #org @DESC_ENERGY_ROOT
-A very bitter root.\nIt restores the HP of one POK\eMON\nby 200 points.
+非常苦的根。\n能让1只宝可梦回复200HP。
 
 #org @DESC_HEAL_POWDER
-A very bitter medicine powder.\nIt heals all the status problems of\none POK\eMON.
+非常苦的药粉。\n能治愈1只宝可梦的所有异常状态。
 
 #org @DESC_REVIVAL_HERB
-A very bitter medicinal herb.\nIt revives a fainted POK\eMON,\nrestoring HP fully.
+非常苦的药草。\n能让1只昏厥的宝可\n梦回复所有HP。
 
 #org @DESC_ETHER
-Restores a selected move's PP by\n10 points for one POK\eMON.
+能让宝可梦学会的其中1个招式\n回复10PP。
 
 #org @DESC_MAX_ETHER
-Fully restores a selected move's PP\nfor one POK\eMON.
+能让宝可梦学会的其中1个招式\n回复所有PP。
 
 #org @DESC_ELIXIR
-Restores the PP of all moves for\none POK\eMON by 10 points each.
+能让宝可梦学会的4个招式\n各回复10PP。
 
 #org @DESC_MAX_ELIXIR
-Fully restores the PP of all moves\nfor one POK\eMON.
+能让宝可梦学会的4个招式\n回复所有PP。
 
 #org @DESC_LAVA_COOKIE
-LAVARIDGE TOWN's local specialty.\nIt heals all the status problems of\none POK\eMON.
+釜炎特产的仙贝。\n能治愈1只宝可梦的所有异常状态。
 
 #org @DESC_BLUE_FLUTE
-A blue glass flute that awakens\na sleeping POK\eMON.
+玻璃制的蓝色哨子。\n可以治愈睡眠状态。
 
 #org @DESC_YELLOW_FLUTE
-A yellow glass flute that snaps one\nPOK\eMON out of confusion.
+玻璃制的黄色哨子。\n可以治愈混乱状态。
 
 #org @DESC_RED_FLUTE
-A red glass flute that snaps one\nPOK\eMON out of infatuation.
+玻璃制的红色哨子。\n可以治愈着迷状态。
 
 #org @DESC_BLACK_FLUTE
-A black glass flute.\nWhen blown, it makes wild POK\eMON\nless likely to appear.
+玻璃制的黑色哨子。\n吹响后野生宝可梦不容易出现。
 
 #org @DESC_WHITE_FLUTE
-A white glass flute.\nWhen blown, it makes wild POK\eMON\nmore likely to appear.
+玻璃制的白色哨子。\n吹响后野生宝可梦容易出现。 
 
 #org @DESC_BERRY_JUICE
-A 100% pure juice.\nIt restores the HP of one POK\eMON\nby 20 points.
+100%树果果汁。\n能让1只宝可梦回复20HP。
 
 #org @DESC_SACRED_ASH
-Revives all fainted POK\eMON,\nrestoring HP fully.
+能让陷入昏厥的全部宝可梦\n回复所有HP。
 
 #org @DESC_SHOAL_SALT
-Pure salt obtained from deep inside\nthe SHOAL CAVE. It is extremely\nsalty.
+在浅滩洞穴里找到的漂亮的海盐，\n很咸。
 
 #org @DESC_SHOAL_SHELL
-A pretty seashell found deep inside\nthe SHOAL CAVE. It is striped in\nblue and white.
+在浅滩洞穴里找到的漂亮的贝壳，\n蓝白条纹。
 
 #org @DESC_RED_SHARD
-A small red shard.\nIt appears to be from some sort of\na tool made long ago.
+红色的小碎片。\n好像是以前制作的某道具的一部分。
 
 #org @DESC_BLUE_SHARD
-A small blue shard.\nIt appears to be from some sort of\na tool made long ago.
+蓝色的小碎片。\n好像是以前制作的某道具的一部分。
 
 #org @DESC_YELLOW_SHARD
-A small yellow shard.\nIt appears to be from some sort of\na tool made long ago.
+黄色的小碎片。\n好像是以前制作的某道具的一部分。
 
 #org @DESC_GREEN_SHARD
-A small green shard.\nIt appears to be from some sort of\na tool made long ago.
+绿色的小碎片。\n好像是以前制作的某道具的一部分。
 
 #org @DESC_HP_UP
-A nutritious drink for POK\eMON.\nIt raises the base HP of one\nPOK\eMON.
+宝可梦的营养饮料。\n能提高1只宝可梦的HP的基础点数。
 
 #org @DESC_PROTEIN
-A nutritious drink for POK\eMON.\nIt raises the base ATTACK stat of\none POK\eMON.
+宝可梦的营养饮料。\n能提高1只宝可梦的攻击的基础点数。
 
 #org @DESC_IRON
-A nutritious drink for POK\eMON.\nIt raises the base DEFENSE stat of\none POK\eMON.
+宝可梦的营养饮料。\n能提高1只宝可梦的防御的基础点数。
 
 #org @DESC_CARBOS
-A nutritious drink for POK\eMON.\nIt raises the base SPEED stat of\none POK\eMON.
+宝可梦的营养饮料。\n能提高1只宝可梦的速度的基础点数。
 
 #org @DESC_CALCIUM
-A nutritious drink for POK\eMON.\nIt raises the base SP. ATK stat\nof one POK\eMON.
+宝可梦的营养饮料。\n能提高1只宝可梦的特攻的基础点数。
 
 #org @DESC_RARE_CANDY
-A candy that is packed with energy.\nIt raises the level of a POK\eMON\nby one.
+充满能量的糖果。\n将它交给宝可梦后，\n1只宝可梦的等级仅会提高1。
 
 #org @DESC_PP_UP
-Slightly raises the maximum PP of\na selected move for one POK\eMON.
+能让宝可梦学会的其中1个招式\n的PP最大值少量提高。
 
 #org @DESC_ZINC
-A nutritious drink for POK\eMON.\nIt raises the base SP. DEF stat\nof one POK\eMON.
+宝可梦的营养饮料。\n能提高1只宝可梦的特防的基础点数。
 
 #org @DESC_PP_MAX
-Raises the PP of a selected move\nto its maximum level for one\nPOK\eMON.
+能将宝可梦学会的其中1个招式\n的PP最大值提至最高。
 
 #org @DESC_GUARD_SPEC
-An item that prevents stat reduction\namong party POK\eMON for five turns\nafter use.
+5回合内不让我方能力降低的道具。
 
 #org @DESC_DIRE_HIT
-Raises the critical-hit ratio of\nPOK\eMON in battle. Wears off if the\nPOK\eMON is withdrawn.
+在战斗中时容易击中要害的道具。\n离场后，效果便会消失。
 
 #org @DESC_X_ATTACK
-Raises the ATTACK stat of POK\eMON\nin battle. Wears off if the POK\eMON\nis withdrawn.
+提高战斗中宝可梦攻击的道具。\n离场后，效果便会消失。
 
 #org @DESC_X_DEFEND
-Raises the DEFENSE stat of POK\eMON\nin battle. Wears off if the POK\eMON\nis withdrawn.
+提高战斗中宝可梦防御的道具。\n离场后，效果便会消失。
 
 #org @DESC_X_SPEED
-Raises the SPEED stat of POK\eMON\nin battle. Wears off if the POK\eMON\nis withdrawn.
+提高战斗中宝可梦速度的道具。\n离场后，效果便会消失。
 
 #org @DESC_X_ACCURACY
-Raises the accuracy stat of\nPOK\eMON in battle. Wears off if the\nPOK\eMON is withdrawn.
+提高战斗中宝可梦命中的道具。\n离场后，效果便会消失。
 
 #org @DESC_X_SPECIAL
-Raises the SP. ATK stat of\nPOK\eMON in battle. Wears off if the\nPOK\eMON is withdrawn.
+提高战斗中宝可梦特攻的道具。\n离场后，效果便会消失。
 
 #org @DESC_POKE_DOLL
-An attractive doll.\nUse it to flee from any battle with\na wild POK\eMON.
+吸引对手的注意，\n绝对能从与野生宝可梦的对战中逃走。 
 
 #org @DESC_FLUFFY_TAIL
-An attractive item.\nUse it to flee from any battle with\na wild POK\eMON.
+吸引对手的注意，\n绝对能从与野生宝可梦的对战中逃走。 
 
 #org @DESC_SUPER_REPEL
-Prevents weak wild POK\eMON from\nappearing for 200 steps.
+在前进200步之内，\n弱小的野生宝可梦将完全不会出现。
 
 #org @DESC_MAX_REPEL
-Prevents weak wild POK\eMON from\nappearing for 250 steps.
+在前进250步之内，\n弱小的野生宝可梦将完全不会出现。
 
 #org @DESC_ESCAPE_ROPE
-A long, durable rope.\nUse it to escape instantly from a\ncave or a dungeon.
+结实的长绳。\n可以从洞窟或迷宫中脱身。
 
 #org @DESC_REPEL
-Prevents weak wild POK\eMON from\nappearing for 100 steps.
+在前进100步之内，\n弱小的野生宝可梦将完全不会出现。
 
 #org @DESC_SUN_STONE
-A peculiar stone that makes certain\nspecies of POK\eMON evolve.\nIt is as red as the sun.
+能让某些特定宝可梦进化的神奇石头。\n像太阳一样赤红。
 
 #org @DESC_MOON_STONE
-A peculiar stone that makes certain\nspecies of POK\eMON evolve.\nIt is as black as the night sky.
+能让某些特定宝可梦进化的神奇石头。\n像夜空一样乌黑。
 
 #org @DESC_FIRE_STONE
-A peculiar stone that makes certain\nspecies of POK\eMON evolve.\nIt is colored orange.
+能让某些特定宝可梦进化的神奇石头。\n看上去是橙黄色的。
 
 #org @DESC_THUNDER_STONE
-A peculiar stone that makes certain\nspecies of POK\eMON evolve.\nIt has a thunderbolt pattern.
+能让某些特定宝可梦进化的神奇石头。\n有着闪电般的花纹。
 
 #org @DESC_WATER_STONE
-A peculiar stone that makes certain\nspecies of POK\eMON evolve.\nIt is a clear light blue.
+能让某些特定宝可梦进化的神奇石头。\n看上去是澄蓝色的。
 
 #org @DESC_LEAF_STONE
-A peculiar stone that makes certain\nspecies of POK\eMON evolve.\nIt has a leaf pattern.
+能让某些特定宝可梦进化的神奇石头。\n有着叶子般的花纹。
 
 #org @DESC_TINY_MUSHROOM
-A small and rare mushroom.\nIt is quite popular among certain\npeople.
+珍稀的小蘑菇。\n在一些爱好者中有着相当高的人气。
 
 #org @DESC_BIG_MUSHROOM
-A large and rare mushroom.\nIt is very popular among certain\npeople.
+珍稀的大蘑菇。\n在一些爱好者中有着非常高的人气。
 
 #org @DESC_PEARL
-A relatively small pearl that\nsparkles in a pretty silver color.\nIt can be sold cheaply.
+散发着美丽银辉且有点小的珍珠。\n可以在商店低价出售。
 
 #org @DESC_BIG_PEARL
-A quite-large pearl that sparkles\nin a pretty silver color.\nIt can be sold at a high price.
+散发着美丽银辉且相当大颗的珍珠。\n可以在商店高价出售。
 
 #org @DESC_STARDUST
-A pretty red sand with a loose,\nsilky feel.\nIt can be sold at a high price.
+手感细腻且十分美丽的红色沙子。\n可以在商店低价出售。
 
 #org @DESC_STAR_PIECE
-A shard of a pretty gem that\nsparkles in a red color.\nIt can be sold at a high price.
+闪着红光且十分美丽的宝石碎片。\n可以在商店高价出售。
 
 #org @DESC_NUGGET
-A nugget of pure gold that gives\noff a lustrous gleam.\nIt can be sold at a high price.
+闪着金光，以纯金制成的珠子。\n可以在商店高价出售。
 
 #org @DESC_HEART_SCALE
-A pretty, heart-shaped scale that\nis extremely rare. It glows faintly\nin the colors of a rainbow.
+有着美丽心形外形且非常珍稀的鳞片。\n隐隐闪烁着虹色光芒。 
 
 #org @DESC_ORANGE_MAIL
-A piece of MAIL featuring a cute\nZIGZAGOON print.\nIt is to be held by a POK\eMON.
+印有蛇纹熊的信纸，\n可以让宝可梦携带。
 
 #org @DESC_HARBOR_MAIL
-A piece of MAIL featuring a cute\nWINGULL print.\nIt is to be held by a POK\eMON.
+印有长翅鸥的信纸，\n可以让宝可梦携带。
 
 #org @DESC_GLITTER_MAIL
-A piece of MAIL featuring a cute\nPIKACHU print.\nIt is to be held by a POK\eMON.
+印有皮卡丘的信纸，\n可以让宝可梦携带。
 
 #org @DESC_MECH_MAIL
-A piece of MAIL featuring a cute\nMAGNEMITE print.\nIt is to be held by a POK\eMON.
+印有小磁怪的信纸，\n可以让宝可梦携带。
 
 #org @DESC_WOOD_MAIL
-A piece of MAIL featuring a cute\nSLAKOTH print.\nIt is to be held by a POK\eMON.
+印有懒人獭的信纸，\n可以让宝可梦携带。
 
 #org @DESC_WAVE_MAIL
-A piece of MAIL featuring a cute\nWAILMER print.\nIt is to be held by a POK\eMON.
+印有吼吼鲸的信纸，\n可以让宝可梦携带。
 
 #org @DESC_BEAD_MAIL
-A piece of MAIL to be held by a\nPOK\eMON. It will bear the print of\nthe POK\eMON holding it.
+宝可梦携带后，\n会印上携带它的宝可梦的样子的信纸。
 
 #org @DESC_SHADOW_MAIL
-A piece of MAIL featuring a cute\nDUSKULL print.\nIt is to be held by a POK\eMON.
+印有夜巡灵的信纸，\n可以让宝可梦携带。
 
 #org @DESC_TROPIC_MAIL
-A piece of MAIL featuring a cute\nBELLOSSOM print.\nIt is to be held by a POK\eMON.
+印有美丽花的信纸，\n可以让宝可梦携带。
 
 #org @DESC_DREAM_MAIL
-A piece of MAIL to be held by a\nPOK\eMON. It will bear the print of\nthe POK\eMON holding it.
+宝可梦携带后，\n会印上携带它的宝可梦的样子的信纸。
 
 #org @DESC_FAB_MAIL
-A piece of MAIL featuring a\ngorgeous, extravagant print.\nIt is to be held by a POK\eMON.
+一张华丽的信纸，\n可以让宝可梦携带。
 
 #org @DESC_RETRO_MAIL
-A piece of MAIL featuring a print\nof three cute POK\eMON.\nIt is to be held by a POK\eMON.
+印有三种宝可梦的信纸，\n可以让宝可梦携带。
 
 #org @DESC_CHERI_BERRY
-When held by a POK\eMON, it will be\nused in battle to heal paralysis.
+让宝可梦携带后，\n可以治愈麻痹。
 
 #org @DESC_CHESTO_BERRY
-When held by a POK\eMON, it will be\nused in battle to wake up.
+让宝可梦携带后，\n可以治愈睡眠。
 
 #org @DESC_PECHA_BERRY
-When held by a POK\eMON, it will be\nused in battle to cure poison.
+让宝可梦携带后，\n可以治愈中毒。
 
 #org @DESC_RAWST_BERRY
-When held by a POK\eMON, it will be\nused in battle to heal a burn.
+让宝可梦携带后，\n可以治愈灼伤。
 
 #org @DESC_ASPEAR_BERRY
-When held by a POK\eMON, it will be\nused in battle for defrosting.
+让宝可梦携带后，\n可以治愈冰冻。
 
 #org @DESC_LEPPA_BERRY
-When held by a POK\eMON, it will be\nused in battle to restore 10 PP.
+让宝可梦携带后，\n可以回复10PP。
 
 #org @DESC_ORAN_BERRY
-When held by a POK\eMON, it will be\nused in battle to restore 10 HP.
+让宝可梦携带后，\n可以回复10HP。
 
 #org @DESC_PERSIM_BERRY
-When held by a POK\eMON, it will be\nused in battle to lift confusion.
+让宝可梦携带后，\n可以自己治好混乱状态。
 
 #org @DESC_LUM_BERRY
-When held by a POK\eMON, it will be\nused in battle to heal any problem.
+让宝可梦携带后，\n可以治愈所有异常状态。
 
 #org @DESC_SITRUS_BERRY
-When held by a POK\eMON, it will be\nused in battle to restore 30 HP.
+让宝可梦携带后，\n可以回复少量HP。
 
 #org @DESC_FIGY_BERRY
-A hold item that restores HP but\nmay cause confusion when used.
+可以自己回复HP，\n但有时也会造成混乱。
 
 #org @DESC_WIKI_BERRY
-A hold item that restores HP but\nmay cause confusion when used.
+可以自己回复HP，\n但有时也会造成混乱。
 
 #org @DESC_MAGO_BERRY
-A hold item that restores HP but\nmay cause confusion when used.
+可以自己回复HP，\n但有时也会造成混乱。
 
 #org @DESC_AGUAV_BERRY
-A hold item that restores HP but\nmay cause confusion when used.
+可以自己回复HP，\n但有时也会造成混乱。
 
 #org @DESC_IAPAPA_BERRY
-A hold item that restores HP but\nmay cause confusion when used.
+可以自己回复HP，\n但有时也会造成混乱。
 
 #org @DESC_INGREDIENT_BERRY
-Can be ground up into a powder as\nan ingredient for medicine.
+磨成粉末后，\n能作为药品的原料。
 
 #org @DESC_LIECHI_BERRY
-When held by a POK\eMON, it raises\nthe ATTACK stat in a pinch.
+携带后，危机时，\n自己的攻击就会提高。
 
 #org @DESC_GANLON_BERRY
-When held by a POK\eMON, it raises\nthe DEFENSE stat in a pinch.
+携带后，危机时，\n自己的防御就会提高。
 
 #org @DESC_SALAC_BERRY
-When held by a POK\eMON, it raises\nthe SPEED stat in a pinch.
+携带后，危机时，\n自己的速度就会提高。
 
 #org @DESC_PETAYA_BERRY
-When held by a POK\eMON, it raises\nthe SP. ATK stat in a pinch.
+携带后，危机时，\n自己的特攻就会提高。
 
 #org @DESC_APICOT_BERRY
-When held by a POK\eMON, it raises\nthe SP. DEF stat in a pinch.
+携带后，危机时，\n自己的特防就会提高。
 
 #org @DESC_LANSAT_BERRY
-When held by a POK\eMON, it raises\nthe critical-hit ratio in a pinch.
+携带后，危机时，\n会变得容易击中要害。
 
 #org @DESC_STARF_BERRY
-When held by a POK\eMON, it sharply\nraises one stat in a pinch.
+携带后，危机时，\n一项能力就会大幅提高。
 
 #org @DESC_BRIGHT_POWDER
-An item to be held by a POK\eMON.\nIt casts a tricky glare that lowers\nthe opponent's accuracy.
+携带后，光芒会迷惑对手，\n降低其命中率。
 
 #org @DESC_WHITE_HERB
-An item to be held by a POK\eMON.\nIt restores any lowered stat in\nbattle. It can be used only once.
+携带后能力下降时会恢复。\n使用1次后消失。
 
 #org @DESC_MACHO_BRACE
-An item to be held by a POK\eMON.\nIt promotes strong growth but\nlowers SPEED while it is held.
+让宝可梦携带后，\n虽然速度会降低，\n但会比平时更容易茁壮成长。
 
 #org @DESC_EXP_SHARE
-An item to be held by a POK\eMON.\nThe holder gets a share of EXP.\npoints without having to battle.
+打开开关后，\n能让同行的所有宝可梦\n获得经验值的装置。
 
 #org @DESC_QUICK_CLAW
-An item to be held by a POK\eMON.\nA light and sharp claw. The holder\nmay be able to strike first.
+又轻又尖锐的爪子。\n携带后，有时能比对手先一步行动。
 
 #org @DESC_SOOTHE_BELL
-An item to be held by a POK\eMON.\nA bell with a comforting chime that\nmakes the holder calm and friendly.
+音色悦耳的铃铛。\n携带它的宝可梦会受到安抚，\n变得容易和训练家亲密。
 
 #org @DESC_MENTAL_HERB
-An item to be held by a POK\eMON.\nIt snaps the holder out of\ninfatuation. It can be used once.
+携带后陷入着迷状态时会得到治愈，\n使用1次后消失。
 
 #org @DESC_KINGS_ROCK
-An item to be held by a POK\eMON.\nIt may cause the foe to flinch\nupon taking damage.
+携带这个道具的宝可梦造成伤害时，\n有时会让对手畏缩。
 
 #org @DESC_SILVER_POWDER
-An item to be held by a POK\eMON.\nA shiny silver powder that boosts\nthe power of BUG-type moves.
+散发着银色光辉的粉末。\n携带后，\n虫属性的招式威力就会提高。
 
 #org @DESC_AMULET_COIN
-An item to be held by a POK\eMON.\nIt doubles the battle money if the\nholding POK\eMON takes part.
+只要携带它的宝可梦在战斗时\n出场1次，就能获得2倍金钱。
 
 #org @DESC_CLEANSE_TAG
-An item to be held by a POK\eMON.\nIt repels wild POK\eMON if the\nholder is first in the party.
+让排在最前面的宝可梦携带后，\n野生宝可梦就会不容易出现。
 
 #org @DESC_SOUL_DEW
-An orb to be held by a LATIOS or\nLATIAS. It raises the SP. ATK\nand SP. DEF stats.
+让拉帝欧斯或拉帝亚斯携带后，\n超能力和龙属性的招式威力\n就会提高的神奇珠子。
 
 #org @DESC_DEEP_SEA_TOOTH
-An item to be held by a POK\eMON.\nA fang that gleams a sharp silver.\nIt raises the SP. ATK stat.
+让珍珠贝携带后，特攻就会提高的牙\n齿。散发着闪亮的银光。
 
 #org @DESC_DEEP_SEA_SCALE
-An item to be held by a POK\eMON.\nA scale that shines a faint pink.\nIt raises the SP. DEF stat.
+让珍珠贝携带后，特防就会提高的鳞\n片。散发着淡淡的粉红色光芒。
 
 #org @DESC_SMOKE_BALL
-An item to be held by a POK\eMON.\nThe holding POK\eMON can flee from\nany wild POK\eMON for sure.
+携带它的宝可梦在和野生宝可梦\n的战斗中绝对可以逃走。
 
 #org @DESC_EVERSTONE
-An item to be held by a POK\eMON.\nThe holding POK\eMON is prevented\nfrom evolving.
+给宝可梦携带后，\n那只宝可梦不再会进化。
 
 #org @DESC_FOCUS_BAND
-An item to be held by a POK\eMON.\nThe holding POK\eMON may endure an\nattack, leaving just 1 HP.
+携带的宝可梦即使受到招式，\n有时也能仅以1HP撑过去。
 
 #org @DESC_LUCKY_EGG
-An item to be held by a POK\eMON.\nAn egg filled with happiness that\nearns extra EXP. points in battle.
+满载着幸福的蛋。\n携带它的宝可梦获得的经验值\n会少量增加。
 
 #org @DESC_SCOPE_LENS
-An item to be held by a POK\eMON.\nA lens that boosts the critical-hit\nratio of the holding POK\eMON.
+能看见弱点的镜片。\n携带它的宝可梦的招式会变得\n容易击中要害。
 
 #org @DESC_METAL_COAT
-An item to be held by a POK\eMON.\nA special metallic film that boosts\nthe power of STEEL-type moves.
+特殊的金属膜。\n携带后，\n钢属性的招式威力就会提高。
 
 #org @DESC_LEFTOVERS
-An item to be held by a POK\eMON.\nThe holding POK\eMON gradually\nregains HP during battle.
+携带后，宝可梦的HP会在战斗期间\n缓缓回复。
 
 #org @DESC_DRAGON_SCALE
-A thick and tough scale.\nA DRAGON-type POK\eMON may be\nholding it.
+又硬又坚固的鳞片。\n龙属性宝可梦有时会携带它。
 
 #org @DESC_LIGHT_BALL
-An orb to be held by a PIKACHU\nthat raises the SP. ATK stat.\nTouching it may cause a shock.
+让皮卡丘携带后，\n攻击和特攻就会提高的神奇之球。
 
 #org @DESC_SOFT_SAND
-An item to be held by a POK\eMON.\nA loose, silky sand that boosts the\npower of GROUND-type moves.
+手感细腻的沙子。\n携带后，\n地面属性的招式威力就会提高。
 
 #org @DESC_HARD_STONE
-An item to be held by a POK\eMON.\nAn unbreakable stone that boosts\nthe power of ROCK-type moves.
+绝对不会裂开的石头。\n携带后，\n岩石属性的招式威力就会提高。
 
 #org @DESC_MIRACLE_SEED
-An item to be held by a POK\eMON.\nA seed imbued with life that boosts\nthe power of GRASS-type moves.
+孕育生命的种子。\n携带后，\n草属性的招式威力就会提高。
 
 #org @DESC_BLACK_GLASSES
-An item to be held by a POK\eMON.\nA shady-looking pair of glasses\nthat boosts DARK-type moves.
+看上去很奇怪的眼镜。\n携带后，\n恶属性的招式威力就会提高。
 
 #org @DESC_BLACK_BELT
-An item to be held by a POK\eMON.\nA belt that boosts determination\nand FIGHTING-type moves.
+能振作精神的带子。\n携带后，\n格斗属性的招式威力就会提高。
 
 #org @DESC_MAGNET
-An item to be held by a POK\eMON.\nA powerful magnet that boosts the\npower of ELECTRIC-type moves.
+强力的磁铁。\n携带后，\n电属性的招式威力就会提高。
 
 #org @DESC_MYSTIC_WATER
-An item to be held by a POK\eMON.\nA teardrop-shaped gem that boosts\nthe power of WATER-type moves.
+水滴形状的宝石。\n携带后，\n水属性的招式威力就会提高。
 
 #org @DESC_SHARP_BEAK
-An item to be held by a POK\eMON.\nA long, sharp beak that boosts the\npower of FLYING-type moves.
+又长又尖的鸟嘴。\n携带后，\n飞行属性的招式威力就会提高。
 
 #org @DESC_POISON_BARB
-An item to be held by a POK\eMON.\nA small, poisonous barb that boosts\nthe power of POISON-type moves.
+有毒的小针。\n携带后，\n毒属性的招式威力就会提高。
 
 #org @DESC_NEVER_MELT_ICE
-An item to be held by a POK\eMON.\nA piece of ice that repels heat\nand boosts ICE-type moves.
+能隔绝热量的冰。\n携带后，\n冰属性的招式威力就会提高。
 
 #org @DESC_SPELL_TAG
-An item to be held by a POK\eMON.\nA sinister, eerie tag that boosts\nGHOST-type moves.
+古怪可怕的咒符。\n携带后，\n幽灵属性的招式威力就会提高。
 
 #org @DESC_TWISTED_SPOON
-An item to be held by a POK\eMON.\nA spoon imbued with telekinetic\npower boosts PSYCHIC-type moves.
+注入了念力的汤匙。\n携带后，\n超能力属性的招式威力就会提高。
 
 #org @DESC_CHARCOAL
-An item to be held by a POK\eMON.\nA combustible fuel that boosts the\npower of FIRE-type moves.
+焚烧用的燃料。\n携带后，\n火属性的招式威力就会提高。
 
 #org @DESC_DRAGON_FANG
-An item to be held by a POK\eMON.\nA hard and sharp fang that boosts\nthe power of DRAGON-type moves.
+坚硬锐利的牙齿。\n携带后，\n龙属性的招式威力就会提高。
 
 #org @DESC_SILK_SCARF
-An item to be held by a POK\eMON.\nA sumptuous scarf that boosts the\npower of NORMAL-type moves.
+手感不错的围巾。\n携带后，\n一般属性的招式威力就会提高。
 
 #org @DESC_UP_GRADE
-A transparent device filled with all\nsorts of data.\nIt is made by SILPH CO.
+内部储存了各种信息的透明机器。\n西尔佛公司制造。
 
 #org @DESC_SHELL_BELL
-An item to be held by a POK\eMON.\nThe holding POK\eMON regains some\nHP upon striking the foe.
+当携带它的宝可梦给对手造成伤害时\n能回复少量体力。
 
 #org @DESC_SEA_INCENSE
-An item to be held by a POK\eMON.\nIt slightly boosts the power of\nWATER-type moves.
+携带着的宝可梦使用的水属性招式\n的威力会稍稍提升。
 
 #org @DESC_LAX_INCENSE
-An item to be held by a POK\eMON.\nIts tricky aroma slightly reduces\nthe foe's accuracy.
+让宝可梦携带后，\n气味会迷惑对手，\n其命中会稍稍降低。
 
 #org @DESC_LUCKY_PUNCH
-A glove to be held by a CHANSEY.\nIt raises CHANSEY's critical-hit\nratio.
+让吉利蛋携带后，\n招式容易击中对手要害的拳套。
 
 #org @DESC_METAL_POWDER
-A fine, hard powder to be held by\na DITTO.\nIt raises DITTO's DEFENSE stat.
+让百变怪携带后，\n防御就会提高的神奇粉末。\n非常细腻坚硬。
 
 #org @DESC_THICK_CLUB
-A hard bone of some sort to be\nheld by a CUBONE or MAROWAK.\nIt raises the ATTACK stat.
+让卡拉卡拉或嘎啦嘎啦携带后，\n攻击就会提高的某种坚硬的骨头。
 
 #org @DESC_LEEK
-A stick of leek to be held by a\nFARFETCH'D. It raises FARFETCH'D's\ncritical-hit ratio.
+让大葱鸭携带后，\n招式容易击中对手要害的葱。
 
 #org @DESC_RED_SCARF
-An item to be held by a POK\eMON.\nIt boosts the holding POK\eMON's\nCOOL condition in CONTESTS.
+携带它去参加华丽大赛的宝可梦会比\n平时看上去更加帅气。
 
 #org @DESC_BLUE_SCARF
-An item to be held by a POK\eMON.\nIt boosts the holding POK\eMON's\nBEAUTY condition in CONTESTS.
+携带它去参加华丽大赛的宝可梦会比\n平时看上去更加美丽。
 
 #org @DESC_PINK_SCARF
-An item to be held by a POK\eMON.\nIt boosts the holding POK\eMON's\nCUTE condition in CONTESTS.
+携带它去参加华丽大赛的宝可梦会比\n平时看上去更加可爱。
 
 #org @DESC_GREEN_SCARF
-An item to be held by a POK\eMON.\nIt boosts the holding POK\eMON's\nSMART condition in CONTESTS.
+携带它去参加华丽大赛的宝可梦会比\n平时看上去更加聪明。
 
 #org @DESC_YELLOW_SCARF
-An item to be held by a POK\eMON.\nIt boosts the holding POK\eMON's\nTOUGH condition in CONTESTS.
+携带它去参加华丽大赛的宝可梦会比\n平时看上去更加强壮。
 
 #org @DESC_MACH_BIKE
-A folding bicycle that is at least\ntwice as fast as walking.
+能以2倍以上的速度移动\n的折叠式自行车。
 
 #org @DESC_COIN_CASE
-A case for holding COINS obtained\nat the GAME CORNER.\nIt holds up to 9,999 COINS.
+可以存放代币的盒子。\n最多能放入9999枚\n在游戏城获得的代币。
 
 #org @DESC_ITEMFINDER
-A device used for finding items.\nIf there is a hidden item nearby\nwhen it is used, it emits a signal.
+使用的时候在附近有看不见的道具时\n就会起反应告诉你。
 
 #org @DESC_OLD_ROD
-An old and beat-up fishing rod.\nUse it by any body of water to \nfish for wild POK\eMON.
+又破又旧的钓竿。\n在有水的地方使用的话，\n可以钓到宝可梦。
 
 #org @DESC_GOOD_ROD
-A new, good-quality fishing rod.\nUse it by any body of water to \nfish for wild POK\eMON.
+不错的新钓竿。\n在有水的地方使用的话，\n可以钓到宝可梦。
 
 #org @DESC_SUPER_ROD
-An awesome, high-tech fishing rod.\nUse it by any body of water to fish\nfor wild POK\eMON.
+最新的厉害钓竿。\n在有水的地方使用的话，\n可以钓到宝可梦。
 
 #org @DESC_SS_TICKET
-The ticket required for sailing on\nthe ferry S.S. ANNE.\nIt has a drawing of a ship on it.
+乘坐圣特安努号时所需的船票。\n上面绘有船的图案。
 
 #org @DESC_CONTEST_PASS
-The pass required for entering\nPOK\eMON CONTESTS. It has a\ndrawing of an award ribbon on it.
+拿着它就可以参加宝可梦华丽大赛。\n上面印有纪念奖章。
 
 #org @DESC_WAILMER_PAIL
-A nifty watering pail.\nUse it to promote strong growth in\nBERRIES planted in soft soil.
+浇水的道具。\n能让埋在土壤里的树果快快长大。
 
 #org @DESC_DEVON_GOODS
-A package that contains mechanical\nparts of some sort made by the\nDEVON CORPORATION.
+此物品里面放着的是得文制造的\n某种零件。
 
 #org @DESC_SOOT_SACK
-A sack used to collect volcanic\nash automatically during walks\nover deep ash.
+将堆积起来的火山灰\n收集起来的袋子。
 
 #org @DESC_BASEMENT_KEY
-The key to NEW MAUVILLE, which\nwas constructed beneath MAUVILLE\nCITY.
+打开建造在紫堇市地下的\n新紫堇入口的钥匙。
 
 #org @DESC_ACRO_BIKE
-A folding bicycle that is capable\nof stunts like jumps and wheelies.
+能做出跳跃或抬前轮动作\n的折叠式自行车。
 
 #org @DESC_POKEBLOCK_CASE
-A case for holding <0x55><0x56><0x57><0x58><0x59>S made\nwith a BERRY BLENDER. It releases\none <0x55><0x56><0x57><0x58><0x59> when shaken.
+可以用来放置用树果混合器制造\n的宝可方块的盒子。
 
 #org @DESC_LETTER
-An extremely important letter to\nSTEVEN from the PRESIDENT of the\nDEVON CORPORATION.
+从得文公司社长那里得到的\n非常重要的信。
 
 #org @DESC_EON_TICKET
-The ticket required for sailing on a\nferry to a distant southern island.\nIt features a drawing of an island.
+前往南方孤岛时需要的船票。\n上面印着岛屿的图片。
 
 #org @DESC_RED_ORB
-An orb that glows red.\nIt is said to contain an incredible\npower from ancient times.
+散发着朱红色光辉的宝珠。\n据说蕴含着强大的超古代力量。
 
 #org @DESC_BLUE_ORB
-An orb that glows blue.\nIt is said to contain an incredible\npower from ancient times.
+散发着靛蓝色光辉的宝珠。\n据说蕴含着强大的超古代力量。
 
 #org @DESC_SCANNER
-A device used to search for\nlife-forms in water.\nIt looks too difficult to use.
+探测水中生物的机器。\n似乎很难使用。
 
 #org @DESC_GO_GOGGLES
-A pair of protective goggles.\nThey enable a TRAINER to travel\nthrough even desert sandstorms.
+保护眼睛的眼镜。\n可以在沙漠的沙暴中前行。
 
 #org @DESC_METEORITE
-A meteorite that fell from space\nonto MT. MOON long ago.\nIt is very lumpy and hard.
+很久之前，坠落在月见山的\n来自宇宙的石头。\n表面坑坑洼洼而又坚硬。
 
 #org @DESC_ROOM_1_KEY
-A key that opens the door to Room\n1 inside the ABANDONED SHIP.\nIt is old and looks easily broken.
+用来打开弃船里1号客房门的钥匙。\n古旧得就快坏掉了。
 
 #org @DESC_ROOM_2_KEY
-A key that opens the door to Room\n2 inside the ABANDONED SHIP.\nIt is old and looks easily broken.
+用来打开弃船里2号客房门的钥匙。\n古旧得就快坏掉了。
 
 #org @DESC_ROOM_4_KEY
-A key that opens the door to Room\n4 inside the ABANDONED SHIP.\nIt is old and looks easily broken.
+用来打开弃船里4号客房门的钥匙。\n古旧得就快坏掉了。
 
 #org @DESC_ROOM_6_KEY
-A key that opens the door to Room\n6 inside the ABANDONED SHIP.\nIt is old and looks easily broken.
+用来打开弃船里6号客房门的钥匙。\n古旧得就快坏掉了。
 
 #org @DESC_STORAGE_KEY
-A key that opens the storage hold\ninside the ABANDONED SHIP.\nIt is old and looks easily broken.
+用来打开弃船仓库门的钥匙。\n古旧得就快坏掉了。
 
 #org @DESC_ROOT_FOSSIL
-A fossil of an ancient, seafloor-\ndwelling POK\eMON. It appears to be\npart of a plant root.
+很久以前栖息在海里的\n古代宝可梦的化石。\n好像是根的一部分。
 
 #org @DESC_CLAW_FOSSIL
-A fossil of an ancient, seafloor-\ndwelling POK\eMON. It appears to be\npart of a claw.
+很久以前栖息在海里的\n古代宝可梦的化石。\n好像是爪子的一部分。
 
 #org @DESC_DEVON_SCOPE
-A scope that signals the presence\nof any unseeable POK\eMON.\nIt is made by the DEVON CORP.
+如果有无法看见样子的宝可梦\n就会发出声音提示。\p得文股份有限公司制造。
 
 #org @DESC_TM01
-An attack that is\nexecuted last.\nThe user flinches\nif hit beforehand.
+察觉到对手的动作后用\n掌根攻击，让对手畏缩。\n如果对手使出的招式不\n是先制攻击，则会失败。
 
 #org @DESC_TM02
-Sharp, huge claws\nhook and slash the\nfoe quickly and\nwith great power.
+用尖锐的巨爪劈开对\n手进行攻击。
 
 #org @DESC_TM03
-An attack with a\npulsing blast of\nwater. It may also\nconfuse the foe.
+发出魅惑的叫声，给\n予对手精神上的伤害。\n攻击必定会命中。
 
 #org @DESC_TM04
-The user focuses\nits mind to raise\nthe SP. ATK and\nSP. DEF stats.
+静心凝神，从而提高\n自己的特攻和特防。
 
 #org @DESC_TM05
-The foe is made to\nswitch out with an\nally. In the wild,\nthe battle ends.
+用令对手不舒服的音波\n进行攻击。让对手在2回\n合内无法通过招式、特\n性或携带的道具回复HP。
 
 #org @DESC_TM06
-A move that badly\npoisons the foe.\nIts poison damage\nworsens every turn.
+让对手陷入剧毒状态。\n随着回合的推进，\n中毒伤害会增加。
 
 #org @DESC_TM07
-A hailstorm lasting\nfive turns damages\nall POK\eMON except\nthe ICE-type.
+在5回合内一直降冰雹，\n除冰属性的宝可梦以外，\n给予全体宝可梦伤害。
 
 #org @DESC_TM08
-The user bulks up\nits body to boost\nboth its ATTACK and\nDEFENSE stats.
+使出全身力气绷紧肌\n肉，从而提高自己的\n攻击和防御。
 
 #org @DESC_TM09
-The user shoots\nseeds at the foe.\nTwo to five seeds\nare shot at once.
+向对手猛烈地发射种\n子进行攻击。连续攻\n击2至5次。
 
 #org @DESC_TM10
-An attack that\nvaries in type and\nintensity depending\non the user.
+招式的属性会随着使\n用此招式的宝可梦而\n改变。
 
 #org @DESC_TM11
-The sun blazes for\nfive turns, powering\nup FIRE-type\nmoves.
+在5回合内让日照变得\n强烈，从而提高火属性\n的招式威力。水属性的\n招式威力则降低。
 
 #org @DESC_TM12
-The foe is taunted\ninto a rage that\nallows it to use\nonly attack moves.
+使对手愤怒。在3回\n合内让对手只能使出\n给予伤害的招式。
 
 #org @DESC_TM13
-The foe is struck\nwith an icy beam.\nIt may freeze the\nfoe solid.
+向对手发射冰冻光束\n进行攻击。有时会让\n对手陷入冰冻状态。
 
 #org @DESC_TM14
-The foe is blasted\nwith a blizzard.\nIt may freeze the\nfoe solid.
+将猛烈的暴风雪刮向\n对手进行攻击。有时\n会让对手陷入冰冻状\n态。
 
 #org @DESC_TM15
-A severely damaging\nattack that makes\nthe user rest on\nthe next turn.
+向对手发射强烈的光\n线进行攻击。下一回\n合自己将无法动弹。
 
 #org @DESC_TM16
-A wall of light\ncuts damage from\nSP. ATK attacks\nfor five turns.
+利用神奇的墙壁，在\n5回合内减弱从对手\n那里受到的特殊攻击\n的伤害。
 
 #org @DESC_TM17
-Enables the user to\nevade all attacks.\nIt may fail if used\nin succession.
+完全抵挡对手的攻击。\n连续使出则容易失败。
 
 #org @DESC_TM18
-A heavy rain falls\nfor five turns,\npowering up WATER-\ntype moves.
+在5回合内一直降雨，\n从而提高水属性的招式\n威力。火属性的招式威\n力则降低。
 
 #org @DESC_TM19
-A harsh attack that\nabsorbs half the\ndamage it inflicted\nto restore HP.
+吸取对手的养分进行\n攻击。可以回复给予\n对手伤害的一半HP。
 
 #org @DESC_TM20
-It protects the\nuser's party from\nall status problems\nfor five turns.
+用天使般的歌声攻击\n对手。会让此回合内\n能力有提高的宝可梦\n陷入混乱状态。
 
 #org @DESC_TM21
 This attack move\ngrows more powerful\nthe less the user\nlikes its TRAINER.
@@ -757,331 +757,331 @@ An intense attack\nthat also sharply\nreduces the user's\nSP. ATK stat.
 #org @DESC_CRAZY_AXE
 
 #org @DESC_CRAZY_MACE
-A parcel to be delivered to PROF.\nOAK from VIRIDIAN CITY's POK\eMON\nMART.
+这是常青市的友好商店\n托付给你的包裹。\n需要将它交给大木博士。
 
 #org @DESC_GOLD_TEETH
-A set of false teeth lost by the\nSAFARI ZONE'S WARDEN. It makes his\nsmile sparkle.
+狩猎地带的园长遗失的金假牙。\n装上它后，笑起来十分耀眼。
 
 #org @DESC_OAKS_PARCEL
-A parcel to be delivered to PROF.\nOAK from VIRIDIAN CITY's POK\eMON\nMART.
+这是常青市的友好商店\n托付给你的包裹。\n需要将它交给大木博士。
 
 #org @DESC_POKE_FLUTE
-A flute that is said to instantly\nawaken any POK\eMON. It has a\nlovely tone.
+据说吹响后无论哪种宝可梦\n都会起来的笛子。\n能吹出优美的音色。
 
 #org @DESC_SECRET_KEY
-The key to CINNABAR ISLAND GYM's\nfront door. It is colored red and\ndecorated.
+能打开红莲岛上那座宝可梦\n道馆的钥匙。\n周身都以红色装饰。
 
 #org @DESC_BIKE_VOUCHER
-Take this voucher to the BIKE SHOP\nin CERULEAN CITY and exchange it\nfor a bicycle.
+给华蓝市的奇迹自行车店\n就能交换得到自行车。
 
 #org @DESC_OLD_AMBER
-A piece of amber that contains\nthe genes of an ancient POK\eMON.\nIt is clear with a reddish tint.
+封存着古代宝可梦遗传基因的琥珀，\n透着点红色。
 
 #org @DESC_CARD_KEY
-A card-type key that unlocks doors\nin SILPH CO.'s HEAD OFFICE in\nSAFFRON CITY.
+用来打开位于金黄市的西尔佛公司\n总部大厦门锁的卡片式钥匙。
 
 #org @DESC_LIFT_KEY
-A key that operates the elevator\nin TEAM ROCKET's HIDEOUT.\nIt bears the TEAM ROCKET logo.
+带有火箭队标志的钥匙。\n能启动位于火箭队基地的电梯。
 
 #org @DESC_HELIX_FOSSIL
-A fossil of an ancient, seafloor-\ndwelling POK\eMON. It appears to be\npart of a seashell.
+很久以前栖息在海里的\n古代宝可梦的化石。\n好像是贝壳的一部分。
 
 #org @DESC_DOME_FOSSIL
-A fossil of an ancient, seafloor-\ndwelling POK\eMON. It appears to be\npart of a shell.
+很久以前栖息在海里的\n古代宝可梦的化石。\n好像是甲壳的一部分。
 
 #org @DESC_SILPH_SCOPE
-A scope that makes unseeable\nPOK\eMON visible.\nIt is made by SILPH CO.
+西尔佛公司制造的透视镜。\n可以看见人眼无法看见的东西。
 
 #org @DESC_BICYCLE
-A folding bicycle that allows\nfaster movement than the RUNNING\nSHOES.
+能比跑步鞋跑得还快的\n折叠式自行车。
 
 #org @DESC_TOWN_MAP
-A very convenient map that can be\nviewed anytime. It even shows your \npresent location.
+可以随时轻松查看的便利地图。\n也能清楚自己的位置。
 
 #org @DESC_VS_SEEKER
-A device that indicates TRAINERS\nwho want to battle. The battery\ncharges while traveling.
+会告诉你想对战的训练家\n在哪里的机器。\n走路就能给电池充电。
 
 #org @DESC_FAME_CHECKER
-A device that enables you to\nrecall what you've heard and seen\nabout famous people.
+可以重复查看打听到的\n有名人物的东西。
 
 #org @DESC_TM_CASE
-A case that holds TMs and HMs.\nIt is attached to the BAG's\ncompartment for important items.
+用来存放招式学习器的盒子，\n放在包包的重要物品口袋里。
 
 #org @DESC_BERRY_POUCH
-A pouch for carrying BERRIES.\nIt is attached to the BAG's\ncompartment for important items.
+将树果收集起来的袋子，\n放在包包的重要物品口袋里。
 
 #org @DESC_TEACHY_TV
-A television set that is tuned to\na program with useful tips for\nnovice TRAINERS.
+可以收看对新手训练家\n有帮助的节目的电视。
 
 #org @DESC_TRI_PASS
-A pass for ferries between ONE,\nTWO, and THREE ISLAND.\nIt has a drawing of three islands.
+能够在第1岛，第2岛和第3岛之间\n用渡船移动的通行证。\n上面印着三座岛。
 
 #org @DESC_RAINBOW_PASS
-A pass for ferries between\nVERMILION and the SEVII ISLANDS.\nIt features a drawing of a rainbow.
+能够在枯叶市和七之岛之间\n用渡船移动的通行证。\n上面印着彩虹的图片。
 
 #org @DESC_TEA
-An aromatic tea prepared by an old\nlady. It will slake even the worst\nthirst.
+老奶奶泡的芬芳宜人的香茶。\n抿一口，清咽润喉。
 
 #org @DESC_MYSTIC_TICKET
-A ticket required to board the ship\nto NAVEL ROCK.\nIt glows with a mystic light.
+前往肚脐岩时必要的船票。\n神秘地发着光。
 
 #org @DESC_AURORA_TICKET
-A ticket required to board the ship\nto BIRTH ISLAND.\nIt glows beautifully.
+前往诞生之岛时必要的船票。\n美丽地散发着光芒。
 
 #org @DESC_POWDER_JAR
-A jar for storing BERRY POWDER\nmade using a BERRY CRUSHER.
+能收纳树果碾碎器制作出的\n树果粉末的保存用瓶子。
 
 #org @DESC_RUBY
-An exquisitely beautiful gem that\nhas a red glow.\nIt symbolizes passion.
+散发着红色光辉的非常漂亮的宝石。\n热情的象征。
 
 #org @DESC_SAPPHIRE
-An exquisitely beautiful gem that\nhas a blue glow.\nIt symbolizes honesty.
+散发着蓝色光辉的非常漂亮的宝石。\n真诚的象征。
 
 #org @DESC_RAGE_CANDY_BAR
-Mahogany Town's famous candy. It\nheals all the status conditions of\na Pokémon.
+卡吉镇特产的馒头。\n能治愈1只宝可梦的所有异常状态。
 
 #org @DESC_OLD_GATEAU
-The Old Chateau's hidden\nspecialty. It heals all the status\nconditions of a Pokémon.
+百代不为人知的特产。\n能治愈1只宝可梦的所有异常状态。
 
 #org @DESC_CASTELIACONE
-Castelia City's specialty,\nsoft-serve ice cream. It heals all\nthe status problems of a Pokémon.
+飞云市特产的冰淇淋。\n能治愈1只宝可梦的所有异常状态。
 
 #org @DESC_LUMIOSE_GALETTE
-A popular treat in Lumiose City.\nIt heals all the status conditions\nof a Pokémon.
+在密阿雷市很受欢迎的点心。\n能治愈1只宝可梦的所有异常状态。
 
 #org @DESC_SHALOUR_SABLE
-Shalour City's famous shortbread.\nIt heals all the status conditions\nof a Pokémon.
+娑罗市特产的沙布蕾。\n能治愈1只宝可梦的所有异常状态。
 
 #org @DESC_HEALTH_WING
-An item for use on a Pokémon. It\nslightly increases the base HP of a\nsingle Pokémon.
+用于宝可梦的道具。能稍微提高1只\n宝可梦的HP的基础点数。
 
 #org @DESC_MUSCLE_WING
-An item for use on a Pokémon. It\nslightly increases the base Attack\nstat of a single Pokémon.
+用于宝可梦的道具。能稍微提高1只\n宝可梦的攻击的基础点数。
 
 #org @DESC_RESIST_WING
-An item for use on a Pokémon. It\nslightly increases the base Defense\nstat of a single Pokémon.
+用于宝可梦的道具。能稍微提高1只\n宝可梦的防御的基础点数。
 
 #org @DESC_GENIUS_WING
-An item for use on a Pokémon. It\nslightly increases the base Sp. Atk\nstat of a single Pokémon.
+用于宝可梦的道具。能稍微提高1只\n宝可梦的特攻的基础点数。
 
 #org @DESC_CLEVER_WING
-An item for use on a Pokémon. It\nslightly increases the base Sp. Def\nstat of a single Pokémon.
+用于宝可梦的道具。能稍微提高1只\n宝可梦的特防的基础点数。
 
 #org @DESC_SWIFT_WING
-An item for use on a Pokémon. It\nslightly increases the base Speed\nstat of a single Pokémon.
+用于宝可梦的道具。能稍微提高1只\n宝可梦的速度的基础点数。
 
 #org @DESC_DYNAMAX_CANDY
-A candy that is packed with dynamax\nenergy. When consumed, it adds or\nremoves the Gigantamax factor.
+充满能量的糖果。给予宝可梦后，\n极巨化等级能够提高1。\n当极巨化等级提高时，HP会增加。
 
 #org @DESC_BIG_MALASADA
-It is Alola region's local specialty.\nIt can be used once to heal all the\nstatus conditions of a Pokémon.
+阿罗拉特产的油炸面包。\n能治愈1只宝可梦的所有异常状态。
 
 #org @DESC_LINK_CABLE
-An intriguing cable used for\nlinking unknown devices. It helps\ncertain kinds of Pokémon to evolve.
+能用来代替通讯进化的道具。
 
 #org @DESC_PROTECTOR
-A protective item of some sort.\nIt is extremely stiff and heavy. It\nis loved by a certain Pokémon.
+某种护具。非常坚硬而且沉重。\n某种宝可梦很喜欢它。
 
 #org @DESC_ELECTIRIZER
-A box packed with a tremendous\namount of electric energy. It is\nloved by a certain Pokémon.
+积蓄着庞大电气力量的箱子。\n某种宝可梦很喜欢它。
 
 #org @DESC_MAGMARIZER
-A box packed with a tremendous\namount of magma energy. It is\nloved by a certain Pokémon.
+积蓄着庞大熔岩能量的箱子。\n某种宝可梦很喜欢它。
 
 #org @DESC_DUBIOUS_DISC
-A transparent device overflowing\nwith dubious data. Its producer\nis unknown.
+内部储存了奇怪信息的透明机器。\n制造者不明。
 
 #org @DESC_REAPER_CLOTH
-A cloth imbued with horrifyingly\nstrong spiritual energy. It is loved\nby a certain Pokémon.
+蕴含着惊人强大灵力的布。\n某种宝可梦很喜欢它。
 
 #org @DESC_SHINY_STONE
-A peculiar stone that makes certain\nspecies of Pokémon evolve. It\nshines with a dazzling light.
+能让某些特定宝可梦进化的神奇石头。\n像光芒一样耀眼。
 
 #org @DESC_DUSK_STONE
-A peculiar stone that makes certain\nspecies of Pokémon evolve. It\nis as dark as dark can be.
+能让某些特定宝可梦进化的神奇石头。\n像黑夜一般漆黑。
 
 #org @DESC_DAWN_STONE
-A peculiar stone that makes certain\nspecies of Pokémon evolve. It\nsparkles like eyes.
+能让某些特定宝可梦进化的神奇石头。\n像眼眸一般光彩动人。
 
 #org @DESC_ICE_STONE
-A stone that can make certain\nspecies of Pokémon evolve. It\nhas a snowflake pattern.
+能让某些特定宝可梦进化的神奇石头。\n有着雪花般的花纹。
 
 #org @DESC_BALM_MUSHROOM
-A rare mushroom that gives off\na nice fragrance. It can be sold\nat a high price to shops.
+能让附近一带芳香四溢的珍稀蘑菇。\n可以在商店高价出售。
 
 #org @DESC_RARE_BONE
-A bone that is extremely valuable\nfor archaeology. It can be sold for\na high price to shops.
+在宝可梦考古学上非常贵重的骨头。\n可以在商店高价出售。
 
 #org @DESC_PEARL_STRING
-Very large pearls that sparkle in\na pretty silver color. They can be\nsold at a high price to shops.
+散发着美丽银辉且非常大颗的珍珠。\n可以在商店高价出售。
 
 #org @DESC_COMET_SHARD
-A shard that fell to the ground\nwhen a comet approached. It can\nbe sold at a high price to shops.
+彗星临近时，掉落到地表上的碎片。\n可以在商店高价出售。
 
 #org @DESC_BIG_NUGGET
-A big nugget of pure gold that\ngives off a lustrous gleam. It can\nbe sold at a high price to shops.
+以纯金制成，闪着金光的大珠子。\n可以在商店高价出售。
 
 #org @DESC_HONEY
-A sweet honey collected by a\nPokémon. It has a lush aroma and\ncan be sold for a low price at shops.
+宝可梦采集的清甜芬芳的花蜜。\n可在商店里廉价出售。
 
 #org @DESC_PRETTY_WING
-Though this feather is beautiful,\nit's just a regular feather and\nhas no effect on Pokémon.
+仅仅只是漂亮，没有任何效果，\n极其普通的羽毛。
 
 #org @DESC_OVAL_STONE
-A peculiar stone that makes a\ncertain species of Pokémon evolve.\nIt's shaped like an egg.
+能让某些特定宝可梦进化的神奇石头。\n像珠子一般圆润。
 
 #org @DESC_RAZOR_CLAW
-An item to be held by a Pokémon.\nIt is a sharply hooked claw that\nups the holder's critical-hit ratio.
+尖锐的爪子。携带后，\n招式会变得容易击中要害。
 
 #org @DESC_RAZOR_FANG
-An item to be held by a Pokémon.\nIt may cause the foe to flinch\nwhen the holder inflicts damage.
+尖锐的牙齿。携带后，\n在给予伤害时，有时会让对手畏缩。
 
 #org @DESC_POMEG_BERRY
-Using it on a Pokémon makes it\nfriendlier, but also lowers HP.
+宝可梦会变得非常容易和训练家亲密，\n但HP的基础点数会降低。
 
 #org @DESC_KELPSY_BERRY
-Using it on a Pokémon makes it\nfriendlier, but also lowers Attack.
+宝可梦会变得非常容易和训练家亲密，\n但攻击的基础点数会降低。
 
 #org @DESC_QUALOT_BERRY
-Using it on a Pokémon makes it\nfriendlier, but also lowers Defense.
+宝可梦会变得非常容易和训练家亲密，\n但防御的基础点数会降低。
 
 #org @DESC_HONDEW_BERRY
-Using it on a Pokémon makes it\nfriendlier, but also lowers Sp. Atk.
+宝可梦会变得非常容易和训练家亲密，\n但特攻的基础点数会降低。
 
 #org @DESC_GREPA_BERRY
-Using it on a Pokémon makes it\nfriendlier, but also lowers Sp. Def.
+宝可梦会变得非常容易和训练家亲密，\n但特防的基础点数会降低。
 
 #org @DESC_TAMATO_BERRY
-Using it on a Pokémon makes it\nfriendlier, but also lowers Speed.
+宝可梦会变得非常容易和训练家亲密，\n但速度的基础点数会降低。
 
 #org @DESC_PRISM_SCALE
-A mysterious scale that evolves\ncertain Pokémon. It shines in\nrainbow colors.
+能让某些特定宝可梦进化的神奇鳞片。\n散发着虹色光辉。
 
 #org @DESC_SACHET
-A sachet filled with fragrances\nthat are slightly overwhelming. It\nis loved by a certain Pokémon.
+装着散发微浓香气的香料的袋子。\n某种宝可梦很喜欢它。
 
 #org @DESC_WHIPPED_DREAM
-A soft and sweet treat made of\nwhipped and whirled cream. It\nis loved by a certain Pokémon.
+松松软软起着泡的，\n稍微有点甜的奶油。\n某种宝可梦很喜欢它。
 
 #org @DESC_CHOICE_BAND
-An item to be held by a Pokémon.\nThis headband ups Attack, but\nallows the use of only one move.
+有点讲究的头带。\n虽然携带后攻击会提高，\n但只能使出相同的招式。
 
 #org @DESC_STRAWBERRY_SWEET
-A strawberry-shaped sweet.\nWhen a Milcery holds this, it will\nspin around happily.
+草莓形状的工艺糖果。让小仙奶携带\n的话，会高兴地转圈圈。
 
 #org @DESC_BERRY_SWEET
-A berry-shaped sweet.\nWhen a Milcery holds this, it will\nspin around happily.
+浆果形状的工艺糖果。让小仙奶携带\n的话，会高兴地转圈圈。
 
 #org @DESC_LOVE_SWEET
-A heart-shaped sweet.\nWhen a Milcery holds this, it will\nspin around happily.
+爱心形状的工艺糖果。让小仙奶携带\n的话，会高兴地转圈圈。
 
 #org @DESC_CLOVER_SWEET
-A clover-shaped sweet.\nWhen a Milcery holds this, it will\nspin around happily.
+四叶草形状的工艺糖果。让小仙奶携\n带的话，会高兴地转圈圈。
 
 #org @DESC_FLOWER_SWEET
-A flower-shaped sweet.\nWhen a Milcery holds this, it will\nspin around happily.
+花朵形状的工艺糖果。让小仙奶携带\n的话，会高兴地转圈圈。
 
 #org @DESC_RIBBON_SWEET
-A ribbon-shaped sweet.\nWhen a Milcery holds this, it will\nspin around happily.
+蝴蝶结形状的工艺糖果。让小仙奶携\n带的话，会高兴地转圈圈。
 
 #org @DESC_STAR_SWEET
-A star-shaped sweet.\nWhen a Milcery holds this, it will\nspin around happily.
+星星形状的工艺糖果。让小仙奶携带\n的话，会高兴地转圈圈。
 
 #org @DESC_SWEET_APPLE
-A peculiar apple that can make\na certain species of Pokémon\nevolve. It's exceptionally sweet.
+这种神奇的苹果可以使特定的宝可梦\n进化。吃起来非常甜美。
 
 #org @DESC_TART_APPLE
-A peculiar apple that can make\na certain species of Pokémon\nevolve. It's exceptionally tart.
+这种神奇的苹果可以使特定的宝可梦\n进化。吃起来酸酸的。
 
 #org @DESC_CRACKED_POT
-A cracked teapot that can make a\ncertain species of Pokémon evolve.\nTea poured from it is delicious.
+这个神奇的茶壶可以使特定的宝可梦\n进化。虽然有破损，但泡出来的茶依\n旧清香。
 
 #org @DESC_CHIPPED_POT
-A chipped teapot that can make a\ncertain species of Pokémon evolve.\nTea poured from it is delicious.
+这个神奇的茶壶可以使特定的宝可梦\n进化。虽然有缺陷，但泡出来的茶依\n旧清香。
 
 #org @DESC_GALARICA_CUFF
-A cuff made from woven-together\nGalarica Twigs. Giving it to certain\nPokémon will make them happy.
+用伽勒豆蔻枝编织的手环。给伽勒尔\n地区的呆呆兽戴上，它就会很开心。
 
 #org @DESC_GALARICA_WREATH
-A cuff made from woven-together\nGalarica Twigs. Giving it to certain\nPokémon will make them happy.
+用伽勒豆蔻枝编织的王冠。给某些宝\n可梦戴上的话，它就会很开心。
 
 #org @DESC_CHERISH_BALL
-A quite rare Ball that has been\nspecially crafted to commemorate\nan ocassion of some sort.
+相当珍贵的球。\n特制出来的某种纪念品。
 
 #org @DESC_DUSK_BALL
-A Ball that makes it easier to\ncatch wild Pokémon at night or\nin dark places such as caves.
+有点与众不同的球。能很容易地在夜\n晚或洞窟等阴暗的地方捕捉宝可梦。
 
 #org @DESC_HEAL_BALL
-A Ball that restores the caught\nPokémon's HP and eliminates\nany status problem.
+有点温柔的球。能回复捉到的宝可梦\n的HP并治愈异常状态。
 
 #org @DESC_QUICK_BALL
-A Ball that provides a better\ncatch rate if it is used at the\nstart of a wild encounter.
+有点与众不同的球。如果战斗开始后\n立刻使用，就能很容易地捉到宝可梦。
 
 #org @DESC_FAST_BALL
-A Ball that makes it easier to\ncatch Pokémon which are quick to\nrun away.
+有点与众不同的球。能很容易地捕捉\n逃跑速度很快的宝可梦。
 
 #org @DESC_LEVEL_BALL
-A Ball that makes it easier to\ncatch Pokémon that are a lower\nlevel than your own.
+有点与众不同的球。要捕捉的宝可梦\n比自己宝可梦的等级越低，就会越容\n易捕捉。
 
 #org @DESC_LURE_BALL
-A Ball that is good for catching\nPokémon that you reel in with a\nRod while out fishing.
+有点与众不同的球。能很容易地捕捉\n用钓竿钓上来的宝可梦。
 
 #org @DESC_HEAVY_BALL
-A Ball that is better than usual\nat catching very large and heavy\nPokémon.
+有点与众不同的球。能很容易地捕捉\n身体沉重的宝可梦。
 
 #org @DESC_LOVE_BALL
-A Ball for catching Pokémon that\nare the opposite gender of your\nPokémon.
+有点与众不同的球。能很容易地捕捉\n和自己宝可梦性别不同的宝可梦。
 
 #org @DESC_FRIEND_BALL
-A Ball that will make the wild\nPokémon caught with it more\nfriendly toward you.
+有点与众不同的球。捉到的野生宝可\n梦会立刻变得和训练家亲密起来。
 
 #org @DESC_MOON_BALL
-A Ball that will make it easier to\ncatch Pokémon that can evolve\nusing a Moon Stone.
+有点与众不同的球。能很容易地捕捉\n使用月之石进化的宝可梦。
 
 #org @DESC_SPORT_BALL
-A special Poké Ball that is\nused during the Bug-Catching\nContest.
+曾在城都地区的捕虫大赛上\n使用的特殊的球。
 
 #org @DESC_BEAST_BALL
-A Ball designed to catch Ultra\nBeasts. It has a low success rate\nfor catching others.
+为捕捉究极异兽而制作的特殊精灵球。\n很难捕捉究极异兽之外的宝可梦。
 
 #org @DESC_DREAM_BALL
-A Ball that makes it easier to\ncatch wild Pokémon while it is\nasleep.
+有点与众不同的球。能很容易地捕捉\n睡眠状态的宝可梦。
 
 #org @DESC_PARK_BALL
-A special Poké Ball for\nthe Pal Park.
+在伙伴公园里使用的特殊的球。
 
 #org @DESC_Z_POWER_RING
-A mysterious ring that enables\nthe use of Z-Power. It requires the\nwillpower of the trainer wearing it.
+通过使用训练家的气力和体力来让宝\n可梦释放出Z力量的神奇手环。
 
 #org @DESC_HM01
-A basic attack.\nIt can be used to\ncut down thin trees\nand grass.
+用镰刀或爪子等切斩\n对手进行攻击。野外\n使用可以清除挡在路\n上的细小树木和草丛。
 
 #org @DESC_HM02
-A 2-turn move that\nhits on the 2nd\nturn. Use it to fly\nto any known town.
+第1回合飞上天空，\n第2回合攻击对手。\n野外使用可以前往去\n过的城市。
 
 #org @DESC_HM03
-A big wave crashes\ndown on the foe.\nCan also be used\nfor crossing water.
+利用大浪攻击自己周\n围所有的宝可梦。野\n外使用可以在水上移\n动。
 
 #org @DESC_HM04
-The foe is slugged\nat maximum power.\nCan also be used\nto move boulders.
+使出浑身力气殴打对\n手进行攻击。野外使\n用可以推动石头。
 
 #org @DESC_HM05
-A blast of light\nthat cuts the foe's\naccuracy. It also\nilluminates caves.
+第1回合潜入，第2回\n合浮上来进行攻击。
 
 #org @DESC_HM06
-An attack that may\nalso cut Defense.\nIt can also smash\ncracked boulders.
+用拳头进行攻击。有\n时会降低对手的防御。\n野外使用可以粉碎路\n中岩石。
 
 #org @DESC_HM07
-A powerful charge\nattack. It can also\nbe used to climb\na waterfall.
+以惊人的气势扑向对\n手。有时会使对手畏\n缩。野外使用可以登\n上巨大的瀑布。
 
 #org @DESC_HM08
-A charging attack\nthat may also leave\nthe foe confused.
+用尽全力扑向对手进\n行攻击。有时会使对\n手混乱。
 
 #org @DESC_DYNAMAX_BAND
-A Wishing Star has been affixed\nto it. It lets out a light that allows\nPokémon to Dynamax.
+内部嵌入了许愿星，在能量点就会发\n出光芒，使宝可梦极巨化。
 
 #org @DESC_MEGA_RING
-A ring which enables Pokémon\nholding a Mega Stone to Mega\nEvolve in battle.
+蕴藏着未知力量的圆环。能让携带着\n超级石战斗的宝可梦进行超级进化。
 
 #org @DESC_TM51
 The user rests and\nrecovers HP. It also\nremoves status conditions.
@@ -1294,265 +1294,265 @@ The user takes the\ntarget into the sky,\nthen drops it during\nthe next turn.
 An attack that\nchanges type\ndepending on the\nuser's location.
 
 #org @DESC_OCCA_BERRY
-If held, reduces damage taken from\none super effective Fire-move.
+让宝可梦携带后，在受到效果绝佳的\n火属性招式攻击时，令其威力减弱。
 
 #org @DESC_PASSHO_BERRY
-If held, reduces damage taken from\none super effective Water-move.
+让宝可梦携带后，在受到效果绝佳的\n水属性招式攻击时，令其威力减弱。
 
 #org @DESC_WACAN_BERRY
-If held, reduces damage taken from\none super effective Electric-move.
+让宝可梦携带后，在受到效果绝佳的\n电属性招式攻击时，令其威力减弱。
 
 #org @DESC_RINDO_BERRY
-If held, reduces damage taken from\none super effective Grass-move.
+让宝可梦携带后，在受到效果绝佳的\n草属性招式攻击时，令其威力减弱。
 
 #org @DESC_YACHE_BERRY
-If held, reduces damage taken from\none super effective Ice-move.
+让宝可梦携带后，在受到效果绝佳的\n冰属性招式攻击时，令其威力减弱。
 
 #org @DESC_CHOPLE_BERRY
-If held, reduces damage taken from\none super effective Fighting-move.
+让宝可梦携带后，在受到效果绝佳的\n格斗属性招式攻击时，令其威力减弱。
 
 #org @DESC_KEBIA_BERRY
-If held, reduces damage taken from\none super effective Poison-move.
+让宝可梦携带后，在受到效果绝佳的\n毒属性招式攻击时，令其威力减弱。
 
 #org @DESC_SHUCA_BERRY
-If held, reduces damage taken from\none super effective Ground-move.
+让宝可梦携带后，在受到效果绝佳的\n地面属性招式攻击时，令其威力减弱。
 
 #org @DESC_COBA_BERRY
-If held, reduces damage taken from\none super effective Flying-move.
+让宝可梦携带后，在受到效果绝佳的\n飞行属性招式攻击时，令其威力减弱。
 
 #org @DESC_PAYAPA_BERRY
-If held, reduces damage taken from\none super effective Psychic-move.
+让宝可梦携带后，在受到效果绝佳的\n超能属性招式攻击时，令其威力减弱。
 
 #org @DESC_TANGA_BERRY
-If held, reduces damage taken from\none super effective Bug-move.
+让宝可梦携带后，在受到效果绝佳的\n虫属性招式攻击时，令其威力减弱。
 
 #org @DESC_CHARTI_BERRY
-If held, reduces damage taken from\none super effective Rock-move.
+让宝可梦携带后，在受到效果绝佳的\n岩石属性招式攻击时，令其威力减弱。
 
 #org @DESC_KASIB_BERRY
-If held, reduces damage taken from\none super effective Ghost-move.
+让宝可梦携带后，在受到效果绝佳的\n幽灵属性招式攻击时，令其威力减弱。
 
 #org @DESC_HABAN_BERRY
-If held, reduces damage taken from\none super effective Dragon-move.
+让宝可梦携带后，在受到效果绝佳的\n龙属性招式攻击时，令其威力减弱。
 
 #org @DESC_COLBUR_BERRY
-If held, reduces damage taken from\none super effective Dark-move.
+让宝可梦携带后，在受到效果绝佳的\n恶属性招式攻击时，令其威力减弱。
 
 #org @DESC_BABIRI_BERRY
-If held, reduces damage taken from\none super effective Steel-move.
+让宝可梦携带后，在受到效果绝佳的\n钢属性招式攻击时，令其威力减弱。
 
 #org @DESC_CHILAN_BERRY
-If held, reduces damage taken from\none Normal-move.
+让宝可梦携带后，在受到一般属性招\n式攻击时，能令其威力减弱。
 
 #org @DESC_MICLE_BERRY
-If held by a Pokémon, it increases\nAccuracy just once in a pinch.
+让宝可梦携带后，危机时，招式的命\n中率仅会提高1次。
 
 #org @DESC_CUSTAP_BERRY
-If held by a Pokémon, it gets to\nmove first just once in a pinch.
+让宝可梦携带后，危机时，行动仅会\n变快1次。
 
 #org @DESC_JABOCA_BERRY
-When the holder is hit with a\nphysical move, the attacker is hurt.
+让宝可梦携带后，在受到物理招式攻\n击时，能给予对手伤害。
 
 #org @DESC_ROWAP_BERRY
-When the holder is hit with a\nspecial move, the attacker is hurt.
+让宝可梦携带后，在受到特殊招式攻\n击时，能给予对手伤害。
 
 #org @DESC_ROSELI_BERRY
-If held, reduces damage taken from\none super effective Fairy-move.
+让宝可梦携带后，在受到效果绝佳的\n妖精属性招式攻击时，令其威力减弱。
 
 #org @DESC_KEE_BERRY
-When the holder is hit by a physical\nattack, its Defense will increase.
+让宝可梦携带后，在受到物理招式攻\n击时，自己的防御就会提高。
 
 #org @DESC_MARANG_BERRY
-When the holder is hit by a special\nattack, its Sp. Def will increase.
+让宝可梦携带后，在受到特殊招式攻\n击时，自己的特防就会提高。
 
 #org @DESC_OVAL_CHARM
-An oval charm said to increase\nthe chance of Eggs being found\nat the Day Care.
+拥有它之后，在宝可梦培育屋里\n会更容易发现蛋。
 
 #org @DESC_SHINY_CHARM
-A shiny charm said to increase\nthe chance of finding a Shiny\nPokémon.
+拥有它之后，据说会更容易遇见发光\n宝可梦的神奇闪光护符。
 
 #org @DESC_RAINBOW_WING
-A mystical rainbow feather that\nsparkles.
+散发着虹色光辉的神奇羽毛。
 
 #org @DESC_SILVER_WING
-A strange, silvery feather that\nsparkles.
+散发着银色光辉的神奇羽毛。
 
 #org @DESC_MAGMA_STONE
-A stone formed by boulders that\nmelted in hot magma, and hardened.\nMagma still remains inside it.
+被灼热熔岩熔化的岩石凝固后形成的\n产物。里面还留有熔岩。
 
 #org @DESC_LIGHT_STONE
-Reshiram's body was destroyed and\nchanged into this stone. It is said\nto be waiting for a hero.
+莱希拉姆的肉体毁灭后变成的样子。\n据说它在等待着英雄的到来。
 
 #org @DESC_DARK_STONE
-Zekrom's body was destroyed and\nchanged into this stone. It is said\nto be waiting for a hero.
+捷克罗姆的肉体毁灭后变成的样子。\n据说它在等待着英雄的到来。
 
 #org @DESC_SUN_FLUTE
-It is said that the tones it\nproduces were offered up as an\nexpression of gratitude.
+为了对太阳的传说的宝可梦表达感激\n之情，据说会用它来献上美乐。
 
 #org @DESC_MOON_FLUTE
-It is said that the tones it\nproduces were offered up as an\nexpression of gratitude.
+为了对月亮的传说的宝可梦表达感激\n之情，据说会用它来献上美乐。
 
 #org @DESC_GRACIDEA
-A flower bundled in bouquets to\nconvey gratitude on special occasions.\nIt allows Shaymin to change forme.
+在生日或纪念日等日子里，为了表达\n感激之情，有时会将其扎成花束送出。
 
 #org @DESC_DNA_SPLICERS
-A splicer that fuses or separates\nKyurem and Reshiram or Zekrom.
+据说是能让原本为一体的酋雷姆和某\n宝可梦合体的一对楔子。
 
 #org @DESC_REVEAL_GLASS
-A glass that reveals the truth.\nIt's a mysterious glass that returns\na Pokémon to its original shape.
+能够通过照出真实，让宝可梦变回原\n来样子的神奇镜子。
 
 #org @DESC_PRISON_BOTTLE
-A bottle believed to have been\nused to seal away the power of a\ncertain Pokémon long, long ago.
+据说在很久以前封印着某只宝可梦力\n量的壶。
 
 #org @DESC_N_SOLARIZER
-A machine to fuse or separate\nNecrozma, which needs light,\nand Solgaleo.
+用来让需求光的奈克洛兹玛\n和索尔迦雷欧合体的机器。
 
 #org @DESC_N_LUNARIZER
-A machine to fuse or separate\nNecrozma, which needs light,\nand Lunala.
+用来让需求光的奈克洛兹玛\n和露奈雅拉合体的机器。
 
 #org @DESC_RUSTED_SWORD
-It is said that a hero used this sword\nto halt a terrible disaster in ancient\ntimes, but it has since worn out.
+据说很久以前，英雄就是拿着这把剑\n驱走了灾厄。而现在早已变得锈迹斑\n斑。
 
 #org @DESC_RUSTED_SHIELD
-It is said that a hero used this shield\nto halt a terrible disaster in ancient\ntimes, but it has since worn out.
+据说很久以前，英雄就是拿着这面盾\n驱走了灾厄。而现在早已变得锈迹斑\n斑。
 
 #org @DESC_ADAMANT_ORB
-A gleaming orb to be held by Dialga.\nIt boosts the power of Dragon- and\nSteel-type moves when held.
+让帝牙卢卡携带的话，龙和钢属性的\n招式威力就会提高。散发着光辉的宝\n珠。
 
 #org @DESC_LUSTROUS_ORB
-A glowing orb to be held by Palkia.\nIt boosts the power of Dragon- and\nWater-type moves when held.
+让帕路奇亚携带的话，龙和水属性的\n招式威力就会提高。散发着美丽光辉\n的宝珠。
 
 #org @DESC_GRISEOUS_ORB
-A glowing orb to be held by Giratina.\nIt boosts the power of Dragon- and\nGhost-type moves when held.
+让骑拉帝纳携带的话，龙和幽灵属性\n的招式威力就会提高。散发着光辉的\n宝珠。
 
 #org @DESC_FIST_PLATE
-An item to be held by a Pokémon. It\nis a stone tablet that boosts the\npower of Fighting-type moves.
+格斗属性的石板。携带后，格斗属性\n的招式威力就会增强。
 
 #org @DESC_SKY_PLATE
-An item to be held by a Pokémon. It\nis a stone tablet that boosts the\npower of Flying-type moves.
+飞行属性的石板。携带后，飞行属性\n的招式威力就会增强。
 
 #org @DESC_TOXIC_PLATE
-An item to be held by a Pokémon. It\nis a stone tablet that boosts the\npower of Poison-type moves.
+毒属性的石板。携带后，毒属性的招\n式威力就会增强。
 
 #org @DESC_EARTH_PLATE
-An item to be held by a Pokémon. It\nis a stone tablet that boosts the\npower of Ground-type moves.
+地面属性的石板。携带后，地面属性\n的招式威力就会增强。
 
 #org @DESC_STONE_PLATE
-An item to be held by a Pokémon. It\nis a stone tablet that boosts the\npower of Rock-type moves.
+岩石属性的石板。携带后，岩石属性\n的招式威力就会增强。
 
 #org @DESC_INSECT_PLATE
-An item to be held by a Pokémon. It\nis a stone tablet that boosts the\npower of Bug-type moves.
+虫属性的石板。携带后，虫属性的招\n式威力就会增强。
 
 #org @DESC_SPOOKY_PLATE
-An item to be held by a Pokémon. It\nis a stone tablet that boosts the\npower of Ghost-type moves.
+幽灵属性的石板。携带后，幽灵属性\n的招式威力就会增强。
 
 #org @DESC_IRON_PLATE
-An item to be held by a Pokémon. It\nis a stone tablet that boosts the\npower of Steel-type moves.
+钢属性的石板。携带后，钢属性的招\n式威力就会增强。
 
 #org @DESC_FLAME_PLATE
-An item to be held by a Pokémon. It\nis a stone tablet that boosts the\npower of Fire-type moves.
+火属性的石板。携带后，火属性的招\n式威力就会增强。
 
 #org @DESC_SPLASH_PLATE
-An item to be held by a Pokémon. It\nis a stone tablet that boosts the\npower of Water-type moves.
+水属性的石板。携带后，水属性的招\n式威力就会增强。
 
 #org @DESC_MEADOW_PLATE
-An item to be held by a Pokémon. It\nis a stone tablet that boosts the\npower of Grass-type moves.
+草属性的石板。携带后，草属性的招\n式威力就会增强。
 
 #org @DESC_ZAP_PLATE
-An item to be held by a Pokémon. It\nis a stone tablet that boosts the\npower of Electric-type moves.
+电属性的石板。携带后，电属性的招\n式威力就会增强。
 
 #org @DESC_MIND_PLATE
-An item to be held by a Pokémon. It\nis a stone tablet that boosts the\npower of Psychic-type moves.
+超能力属性的石板。携带后，超能力\n属性的招式威力就会增强。
 
 #org @DESC_ICICLE_PLATE
-An item to be held by a Pokémon. It\nis a stone tablet that boosts the\npower of Ice-type moves.
+冰属性的石板。携带后，冰属性的招\n式威力就会增强。
 
 #org @DESC_DRACO_PLATE
-An item to be held by a Pokémon. It\nis a stone tablet that boosts the\npower of Dragon-type moves.
+龙属性的石板。携带后，龙属性的招\n式威力就会增强。
 
 #org @DESC_DREAD_PLATE
-An item to be held by a Pokémon. It\nis a stone tablet that boosts the\npower of Dark-type moves.
+恶属性的石板。携带后，恶属性的招\n式威力就会增强。
 
 #org @DESC_PIXIE_PLATE
-An item to be held by a Pokémon. It\nis a stone tablet that boosts the\npower of Fairy-type moves.
+妖精属性的石板。携带后，妖精属性\n的招式威力就会增强。
 
 #org @DESC_FIGHTING_MEMORY
-A memory disc that contains\nFighting-type data. It changes the\ntype of Silvally if held.
+装有格斗属性数据的存储碟。特定宝\n可梦携带后，属性就会发生变化。
 
 #org @DESC_FLYING_MEMORY
-A memory disc that contains\nFlying-type data. It changes the\ntype of Silvally if held.
+装有飞行属性数据的存储碟。特定宝\n可梦携带后，属性就会发生变化。
 
 #org @DESC_POISON_MEMORY
-A memory disc that contains\nPoison-type data. It changes the\ntype of Silvally if held.
+装有毒属性数据的存储碟。特定宝可\n梦携带后，属性就会发生变化。
 
 #org @DESC_GROUND_MEMORY
-A memory disc that contains\nGround-type data. It changes the\ntype of Silvally if held.
+装有地面属性数据的存储碟。特定宝\n可梦携带后，属性就会发生变化。
 
 #org @DESC_ROCK_MEMORY
-A memory disc that contains\nRock-type data. It changes the\ntype of Silvally if held.
+装有岩石属性数据的存储碟。特定宝\n可梦携带后，属性就会发生变化。
 
 #org @DESC_BUG_MEMORY
-A memory disc that contains\nBug-type data. It changes the\ntype of Silvally if held.
+装有虫属性数据的存储碟。特定宝可\n梦携带后，属性就会发生变化。
 
 #org @DESC_GHOST_MEMORY
-A memory disc that contains\nGhost-type data. It changes the\ntype of Silvally if held.
+装有幽灵属性数据的存储碟。特定宝\n可梦携带后，属性就会发生变化。
 
 #org @DESC_STEEL_MEMORY
-A memory disc that contains\nSteel-type data. It changes the\ntype of Silvally if held.
+装有钢属性数据的存储碟。特定宝可\n梦携带后，属性就会发生变化。
 
 #org @DESC_FIRE_MEMORY
-A memory disc that contains\nFire-type data. It changes the\ntype of Silvally if held.
+装有火属性数据的存储碟。特定宝可\n梦携带后，属性就会发生变化。
 
 #org @DESC_WATER_MEMORY
-A memory disc that contains\nWater-type data. It changes the\ntype of Silvally if held.
+装有水属性数据的存储碟。特定宝可\n梦携带后，属性就会发生变化。
 
 #org @DESC_GRASS_MEMORY
-A memory disc that contains\nGrass-type data. It changes the\ntype of Silvally if held.
+装有草属性数据的存储碟。特定宝可\n梦携带后，属性就会发生变化。
 
 #org @DESC_ELECTRIC_MEMORY
-A memory disc that contains\nElectric-type data. It changes the\ntype of Silvally if held.
+装有电属性数据的存储碟。特定宝可\n梦携带后，属性就会发生变化。
 
 #org @DESC_PSYCHIC_MEMORY
-A memory disc that contains\nPsychic-type data. It changes the\ntype of Silvally if held.
+装有超能力属性数据的存储碟。特定\n宝可梦携带后，属性就会发生变化。
 
 #org @DESC_ICE_MEMORY
-A memory disc that contains\nIce-type data. It changes the\ntype of Silvally if held.
+装有冰属性数据的存储碟。特定宝可\n梦携带后，属性就会发生变化。
 
 #org @DESC_DRAGON_MEMORY
-A memory disc that contains\nDragon-type data. It changes the\ntype of Silvally if held.
+装有龙属性数据的存储碟。特定宝可\n梦携带后，属性就会发生变化。
 
 #org @DESC_DARK_MEMORY
-A memory disc that contains\nDark-type data. It changes the\ntype of Silvally if held.
+装有恶属性数据的存储碟。特定宝可\n梦携带后，属性就会发生变化。
 
 #org @DESC_FAIRY_MEMORY
-A memory disc that contains\nFairy-type data. It changes the\ntype of Silvally if held.
+装有妖精属性数据的存储碟。特定宝\n可梦携带后，属性就会发生变化。
 
 #org @DESC_BURN_DRIVE
-A cassette to be held by Genesect.\nIt changes Techno Blast to a\nFire-type move.
+这是让盖诺赛克特携带的卡带。携带\n后，高科技光炮这招式就会变为火属\n性。
 
 #org @DESC_DOUSE_DRIVE
-A cassette to be held by Genesect.\nIt changes Techno Blast to a\nWater-type move.
+这是让盖诺赛克特携带的卡带。携带\n后，高科技光炮这招式就会变为水属\n性。
 
 #org @DESC_SHOCK_DRIVE
-A cassette to be held by Genesect.\nIt changes Techno Blast to a\nElectric-type move.
+这是让盖诺赛克特携带的卡带。携带\n后，高科技光炮这招式就会变为电属\n性。
 
 #org @DESC_CHILL_DRIVE
-A cassette to be held by Genesect.\nIt changes Techno Blast to a\nIce-type move.
+这是让盖诺赛克特携带的卡带。携带\n后，高科技光炮这招式就会变为冰属\n性。
 
 #org @DESC_RED_NECTAR
-A flower nectar obtained at\nUla'ula Meadow. It changes the form\nof certain species of Pokémon.
+朱红色花的花蜜。可以改变特定宝可\n梦的样子。
 
 #org @DESC_YELLOW_NECTAR
-A flower nectar obtained at\nMelemele Meadow. It changes the\nform of certain species of Pokémon.
+金黄色花的花蜜。可以改变特定宝可\n梦的样子。
 
 #org @DESC_PINK_NECTAR
-A flower nectar obtained at Royal\nAvenue. It changes the form of\ncertain species of Pokémon.
+桃粉色花的花蜜。可以改变特定宝可\n梦的样子。
 
 #org @DESC_PURPLE_NECTAR
-A flower nectar obtained at Poni\nMeadow. It changes the form of\ncertain species of Pokémon.
+兰紫色花的花蜜。可以改变特定宝可\n梦的样子。
 
 #org @DESC_ULTRANECROZIUM_Z
-Have Necrozma hold this, and this\nstone will enable it to Ultra\nBurst during battle.
+Z力量的结晶。会将奈克洛兹玛的光\n子喷涌升级成Z招式。
 
 #org @DESC_VENUSAURITE
 Have Venusaur hold this, and this\nstone will enable it to Mega\nEvolve during battle.
@@ -1690,586 +1690,589 @@ Have Audino hold this, and this\nstone will enable it to Mega Evolve\nduring bat
 Have Diancie hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
 
 #org @DESC_NORMALIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Normal-type\nmoves to Z-Moves.
+Z力量的结晶。会将一般属性的招式\n升级成Z招式。
 
 #org @DESC_FIGHTINIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Fighting-type\nmoves to Z-Moves.
+Z力量的结晶。会将格斗属性的招式\n升级成Z招式。
 
 #org @DESC_FLYINIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Flying-type\nmoves to Z-Moves.
+Z力量的结晶。会将飞行属性的招式\n升级成Z招式。
 
 #org @DESC_POISONIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Poison-type\nmoves to Z-Moves.
+Z力量的结晶。会将毒属性的招式升\n级成Z招式。
 
 #org @DESC_GROUNDIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Ground-type\nmoves to Z-Moves.
+Z力量的结晶。会将地面属性的招式\n升级成Z招式。
 
 #org @DESC_ROCKIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Rock-type\nmoves to Z-Moves.
+Z力量的结晶。会将岩石属性的招式\n升级成Z招式。
 
 #org @DESC_BUGINIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Bug-type\nmoves to Z-Moves.
+Z力量的结晶。会将虫属性的招式升\n级成Z招式。
 
 #org @DESC_GHOSTIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Ghost-type\nmoves to Z-Moves.
+Z力量的结晶。会将幽灵属性的招式\n升级成Z招式。
 
 #org @DESC_STEELIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Steel-type\nmoves to Z-Moves.
+Z力量的结晶。会将钢属性的招式升\n级成Z招式。
 
 #org @DESC_FIRIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Fire-type\nmoves to Z-Moves.
+Z力量的结晶。会将火属性的招式升\n级成Z招式。
 
 #org @DESC_WATERIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Water-type\nmoves to Z-Moves.
+Z力量的结晶。会将水属性的招式升\n级成Z招式。
 
 #org @DESC_GRASSIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Grass-type\nmoves to Z-Moves.
+Z力量的结晶。会将草属性的招式升\n级成Z招式。
 
 #org @DESC_ELECTRIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Electric-type\nmoves to Z-Moves.
+Z力量的结晶。会将电属性的招式升\n级成Z招式。
 
 #org @DESC_PSYCHIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Psychic-type\nmoves to Z-Moves.
+Z力量的结晶。会将超能力属性的招\n式升级成Z招式。
 
 #org @DESC_ICIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Ice-type\nmoves to Z-Moves.
+Z力量的结晶。会将冰属性的招式升\n级成Z招式。
 
 #org @DESC_DRAGONIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Dragon-type\nmoves to Z-Moves.
+Z力量的结晶。会将龙属性的招式升\n级成Z招式。
 
 #org @DESC_DARKINIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Dark-type\nmoves to Z-Moves.
+Z力量的结晶。会将恶属性的招式升\n级成Z招式。
 
 #org @DESC_FAIRIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Fairy-type\nmoves to Z-Moves.
+Z力量的结晶。会将妖精属性的招式\n升级成Z招式。
 
 #org @DESC_ALORAICHIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Alolan\nRaichu's Thunderbolt to a Z-Move.
+Z力量的结晶。会将阿罗拉地区雷丘\n的十万伏特升级成Z招式。
 
 #org @DESC_DECIDIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Decidueye's\nSpirit Lock to a Z-Move.
+Z力量的结晶。会将狙射树枭的缝影\n升级成Z招式。
 
 #org @DESC_EEVIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Eevee's\nLast Resort to a Z-Move.
+Z力量的结晶。会将伊布的珍藏升级\n成Z招式。
 
 #org @DESC_INCINIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Incineroar's\nDark Lariat to a Z-Move.
+Z力量的结晶。会将炽焰咆哮虎的\nDD金勾臂升级成Z招式。
 
 #org @DESC_KOMMONIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Kommo-o's\nClang Scales to a Z-Move.
+Z力量的结晶。会将杖尾鳞甲龙的鳞\n片噪音升级成Z招式。
 
 #org @DESC_LUNALIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Lunala's\nGeist Beam to a Z-Move.
+Z力量的结晶。会将露奈雅拉的暗影\n之光升级成Z招式。
 
 #org @DESC_LYCANIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Lycanroc's\nStone Edge to a Z-Move.
+Z力量的结晶。会将鬃岩狼人的尖石\n攻击升级成Z招式。
 
 #org @DESC_MARSHADIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Marshadow's\nSpect Thief to a Z-Move.
+Z力量的结晶。会将玛夏多的暗影偷\n盗升级成Z招式。
 
 #org @DESC_MEWNIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Mew's\nPsychic to a Z-Move.
+Z力量的结晶。会将梦幻的精神强念\n升级成Z招式。
 
 #org @DESC_MIMIKIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Mimikyu's\nPlay Rough to a Z-Move.
+Z力量的结晶。会将谜拟丘的嬉闹升\n级成Z招式。
 
 #org @DESC_PIKANIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Pikachu's\nVolt Tackle to a Z-Move.
+Z力量的结晶。会将皮卡丘的伏特攻\n击升级成Z招式。
 
 #org @DESC_PIKASHUNIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades a Thunderbolt\nby Pikachu in a cap to a Z-Move.
+Z力量的结晶。会将戴着帽子的皮卡\n丘的十万伏特升级成Z招式。
 
 #org @DESC_PRIMARIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Primarina's\nSparkle Aria to a Z-Move.
+Z力量的结晶。会将西狮海壬的泡影\n的咏叹调升级成Z招式。
 
 #org @DESC_SNORLIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Snorlax's\nGiga Impact to a Z-Move.
+Z力量的结晶。会将卡比兽的终极冲\n击升级成Z招式。
 
 #org @DESC_SOLGANIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades Solgaleo's\nSunsteel Strike to a Z-Move.
+Z力量的结晶。会将索尔迦雷欧的流\n星闪冲升级成Z招式。
 
 #org @DESC_TAPUNIUM_Z
-This is a crystallized form of\nZ-Power. It upgrades the tapu's\nNature's Mad to a Z-Move.
+Z力量的结晶。会将卡璞们的自然之\n怒升级成Z招式。
 
 #org @DESC_BLACK_APRICORN
-A black Apricorn. It has a\nscent beyond one's experience.
+黑色的球果。\n有种无法形容的气味。
 
 #org @DESC_BLUE_APRICORN
-A blue Apricorn. It\nsmells a bit like grass.
+蓝色的球果。\n略有一股青草的香味。
 
 #org @DESC_GREEN_APRICORN
-A green Apricorn. It has\na mysterious, aromatic scent.
+绿色的球果。\n有种焦香的香味，非常神奇。
 
 #org @DESC_PINK_APRICORN
-A pink Apricorn. It has\na nice, sweet scent.
+粉红色的球果。\n有种甜甜的，好闻的香味。
 
 #org @DESC_RED_APRICORN
-A red Apricorn. It\nassails your nostrils.
+红色的球果。\n有种刺鼻的香味。
 
 #org @DESC_WHITE_APRICORN
-A white Apricorn. It\ndoesn't smell like anything.
+白色的球果，没有任何香味。
 
 #org @DESC_YELLOW_APRICORN
-A yellow Apricorn. It\nhas an invigorating scent.
+黄色的球果。\n有种清爽的香味。
 
 #org @DESC_RELIC_COPPER
-A copper coin used by an ancient\ncivilization about 3000 years ago.
+约3000年前的文明使用的铜币。
 
 #org @DESC_RELIC_SILVER
-A silver coin used by an ancient\ncivilization about 3000 years ago.
+约3000年前的文明使用的银币。
 
 #org @DESC_RELIC_GOLD
-A gold coin used by an ancient\ncivilization about 3000 years ago.
+约3000年前的文明使用的金币。
 
 #org @DESC_RELIC_VASE
-A fragile vase made by an ancient\ncivilization about 3000 years ago.
+约3000年前的文明制造的壶。
 
 #org @DESC_RELIC_BAND
-A heavy bracelet made by an ancient\ncivilization about 3000 years ago.
+约3000年前的文明制造的手镯。
 
 #org @DESC_RELIC_STATUE
-A stone figurine made by an ancient\ncivilization about 3000 years ago.
+约3000年前的文明制造的石像。
 
 #org @DESC_RELIC_CROWN
-A heavy crown made by an ancient\ncivilization about 3000 years ago.
+约3000年前的文明制造的王冠。
 
 #org @DESC_SKULL_FOSSIL
-A fossil from a prehistoric\nPokémon that lived on the land. It\nappears to be part of a head.
+很久以前生活在地上的古代宝可梦的\n化石。好像是头部的一部分。
 
 #org @DESC_ARMOR_FOSSIL
-A fossil from a prehistoric\nPokémon that lived on the land. It\nappears to be part of a collar.
+很久以前生活在地上的古代宝可梦的\n化石。好像是领饰的一部分。
 
 #org @DESC_COVER_FOSSIL
-A fossil of an ancient Pokémon\nthat lived in the sea. It appears\nto be part of its back.
+很久以前栖息在海里的古代宝可梦的\n化石。好像是后背的一部分。
 
 #org @DESC_PLUME_FOSSIL
-A fossil of an ancient Pokémon\nthat flew in the sky. It appears\nto be part of its wing.
+据说是鸟宝可梦的祖先，古代宝可梦\n的化石。好像是翅膀的一部分。
 
 #org @DESC_JAW_FOSSIL
-A fossil from an ancient Pokémon\nthat once lived on the land. It\nlooks like a piece of large jaw.
+很久以前生活在地上的古代宝可梦的\n化石。好像是很大的颚的一部分。
 
 #org @DESC_SAIL_FOSSIL
-A fossil from an ancient Pokémon\nthat once lived on land. It looks\nlike the impression from a skin sail.
+很久以前生活在地上的古代宝可梦的\n化石。好像是头鳍的一部分。
 
 #org @DESC_BIRD_FOSSIL
-A fossil of an ancient Pokémon\nthat soared through the sky.\nWhat it looked like is a mystery.
+远古时代的宝可梦化石残片。它曾翱\n翔于天空，本来面目至今仍是未解之\n谜。
 
 #org @DESC_FISH_FOSSIL
-A fossil of an ancient Pokémon\nthat once lived in the sea. What\nit looked like is a mystery.
+远古时代的宝可梦化石残片。它曾栖\n息于大海，本来面目至今仍是未解之\n谜。
 
 #org @DESC_DRAKE_FOSSIL
-A fossil of an ancient Pokémon\nthat once roamed the land. What\nit looked like is a mystery.
+远古时代的宝可梦化石残片。它曾栖\n息于陆地，本来面目至今仍是未解之\n谜。
 
 #org @DESC_DINO_FOSSIL
-A fossil of an ancient Pokémon\nthat once lived in the sea. What\nit looked like is a mystery.
+远古时代的宝可梦化石残片。它曾栖\n息于大海，本来面目至今仍是未解之\n谜。
 
 #org @DESC_ODD_KEYSTONE
-An item needed to keep a stone\ntower from collapsing. Voices can\nbe heard from it occasionally.
+没有它，石之塔就会崩塌的重要石头。\n有时能从石头里听到声音。
 
 #org @DESC_BOTTLE_CAP
-A bottle cap that gives off a\nsilver gleam. Some people are\nhappy to receive one.
+银色的美丽王冠。有些人收到它会很\n高兴。
 
 #org @DESC_GOLD_BOTTLE_CAP
-A bottle cap that gives off a\ngolden gleam. Some people are\nhappy to receive one.
+金色的美丽王冠。比银色王冠珍贵。\n有些人收到它会很高兴。
 
 #org @DESC_WISHING_PIECE
-Throw one into a Pokémon\nDen to attract a wild Dynamax\nPokémon.
+投掷到宝可梦的巢穴里，就会有极巨\n化宝可梦出现。
 
 #org @DESC_POWER_BRACER
-A Pokémon held item that promotes\nAttack gain on leveling, but\nreduces the Speed stat.
+虽然携带后速度会降低，但宝可梦的\n攻击会比平时成长得更高。
 
 #org @DESC_POWER_BELT
-A Pokémon held item that promotes\nDefense gain on leveling, but\nreduces the Speed stat.
+虽然携带后速度会降低，但宝可梦的\n防御会比平时成长得更高。
 
 #org @DESC_POWER_LENS
-A Pokémon held item that promotes\nSpecial Attack gain on leveling,\nbut reduces the Speed stat.
+虽然携带后速度会降低，但宝可梦的\n特攻会比平时成长得更高。
 
 #org @DESC_POWER_BAND
-A Pokémon held item that promotes\nSpecial Defense gain on leveling,\nbut reduces the Speed stat.
+虽然携带后速度会降低，但宝可梦的\n特防会比平时成长得更高。
 
 #org @DESC_POWER_ANKLET
-A Pokémon held item that promotes\nSpeed gain on leveling, but\nreduces the Speed stat.
+虽然携带后速度会降低，但宝可梦的\n速度会比平时成长得更高。
 
 #org @DESC_POWER_WEIGHT
-A Pokémon held item that promotes\nHP gain on leveling, but reduces\nthe Speed stat.
+虽然携带后速度会降低，但宝可梦的\nHP会比平时成长得更高。
 
 #org @DESC_LUCK_INCENSE
-An item to be held by a Pokémon.\nIt doubles the battle money if the\nholding Pokémon takes part.
+只要携带它的宝可梦在战斗时出场一\n次，就能获得2倍金钱。
 
 #org @DESC_FULL_INCENSE
-An item to be held by a Pokémon.\nAn exotic incense that makes the\nholder bloated and slow moving.
+有着神奇香气的薰香。携带后，宝可\n梦的行动会比平时更加迟缓。
 
 #org @DESC_ODD_INCENSE
-An item to be held by a Pokémon.\nThis exotic incense boosts the\npower of Psychic-type moves.
+有着神奇香气的薰香。携带后，超能\n力属性的招式威力就会提高。
 
 #org @DESC_PURE_INCENSE
-An item to be held by a Pokémon.\nIt repels wild Pokémon if the\nholder is first in the party.
+让排在最前面的宝可梦携带后，野生\n宝可梦就会不容易出现。
 
 #org @DESC_ROCK_INCENSE
-An item to be held by a Pokémon.\nIt is an exotic incense that boosts\nthe power of Rock-type moves.
+有着神奇香气的薰香。携带后，岩石\n属性的招式威力就会提高。
 
 #org @DESC_ROSE_INCENSE
-An item to be held by a Pokémon.\nIt is an exotic incense that boosts\nthe power of Grass-type moves.
+有着神奇香气的薰香。携带后，草属\n性的招式威力就会提高。
 
 #org @DESC_WAVE_INCENSE
-An item to be held by a Pokémon.\nIt is an exotic incense that boosts\nthe power of Water-type moves.
+有着神奇香气的薰香。携带后，水属\n性的招式威力就会提高。
 
 #org @DESC_NORMAL_GEM
-A gem with an ordinary essence.\nWhen held, it strengthens the power\nof a Normal-type move once.
+一般属性的宝石。携带后，一般属性\n的招式威力仅会增强1次。
 
 #org @DESC_FIGHTING_GEM
-A gem with an essence of combat.\nWhen held, it strengthens the power\nof a Fighting-type move once.
+格斗属性的宝石。携带后，格斗属性\n的招式威力仅会增强1次。
 
 #org @DESC_FLYING_GEM
-A gem with an essence of air. When\nheld, it strengthens the power of\na Flying-type move once.
+飞行属性的宝石。携带后，飞行属性\n的招式威力仅会增强1次。
 
 #org @DESC_POISON_GEM
-A gem with an essence of poison.\nWhen held, it strengthens the power\nof a Poison-type move once.
+毒属性的宝石。携带后，毒属性的招\n式威力仅会增强1次。
 
 #org @DESC_GROUND_GEM
-A gem with an essence of land.\nWhen held, it strengthens the power\nof a Ground-type move once.
+地面属性的宝石。携带后，地面属性\n的招式威力仅会增强1次。
 
 #org @DESC_ROCK_GEM
-A gem with an essence of rock.\nWhen held, it strengthens the power\nof a Rock-type move once.
+岩石属性的宝石。携带后，岩石属性\n的招式威力仅会增强1次。
 
 #org @DESC_BUG_GEM
-A gem with an insect-like essence.\nWhen held, it strengthens the\npower of a Bug-type move once.
+虫属性的宝石。携带后，虫属性的招\n式威力仅会增强1次。
 
 #org @DESC_GHOST_GEM
-A gem with a spectral essence.\nWhen held, it strengthens the power\nof a Ghost-type move once.
+幽灵属性的宝石。携带后，幽灵属性\n的招式威力仅会增强1次。
 
 #org @DESC_STEEL_GEM
-A gem with an essence of steel.\nWhen held, it strengthens the power\nof a Steel-type move once.
+钢属性的宝石。携带后，钢属性的招\n式威力仅会增强1次。
 
 #org @DESC_FIRE_GEM
-A gem with an essence of fire.\nWhen held, it strengthens the power\nof a Fire-type move once.
+火属性的宝石。携带后，火属性的招\n式威力仅会增强1次。
 
 #org @DESC_WATER_GEM
-A gem with an essence of water.\nWhen held, it strengthens the power\nof a Water-type move once.
+水属性的宝石。携带后，水属性的招\n式威力仅会增强1次。
 
 #org @DESC_GRASS_GEM
-A gem with an essence of nature.\nWhen held, it strengthens the power\nof a Grass-type move once.
+草属性的宝石。携带后，草属性的招\n式威力仅会增强1次。
 
 #org @DESC_ELECTRIC_GEM
-A gem with an essence of electricity.\nWhen held, it strengthens the power\nof an Electric-type move once.
+电属性的宝石。携带后，电属性的招\n式威力仅会增强1次。
 
 #org @DESC_PSYCHIC_GEM
-A gem with an essence of the mind.\nWhen held, it strengthens the\npower of a Psychic-type move once.
+超能力属性的宝石。携带后，超能力\n属性的招式威力仅会增强1次。
 
 #org @DESC_ICE_GEM
-A gem with an essence of the mind.\nWhen held, it strengthens the\npower of a Psychic-type move once.
+冰属性的宝石。携带后，冰属性的招\n式威力仅会增强1次。
 
 #org @DESC_DRAGON_GEM
-A gem with a draconic essence.\nWhen held, it strengthens the power\nof a Dragon-type move once.
+龙属性的宝石。携带后，龙属性的招\n式威力仅会增强1次。
 
 #org @DESC_DARK_GEM
-A gem with an essence of darkness.\nWhen held, it strengthens the\npower of a Dark-type move once.
+恶属性的宝石。携带后，恶属性的招\n式威力仅会增强1次。
 
 #org @DESC_FAIRY_GEM
-A gem with an essence of the fey.\nWhen held, it strengthens the\npower of a Fairy-type move once.
+妖精属性的宝石。携带后，妖精属性\n的招式威力会仅增强1次。
 
 #org @DESC_WIDE_LENS
-A lens that enhances the accuracy of\nthe holder's moves by reducing the\nchance of missing.
+能放大观看物体的镜片。携带后，招\n式的命中率就会少量提高。
 
 #org @DESC_MUSCLE_BAND
-A band that boosts the power of the\nholder's physical moves.
+力如泉涌的头带。携带后，物理招式\n的威力就会少量提高。
 
 #org @DESC_WISE_GLASSES
-Glasses that enhance the power of\nthe holder's special moves.
+装着很厚镜片的眼镜。携带后，特殊\n招式的威力就会少量提高。
 
 #org @DESC_EXPERT_BELT
-A belt that increases the power of\nsuper-effective moves used by the\nholder.
+用惯了的黑色带子。携带后，效果绝\n佳时的招式威力就会少量提高。
 
 #org @DESC_LIGHT_CLAY
-A clay that extends the duration\nof Light Screen and Reflect when\nused by the holder.
+当携带它的宝可梦使出光墙或反射壁\n时，效果会比平时持续得更长。
 
 #org @DESC_LIFE_ORB
-An orb that boosts the power of\nmoves but causes it to lose HP\neach time a move is used.
+携带后，虽然每次攻击时HP少量减\n少，但招式的威力会提高。
 
 #org @DESC_POWER_HERB
-An herb that allows the holder to\nuse a move that needs charging\nwithout needing to wait.
+携带它的宝可梦仅有1次机会可以在\n第1回合使出需要蓄力的招式。
 
 #org @DESC_TOXIC_ORB
-An orb that badly poisons the\nholder when it is held.
+触碰后会放出毒的神奇宝珠。携带后，\n在战斗时会变成剧毒状态。
 
 #org @DESC_FLAME_ORB
-An orb that burns the holder\nwhen it is held.
+触碰后会放出热量的神奇宝珠。携带\n后，在战斗时会变成灼伤状态。
 
 #org @DESC_QUICK_POWDER
-A powder that boosts the\nspeed of a Ditto\nthat is holding it.
+让百变怪携带后，速度就会提高的神\n奇粉末。非常细腻坚硬。
 
 #org @DESC_FOCUS_SASH
-A sash that prevents the holder\nfrom being knocked out in one\nhit if it has full HP.
+携带后，在HP全满时，即便受到可\n能会导致濒死的招式，也能仅以1HP\n撑过去1次。
 
 #org @DESC_ZOOM_LENS
-A lens that increases the\nholder's accuracy if the holder\nmoves after its target.
+当携带它的宝可梦比对手行动迟缓时，\n招式会变得容易命中。
 
 #org @DESC_METRONOME
-A device that increases the power\nof a move used consecutively.
+携带后，连续使出相同招式时，威力\n就会提高。不再使出相同招式时，威\n力就会复原。
 
 #org @DESC_IRON_BALL
-A heavy ball that lowers the\nholder's Speed and makes it\nsusceptible to Ground-type moves.
+携带后，速度会降低。飞行属性以及\n飘浮宝可梦会被地面招式击中。
 
 #org @DESC_LAGGING_TAIL
-A tail that causes the holder\nto move last in battle.
+非常沉重的某种尾巴。携带后，行动\n会比平时更加迟缓。
 
 #org @DESC_DESTINY_KNOT
-A knot that causes any status\nconditions affecting the holder to\nbe passed on to its opponent.
+长长的鲜红色细线。携带后，在自己\n着迷时能让对手也着迷。
 
 #org @DESC_BLACK_SLUDGE
-A sludge that restores HP if the\nholder is a Poison-type Pokémon\nbut damages other types.
+携带后，毒属性的宝可梦会缓缓回复\nHP。其他属性的话，HP则会减少。
 
 #org @DESC_ICY_ROCK
-A rock that extends the duration of\nHail when held by the user.
+携带它的宝可梦使出冰雹的话，冰雹\n的时间就会比平时更长。
 
 #org @DESC_SMOOTH_ROCK
-A rock that extends the duration of\nSandstorm when held by the user.
+携带它的宝可梦使出沙暴的话，沙暴\n的时间就会比平时更长。
 
 #org @DESC_HEAT_ROCK
-A rock that extends the duration of\nSunny Day when held by the user.
+携带它的宝可梦使出大晴天的话，晴\n天的时间就会比平时更长。
 
 #org @DESC_DAMP_ROCK
-A rock that extends the duration of\nRain Dance when held by the user.
+携带它的宝可梦使出求雨的话，下雨\n的时间就会比平时更长。
 
 #org @DESC_GRIP_CLAW
-A claw that prevents the holder\nfrom being forced to switch out.
+携带后，绑紧以及紧束等会持续造成\n伤害的招式的回合数会增加。
 
 #org @DESC_CHOICE_SCARF
-A scarf that boosts the holder's\nSpeed but only allows it to\nuse one move.
+有点讲究的围巾。虽然携带后速度会\n提高，但只能使出相同的招式。
 
 #org @DESC_CHOICE_SPECS
-A pair of glasses that boosts the\nholder's Special Attack but only\nallows it to use one move.
+有点讲究的眼镜。虽然携带后特攻会\n提高，但只能使出相同的招式。
 
 #org @DESC_STICKY_BARB
-A barb that damages any Pokémon\nthat switches in while the\nholder is holding it.
+携带后，每回合都会受到伤害。有时\n也会附着到碰到自己的对手身上。
 
 #org @DESC_SHED_SHELL
-A shell that allows the holder to\nescape from battles without being\nforced to switch out.
+结实坚硬的空壳。携带它的宝可梦必\n定可以和后备的宝可梦进行替换。
 
 #org @DESC_BIG_ROOT
-A root that increases the amount\nof HP recovered by moves\nthat restore HP.
+携带后，吸取HP的招式可以比平时\n更多地回复自己的HP。
 
 #org @DESC_EVIOLITE
-An item that boosts the Defense\nand Special Defense of Pokémon\nthat can still evolve.
+进化的神奇石块。携带后，还能进化\n的宝可梦的防御和特防就会提高。
 
 #org @DESC_FLOAT_STONE
-A stone that reduces the holder's\nweight, making it easier to avoid\nGround-type moves.
+非常轻的石头。携带后，宝可梦的体\n重会变轻。
 
 #org @DESC_ROCKY_HELMET
-A helmet that damages the\nattacker if the holder is hit\nby a physical move.
+让宝可梦携带后，在受到打击招式攻\n击时，能给予对手伤害。
 
 #org @DESC_AIR_BALLOON
-A balloon that prevents the holder\nfrom being affected by Ground-type\nmoves until it is popped.
+让宝可梦携带后，宝可梦会浮在空中。\n受到攻击就会破裂。
 
 #org @DESC_RED_CARD
-A card that forces the opponent\nto switch out if it hits\nthe holder.
+有着神奇力量的卡片。携带后，能让\n使用了招式的对手退场。
 
 #org @DESC_RING_TARGET
-A target that makes the holder\nvulnerable to moves that are\nnormally ineffective.
+原本因宝可梦的属性相克关系而无效\n的招式现在会变得能够击中自己。
 
 #org @DESC_BINDING_BAND
-A band that increases the\npower of moves that trap or\nbind the opponent.
+能增强绑紧招式的束带。携带后，绑\n紧招式的威力会变强。
 
 #org @DESC_ABSORB_BULB
-A bulb that boosts the holder's\nSpecial Attack when\nhit by a Water-type move.
+一次性使用的球根。携带它的宝可梦\n如果受到水属性招式的攻击，特攻就\n会提高。
 
 #org @DESC_CELL_BATTERY
-A battery that boosts the\nholder's Attack when hit by an\nElectric-type move.
+一次性使用的充电电池。携带它的宝\n可梦如果受到电属性招式的攻击，攻\n击就会提高。
 
 #org @DESC_EJECT_BUTTON
-A button that causes the holder to\nswitch out if hit by an attack.
+携带它的宝可梦如果受到招式攻击，\n就能逃脱战斗，并和同行的其他宝可\n梦进行替换。
 
 #org @DESC_WEAKNESS_POLICY
-A policy that boosts the holder's\nAttack and Special Attack when it\nis hit by a super-effective move.
+被针对弱点时，攻击和特攻就会大幅\n提高。
 
 #org @DESC_ASSAULT_VEST
-A vest that boosts the holder's\nSpecial Defense but prevents it\nfrom using status moves.
+会变得富有攻击性的背心。虽然携带\n后特防会提高，但会无法使出变化招\n式。
 
 #org @DESC_LUMINOUS_MOSS
-A moss that boosts the holder's\nSpecial Defense if hit by a\nWater-type move.
+一次性使用的光苔。携带它的宝可梦\n如果受到水属性招式攻击，\n特防就会提高。
 
 #org @DESC_SNOWBALL
-A snowball that boosts the\nholder's Attack if it is hailing.
+一次性使用的雪球。携带它的宝可梦\n如果受到冰属性招式的伤害，\n攻击就会提高。
 
 #org @DESC_SAFETY_GOGGLES
-Goggles that protect the holder\nfrom status conditions caused by\nPowder and Spore moves.
+不单是天气造成的伤害，就连粉末类\n招式的效果也能防御的护目镜。
 
 #org @DESC_ADRENALINE_ORB
-An orb that boosts the holder's\nSpeed if it is affected by a\nstatus condition.
+让宝可梦携带后，在受到威吓时速度\n会提高。
 
 #org @DESC_TERRAIN_EXTENDER
-An item that extends the\nduration of terrain effects when\nused in battle.
+当携带它的宝可梦利用招式或特性展\n开场地时，场地的持续时间会比平时\n更长。
 
 #org @DESC_PROTECTIVE_PADS
-Pads that prevent the holder from\nbeing damaged by moves that make\ncontact.
+不会受到触碰攻击对手时本应受到的\n效果。
 
 #org @DESC_ELECTRIC_SEED
-A seed that boosts the holder's\nDefense if Electric Terrain\nis active.
+让宝可梦携带后，在电气场地上使用，\n防御就会提高。
 
 #org @DESC_GRASSY_SEED
-A seed that boosts the holder's\nDefense if Grassy Terrain\nis active.
+让宝可梦携带后，在青草场地上使用，\n防御就会提高。
 
 #org @DESC_MISTY_SEED
-A seed that boosts the holder's\nDefense if Misty Terrain\nis active.
+让宝可梦携带后，在薄雾场地上使用，\n特防就会提高。
 
 #org @DESC_PSYCHIC_SEED
-A seed that boosts the holder's\nDefense if Psychic Terrain\nis active.
+让宝可梦携带后，在精神场地上使用，\n特防就会提高。
 
 #org @DESC_EJECT_PACK
-A pack that forces the\nholder to switch out when hit\nby an attack.
+当携带它的宝可梦能力下降时，同行\n宝可梦就会自动替换上场。
 
 #org @DESC_ROOM_SERVICE
-A service that slows down\nthe holder's Speed if Trick Room\nis active.
+让宝可梦携带后，在戏法空间使用时，\n速度会下降。
 
 #org @DESC_BLUNDER_POLICY
-A policy that boosts the holder's\nSpeed if it misses an attack.
+招式因命中率影响而落空时，速度会\n大幅提高。
 
 #org @DESC_HEAVY_DUTY_BOOTS
-Boots that prevent the holder from\nbeing affected by entry hazards.
+不受脚下陷阱等的影响。
 
 #org @DESC_UTILITY_UMBRELLA
-An umbrella that protects the\nholder from the effects\nof weather conditions.
+携带它的宝可梦将不受各种天气的影\n响。
 
 #org @DESC_THROAT_SPRAY
-A spray that boosts the holder's\nSpecial Attack if it uses\na sound-based move.
+使用声音相关的招式时，特攻会提高。
 
 #org @DESC_ABILITY_CAPSULE
-Pokémon with two Abilities to\nswitch between these Abilities\nwhen it is used.
+如果用于有着2种特性的宝可梦，\n就能令其现有特性变为另一种的胶囊。
 
 #org @DESC_AUSPICIOUS_ARMOR
-A peculiar set of armor that\ncan make a certain\nspecies of Pokémon evolve.
+能让某些特定宝可梦进化的\n神奇铠甲。蕴含着祝贺的感情。
 
 #org @DESC_MALICIOUS_ARMOR
-A peculiar set of armor that\ncan make a certain\nspecies of Pokémon evolve.
+能让某些特定宝可梦进化的\n神奇铠甲。蕴含着诅咒的感情。
 
 #org @DESC_BLACK_AUGURITE
-A glassy black stone that produces\na sharp cutting edge when split.\nIt[B4]s loved by a certain Pokémon.
+破碎后会变得十分锋利，\n性质类似玻璃的黑石。\n某种宝可梦很喜欢它。
 
 #org @DESC_METAL_ALLOY
-A peculiar metal that can make\ncertain species of Pokémon\nevolve. Composed of many layers.
+能让某些特定宝可梦进化的神奇\n金属。由多个层次叠加而成。
 
 #org @DESC_PEAT_BLOCK
-A block of muddy material that can\nbe used as fuel for burning.\nIt[B4]s loved by a certain Pokémon.
+质地像是泥土的煤炭块。\n干燥后也能当成燃料使用。\n某种宝可梦很喜欢它。
 
 #org @DESC_LEADERS_CREST
-A shard of what appears to be an\nold blade of some sort. Can make a\ncertain species of Pokémon evolve.
+像久经岁月的刃器一样的碎片。\n只有率领着驹刀小兵群体的\n劈斩司令能携带着。
 
 #org @DESC_GIMMIGHOUL_COIN
-Makes certain species of\nPokémon evolve. It seems\nlike a treasure.
+宝可梦不小心掉落的东西。\n索财灵珍爱有加地收集着它。
 
 #org @DESC_SYRUPY_APPLE
-A peculiar apple that can make\na certain species of Pokémon\nevolve. It's exceptionally syrupy.
+这种神奇的苹果可以使特定的\n宝可梦进化。富含蜜汁。
 
 #org @DESC_CLEAR_AMULET
-This clear, sparkling amulet\nprotects againts lowered stats by\nmoves or Abilities.
+光芒晶莹剔透的坠饰。\n携带后，不会因为对手的招式\n或特性而被降低能力。
 
 #org @DESC_COVERT_CLOAK
-Conceals the holder, tricking the\neyes of its enemies. Protecs\nagainst moves additional effects.
+能骗过敌人眼睛的带帽披风。\n携带后，能够隐藏身体，变得不会\n受到招式的追加效果影响。
 
 #org @DESC_LOADED_DICE
-This loaded dice always rolls a\ngood number, and holder[B4]s\nmultistrike moves hit more times.
+只会出现好数字的骰子。\n携带后，在使用连续招式时，\n能使出较多次招式。
 
 #org @DESC_PUNCHING_GLOVE
-This protective glove boosts power\nof punching moves and prevents\ndirect contact with targets.
+保护拳头的手套。\n携带后，拳击招式的威力会提高，\n且变得拳击时不会接触到对手。
 
 #org @DESC_REINS_OF_UNITY
-Enhance Calyrex[B4]s power over[FE]bountiful harvests and unite[FE]Calyrex with its beloved steed.
+拿到光下即可生辉的布。\n人们曾经将其进献给丰饶之王\n以表感谢之意。
 
 #org @DESC_BOOSTER_ENERGY
-The energy that fills this\ncapsule boosts the strength\nof the Pokémon.
+充满能量的胶囊。\n让有某种特性的宝可梦携带后，\n其能力会得到提升。
 
 #org @DESC_WELLSPRING_MASK
-This carved wooden mask is\nadorned with crystals. Changes\nOgerpon to Water-type form.
+用结晶装饰的木雕面具。\n让厄诡椪携带后，就会用水属性\n覆盖全身进行战斗。
 
 #org @DESC_HEARTHFLAME_MASK
-This carved wooden mask is\nadorned with crystals. Changes\nOgerpon to Fire-type form.
+用结晶装饰的木雕面具。\n让厄诡椪携带后，就会用火属性\n覆盖全身进行战斗。
 
 #org @DESC_CORNERSTONE_MASK
-This carved wooden mask is\nadorned with crystals. Changes\nOgerpon to Rock-type form.
+用结晶装饰的木雕面具。\n让厄诡椪携带后，就会用岩石属性\n覆盖全身进行战斗。
 
 #org @DESC_LONELY_MINT
-When a Pokémon smells this mint,\nits Attack will grow easily, but\nits Defense will grow slowly.
+宝可梦闻了这种薄荷之后，\n攻击会易于提高，\n而防御则难以提高。
 
 #org @DESC_ADAMANT_MINT
-When a Pokémon smells this mint,\nits Attack will grow easily, but\nits Sp.Attack will grow slowly.
+宝可梦闻了这种薄荷之后，\n攻击会易于提高，\n而特攻则难以提高。
 
 #org @DESC_NAUGHTY_MINT
-When a Pokémon smells this mint,\nits Attack will grow easily, but\nits Sp.Defense will grow slowly.
+宝可梦闻了这种薄荷之后，\n攻击会易于提高，\n而特防则难以提高。
 
 #org @DESC_BRAVE_MINT
-When a Pokémon smells this mint,\nits Attack will grow easily, but\nits Speed will grow slowly.
+宝可梦闻了这种薄荷之后，\n攻击会易于提高，\n而速度则难以提高。
 
 #org @DESC_BOLD_MINT
-When a Pokémon smells this mint,\nits Defense will grow easily, but\nits Attack will grow slowly.
+宝可梦闻了这种薄荷之后，\n防御会易于提高，\n而攻击则难以提高。
 
 #org @DESC_IMPISH_MINT
-When a Pokémon smells this mint,\nits Defense will grow easily, but\nits Sp.Attack will grow slowly.
+宝可梦闻了这种薄荷之后，\n防御会易于提高，\n而特攻则难以提高。
 
 #org @DESC_LAX_MINT
-When a Pokémon smells this mint,\nits Defense will grow easily, but\nits Sp.Defense will grow slowly.
+宝可梦闻了这种薄荷之后，\n防御会易于提高，\n而特防则难以提高。
 
 #org @DESC_RELAXED_MINT
-When a Pokémon smells this mint,\nits Defense will grow easily, but\nits Speed will grow slowly.
+宝可梦闻了这种薄荷之后，\n防御会易于提高，\n而速度则难以提高。
 
 #org @DESC_MODEST_MINT
-When a Pokémon smells this mint,\nits Sp.Attack will grow easily,\nbut its Attack will grow slowly.
+宝可梦闻了这种薄荷之后，\n特攻会易于提高，\n而攻击则难以提高。
 
 #org @DESC_MILD_MINT
-When a Pokémon smells this mint,\nits Sp.Attack will grow easily,\nbut its Defense will grow slowly.
+宝可梦闻了这种薄荷之后，\n特攻会易于提高，\n而防御则难以提高。
 
 #org @DESC_RASH_MINT
-When a Pokémon smells this mint,\nits Sp.Attack will grow easily,\nbut Sp.Defense will grow slowly.
+宝可梦闻了这种薄荷之后，\n特攻会易于提高，\n而特防则难以提高。
 
 #org @DESC_QUIET_MINT
-When a Pokémon smells this mint,\nits Sp.Attack will grow easily,\nbut its Speed will grow slowly.
+宝可梦闻了这种薄荷之后，\n特攻会易于提高，\n而速度则难以提高。
 
 #org @DESC_CALM_MINT
-When a Pokémon smells this mint,\nits Sp.Defense will grow easily,\nbut its Attack will grow slowly.
+宝可梦闻了这种薄荷之后，\n特防会易于提高，\n而攻击则难以提高。
 
 #org @DESC_GENTLE_MINT
-When a Pokémon smells this mint,\nits Sp.Defense will grow easily,\nbut its Defense will grow slowly.
+宝可梦闻了这种薄荷之后，\n特防会易于提高，\n而防御则难以提高。
 
 #org @DESC_CAREFUL_MINT
-When a Pokémon smells this mint,\nits Sp.Defense will grow easily,\nbut Sp.Attack will grow slowly.
+宝可梦闻了这种薄荷之后，\n特防会易于提高，\n而特攻则难以提高。
 
 #org @DESC_SASSY_MINT
-When a Pokémon smells this mint,\nits Sp.Defense will grow easily,\nbut its Speed will grow slowly.
+宝可梦闻了这种薄荷之后，\n特防会易于提高，\n而速度则难以提高。
 
 #org @DESC_TIMID_MINT
-When a Pokémon smells this mint,\nits Speed will grow easily, but\nits Attack will grow slowly.
+宝可梦闻了这种薄荷之后，\n速度会易于提高，\n而攻击则难以提高。
 
 #org @DESC_HASTY_MINT
-When a Pokémon smells this mint,\nits Speed will grow easily, but\nits Defense will grow slowly.
+宝可梦闻了这种薄荷之后，\n速度会易于提高，\n而防御则难以提高。
 
 #org @DESC_JOLLY_MINT
-When a Pokémon smells this mint,\nits Speed will grow easily, but\nits Sp.Attack will grow slowly.
+宝可梦闻了这种薄荷之后，\n速度会易于提高，\n而特攻则难以提高。
 
 #org @DESC_NAIVE_MINT
-When a Pokémon smells this mint,\nits Speed will grow easily, but\nits Sp.Defense will grow slowly.
+宝可梦闻了这种薄荷之后，\n速度会易于提高，\n而特防则难以提高。
 
 #org @DESC_SERIOUS_MINT
-When a Pokémon smells this mint, \nall of its stats will grow at an equal rate.
+宝可梦闻了这种薄荷之后，\n攻击、防御、速度、特防、特攻\n能全方位提高。
 
 #org @gItemDescription_PokeVial
-A special vial that fully restores \nall Pokémon in your party. One-time use \nuntil recharged.
+这是一次性使用的特殊药瓶，\n可以完全恢复你队伍中所有宝可梦的\n体力。需充能后才能再次使用。
 
 #org @DESC_EVIV_DISPLAYER
-Know the secrets of \nall your party pokemon!
+知晓你队伍中所有宝可梦的秘密！
 
 #org @DESC_TERA_ORB
-An orb that holds within it the\npower to crystallize. When charged \nwith energy, it can Terastallize mons.
+蕴藏着结晶之力的宝珠。\n经过蓄能之后，\n能够让宝可梦太晶化。
 
 #org @DESC_CATCHING_CHARM
-A charm that raises the chance \nof Critical Captures.
+带上这个神奇的可增强稳定性的\n护身符，就能更容易触发会心捕捉。
 
 #org @DESC_HISUI_ROCK
-An odd looking rock that makes \ncertain species to evolve in their\nHisuian forms.
+一块外观奇特的岩石，能让某些特定\n种类的宝可梦进化为洗翠形态。
 
 #org @DESC_MASTERPIECE_TEACUP
-A chipped teacup that makes \ncertain Pokémon evolve.
+这个神奇的茶碗可以使特定的\n宝可梦进化。虽然破缺了，\n但泡出来的茶会很香。
 
 #org @DESC_UNREMARKABLE_TEACUP
-A cracked teacup that makes \ncertain Pokémon evolve.
+这个神奇的茶碗可以使特定的\n宝可梦进化。虽然破裂了，\n但泡出来的茶会很香。
 
 #org @DESC_PORTABLE_PC
-A Portable PC containing useful\noperations related to Pokemon.
+一台便携式电脑，内含与宝可梦\n相关的实用操作功能。
+
+#org @DESC_RATICATEITE
+让宝可梦携带后，\n在战斗时就能进行超级进化\n的一种神奇超级石。

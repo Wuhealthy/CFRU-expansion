@@ -323,7 +323,7 @@ void BattleBeginFirstTurn(void)
 				break;
 
 			case BTSTART_ACTIVATE_OW_WEATHER:
-				if (!gBattleStruct->overworldWeatherDone && AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, 0, 0, 0xFF, 0))
+				if (!gBattleStruct->overworldWeatherDone && AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, 0, 0, 0xFFFF, 0))
 				{
 					gBattleStruct->overworldWeatherDone = TRUE;
 					return;
@@ -759,7 +759,6 @@ void BattleBeginFirstTurn(void)
 				{
 					gBattleMons[i].status2 &= ~8;
 					gNewBS->pickupStack[i] = 0xFF;
-					gNewBS->statRoseThisRound[i] = FALSE;
 					gNewBS->statFellThisTurn[i] = FALSE;
 					gNewBS->statFellThisRound[i] = FALSE;
 					UpdateQuickClawRandomNumber(i);
@@ -2174,6 +2173,33 @@ u8 GetWhoStrikesFirst(u8 bank1, u8 bank2, bool8 ignoreMovePriorities)
 		else if (bank1Priority < bank2Priority)
 			return SecondMon;
 
+		// ========== 蜘蛛感应：先制度相同时，双方都用攻击招式，持有者必定先出 ==========
+        if (ABILITY(bank1) == ABILITY_SPIDERSENSE
+            && SPLIT(move1) != SPLIT_STATUS
+            && HasOpponentUsingAttack(bank1))  // 检查是否有任何对手使用攻击招式
+        {
+            return FirstMon;
+        }
+        
+        if (ABILITY(bank2) == ABILITY_SPIDERSENSE
+            && SPLIT(move2) != SPLIT_STATUS
+            && HasOpponentUsingAttack(bank2))
+        {
+            return SecondMon;
+        }
+        // ========== 蜘蛛感应结束 ==========
+		if (ABILITY(bank1) == ABILITY_MYCELIUMMIGHT
+            && SPLIT(move1) == SPLIT_STATUS)
+        {
+            return SecondMon;
+        }
+        
+        if (ABILITY(bank2) == ABILITY_MYCELIUMMIGHT
+            && SPLIT(move2) == SPLIT_STATUS)
+        {
+            return FirstMon;
+        }
+
 		bank1Bracket = gNewBS->lastBracketCalc[bank1] = BracketCalc(bank1, gChosenActionByBank[bank1], move1);
 		bank2Bracket = gNewBS->lastBracketCalc[bank2] = BracketCalc(bank2, gChosenActionByBank[bank2], move2);
 	}
@@ -2217,6 +2243,10 @@ static u8 GetWhoStrikesFirstUseLastBracketCalc(u8 bank1, u8 bank2)
 	s8 bank1Bracket, bank2Bracket;
 	u32 bank1Spd, bank2Spd;
 
+	// 定义 move1 和 move2
+    u16 move1 = gBattleMons[bank1].moves[gBattleStruct->chosenMovePositions[bank1]];
+    u16 move2 = gBattleMons[bank2].moves[gBattleStruct->chosenMovePositions[bank2]];
+
 	//Priority Calc
 	bank1Priority = PriorityCalc(bank1, gChosenActionByBank[bank1], ReplaceWithZMoveRuntime(bank1, gBattleMons[bank1].moves[gBattleStruct->chosenMovePositions[bank1]]));
 	bank2Priority = PriorityCalc(bank2, gChosenActionByBank[bank2], ReplaceWithZMoveRuntime(bank2, gBattleMons[bank2].moves[gBattleStruct->chosenMovePositions[bank2]]));
@@ -2224,6 +2254,21 @@ static u8 GetWhoStrikesFirstUseLastBracketCalc(u8 bank1, u8 bank2)
 		return FirstMon;
 	else if (bank1Priority < bank2Priority)
 		return SecondMon;
+
+	// 蜘蛛感应
+    if (ABILITY(bank1) == ABILITY_SPIDERSENSE
+        && SPLIT(move1) != SPLIT_STATUS
+        && HasOpponentUsingAttack(bank1))  // 检查是否有任何对手使用攻击招式
+    {
+        return FirstMon;
+    }
+    
+    if (ABILITY(bank2) == ABILITY_SPIDERSENSE
+        && SPLIT(move2) != SPLIT_STATUS
+        && HasOpponentUsingAttack(bank2))
+    {
+        return SecondMon;
+    }
 
 	//BracketCalc
 	bank1Bracket = gNewBS->lastBracketCalc[bank1];
@@ -2250,6 +2295,26 @@ static u8 GetWhoStrikesFirstUseLastBracketCalc(u8 bank1, u8 bank2)
 		return SecondMon;
 
 	return SpeedTie;
+}
+
+bool8 HasOpponentUsingAttack(u8 bank)
+{
+    u8 i;
+    
+    // 遍历所有宝可梦
+    for (i = 0; i < gBattlersCount; i++)
+    {
+        // 跳过自己、已死亡、同一侧的宝可梦（只看对手）
+        if (i == bank || !BATTLER_ALIVE(i) || SIDE(i) == SIDE(bank))
+            continue;
+        
+        // 检查对方是否使用攻击招式
+        u8 move = gChosenMovesByBanks[i];
+        if (SPLIT(move) != SPLIT_STATUS)
+            return TRUE;  // 有任何对手用攻击招式就触发
+    }
+    
+    return FALSE;  // 没有对手用攻击招式
 }
 
 s8 PriorityCalc(u8 bank, u8 action, u16 move)
@@ -2281,26 +2346,25 @@ s8 PriorityCalc(u8 bank, u8 action, u16 move)
 						++priority;
 					break;
 
-				case ABILITY_GALEWINGS: ;
-					u16 species = GetProperAbilityPopUpSpecies(bank);
-					if (SpeciesHasGrassDash(species))
-					{
-						if (GetMoveTypeSpecial(bank, move) == TYPE_GRASS)
-							++priority;
-					}
-					else if (SpeciesHasSlipperyTail(species))
-					{
-						if (gSpecialMoveFlags[move].gTailMoves)
-							++priority;
-					}
-					else if (GetMoveTypeSpecial(bank, move) == TYPE_FLYING
-					#ifndef OLD_GALE_WINGS
-					&& BATTLER_MAX_HP(bank)
-					#endif
-					) //Gale Wings
-					{
+				// 殊死一搏：威力 1-60 的招式先制度+1
+        		case ABILITY_DESPERATESTRIKE:
+            		{
+                		u8 power = gBattleMoves[move].power;
+                		if (SPLIT(move) != SPLIT_STATUS && power > 0 && power <= 60)
+                    		++priority;
+            		}
+            		break;
+
+				case ABILITY_GRASSDASH:
+					if (GetMoveTypeSpecial(bank, move) == TYPE_FIRE
+					&& BATTLER_MAX_HP(bank))
 						++priority;
-					}
+            		break;
+
+				case ABILITY_GALEWINGS:
+					if (GetMoveTypeSpecial(bank, move) == TYPE_FLYING
+					&& BATTLER_MAX_HP(bank))
+						++priority;
 					break;
 
 				case ABILITY_TRIAGE:
@@ -2331,22 +2395,26 @@ s8 PriorityCalcMon(struct Pokemon* mon, u16 move)
 					++priority;
 				break;
 
+			// 殊死一搏：威力 1-60 的招式先制度+1
+            case ABILITY_DESPERATESTRIKE:
+                {
+                    u8 power = gBattleMoves[move].power;
+                    if (SPLIT(move) != SPLIT_STATUS && power > 0 && power <= 60)
+                        ++priority;
+                }
+                break;
+
+			case ABILITY_GRASSDASH:
+				if (GetMonMoveTypeSpecial(mon, move) == TYPE_FIRE
+				&& GetMonData(mon, MON_DATA_HP, NULL) == GetMonData(mon, MON_DATA_MAX_HP, NULL))
+				{
+					++priority;
+				}
+				break;
+
 			case ABILITY_GALEWINGS:
-				if (SpeciesHasGrassDash(mon->species))
-				{
-					if (GetMonMoveTypeSpecial(mon, move) == TYPE_GRASS)
-						++priority;
-				}
-				else if (SpeciesHasSlipperyTail(mon->species))
-				{
-					if (gSpecialMoveFlags[move].gTailMoves)
-						++priority;
-				}
-				else if (GetMonMoveTypeSpecial(mon, move) == TYPE_FLYING
-				#ifndef OLD_GALE_WINGS
-				&& GetMonData(mon, MON_DATA_HP, NULL) == GetMonData(mon, MON_DATA_MAX_HP, NULL)
-				#endif
-				)
+				if (GetMonMoveTypeSpecial(mon, move) == TYPE_FLYING
+				&& GetMonData(mon, MON_DATA_HP, NULL) == GetMonData(mon, MON_DATA_MAX_HP, NULL))
 				{
 					++priority;
 				}
@@ -2414,8 +2482,6 @@ s32 BracketCalc(u8 bank, u8 action, u16 move)
 		if (ability == ABILITY_STALL)
 			return -1;
 
-		if (SPLIT(gCurrentMove) == SPLIT_STATUS && ability == ABILITY_MYCELIUMMIGHT)
-			return -2;
 	}
 
 	return 0;
@@ -2441,13 +2507,13 @@ static u32 BoostSpeedInWeather(ability_t ability, u8 itemEffect, u32 speed, u8 b
 				if (gBattleWeather & WEATHER_HAIL_ANY)
 					speed *= 2;
 				break;
+			case ABILITY_PROTOSYNTHESIS:
+				if (IsParadoxBoostActive(bank)
+				&& GetParadoxBoostedStat(bank) == STAT_SPEED)
+					speed = (speed * 15) / 10;
+			break;
 		}
 	}
-
-	if (bank != 255
-	&& IsParadoxBoostActive(bank)
-	&& GetParadoxBoostedStat(bank) == STAT_SPEED)
-		speed = (speed * 15) / 10;
 
 	return speed;
 }
@@ -2509,6 +2575,11 @@ u32 SpeedCalc(u8 bank)
 		case ABILITY_SURGESURFER:
 			if (gTerrainType == ELECTRIC_TERRAIN)
 				speed *= 2;
+			break;
+		case ABILITY_QUARKDRIVE:
+			if (IsParadoxBoostActive(bank)
+			&& GetParadoxBoostedStat(bank) == STAT_SPEED)
+				speed = (speed * 15) / 10;
 			break;
 	}
 
@@ -2584,7 +2655,7 @@ u32 SpeedCalcMon(u8 side, struct Pokemon* mon) //Used for the AI
 	speed = (speed * gStatStageRatios[statVal][0]) / gStatStageRatios[statVal][1];
 
 	//Check for abilities that alter speed
-	speed = BoostSpeedInWeather(ability, itemEffect, speed, 255);
+	speed = BoostSpeedInWeather(ability, itemEffect, speed, bank);
 
 	if (ability == ABILITY_QUARKDRIVE
 	&& gTerrainType == ELECTRIC_TERRAIN

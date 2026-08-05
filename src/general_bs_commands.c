@@ -49,6 +49,8 @@ tables:
 
 */
 
+#define SCRIPT_OFFSET(ptr, offset) ((const u8*)((uintptr_t)(ptr) + (intptr_t)(offset)))
+
 #define TEXT_BUFFER_SIDE_STATUS(move, status, side)				\
 {																\
 	gSideStatuses[side] &= ~status;							\
@@ -146,6 +148,11 @@ void atk02_attackstring(void)
 	u8 moveType = gBattleStruct->dynamicMoveType;
 
 	if (gBattleExecBuffer) return;
+
+	if (gStatuses3[gBankAttacker] & STATUS3_CHARGED_UP && moveType == TYPE_ELECTRIC)
+		{
+    		gNewBS->ElectroCounter[gBankAttacker] = FALSE;
+		}
 
 	if (gBattlescriptCurrInstr == BattleScript_ButItFailedAttackstring)
 		gMoveResultFlags |= MOVE_RESULT_FAILED;
@@ -340,7 +347,7 @@ static bool8 TryActivateWeakenessBerry(u8 bank, u8 resultFlags)
 			gBattleScripting.bank = bank;
 			BattleScriptPushCursor();
 			gNewBS->canBelch[SIDE(bank)] |= gBitTable[gBattlerPartyIndexes[bank]];
-			gBattlescriptCurrInstr = BattleScript_WeaknessBerryActivate - 5;
+			gBattlescriptCurrInstr = SCRIPT_OFFSET(BattleScript_WeaknessBerryActivate, -5);
 			return TRUE;
 		}
 	}
@@ -863,7 +870,7 @@ void atk0C_datahpupdate(void)
 					gBattleScripting.bank = gActiveBattler;
 					gStatuses3[gActiveBattler] &= ~(STATUS3_ILLUSION);
 					BattleScriptPush(gBattlescriptCurrInstr + 2);
-					gBattlescriptCurrInstr = BattleScript_IllusionBrokenFaint - 2;
+					gBattlescriptCurrInstr = SCRIPT_OFFSET(BattleScript_IllusionBrokenFaint, -2);
 				}
 
 				gHitMarker &= ~(HITMARKER_IGNORE_SUBSTITUTE);
@@ -2531,7 +2538,7 @@ void atk7B_tryhealhalfhealth(void)
 		gBattlescriptCurrInstr = failPtr;
 	else
 	{
-		if (gCurrentMove == MOVE_LIFEDEW || gCurrentMove == MOVE_JUNGLEHEALING)
+		if (gCurrentMove == MOVE_LIFEDEW || gCurrentMove == MOVE_JUNGLEHEALING || gCurrentMove == MOVE_LUNARBLESSING)
 			gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankTarget) / 4); //25 %
 		else
 			gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankTarget) / 2); //50 %
@@ -3417,7 +3424,7 @@ void atk9B_transformdataexecution(void)
 	|| gStatuses3[gBankTarget] & (STATUS3_SEMI_INVULNERABLE | STATUS3_ILLUSION)
 	|| gSideStatuses[SIDE(gBankTarget)] & SIDE_STATUS_CRAFTY_SHIELD
 	#ifdef UNBOUND
-	|| SPECIES(gBankTarget) == SPECIES_SHADOW_WARRIOR
+	|| SPECIES(gBankTarget) == SPECIES_EEVEE_HERO
 	#endif
 	|| (IsDynamaxed(gBankAttacker) && IsBannedDynamaxSpecies(SPECIES(gBankTarget)))
 	|| HasRaidShields(gBankTarget)) //Shields can be used outside of a Raid Battle now
@@ -4686,7 +4693,12 @@ void atkC0_recoverbasedonsunlight(void)
 
 	if (!BATTLER_MAX_HP(gBankAttacker))
 	{
-		if (gBattleWeather == 0 || gBattleWeather & WEATHER_AIR_CURRENT_PRIMAL || !WEATHER_HAS_EFFECT)
+		if(ABILITY(gBankAttacker) == ABILITY_MEGASOL)
+		{
+			gBattleMoveDamage = (2 * GetBaseMaxHP(gBankAttacker)) / 3;
+		}
+		
+		else if (gBattleWeather == 0 || gBattleWeather & WEATHER_AIR_CURRENT_PRIMAL || !WEATHER_HAS_EFFECT)
 		{
 			NO_WEATHER_EFFECT:
 			gBattleMoveDamage = GetBaseMaxHP(gBankAttacker) / 2;
@@ -5013,15 +5025,38 @@ bool8 CanSwapItems(u8 bankAtk, u8 bankDef)
 void atkD1_trysethelpinghand(void)
 {
     gBankTarget = PARTNER(gBankAttacker);
+	bool8 isDragonCheer = (gCurrentMove == MOVE_DRAGONCHEER);
 
     if (IS_DOUBLE_BATTLE
 	&& !(gAbsentBattlerFlags & gBitTable[gBankTarget])
 	&& !gProtectStructs[gBankAttacker].helpingHand
 	&& !gProtectStructs[gBankTarget].helpingHand
-	&& !BankMovedBefore(gBankTarget, gBankAttacker))
+	&& (isDragonCheer || !BankMovedBefore(gBankTarget, gBankAttacker)))
     {
+        if (isDragonCheer)
+        {
+            // 检查是否已经有龙声鼓舞效果（不是聚气）
+            if (gNewBS->chiStrikeCritBoosts[gBankTarget] == 0)
+            {
+                // 判断提升等级：龙属性+2，非龙属性+1
+                if (IsOfType(gBankTarget, TYPE_DRAGON))
+                    gNewBS->chiStrikeCritBoosts[gBankTarget] = 2;
+                else
+                    gNewBS->chiStrikeCritBoosts[gBankTarget] = 1;
+                    
+                gBattleCommunication[0] = gNewBS->chiStrikeCritBoosts[gBankTarget];
+                gBattlescriptCurrInstr += 5;
+            }
+            else
+            {
+                gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
+            }
+        }
+        else
+        {
         gProtectStructs[gBankTarget].helpingHand = 1;
         gBattlescriptCurrInstr += 5;
+    	}
     }
     else
     {
@@ -5423,6 +5458,20 @@ void atkE7_trycastformdatachange(void)
 	u8 bank = gBattleScripting.bank;
 
 	gBattlescriptCurrInstr++;
+
+	if (ABILITY(bank) == ABILITY_PROTOSYNTHESIS
+	&& BATTLER_ALIVE(bank)
+	&& IsSunWeatherActive(bank))
+    {
+        if (!gNewBS->ProtosynthesisActivated[bank])
+        {
+            gNewBS->ProtosynthesisActivated[bank] = TRUE;
+            gBankAttacker = bank;
+            gActiveBattler = bank;
+            PREPARE_STAT_BUFFER(gBattleTextBuff1, GetHighestStat(bank));
+            BattleScriptPushCursorAndCallback(BattleScript_ProtosynthesisActivates);
+        }
+    }
 
 	if (BATTLER_ALIVE(bank))
 	{

@@ -185,6 +185,33 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 						}
 						break;
 
+					case ABILITY_VENOMFORTE:
+						if (ABILITY(gBankTarget) != ABILITY_SHIELDDUST
+						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK
+						&& CanBePoisoned(gBankTarget, gBankAttacker, TRUE))
+						{
+        					BattleScriptPushCursor();
+        					gBattlescriptCurrInstr = BattleScript_PoisonTouch;
+        					effect = TRUE;
+						}
+						break;
+						
+					case ABILITY_TOXICCHAIN:
+					{
+						u8 chance = BankHasRainbow(gBankAttacker) ? 60 : 30;
+
+						if (ABILITY(gBankTarget) != ABILITY_SHIELDDUST
+						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK
+						&& CanBePoisoned(gBankTarget, gBankAttacker, TRUE)
+						&& umodsi(Random(), 100) < chance)
+						{
+							BattleScriptPushCursor();
+							gBattlescriptCurrInstr = BattleScript_ToxicChain;
+							effect = TRUE;
+						}
+						break;
+					}
+
 					case ABILITY_POISONTOUCH:
 					{
 						u8 chance = BankHasRainbow(gBankAttacker) ? 60 : 30;
@@ -201,16 +228,6 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 						}
 						break;
 					}
-
-					case ABILITY_TOXICCHAIN:
-						if (CanBePoisoned(gBankTarget, gBankAttacker, TRUE)
-						&& umodsi(Random(), 100) < 30)
-						{
-							BattleScriptPushCursor();
-							gBattlescriptCurrInstr = BattleScript_ToxicChain;
-							effect = TRUE;
-						}
-						break;
 				}
 			}
 			gBattleScripting.atk49_state++;
@@ -930,7 +947,8 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 					break;
 				#endif
 
-				case ABILITY_BEASTBOOST: ;
+				case ABILITY_EELEVATE:
+				case ABILITY_BEASTBOOST:
 					if ((arg1 != ARG_IN_FUTURE_ATTACK || gWishFutureKnock.futureSightPartyIndex[bankDef] == gBattlerPartyIndexes[gBankAttacker])
 					&& gBattleMons[bankDef].hp == 0
 					&& BATTLER_ALIVE(gBankAttacker)
@@ -1355,6 +1373,20 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 			u8 itemEffect = ITEM_EFFECT(gBankAttacker);
 
 			if (arg1 != ARG_IN_FUTURE_ATTACK
+    		&& arg1 != ARG_PARTING_SHOT
+    		&& !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
+    		&& ABILITY(gBankAttacker) == ABILITY_AQUAREGEN
+    		&& BATTLER_ALIVE(gBankAttacker)
+    		&& !BATTLER_MAX_HP(gBankAttacker)
+    		&& gNewBS->AttackerDidDamageAtLeastOnce)
+    		{
+        		gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankAttacker) / 16);
+        		gBattleMoveDamage *= -1;
+        		BattleScriptPushCursor();
+        		gBattlescriptCurrInstr = BattleScript_RainDishActivatesSS;
+        		effect = TRUE;
+    		}
+			if (arg1 != ARG_IN_FUTURE_ATTACK
 			&& arg1 != ARG_PARTING_SHOT
 			&& !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
 			&& (itemEffect == ITEM_EFFECT_LIFE_ORB
@@ -1461,7 +1493,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 				if (i == gBattlersCount) //No targets were affected
 					gNewBS->StompingTantrumTimers[gBankAttacker] = 2;
 			}
-			else if (gMoveResultFlags & (MOVE_RESULT_DOESNT_AFFECT_FOE | MOVE_RESULT_FAILED))
+			else if (gMoveResultFlags & (MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE | MOVE_RESULT_FAILED))
 				gNewBS->StompingTantrumTimers[gBankAttacker] = 2;
 
 			for (int i = 0; i < MAX_BATTLERS_COUNT; ++i)
@@ -1539,8 +1571,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 			&& ABILITY_ON_FIELD(ABILITY_OPPORTUNIST)
 			&& gNewBS->attackAnimationPlayed
 			&& !gNewBS->moveWasBouncedThisTurn
-			&& gSpecialMoveFlags[gCurrentMove].gBuffMoves
-			&& ABILITY(bank) == ABILITY_OPPORTUNIST)
+			&& gSpecialMoveFlags[gCurrentMove].gBuffMoves)
 			{
 				gNewBS->DancerInProgress = TRUE;
 				gNewBS->CurrentTurnAttacker = gBankAttacker;
@@ -1558,8 +1589,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 			&& ABILITY_ON_FIELD(ABILITY_DANCER)
 			&& gNewBS->attackAnimationPlayed
 			&& !gNewBS->moveWasBouncedThisTurn
-			&& gSpecialMoveFlags[gCurrentMove].gDanceMoves
-			&& ABILITY(bank) == ABILITY_DANCER)
+			&& gSpecialMoveFlags[gCurrentMove].gDanceMoves)
 			{
 				gNewBS->DancerInProgress = TRUE;
 				gNewBS->CurrentTurnAttacker = gBankAttacker;

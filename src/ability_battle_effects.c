@@ -22,6 +22,7 @@
 #include "../include/new/form_change.h"
 #include "../include/new/move_battle_scripts.h"
 #include "../include/new/move_tables.h"
+#include "../include/new/species_tables.h"
 #include "../include/new/text.h"
 #include "../include/new/util.h"
 #include "../include/new/terastallization.h"
@@ -37,8 +38,12 @@ tables to edit:
 	gFlashFireStringIds
 */
 
+#define SCRIPT_OFFSET(ptr, offset) ((const u8*)((uintptr_t)(ptr) + (intptr_t)(offset)))
+
 extern u8 gStatusConditionString_MentalState[];
 extern u8 gStatusConditionString_TauntProblem[];
+extern const u8 BattleScript_PsyGravityActivates[];
+extern const u8 BattleScript_TelekinesisEnd[];
 
 const s8 gAbilityRatings[ABILITIES_COUNT] =
 {
@@ -118,7 +123,6 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	#endif
 	[ABILITY_FURCOAT] = 7,
 	[ABILITY_GALEWINGS] = 6,
-	[ABILITY_GALVANIZE] = 8,
 	[ABILITY_GLUTTONY] = 3,
 	[ABILITY_GOOEY] = 5,
 	[ABILITY_GRASSPELT] = 2,
@@ -193,12 +197,11 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_PARENTALBOND] = 10,
 	[ABILITY_PICKUP] = 1,
 	[ABILITY_PICKPOCKET] = 3,
-	[ABILITY_PIXILATE] = 8,
 	[ABILITY_PLUS] = 0,
 	[ABILITY_POISONHEAL] = 8,
 	[ABILITY_POISONPOINT] = 4,
 	[ABILITY_POISONTOUCH] = 4,
-	[ABILITY_313] = 8,
+	[ABILITY_EELEVATE] = 8,
 	[ABILITY_POWERCONSTRUCT] = 10,
 	#ifdef ABILITY_POWEROFALCHEMY
 	[ABILITY_POWEROFALCHEMY] = 0,
@@ -220,7 +223,6 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_RATTLED] = 3,
 	[ABILITY_RECEIVER] = 0,
 	[ABILITY_RECKLESS] = 6,
-	[ABILITY_REFRIGERATE] = 8,
 	[ABILITY_REGENERATOR] = 8,
 	[ABILITY_RIVALRY] = 1,
 	[ABILITY_RKSSYSTEM] = 8,
@@ -322,7 +324,7 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_WONDERSKIN] = 4,
 	[ABILITY_ZENMODE] = -1,
 	[ABILITY_INTREPIDSWORD] = 3,
-	[ABILITY_DAUNTLESSSHIELD] = 3,
+	[ABILITY_UNICORNPEGASUS] = 3,
 	[ABILITY_BALLFETCH] = 0,
 	[ABILITY_COTTONDOWN] = 3,
 	[ABILITY_MIRRORARMOR] = 6,
@@ -385,6 +387,8 @@ static u8 ActivateWeatherAbility(u16 flags, u16 item, u8 bank, u8 animArg, u8 st
 static u8 TryActivateTerrainAbility(u8 terrain, u8 anim, u8 bank);
 static bool8 ImmunityAbilityCheck(u8 bank, u32 status, const u8* string);
 static bool8 CanBeAffectedByIntimidate(u8 bank);
+static bool8 CanBeAffectedByPsyGravity(u8 bank);
+
 static bool8 AllMainStatsButOneAreMinned(u8 bank);
 // For Terastallization
 extern bool8 IsTerastallized(u8 bank);
@@ -713,8 +717,17 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 		case ABILITY_ORICHALCUMPULSE:
 			if (!(gBattleWeather & (WEATHER_SUN_ANY | WEATHER_PRIMAL_ANY | WEATHER_CIRCUS)))
 			{
-				effect = ActivateWeatherAbility(WEATHER_SUN_PERMANENT | WEATHER_SUN_TEMPORARY,
+				if (ABILITY(bank) == ABILITY_ORICHALCUMPULSE)
+        		{
+            		gBattleStringLoader = OrichalcumPulseSetString;
+            		effect = ActivateWeatherAbility(WEATHER_SUN_PERMANENT | WEATHER_SUN_TEMPORARY,
+                                            	ITEM_EFFECT_HEAT_ROCK, bank, B_ANIM_SUN_CONTINUES, 4, FALSE);
+        		}
+        		else
+				{
+					effect = ActivateWeatherAbility(WEATHER_SUN_PERMANENT | WEATHER_SUN_TEMPORARY,
 												ITEM_EFFECT_HEAT_ROCK, bank, B_ANIM_SUN_CONTINUES, 2, FALSE);
+				}
 			}
 			else if (gBattleWeather & WEATHER_PRIMAL_ANY && !(gBattleWeather & WEATHER_SUN_ANY))
 			{
@@ -722,6 +735,38 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				effect++;
 			}
 			break;
+
+		case ABILITY_BEADSOFRUIN:
+    		{
+        		gBattleStringLoader = gText_BeadsofRuin;
+        		BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+        		effect++;
+    		}
+			break;
+
+    	case ABILITY_TABLETSOFRUIN:
+			{
+    			gBattleStringLoader = gText_TabletsofRuin;
+    			BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+    			effect++;
+			}
+    		break;
+
+		case ABILITY_SWORDOFRUIN:
+			{
+    			gBattleStringLoader = gText_SwordofRuin;
+    			BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+    			effect++;
+			}
+    		break;
+
+		case ABILITY_VESSELOFRUIN:
+			{
+    			gBattleStringLoader = gText_VesselofRuin;
+    			BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+    			effect++;
+			}
+    		break;
 
 		case ABILITY_SNOWWARNING:
 			if (!(gBattleWeather & (WEATHER_HAIL_ANY | WEATHER_PRIMAL_ANY | WEATHER_CIRCUS)))
@@ -779,16 +824,66 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 
 			break;
 
-		case ABILITY_INTIMIDATE:
-		case ABILITY_SUPERSWEETSYRUP:
-			if (ABILITY(bank) == ABILITY_SUPERSWEETSYRUP
-			&& gNewBS->superSweetSyrupActivated[SIDE(bank)] & gBitTable[gBattlerPartyIndexes[bank]])
-				break;
-
-			if (CanBeAffectedByIntimidate(FOE(bank)) || (IS_DOUBLE_BATTLE && CanBeAffectedByIntimidate(PARTNER(FOE(bank)))))
+		case ABILITY_PSYGRAVITY:
 			{
-				if (ABILITY(bank) == ABILITY_SUPERSWEETSYRUP)
-					gNewBS->superSweetSyrupActivated[SIDE(bank)] |= gBitTable[gBattlerPartyIndexes[bank]];
+        		if (CanBeAffectedByPsyGravity(FOE(bank)) || (IS_DOUBLE_BATTLE && CanBeAffectedByPsyGravity(PARTNER(FOE(bank)))))
+            	{
+            		gBattleStruct->intimidateBank = bank;
+            		gNewBS->intimidateActive = bank + 1;
+            		BattleScriptPushCursorAndCallback(BattleScript_PsyGravityActivates);
+            		effect++;
+        		}
+    		}
+			break;
+
+		case ABILITY_TERAFORMZERO:
+		{
+			u8 side = SIDE(bank);
+    		u8 partyId = gBattlerPartyIndexes[bank];
+				
+			if (!gNewBS->oncePerBattleAbilityFlags[side][partyId])
+			{
+				if (gBattleWeather & WEATHER_ANY)
+				{
+					gBattleWeather = 0;
+					gWishFutureKnock.weatherDuration = 0;
+				}
+				if (gTerrainType != NO_TERRAIN)
+				{
+					gTerrainType = NO_TERRAIN;
+					gNewBS->TerrainTimer = 0;
+				}
+					
+				gNewBS->oncePerBattleAbilityFlags[side][partyId] = TRUE;
+				gBattleStringLoader = gText_TerrainEnds;
+				BattleScriptPushCursorAndCallback(BattleScript_TeraformZeroClear);
+				effect++;
+			}
+			break;
+		}
+
+		case ABILITY_SUPERSWEETSYRUP:
+		{
+			u8 side = SIDE(bank);
+    		u8 partyId = gBattlerPartyIndexes[bank];
+
+			if (!gNewBS->oncePerBattleAbilityFlags[side][partyId])
+			{
+				if (CanBeAffectedByIntimidate(FOE(bank)) || (IS_DOUBLE_BATTLE && CanBeAffectedByIntimidate(PARTNER(FOE(bank)))))
+        		{
+            		gNewBS->oncePerBattleAbilityFlags[side][partyId] = TRUE;
+					gBattleStruct->intimidateBank = bank;
+            		gNewBS->intimidateActive = bank + 1;
+					BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivatesEnd3);
+            		effect++;
+        		}
+			}
+			break;
+		}
+
+		case ABILITY_INTIMIDATE:
+    		if (CanBeAffectedByIntimidate(FOE(bank)) || (IS_DOUBLE_BATTLE && CanBeAffectedByIntimidate(PARTNER(FOE(bank)))))
+			{
 				BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivatesEnd3);
 				gBattleStruct->intimidateBank = bank;
 				gNewBS->intimidateActive = bank + 1;
@@ -863,6 +958,9 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			break;
 
 		case ABILITY_CLOUDNINE:
+		case ABILITY_ICEDEITY:
+		case ABILITY_THUNDERDEITY:
+		case ABILITY_FIREDEITY:
 		case ABILITY_AIRLOCK:
 			gBattleStringLoader = gText_AirLockActivate;
 			BattleScriptPushCursorAndCallback(BattleScript_AirLock);
@@ -876,15 +974,19 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			break;
 
 		case ABILITY_MOLDBREAKER:
-		case ABILITY_TERAVOLT:
-		case ABILITY_TURBOBLAZE:
-			if (gLastUsedAbility == ABILITY_TURBOBLAZE)
-				gBattleStringLoader = gText_TurboblazeActivate;
-			else if (gLastUsedAbility == ABILITY_TERAVOLT)
-				gBattleStringLoader = gText_TeravoltActivate;
-			else
-				gBattleStringLoader = gText_MoldBreakerActivate;
+			gBattleStringLoader = gText_MoldBreakerActivate;
+			BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+			effect++;
+			break;
 
+		case ABILITY_TURBOBLAZE:
+			gBattleStringLoader = gText_TurboblazeActivate;
+			BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+			effect++;
+			break;
+
+		case ABILITY_TERAVOLT:
+			gBattleStringLoader = gText_TeravoltActivate;
 			BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
 			effect++;
 			break;
@@ -1093,6 +1195,10 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			}
 			break;
 
+		case ABILITY_PURIFYINGSALT:
+			effect = ImmunityAbilityCheck(bank, STATUS1_ANY, gStatusConditionString_PurifySalt);
+			break;
+
 		case ABILITY_IMMUNITY:
 			effect = ImmunityAbilityCheck(bank, STATUS1_PSN_ANY, gStatusConditionString_Poison);
 			break;
@@ -1118,11 +1224,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			break;
 
 		case ABILITY_WATERVEIL:
-		case ABILITY_WATERBUBBLE:
-			effect = ImmunityAbilityCheck(bank, STATUS1_BURN, gStatusConditionString_Burn);
-			break;
-
 		case ABILITY_THERMALEXCHANGE:
+		case ABILITY_WATERBUBBLE:
 			effect = ImmunityAbilityCheck(bank, STATUS1_BURN, gStatusConditionString_Burn);
 			break;
 
@@ -1130,48 +1233,61 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			effect = ImmunityAbilityCheck(bank, STATUS1_FREEZE, gStatusConditionString_Ice);
 			break;
 
-		case ABILITY_DOWNLOAD: ;
-			u8 statId;
-			u32 opposingBank = BATTLE_OPPOSITE(bank);
-			u8 defMod = !IsWonderRoomActive() ? STAT_DEF : STAT_SPDEF; //Bug with the official GF code that considers stat stages instead of raw stats under Wonder Room
-			u8 spDefMod = !IsWonderRoomActive() ? STAT_SPDEF : STAT_DEF;
+		case ABILITY_QUICKCHARGE:
+			if (!(gStatuses3[bank] & STATUS3_CHARGED_UP))
+        		{
+            		gStatuses3[bank] |= STATUS3_CHARGED_UP;
+            		gNewBS->ElectroCounter[bank] = TRUE;
+            		BattleScriptPushCursorAndCallback(BattleScript_ElectromorphosisActivatess);
+            		effect++;
+        		}
+    		break;
 
-			u32 opposingDef = gBattleMons[opposingBank].defense;
-			APPLY_STAT_MOD(opposingDef, &gBattleMons[opposingBank], opposingDef, defMod);
-			u32 opposingSpDef = gBattleMons[opposingBank].spDefense;
-			APPLY_STAT_MOD(opposingSpDef, &gBattleMons[opposingBank], opposingSpDef, spDefMod);
-
-			if (IS_DOUBLE_BATTLE)
+		case ABILITY_DOWNLOAD:
 			{
-				u32 opposingPartnerDef = 0;
-				u32 opposingPartnerSpDef = 0;
-				opposingBank = PARTNER(opposingBank);
-				if (gBattleMons[opposingBank].hp)
+				u8 statId;
+				u32 opposingBank = BATTLE_OPPOSITE(bank);
+				u8 defMod = !IsWonderRoomActive() ? STAT_DEF : STAT_SPDEF; //Bug with the official GF code that considers stat stages instead of raw stats under Wonder Room
+				u8 spDefMod = !IsWonderRoomActive() ? STAT_SPDEF : STAT_DEF;
+
+				u32 opposingDef = gBattleMons[opposingBank].defense;
+				APPLY_STAT_MOD(opposingDef, &gBattleMons[opposingBank], opposingDef, defMod);
+				u32 opposingSpDef = gBattleMons[opposingBank].spDefense;
+				APPLY_STAT_MOD(opposingSpDef, &gBattleMons[opposingBank], opposingSpDef, spDefMod);
+
+				if (IS_DOUBLE_BATTLE)
 				{
-					u32 opposingPartnerDef = gBattleMons[opposingBank].defense;
-					APPLY_STAT_MOD(opposingPartnerDef, &gBattleMons[opposingBank], opposingPartnerDef, defMod);
-					u32 opposingPartnerSpDef = gBattleMons[opposingBank].spDefense;
-					APPLY_STAT_MOD(opposingPartnerSpDef, &gBattleMons[opposingBank], opposingPartnerSpDef, spDefMod);
+					u32 opposingPartnerDef = 0;
+					u32 opposingPartnerSpDef = 0;
+					opposingBank = PARTNER(opposingBank);
+					if (gBattleMons[opposingBank].hp)
+					{
+						u32 opposingPartnerDef = gBattleMons[opposingBank].defense;
+						APPLY_STAT_MOD(opposingPartnerDef, &gBattleMons[opposingBank], opposingPartnerDef, defMod);
+						u32 opposingPartnerSpDef = gBattleMons[opposingBank].spDefense;
+						APPLY_STAT_MOD(opposingPartnerSpDef, &gBattleMons[opposingBank], opposingPartnerSpDef, spDefMod);
+					}
+
+					opposingDef += opposingPartnerDef;
+					opposingSpDef += opposingPartnerSpDef;
 				}
 
-				opposingDef += opposingPartnerDef;
-				opposingSpDef += opposingPartnerSpDef;
-			}
+				if (opposingDef < opposingSpDef)
+					statId = STAT_ATK;
+				else
+					statId = STAT_SPATK;
 
-			if (opposingDef < opposingSpDef)
-				statId = STAT_ATK;
-			else
-				statId = STAT_SPATK;
-
-			if (STAT_STAGE(bank, statId) < STAT_STAGE_MAX)
-			{
-				gBankAttacker = bank;
-				STAT_STAGE(bank, statId)++;
-				gBattleScripting.statChanger = statId | INCREASE_1;
-				PREPARE_STAT_BUFFER(gBattleTextBuff1, statId);
-				PREPARE_STAT_ROSE(gBattleTextBuff2);
-				BattleScriptPushCursorAndCallback(BattleScript_AttackerAbilityStatRaiseEnd3);
-				effect++;
+				if (STAT_STAGE(bank, statId) < STAT_STAGE_MAX)
+				{
+					gBankAttacker = bank;
+					STAT_STAGE(bank, statId)++;
+					gNewBS->statRoseThisRound[bank] = TRUE;
+					gBattleScripting.statChanger = statId | INCREASE_1;
+					PREPARE_STAT_BUFFER(gBattleTextBuff1, statId);
+					PREPARE_STAT_ROSE(gBattleTextBuff2);
+					BattleScriptPushCursorAndCallback(BattleScript_AttackerAbilityStatRaiseEnd3);
+					effect++;
+				}
 			}
 			break;
 
@@ -1271,25 +1387,29 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			#endif
 			break;
 
-		case ABILITY_TORRENT:
 		case ABILITY_ZEROTOHERO:
-			if (ABILITY(bank) == ABILITY_ZEROTOHERO)
-				{
-					gBattleStringLoader = gText_ZerotoHeroActivate;
-					BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
-					effect++;
-				}
+		case ABILITY_EEVEEHERO:
+			u8 side = SIDE(bank);
+        	u8 partyId = gBattlerPartyIndexes[bank];
+
+			if ((gBattleMons[bank].species == SPECIES_PALAFIN_HERO
+				|| gBattleMons[bank].species == SPECIES_EEVEE_HERO)
+				&&!gNewBS->oncePerBattleAbilityFlags[side][partyId])
+			{
+				gBattleStringLoader = gText_ZerotoHeroActivate;
+				BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+				gNewBS->oncePerBattleAbilityFlags[side][partyId] = TRUE;
+				effect++;
+			}
 			break;
 
-		case ABILITY_HUGEPOWER:
 		case ABILITY_SUPREMEOVERLORD:
-		case ABILITY_PUREPOWER:
-			if (ABILITY(bank) == ABILITY_SUPREMEOVERLORD && IsFaintedPokemonInParty())
-				{
-					gBattleStringLoader = gText_SupremeOverlordActivate;
-					BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
-					effect++;
-				}
+			if (IsFaintedPokemonInParty(bank))
+			{
+				gBattleStringLoader = gText_SupremeOverlordActivate;
+				BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+				effect++;
+			}
 			break;
 
 		case ABILITY_ICEFACE:
@@ -1308,7 +1428,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			#if (defined SPECIES_TERAPAGOS && defined SPECIES_TERAPAGOS_TERASTAL)
 			if (!IS_TRANSFORMED(bank) && SPECIES(bank) == SPECIES_TERAPAGOS)
 			{
-				DoFormChange(bank, SPECIES_TERAPAGOS_TERASTAL, TRUE, TRUE, TRUE);
+				DoFormChange(bank, SPECIES_TERAPAGOS_TERASTAL, FALSE, FALSE, FALSE);
 				BattleScriptPushCursorAndCallback(BattleScript_TransformedEnd3);
 				++effect;
 			}
@@ -1321,9 +1441,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			break;
 
 		case ABILITY_GRASSYSURGE:
-		case ABILITY_SEEDSOWER:
-			if (ABILITY(bank) == ABILITY_GRASSYSURGE)
-				effect = TryActivateTerrainAbility(GRASSY_TERRAIN, B_ANIM_GRASSY_SURGE, bank);
+			effect = TryActivateTerrainAbility(GRASSY_TERRAIN, B_ANIM_GRASSY_SURGE, bank);
 			break;
 
 		case ABILITY_MISTYSURGE:
@@ -1334,30 +1452,35 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			effect = TryActivateTerrainAbility(PSYCHIC_TERRAIN, B_ANIM_PSYCHIC_SURGE, bank);
 			break;
 
+		case ABILITY_EMBODYASPECTTEALMASK:
+		case ABILITY_EMBODYASPECTHEARTHFLAMEMASK:
+		case ABILITY_EMBODYASPECTWELLSPRINGMASK:
+		case ABILITY_EMBODYASPECTCORNERSTONEMASK:
 		case ABILITY_INTREPIDSWORD:
-			if (STAT_STAGE(bank, STAT_STAGE_ATK) < STAT_STAGE_MAX)
-			{
-				gBankAttacker = bank;
-				STAT_STAGE(bank, STAT_STAGE_ATK)++;
-				gBattleScripting.statChanger = STAT_STAGE_ATK | INCREASE_1;
-				PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_STAGE_ATK);
-				PREPARE_STAT_ROSE(gBattleTextBuff2);
-				BattleScriptPushCursorAndCallback(BattleScript_AttackerAbilityStatRaiseEnd3);
-				effect++;
-			}
-			break;
-
 		case ABILITY_DAUNTLESSSHIELD:
-			if (STAT_STAGE(bank, STAT_STAGE_DEF) < STAT_STAGE_MAX)
-			{
-				gBankAttacker = bank;
-				STAT_STAGE(bank, STAT_STAGE_DEF)++;
-				gBattleScripting.statChanger = STAT_STAGE_DEF | INCREASE_1;
-				PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_STAGE_DEF);
-				PREPARE_STAT_ROSE(gBattleTextBuff2);
-				BattleScriptPushCursorAndCallback(BattleScript_AttackerAbilityStatRaiseEnd3);
-				effect++;
-			}
+		{
+			u8 statToRaise = STAT_STAGE_ATK;
+        
+        	if (ABILITY(bank) == ABILITY_EMBODYASPECTTEALMASK)               //  → 速度
+            	statToRaise = STAT_STAGE_SPEED;
+        	else if (ABILITY(bank) == ABILITY_EMBODYASPECTWELLSPRINGMASK)    //  → 特防
+            	statToRaise = STAT_STAGE_SPDEF;
+        	else if (ABILITY(bank) == ABILITY_EMBODYASPECTCORNERSTONEMASK
+				|| ABILITY(bank) == ABILITY_DAUNTLESSSHIELD)   				 //  → 防御
+            	statToRaise = STAT_STAGE_DEF;
+
+			if (STAT_STAGE(bank, statToRaise) < STAT_STAGE_MAX)
+        	{
+            	gBankAttacker = bank;
+            	STAT_STAGE(bank, statToRaise)++;
+            	gBattleScripting.statChanger = statToRaise | INCREASE_1;
+            	PREPARE_STAT_BUFFER(gBattleTextBuff1, statToRaise);
+            	PREPARE_STAT_ROSE(gBattleTextBuff2);
+            	gNewBS->statRoseThisRound[bank] = TRUE;
+            	BattleScriptPushCursorAndCallback(BattleScript_AttackerAbilityStatRaiseEnd3);
+            	effect++;
+        	}
+    	}
 			break;
 
 		case ABILITY_SCREENCLEANER:
@@ -1381,7 +1504,9 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 		
 		case ABILITY_QUARKDRIVE:
 		case ABILITY_PROTOSYNTHESIS:
-			if (IsSunWeatherActive(bank) && (ABILITY(bank) == ABILITY_PROTOSYNTHESIS))
+			if (IsSunWeatherActive(bank)
+			&& !gNewBS->ProtosynthesisActivated[bank]
+			&& ABILITY(bank) == ABILITY_PROTOSYNTHESIS)
 			{
 				gNewBS->ProtosynthesisActivated[bank] = TRUE;
 				gBankAttacker = bank;
@@ -1390,9 +1515,9 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				BattleScriptPushCursorAndCallback(BattleScript_ProtosynthesisActivates); 
 				effect++;
 			}
-			else if (ABILITY(bank) == ABILITY_QUARKDRIVE
-			&& gTerrainType == ELECTRIC_TERRAIN
-			&& IsAffectedByElectricTerrain(bank))
+			else if(gTerrainType == ELECTRIC_TERRAIN
+			&& !gNewBS->quarkDriveActivated[bank]
+			&& ABILITY(bank) == ABILITY_QUARKDRIVE)
 			{
 				gNewBS->quarkDriveActivated[bank] = TRUE;
 				gBankAttacker = bank;
@@ -1431,44 +1556,63 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			effect++;
 			break;
 
-		case ABILITY_CURIOUSMEDICINE:
-		case ABILITY_COSTAR:
 		case ABILITY_HOSPITALITY:
 			if (IS_DOUBLE_BATTLE)
 			{
 				u8 partner = PARTNER(bank);
-				if (BATTLER_ALIVE(partner) && ABILITY(bank) == ABILITY_CURIOUSMEDICINE)
-				{
-					for (i = 0; i < BATTLE_STATS_NO - 1; ++i)
-						gBattleMons[partner].statStages[i] = 6;
-
-					gBankTarget = partner;
-					gBattleStringLoader = gText_CuriousMedicineActivate;
-					BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
-					effect++;
-				}
-				else if (BATTLER_ALIVE(partner) && ABILITY(bank) == ABILITY_COSTAR)
-				{
-					for (i = 0; i < BATTLE_STATS_NO - 1; i++)
-						gBattleMons[bank].statStages[i] = gBattleMons[partner].statStages[i];
-					
-					gBankTarget = partner;
-					gBattleStringLoader = gText_CostarActivate;
-					BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
-					effect++;
-				}
-				else if (BATTLER_ALIVE(partner)
-				&& ABILITY(bank) == ABILITY_HOSPITALITY
-				&& !BATTLER_MAX_HP(partner))
-				{
-					gBankTarget = partner;
-					gBattleScripting.bank = bank;
-					gBattleMoveDamage = -MathMax(1, GetBaseMaxHP(partner) / 4);
-					BattleScriptPushCursorAndCallback(BattleScript_HospitalityActivates);
-					effect++;
-				}
+				if (BATTLER_ALIVE(partner))
+        		{
+            		// 检查队友是否满血或处于回复封锁状态
+            		if (!BATTLER_MAX_HP(partner) && !IsHealBlocked(partner))
+            		{
+                		// 回复最大 HP 的 1/4
+                		gBattleMoveDamage = MathMax(1, GetBaseMaxHP(partner) / 4);
+                		gBattleMoveDamage *= -1;  // 负值表示回复
+                
+                		gBankTarget = partner;
+                		gBattleStringLoader = gText_HospitalityActivate;
+                		BattleScriptPushCursorAndCallback(BattleScript_HospitalityActivates);
+                		effect++;
+            		}
+            		// 如果队友满血或无法回复，什么也不做
+            		break;
+        		}
 			}
 			break;
+		
+		case ABILITY_CURIOUSMEDICINE:
+    		if (IS_DOUBLE_BATTLE)
+    		{
+        		u8 partner = PARTNER(bank);
+        		if (BATTLER_ALIVE(partner))
+        		{
+            		for (i = 0; i < BATTLE_STATS_NO - 1; ++i)
+                		gBattleMons[partner].statStages[i] = 6;
+
+            		gBankTarget = partner;
+            		gBattleStringLoader = gText_CuriousMedicineActivate;
+            		BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+            		effect++;
+        		}
+    		}
+    		break;
+
+		case ABILITY_COSTAR:
+    		if (IS_DOUBLE_BATTLE)
+    		{
+        		u8 partner = PARTNER(bank);
+        		if (BATTLER_ALIVE(partner))
+        		{
+            		for (i = 0; i < BATTLE_STATS_NO - 1; i++)
+                		gBattleMons[bank].statStages[i] = gBattleMons[partner].statStages[i];
+            
+            		gBankTarget = partner;
+            		gBattleStringLoader = gText_CostarActivate;
+            		BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+            		effect++;
+        		}
+    		}
+    		break;
 
 		case ABILITY_314:
 			if (BankHasEvaporate(bank) && AffectedByRain(bank))
@@ -1508,6 +1652,18 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			if (BATTLER_ALIVE(bank))
 			{
 				gBankAttacker = gActiveBattler = gBattleScripting.bank = bank;
+				// 新增：意念移物计时器处理
+        		if (gNewBS->TelekinesisTimers[bank] > 0)
+        		{
+            		gNewBS->TelekinesisTimers[bank]--;
+            		if (gNewBS->TelekinesisTimers[bank] == 0 && (gStatuses3[bank] & STATUS3_TELEKINESIS))
+            		{
+                		gStatuses3[bank] &= ~STATUS3_TELEKINESIS;
+                		BattleScriptPushCursorAndCallback(BattleScript_TelekinesisEnd);
+                		effect++;
+                		break;  // 先处理意念移物结束，不继续执行其他能力
+            		}
+        		}
 				switch (gLastUsedAbility)
 				{
 				case ABILITY_PROTOSYNTHESIS:
@@ -1595,11 +1751,36 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					}
 					break;
 
+				case ABILITY_SHADOWHEAL:
+					u8 statusedCount = 0;
+        			u32 healAmount;
+
+        			for (u8 i = 0; i < gBattlersCount; i++)
+        			{
+            			if (BATTLER_ALIVE(i) && (gBattleMons[i].status1 & STATUS1_ANY))
+                			statusedCount++;
+        			}
+        
+        			if (statusedCount > 0 && !BATTLER_MAX_HP(bank) && !IsHealBlocked(bank))
+        			{
+            			healAmount = (GetBaseMaxHP(bank) * statusedCount) / 16;
+                
+            			gBattleMoveDamage = healAmount;
+            			gBattleMoveDamage *= -1;
+            
+            			gBankAttacker = bank;
+            			gBattleScripting.bank = bank;
+            
+            			BattleScriptPushCursorAndCallback(BattleScript_ShadowHealActivates);
+            			effect++;
+        			}
+					break;
+
 				case ABILITY_HEALER:
 					if (IS_DOUBLE_BATTLE
 					&& BATTLER_ALIVE(PARTNER(bank))
 					&& gBattleMons[PARTNER(bank)].status1
-					&& Random() % 100 < 30)
+					&& Random() % 100 < 50)
 					{
 						gEffectBank = PARTNER(bank);
 						ClearBankStatus(gEffectBank);
@@ -1707,13 +1888,13 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					break;
 
 				case ABILITY_CUDCHEW:
-					if (gItems[(SAVED_CONSUMED_ITEMS(bank))].pocket == POCKET_BERRY_POUCH
-					&& gNewBS->CudChewCounter[bank] >= 1)
+					if (gNewBS->CudChewCounter[bank] == 1)
 					{
 						BattleScriptPushCursorAndCallback(BattleScript_CudChew);
 						gNewBS->CudChewCounter[bank] = 0;
 						++effect;
 					}
+
 					else if (gItems[(SAVED_CONSUMED_ITEMS(bank))].pocket == POCKET_BERRY_POUCH)
 					{
 						gNewBS->CudChewCounter[bank] = 1;
@@ -1812,21 +1993,18 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					case ABILITY_SOUNDPROOF:
 						if (CheckSoundMove(move))
 							effect = 1;
+						if (ABILITY(gBankAttacker) == ABILITY_SONILATE)
+							effect = 1;
 						break;
 
 					case ABILITY_BULLETPROOF:
 						if (gSpecialMoveFlags[move].gBallBombMoves)
 							effect = 1;
-						break;
-
-					case ABILITY_OVERCOAT:
-						if (gSpecialMoveFlags[move].gPowderMoves)
-							effect = 1;
-						break;
+                		break;
 
 					case ABILITY_GOODASGOLD:
 						if (SPLIT(move) == SPLIT_STATUS
-						&& !gSpecialMoveFlags[move].gSpecialWholeFieldMoves
+						&& !gSpecialMoveFlags[move].gSpecialWholeFieldMovess
 						&& !(gBattleMoves[move].target & MOVE_TARGET_OPPONENTS_FIELD))
 							effect = 1;
 						break;
@@ -1891,11 +2069,14 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			gBattleScripting.bank = bank;
 			switch (gLastUsedAbility) {
 				case ABILITY_VOLTABSORB:
+    				if (moveType == TYPE_ELECTRIC)
+        				effect = 1;
+    				break;
+
 				case ABILITY_EARTHEATER:
-					if ((moveType == TYPE_ELECTRIC && !(ABILITY(bank) == ABILITY_EARTHEATER))
-					|| (moveType == TYPE_GROUND && (ABILITY(bank) == ABILITY_EARTHEATER)))
-						effect = 1;
-					break;
+    				if (moveType == TYPE_GROUND)
+        				effect = 1;
+    				break;
 
 				case ABILITY_WATERABSORB:
 				case ABILITY_DRYSKIN:
@@ -1926,7 +2107,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 
 				case ABILITY_WELLBAKEDBODY:
 					if (moveType == TYPE_FIRE)
-						effect = 2, statId = STAT_DEF;
+						effect = 4, statId = STAT_DEF;
 					break;
 
 				case ABILITY_WINDRIDER:
@@ -1976,8 +2157,26 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 						else
 							gBattlescriptCurrInstr = BattleScript_MoveStatDrain_PPLoss;
 
-						gBattleScripting.statChanger = statId
-							| (gLastUsedAbility == ABILITY_WELLBAKEDBODY ? INCREASE_2 : INCREASE_1);
+						gBattleScripting.statChanger = statId | INCREASE_1;
+					}
+					break;
+
+				case 4: // 提升 2 级能力
+					if (gBattleMons[bank].statStages[statId - 1] >= STAT_STAGE_MAX)
+					{
+						if ((gProtectStructs[gBankAttacker].notFirstStrike))
+							gBattlescriptCurrInstr = BattleScript_MonMadeMoveUseless;
+						else
+							gBattlescriptCurrInstr = BattleScript_MonMadeMoveUseless_PPLoss;
+					}
+					else
+					{
+						if (gProtectStructs[gBankAttacker].notFirstStrike)
+							gBattlescriptCurrInstr = BattleScript_MoveStatDrain;
+						else
+							gBattlescriptCurrInstr = BattleScript_MoveStatDrain_PPLoss;
+
+						gBattleScripting.statChanger = statId | INCREASE_2;
 					}
 					break;
 
@@ -2016,44 +2215,57 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			switch (gLastUsedAbility)
 			{
 			case ABILITY_COLORCHANGE:
+    			if (MOVE_HAD_EFFECT
+    			&& TOOK_DAMAGE(bank)
+    			&& move != MOVE_STRUGGLE
+    			&& SPLIT(move) != SPLIT_STATUS
+    			&& !IsOfType(bank, moveType)
+    			&& BATTLER_ALIVE(bank)
+    			&& gBankAttacker != bank
+    			&& !SheerForceCheck()
+    			&& gMultiHitCounter <= 1
+    			&& !IsTerastallized(bank))
+    			{
+        			SET_BATTLER_TYPE(bank, moveType);
+        			PREPARE_TYPE_BUFFER(gBattleTextBuff1, moveType);
+        			BattleScriptPushCursor();
+        			gBattlescriptCurrInstr = BattleScript_AbilityChangedTypeContact;
+        			effect++;
+    			}
+    			break;
+
 			case ABILITY_ELECTROMORPHOSIS:
+    			if (MOVE_HAD_EFFECT
+    			&& TOOK_DAMAGE(bank)
+    			&& BATTLER_ALIVE(bank))
+    			{
+        			gStatuses3[bank] |= STATUS3_CHARGED_UP;
+        			BattleScriptPushCursor();
+        			gBattlescriptCurrInstr = BattleScript_ElectromorphosisActivates;
+        			gNewBS->ElectroCounter[bank] = TRUE;
+        			effect++;
+    			}
+    			break;
+
+			case ABILITY_SPICYSPRAY:
 				if (MOVE_HAD_EFFECT
-				&& TOOK_DAMAGE(bank)
-				&& move != MOVE_STRUGGLE
-				&& SPLIT(move) != SPLIT_STATUS
-				&& !IsOfType(bank, moveType)
-				&& BATTLER_ALIVE(bank)
-				&& gBankAttacker != bank
-				&& !SheerForceCheck()
-				&& ABILITY(bank) == ABILITY_COLORCHANGE
-				&& gMultiHitCounter <= 1
-				&& !IsTerastallized(bank))
-				{
-					SET_BATTLER_TYPE(bank, moveType);
-					PREPARE_TYPE_BUFFER(gBattleTextBuff1, moveType);
-					BattleScriptPushCursor();
-					gBattlescriptCurrInstr = BattleScript_AbilityChangedTypeContact;
-					effect++;
-				}
-				
-				else if (MOVE_HAD_EFFECT
-				&& TOOK_DAMAGE(bank)
-				&& BATTLER_ALIVE(bank)
-				&& ABILITY(bank) == ABILITY_ELECTROMORPHOSIS
-				&& !(gStatuses3[bank] & STATUS3_CHARGED_UP))
-				{
-					BattleScriptPushCursor();
-					gBattlescriptCurrInstr = BattleScript_ElectromorphosisActivates;
-					effect++;
-				}
+    			&& TOOK_DAMAGE(bank)
+    			&& BATTLER_ALIVE(gBankAttacker)
+    			&& gBankAttacker != bank
+				&& CanBeBurned(gBankAttacker, bank, FALSE))
+    			{
+            		gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_BURN;
+            		BattleScriptPushCursor();
+            		gBattlescriptCurrInstr = BattleScript_AbilityApplySecondaryEffect;
+            		gHitMarker |= HITMARKER_IGNORE_SAFEGUARD;
+            		effect++;
+    			}
 				break;
 			
-			case ABILITY_GRASSYSURGE:
 			case ABILITY_SEEDSOWER:
 				if (MOVE_HAD_EFFECT
 					&& TOOK_DAMAGE(bank)
-					&& BATTLER_ALIVE(gBankAttacker)
-					&& ABILITY(bank) == ABILITY_SEEDSOWER)
+					&& gBankAttacker != bank)
 					{
 						effect = TryActivateTerrainAbility(GRASSY_TERRAIN, B_ANIM_GRASSY_SURGE, bank);
 						gBattleStringLoader = gText_GrassySurgeGrew;
@@ -2118,43 +2330,49 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				}
 				break;
 
-			case ABILITY_POISONPOINT:
+			case ABILITY_AQUAREGEN:
+				if (MOVE_HAD_EFFECT
+				&& TOOK_DAMAGE(bank)
+				&& BATTLER_ALIVE(bank)
+				&& gBankAttacker != bank
+				&& !BATTLER_MAX_HP(bank))
+				{
+					gBattleMoveDamage = MathMax(1, GetBaseMaxHP(bank) / 16);
+        			gBattleMoveDamage *= -1;
+					BattleScriptPushCursorAndCallback(BattleScript_RainDishActivatesS);
+        			effect++;
+				}
+				break;
+
 			case ABILITY_TOXICDEBRIS:
 				if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
-				&& gBankAttacker != bank)
+				&& gBankAttacker != bank
+				&& SPLIT(move) == SPLIT_PHYSICAL
+				&& gSideTimers[gBankAttacker].tspikesAmount < 2)
 				{
-					// Check Toxic Debris
-					if ((ABILITY(bank) == ABILITY_TOXICDEBRIS) && SPLIT(move) == SPLIT_PHYSICAL)
-					{
-						u8 attackerSide = SIDE(gBankAttacker);
-						if (gSideTimers[attackerSide].tspikesAmount >= 2)
-						{
-							// Failure message (maximum Toxic Spikes already present)
-							BattleScriptPushCursor();
-							gBattlescriptCurrInstr = BattleScript_ToxicDebrisFailure;
-						}
-						else
-						{
-							// Add a layer of Toxic Spikes
-							gSideStatuses[attackerSide] |= SIDE_STATUS_SPIKES;
-							gSideTimers[attackerSide].tspikesAmount++;
-							BattleScriptPushCursor();
-							gBattlescriptCurrInstr = BattleScript_ToxicDebrisActivates;
-						}
-						effect++;
-					}
-					// Check Poison Point
-					else if (CheckContact(move, gBankAttacker, bank)
-						&& CanBePoisoned(gBankAttacker, bank, TRUE)
-						&& umodsi(Random(), 3) == 0)
-					{
-						gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_POISON;
-						BattleScriptPushCursor();
-						gBattlescriptCurrInstr = BattleScript_AbilityApplySecondaryEffect;
-						gHitMarker |= HITMARKER_IGNORE_SAFEGUARD; // Safeguard checked earlier
-						effect++;
-					}
+					gSideStatuses[gBankAttacker] |= SIDE_STATUS_SPIKES;
+					gSideTimers[gBankAttacker].tspikesAmount++;
+					BattleScriptPushCursor();
+					gBattlescriptCurrInstr = BattleScript_ToxicDebrisActivates;
+					effect++;
+				}
+				break;
+
+			case ABILITY_POISONPOINT:
+				if (MOVE_HAD_EFFECT
+				&& TOOK_DAMAGE(bank)
+				&& BATTLER_ALIVE(gBankAttacker)
+				&& gBankAttacker != bank
+				&& CheckContact(move, gBankAttacker, bank)
+				&& CanBePoisoned(gBankAttacker, bank, TRUE)
+				&& umodsi(Random(), 3) == 0)
+				{
+					gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_POISON;
+					BattleScriptPushCursor();
+					gBattlescriptCurrInstr = BattleScript_AbilityApplySecondaryEffect;
+					gHitMarker |= HITMARKER_IGNORE_SAFEGUARD; // Safeguard checked earlier
+					effect++;
 				}
 				break;
 
@@ -2245,34 +2463,34 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				}
 				break;
 
-			case ABILITY_WEAKARMOR:
 			case ABILITY_ANGERSHELL:
-				if (MOVE_HAD_EFFECT
-				&& TOOK_DAMAGE(bank)
-				&& BATTLER_ALIVE(bank))
-				{
-					if (gBattleMons[bank].hp <= gBattleMons[bank].maxHP / 2
-					&& gBattleMons[bank].hp + gHpDealt > gBattleMons[bank].maxHP / 2 //Hp fell below half
-					&& gBankAttacker != bank
-					&& !gProtectStructs[gBankAttacker].confusionSelfDmg
-					&& AngerShellStatsCheck(bank)
-					&& (ABILITY(bank) == ABILITY_ANGERSHELL))
-					{
-						BattleScriptPushCursor();
-						gBattlescriptCurrInstr = BattleScript_AngerShellActivates;
-						effect++;
-					}
-					else if (ABILITY(bank) == ABILITY_WEAKARMOR
-					&& CalcMoveSplit(gCurrentMove, gBankAttacker, bank) == SPLIT_PHYSICAL
-					&& gBankAttacker != bank
-					&& (STAT_STAGE(bank, STAT_SPEED) < STAT_STAGE_MAX || STAT_STAGE(bank, STAT_DEF) > STAT_STAGE_MIN))
-					{
-						BattleScriptPushCursor();
-						gBattlescriptCurrInstr = BattleScript_WeakArmorActivates;
-						effect++;
-					}
-				}
-				break;
+    			if (MOVE_HAD_EFFECT
+    			&& TOOK_DAMAGE(bank)
+    			&& BATTLER_ALIVE(bank)
+    			&& gBankAttacker != bank
+    			&& gBattleMons[bank].hp <= gBattleMons[bank].maxHP / 2
+    			&& gBattleMons[bank].hp + gHpDealt > gBattleMons[bank].maxHP / 2 // HP fell below half
+    			&& AngerShellStatsCheck(bank))
+    			{
+        			BattleScriptPushCursor();
+        			gBattlescriptCurrInstr = BattleScript_AngerShellActivates;
+        			effect++;
+    			}
+    			break;
+
+			case ABILITY_WEAKARMOR:
+    			if (MOVE_HAD_EFFECT
+    			&& TOOK_DAMAGE(bank)
+    			&& BATTLER_ALIVE(bank)
+    			&& gBankAttacker != bank
+    			&& CalcMoveSplit(gCurrentMove, gBankAttacker, bank) == SPLIT_PHYSICAL
+    			&& (STAT_STAGE(bank, STAT_SPEED) < STAT_STAGE_MAX || STAT_STAGE(bank, STAT_DEF) > STAT_STAGE_MIN))
+    			{
+        			BattleScriptPushCursor();
+        			gBattlescriptCurrInstr = BattleScript_WeakArmorActivates;
+        			effect++;
+    			}
+    			break;
 
 			case ABILITY_CURSEDBODY:
 				if (umodsi(Random(), 3) == 0
@@ -2345,6 +2563,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 						case ABILITY_ICEFACE:
 						case ABILITY_TERASHIFT:
 						case ABILITY_ZEROTOHERO:
+						case ABILITY_EEVEEHERO:
 							break;
 						default:
 							BattleScriptPushCursor();
@@ -2386,50 +2605,77 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				break;
 
 			case ABILITY_AFTERMATH:
+			case ABILITY_VOLATILEEXPLOSION:
 				if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
 				&& BATTLER_ALIVE(gBankAttacker)
 				&& gBankAttacker != bank
 				&& ABILITY(gBankAttacker) != ABILITY_MAGICGUARD
 				&& CheckContact(move, gBankAttacker, bank)
-				&& !BATTLER_ALIVE(bank)
 				&& !ABILITY_ON_FIELD(ABILITY_DAMP))
 				{
-					gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankAttacker) / 4);
-					BattleScriptPushCursor();
-					gBattlescriptCurrInstr = BattleScript_RoughSkinActivates;
-					effect++;
+        			u8 side = SIDE(bank);
+					u8 partyId = gBattlerPartyIndexes[bank];
+
+					if (ABILITY(bank) == ABILITY_VOLATILEEXPLOSION
+    				&& !gNewBS->oncePerBattleAbilityFlags[side][partyId])
+        			{
+            			// 标记已使用
+            			gNewBS->oncePerBattleAbilityFlags[side][partyId] = TRUE;
+            
+            			// 1/3 伤害
+            			gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankAttacker) / 3);
+            
+            			// 设置场地动画参数（电气场地）
+            			gBattleScripting.animArg1 = B_ANIM_ELECTRIC_SURGE;  // 0x27
+            			gBattleScripting.bank = bank;
+            
+            			// 调用合并后的脚本
+            			BattleScriptPushCursor();
+            			gBattlescriptCurrInstr = BattleScript_VolatileExplosionActivates;
+            			effect++;
+        			}
+				
+					else if (!BATTLER_ALIVE(bank) && ABILITY(bank) == ABILITY_AFTERMATH)
+					{
+						gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankAttacker) / 4);
+						BattleScriptPushCursor();
+						gBattlescriptCurrInstr = BattleScript_RoughSkinActivates;
+						effect++;
+					}
 				}
 				break;
 
-			case ABILITY_BERSERK:
+			case ABILITY_QUICKCHARGE:
 			case ABILITY_WINDPOWER:
 				if (MOVE_HAD_EFFECT
-				&& BATTLER_ALIVE(bank)
-				&& gBankAttacker != bank
-				&& !(gStatuses3[bank] & STATUS3_CHARGED_UP)
-				&& ABILITY(bank) == ABILITY_WINDPOWER
-				&& gSpecialMoveFlags[move].gWindMoves)
-				{
-					BattleScriptPushCursor();
-					gBattlescriptCurrInstr = BattleScript_ElectromorphosisActivates;
-					effect++;
-				}
-				else if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
 				&& BATTLER_ALIVE(bank)
-				&& gBattleMons[bank].hp < gBattleMons[bank].maxHP / 2
-				&& gBattleMons[bank].hp + gHpDealt > gBattleMons[bank].maxHP / 2 //Hp fell below half
-				&& STAT_STAGE(bank, STAT_SPATK) < 12
-				&& ABILITY(bank) == ABILITY_BERSERK
-				&& !SheerForceCheck())
+				&& gSpecialMoveFlags[move].gWindMoves)
 				{
-					gBattleScripting.statChanger = STAT_SPATK | INCREASE_1;
+					gStatuses3[bank] |= STATUS3_CHARGED_UP;
 					BattleScriptPushCursor();
-					gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
+					gBattlescriptCurrInstr = BattleScript_ElectromorphosisActivates;
+					gNewBS->ElectroCounter[bank] = TRUE;
 					effect++;
 				}
-				break;
+    			break;
+
+			case ABILITY_BERSERK:
+    			if (MOVE_HAD_EFFECT
+    			&& TOOK_DAMAGE(bank)
+    			&& BATTLER_ALIVE(bank)
+    			&& gBattleMons[bank].hp < gBattleMons[bank].maxHP / 2
+    			&& gBattleMons[bank].hp + gHpDealt > gBattleMons[bank].maxHP / 2 // HP fell below half
+    			&& STAT_STAGE(bank, STAT_SPATK) < STAT_STAGE_MAX
+    			&& !SheerForceCheck())
+    			{
+        			gBattleScripting.statChanger = STAT_SPATK | INCREASE_1;
+        			BattleScriptPushCursor();
+        			gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
+        			effect++;
+    			}
+    			break;
 
 			case ABILITY_GOOEY:
 			case ABILITY_TANGLINGHAIR:
@@ -2491,35 +2737,35 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				}
 				break;
 
-			case ABILITY_STEAMENGINE:
 			case ABILITY_THERMALEXCHANGE:
-				if (MOVE_HAD_EFFECT
-				&& TOOK_DAMAGE(bank)
-				&& BATTLER_ALIVE(bank)
-				&& gBankAttacker != bank)
-				{
-					// Check Thermal Exchange
-					if ((ABILITY(bank) == ABILITY_THERMALEXCHANGE)
-					&& moveType == TYPE_FIRE
-					&& STAT_STAGE(bank, STAT_ATK) < STAT_STAGE_MAX)
-					{
-						gBattleScripting.statChanger = STAT_ATK | INCREASE_1;
-						BattleScriptPushCursor();
-						gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
-						effect++;
-					}
-					// Check Steam Engine
-					else if (ABILITY(bank) == ABILITY_STEAMENGINE
-						&& (moveType == TYPE_WATER || moveType == TYPE_FIRE)
-						&& STAT_STAGE(bank, STAT_SPEED) < STAT_STAGE_MAX)
-					{
-						gBattleScripting.statChanger = STAT_SPEED | INCREASE_6;
-						BattleScriptPushCursor();
-						gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
-						effect++;
-					}
-				}
-				break;
+    			if (MOVE_HAD_EFFECT
+    			&& TOOK_DAMAGE(bank)
+    			&& BATTLER_ALIVE(bank)
+    			&& gBankAttacker != bank
+    			&& moveType == TYPE_FIRE
+    			&& STAT_STAGE(bank, STAT_ATK) < STAT_STAGE_MAX)
+    			{
+        			gBattleScripting.statChanger = STAT_ATK | INCREASE_1;
+        			BattleScriptPushCursor();
+        			gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
+        			effect++;
+    			}
+    			break;
+
+			case ABILITY_STEAMENGINE:
+    			if (MOVE_HAD_EFFECT
+    			&& TOOK_DAMAGE(bank)
+    			&& BATTLER_ALIVE(bank)
+    			&& gBankAttacker != bank
+    			&& (moveType == TYPE_WATER || moveType == TYPE_FIRE)
+    			&& STAT_STAGE(bank, STAT_SPEED) < STAT_STAGE_MAX)
+    			{
+        			gBattleScripting.statChanger = STAT_SPEED | INCREASE_6;
+        			BattleScriptPushCursor();
+        			gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise;
+        			effect++;
+    			}
+    			break;
 
 			case ABILITY_ILLUSION:
 				if (MOVE_HAD_EFFECT
@@ -2620,17 +2866,17 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			{
 				switch (ABILITY(bank))
 				{
+				case ABILITY_PURIFYINGSALT:
+					if (CheckStatusAny(bank))
+					{
+						StringCopy(gBattleTextBuff1, gStatusConditionString_PurifySalt);
+						effect = 1;
+					}
+					break;
 				case ABILITY_IMMUNITY:
 					if (gBattleMons[bank].status1 & STATUS1_PSN_ANY)
 					{
 						StringCopy(gBattleTextBuff1, gStatusConditionString_Poison);
-						effect = 1;
-					}
-					break;
-				case ABILITY_THERMALEXCHANGE:
-					if (gBattleMons[bank].status1 & STATUS1_BURN)
-					{
-						StringCopy(gBattleTextBuff1, gStatusConditionString_Burn);
 						effect = 1;
 					}
 					break;
@@ -2658,6 +2904,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					}
 					break;
 				case ABILITY_WATERVEIL:
+				case ABILITY_THERMALEXCHANGE:
 					if (gBattleMons[bank].status1 & STATUS1_BURN)
 					{
 						StringCopy(gBattleTextBuff1, gStatusConditionString_Burn);
@@ -2960,8 +3207,11 @@ static u8 TryActivateTerrainAbility(u8 terrain, u8 anim, u8 bank)
 
 		switch (terrain) {
 			case ELECTRIC_TERRAIN:
-				gBattleStringLoader = ElectricTerrainSetString;
-				break;
+				if (ABILITY(bank) == ABILITY_HADRONENGINE)
+                    gBattleStringLoader = HadronEngineSetString;
+                else
+                    gBattleStringLoader = ElectricTerrainSetString;
+                break;
 			case GRASSY_TERRAIN:
 				gBattleStringLoader = GrassyTerrainSetString;
 				break;
@@ -3005,6 +3255,18 @@ static bool8 CanBeAffectedByIntimidate(u8 bank)
 	return BATTLER_ALIVE(bank) && !IS_BEHIND_SUBSTITUTE(bank);
 }
 
+static bool8 CanBeAffectedByPsyGravity(u8 bank)
+{
+    u16 species = gBattleMons[bank].species;
+
+	return (BATTLER_ALIVE(bank)
+            && !(gStatuses3[bank] & STATUS3_TELEKINESIS)
+            && !IsGravityActive()
+            && ITEM_EFFECT(bank) != ITEM_EFFECT_IRON_BALL
+			&& !gSpecialSpeciesFlags[species].telekinesisBan
+            && !(gStatuses3[bank] & (STATUS3_ROOTED | STATUS3_SMACKED_DOWN)));
+}
+
 static bool8 AllMainStatsButOneAreMinned(bank_t bank)
 {
 	for (u8 i = STAT_ATK, counter = 0; i <= STAT_SPDEF; ++i) //No Acc of Evsn
@@ -3021,7 +3283,9 @@ static bool8 AllMainStatsButOneAreMinned(bank_t bank)
 
 void LoadProperAbilityBattleData(void)
 {
-	ABILITY(gActiveBattler) = GetMonAbility(GetBankPartyData(gActiveBattler));
+	if (gNewBS != NULL && gNewBS->tookAbilityFrom[gActiveBattler] != SPECIES_NONE)
+		return;
+	gBattleMons[gActiveBattler].ability = GetMonAbility(GetBankPartyData(gActiveBattler));
 }
 
 void ApplyFlashFireBoost(void)
@@ -3104,15 +3368,15 @@ static const struct SpriteTemplate sSpriteTemplate_AbilityPopUp =
 static const s16 sAbilityPopUpCoordsDoubles[MAX_BATTLERS_COUNT][2] =
 {
 	{29, 80}, // player left
-	{186, 19}, // opponent left
+	{202, 19}, // opponent left
 	{29, 97}, // player right
-	{186, 36}, // opponent right
+	{202, 36}, // opponent right
 };
 
 static const s16 sAbilityPopUpCoordsSingles[MAX_BATTLERS_COUNT][2] =
 {
 	{29, 97}, // player
-	{186, 57}, // opponent
+	{202, 57}, // opponent
 };
 
 #define POPUP_WINDOW_WIDTH 8
@@ -3128,7 +3392,7 @@ static u8* AddTextPrinterAndCreateWindowOnAbilityPopUp(const u8* str, s32 x, s32
 	*windowId = AddWindow(&winTemplate);
 	FillWindowPixelBuffer(*windowId, PIXEL_FILL(color1));
 
-	AddTextPrinterParameterized4(*windowId, 0, x, y, 0, 0, color, -1, str);
+	AddTextPrinterParameterized4(*windowId, 0, x, y + 1, 0, 0, color, -1, str);	//y是修改弹窗文本的y坐标，默认为0，修改为1可以让文本位置更居中
 	return (u8*)(GetWindowAttribute(*windowId, WINDOW_TILE_DATA));
 }
 
@@ -3172,6 +3436,7 @@ static void PrintBattlerOnAbilityPopUp(u8 battlerId, u8 spriteId1, u8 spriteId2)
 {
 	int i;
 	u8 lastChar;
+	(void)lastChar;
 	u8* textPtr;
 	u8 monName[POKEMON_NAME_LENGTH + 3] = {0};
 	u8* nick = GetIllusionPartyData(battlerId)->nickname;
@@ -3192,21 +3457,18 @@ static void PrintBattlerOnAbilityPopUp(u8 battlerId, u8 spriteId1, u8 spriteId2)
 	lastChar = *(textPtr - 1);
 
 	//Make the string say "[NAME]'s" instead of "[NAME]"
-	textPtr[0] = CHAR_SGL_QUOT_RIGHT; //'
-	++textPtr;
-	if (lastChar != PC_S && lastChar != PC_s) //Proper grammar for names ending in "s"
-	{
-		textPtr[0] = 0xE7; //s
-		++textPtr;
-	}
+    
+	textPtr[0] = 0x03;  // 中文字符第一字节
+	textPtr[1] = 0x0B;  // 中文字符第二字节 ("的")
+	textPtr += 2;
 	textPtr[0] = EOS;
 
 	PrintOnAbilityPopUp((const u8*) monName,
 						(void*)(OBJ_VRAM0) + (gSprites[spriteId1].oam.tileNum * 32),
 						(void*)(OBJ_VRAM0) + (gSprites[spriteId2].oam.tileNum * 32),
-						5, 0,
+						5, 0,//文字显示的起始位置
 						0,
-						2, 7, 1);
+						1, 5, 0);//调用色板位置，分别是：轮廓颜色，文字颜色，背景颜色（0为透明）
 }
 
 static void PrintAbilityOnAbilityPopUp(u32 ability, u16 species, u8 spriteId1, u8 spriteId2)
@@ -3216,9 +3478,9 @@ static void PrintAbilityOnAbilityPopUp(u32 ability, u16 species, u8 spriteId1, u
 	PrintOnAbilityPopUp(abilityName,
 						(void*)(OBJ_VRAM0) + (gSprites[spriteId1].oam.tileNum * 32) + 256,
 						(void*)(OBJ_VRAM0) + (gSprites[spriteId2].oam.tileNum * 32) + 256,
-						5, 12,
+						5, 12,//文字显示的起始位置
 						4,
-						7, 9, 1);
+						1, 5, 0);
 }
 
 #define PIXEL_COORDS_TO_OFFSET(x, y)(			\
@@ -3519,7 +3781,7 @@ void TryRemoveIntimidateAbilityPopUp(void)
 	if (gNewBS->intimidateActive > 0)
 	{
 		BattleScriptPushCursor();
-		gBattlescriptCurrInstr = BattleScript_AbilityPopUpRevert - 5;
+		gBattlescriptCurrInstr = SCRIPT_OFFSET(BattleScript_AbilityPopUpRevert, -5);
 		gBattleScripting.bank = gNewBS->intimidateActive - 1;
 		gNewBS->intimidateActive -= 10; //Intimidate is still active but pop-up is hidden
 	}
@@ -3532,7 +3794,7 @@ void TryHideActiveAbilityPopUps(void)
 		if (gNewBS->activeAbilityPopUps & gBitTable[i])
 		{
 			BattleScriptPushCursor();
-			gBattlescriptCurrInstr = BattleScript_AbilityPopUpRevert - 5;
+			gBattlescriptCurrInstr = SCRIPT_OFFSET(BattleScript_AbilityPopUpRevert, -5);
 			gBattleScripting.bank = i;
 		}
 	}
@@ -3553,7 +3815,7 @@ void TryReactiveIntimidatePopUp(void)
 	if (gNewBS->intimidateActive < 0) //Pop-up was hidden due to ability like Clear Body
 	{
 		BattleScriptPushCursor();
-		gBattlescriptCurrInstr = BattleScript_AbilityPopUp - 5;
+		gBattlescriptCurrInstr = SCRIPT_OFFSET(BattleScript_AbilityPopUp, -5);
 		gNewBS->intimidateActive += 10;
 		gBattleScripting.bank = gNewBS->intimidateActive - 1;
 	}

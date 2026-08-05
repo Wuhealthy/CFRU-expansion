@@ -1,539 +1,545 @@
 #org @gText_SuperEffectiveTarget
-It's super effective on\n[TARGET]!
+对[TARGET]效果绝佳！
 
 #org @gText_SuperEffectiveTwoFoes
-It's super effective on [DEF_PREFIX_5]\n[TARGET_NAME] and [TARGET_PARTNER_NAME]!
+对[DEF_PREFIX_5][TARGET_NAME]\n和[TARGET_PARTNER_NAME]效果绝佳！
 
 #org @gText_NotVeryEffectiveTarget
-It's not very effective on\n[TARGET][.]
+对[TARGET]效果不好。
 
 #org @gText_NotVeryEffectiveTwoFoes
-It's not very effective on [DEF_PREFIX_5]\n[TARGET_NAME] and [TARGET_PARTNER_NAME][.]
+对[DEF_PREFIX_5][TARGET_NAME]\n和[TARGET_PARTNER_NAME]效果不好。
 
 #org @gText_DoesntAffectTwoFoes
-It had no effect on [DEF_PREFIX_5]\n[TARGET_NAME] and [TARGET_PARTNER_NAME][.]
+对[DEF_PREFIX_5][TARGET_NAME]\n和[TARGET_PARTNER_NAME]没有效果。
 
 #org @gText_CriticalHit
-[MAIN_COLOUR][02][SHADOW_COLOUR][09]A critical hit!
+[MAIN_COLOUR][02][SHADOW_COLOUR][09]击中要害！
 
 #org @gText_CriticalHitTarget
-[MAIN_COLOUR][02][SHADOW_COLOUR][09]A critical hit[MAIN_COLOUR][01][SHADOW_COLOUR][06] on\n[TARGET]!
+[MAIN_COLOUR][02][SHADOW_COLOUR][09]击中[TARGET]的\n[MAIN_COLOUR][01][SHADOW_COLOUR][06]要害！
 
 #org @gText_CriticalHitTwoFoes
-[MAIN_COLOUR][02][SHADOW_COLOUR][09]A critical hit[MAIN_COLOUR][01][SHADOW_COLOUR][06] on [DEF_PREFIX_5]\n[TARGET_NAME] and [TARGET_PARTNER_NAME]!
+[MAIN_COLOUR][02][SHADOW_COLOUR][09]击中了[DEF_PREFIX_5][TARGET_NAME]\n和[TARGET_PARTNER_NAME]的[MAIN_COLOUR][01][SHADOW_COLOUR][06]要害！
 
 #org @TrickRoomSetString
-[ATTACKER] twisted\nthe dimensions!
+[ATTACKER]扭曲了时空！
 
 #org @WonderRoomSetString
-It created a bizarre area in which\nthe Def and Sp. Def stats are swapped!
+凭空制造出了互换\n防御和特防的空间！
 
 #org @MagicRoomSetString
-It created a bizarre are in which\nheld items lose their effects!
+凭空制造出了会让持有道具的\n效果消失的空间！
 
 #org @GravitySetString
-Gravity intensified!
+重力变强了！
 
 #org @IonDelugeShowerString
-A deluge of ions showers the\nbattlefield!
+等离子雨倾盆而下！
 
 #org @NoMoreAirborneFromGravityString
-[SCRIPTING_BANK] couldn't\nstay airborne due to Gravity!
+受重力影响，[SCRIPTING_BANK]\n无法继续浮在空中！
 
 #org @Bank0AWasBroughtDownString
-[SCRIPTING_BANK] was\nbrought down!
+[SCRIPTING_BANK]被\n击落了下来！
+
+#org @HadronEngineSetString
+[SCRIPTING_BANK]布下电气场地\n使未来的机关跃动起来！
+
+#org @OrichalcumPulseSetString
+[SCRIPTING_BANK]加强日照，\n使古代的脉动狂暴起来！
 
 #org @ElectricTerrainSetString
-An electric current runs across\nthe battlefield!
+脚下电光飞闪！
 
 #org @GrassyTerrainSetString
-Grass grew to cover the\nbattlefield!
+脚下青草如茵！
 
 #org @MistyTerrainSetString
-Mist swirls around the\nbattlefield!
+脚下雾气缭绕！
 
 #org @PsychicTerrainSetString
-The battlefield got weird!
+脚下传来了奇妙的感觉！
 
 #org @TargetTransformedIntoType
-[TARGET]'s type\nchanged to [BUFFER][00]!
+[TARGET]的属性\n变为了[BUFFER][00]！
 
 #org @gText_AttackerChangedType
-[ATTACKER]'s type\nchanged to [BUFFER][00]!
+[ATTACKER]的属性\n变为了[BUFFER][00]！
 
 #org @gText_AbilityChangedType
-[SCRIPTING_BANK]'s type\nchanged to [BUFFER][00]!
+[SCRIPTING_BANK]的属性\n变为了[BUFFER][00]！
 
 #org @ThirdTypeAddedString
-[BUFFER][00] type was added to\n[TARGET]!
+[TARGET]\n增加了[BUFFER][00]属性！
 
 #org @gText_MimicryReturnedToNormal
-[SCRIPTING_BANK] returned\nto its original type!
+[SCRIPTING_BANK]的属性\n恢复原状了！
 
 #org @FairyLockString
-[ATTACKER] locked down\nthe battlefield!
+[ATTACKER]锁住了战场，\n所有宝可梦将无法逃走！
 
 #org @HappyHourString
-Everyone is caught up in the\nhappy atmosphere!
+大家被欢乐的\n气氛包围了！
 
 #org @CelebrateString
-Congratulations [PLAYER_NAME]!
+恭喜你，[PLAYER_NAME]！
 
 #org @HoldHandsString
-[ATTACKER] and [TARGET]\nheld hands!
+[ATTACKER]和[TARGET]\n牵起了手！
 
 #org @TailwindSetString
-The tailwind blew from behind\n[FD][36] team!
+从[FD][36]身后\n吹起了顺风！
 
 #org @LuckyChantSetString
-The Lucky Chant shielded\n[FD][36] team from critical hits!
+幸运咒语隐藏起了\n[FD][36]的要害！
 
 #org @EntrainmentString
 #org @WorrySeedString
 #org @SimpleBeamString
-[TARGET] acquired\n[TARGET_ABILITY]!
+[TARGET]获得了\n[TARGET_ABILITY]特性！
 
 #org @DoodleString
-[ATTACKER] acquired\n[TARGET_ABILITY]!
+[ATTACKER]获得了\n[TARGET_ABILITY]特性！
 
 #org @AbilitySuppressedString
-[TARGET]'s Ability\nwas suppressed!
+[TARGET]的特性\n被封锁了！
 
 #org @TargetStatsResetString
-[TARGET]'s stat changes\nwere removed!
+[TARGET]的\n能力变化重置了！
 
 #org @RoastedBerryString
-[TARGET]'s [FD][16]\nwas burnt up!
+[TARGET]的[FD][16]\n被烧掉了！
 
 #org @gText_TargetWasInfested
-[TARGET] has been\nafflicted with an Infestation!
+[TARGET]正在\n遭受侵扰！
 
 #org @SkyDropUpString
-[ATTACKER] took\n[TARGET] into the sky!
+[ATTACKER]将\n[TARGET]带上了高空！
 
 #org @FreedFromSkyDropString
-[SCRIPTING_BANK] was freed\nfrom the Sky Drop!
+[SCRIPTING_BANK]从空中\n自由落体！
 
 #org @CraftyShieldSetString
-Crafty Shield protected\n[FD][36] team!
+戏法防守保护着\n[FD][36]的队伍！
 
 #org @MatBlockSetString
-[ATTACKER] intends to flip\nup a mat and block incoming attacks!
+[ATTACKER]准备用掀起的\n榻榻米抵挡攻击！
 
 #org @QuickGuardSetString
-Quick Guard protected\n[FD][36] team!
+快速防守保护着\n[FD][36]的队伍！
 
 #org @WideGuardSetString
-Wide Guard protected\n[FD][36] team!
+广域防守保护着\n[FD][36]的队伍！
 
 #org @CraftyShieldProtectedString
-The Crafty Shield protected\n[TARGET]!
+戏法防守保护了\n[TARGET]！
 
 #org @MatBlockProtectedString
-[CURRENT_MOVE] was blocked by the\nkicked-up mat!
+[CURRENT_MOVE]被掀起的\n榻榻米挡住了！
 
 #org @QuickGuardProtectedString
-The Quick Guard protected\n[TARGET]!
+快速防守保护了\n[TARGET]！
 
 #org @WideGuardProtectedString
-The Wide Guard protected\n[TARGET]!
+广域防守保护了\n[TARGET]！
 
 #org @gText_JawLockNoEscape
-Neither Pok\emon can run away!
+双方的宝可梦都无法逃走了！
 
 #org @gText_CanNoLongerEscape
-[TARGET] can no longer\nescape!
+[TARGET]再也无法\n逃走了！
 
 #org @gText_CloakedInLight
-[ATTACKER] became\ncloaked in light!
+[ATTACKER]被光所包裹！
 
 #org @gText_NotAffectedBecauseOfItem
-[TARGET] is not affected\nthanks to its [LAST_ITEM]!
+受[TARGET]携带的\n[LAST_ITEM]影响，没有效果！
 
 #org @gText_ItemPumpedMon
-[SCRIPTING_BANK] used the\n[LAST_ITEM] to get pumped!
+[SCRIPTING_BANK]使用[LAST_ITEM]后\n变得亢奋了！
 
 #org @gText_ItemIncreasedSpeedBracket
-[SCRIPTING_BANK] can act\nfaster, thanks to its [LAST_ITEM]!
+多亏了[LAST_ITEM]，\n[SCRIPTING_BANK]的行动变快了！
 
 #org @gText_AbilityIncreasedSpeedBracket
-[SCRIPTING_BANK] can act\nfaster!
+[SCRIPTING_BANK]的\n行动变快了！
 
 #org @gText_MeteorBeamCharge
-[ATTACKER] is\noverflowing with space power!
+[ATTACKER]身上\n溢出了宇宙之力！
 
 #org @gText_PoltergeistWarn
-[TARGET] is about to\nbe attacked by its [LAST_ITEM]!
+[TARGET]被自己的\n[LAST_ITEM]袭击了！
 
 #org @gText_WokenByUproar
-[SCRIPTING_BANK] was woken up\nby the Uproar!
+受吵闹的影响，\n[SCRIPTING_BANK]清醒了过来！
 
 #org @gText_CorrodedItem
-[ATTACKER] corroded\n[TARGET]'s [LAST_ITEM]!
+[ATTACKER]腐蚀了\n[TARGET]的[LAST_ITEM]！
 
 #org @gText_CourtChange
-[ATTACKER] swapped\nthe battle effects affecting each\lside of the field!
-
-#org @gText_PowerShiftSwappedStats
-[ATTACKER] swapped its\noffenses and defenses!
+[ATTACKER]将双方场地的\n效果进行了调换！
 
 //Status Strings
 
 #org @gText_TargetStaysAwake
-[TARGET] stays awake!
+[TARGET]保持清醒！
 
 #org @gText_TeamProtectedBySafeguard
-[TARGET]'s party is\nprotected by Safeguard!
+[TARGET]的队伍\n受神秘守护！
 
 #org @gText_TargetWrappedInMistyTerrain
-[TARGET] surrounds\nitself in a protective mist!
+[TARGET]被薄雾\n包围着！
 
 #org @gText_TargetWrappedInElectricTerrain
-[TARGET] surrounds\nitself with electrified terrain!
+[TARGET]被电流\n包围着！
 
 #org @gText_TargetAlreadyHasStatusCondition
-[TARGET] already has\na status condition!
+[TARGET]已经处于\n异常状态了！
 
 #org @gText_AlreadyDrowsy
-[TARGET] is already\ndrowsy!
+[TARGET]已经\n昏昏欲睡了！
 
 #org @gText_SweetVeilProtects
-[TARGET] surrounded\nitself with a veil of sweetness!
+[TARGET]被甜幕\n保护着！
 
 #org @gText_FlowerVeilProtects
-[TARGET] surrounded\nitself with a veil of petals!
+[TARGET]被花幕\n保护着！
 
 #org @gText_PastelVeilProtects
-[TARGET] is protected\nby a pastel veil!
+[TARGET]被粉彩护幕\n保护着！
 
 #org @gText_AromaVeilProtects
-[TARGET] is protected\nby an aromatic veil!
+[TARGET]被芳香幕\n保护着！
 
 #org @gText_SleepClausePrevents
-The sleep clause prevents more\nPok\emon from being put to sleep!
+睡眠条款阻止了更多\n宝可梦陷入睡眠状态！
 
 #org @gText_GotFrostbite
-[EFFECT_BANK] got frostbite!
+[EFFECT_BANK]冻伤了！
 
 #org @gText_HurtByFrostbite
-[ATTACKER] is hurt\nby its frostbite!
+[ATTACKER]因冻伤\n而受到了伤害！
 
 #org @gText_MoveUsedFrostbiteRemoved
-[ATTACKER]'s frostbite\nwas cured by [CURRENT_MOVE]!
+[CURRENT_MOVE]治愈了\n[ATTACKER]的冻伤！
 
 #org @gText_RemovedTargetFrostbite
-[TARGET]'s frostbite\nwas cured!
+[TARGET]的冻伤\n被治愈了！
 
 #org @gText_RemovedAttackerFrostbite
-[ATTACKER]'s frostbite\nwas cured!
+[ATTACKER]的冻伤\n被治愈了！
 
 #org @gText_ItemRemovedFrostbite
-[SCRIPTING_BANK]'s [LAST_ITEM]\ncured its frostbite!
+[SCRIPTING_BANK]的[LAST_ITEM]\n治愈了它的冻伤！
 
 #org @gText_AbilityPreventsStatLoss
-[SCRIPTING_BANK]'s stats were\nnot lowered!
+[SCRIPTING_BANK]的\n能力没有降低！
 
 #org @gText_AbilityPreventsSpecificStatLoss
-[SCRIPTING_BANK]'s [BUFFER][00]\nwas not lowered!
+[SCRIPTING_BANK]的\n[BUFFER][00]没有降低！
 
 #org @gText_AbilityPreventsConfusion
-[SCRIPTING_BANK] doesn't\nbecome confused!
+[SCRIPTING_BANK]\n不会陷入混乱状态！
 
 #org @gText_AbilityBlocksHealBell
-[SCRIPTING_BANK] blocks\n[CURRENT_MOVE]!
+[SCRIPTING_BANK]阻挡了\n[CURRENT_MOVE]！
 
 #org @gText_TransformFailsOnWildBosses
-But [TARGET]'s aura\nprevents transformation!
+但[TARGET]的气场\n阻止了变身！
 
 #org @gText_MoveFailsOnWildBosses
-But [TARGET]'s aura\nblocked the move!
+但[TARGET]的气场\n挡住了该招式！
 
 #org @gText_DefogRemovedSideStatus
-[FD][37] team's [BUFFER][00]\nwore off!
+[FD][37]队伍的\n[BUFFER][00]失效了！
 
 #org @gText_ScreenRaisedStat
-[CURRENT_MOVE] raised [FD][36]\nteam's [BUFFER][00]!
+[CURRENT_MOVE]提高了\n[FD][36]队伍的[BUFFER][00]！
 
 #org @gText_SetAuroraVeil
-Aurora Veil protects [FD][36] team\nagainst physical and special moves!
+极光幕保护了[FD][36]的队伍，\n受到物理和特殊招式的伤害减少！
 
 #org @gText_ShroudedInMist
-[BUFFER][38] team became\nshrouded in Mist!
+[BUFFER][38]的队伍\n笼罩在白雾中！
 
 #org @gText_SideStatusWoreOff
-[BUFFER][38] team's [BUFFER][00]\nwore off!
+[BUFFER][38]队伍的\n[BUFFER][00]失效了！
 
 #org @gText_TauntWoreOff
-[SCRIPTING_BANK]'s Taunt\nwore off!
+[SCRIPTING_BANK]的\n挑衅状态消失了！
 
 #org @gText_TailwindWoreOff
-[BUFFER][38] team's tailwind\npetered out!
+[BUFFER][38]队伍的\n顺风停止了！
 
 #org @gText_LuckyChantWoreOff
-[BUFFER][38] team's Lucky Chant\nwore off!
+[BUFFER][38]队伍的\n幸运咒语失效了！
 
 #org @gText_RainbowDisappeared
-The rainbow on [FD][36] team's\nside disappeared!
+[FD][36]队伍的\n彩虹消失了！
 
 #org @gText_SeaOfFireDisappeared
-The sea of fire disappeared from\naround [FD][36] team!
+[FD][36]队伍周围的\n火海消失了！
 
 #org @gText_SwampDisappeared
-The swamp around [FD][36] team\ndisappeared!
+[FD][36]队伍周围的\n湿地消失了！
 
 #org @gText_WhiteHerbFling
-The [LAST_ITEM] restored\n[SCRIPTING_BANK]'s status!
+[LAST_ITEM]恢复了\n[SCRIPTING_BANK]的能力！
 
 #org @gText_BellyDrumMinimizedAttack
-[ATTACKER] cut its own HP\nand minimized Attack!
+[ATTACKER]削减了自身HP\n并将攻击提升到了最高！
 
 #org @gText_SqueezedByOctolock
-[ATTACKER] was squeezed\nby the Octolock!
+[ATTACKER]被蛸固\n固定了！
 
 #org @gText_NoRetreatTrapped
-[ATTACKER] can no longer\nescape because it used [CURRENT_MOVE]!
+[ATTACKER]因使用[CURRENT_MOVE]\n而再也无法逃走了！
 
 #org @gText_TarShotAffected
-[TARGET] became\nweaker to fire!
+[TARGET]变得怕火了！
 
 #org @gText_TargetWasCaughtInSnapTrap
-[TARGET] got trapped\nby a snap trap!
+[TARGET]被捕兽夹\n夹住了！
 
 #org @gText_TargetWasTrappedByAttacker
-[TARGET] was trapped\nby [ATTACKER]!
+[TARGET]被[ATTACKER]\n困住了！
 
 #org @gText_EffectBankAfflictedBySplinters
-Jagged splinters dug into\n[EFFECT_BANK]!
+碎片扎进了\n[EFFECT_BANK]体内！
 
 #org @gText_HurtBySplinters
-[ATTACKER] was hurt by\nthe splinters!
+[ATTACKER]被\n碎片割伤了！
 
 #org @gText_SplintersEnded
-[ATTACKER] is no longer\nafflicted by splinters!
+[ATTACKER]不再\n受碎片影响！
 
 #org @gText_HurtBySeaOfFire
-[ATTACKER] is hurt\nby the sea of fire!
+[ATTACKER]被\n火海灼伤了！
 
 #org @gText_BallFetchRetrievedItem
-[SCRIPTING_BANK] found one\n[LAST_ITEM]!
+[SCRIPTING_BANK]找到了一个\n[LAST_ITEM]！
 
 #org @gText_PerishBodyActivated
-Both Pok\emon will faint in\nthree turns!
+双方宝可梦将在三回合后倒下！
 
 #org @gText_SurroundedByGMaxVineLash
-[FD][37] team got trapped\nwith vines!
+[FD][37]的队伍被藤蔓\n缠住了！
 
 #org @gText_HurtByGMaxVineLash
-[ATTACKER] is hurt by\nG-Max Vine Lash's ferocious beating!
+[ATTACKER]受到了\n超极巨灰飞鞭灭的伤害！
 
 #org @gText_GMaxVineLashEnded
-The vines around [FD][36]\nteam disappeared!
+[FD][36]队伍的\n藤蔓消失了！
 
 #org @gText_SurroundedByGMaxWildfire
-[FD][37] team was surrounded\nby fire!
+[FD][37]的队伍\n被火焰包围了！
 
 #org @gText_HurtByGMaxWildfire
-[ATTACKER] is burning\nup within G-Max Wildfire's flame!
+[ATTACKER]受到了\n超极巨深渊灭焰的伤害！
 
 #org @gText_GMaxWildfireEnded
-The G-Max Wildfire flames around\n[FD][36] team disappeared!
+[FD][36]队伍的\n超极巨深渊灭焰消失了！
 
 #org @gText_SurroundedByGMaxCannonade
-[FD][37] team got caught in\nthe vortex of water!
+[FD][37]队伍被\n卷入了漩涡里！
 
 #org @gText_HurtByGMaxCannonade
-[ATTACKER] is hurt by\nG-Max Cannonade's vortex!
+[ATTACKER]受到了\n超极巨水炮轰灭的伤害！
 
 #org @gText_GMaxCannonadeEnded
-The vortex of water around\n[FD][36] team disappeared!
+[FD][36]队伍的\n超极巨水炮轰灭消失了！
 
 #org @gText_SurroundedByGMaxVolcalith
-[FD][37] team was surrounded\nby rocks!
+[FD][37]队伍被\n岩石包围了！
 
 #org @gText_HurtByGMaxVolcalith
-[ATTACKER] is hurt\nby G-Max Volcalith's rocks!
+[ATTACKER]受到了\n超极巨炎石喷发的伤害！
 
 #org @gText_GMaxVolcalithEnded
-The G-Max Volcalith rocks around\n[FD][36] team disappeared!
+[FD][36]队伍的\n超极巨炎石喷发消失了！
 
 #org @gText_TrappedByGMaxCentiferno
-[FD][37] team has become\ntrapped in a fiery vortex!
+[FD][37]的队伍\n被困在火焰漩涡中！
 
 #org @gText_CouldntFullyProtect
-[TARGET] couldn't\nfully protect itself and got hurt!
+[TARGET]无法完全保护自己，\n并受到了伤害！
 
 #org @gText_MysteriousAirCurrentContinues
-The mysterious strong winds\ncontinue to blow.
+神秘的强风仍在持续。
 
 #org @gText_NoMinimizeOnInsane
-[CURRENT_MOVE] can't be selected on the\nInsane difficulty!\p
+在疯狂难度下无法选择\n[CURRENT_MOVE]！\p
 
 #org @gText_PickUpItemToBag
-[BUFFER][00] found and placed one\n[LAST_ITEM] in the Bag!
+[BUFFER][00]捡起了一个\n[LAST_ITEM]并放入了包包！
 
 #org @gText_PickUpItemToCube
-[BUFFER][00] found and placed one\n[LAST_ITEM] in the Cube!
+[BUFFER][00]捡起了一个\n[LAST_ITEM]并放入了魔方！
 
 #org @gText_PickedUpKnockedOffItem
-[PLAYER_NAME] picked up\none [LAST_ITEM]!
+[PLAYER_NAME]捡起了一个\n[LAST_ITEM]！
 
 #org @gText_OfferTakeCaughtMonItem
-[BUFFER][00] appears to be holding\nthe [LAST_ITEM].\pWould you like to take the\n[LAST_ITEM] from it?
+[BUFFER][00]似乎\n正拿着[LAST_ITEM]。\p要从它身上\n取下[LAST_ITEM]吗？
 
 #org @gText_TookCaughtItemToBag
-One [LAST_ITEM] was taken from\n[BUFFER][00] and placed in the Bag.
+从[BUFFER][00]身上取下一个\n[LAST_ITEM]并放入了包包。
 
 #org @gText_TookCaughtItemToCube
-One [LAST_ITEM] was taken from\n[BUFFER][00] and placed in the Cube.
+从[BUFFER][00]身上取下一个\n[LAST_ITEM]并放入了魔方。
 
 #org @gText_HoopaRespawnedAlly
-[TARGET] summoned\nanother [BUFFER][00]!
+[TARGET]召唤了\n另一只[BUFFER][00]！
 
 //Other Battle Features
 
 #org @gText_TotemOmniboostStatsRose
-[ATTACKER]'s stats rose!
+[ATTACKER]的能力\n提高了！
 
 #org @gText_SemiSwitchOffer
-[TRAINER1_CLASS] [TRAINER1_NAME] is\nabout to send out a new Pok\emon.\pWill [PLAYER_NAME] change\nPok\emon?
+[TRAINER1_CLASS][TRAINER1_NAME]\n要派出新的宝可梦了。\p[PLAYER_NAME]要\n更换宝可梦吗？
 
 #org @gText_Devolved
-[EFFECT_BANK] has devolved\ninto [BUFFER][00]!
+[EFFECT_BANK]退化成了\n[BUFFER][00]！
 
 #org @gText_DevolvedForgotMove
-[ATTACKER] devolved and\nforgot the move it was going to use!
+[ATTACKER]退化了，\n忘记了将要使用的招式！
 
 #org @gText_DevolutionsStatsReset
-[EFFECT_BANK]'s stats\nand primary status were reset!
+[EFFECT_BANK]的能力\n和数据重置了！
 
 #org @gText_CamomonsTypeReveal
-[SCRIPTING_BANK] appears as the\n[BUFFER][00]-type!
+[SCRIPTING_BANK]看起来\n是[BUFFER][00]属性！
 
 #org @gText_CamomonsTypeRevealDualType
-[SCRIPTING_BANK] appears as the\n[BUFFER][00]- and [BUFFER][01]-type!
+[SCRIPTING_BANK]看起来\n是[BUFFER][00]和[BUFFER][01]属性！
 
 #org @gText_BadThoughtsBattleStart
-Negative emotions fill the air!
+空气中充满了负面情绪！
 
 #org @gText_TormentedByBadThoughts
-[ATTACKER] is\ntormented by the negative emotions!
+[ATTACKER]被\n负面情绪折磨着！
 
 #org @gText_TailwindBattleStart
-A tailwind blew from behind\nFlying-type Pok\emon!
+飞行属性的宝可梦身后\n吹起了顺风！
 
 #org @gText_MagnetRiseBattleStart
-[SCRIPTING_BANK] is\nlevitating with electromagnetism!
+[SCRIPTING_BANK]通过电磁\n飘浮在了空中！
 
 #org @gText_TrickRoomBattleStart
-The dimensions are permanently\ntwisted!\pSlower Pok\emon will always move\nfirst!
+空间被永久扭曲了！\p速度慢的宝可梦将总是先出手！
 
 #org @gText_WeightSpeedBattleStart
-Heavy Pok\emon have an advantage\nhere!\pThe heavier the Pok\emon, the\nfaster it will be!
+体重大的宝可梦在这里更有优势！\p宝可梦越重，速度就越快！
 
 #org @gText_ViciousSandstormBrewed
-A vicious sandstorm brewed!
+狂沙风暴刮了起来！
 
 #org @gText_ViciousSandstormContinues
-A vicious sandstorm is raging.
+狂沙风暴正在肆虐。
 
 #org @gText_BuffetedByViciousSandstorm
-[ATTACKER] is buffeted\nby the vicious sandstorm!
+[ATTACKER]受到了\n狂沙风暴的伤害！
 
 #org @gText_ShadowShieldBattleStart
-A shadowy veil is covering\nthe field!\pGhost-type Pok\emon will take half\ndamage when at full health!
+一道暗影帷幕覆盖了场地！\p幽灵属性宝可梦在满血时\n受到的伤害减半！
 
 #org @gText_ShadowShieldBattleBlocksSafeguard
-But only Ghost-types can create a\nSafeguard under the shadowy veil!
+但在暗影帷幕下只有幽灵属性\n宝可梦才能制造出神秘守护！
 
 #org @gText_ShadowShieldBattleBlocksSubstitute
-But only Ghost-types can create a\nSubstitute under the shadowy veil!
+但在暗影帷幕下只有幽灵属性\n宝可梦才能制造出替身！
 
 #org @gText_PixieBattleStart
-Pixies are flying around the field!
+妖精属性的宝可梦\n在空中飞舞！
 
 #org @gText_PixieBattleBuff
-The Pixies in the air increased\n[SCRIPTING_BANK]'s [BUFFER][00]!
+空中的妖精提高了\n[SCRIPTING_BANK]的[BUFFER][00]！
 
 #org @gText_RainbowBattleStart
-A rainbow appeared in the sky above\nthe entire battlefield!\pThe chance of secondary effects used\nby Dragon-types has been doubled!
+整个战场的上空出现了一道彩虹！\p龙属性宝可梦使用的招式\n追加效果的发生几率翻倍了！
 
 #org @gText_RingChallengeAttackCancel
-But the attack's type can't be used\nin this fight!
+但该攻击的属性\n在这场战斗中无法使用！
 
 #org @gText_RingChallengeBanMoveMenu
-[BUFFER][00]-type moves can't be used\nin this round of the Ring Challenge!\p
+在挑战中无法使用\n[BUFFER][00]属性招式！\p
 
 #org @gText_RingChallengeBanSpecificMove
-[CURRENT_MOVE] can't be used in\nthe Ring Challenge!\p
+[CURRENT_MOVE]在挑战中\n无法使用！\p
 
 #org @gText_DynamaxUsable
-Dynamax Energy gathered\naround you!
+极巨化能量在你周围聚集！
 
 #org @gText_MonDynamaxed
-[SCRIPTING_BANK] created a\nprojection of itself with Dynamax!
+[SCRIPTING_BANK]通过极巨化\n制造了自己的投影！
 
 #org @gText_DynamaxEnded
-[SCRIPTING_BANK] is no longer\nDynamaxed!
+[SCRIPTING_BANK]的\n极巨化状态解除了！
 
 #org @gText_DynamaxAttackCancel
-[ATTACKER] shook its\nhead.\pIt seems like it can't use\nthis move[.]
+[ATTACKER]摇了摇头。\p它似乎无法使用这个招式。
 
 #org @gText_RaidBattleAttackCancel
-But the move was blocked by the\npower of Dynamax!
+但该招式被极巨化的力量挡住了！
 
 #org @gText_DynamaxItemBlock
-The item was blocked by the\npower of Dynamax!
+该道具被极巨化的力量挡住了！
 
 #org @gText_RaidBattleReveal
-[SCRIPTING_BANK] appears\nto be massive!
+[SCRIPTING_BANK]看起来\n非常巨大！
 
 #org @gText_RaidBattleStormStarted
-A storm started brewing above you.
+暴风雨开始在你头顶上空酝酿。
 
 #org @gText_RaidPokemonGettingDesperate
-[SCRIPTING_BANK] is getting\ndesperate!
+[SCRIPTING_BANK]变得\n走投无路了！
 
 #org @gText_RaidPokemonGettingDesperateAttacks
-[SCRIPTING_BANK] is getting\ndesperate!\pIts attacks are growing more\naggressive!
+[SCRIPTING_BANK]变得\n走投无路了！\p它的攻击变得\n越来越猛烈了！
 
 #org @gText_RaidShield
-A mysterious barrier appeared in\nfront of [SCRIPTING_BANK]\land is protecting it from attacks!
+[SCRIPTING_BANK]面前出现了一道\n神秘屏障，保护它免受攻击！
 
 #org @gText_RaidShieldProtected
-But the mysterious barrier\nprotected [TARGET]\lfrom the impacts of the move!
+但神秘屏障保护了[TARGET]，\n使其免受招式影响！
 
 #org @gText_RaidShieldBroke
-The mysterious barrier that was\nprotecting [SCRIPTING_BANK]\ldisappeared!
+保护着[SCRIPTING_BANK]的\n神秘屏障消失了！
 
 #org @gText_RaidBattleStatBoost
-[SCRIPTING_BANK]'s [BUFFER][00]\n[BUFFER][01]
+[SCRIPTING_BANK]的[BUFFER][00]\n[BUFFER][01]
 
 #org @gText_RaidBattleStatNullification
-[SCRIPTING_BANK] nullified the\nstat changes and Abilities of\lother Pok\emon!
+[SCRIPTING_BANK]消除了\n其他宝可梦的能力变化和特性！
 
 #org @gText_RaidBattleKO1
-The storm raging above you is\ngrowing stronger!
+你头顶上空的暴风雨\n越来越猛烈了！
 
 #org @gText_RaidBattleKO2
-The storm is growing even\nstronger!
+暴风雨变得更加猛烈了！
 
 #org @gText_RaidBattleKO3
-The storm is getting too strong to\nwithstand!
+暴风雨猛烈到无法承受了！
 
 #org @gText_RaidBattleKO4
-[PLAYER_NAME] was blown out of the\nbattle!
+[PLAYER_NAME]被\n吹出了战斗！
 
 #org @gText_RaidMonRanAway
-[PLAY_SE][11][00][FD][06] disappeared\nsomewhere[.]\p
+[PLAY_SE][11][00][FD][06]消失在了某处。\p
 
 #org @gText_ElectromorphosisActivates
-Being hit by [CURRENT_MOVE]\ncharged [SCRIPTING_BANK] with power.
+[SCRIPTING_BANK]\n受到[CURRENT_MOVE]而充电了。
 
-#org @gText_ToxicDebrisFailed
-[SCRIPTING_BANK] tried to set\nToxic Spikes, but failed.
+#org @gText_ElectromorphosisActivatess
+[SCRIPTING_BANK]\n充电了。
+
+#org @gText_AquaRegenHeal
+[SCRIPTING_BANK]\n因攻击回复少量HP。
 
 #org @sText_TargetIsBeingSaltCured
-[TARGET] is being\nsalt cured!
+[TARGET]正在被盐腌！
 
 #org @sText_TargetIsHurtBySaltCure
-[TARGET] is hurt by\n[FD][00]!
+[TARGET]受到了\n[FD][00]的伤害！

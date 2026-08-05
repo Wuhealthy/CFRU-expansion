@@ -16,6 +16,7 @@ struct SpecialMoveFlags
 	bool8 gMetronomeBannedMoves : 1;
 	bool8 gAssistBannedMoves : 1;
 	bool8 gMimicBannedMoves : 1;
+	bool8 gChargingMoves : 1;
 	bool8 gSleepTalkBannedMoves : 1;
 	bool8 gParentalBondBannedMoves : 1;
 	bool8 gSkyBattleBannedMoves : 1;
@@ -58,13 +59,14 @@ struct SpecialMoveFlags
 	bool8 gAlwaysHitInRainMoves : 1;
 	bool8 gSpecialAttackPhysicalDamageMoves : 1;
 	bool8 gSpecialWholeFieldMoves : 1;
+	bool8 gSpecialWholeFieldMovess : 1;
 	bool8 gAromaVeilProtectedMoves : 1;
 	bool8 gMovesThatLiftProtectTable : 1;
 	bool8 gRandomizerBanTable : 1;
 	bool8 gBuffMoves : 1;
 	bool8 gSlicingMoves : 1;
+	bool8 gMultihitmoves : 1;
 	bool8 gWindMoves : 1;
-	bool8 gTenStrikesMoves : 1;
 };
 
 extern const struct SpecialMoveFlags gSpecialMoveFlags[];

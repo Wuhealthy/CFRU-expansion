@@ -3120,6 +3120,7 @@ static void AddPlayerMoveTypesToBuilder(struct TeamBuilder* builder, u8 monsCoun
 						builder->moveTypeOnPlayerTeam[TYPE_WATER] = TRUE;
 						builder->moveTypeOnPlayerTeam[TYPE_ROCK] = TRUE;
 						builder->moveTypeOnPlayerTeam[TYPE_ICE] = TRUE;
+						builder->moveTypeOnPlayerTeam[TYPE_GHOST] = TRUE;
 						break;
 					case MOVE_TERRAINPULSE:
 						//Account for all Terrain Pulse types
@@ -3224,13 +3225,13 @@ static void UpdateBuilderAfterSpread(struct TeamBuilder* builder, const struct B
 	{
 		switch (ability) {
 			case ABILITY_VOLTABSORB:
-			case ABILITY_EARTHEATER:
 			case ABILITY_MOTORDRIVE:
 			case ABILITY_LIGHTNINGROD:
-				if ((ABILITY(gBankTarget) == ABILITY_EARTHEATER))
-					builder->partyIndex[GROUND_IMMUNITY] = partyId;
-				else
-					builder->partyIndex[ELECTRIC_IMMUNITY] = partyId;
+				builder->partyIndex[ELECTRIC_IMMUNITY] = partyId;
+				break;
+			
+			case ABILITY_EARTHEATER:
+				builder->partyIndex[GROUND_IMMUNITY] = partyId;
 				break;
 
 			case ABILITY_WATERABSORB:
@@ -3248,6 +3249,7 @@ static void UpdateBuilderAfterSpread(struct TeamBuilder* builder, const struct B
 				builder->partyIndex[GRASS_IMMUNITY] = partyId;
 				break;
 
+			case ABILITY_EELEVATE:
 			case ABILITY_LEVITATE:
 				if (itemEffect != ITEM_EFFECT_IRON_BALL)
 					builder->partyIndex[GROUND_IMMUNITY] = partyId;
@@ -3303,6 +3305,7 @@ static bool8 IsSpreadWeakToType(u8 moveType, u8 defType1, u8 defType2, ability_t
 
 	switch (ability)
 	{
+		case ABILITY_EELEVATE:
 		case ABILITY_LEVITATE:
 			if (moveType == TYPE_GROUND)
 				typeDmg = 0; //This assumes there's no Iron Ball on the spread
@@ -3326,13 +3329,15 @@ static bool8 IsSpreadWeakToType(u8 moveType, u8 defType1, u8 defType2, ability_t
 				typeDmg /= 2;
 			break;
 		case ABILITY_VOLTABSORB:
-		case ABILITY_EARTHEATER:
 		case ABILITY_MOTORDRIVE:
 		case ABILITY_LIGHTNINGROD:
-			if ((moveType == TYPE_ELECTRIC && !(ABILITY(gBankTarget) == ABILITY_EARTHEATER))
-			|| (moveType == TYPE_GROUND && (ABILITY(gBankTarget) == ABILITY_EARTHEATER)))
-				typeDmg = 0;
-			break;
+    		if (moveType == TYPE_ELECTRIC)
+        		typeDmg = 0;
+    		break;
+		case ABILITY_EARTHEATER:
+    		if (moveType == TYPE_GROUND)
+        		typeDmg = 0;
+    		break;
 		case ABILITY_WATERABSORB:
 		case ABILITY_DRYSKIN:
 		case ABILITY_STORMDRAIN:

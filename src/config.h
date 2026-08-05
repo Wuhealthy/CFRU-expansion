@@ -383,7 +383,7 @@ enum //These vars need to be one after the other (hence the enum)
 //Also, using OPEN_WORLD_TRAINERS, you would need to edit gGeneralTrainerSpreads in build_pokemon.c
 #define SHOW_MEGAS_IN_HOF // Uncomment if you want mega and primal to be shown in hall of fame.
 #define FLAG_STAT_EDITOR_UNLOCKED 0xA0C
-#define NEW_BATTLE_BACKGROUNDS //When set, battle backgrounds and intro animations will be dynamically replaced by those defined in src/Tables/battle_background_tables.c 
+#define NEW_BATTLE_BACKGROUNDS // When set, battle backgrounds and intro animations will be dynamically replaced by those defined in src/Tables/battle_background_tables.c 
 #define FLAG_SANDBOX_MODE 0xA0D // Use it only when you know what it does, lol.
 #define VAR_DEBUG_MENU_SET_CUSTOM_VAR 0x5158 // The var that stores the value used for set custom var option in debug menu.
 #define VAR_DEBUG_MENU_SET_CUSTOM_VAR_VALUE 0x5159 // The var that stores the value used for set custom var option in debug menu.

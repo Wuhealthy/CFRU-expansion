@@ -129,7 +129,7 @@ void SwitchOutFormsRevert(u8 bank)
 			if (backupSpecies != SPECIES_NONE)
 				DoFormChange(bank, backupSpecies, FALSE, TRUE, FALSE);
 			else
-				DoFormChange(bank, SPECIES_CHERRIM, FALSE, TRUE, FALSE);
+				DoFormChange(bank, SPECIES_DARMANITAN, FALSE, TRUE, FALSE);
 			break;
 		#endif
 
@@ -201,6 +201,15 @@ void SwitchOutFormsRevert(u8 bank)
 				DoFormChange(bank, backupSpecies, FALSE, TRUE, FALSE);
 			else
 				DoFormChange(bank, SPECIES_PALAFIN_HERO, FALSE, TRUE, FALSE);
+			break;
+		#endif
+
+		#if (defined SPECIES_EEVEE && defined SPECIES_EEVEE_HERO)
+		case SPECIES_EEVEE:
+			if (backupSpecies != SPECIES_NONE && ability == ABILITY_TORRENT)
+				DoFormChange(bank, backupSpecies, FALSE, TRUE, FALSE);
+			else
+				DoFormChange(bank, SPECIES_EEVEE_HERO, FALSE, TRUE, FALSE);
 			break;
 		#endif
 
@@ -365,12 +374,6 @@ bool8 TryFormRevert(struct Pokemon* mon)
 			u16 newMove = MOVE_IRONHEAD; //Zamazenta's Behemoth Bash changes to Iron Head in its base forme
 			SetMonData(mon, MON_DATA_MOVE1 + moveIndex, &newMove);
 		}
-	}
-	#endif
-	#ifdef SPECIES_SHADOW_WARRIOR
-	else if (mon->species == SPECIES_SHADOW_WARRIOR) //If it was hacked in
-	{
-		ZeroMonData(mon);
 	}
 	#endif
 
@@ -650,6 +653,27 @@ void HoldItemFormChange(struct Pokemon* mon, u16 item)
 			)
 				targetSpecies = SPECIES_GIRATINA;
 			break;
+		#endif
+
+		#if (defined SPECIES_OGERPON && defined SPECIES_OGERPON_WELLSPRING_MASK && defined SPECIES_OGERPON_HEARTHFLAME_MASK && defined SPECIES_OGERPON_CORNERSTONE_MASK)
+		case SPECIES_OGERPON:
+    		if (itemEffect == ITEM_EFFECT_MASKS)
+    		{
+        		if (type == TYPE_WATER)
+            		targetSpecies = SPECIES_OGERPON_WELLSPRING_MASK;
+        		else if (type == TYPE_FIRE)
+            		targetSpecies = SPECIES_OGERPON_HEARTHFLAME_MASK;
+        		else if (type == TYPE_ROCK)
+            		targetSpecies = SPECIES_OGERPON_CORNERSTONE_MASK;
+    		}
+    		break;
+
+		case SPECIES_OGERPON_WELLSPRING_MASK:
+		case SPECIES_OGERPON_HEARTHFLAME_MASK:
+		case SPECIES_OGERPON_CORNERSTONE_MASK:
+    		if (itemEffect != ITEM_EFFECT_MASKS)
+        		targetSpecies = SPECIES_OGERPON;
+    		break;
 		#endif
 
 		#ifdef PLA_HELD_ORIGIN_ORBS

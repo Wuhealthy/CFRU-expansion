@@ -236,6 +236,7 @@ void atkFF06_setterrain(void)
 			case MOVE_SPLINTERED_STORMSHARDS:
 			case MOVE_DEFOG:
 			case MOVE_STEELROLLER:
+			case MOVE_ICESPINNER:
 			REMOVE_TERRAIN:
 				//if (gCurrentMove != MOVE_DEFOG)
 				//	gNewBS->terrainForcefullyRemoved = TRUE; //Screw this lol
@@ -312,15 +313,6 @@ void atkFF08_counterclear(void)
 		case Counters_ThroatChop:
 			if (gNewBS->ThroatChopTimers[bank])
 				gNewBS->ThroatChopTimers[bank] = 0;
-			else
-				failed = TRUE;
-			break;
-		case Counters_GlaiveRush:
-			if (gNewBS->GlaiveRushTimers[bank])
-			{
-				gNewBS->GlaiveRushTimers[bank] = 0;
-				gStatuses3[bank] &= ~STATUS3_GLAIVERUSH;
-			}
 			else
 				failed = TRUE;
 			break;
@@ -556,13 +548,6 @@ void atkFF0E_setcounter(void)
 			break;
 		case Counters_ThroatChop:
 			gNewBS->ThroatChopTimers[bank] = amount;
-			break;
-		case Counters_GlaiveRush:
-			gNewBS->GlaiveRushTimers[bank] = amount;
-			if (amount)
-				gStatuses3[bank] |= STATUS3_GLAIVERUSH;
-			else
-				gStatuses3[bank] &= ~STATUS3_GLAIVERUSH;
 			break;
 		case Counters_Embargo:
 			gNewBS->EmbargoTimers[bank] = amount;
@@ -1003,6 +988,33 @@ void atkFE_prefaintmoveendeffects(void)
 						}
 						break;
 
+					case ABILITY_VENOMFORTE:
+						if (ABILITY(gBankTarget) != ABILITY_SHIELDDUST
+						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK
+						&& CanBePoisoned(gBankTarget, gBankAttacker, TRUE))
+						{
+        					BattleScriptPushCursor();
+        					gBattlescriptCurrInstr = BattleScript_PoisonTouch;
+        					effect = TRUE;
+						}
+						break;
+						
+					case ABILITY_TOXICCHAIN:
+					{
+						u8 chance = BankHasRainbow(gBankAttacker) ? 60 : 30;
+
+						if (ABILITY(gBankTarget) != ABILITY_SHIELDDUST
+						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK
+						&& CanBePoisoned(gBankTarget, gBankAttacker, TRUE)
+						&& umodsi(Random(), 100) < chance)
+						{
+							BattleScriptPushCursor();
+							gBattlescriptCurrInstr = BattleScript_ToxicChain;
+							effect = TRUE;
+						}
+						break;
+					}
+
 					case ABILITY_POISONTOUCH:
 					{
 						u8 chance = BankHasRainbow(gBankAttacker) ? 60 : 30;
@@ -1019,16 +1031,6 @@ void atkFE_prefaintmoveendeffects(void)
 						}
 						break;
 					}
-
-					case ABILITY_TOXICCHAIN:
-						if (CanBePoisoned(gBankTarget, gBankAttacker, TRUE)
-						&& umodsi(Random(), 100) < 30)
-						{
-							BattleScriptPushCursor();
-							gBattlescriptCurrInstr = BattleScript_ToxicChain;
-							effect = TRUE;
-						}
-						break;
 				}
 			}
 			gNewBS->preFaintEffectsState++;
@@ -1778,7 +1780,7 @@ void atkFF2B_trysetburn(void)
 	}
 	else if (IsOfType(bank, TYPE_FIRE)
 	#ifdef UNBOUND
-	|| SPECIES(bank) == SPECIES_SHADOW_WARRIOR
+	|| SPECIES(bank) == SPECIES_EEVEE_HERO
 	#endif
 	)
 	{

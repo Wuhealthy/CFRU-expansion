@@ -1,29 +1,29 @@
 #org @gText_ViridianCity_BattleStart
-Let's battle!
+来对战吧！
 
 #org @gText_ViridianCity_BattleEnd
-Aw, shucks!
+啊，真可惜！
 
 #org @gText_ViridianCity_BattleOver
-You beat me!
+你打败我了！
 
 #org @gText_Initial
-Hi[.]
+你好。
 
 #org @gText_Lose
-I lost[.]
+我输了。
 
 #org @gText_Later
-Hello[.]
+你好呀。
 
 #org @gText_ViridianCity_OldMan_IVChangeAsk
-Hi there! Would you like me\nto change your Pok\emon's IVs?
+你好呀！要不要我帮你\n改变宝可梦的个体值？
 
 #org @gText_ViridianCity_OldMan_No
-I see[.]\pPlease come again later!
+这样啊。\p欢迎下次再来！
 
 #org @gText_ViridianCity_OldMan_OpenMenu
-Which Pok\emon's IVs should I change?
+你想改变哪只宝可梦的个体值？
 
 #org @gText_ViridianCity_OldMan_Done
-IVs have been set to max!
+个体值已全部设为最高！

@@ -65,11 +65,11 @@ AUDIO = './audio'
 BUILD = './build'
 IMAGES = './Images'
 FOLLOWER_MON_SPRITES = './follower_mon_sprites'
-MON_OW_OFFSET = 0x900000  # ROM file offset for follower-mon overworld graphics
+MON_OW_OFFSET = 0xF00000  # ROM file offset for follower-mon overworld graphics
 ASFLAGS = ['-mthumb', '-I', ASSEMBLY]
 LDFLAGS = ['BPRE.ld', '-T', 'linker.ld']
 CFLAGS = ['-mthumb', '-mno-thumb-interwork', '-mcpu=arm7tdmi', '-mtune=arm7tdmi',
-          '-mno-long-calls', '-march=armv4t', '-Wall', '-Wextra', '-Os', '-fira-loop-pressure', '-fipa-pta']
+          '-mno-long-calls', '-march=armv4t', '-Wall', '-Wextra', '-Os', '-fira-loop-pressure', '-fipa-pta', '-nostdlib', '-ffreestanding']
 
 
 class Master:

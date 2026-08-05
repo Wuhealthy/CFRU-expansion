@@ -277,10 +277,10 @@ static bool8 TryActivateFlowerGift(u8 leavingBank)
 	u32 i = 0;
 
 	if (ABILITY(leavingBank) == ABILITY_CLOUDNINE
-	#ifdef ABILITY_AIRLOCK
-	|| ABILITY(leavingBank) == ABILITY_AIRLOCK
-	#endif
-	)
+	|| ABILITY(leavingBank) == ABILITY_ICEDEITY
+	|| ABILITY(leavingBank) == ABILITY_THUNDERDEITY
+	|| ABILITY(leavingBank) == ABILITY_FIREDEITY
+	|| ABILITY(leavingBank) == ABILITY_AIRLOCK)
 		ABILITY(leavingBank) = ABILITY_NONE; //Remove ability because we can't have these anymore
 
 	for (u8 bank = gBanksByTurnOrder[i]; i < gBattlersCount; ++i, bank = gBanksByTurnOrder[i])
@@ -1303,7 +1303,6 @@ void ClearSwitchBytes(u8 bank)
 	gNewBS->HealBlockTimers[bank] = 0;
 	gNewBS->LaserFocusTimers[bank] = 0;
 	gNewBS->ThroatChopTimers[bank] = 0;
-	gNewBS->GlaiveRushTimers[bank] = 0;
 	gNewBS->statuses4[bank] = 0;
 	gNewBS->StompingTantrumTimers[bank] = 0;
 	gNewBS->MetronomeCounter[bank] = 0;
@@ -1321,10 +1320,8 @@ void ClearSwitchBytes(u8 bank)
 	gNewBS->dynamaxData.timer[bank] = 0;
 	gNewBS->zMoveData.toBeUsed[bank] = 0; //Force switch or fainted before Z-Move could be used
 	gNewBS->chiStrikeCritBoosts[bank] = 0;
-	gNewBS->dragonCheerCritBoosts[bank] = 0;
 	gNewBS->sandblastCentiferno[bank] = 0;
 	gNewBS->disguisedAs[bank] = 0;
-	gNewBS->powerShifted[bank] = 0;
 	gNewBS->splinterTimer[bank] = 0;
 	gNewBS->splinterAttackerBank[bank] = 0;
 	gNewBS->splinterAttackerMonId[bank] = 0;
