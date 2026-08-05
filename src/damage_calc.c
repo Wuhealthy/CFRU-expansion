@@ -118,7 +118,6 @@ void atk04_critcalc(void)
 		}
 		else if (IsLaserFocused(gBankAttacker)
 		|| (atkAbility == ABILITY_MERCILESS && !SpeciesHasDrillBeak(GetProperAbilityPopUpSpecies(gBankAttacker)) && (gBattleMons[bankDef].status1 & STATUS_PSN_ANY))
-		|| (atkAbility == ABILITY_PIERCINGDRILL && SpeciesHasDrillBeak(GetProperAbilityPopUpSpecies(gBankAttacker)) && gSpecialMoveFlags[gCurrentMove].gDrillMoves) //Drill moves always crit
 		|| gSpecialMoveFlags[gCurrentMove].gAlwaysCriticalMoves)
 		{
 			confirmedCrit = TRUE;
@@ -217,7 +216,6 @@ static u8 CalcPossibleCritChance(u8 bankAtk, u8 bankDef, u16 move, struct Pokemo
 	}
 	else if ((IsLaserFocused(bankAtk) && monAtk == NULL)
 	|| (atkAbility == ABILITY_MERCILESS && !SpeciesHasDrillBeak(atkAbilitySpecies) && (defStatus1 & STATUS_PSN_ANY))
-	|| (atkAbility == ABILITY_PIERCINGDRILL && SpeciesHasDrillBeak(atkAbilitySpecies) && gSpecialMoveFlags[move].gDrillMoves) //Drill moves always crit
 	|| gSpecialMoveFlags[move].gAlwaysCriticalMoves)
 	{
 		return TRUE;
@@ -1709,6 +1707,8 @@ u8 GetMoveTypeSpecialPostAbility(u16 move, ability_t atkAbility, bool8 zMoveActi
 					return TYPE_FLYING;
 				case ABILITY_GALVANIZE:
 					return TYPE_ELECTRIC;
+				case ABILITY_DRAGONIZE:
+					return TYPE_DRAGON;
 			}
 		}
 
@@ -1756,6 +1756,7 @@ static bool8 AbilityCanChangeTypeAndBoost(u16 move, ability_t atkAbility, u8 ele
 				case ABILITY_PIXILATE:
 				case ABILITY_AERILATE:
 				case ABILITY_GALVANIZE:
+				case ABILITY_DRAGONIZE:
 					return TRUE;
 			}
 		}
@@ -1787,7 +1788,9 @@ u8 GetExceptionMoveType(u8 bankAtk, u16 move)
 			break;
 
 		case MOVE_WEATHERBALL:
-			if (gBattleWeather & WEATHER_RAIN_ANY && !ItemEffectIgnoresSunAndRain(effect) && WEATHER_HAS_EFFECT)
+			if (ABILITY(bankAtk) == ABILITY_MEGA_SOL && !ItemEffectIgnoresSunAndRain(effect))
+				moveType = TYPE_FIRE;
+			else if (gBattleWeather & WEATHER_RAIN_ANY && !ItemEffectIgnoresSunAndRain(effect) && WEATHER_HAS_EFFECT)
 				moveType = TYPE_WATER;
 			else if (gBattleWeather & WEATHER_SANDSTORM_ANY && WEATHER_HAS_EFFECT)
 				moveType = TYPE_ROCK;
@@ -1928,7 +1931,9 @@ u8 GetMonExceptionMoveType(struct Pokemon* mon, u16 move)
 		case MOVE_WEATHERBALL:
 			if (gMain.inBattle)
 			{
-				if (gBattleWeather & WEATHER_RAIN_ANY && !ItemEffectIgnoresSunAndRain(effect) && WEATHER_HAS_EFFECT)
+				if (ability == ABILITY_MEGA_SOL && !ItemEffectIgnoresSunAndRain(effect))
+					moveType = TYPE_FIRE;
+				else if (gBattleWeather & WEATHER_RAIN_ANY && !ItemEffectIgnoresSunAndRain(effect) && WEATHER_HAS_EFFECT)
 					moveType = TYPE_WATER;
 				else if (gBattleWeather & WEATHER_SANDSTORM_ANY && WEATHER_HAS_EFFECT)
 					moveType = TYPE_ROCK;
@@ -2551,12 +2556,6 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 					else
 						data->spAtkBuff = min(data->spAtkBuff + 1, STAT_STAGE_MAX);
 				}
-				else if (atkAbility == ABILITY_314
-				&& RainCanBeEvaporated()
-				&& SpeciesHasEvaporate(data->atkSpecies)
-				&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect))
-					data->spAtkBuff = min(data->spAtkBuff + 1, STAT_STAGE_MAX);
-
 				TryBoostMonOffensesForTotemBoost(data, bankAtk, FALSE);
 				break;
 		}
@@ -2872,18 +2871,6 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 		case ABILITY_FURCOAT:
 		//2x Boost
 			defense *= 2;
-			break;
-
-		case ABILITY_313:
-		//0.75x Decrement
-		#ifdef PORTAL_POWER
-			if ((useMonAtk && !CheckContactByMon(move, data->monAtk))
-			|| (!useMonAtk && !CheckContact(move, bankAtk, bankDef)))
-			{
-				attack = (attack * 75) / 100;
-				spAttack = (spAttack * 75) / 100;
-			}
-		#endif
 			break;
 
 		case ABILITY_QUARKDRIVE:
@@ -3223,7 +3210,21 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 	//Weather Boost
 	if (WEATHER_HAS_EFFECT && !ItemEffectIgnoresSunAndRain(data->defItemEffect))
 	{
-		if (gBattleWeather & WEATHER_RAIN_ANY)
+		if (data->atkAbility == ABILITY_MEGA_SOL && !ItemEffectIgnoresSunAndRain(data->atkItemEffect))
+		{
+			switch (data->moveType) {
+				case TYPE_FIRE:
+					damage = (damage * 15) / 10;
+					break;
+				case TYPE_WATER:
+					if (gCurrentMove == MOVE_HYDROSTEAM)
+						damage = (damage * 15) / 10;
+					else
+						damage /= 2;
+					break;
+			}
+		}
+		else if (gBattleWeather & WEATHER_RAIN_ANY)
 		{
 			switch (data->moveType) {
 				case TYPE_FIRE:
@@ -4149,6 +4150,7 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 		case ABILITY_PIXILATE:
 		case ABILITY_REFRIGERATE:
 		case ABILITY_GALVANIZE:
+		case ABILITY_DRAGONIZE:
 		case ABILITY_NORMALIZE:
 		//1.2x / 1.3x Boost
 			if ((!useMonAtk && AbilityCanChangeTypeAndBoost(move, data->atkAbility, gNewBS->ElectrifyTimers[bankAtk], (gNewBS->zMoveData.active || gNewBS->zMoveData.viewing)))
@@ -4160,6 +4162,24 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 					power = (power * 12) / 10;
 				#endif
 			}
+			break;
+
+		case ABILITY_FIRE_MANE:
+		//1.5x boost to Fire-type moves
+			if (data->moveType == TYPE_FIRE)
+				power = (power * 15) / 10;
+			break;
+
+		case ABILITY_PIERCINGDRILL:
+		//Contact moves that pass through protection deal one quarter damage.
+			if (IsContactMove(move, bankAtk, bankDef)
+			&& (gProtectStructs[bankDef].protected
+			 || gProtectStructs[bankDef].KingsShield
+			 || gProtectStructs[bankDef].SpikyShield
+			 || gProtectStructs[bankDef].BanefulBunker
+			 || gProtectStructs[bankDef].obstruct
+			 || gProtectStructs[bankDef].BurningBulwark))
+				power = MathMax(1, power / 4);
 			break;
 
 		case ABILITY_MEGALAUNCHER:

@@ -316,11 +316,9 @@
 #define ABILITY_POISONPUPPETEER                      310
 #define ABILITY_PIERCINGDRILL                        311
 #define ABILITY_DRAGONIZE                            312
-#define ABILITY_313                                  313
-#define ABILITY_314                                  314
-#define ABILITY_MEGA_SOL                             315
-#define ABILITY_316                                  316
-#define ABILITY_317                                  317
-#define ABILITY_SPICY_SPRAY                          318
+#define ABILITY_EELEVATE                             313
+#define ABILITY_MEGA_SOL                             314
+#define ABILITY_FIRE_MANE                            315
+#define ABILITY_SPICY_SPRAY                          316
 
-#define ABILITIES_COUNT                              319
+#define ABILITIES_COUNT                              317

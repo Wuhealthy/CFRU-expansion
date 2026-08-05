@@ -198,6 +198,8 @@ bool8 ProtectAffects(u16 move, u8 bankAtk, u8 bankDef, bool8 set)
 	if (protectFlag && IsContactMove(move, bankAtk, bankDef) && ABILITY(bankAtk) == ABILITY_UNSEENFIST) //Uses IsContactMove instead of CheckContact because Protective Pads don't affect this Ability
 		protectFlag = FALSE;
 	#endif
+	if (protectFlag && IsContactMove(move, bankAtk, bankDef) && ABILITY(bankAtk) == ABILITY_PIERCINGDRILL)
+		protectFlag = FALSE;
 
 	if (protectFlag && move == MOVE_HYPERDRILL)
 		protectFlag = FALSE;
@@ -319,6 +321,7 @@ bool8 DoesProtectionMoveBlockMove(u8 bankAtk, u8 bankDef, u16 atkMove, u16 prote
 	#ifdef ABILITY_UNSEENFIST
 	&& ABILITY(bankAtk) != ABILITY_UNSEENFIST
 	#endif
+	&& ABILITY(bankAtk) != ABILITY_PIERCINGDRILL
 	)
 	{
 		switch (protectMove) {

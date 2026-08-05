@@ -930,7 +930,8 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 					break;
 				#endif
 
-				case ABILITY_BEASTBOOST: ;
+				case ABILITY_BEASTBOOST:
+				case ABILITY_EELEVATE: ;
 					if ((arg1 != ARG_IN_FUTURE_ATTACK || gWishFutureKnock.futureSightPartyIndex[bankDef] == gBattlerPartyIndexes[gBankAttacker])
 					&& gBattleMons[bankDef].hp == 0
 					&& BATTLER_ALIVE(gBankAttacker)

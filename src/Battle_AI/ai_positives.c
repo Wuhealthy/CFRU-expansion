@@ -1975,7 +1975,6 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 								if (gBattleWeather & WEATHER_SUN_ANY)
 									INCREASE_STATUS_VIABILITY(3); //Slow 'em down
 								break;
-							case ABILITY_314:
 								if (BankHasEvaporate(bankDef))
 									INCREASE_STATUS_VIABILITY(2); //Prevent it from absorbing the rain
 								break;

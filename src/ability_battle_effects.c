@@ -194,11 +194,11 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_PICKUP] = 1,
 	[ABILITY_PICKPOCKET] = 3,
 	[ABILITY_PIXILATE] = 8,
+	[ABILITY_EELEVATE] = 8,
 	[ABILITY_PLUS] = 0,
 	[ABILITY_POISONHEAL] = 8,
 	[ABILITY_POISONPOINT] = 4,
 	[ABILITY_POISONTOUCH] = 4,
-	[ABILITY_313] = 8,
 	[ABILITY_POWERCONSTRUCT] = 10,
 	#ifdef ABILITY_POWEROFALCHEMY
 	[ABILITY_POWEROFALCHEMY] = 0,
@@ -1471,25 +1471,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			}
 			break;
 
-		case ABILITY_314:
-			if (BankHasEvaporate(bank) && AffectedByRain(bank))
-			{
-				if (RainCanBeEvaporated())
-				{
-					//Remove weather
-					gBankAttacker = bank;
-					gBattleWeather = 0;
-					gWishFutureKnock.weatherDuration = 0;
-					BattleScriptPushCursorAndCallback(BattleScript_EvaporateOnSwitchIn);
-					effect++;
-				}
-				else if (gBattleWeather & WEATHER_PRIMAL_ANY)
-				{
-					BattleScriptPushCursorAndCallback(BattleScript_WeatherAbilityBlockedByPrimalWeather);
-					effect++;
-				}
-			}
-			break;
 		}
 
 		switch (gLastUsedAbility) { //These abilities should always activate if they can
@@ -1793,15 +1774,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					gNewBS->turnDamageTaken[bank] = 0; //Reset to prevent accidental triggering
 					break;
 				
-				case ABILITY_314:
-					if (RainCanBeEvaporated() && BankHasEvaporate(bank) && AffectedByRain(bank))
-					{
-						gBattleWeather = 0;
-						gWishFutureKnock.weatherDuration = 0;
-						BattleScriptPushCursorAndCallback(BattleScript_EvaporateOnSwitchIn);
-						effect++;
-					}
-					break;
 			}
 			}
 			break;
@@ -1915,7 +1887,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					break;
 
 				case ABILITY_STORMDRAIN:
-				case ABILITY_314:
 					if (moveType == TYPE_WATER)
 						effect = 2, statId = STAT_SPATK;
 					break;
@@ -2189,6 +2160,21 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					BattleScriptPushCursor();
 					gBattlescriptCurrInstr = BattleScript_AbilityApplySecondaryEffect;
 					gHitMarker |= HITMARKER_IGNORE_SAFEGUARD; //Safeguard checked earlier
+					effect++;
+				}
+				break;
+
+			case ABILITY_SPICY_SPRAY:
+				if (MOVE_HAD_EFFECT
+				&& TOOK_DAMAGE(bank)
+				&& BATTLER_ALIVE(gBankAttacker)
+				&& gBankAttacker != bank
+				&& CanBeBurned(gBankAttacker, bank, TRUE))
+				{
+					gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_BURN;
+					BattleScriptPushCursor();
+					gBattlescriptCurrInstr = BattleScript_AbilityApplySecondaryEffect;
+					gHitMarker |= HITMARKER_IGNORE_SAFEGUARD;
 					effect++;
 				}
 				break;

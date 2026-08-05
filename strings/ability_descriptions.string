@@ -587,6 +587,24 @@ Tail moves hit first.
 #org @DESC_DRILLBEAK
 Drill moves land critical hits.
 
+#org @DESC_PIERCINGDRILL
+Contact moves pierce protection.
+
+#org @DESC_DRAGONIZE
+Normal moves become Dragon-type.
+
+#org @DESC_EELEVATE
+Floats; boosts its best stat on KO.
+
+#org @DESC_MEGA_SOL
+The user acts as if sunlight is harsh.
+
+#org @DESC_FIRE_MANE
+Powers up Fire-type moves.
+
+#org @DESC_SPICY_SPRAY
+Burns attackers that damage it.
+
 #org @DESC_ANGERSHELL
 Changes stats at half HP.
 

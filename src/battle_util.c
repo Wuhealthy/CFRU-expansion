@@ -305,6 +305,7 @@ bool8 CheckGrounding(u8 bank)
 	else if ((gStatuses3[bank] & (STATUS3_LEVITATING | STATUS3_TELEKINESIS | STATUS3_IN_AIR))
 	|| ITEM_EFFECT(bank) == ITEM_EFFECT_AIR_BALLOON
 	|| ABILITY(bank) == ABILITY_LEVITATE
+	|| ABILITY(bank) == ABILITY_EELEVATE
 	|| IsFloatingWithMagnetism(bank)
 	|| gBattleMons[bank].type3 == TYPE_FLYING
 	|| gBattleMons[bank].type1 == TYPE_FLYING
@@ -328,6 +329,7 @@ bool8 NonInvasiveCheckGrounding(u8 bank, ability_t defAbility, u8 defType1, u8 d
    || GetRecordedItemEffect(bank) == ITEM_EFFECT_AIR_BALLOON
    || IsFloatingWithMagnetism(bank)
    || defAbility == ABILITY_LEVITATE
+   || defAbility == ABILITY_EELEVATE
    || defType1 == TYPE_FLYING
    || defType2 == TYPE_FLYING
    || defType3 == TYPE_FLYING)
@@ -345,7 +347,7 @@ bool8 CheckMonGrounding(struct Pokemon* mon)
 	|| (ItemId_GetHoldEffect(item) == ITEM_EFFECT_IRON_BALL && GetMonAbility(mon) != ABILITY_KLUTZ))
 		return GROUNDED;
 
-	else if (GetMonAbility(mon) == ABILITY_LEVITATE
+	else if ((GetMonAbility(mon) == ABILITY_LEVITATE || GetMonAbility(mon) == ABILITY_EELEVATE)
 	|| IsMonFloatingWithMagnetism(mon)
 	|| gBaseStats[species].type1 == TYPE_FLYING
 	|| gBaseStats[species].type2 == TYPE_FLYING)
@@ -359,6 +361,7 @@ bool8 CheckGroundingByDetails(u16 species, u16 item, ability_t ability)
 	if (ability != ABILITY_KLUTZ && ItemId_GetHoldEffect(item) == ITEM_EFFECT_IRON_BALL)
 		return GROUNDED;
 	else if (ability == ABILITY_LEVITATE
+	|| ability == ABILITY_EELEVATE
 	|| gBaseStats[species].type1 == TYPE_FLYING
 	|| gBaseStats[species].type2 == TYPE_FLYING)
 		return IN_AIR;
@@ -1670,7 +1673,8 @@ u8 AttacksThisTurn(u8 bank, u16 move) // Note: returns 1 if it's a charging turn
 	if (ITEM_EFFECT(bank) == ITEM_EFFECT_POWER_HERB)
 		return 2;
 
-	if (moveEffect == EFFECT_SOLARBEAM && (gBattleWeather & WEATHER_SUN_ANY) && WEATHER_HAS_EFFECT)
+	if (moveEffect == EFFECT_SOLARBEAM
+	&& (((gBattleWeather & WEATHER_SUN_ANY) && WEATHER_HAS_EFFECT) || ABILITY(bank) == ABILITY_MEGA_SOL))
 		return 2;
 
 	if (moveEffect == EFFECT_SKULL_BASH

@@ -17,6 +17,16 @@ extern u16 SparklePal[];
 
 static void SpriteCB_Sparkle(struct Sprite *sprite);
 
+static u16 GetFollowerMonSpecies(struct Pokemon *mon)
+{
+    u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+
+    if (species == SPECIES_PYROAR && GetMonGender(mon) == MON_FEMALE)
+        species = SPECIES_PYROAR_FEMALE;
+
+    return species;
+}
+
 static const struct OamData sSparkleOamData =
 {
     .y = 0,
@@ -120,7 +130,7 @@ u16 GetFollowerMonSprite(void)
     if (mon == NULL)
         return 0;
 
-    u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+    u16 species = GetFollowerMonSpecies(mon);
     return gFollowerMonSpriteIdTable[species] + 256;
 }
 
@@ -1672,7 +1682,7 @@ void ChangeFollowerPalette(void)
     if (!IsMonShiny(mon))
         return;
 
-    u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+    u16 species = GetFollowerMonSpecies(mon);
     
     u16 paletteTag = (species < ARRAY_COUNT(sSpeciesToPaletteTag)) ? sSpeciesToPaletteTag[species] : 0x0000;
     if (paletteTag == 0x0000)

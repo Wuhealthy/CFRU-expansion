@@ -4698,7 +4698,7 @@ void atkC0_recoverbasedonsunlight(void)
 			else
 				gBattleMoveDamage = GetBaseMaxHP(gBankAttacker) / 2;
 		}
-		else if (gBattleWeather & WEATHER_SUN_ANY)
+		else if ((gBattleWeather & WEATHER_SUN_ANY) || ABILITY(gBankAttacker) == ABILITY_MEGA_SOL)
 		{
 			if (AffectedBySun(gBankAttacker))
 				gBattleMoveDamage = (2 * GetBaseMaxHP(gBankAttacker)) / 3;
