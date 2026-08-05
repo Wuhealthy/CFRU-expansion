@@ -206,6 +206,25 @@ u8 GetMoveRelearnerMoves(struct Pokemon* mon, u16* moves)
 		}
 	}
 
+    {
+        u16 eggMoves[EGG_MOVES_ARRAY_COUNT];
+        u8 eggCount = GetAllEggMoves(mon, eggMoves, TRUE);  // TRUE = 排除已学会的
+
+        for (i = 0; i < eggCount && numMoves < MAX_LEARNABLE_MOVES; i++)
+        {
+            u16 move = eggMoves[i];
+            if (move != MOVE_NONE)
+            {
+                // 检查是否已在列表中（去重）
+                for (k = 0; k < numMoves && moves[k] != move; ++k)
+                    ;
+
+                if (k == numMoves)
+                    moves[numMoves++] = move;
+            }
+        }
+    }
+
 	return numMoves;
 }
 
