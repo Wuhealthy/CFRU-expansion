@@ -939,16 +939,17 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 
 			if (effect)
 			{
-				if (!gSpecialAbilityFlags[*GetAbilityLocation(target1)].gTraceBannedAbilities)
+				ability_t tracedAbility = *GetAbilityLocation(target1);
+				if (tracedAbility < ABILITIES_COUNT
+				&& !gSpecialAbilityFlags[tracedAbility].gTraceBannedAbilities)
 				{
 					gBankAttacker = bank;
-					*GetAbilityLocation(bank) = *GetAbilityLocation(target1);
+					*GetAbilityLocation(bank) = tracedAbility;
 					SetTookAbilityFrom(bank, target1);
-					gLastUsedAbility = *GetAbilityLocation(target1);
+					gLastUsedAbility = tracedAbility;
 					BattleScriptPushCursorAndCallback(BattleScript_TraceActivates);
 
 					PREPARE_MON_NICK_WITH_PREFIX_BUFFER(gBattleTextBuff1, target1, gBattlerPartyIndexes[target1])
-					PREPARE_ABILITY_BUFFER(gBattleTextBuff2, gLastUsedAbility)
 				}
 				else
 				{
@@ -3095,7 +3096,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			break;
 		}
 
-	if (effect && caseID < ABILITYEFFECT_CHECK_OTHER_SIDE && gLastUsedAbility != 0xFF)
+	if (effect && caseID < ABILITYEFFECT_CHECK_OTHER_SIDE && gLastUsedAbility != ABILITYEFFECT_SWITCH_IN_WEATHER)
 		RecordAbilityBattle(bank, gLastUsedAbility);
 
 	return effect;

@@ -509,10 +509,10 @@ void atkFF09_jumpifcounter(void)
 void atkFF0A_setability(void)
 {
 	u8 bank = GetBankForBattleScript(gBattlescriptCurrInstr[1]);
-	ability_t ability = gBattlescriptCurrInstr[2];
+	ability_t ability = T1_READ_16(gBattlescriptCurrInstr + 2);
 	*GetAbilityLocation(bank) = ability;
 	ResetTookAbilityFrom(bank);
-	gBattlescriptCurrInstr += 3;
+	gBattlescriptCurrInstr += 4;
 }
 
 //jumpiftargetpartner ROM_OFFSET
@@ -796,8 +796,8 @@ void atkFF1A_jumpifabilitypresentattackerfield(void)
 //tryactivateswitchinability BANK
 void atkFF1B_tryactivateswitchinability(void)
 {
-	u8 bank = GetBankForBattleScript(gBattlescriptCurrInstr[1]);
-	gBattlescriptCurrInstr += 2;
+	u8 bank = GetBankForBattleScript(gBattlescriptCurrInstr[2]);
+	gBattlescriptCurrInstr += 3;
 	AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, bank, 0, 0, 0);
 }
 

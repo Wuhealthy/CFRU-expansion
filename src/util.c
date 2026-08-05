@@ -77,7 +77,7 @@ bool8 CheckTableForAbility(ability_t ability, const ability_t table[])
 
 bool8 CheckTableForSpecialMoveEffect(u8 effect, const u8 table[])
 {
-	for (u32 i = 0; table[i] != ABILITY_TABLES_TERMIN; ++i)
+	for (u32 i = 0; table[i] != MOVE_EFFECT_TABLES_TERMIN; ++i)
 	{
 		if (effect == table[i])
 			return TRUE;

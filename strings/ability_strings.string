@@ -1,6 +1,9 @@
 #org @gText_AirLockActivate
 天气的影响消失了！
 
+#org @gText_TraceActivate
+[SCRIPTING_BANK]复制了\n[BUFFER][00]的[LAST_ABILITY]！
+
 #org @gText_PressureActivate
 [SCRIPTING_BANK]\n正在施加压力！
 

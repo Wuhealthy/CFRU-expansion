@@ -54,10 +54,10 @@ static u8 (*const sBattleAIScriptTable[])(const u8, const u8, const u16, const u
 
 //This file's functions:
 static void CheckDeperateAttempt(u8 bankAtk, u8 bankDef, u8 chosenMovePos, struct AIScript* aiScriptData);
-static void TryTempMegaEvolveAllBanks(struct BattlePokemon* backupBattleMons, u16* backupSpecies, u8* backupAbilities);
-static void TryTempMegaEvolveBank(u8 bank, struct BattlePokemon* backupMon, u16* backupSpecies, u8* backupAbility);
-static void TryRevertTempMegaEvolveAllBanks(struct BattlePokemon* backupBattleMons, u16* backupSpecies, u8* backupAbilities);
-static void TryRevertTempMegaEvolveBank(u8 bank, struct BattlePokemon* backupMon, u16* backupSpecies, u8* backupAbility);
+static void TryTempMegaEvolveAllBanks(struct BattlePokemon* backupBattleMons, u16* backupSpecies, ability_t* backupAbilities);
+static void TryTempMegaEvolveBank(u8 bank, struct BattlePokemon* backupMon, u16* backupSpecies, ability_t* backupAbility);
+static void TryRevertTempMegaEvolveAllBanks(struct BattlePokemon* backupBattleMons, u16* backupSpecies, ability_t* backupAbilities);
+static void TryRevertTempMegaEvolveBank(u8 bank, struct BattlePokemon* backupMon, u16* backupSpecies, ability_t* backupAbility);
 static u8 ChooseMoveOrAction_Singles(struct AIScript* aiScriptData);
 static u8 ChooseMoveOrAction_Doubles(struct AIScript* aiScriptData);
 static u8 ChooseTarget_Doubles(const s16* bestMovePointsForTarget, const u8* actionOrMoveIndex);
@@ -241,7 +241,7 @@ u8 BattleAI_ChooseMoveOrAction(void)
 	struct AIScript aiScriptData = {0};
 
 	struct BattlePokemon backupBattleMons[gBattlersCount];
-	u8* backupAbilities = gNewBS->ai.backupAbilities;
+	ability_t* backupAbilities = gNewBS->ai.backupAbilities;
 	u16 backupSpecies[gBattlersCount];
 	//UpdateMegaPotential(); //Mega potential already updated before switching
 	TryTempMegaEvolveAllBanks(backupBattleMons, backupSpecies, backupAbilities); //Mega Evolve everyone on the field during the processing
@@ -268,7 +268,7 @@ u8 BattleAI_ChooseMoveOrAction(void)
 	return ret;
 }
 
-static void TryTempMegaEvolveAllBanks(struct BattlePokemon* backupBattleMons, u16* backupSpecies, u8* backupAbilities)
+static void TryTempMegaEvolveAllBanks(struct BattlePokemon* backupBattleMons, u16* backupSpecies, ability_t* backupAbilities)
 {
 	u8 bank;
 
@@ -276,7 +276,7 @@ static void TryTempMegaEvolveAllBanks(struct BattlePokemon* backupBattleMons, u1
 		TryTempMegaEvolveBank(bank, &backupBattleMons[bank], &backupSpecies[bank], &backupAbilities[bank]);
 }
 
-static void TryTempMegaEvolveBank(u8 bank, struct BattlePokemon* backupMon, u16* backupSpecies, u8* backupAbility)
+static void TryTempMegaEvolveBank(u8 bank, struct BattlePokemon* backupMon, u16* backupSpecies, ability_t* backupAbility)
 {
 	if (gNewBS->ai.megaPotential[bank] != NULL) //Mon will probably mega evolve
 	{
@@ -307,7 +307,7 @@ static void TryTempMegaEvolveBank(u8 bank, struct BattlePokemon* backupMon, u16*
 	}
 }
 
-static void TryRevertTempMegaEvolveAllBanks(struct BattlePokemon* backupBattleMons, u16* backupSpecies, u8* backupAbilities)
+static void TryRevertTempMegaEvolveAllBanks(struct BattlePokemon* backupBattleMons, u16* backupSpecies, ability_t* backupAbilities)
 {
 	u8 bank;
 
@@ -315,11 +315,11 @@ static void TryRevertTempMegaEvolveAllBanks(struct BattlePokemon* backupBattleMo
 		TryRevertTempMegaEvolveBank(bank, &backupBattleMons[bank], &backupSpecies[bank], &backupAbilities[bank]);
 
 	//Clear when done
-	Memset(backupSpecies, 0, sizeof(backupSpecies));
-	Memset(backupAbilities, 0, sizeof(backupAbilities));
+	Memset(backupSpecies, 0, gBattlersCount * sizeof(*backupSpecies));
+	Memset(backupAbilities, 0, gBattlersCount * sizeof(*backupAbilities));
 }
 
-static void TryRevertTempMegaEvolveBank(u8 bank, struct BattlePokemon* backupMon, u16* backupSpecies, u8* backupAbility)
+static void TryRevertTempMegaEvolveBank(u8 bank, struct BattlePokemon* backupMon, u16* backupSpecies, ability_t* backupAbility)
 {
 	if (*backupSpecies != SPECIES_NONE)
 	{
@@ -929,7 +929,7 @@ void AI_TrySwitchOrUseItem(void)
 	u8 firstId, lastId;
 	bool8 ret = FALSE;
 	struct BattlePokemon backupBattleMons[gBattlersCount];
-	u8* backupAbilities = gNewBS->ai.backupAbilities;
+	ability_t* backupAbilities = gNewBS->ai.backupAbilities;
 	u16 backupSpecies[gBattlersCount];
 
 	if (RAID_BATTLE_END)

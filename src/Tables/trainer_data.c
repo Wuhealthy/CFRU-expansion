@@ -21,6 +21,8 @@
 
 #define NO_ITEMS   ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverride-init"
 const struct Trainer gTrainers[] = {
 	[TRAINER_NONE] = {
 	    .trainerName = { _END },
@@ -8713,7 +8715,11 @@ const struct Trainer gTrainers[] = {
 	    .partySize = NELEMS(sParty_TrainerCueBallPaxton),
 	    .party = {.NoItemDefaultMoves = sParty_TrainerCueBallPaxton}
 	},
+
+/* Designated entries here intentionally override matching trainers above. */
+#include "trainer_showdown_overrides.h"
 };
+#pragma GCC diagnostic pop
 
 // Trainer Class Names
 const u8 gTrainerClassNames[][13] = {

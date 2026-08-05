@@ -108,12 +108,12 @@ enum
 #define MENU_TRADE1 16
 #define MENU_TRADE2 17
 #define MENU_MOVE_ITEM 18
-#define MENU_FIELD_MOVES 19
+#define MENU_FIELD_MOVES 20
 #define MENU_DIR_DOWN     1
 #define MENU_DIR_UP      -1
 #define MENU_DIR_RIGHT    2
 #define MENU_DIR_LEFT    -2
-#define MENU_FIELD_MOVES_MINUS_1 18
+#define MENU_FIELD_MOVES_MINUS_1 19
 
 struct PartyMenu
 {

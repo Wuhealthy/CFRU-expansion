@@ -346,7 +346,7 @@ Don't switch to mon if:
 2. It will faint from entry hazards (100%)
 3. The mon to switch to has an HP absorption Ability and will be switched in at full health, and the mon out can take a couple hits (100% in Singles).
 */
-static bool8 TypeAbosorbingSwitchAbilityCheck(struct Pokemon* mon, u8 monId, u16 predictedMove, u16 absorbingTypeAbility1, u16 absorbingTypeAbility2, u16 absorbingTypeAbility3)
+static bool8 TypeAbosorbingSwitchAbilityCheck(struct Pokemon* mon, u8 monId, u16 predictedMove, ability_t absorbingTypeAbility1, ability_t absorbingTypeAbility2, ability_t absorbingTypeAbility3)
 {
 	u8 side = SIDE(gActiveBattler);
 
@@ -405,7 +405,7 @@ static bool8 FindMonThatAbsorbsOpponentsMove(struct Pokemon* party, u8 firstId, 
 	u8 battlerIn1, battlerIn2;
 	u8 foe1, foe2;
 	u16 predictedMove1, predictedMove2;
-	u16 absorbingTypeAbility1, absorbingTypeAbility2, absorbingTypeAbility3;
+	ability_t absorbingTypeAbility1, absorbingTypeAbility2, absorbingTypeAbility3;
 
 	LoadBattlersAndFoes(&battlerIn1, &battlerIn2, &foe1, &foe2);
 

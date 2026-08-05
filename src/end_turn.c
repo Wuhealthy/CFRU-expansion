@@ -1698,7 +1698,7 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 
 			case ET_Reactivate_Overworld_Weather:
 				gBattleStruct->turnEffectsBank = gBattlersCount;
-				if (gBattleWeather == 0 && AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, 0, 0, 0xFFFF, 0))
+				if (gBattleWeather == 0 && AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, 0, 0, ABILITYEFFECT_SWITCH_IN_WEATHER, 0))
 				{
 					if (RainCanBeEvaporated() && BankOnFieldHasEvaporate())
 					{
