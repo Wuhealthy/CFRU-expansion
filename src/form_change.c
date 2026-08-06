@@ -197,7 +197,7 @@ void SwitchOutFormsRevert(u8 bank)
 
 		#if (defined SPECIES_PALAFIN && defined SPECIES_PALAFIN_HERO)
 		case SPECIES_PALAFIN:
-			if (backupSpecies != SPECIES_NONE && ability == ABILITY_TORRENT)
+			if (backupSpecies != SPECIES_NONE && ability == ABILITY_ZEROTOHERO)
 				DoFormChange(bank, backupSpecies, FALSE, TRUE, FALSE);
 			else
 				DoFormChange(bank, SPECIES_PALAFIN_HERO, FALSE, TRUE, FALSE);
@@ -206,7 +206,7 @@ void SwitchOutFormsRevert(u8 bank)
 
 		#if (defined SPECIES_EEVEE && defined SPECIES_EEVEE_HERO)
 		case SPECIES_EEVEE:
-			if (backupSpecies != SPECIES_NONE && ability == ABILITY_TORRENT)
+			if (backupSpecies != SPECIES_NONE && ability == ABILITY_ZEROTOHERO)
 				DoFormChange(bank, backupSpecies, FALSE, TRUE, FALSE);
 			else
 				DoFormChange(bank, SPECIES_EEVEE_HERO, FALSE, TRUE, FALSE);
