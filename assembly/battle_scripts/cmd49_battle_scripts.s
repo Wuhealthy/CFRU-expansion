@@ -22,6 +22,7 @@ cmd49_battle_scripts.s
 .global BattleScript_Magician
 .global BattleScript_Moxie
 .global BattleScript_MindBlownDamage
+.global BattleScript_Recoil
 .global BattleScript_FaintAttackerForExplosion
 .global BattleScript_ExplosionAnim
 .global BattleScript_ItemSteal
@@ -189,6 +190,17 @@ BattleScript_MindBlownDamage:
 	datahpupdate BANK_ATTACKER
 	setword BATTLE_STRING_LOADER MindBlownString
 	printstring 0x184
+	waitmessage DELAY_1SECOND
+	faintpokemon BANK_ATTACKER 0x0 0x0
+	return
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+BattleScript_Recoil:
+	orword HIT_MARKER HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_NON_ATTACK_DMG
+	graphicalhpupdate BANK_ATTACKER
+	datahpupdate BANK_ATTACKER
+	printstring 0x64 @ STRINGID_PKMNHITWITHRECOIL
 	waitmessage DELAY_1SECOND
 	faintpokemon BANK_ATTACKER 0x0 0x0
 	return
