@@ -49,3 +49,4 @@ bool8 IsFullMetalBodyAbility(ability_t ability, u16 species);
 bool8 CheckStatusAny(u8 bank);
 bool8 IsFaintedPokemonInParty(u8 bank);
 bool8 AngerShellStatsCheck(u8 bank);
+bool8 SpeciesHasHiddenPowerPhysicality(u16 species);

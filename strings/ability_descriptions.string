@@ -994,3 +994,6 @@ HP全满时受到的伤害变为效果不好
 
 #org @DESC_FLOWERBLADE
 草招式会击中要害且无视道具效果
+
+#org @DESC_GRIDBIND
+对手使用或受物理招式有时会麻痹

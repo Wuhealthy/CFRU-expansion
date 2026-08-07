@@ -11,6 +11,7 @@ cmd49_battle_scripts.s
 
 .global BattleScript_CouldntFullyProtect
 .global BattleScript_PoisonTouch
+.global BattleScript_GridBind
 .global BattleScript_KingsShield
 .global BattleScript_SpikyShield
 .global BattleScript_RainDishActivatesSS
@@ -62,6 +63,12 @@ BattleScript_PoisonTouch:
 BattleScript_ToxicChain:
 	setbyte POISONED_BY 0x5
 	setbyte EFFECT_BYTE 0x6
+	seteffectsecondary @;Affected by Safeguard
+	return
+
+BattleScript_GridBind:
+	setbyte POISONED_BY 0x1
+	setbyte EFFECT_BYTE 0x5
 	seteffectsecondary @;Affected by Safeguard
 	return
 

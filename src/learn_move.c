@@ -432,6 +432,11 @@ u16 GiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 move)
 				u16 resolute = SPECIES_KELDEO_RESOLUTE;
 				SetBoxMonData(boxMon, MON_DATA_SPECIES, &resolute);
 			}
+			if (move == MOVE_HIDDENPOWER && GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL) == SPECIES_GALVANTULA)
+			{
+				u16 resolute = SPECIES_GALVANTULA_A;
+				SetBoxMonData(boxMon, MON_DATA_SPECIES, &resolute);
+			}
 
 			return move;
 		}
@@ -454,6 +459,13 @@ void SetMonMoveSlot(struct Pokemon* mon, u16 move, u8 slot)
 		form = SPECIES_KELDEO; //Keldeo reverts if it forgets Secret Sword
 		SetMonData(mon, MON_DATA_SPECIES, &form);
 	}
+	if (GetMonData(mon, MON_DATA_MOVE1 + slot, NULL) == MOVE_HIDDENPOWER
+	&& move != MOVE_HIDDENPOWER
+	&& GetMonData(mon, MON_DATA_SPECIES, NULL) == SPECIES_GALVANTULA_A)
+	{
+		form = SPECIES_GALVANTULA; //Galvantula reverts if it forgets Hidden Power
+		SetMonData(mon, MON_DATA_SPECIES, &form);
+	}
 
 	SetMonData(mon, MON_DATA_MOVE1 + slot, &move);
 	SetMonData(mon, MON_DATA_PP1 + slot, &gBattleMoves[move].pp);
@@ -461,6 +473,11 @@ void SetMonMoveSlot(struct Pokemon* mon, u16 move, u8 slot)
 	if (move == MOVE_SECRETSWORD && GetMonData(mon, MON_DATA_SPECIES, NULL) == SPECIES_KELDEO)
 	{
 		form = SPECIES_KELDEO_RESOLUTE; //Keldeo transforms if it learns Secret Sword
+		SetMonData(mon, MON_DATA_SPECIES, &form);
+	}
+	if (move == MOVE_HIDDENPOWER && GetMonData(mon, MON_DATA_SPECIES, NULL) == SPECIES_GALVANTULA)
+	{
+		form = SPECIES_GALVANTULA_A; //Galvantula transforms if it learns Hidden Power
 		SetMonData(mon, MON_DATA_SPECIES, &form);
 	}
 }

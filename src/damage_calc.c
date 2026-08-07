@@ -1797,9 +1797,15 @@ u8 GetExceptionMoveType(u8 bankAtk, u16 move)
 	u16 item = ITEM(bankAtk);
 	u8 effect = ITEM_EFFECT(bankAtk);
 	u8 quality = ITEM_QUALITY(bankAtk);
+	u16 species = SPECIES(bankAtk);
 
 	switch (move) {
 		case MOVE_HIDDENPOWER:
+			if (SpeciesHasHiddenPowerPhysicality(species))
+            {
+                moveType = gBattleMons[bankAtk].type1;
+                break;
+            }
 			moveType = ((gBattleMons[bankAtk].hpIV & 1))
 					 | ((gBattleMons[bankAtk].attackIV & 1) << 1)
 					 | ((gBattleMons[bankAtk].defenseIV & 1) << 2)
@@ -1974,6 +1980,11 @@ u8 GetMonExceptionMoveType(struct Pokemon* mon, u16 move)
 
 	switch (move) {
 		case MOVE_HIDDENPOWER:
+			if (SpeciesHasHiddenPowerPhysicality(mon->species))
+            {
+                moveType = GetMonType(mon, 0);
+                break;
+            }
 			moveType = CalcMonHiddenPowerType(mon);
 			break;
 
@@ -3866,6 +3877,11 @@ static u16 GetBasePower(struct DamageCalc* data)
 				power *= 2;
 			break;
 
+		case MOVE_HIDDENPOWER:
+			if (SpeciesHasHiddenPowerPhysicality(SPECIES(bankAtk)))
+                power = (power * 15) / 10;
+            break;
+
 		case MOVE_WEATHERBALL:
 			if (ABILITY(bankAtk) == ABILITY_MEGASOL)
 				power *= 2;
@@ -4159,31 +4175,6 @@ static u16 GetBasePower(struct DamageCalc* data)
 
 				power = (gBaseStats[party[gBattleCommunication[0] - 1].species].baseAttack / 10) + 5;
 			}
-			break;
-
-		case MOVE_HIDDENPOWER:
-		#ifdef OLD_HIDDEN_POWER_BP
-			if (useMonAtk)
-			{
-				power = ((data->monAtk->hpIV & 2) >> 1) |
-						((data->monAtk->attackIV & 2)) |
-						((data->monAtk->defenseIV & 2) << 1) |
-						((data->monAtk->speedIV & 2) << 2) |
-						((data->monAtk->spAttackIV & 2) << 3) |
-						((data->monAtk->spDefenseIV & 2) << 4);
-			}
-			else
-			{
-				power = ((gBattleMons[bankAtk].hpIV & 2) >> 1) |
-						((gBattleMons[bankAtk].attackIV & 2)) |
-						((gBattleMons[bankAtk].defenseIV & 2) << 1) |
-						((gBattleMons[bankAtk].speedIV & 2) << 2) |
-						((gBattleMons[bankAtk].spAttackIV & 2) << 3) |
-						((gBattleMons[bankAtk].spDefenseIV & 2) << 4);
-			}
-
-			power = ((40 * power) / 63) + 30;
-		#endif
 			break;
 
 		case MOVE_MAGNITUDE:

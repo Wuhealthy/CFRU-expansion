@@ -279,6 +279,17 @@ bool8 AbilityPreventsLoweringAtk(ability_t ability)
 		|| IsClearBodyAbility(ability);
 }
 
+bool8 SpeciesHasHiddenPowerPhysicality(unusedArg u16 species)
+{
+    switch (species)
+    {
+        case SPECIES_GALVANTULA_A:
+            return TRUE;
+        default:
+            return FALSE;
+    }
+}
+
 bool8 AbilityPreventsLoweringStat(ability_t ability, u8 statId)
 {
 	switch (ability)

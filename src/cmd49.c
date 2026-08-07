@@ -228,6 +228,23 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 						}
 						break;
 					}
+					
+					case ABILITY_GRIDBIND:
+					{
+						u8 chance = BankHasRainbow(gBankAttacker) ? 60 : 30;
+
+						if (SPLIT(gCurrentMove) == SPLIT_PHYSICAL
+						&& ABILITY(gBankTarget) != ABILITY_SHIELDDUST
+						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK
+						&& CanBeParalyzed(gBankTarget, gBankAttacker, TRUE)
+						&& umodsi(Random(), 100) < chance)
+						{
+							BattleScriptPushCursor();
+							gBattlescriptCurrInstr = BattleScript_GridBind;
+							effect = TRUE;
+						}
+						break;
+					}
 				}
 			}
 			gBattleScripting.atk49_state++;

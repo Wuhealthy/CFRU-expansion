@@ -140,6 +140,11 @@ void SwitchOutFormsRevert(u8 bank)
 			break;
 		#endif
 
+		case SPECIES_GALVANTULA_A:
+			if (FindMovePositionInMoveset(MOVE_HIDDENPOWER, bank) == MAX_MON_MOVES) //Doesn't know Hidden Power
+				DoFormChange(bank, SPECIES_GALVANTULA, FALSE, TRUE, FALSE);
+			break;
+
 		#if (defined SPECIES_MELOETTA && defined SPECIES_MELOETTA_PIROUETTE)
 		case SPECIES_MELOETTA_PIROUETTE:
 			if (backupSpecies != SPECIES_NONE)
@@ -300,7 +305,7 @@ bool8 TryFormRevert(struct Pokemon* mon)
 		}
 	}
 	#endif
-	#if (defined SPECIES_KELDEO && SPECIES_KELDEO_RESOLUTE)
+	#if (defined SPECIES_KELDEO && defined SPECIES_KELDEO_RESOLUTE)
 	else if (mon->species == SPECIES_KELDEO)
 	{
 		for (i = 0; i < MAX_MON_MOVES; ++i)
@@ -332,6 +337,36 @@ bool8 TryFormRevert(struct Pokemon* mon)
 		}
 	}
 	#endif
+	else if (mon->species == SPECIES_GALVANTULA)
+	{
+		for (i = 0; i < MAX_MON_MOVES; ++i)
+		{
+			if (mon->moves[i] == MOVE_HIDDENPOWER)
+				break;
+		}
+
+		if (i != MAX_MON_MOVES)
+		{
+			mon->species = SPECIES_GALVANTULA_A;
+			CalculateMonStats(mon);
+			return TRUE;
+		}
+	}
+	else if (mon->species == SPECIES_GALVANTULA_A)
+	{
+		for (i = 0; i < MAX_MON_MOVES; ++i)
+		{
+			if (mon->moves[i] == MOVE_HIDDENPOWER)
+				break;
+		}
+
+		if (i == MAX_MON_MOVES)
+		{
+			mon->species = SPECIES_GALVANTULA;
+			CalculateMonStats(mon);
+			return TRUE;
+		}
+	}
 	#ifdef SPECIES_GIRATINA_ORIGIN
 	else if (mon->species == SPECIES_GIRATINA_ORIGIN)
 	{

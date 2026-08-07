@@ -345,5 +345,6 @@
 #define ABILITY_SHADOWHEAL                           339    //暗影治愈
 #define ABILITY_EEVEEHERO                            340    //全能变身伊布
 #define ABILITY_FLOWERBLADE                          341    //花刃
+#define ABILITY_GRIDBIND                             342    //不稳定的电流
 
-#define ABILITIES_COUNT                              342
+#define ABILITIES_COUNT                              343

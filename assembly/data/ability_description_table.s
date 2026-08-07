@@ -350,3 +350,4 @@ gAbilityDescriptions:
 .word DESC_SHADOWHEAL                            @ 339 ABILITY_SHADOWHEAL
 .word DESC_EEVEEHERO                             @ 340 ABILITY_EEVEEHERO
 .word DESC_FLOWERBLADE                           @ 341 ABILITY_FLOWERBLADE
+.word DESC_GRIDBIND                              @ 342 ABILITY_GRIDBIND

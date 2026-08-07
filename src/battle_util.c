@@ -1603,7 +1603,8 @@ bool8 IsMoveAffectedByParentalBond(u16 move, u8 bankAtk)
 
 u8 CalcMoveSplit(u16 move, u8 bankAtk, u8 bankDef)
 {
-	if (gSpecialMoveFlags[move].gMovesThatChangePhysicality
+	if ((gSpecialMoveFlags[move].gMovesThatChangePhysicality
+	|| (move == MOVE_HIDDENPOWER && SpeciesHasHiddenPowerPhysicality(SPECIES(bankAtk))))
 	&&  SPLIT(move) != SPLIT_STATUS)
 	{
 		u32 attack = gBattleMons[bankAtk].attack;
@@ -1644,7 +1645,8 @@ u8 CalcMoveSplit(u16 move, u8 bankAtk, u8 bankDef)
 
 u8 CalcMoveSplitFromParty(u16 move, struct Pokemon* mon)
 {
-	if (gSpecialMoveFlags[move].gMovesThatChangePhysicality)
+	if (gSpecialMoveFlags[move].gMovesThatChangePhysicality
+	|| (move == MOVE_HIDDENPOWER && SpeciesHasHiddenPowerPhysicality(mon->species)))
 	{
 		if (mon->spAttack >= mon->attack)
 			return SPLIT_SPECIAL;

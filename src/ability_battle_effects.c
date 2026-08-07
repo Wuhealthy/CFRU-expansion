@@ -2394,6 +2394,23 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				}
 				break;
 
+			case ABILITY_GRIDBIND:
+				if (MOVE_HAD_EFFECT
+				&& TOOK_DAMAGE(bank)
+				&& BATTLER_ALIVE(gBankAttacker)
+				&& gBankAttacker != bank
+				&& SPLIT(move) == SPLIT_PHYSICAL
+				&& CanBeParalyzed(gBankAttacker, bank, TRUE)
+				&& umodsi(Random(), 3) == 0)
+				{
+					gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_PARALYSIS;
+					BattleScriptPushCursor();
+					gBattlescriptCurrInstr = BattleScript_AbilityApplySecondaryEffect;
+					gHitMarker |= HITMARKER_IGNORE_SAFEGUARD; //Safeguard checked earlier
+					effect++;
+				}
+				break;
+
 			case ABILITY_FLAMEBODY:
 				if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
