@@ -806,6 +806,7 @@ struct NewBattleStruct
 	u8 synchronizeTarget[MAX_BATTLERS_COUNT]; //Bank + 1 that statused given bank
 	u8 leftoverHealingDone[MAX_BATTLERS_COUNT]; //Leftovers already restored health this turn or Sticky Barb did damage
 	u8 statRoseThisRound[MAX_BATTLERS_COUNT];
+	u8 mirrorHerbStatBoosts[MAX_BATTLERS_COUNT][BATTLE_STATS_NO - 1];
 	u8 statFellThisTurn[MAX_BATTLERS_COUNT];
 	u8 statFellThisRound[MAX_BATTLERS_COUNT];
 	u8 recalculatedBestDoublesKillingScores[MAX_BATTLERS_COUNT];

@@ -57,5 +57,8 @@ extern const u8 BattleScript_LifeOrbDamage[];
 extern const u8 BattleScript_EjectPackEnd2[];
 extern const u8 BattleScript_EjectPackRet[];
 extern const u8 BattleScript_EjectPackCMD49[];
+extern const u8 BattleScript_MirrorHerbRet[];
+extern const u8 BattleScript_MirrorHerbEnd2[];
+extern const u8 BattleScript_ClearAmuletNoStatLoss[];
 
 extern const u8 gText_NotAffectedBecauseOfItem[];

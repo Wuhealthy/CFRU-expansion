@@ -1915,6 +1915,7 @@ const u32 *const gItemGraphicsTable[ITEMS_COUNT + 1][2] =
 	[ITEM_BAXCALIBRITE] = {gBag_BaxcalibriteTiles, gBag_BaxcalibritePal},
 	[ITEM_TATSUGIRINITE] = {gBag_TatsugiriniteTiles, gBag_TatsugirinitePal},
 	[ITEM_GLIMMORANITE] = {gBag_GlimmoraniteTiles, gBag_GlimmoranitePal},
+	[ITEM_MIRROR_HERB] = {gBagItem_Mirror_HerbTiles, gBagItem_Mirror_HerbPal},
 	{gBag_InterrogationTiles, gBag_InterrogationPal}, //Free space 1
 	{gBag_InterrogationTiles, gBag_InterrogationPal},
 	{gBag_InterrogationTiles, gBag_InterrogationPal},
@@ -14429,13 +14430,13 @@ const struct Item gItemData[] =
 	MEGA_STONE_ITEM(ITEM_BAXCALIBRITE, DESC_BAXCALIBRITE, _B, _a, _x, _c, _a, _l, _i, _b, _r, _i, _t, _e),
 	MEGA_STONE_ITEM(ITEM_TATSUGIRINITE, DESC_TATSUGIRINITE, _T, _a, _t, _s, _u, _g, _i, _r, _i, _n, _i, _t, _e),
 	MEGA_STONE_ITEM(ITEM_GLIMMORANITE, DESC_GLIMMORANITE, _G, _l, _i, _m, _m, _o, _r, _a, _n, _i, _t, _e),
-	{
-        .name = {_F, _r, _e, _e, _SPACE, _S, _p, _a, _c, _e, _SPACE, _1, _END},
-        .itemId = ITEM_FREE_SPACE1,
-        .price = 0,
-        .holdEffect = 0,
-        .holdEffectParam = 0,
-        .description = gText_ItemNone,
+	[ITEM_MIRROR_HERB] = {
+        .name = {_M, _i, _r, _r, _o, _r, _SPACE, _H, _e, _r, _b, _END},
+        .itemId = ITEM_MIRROR_HERB,
+        .price = 30000,
+		.holdEffect = ITEM_EFFECT_MIRROR_HERB,
+		.holdEffectParam = 0,
+		.description = DESC_MIRROR_HERB,
         .importance = 0,
         .unk19 = 0,
         .pocket = POCKET_ITEMS,

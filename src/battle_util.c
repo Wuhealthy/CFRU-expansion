@@ -511,13 +511,15 @@ bool8 HasMonToSwitchTo(u8 bank)
 bool8 CheckContact(u16 move, u8 bankAtk, u8 bankDef)
 {
 	return IsContactMove(move, bankAtk, bankDef)
-		&& !CanNeverMakeContact(bankAtk);
+		&& !CanNeverMakeContact(bankAtk)
+		&& !(ITEM_EFFECT(bankAtk) == ITEM_EFFECT_PUNCHING_GLOVE && gSpecialMoveFlags[move].gPunchingMoves);
 }
 
 bool8 CheckContactByMon(u16 move, struct Pokemon* mon)
 {
 	return gBattleMoves[move].flags & FLAG_MAKES_CONTACT
-		&& !CanMonNeverMakeContact(mon);
+		&& !CanMonNeverMakeContact(mon)
+		&& !(GetMonItemEffect(mon) == ITEM_EFFECT_PUNCHING_GLOVE && gSpecialMoveFlags[move].gPunchingMoves);
 }
 
 bool8 IsContactMove(u16 move, u8 bankAtk, u8 bankDef)
@@ -546,8 +548,7 @@ bool8 CanNeverMakeContactByAbilityItemEffect(ability_t ability, u8 itemEffect)
 
 bool8 CanNeverMakeContactByItemEffect(u8 itemEffect)
 {
-	return itemEffect == ITEM_EFFECT_PROTECTIVE_PADS
-		|| itemEffect == ITEM_EFFECT_PUNCHING_GLOVE;
+	return itemEffect == ITEM_EFFECT_PROTECTIVE_PADS;
 }
 
 bool8 CheckHealingMove(move_t move)

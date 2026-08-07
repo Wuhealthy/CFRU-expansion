@@ -79,6 +79,7 @@ enum
 	ATK49_ITEM_EFFECTS_END_TURN_ATTACKER_3,
 	ATK49_EJECT_BUTTON,
 	ATK49_RED_CARD,
+	ATK49_MIRROR_HERB,
 	ATK49_EJECT_PACK,
 	ATK49_SHELL_BELL_LIFE_ORB_RECOIL,
 	ATK49_SWITCH_OUT_ABILITIES,
@@ -1268,6 +1269,20 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 						effect = 1;
 						break; //Only the fastest Red Card activates so end loop
 					}
+				}
+			}
+			gBattleScripting.atk49_state++;
+			break;
+
+		case ATK49_MIRROR_HERB:
+			for (i = 0; i < gBattlersCount; ++i)
+			{
+				if (BATTLER_ALIVE(i)
+				&& ITEM_EFFECT(i) == ITEM_EFFECT_MIRROR_HERB
+				&& ItemBattleEffects(ItemEffects_SwitchIn, i, TRUE, FALSE))
+				{
+					effect = 1;
+					return;
 				}
 			}
 			gBattleScripting.atk49_state++;

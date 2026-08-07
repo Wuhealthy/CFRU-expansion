@@ -2296,10 +2296,13 @@ Makes certain species of\nPokémon evolve. It seems\nlike a treasure.
 A peculiar apple that can make\na certain species of Pokémon\nevolve. It's exceptionally syrupy.
 
 #org @DESC_CLEAR_AMULET
-This clear, sparkling amulet\nprotects againts lowered stats by\nmoves or Abilities.
+This clear, sparkling amulet\nprotects against lowered stats by\nmoves or Abilities.
+
+#org @DESC_MIRROR_HERB
+Mirrors an enemy[B4]s stat\nincreases, but works only once\nbefore being consumed.
 
 #org @DESC_COVERT_CLOAK
-Conceals the holder, tricking the\neyes of its enemies. Protecs\nagainst moves additional effects.
+Conceals the holder, tricking the\neyes of its enemies. Protects from\nmoves[B4] additional effects.
 
 #org @DESC_LOADED_DICE
 This loaded dice always rolls a\ngood number, and holder[B4]s\nmultistrike moves hit more times.

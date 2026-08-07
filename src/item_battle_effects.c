@@ -114,7 +114,7 @@ u8 ItemBattleEffects(u8 caseID, u8 bank, bool8 moveTurn, bool8 doPluck)
 				}
 				break;
 
-			case ITEM_EFFECT_RESTORE_STATS:
+		case ITEM_EFFECT_RESTORE_STATS:
 				for (i = 0; i < BATTLE_STATS_NO-1; i++) {
 					if (gBattleMons[bank].statStages[i] < 6) {
 						gBattleMons[bank].statStages[i] = 6;
@@ -134,6 +134,33 @@ u8 ItemBattleEffects(u8 caseID, u8 bank, bool8 moveTurn, bool8 doPluck)
 					}
 					else
 						BattleScriptExecute(BattleScript_WhiteHerbEnd2);
+				}
+				break;
+
+			case ITEM_EFFECT_MIRROR_HERB:
+				for (i = 0; i < BATTLE_STATS_NO - 1; ++i)
+				{
+					u8 increase = gNewBS->mirrorHerbStatBoosts[bank][i];
+					if (increase && gBattleMons[bank].statStages[i] < STAT_STAGE_MAX)
+					{
+						gBattleMons[bank].statStages[i] = MathMin(STAT_STAGE_MAX,
+							gBattleMons[bank].statStages[i] + increase);
+						effect = ITEM_STATS_CHANGE;
+					}
+					gNewBS->mirrorHerbStatBoosts[bank][i] = 0;
+				}
+
+				if (effect)
+				{
+					gBattleScripting.bank = gActiveBattler = gStringBank = bank;
+					gLastUsedItem = ITEM(bank);
+					if (moveTurn)
+					{
+						BattleScriptPushCursor();
+						gBattlescriptCurrInstr = BattleScript_MirrorHerbRet;
+					}
+					else
+						BattleScriptExecute(BattleScript_MirrorHerbEnd2);
 				}
 				break;
 

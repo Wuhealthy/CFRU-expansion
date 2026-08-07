@@ -870,7 +870,7 @@ enum
 #define ITEM_GLIMMORANITE 0x338
 
 
-#define ITEM_FREE_SPACE1 0x339 //These are reserved for future use
+#define ITEM_MIRROR_HERB 0x339
 #define ITEM_FREE_SPACE2 0x33A
 #define ITEM_FREE_SPACE3 0x33B
 

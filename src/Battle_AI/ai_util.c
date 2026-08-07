@@ -2693,7 +2693,7 @@ u32 GetContactDamage(u16 move, u16 bankAtk, u16 bankDef)
 	if (MoveBlockedBySubstitute(move, bankAtk, bankDef))
 		return 0;
 
-	if (CanNeverMakeContact(bankAtk) || ABILITY(bankAtk) == ABILITY_MAGICGUARD)
+	if (!CheckContact(move, bankAtk, bankDef) || ABILITY(bankAtk) == ABILITY_MAGICGUARD)
 		return 0;
 
 	return GetContactDamageByDefAbilityItemEffect(ABILITY(bankDef), ITEM_EFFECT(bankDef), GetBaseMaxHP(bankAtk));

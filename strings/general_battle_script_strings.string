@@ -537,3 +537,5 @@ Being hit by [CURRENT_MOVE]\ncharged [SCRIPTING_BANK] with power.
 
 #org @sText_TargetIsHurtBySaltCure
 [TARGET] is hurt by\n[FD][00]!
+#org @MirrorHerbString
+The held Mirror Herb mirrored the\nopponent[B4]s stat increases!

@@ -9,6 +9,7 @@
 #include "../include/new/accuracy_calc.h"
 #include "../include/new/battle_strings.h"
 #include "../include/new/battle_util.h"
+#include "../include/new/item_battle_scripts.h"
 #include "../include/new/stat_buffs.h"
 /*
 stat_buffs.c
@@ -337,7 +338,7 @@ u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8* BS_ptr)
 
 		else if ((IsClearBodyAbility(ability)
 			  || (ability == ABILITY_FLOWERVEIL && IsOfType(gActiveBattler, TYPE_GRASS))
-			  || ITEM_EFFECT(gActiveBattler) == ITEM_EFFECT_CLEAR_AMULET)
+			  || (ITEM_EFFECT(gActiveBattler) == ITEM_EFFECT_CLEAR_AMULET && gActiveBattler != gBankAttacker))
 		&& !certain && gCurrentMove != MOVE_CURSE)
 		{
 			if (flags == STAT_CHANGE_BS_PTR)
@@ -351,9 +352,18 @@ u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8* BS_ptr)
 					BattleScriptPush(BS_ptr);
 					gBattleScripting.bank = gActiveBattler;
 					gBattleCommunication[0] = gActiveBattler;
-					gBattlescriptCurrInstr = BattleScript_AbilityNoStatLoss;
-					gLastUsedAbility = ABILITY(gActiveBattler);
-					RecordAbilityBattle(gActiveBattler, gLastUsedAbility);
+					if (ITEM_EFFECT(gActiveBattler) == ITEM_EFFECT_CLEAR_AMULET && gActiveBattler != gBankAttacker)
+					{
+						gLastUsedItem = ITEM(gActiveBattler);
+						gBattlescriptCurrInstr = BattleScript_ClearAmuletNoStatLoss;
+						RecordItemEffectBattle(gActiveBattler, ITEM_EFFECT_CLEAR_AMULET);
+					}
+					else
+					{
+						gBattlescriptCurrInstr = BattleScript_AbilityNoStatLoss;
+						gLastUsedAbility = ABILITY(gActiveBattler);
+						RecordAbilityBattle(gActiveBattler, gLastUsedAbility);
+					}
 					gSpecialStatuses[gActiveBattler].statLowered = 1;
 				}
 			}
@@ -519,6 +529,21 @@ u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8* BS_ptr)
 			gBattleCommunication[MULTISTRING_CHOOSER] = (gBankTarget == gActiveBattler);
 
 		gNewBS->statRoseThisRound[gActiveBattler] = TRUE;
+
+		// Mirror Herb queues every opposing stat increase from the current effect,
+		// then copies them together when held-item effects are processed.
+		for (bank = 0; bank < gBattlersCount; ++bank)
+		{
+			if (SIDE(bank) != SIDE(gActiveBattler)
+			&& ITEM_EFFECT(bank) == ITEM_EFFECT_MIRROR_HERB
+			&& STAT_STAGE(bank, statId) < STAT_STAGE_MAX)
+			{
+				u8 increase = statValue;
+				if (increase > STAT_STAGE_MAX - STAT_STAGE(gActiveBattler, statId))
+					increase = STAT_STAGE_MAX - STAT_STAGE(gActiveBattler, statId);
+				gNewBS->mirrorHerbStatBoosts[bank][statId - 1] += increase;
+			}
+		}
 	}
 
 	gBattleMons[gActiveBattler].statStages[statId - 1] += statValue;
@@ -556,7 +581,7 @@ u8 CanStatNotBeLowered(u8 statId, u8 bankDef, u8 bankAtk, ability_t defAbility)
 
 	if (IsClearBodyAbility(defAbility)
 	|| (defAbility == ABILITY_FLOWERVEIL && IsOfType(bankDef, TYPE_GRASS))
-	|| ITEM_EFFECT(bankDef) == ITEM_EFFECT_CLEAR_AMULET)
+	|| (ITEM_EFFECT(bankDef) == ITEM_EFFECT_CLEAR_AMULET && bankDef != bankAtk))
 		return STAT_PROTECTED_BY_GENERAL_ABILITY;
 	else if (ABILITY(PARTNER(bankDef)) == ABILITY_FLOWERVEIL && IsOfType(bankDef, TYPE_GRASS))
 		return STAT_PROTECTED_BY_PARTNER_ABILITY;

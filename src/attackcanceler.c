@@ -964,7 +964,7 @@ static u8 AtkCanceller_UnableToUseMove(void)
 				}
 				else if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_LOADED_DICE &&  gCurrentMove != MOVE_TRIPLEKICK &&  gCurrentMove != MOVE_TRIPLEAXEL)
 				{
-					gMultiHitCounter = 5;
+					gMultiHitCounter = 4 + (Random() & 1);
 				}
 				#ifdef SPECIES_ASHGRENINJA
 				else if (ability == ABILITY_BATTLEBOND
@@ -1011,7 +1011,10 @@ static u8 AtkCanceller_UnableToUseMove(void)
 			}
 			else if (gSpecialMoveFlags[gCurrentMove].gTenStrikesMoves)
 			{
-				gMultiHitCounter = 10;
+				if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_LOADED_DICE)
+					gMultiHitCounter = 4 + (Random() % 7);
+				else
+					gMultiHitCounter = 10;
 				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
 			}
 			else if (gBattleMoves[gCurrentMove].effect == EFFECT_TRIPLE_KICK)
