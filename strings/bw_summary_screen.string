@@ -1,62 +1,62 @@
 #org @gText_PSS_DexNumber
-Dex No.
+图鉴编号
 
 #org @gText_PSS_Name
-Name
+种类名
 
 #org @gText_PSS_Status
-Status
+状态
 
 #org @gText_PSS_Type
-Type
+属性
 
 #org @gText_PSS_OT
-OT
+初训家
 
 #org @gText_PSS_IDNumber
 ID No.
 
 #org @gText_PSS_Item
-Item
+持有物
 
 #org @gText_PSS_TrainerMemo
-Trainer Memo
+训练家笔记
 
 #org @gText_PSS_HP
 HP
 
 #org @gText_PSS_Attack
-Attack
+攻击
 
 #org @gText_PSS_Defense
-Defense
+防御
 
 #org @gText_PSS_SpAtk
-Sp. Atk
+特攻
 
 #org @gText_PSS_SpDef
-Sp. Def.
+特防
 
 #org @gText_PSS_Speed
-Speed
+速度
 
 #org @gText_PSS_ExpPoints
-Exp. Points
+现在的经验值
 
 #org @gText_PSS_ToNextLv
-To Next Lv.
+距离下一等级
 
 #org @gText_PSS_Ability
-Ability
+特性
 
 #org @gText_PSS_Category
-Category
+类别
 
 #org @gText_PSS_Power
-Power
+威力
 
 #org @gText_PSS_Accuracy
-Accuracy
+命中率
 
 #org @gText_PSS_Effect
-Effect
+效果
