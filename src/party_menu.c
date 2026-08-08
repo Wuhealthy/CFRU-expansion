@@ -1121,12 +1121,12 @@ SKIP_FIELD_MOVES:
                         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_ITEM);
         }
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_NICKNAME); //added
-#ifdef FLAG_PARTY_MOVE_RELEARNER
-        if (FlagGet(FLAG_PARTY_MOVE_RELEARNER)
-        && !GetMonData(&mons[slotId], MON_DATA_IS_EGG, NULL)
+//#ifdef FLAG_PARTY_MOVE_RELEARNER
+        if (!GetMonData(&mons[slotId], MON_DATA_IS_EGG, NULL)
+        //&& FlagGet(FLAG_PARTY_MOVE_RELEARNER)
         && GetNumberOfRelearnableMoves(&mons[slotId]) != 0)
                 AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_MOVE_RELEARNER);
-#endif
+//#endif
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_CANCEL1);
 }
 
