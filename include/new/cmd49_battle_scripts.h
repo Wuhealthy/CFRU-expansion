@@ -10,7 +10,7 @@
 
 #define BattleScript_ThrashConfuses (const u8*) 0x81D90C5
 #define BattleScript_DefrostedViaFireMove (const u8*) 0x81D9098
-#define BattleScript_Recoil (const u8*) 0x81D9243
+extern const u8 BattleScript_Recoil[];
 
 extern const u8 BattleScript_PoisonTouch[];
 extern const u8 BattleScript_GridBind[];
