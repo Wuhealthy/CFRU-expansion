@@ -1390,6 +1390,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 
 		case ABILITY_ZEROTOHERO:
 		case ABILITY_EEVEEHERO:
+		{
 			u8 side = SIDE(bank);
         	u8 partyId = gBattlerPartyIndexes[bank];
 
@@ -1403,6 +1404,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				effect++;
 			}
 			break;
+		}
 
 		case ABILITY_SUPREMEOVERLORD:
 			if (IsFaintedPokemonInParty(bank))
@@ -1753,6 +1755,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					break;
 
 				case ABILITY_SHADOWHEAL:
+				{
 					u8 statusedCount = 0;
         			u32 healAmount;
 
@@ -1776,6 +1779,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
             			effect++;
         			}
 					break;
+				}
 
 				case ABILITY_HEALER:
 					if (IS_DOUBLE_BATTLE
