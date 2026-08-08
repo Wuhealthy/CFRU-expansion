@@ -337,6 +337,7 @@ bool8 TryFormRevert(struct Pokemon* mon)
 		}
 	}
 	#endif
+	#if (defined SPECIES_GALVANTULA && defined SPECIES_GALVANTULA_A)
 	else if (mon->species == SPECIES_GALVANTULA)
 	{
 		for (i = 0; i < MAX_MON_MOVES; ++i)
@@ -367,6 +368,7 @@ bool8 TryFormRevert(struct Pokemon* mon)
 			return TRUE;
 		}
 	}
+	#endif
 	#ifdef SPECIES_GIRATINA_ORIGIN
 	else if (mon->species == SPECIES_GIRATINA_ORIGIN)
 	{

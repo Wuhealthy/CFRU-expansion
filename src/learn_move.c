@@ -480,6 +480,8 @@ void SetMonMoveSlot(struct Pokemon* mon, u16 move, u8 slot)
 		form = SPECIES_GALVANTULA_A; //Galvantula transforms if it learns Hidden Power
 		SetMonData(mon, MON_DATA_SPECIES, &form);
 	}
+
+	CalculateMonStats(mon);
 }
 
 //Move Reminder//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
