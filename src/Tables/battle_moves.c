@@ -15682,7 +15682,7 @@ const struct BattleMove gBattleMoves[] =
 
 	[MOVE_TRIPLEDIVE] =
     {	
-		.effect = EFFECT_TRIPLE_KICK,
+		.effect = EFFECT_MULTI_HIT,
 		.power = 35,
 		.type = TYPE_WATER,
 		.accuracy = 95,

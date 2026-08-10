@@ -13807,7 +13807,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_L, _o, _a, _d, _e, _d, _SPACE, _D, _i, _c, _e, _END},
+        .name = { 0x05, 0x87, 0x01, 0xA1, 0x1E, 0x1A, 0x11, 0x0B, 0xFF},
         .itemId = ITEM_LOADED_DICE,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_LOADED_DICE,
@@ -15369,22 +15369,6 @@ const struct Item gItemData[] =
 		.battleUseFunc = NULL,						//战斗使用函数
 		.secondaryId = 0							//二次ID
 	},
-	{
-        .name = {_F, _r, _e, _e, _SPACE, _S, _p, _a, _c, _e, _SPACE, _1, _END},
-        .itemId = ITEM_FREE_SPACE1,
-        .price = 0,
-        .holdEffect = 0,
-        .holdEffectParam = 0,
-        .description = gText_ItemNone,
-        .importance = 0,
-        .unk19 = 0,
-        .pocket = POCKET_ITEMS,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = FieldUseFunc_OakStopsYou,
-        .battleUsage = 0,
-        .battleUseFunc = NULL,
-        .secondaryId = 0
-    },
 	{
         .name = {_F, _r, _e, _e, _SPACE, _S, _p, _a, _c, _e, _SPACE, _2, _END},
         .itemId = ITEM_FREE_SPACE2,

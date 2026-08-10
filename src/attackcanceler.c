@@ -967,28 +967,23 @@ static u8 AtkCanceller_UnableToUseMove(void)
 			{
 				ability_t ability = ABILITY(gBankAttacker);
 
-				if (gCurrentMove == MOVE_SURGINGSTRIKES || gCurrentMove == MOVE_TRIPLEDIVE
-				|| gCurrentMove == MOVE_TRIPLEKICK || gCurrentMove == MOVE_TRIPLEAXEL)
+				if (gCurrentMove == MOVE_SURGINGSTRIKES || gCurrentMove == MOVE_TRIPLEDIVE)
 				{
 					gMultiHitCounter = 3;
-				}
-				else if (gCurrentMove == MOVE_POPULATIONBOMB)
-				{
-					gMultiHitCounter = 10;
 				}
 				else if (ability == ABILITY_SKILLLINK)
 				{
 					gMultiHitCounter = 5;
+				}
+				else if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_LOADED_DICE)
+				{
+					gMultiHitCounter = 4 + (Random() & 1);
 				}
 				else if (ability == ABILITY_BATTLEBOND
 				&& gCurrentMove == MOVE_WATERSHURIKEN
 				&& SPECIES(gBankAttacker) == SPECIES_ASHGRENINJA)
 				{
 					gMultiHitCounter = 3;
-				}
-				else if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_LOADED_DICE)
-				{
-					gMultiHitCounter = 4 + (Random() & 1);
 				}
 				else
 				{
@@ -1010,7 +1005,7 @@ static u8 AtkCanceller_UnableToUseMove(void)
 					}
 				}
 
-				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 2, 0)
+				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
 			}
 			else if (gSpecialMoveFlags[gCurrentMove].gTwoStrikesMoves)
 			{
@@ -1025,13 +1020,13 @@ static u8 AtkCanceller_UnableToUseMove(void)
 					gBankTarget = PARTNER(gBankTarget);
 				}
 			}
-			else if (gSpecialMoveFlags[gCurrentMove].gTenStrikesMoves)
+			else if (gCurrentMove == MOVE_POPULATIONBOMB)
 			{
 				if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_LOADED_DICE)
 					gMultiHitCounter = 4 + (Random() % 7);
 				else
 					gMultiHitCounter = 10;
-				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
+				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 2, 0)
 			}
 			else if (gBattleMoves[gCurrentMove].effect == EFFECT_TRIPLE_KICK)
 			{
