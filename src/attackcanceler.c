@@ -980,7 +980,6 @@ static u8 AtkCanceller_UnableToUseMove(void)
 				{
 					gMultiHitCounter = 5;
 				}
-				#ifdef SPECIES_ASHGRENINJA
 				else if (ability == ABILITY_BATTLEBOND
 				&& gCurrentMove == MOVE_WATERSHURIKEN
 				&& SPECIES(gBankAttacker) == SPECIES_ASHGRENINJA)
@@ -989,10 +988,9 @@ static u8 AtkCanceller_UnableToUseMove(void)
 				}
 				else if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_LOADED_DICE)
 				{
-					gMultiHitCounter = (Random() & 1) ? 4 : 5;
+					gMultiHitCounter = 4 + (Random() & 1);
 				}
 				else
-				#endif
 				{
 					gMultiHitCounter = Random() % 3; //Split into groups of 3
 					switch (gMultiHitCounter)
@@ -1026,6 +1024,19 @@ static u8 AtkCanceller_UnableToUseMove(void)
 					//Smart target to partner
 					gBankTarget = PARTNER(gBankTarget);
 				}
+			}
+			else if (gSpecialMoveFlags[gCurrentMove].gTenStrikesMoves)
+			{
+				if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_LOADED_DICE)
+					gMultiHitCounter = 4 + (Random() % 7);
+				else
+					gMultiHitCounter = 10;
+				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
+			}
+			else if (gBattleMoves[gCurrentMove].effect == EFFECT_TRIPLE_KICK)
+			{
+				gMultiHitCounter = 3;
+				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0)
 			}
 			else if (gBattleMoves[gCurrentMove].effect == EFFECT_BEAT_UP)
 			{

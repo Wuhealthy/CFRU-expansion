@@ -361,7 +361,7 @@ bool8 IsTrappedByAbility(u8 bankDef, ability_t trapAbility)
 	}
 }
 
-bool8 BankHasEvaporate(u8 bank)
+bool8 BankHasEvaporate(unusedArg u8 bank)
 {
 	return ABILITY(bank) == ABILITY_314;
 }

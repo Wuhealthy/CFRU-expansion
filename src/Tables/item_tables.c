@@ -15417,5 +15417,21 @@ const struct Item gItemData[] =
         .battleUseFunc = NULL,
         .secondaryId = 0
     },
+	[ITEM_MIRROR_HERB] = {
+        .name = {_M, _i, _r, _r, _o, _r, _SPACE, _H, _e, _r, _b, _END},
+        .itemId = ITEM_MIRROR_HERB,
+        .price = 30000,
+		.holdEffect = ITEM_EFFECT_MIRROR_HERB,
+		.holdEffectParam = 0,
+		.description = DESC_MIRROR_HERB,
+        .importance = 0,
+        .unk19 = 0,
+        .pocket = POCKET_ITEMS,
+        .type = ITEM_USE_BAG_MENU,
+        .fieldUseFunc = FieldUseFunc_OakStopsYou,
+        .battleUsage = 0,
+        .battleUseFunc = NULL,
+        .secondaryId = 0
+    },
 };
 #endif

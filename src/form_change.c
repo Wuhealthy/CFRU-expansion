@@ -508,18 +508,25 @@ void HandleFormChange(void)
 {
 	struct Pokemon* mon = GetBankPartyData(gActiveBattler);
 	struct BattlePokemon* battleMon = (struct BattlePokemon*) &gBattleBufferA[gActiveBattler][3];
+	u16 oldSpecies = GetMonData(mon, MON_DATA_SPECIES, NULL);
 	#ifdef UNBOUND
 	u8 oldGender = GetMonGender(mon);
 	#endif
 
-	mon->backupSpecies = GetMonData(mon, MON_DATA_SPECIES, NULL);
+	// Keep the species from before the first temporary form change.  The
+	// controller can receive more than one form-change update in a battle; if
+	// the backup is overwritten by a later update (for example while Zygarde is
+	// Complete), there is no longer a base form to restore after the battle.
+	if (mon->backupSpecies == SPECIES_NONE && oldSpecies != battleMon->species)
+		mon->backupSpecies = oldSpecies;
+
 	SetMonData(mon, MON_DATA_SPECIES, &battleMon->species);
 
 	#ifdef UNBOUND
 	//Try fix changed genders
 	typedef void (*ChangeMonGender_T) (struct Pokemon*);
 	#define ChangeMonGender ((ChangeMonGender_T) (0x0801D834 |1))
-	if (gBaseStats[mon->backupSpecies].genderRatio != gBaseStats[battleMon->species].genderRatio
+	if (gBaseStats[oldSpecies].genderRatio != gBaseStats[battleMon->species].genderRatio
 	&& oldGender != GetMonGender(mon))
 		ChangeMonGender(mon);
 	#endif

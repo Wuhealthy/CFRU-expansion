@@ -936,7 +936,7 @@ enum
 #define ITEM_SHIFTRYITE 0x378
 #define ITEM_TINKATONITE 0x379
 //Unused Items
-#define ITEM_FREE_SPACE1 0x37A //These are reserved for future use
+#define ITEM_MIRROR_HERB 0x37A
 #define ITEM_FREE_SPACE2 0x37B
 #define ITEM_FREE_SPACE3 0x37C
 

@@ -97,7 +97,6 @@ u8 AIScript_Partner(const u8 bankAtk, const u8 bankAtkPartner, const u16 origina
 					IncreaseHealPartnerViability(&viability, class, bankAtkPartner);
 				break;
 			case ABILITY_STORMDRAIN:
-			case ABILITY_314:
 				if (moveType == TYPE_WATER
 				&&  !IsClassDoublesTotalTeamSupport(partnerClass)
 				&&  SpecialMoveInMoveset(bankAtkPartner)

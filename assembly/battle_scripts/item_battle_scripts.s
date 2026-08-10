@@ -59,6 +59,9 @@ item_battle_scripts.s
 .global BattleScript_EjectPackEnd2
 .global BattleScript_EjectPackRet
 .global BattleScript_EjectPackCMD49
+.global BattleScript_MirrorHerbRet
+.global BattleScript_MirrorHerbEnd2
+.global BattleScript_ClearAmuletNoStatLoss
 .global BattleScript_RedCard
 .global BattleScript_HangedOnFocusSash
 .global BattleScript_Gems
@@ -496,6 +499,27 @@ BattleScript_EjectPackGiveEXP:
 	getexp 0x0
 	callasm SetSkipCertainSwitchInAbilities
 	goto BattleScript_EjectPackRet
+
+BattleScript_MirrorHerbEnd2:
+	call BattleScript_MirrorHerbRet
+	end2
+
+BattleScript_MirrorHerbRet:
+	playanimation BANK_SCRIPTING ANIM_ITEM_USE 0x0
+	setword BATTLE_STRING_LOADER MirrorHerbString
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	removeitem BANK_SCRIPTING
+	return
+
+BattleScript_ClearAmuletNoStatLoss:
+	pause 0x10
+	playanimation BANK_SCRIPTING ANIM_ITEM_USE 0x0
+	setword BATTLE_STRING_LOADER gText_NotAffectedBecauseOfItem
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	setbyte MULTISTRING_CHOOSER 0x4
+	return
 	
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

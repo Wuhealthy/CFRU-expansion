@@ -4425,7 +4425,8 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 		//1.3x Boost
 			if (((!useMonAtk && IsContactMove(move, bankAtk, bankDef))
 			   || (useMonAtk && gBattleMoves[move].flags & FLAG_MAKES_CONTACT)) //Party mons can't use any fancy calculations for contact moves
-			&& !CanNeverMakeContactByItemEffect(data->atkItemEffect)) //Don't check Ability since it's known to be Tough Claws
+			&& !CanNeverMakeContactByItemEffect(data->atkItemEffect)
+			&& !(data->atkItemEffect == ITEM_EFFECT_PUNCHING_GLOVE && gSpecialMoveFlags[move].gPunchingMoves)) //Don't check Ability since it's known to be Tough Claws
 				power = (power * 13) / 10;
 			break;
 

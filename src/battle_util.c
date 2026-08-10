@@ -348,7 +348,8 @@ bool8 CheckMonGrounding(struct Pokemon* mon)
 	|| (ItemId_GetHoldEffect(item) == ITEM_EFFECT_IRON_BALL && GetMonAbility(mon) != ABILITY_KLUTZ))
 		return GROUNDED;
 
-	else if (GetMonAbility(mon) == ABILITY_LEVITATE || GetMonAbility(mon) == ABILITY_EELEVATE
+	else if (GetMonAbility(mon) == ABILITY_LEVITATE
+	|| GetMonAbility(mon) == ABILITY_EELEVATE
 	|| IsMonFloatingWithMagnetism(mon)
 	|| gBaseStats[species].type1 == TYPE_FLYING
 	|| gBaseStats[species].type2 == TYPE_FLYING)
@@ -361,7 +362,8 @@ bool8 CheckGroundingByDetails(u16 species, u16 item, ability_t ability)
 {
 	if (ability != ABILITY_KLUTZ && ItemId_GetHoldEffect(item) == ITEM_EFFECT_IRON_BALL)
 		return GROUNDED;
-	else if (ability == ABILITY_LEVITATE || ability == ABILITY_EELEVATE
+	else if (ability == ABILITY_LEVITATE
+	|| ability == ABILITY_EELEVATE
 	|| gBaseStats[species].type1 == TYPE_FLYING
 	|| gBaseStats[species].type2 == TYPE_FLYING)
 		return IN_AIR;
@@ -511,13 +513,15 @@ bool8 HasMonToSwitchTo(u8 bank)
 bool8 CheckContact(u16 move, u8 bankAtk, u8 bankDef)
 {
 	return IsContactMove(move, bankAtk, bankDef)
-		&& !CanNeverMakeContact(bankAtk);
+		&& !CanNeverMakeContact(bankAtk)
+		&& !(ITEM_EFFECT(bankAtk) == ITEM_EFFECT_PUNCHING_GLOVE && gSpecialMoveFlags[move].gPunchingMoves);
 }
 
 bool8 CheckContactByMon(u16 move, struct Pokemon* mon)
 {
 	return gBattleMoves[move].flags & FLAG_MAKES_CONTACT
-		&& !CanMonNeverMakeContact(mon);
+		&& !CanMonNeverMakeContact(mon)
+		&& !(GetMonItemEffect(mon) == ITEM_EFFECT_PUNCHING_GLOVE && gSpecialMoveFlags[move].gPunchingMoves);
 }
 
 bool8 IsContactMove(u16 move, u8 bankAtk, u8 bankDef)
@@ -546,8 +550,7 @@ bool8 CanNeverMakeContactByAbilityItemEffect(ability_t ability, u8 itemEffect)
 
 bool8 CanNeverMakeContactByItemEffect(u8 itemEffect)
 {
-	return itemEffect == ITEM_EFFECT_PROTECTIVE_PADS
-		|| itemEffect == ITEM_EFFECT_PUNCHING_GLOVE;
+	return itemEffect == ITEM_EFFECT_PROTECTIVE_PADS;
 }
 
 bool8 CheckHealingMove(move_t move)

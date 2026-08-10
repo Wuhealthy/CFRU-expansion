@@ -2234,7 +2234,6 @@ bool8 IsDamagingMoveUnusable(u16 move, u8 bankAtk, u8 bankDef)
 			case ABILITY_WATERABSORB:
 			case ABILITY_DRYSKIN:
 			case ABILITY_STORMDRAIN:
-			case ABILITY_314:
 				if (GetMoveTypeSpecial(bankAtk, move) == TYPE_WATER)
 					return TRUE;
 				break;
@@ -2358,7 +2357,6 @@ bool8 IsDamagingMoveUnusableByMon(u16 move, struct Pokemon* monAtk, u8 bankDef)
 			case ABILITY_WATERABSORB:
 			case ABILITY_DRYSKIN:
 			case ABILITY_STORMDRAIN:
-			case ABILITY_314:
 				if (GetMonMoveTypeSpecial(monAtk, move) == TYPE_WATER)
 					return TRUE;
 				break;
@@ -2696,7 +2694,7 @@ u32 GetContactDamage(u16 move, u16 bankAtk, u16 bankDef)
 	if (MoveBlockedBySubstitute(move, bankAtk, bankDef))
 		return 0;
 
-	if (CanNeverMakeContact(bankAtk) || ABILITY(bankAtk) == ABILITY_MAGICGUARD)
+	if (!CheckContact(move, bankAtk, bankDef) || ABILITY(bankAtk) == ABILITY_MAGICGUARD)
 		return 0;
 
 	return GetContactDamageByDefAbilityItemEffect(ABILITY(bankDef), ITEM_EFFECT(bankDef), GetBaseMaxHP(bankAtk));

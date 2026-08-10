@@ -82,7 +82,8 @@ ACCURACY_CHECK_START:
 
 		if (gNewBS->ParentalBondOn == 1
 		||  (gNewBS->MultiHitOn && (gBattleMoves[move].effect != EFFECT_TRIPLE_KICK
-						 || ABILITY(gBankAttacker) == ABILITY_SKILLLINK)))
+						 || ABILITY(gBankAttacker) == ABILITY_SKILLLINK
+						 || ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_LOADED_DICE)))
 		{
 			//No acc checks for second hit of Parental Bond or multi hit moves
 			TrySetDestinyBondToHappen();
@@ -191,10 +192,8 @@ bool8 ProtectAffects(u16 move, u8 bankAtk, u8 bankDef, bool8 set)
 	u8 target = GetBaseMoveTarget(move, bankAtk);
 	u8 defSide = SIDE(bankDef);
 
-	#ifdef ABILITY_UNSEENFIST
 	if (protectFlag && IsContactMove(move, bankAtk, bankDef) && (ABILITY(bankAtk) == ABILITY_UNSEENFIST || ABILITY(bankAtk) == ABILITY_PIERCINGDRILL)) //Uses IsContactMove instead of CheckContact because Protective Pads don't affect this Ability
 		protectFlag = FALSE;
-	#endif
 
 	if (protectFlag && move == MOVE_HYPERDRILL)
 		protectFlag = FALSE;
@@ -313,10 +312,8 @@ bool8 DoesProtectionMoveBlockMove(u8 bankAtk, u8 bankDef, u16 atkMove, u16 prote
 	u8 target = GetBaseMoveTarget(atkMove, bankAtk);
 
 	if (!gSpecialMoveFlags[atkMove].gMovesThatLiftProtectTable
-	#ifdef ABILITY_UNSEENFIST
 	&& ABILITY(bankAtk) != ABILITY_UNSEENFIST
 	&& ABILITY(bankAtk) != ABILITY_PIERCINGDRILL
-	#endif
 	)
 	{
 		switch (protectMove) {

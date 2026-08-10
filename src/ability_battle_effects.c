@@ -1617,25 +1617,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
     		}
     		break;
 
-		case ABILITY_314:
-			if (BankHasEvaporate(bank) && AffectedByRain(bank))
-			{
-				if (RainCanBeEvaporated())
-				{
-					//Remove weather
-					gBankAttacker = bank;
-					gBattleWeather = 0;
-					gWishFutureKnock.weatherDuration = 0;
-					BattleScriptPushCursorAndCallback(BattleScript_EvaporateOnSwitchIn);
-					effect++;
-				}
-				else if (gBattleWeather & WEATHER_PRIMAL_ANY)
-				{
-					BattleScriptPushCursorAndCallback(BattleScript_WeatherAbilityBlockedByPrimalWeather);
-					effect++;
-				}
-			}
-			break;
 		}
 
 		switch (gLastUsedAbility) { //These abilities should always activate if they can
@@ -1978,15 +1959,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					gNewBS->turnDamageTaken[bank] = 0; //Reset to prevent accidental triggering
 					break;
 				
-				case ABILITY_314:
-					if (RainCanBeEvaporated() && BankHasEvaporate(bank) && AffectedByRain(bank))
-					{
-						gBattleWeather = 0;
-						gWishFutureKnock.weatherDuration = 0;
-						BattleScriptPushCursorAndCallback(BattleScript_EvaporateOnSwitchIn);
-						effect++;
-					}
-					break;
 			}
 			}
 			break;
@@ -2100,7 +2072,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					break;
 
 				case ABILITY_STORMDRAIN:
-				case ABILITY_314:
 					if (moveType == TYPE_WATER)
 						effect = 2, statId = STAT_SPATK;
 					break;
@@ -2627,6 +2598,21 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				break;
 
 			case ABILITY_AFTERMATH:
+				if (MOVE_HAD_EFFECT
+    			&& TOOK_DAMAGE(bank)
+    			&& BATTLER_ALIVE(gBankAttacker)
+    			&& gBankAttacker != bank
+    			&& ABILITY(gBankAttacker) != ABILITY_MAGICGUARD
+    			&& CheckContact(move, gBankAttacker, bank)
+    			&& !ABILITY_ON_FIELD(ABILITY_DAMP)
+    			&& !BATTLER_ALIVE(bank))
+    			{
+        			gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankAttacker) / 4);
+        			BattleScriptPushCursor();
+        			gBattlescriptCurrInstr = BattleScript_RoughSkinActivates;
+        			effect++;
+    			}
+    			break;
 			case ABILITY_VOLATILEEXPLOSION:
 				if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
@@ -2639,8 +2625,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
         			u8 side = SIDE(bank);
 					u8 partyId = gBattlerPartyIndexes[bank];
 
-					if (ABILITY(bank) == ABILITY_VOLATILEEXPLOSION
-    				&& !gNewBS->oncePerBattleAbilityFlags[side][partyId])
+					if (!gNewBS->oncePerBattleAbilityFlags[side][partyId])
         			{
             			// 标记已使用
             			gNewBS->oncePerBattleAbilityFlags[side][partyId] = TRUE;
@@ -2657,14 +2642,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
             			gBattlescriptCurrInstr = BattleScript_VolatileExplosionActivates;
             			effect++;
         			}
-				
-					else if (!BATTLER_ALIVE(bank) && ABILITY(bank) == ABILITY_AFTERMATH)
-					{
-						gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankAttacker) / 4);
-						BattleScriptPushCursor();
-						gBattlescriptCurrInstr = BattleScript_RoughSkinActivates;
-						effect++;
-					}
 				}
 				break;
 

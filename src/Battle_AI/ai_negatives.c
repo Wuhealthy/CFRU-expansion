@@ -240,7 +240,6 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			case ABILITY_WATERABSORB:
 			case ABILITY_DRYSKIN:
 			case ABILITY_STORMDRAIN:
-			case ABILITY_314:
 				if (moveType == TYPE_WATER)
 				{
 					if (!TARGETING_PARTNER) //Good idea to attack partner
@@ -554,7 +553,6 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 					break;
 
 				case ABILITY_STORMDRAIN:
-				case ABILITY_314:
 					if (moveType == TYPE_WATER
 					&& !(moveTarget & MOVE_TARGET_USER)
 					&& !IsMoveRedirectionPrevented(move, data->atkAbility))
@@ -624,7 +622,6 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 						break;
 
 					case ABILITY_STORMDRAIN:
-					case ABILITY_314:
 						if (moveType == TYPE_WATER
 						&& !(moveTarget & MOVE_TARGET_USER)
 						&& !IsMoveRedirectionPrevented(move, data->atkAbility))
