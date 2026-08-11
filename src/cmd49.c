@@ -792,6 +792,23 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 						PressurePPLose(gBankTarget, gBankAttacker, gChosenMove);
 					}
 
+					if (gCurrentMove == MOVE_POPULATIONBOMB 
+        				&& ABILITY(gBankAttacker) != ABILITY_SKILLLINK
+						&& ITEM_EFFECT(gBankAttacker) != ITEM_EFFECT_LOADED_DICE
+        				&& gMultiHitCounter > 0)
+    				{
+        				u32 hitChance = AccuracyCalc(gCurrentMove, gBankAttacker, gBankTarget);
+        				if (Random32() % 101 > hitChance)
+        				{
+            				// 未命中，停止攻击
+            				gMultiHitCounter = 0;
+                    		BattleScriptPushCursor();
+                    		gBattlescriptCurrInstr = BattleScript_MultiHitPrintStrings;
+                    		effect = 1;
+                    		break;
+        				}
+    				}
+
 					if (BATTLER_ALIVE(gBankAttacker)
 					&& BATTLER_ALIVE(gBankTarget)
 					&& (gChosenMove == MOVE_SLEEPTALK || !(gBattleMons[gBankAttacker].status1 & STATUS1_SLEEP))

@@ -413,11 +413,11 @@ static u8 GetNumHitsBasedOnMove(u16 move, ability_t atkAbility, unusedArg u16 at
 {
 	u8 numHits = 1;
 
-	if (move == MOVE_SURGINGSTRIKES
-	#ifdef SPECIES_ASHGRENINJA
-	|| (move == MOVE_WATERSHURIKEN && atkSpecies == SPECIES_ASHGRENINJA)
-	#endif
-	)
+	if (move == MOVE_SURGINGSTRIKES || move == MOVE_TRIPLEDIVE)
+		numHits = 3;
+	else if (move == MOVE_POPULATIONBOMB)
+		numHits = 10;
+	else if (move == MOVE_WATERSHURIKEN && atkSpecies == SPECIES_ASHGRENINJA)
 		numHits = 3;
 	else if (gSpecialMoveFlags[move].gTwoToFiveStrikesMoves)
 	{
