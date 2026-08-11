@@ -248,6 +248,9 @@
 #org @gText_TransformFailsOnWildBosses
 但[TARGET]的气场\n阻止了变身！
 
+#org @gText_CommanderActivate
+[SCRIPTING_BANK]作为发号施令的要员\n而被[TARGET]吞下去了！
+
 #org @gText_MoveFailsOnWildBosses
 但[TARGET]的气场\n挡住了该招式！
 

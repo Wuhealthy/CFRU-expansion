@@ -1292,6 +1292,24 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			}
 			break;
 
+		case ABILITY_COMMANDER:
+    		if (IS_DOUBLE_BATTLE && SPECIES(PARTNER(bank)) == SPECIES_DONDOZO)
+    		{
+        		gStatuses3[bank] |= STATUS3_DISAPPEARED;
+        
+        		u8 spriteId = gBattlerSpriteIds[bank];
+    			if (spriteId != 0xFF)
+            		gSprites[spriteId].pos1.x = -512;
+            		gSprites[spriteId].pos1.y = -512;
+            		gSprites[spriteId].invisible = TRUE;
+        
+        		gBankTarget = PARTNER(bank);
+				gBattleStringLoader = gText_CommanderActivate;
+        		BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+        		effect++;
+    		}
+    		break;
+
 		case ABILITY_IMPOSTER:
 			if (ImposterWorks(bank, FALSE))
 			{

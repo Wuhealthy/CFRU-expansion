@@ -195,6 +195,7 @@ extern const u8 gText_FlowerVeilProtects[];
 extern const u8 gText_SweetVeilProtects[];
 extern const u8 gText_SleepClausePrevents[];
 extern const u8 gText_TransformFailsOnWildBosses[];
+extern const u8 gText_CommanderActivate[];
 #define gText_CantFallAsleepDuringUproar (u8*) 0x83FBDC4
 
 #define gText_TargetAlreadyParalyzed (u8*) 0x83FB78A
