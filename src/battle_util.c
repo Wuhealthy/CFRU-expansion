@@ -2723,6 +2723,25 @@ bool8 IsSunWeatherActive(u8 bank) {
     return gBattleWeather & WEATHER_SUN_ANY && WEATHER_HAS_EFFECT && AffectedBySun(bank);
 }
 
+void CorrectPartyMonHPAfterBattle(void)
+{
+    struct Pokemon* party = gPlayerParty;
+    u8 partyCount = gPlayerPartyCount;
+    
+    for (u8 i = 0; i < partyCount; i++)
+    {
+        struct Pokemon* mon = &party[i];
+        u16 hp = GetMonData(mon, MON_DATA_HP, NULL);
+        u16 maxHP = GetMonData(mon, MON_DATA_MAX_HP, NULL);
+        
+        // 如果 HP 大于最大 HP，修正为最大 HP
+        if (hp > maxHP)
+        {
+            SetMonData(mon, MON_DATA_HP, &maxHP);
+        }
+    }
+}
+
 void BS_ApplySaltCure(void)
 {
     // callasm leaves the script cursor on the macro's battler argument.

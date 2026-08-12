@@ -29,6 +29,8 @@ end_battle.c
 	handles all battle termination logic and data resetting/saving
 */
 
+void CorrectPartyMonHPAfterBattle(void);
+
 const u16 gEndBattleFlagClearTable[] =
 {
 #ifdef FLAG_TERA_BATTLE
@@ -884,6 +886,8 @@ static void EndBattleFlagClear(void)
 			VarSet(VAR_STATUS_INDUCER, status | (amount << 8));
 	}
 	#endif
+
+	CorrectPartyMonHPAfterBattle();
 
 	//Handle Sirfetch'd Evolution
 	gScored3CritsInBattle = 0;
