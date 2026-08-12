@@ -2267,7 +2267,6 @@ SKIP_CHECK_TARGET:
 
 		case EFFECT_RAIN_DANCE:
 			if (gBattleWeather & (WEATHER_RAIN_ANY | WEATHER_PRIMAL_ANY | WEATHER_CIRCUS)
-			|| BankOnFieldHasEvaporate()
 			|| PARTNER_MOVE_EFFECT_IS_WEATHER
 			|| IsCurrentWeatherPartnersWeather(data->bankAtkPartner, data->atkPartnerAbility)) //Don't override the partner's weather with your own
 				DECREASE_VIABILITY(10);

@@ -2621,15 +2621,6 @@ void atk7D_setrain(void)
 		gMoveResultFlags |= MOVE_RESULT_FAILED;
 		gBattlescriptCurrInstr++;
 	}
-	else if ((bank = BankOnFieldHasEvaporate()))
-	{
-		//Undo weather
-		gBattleWeather = 0;
-		gWishFutureKnock.weatherDuration = 0;
-		gMoveResultFlags |= MOVE_RESULT_FAILED;
-		gBattleScripting.bank = bank - 1;
-		gBattlescriptCurrInstr = BattleScript_RainDanceBlockedByEvaporate;
-	}
 	else
 		gBattlescriptCurrInstr++;
 }

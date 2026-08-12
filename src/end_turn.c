@@ -1699,15 +1699,6 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 				gBattleStruct->turnEffectsBank = gBattlersCount;
 				if (gBattleWeather == 0 && AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, 0, 0, ABILITYEFFECT_SWITCH_IN_WEATHER, 0))
 				{
-					if (RainCanBeEvaporated() && BankOnFieldHasEvaporate())
-					{
-						//Prevent rain from returning
-						gBattleWeather = 0;
-						gWishFutureKnock.weatherDuration = 0;
-						gBattlescriptCurrInstr = BattleScript_End3; //Script must still be played because the cursor was pushed
-						++gBattleStruct->turnEffectsTracker; //Otherwise it's get stuck in an endless rain loop
-					}
-
 					++effect;
 					return effect;
 				}

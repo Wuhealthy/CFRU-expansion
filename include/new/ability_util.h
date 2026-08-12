@@ -40,8 +40,6 @@ bool8 IsAffectedBySturdy(ability_t defAbility, u8 bankDef);
 bool8 IsAffectedByDisguse(ability_t defAbility, u16 defSpecies, u8 moveSplit);
 bool8 IsAffectedByBadDreams(u8 bank);
 bool8 IsTrappedByAbility(u8 bankDef, ability_t trapAbility);
-bool8 BankHasEvaporate(u8 bank);
-bool8 BankOnFieldHasEvaporate(void);
 bool8 IsWhiteSmokeAbility(ability_t ability, u16 species);
 bool8 IsVitalSpiritAbility(ability_t ability, u16 species);
 bool8 MindsEyePreventsLoweringStat(ability_t ability, u8 statId);

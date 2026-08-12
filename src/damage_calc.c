@@ -1797,15 +1797,9 @@ u8 GetExceptionMoveType(u8 bankAtk, u16 move)
 	u16 item = ITEM(bankAtk);
 	u8 effect = ITEM_EFFECT(bankAtk);
 	u8 quality = ITEM_QUALITY(bankAtk);
-	u16 species = SPECIES(bankAtk);
 
 	switch (move) {
 		case MOVE_HIDDENPOWER:
-			if (SpeciesHasHiddenPowerPhysicality(species))
-            {
-                moveType = gBattleMons[bankAtk].type1;
-                break;
-            }
 			moveType = ((gBattleMons[bankAtk].hpIV & 1))
 					 | ((gBattleMons[bankAtk].attackIV & 1) << 1)
 					 | ((gBattleMons[bankAtk].defenseIV & 1) << 2)
@@ -1980,11 +1974,6 @@ u8 GetMonExceptionMoveType(struct Pokemon* mon, u16 move)
 
 	switch (move) {
 		case MOVE_HIDDENPOWER:
-			if (SpeciesHasHiddenPowerPhysicality(mon->species))
-            {
-                moveType = GetMonType(mon, 0);
-                break;
-            }
 			moveType = CalcMonHiddenPowerType(mon);
 			break;
 
@@ -2618,11 +2607,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 					else
 						data->spAtkBuff = min(data->spAtkBuff + 1, STAT_STAGE_MAX);
 				}
-				else if (atkAbility == ABILITY_314
-				&& RainCanBeEvaporated()
-				&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect))
-					data->spAtkBuff = min(data->spAtkBuff + 1, STAT_STAGE_MAX);
-
+				
 				TryBoostMonOffensesForTotemBoost(data, bankAtk, FALSE);
 				break;
 		}

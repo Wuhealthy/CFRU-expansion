@@ -124,15 +124,6 @@
 #org @gText_SymbiosisTransfer
 [SCRIPTING_BANK]将[LAST_ITEM]\n交给了[EFFECT_BANK]！
 
-#org @gText_AbilityEvaporatedAttack
-但[TARGET]\n将攻击蒸发掉了！
-
-#org @gText_AbilityEvaporatedRain
-[SCRIPTING_BANK]\n将雨水蒸发了！
-
-#org @gText_ButAbilityEvaporatesRain
-但[SCRIPTING_BANK]\n将雨水蒸发了！
-
 #org @GigatonHammerNotAllowedString
 [CURRENT_MOVE]\n无法连续使用两次！\p
 

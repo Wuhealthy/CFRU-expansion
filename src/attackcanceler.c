@@ -188,11 +188,7 @@ void atk00_attackcanceler(void)
 		gSpecialStatuses[gBankTarget].lightningRodRedirected = 0;
 		gBattleScripting.bank = gBankTarget;
 		BattleScriptPushCursor();
-
-		if (BankHasEvaporate(gBankTarget))
-			gBattlescriptCurrInstr = BattleScript_EvaporatedAttack;
-		else
-			gBattlescriptCurrInstr = BattleScript_TookAttack;
+		gBattlescriptCurrInstr = BattleScript_TookAttack;
 	}
 	else if (ProtectAffects(gCurrentMove, gBankAttacker, gBankTarget, FALSE)
 	 && (gCurrentMove != MOVE_CURSE || IsOfType(gBankAttacker, TYPE_GHOST))

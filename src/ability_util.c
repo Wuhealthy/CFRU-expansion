@@ -361,26 +361,6 @@ bool8 IsTrappedByAbility(u8 bankDef, ability_t trapAbility)
 	}
 }
 
-bool8 BankHasEvaporate(unusedArg u8 bank)
-{
-	return ABILITY(bank) == ABILITY_314;
-}
-
-bool8 BankOnFieldHasEvaporate(void)
-{
-	for (u32 i = 0; i < gBattlersCount; ++i)
-	{
-		u8 bank = gBanksByTurnOrder[i];
-
-		if (BATTLER_ALIVE(bank)
-		&& BankHasEvaporate(bank)
-		&& AffectedByRain(bank))
-			return bank + 1;
-	}
-
-	return FALSE;
-}
-
 bool8 IsWhiteSmokeAbility(ability_t ability, unusedArg u16 species)
 {
 	return ability == ABILITY_WHITESMOKE;

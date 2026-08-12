@@ -1930,12 +1930,6 @@ bool8 WeatherHasEffect(void)
 	return TRUE;
 }
 
-bool8 RainCanBeEvaporated(void)
-{
-	return gBattleWeather & WEATHER_RAIN_ANY
-		&& !(gBattleWeather & (WEATHER_PRIMAL_ANY | WEATHER_CIRCUS));
-}
-
 bool8 ItemEffectIgnoresSunAndRain(u8 itemEffect)
 {
 	return itemEffect == ITEM_EFFECT_UTILITY_UMBRELLA;

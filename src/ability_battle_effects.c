@@ -680,18 +680,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 		case ABILITY_DRIZZLE:
 			if (!(gBattleWeather & (WEATHER_RAIN_ANY | WEATHER_PRIMAL_ANY | WEATHER_CIRCUS)))
 			{
-				u8 evaporateBank;
 				effect = ActivateWeatherAbility(WEATHER_RAIN_PERMANENT | WEATHER_RAIN_TEMPORARY,
 												ITEM_EFFECT_DAMP_ROCK, bank, B_ANIM_RAIN_CONTINUES, 0, FALSE);
-				
-				if (effect && (evaporateBank = BankOnFieldHasEvaporate()))
-				{
-					//Undo weather
-					gBattleWeather = 0;
-					gWishFutureKnock.weatherDuration = 0;
-					gBankTarget = evaporateBank - 1;
-					gBattlescriptCurrInstr = BattleScript_WeatherAbilityBlockedByEvaporate;
-				}
 			}
 			else if (gBattleWeather & WEATHER_PRIMAL_ANY && !(gBattleWeather & WEATHER_RAIN_ANY))
 			{
