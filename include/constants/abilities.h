@@ -317,7 +317,7 @@
 #define ABILITY_PIERCINGDRILL                        311
 #define ABILITY_DRAGONIZE                            312
 #define ABILITY_EELEVATE                             313
-#define ABILITY_314                                  314
+#define ABILITY_PRIMALINSTINCT                       314    //本能觉醒
 #define ABILITY_MEGASOL                              315
 #define ABILITY_FIREMANE                             316
 #define ABILITY_317                                  317

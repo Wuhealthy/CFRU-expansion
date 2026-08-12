@@ -30,6 +30,7 @@ ability_battle_scripts.s
 .global BattleScript_End3
 .global BattleScript_AbilityCuredStatus
 .global BattleScript_AbilityCuredStatusEnd3
+.global BattleScript_StartedSchoolingRet2
 .global BattleScript_StartedSchoolingEnd3
 .global BattleScript_StoppedSchoolingEnd3
 .global BattleScript_ShieldsDownToCoreEnd3
@@ -416,6 +417,10 @@ BattleScript_StartedSchoolingEnd3:
 BattleScript_StoppedSchoolingEnd3:
 	call BattleScript_StartedSchoolingRet
 	end3
+
+BattleScript_StartedSchoolingRet2:
+    call BattleScript_StartedSchoolingRet1
+    end3
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

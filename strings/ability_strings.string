@@ -88,6 +88,9 @@
 #org @gText_MagicBounce
 [SCRIPTING_BANK]\n将[CURRENT_MOVE]反弹了回去！
 
+#org @gText_StartedSchooling1
+[SCRIPTING_BANK]变为了觉醒形态，\n并觉醒了[BUFFER][00]属性！
+
 #org @gText_StartedSchooling
 [SCRIPTING_BANK]\n一群群地聚集起来了！
 

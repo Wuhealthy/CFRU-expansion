@@ -25,6 +25,7 @@ extern const u8 BattleScript_End3[];
 extern const u8 BattleScript_AbilityCuredStatus[];
 extern const u8 BattleScript_AbilityCuredStatusEnd3[];
 extern const u8 BattleScript_StartedSchoolingEnd3[];
+extern const u8 BattleScript_StartedSchoolingRet2[];
 extern const u8 BattleScript_StoppedSchoolingEnd3[];
 extern const u8 BattleScript_ShieldsDownToCoreEnd3[];
 extern const u8 BattleScript_ShieldsDownToMeteorEnd3[];

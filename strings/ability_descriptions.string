@@ -920,6 +920,9 @@ HP全满时受到的伤害变为效果不好
 #org @DESC_MEGASOL
 使用招式时，视为在大晴天下使用
 
+#org @DESC_PRIMALINSTINCT
+出场时，会变为觉醒形态
+
 #org @DESC_FIREMANE
 火属性的招式威力会提高
 

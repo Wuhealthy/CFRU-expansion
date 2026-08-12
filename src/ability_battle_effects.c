@@ -559,6 +559,38 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 		&& gLastUsedAbility != ABILITYEFFECT_SWITCH_IN_WEATHER)
 			break;
 
+		if (!(gBattleMons[bank].status2 & STATUS2_TRANSFORMED))
+			{
+				struct Pokemon* mon = GetBankPartyData(bank);
+
+				if (SPECIES(bank) == SPECIES_GALVANTULA
+				&& MoveInMoveset(MOVE_HIDDENPOWER, bank))
+				{
+					u16 oldMaxHP = gBattleMons[bank].maxHP;
+            		u16 oldHP = gBattleMons[bank].hp;
+					u8 monType = CalcMonHiddenPowerType(mon);
+					
+					DoFormChange(bank, SPECIES_GALVANTULA_A, TRUE, TRUE, TRUE);
+					//CalculateMonStats(mon);
+					u16 newMaxHP = GetMonData(GetBankPartyData(bank), MON_DATA_MAX_HP, NULL);
+            		gBattleMons[bank].maxHP = newMaxHP;
+            		u32 newHP = (u32)oldHP * newMaxHP / oldMaxHP;
+                	gBattleMons[bank].hp = (u16)newHP;
+                	if (gBattleMons[bank].hp > gBattleMons[bank].maxHP)
+                    	gBattleMons[bank].hp = gBattleMons[bank].maxHP;
+
+					PREPARE_TYPE_BUFFER(gBattleTextBuff1, monType);
+					BattleScriptPushCursorAndCallback(BattleScript_StartedSchoolingRet2);
+					++effect;
+				}
+
+				if (SPECIES(bank) == SPECIES_GALVANTULA_A)
+        		{
+            		gBattleMons[bank].type1 = CalcMonHiddenPowerType(mon);
+        		}
+			}
+			break;
+
 		switch (gLastUsedAbility)
 		{
 		case ABILITYEFFECT_SWITCH_IN_WEATHER:
@@ -3382,7 +3414,7 @@ static const s16 sAbilityPopUpCoordsDoubles[MAX_BATTLERS_COUNT][2] =
 
 static const s16 sAbilityPopUpCoordsSingles[MAX_BATTLERS_COUNT][2] =
 {
-	{29, 97}, // player
+	{29, 77}, // player
 	{202, 57}, // opponent
 };
 

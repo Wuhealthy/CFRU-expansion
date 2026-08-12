@@ -467,6 +467,15 @@ BattleScript_StartedSchooling:
 	call BattleScript_StartedSchoolingRet
 	end2
 
+.global BattleScript_StartedSchoolingRet1
+BattleScript_StartedSchoolingRet1:
+	playanimation BANK_SCRIPTING ANIM_TRANSFORM_ATTACK 0x0
+	reloadhealthbar BANK_SCRIPTING
+	setword BATTLE_STRING_LOADER gText_StartedSchooling1
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	return
+
 .global BattleScript_StartedSchoolingRet
 BattleScript_StartedSchoolingRet:
 	call BattleScript_AbilityPopUp

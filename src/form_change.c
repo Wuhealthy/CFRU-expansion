@@ -5,6 +5,7 @@
 
 #include "../include/new/battle_terrain.h"
 #include "../include/new/battle_util.h"
+#include "../include/new/damage_calc.h"
 #include "../include/new/dns.h"
 #include "../include/new/evolution.h"
 #include "../include/new/form_change.h"
@@ -91,6 +92,11 @@ void DoFormChange(u8 bank, u16 species, bool8 ReloadType, bool8 ReloadStats, boo
 	{
 		if (gBattleTypeFlags & BATTLE_TYPE_CAMOMONS) //The Pokemon takes on the types of its first two moves
 			UpdateTypesForCamomons(bank);
+		else if (SpeciesHasHiddenPowerPhysicality(gBattleMons[bank].species))
+		{
+			gBattleMons[bank].type1 = CalcMonHiddenPowerType(mon);
+			gBattleMons[bank].type2 = gBaseStats[species].type2;
+		}
 		else
 		{
 			gBattleMons[bank].type1 = gBaseStats[species].type1;
@@ -139,11 +145,6 @@ void SwitchOutFormsRevert(u8 bank)
 				DoFormChange(bank, SPECIES_KELDEO, FALSE, TRUE, FALSE);
 			break;
 		#endif
-
-		case SPECIES_GALVANTULA_A:
-			if (FindMovePositionInMoveset(MOVE_HIDDENPOWER, bank) == MAX_MON_MOVES) //Doesn't know Hidden Power
-				DoFormChange(bank, SPECIES_GALVANTULA, FALSE, TRUE, FALSE);
-			break;
 
 		#if (defined SPECIES_MELOETTA && defined SPECIES_MELOETTA_PIROUETTE)
 		case SPECIES_MELOETTA_PIROUETTE:
@@ -332,38 +333,6 @@ bool8 TryFormRevert(struct Pokemon* mon)
 		if (i == MAX_MON_MOVES) //Keldeo doesn't know Secret Sword
 		{
 			mon->species = SPECIES_KELDEO;
-			CalculateMonStats(mon);
-			return TRUE;
-		}
-	}
-	#endif
-	#if (defined SPECIES_GALVANTULA && defined SPECIES_GALVANTULA_A)
-	else if (mon->species == SPECIES_GALVANTULA)
-	{
-		for (i = 0; i < MAX_MON_MOVES; ++i)
-		{
-			if (mon->moves[i] == MOVE_HIDDENPOWER)
-				break;
-		}
-
-		if (i != MAX_MON_MOVES)
-		{
-			mon->species = SPECIES_GALVANTULA_A;
-			CalculateMonStats(mon);
-			return TRUE;
-		}
-	}
-	else if (mon->species == SPECIES_GALVANTULA_A)
-	{
-		for (i = 0; i < MAX_MON_MOVES; ++i)
-		{
-			if (mon->moves[i] == MOVE_HIDDENPOWER)
-				break;
-		}
-
-		if (i == MAX_MON_MOVES)
-		{
-			mon->species = SPECIES_GALVANTULA;
 			CalculateMonStats(mon);
 			return TRUE;
 		}
