@@ -1296,7 +1296,7 @@ SystemScript_DebugMenu_StartWildBattleNow:
 	special 0xB3
 	waitstate
 	copyvar 0x8000, LASTRESULT
-	setwildbattle 0x8000 0x20 0x0
+	setwildbattle 0x8000 0x64 0x0
 	dowildbattle
 	end
 
