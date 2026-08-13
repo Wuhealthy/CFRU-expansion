@@ -210,15 +210,6 @@ void SwitchOutFormsRevert(u8 bank)
 			break;
 		#endif
 
-		#if (defined SPECIES_EEVEE && defined SPECIES_EEVEE_HERO)
-		case SPECIES_EEVEE:
-			if (backupSpecies != SPECIES_NONE && ability == ABILITY_ZEROTOHERO)
-				DoFormChange(bank, backupSpecies, FALSE, TRUE, FALSE);
-			else
-				DoFormChange(bank, SPECIES_EEVEE_HERO, FALSE, TRUE, FALSE);
-			break;
-		#endif
-
 	}
 }
 

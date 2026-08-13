@@ -560,36 +560,26 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			break;
 
 		if (!(gBattleMons[bank].status2 & STATUS2_TRANSFORMED))
-			{
-				struct Pokemon* mon = GetBankPartyData(bank);
+		{
+    		struct Pokemon* mon = GetBankPartyData(bank);
+    
+    		// 使用通用函数，一行搞定一个物种
+    		if (TryPrimalInstinctTransform(bank, SPECIES_GALVANTULA, SPECIES_GALVANTULA_A, mon))
+    		{
+        		++effect;
+    		}
+    		else if (TryPrimalInstinctTransform(bank, SPECIES_EEVEE, SPECIES_EEVEE_HERO, mon))
+    		{
+        		++effect;
+    		}
 
-				if (SPECIES(bank) == SPECIES_GALVANTULA
-				&& MoveInMoveset(MOVE_HIDDENPOWER, bank))
-				{
-					u16 oldMaxHP = gBattleMons[bank].maxHP;
-            		u16 oldHP = gBattleMons[bank].hp;
-					u8 monType = CalcMonHiddenPowerType(mon);
-					
-					DoFormChange(bank, SPECIES_GALVANTULA_A, TRUE, TRUE, TRUE);
-					//CalculateMonStats(mon);
-					u16 newMaxHP = GetMonData(GetBankPartyData(bank), MON_DATA_MAX_HP, NULL);
-            		gBattleMons[bank].maxHP = newMaxHP;
-            		u32 newHP = (u32)oldHP * newMaxHP / oldMaxHP;
-                	gBattleMons[bank].hp = (u16)newHP;
-                	if (gBattleMons[bank].hp > gBattleMons[bank].maxHP)
-                    	gBattleMons[bank].hp = gBattleMons[bank].maxHP;
-
-					PREPARE_TYPE_BUFFER(gBattleTextBuff1, monType);
-					BattleScriptPushCursorAndCallback(BattleScript_StartedSchoolingRet2);
-					++effect;
-				}
-
-				if (SPECIES(bank) == SPECIES_GALVANTULA_A)
-        		{
-            		gBattleMons[bank].type1 = CalcMonHiddenPowerType(mon);
-        		}
-			}
-			break;
+    		// A 形态每回合更新类型
+    		if (SpeciesHasHiddenPowerPhysicality(SPECIES(bank)))
+    		{
+        		gBattleMons[bank].type1 = CalcMonHiddenPowerType(mon);
+    		}
+		}
+		break;
 
 		switch (gLastUsedAbility)
 		{
@@ -1429,13 +1419,11 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			break;
 
 		case ABILITY_ZEROTOHERO:
-		case ABILITY_EEVEEHERO:
 		{
 			u8 side = SIDE(bank);
         	u8 partyId = gBattlerPartyIndexes[bank];
 
-			if ((gBattleMons[bank].species == SPECIES_PALAFIN_HERO
-				|| gBattleMons[bank].species == SPECIES_EEVEE_HERO)
+			if (gBattleMons[bank].species == SPECIES_PALAFIN_HERO
 				&&!gNewBS->oncePerBattleAbilityFlags[side][partyId])
 			{
 				gBattleStringLoader = gText_ZerotoHeroActivate;

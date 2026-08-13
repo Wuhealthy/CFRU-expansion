@@ -47,4 +47,5 @@ bool8 IsFullMetalBodyAbility(ability_t ability, u16 species);
 bool8 CheckStatusAny(u8 bank);
 bool8 IsFaintedPokemonInParty(u8 bank);
 bool8 AngerShellStatsCheck(u8 bank);
+bool8 TryPrimalInstinctTransform(u8 bank, u16 baseSpecies, u16 heroSpecies, struct Pokemon* mon);
 bool8 SpeciesHasHiddenPowerPhysicality(u16 species);

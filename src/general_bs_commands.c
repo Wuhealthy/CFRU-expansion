@@ -3414,9 +3414,6 @@ void atk9B_transformdataexecution(void)
 	else if (gBattleMons[gBankTarget].status2 & STATUS2_TRANSFORMED
 	|| gStatuses3[gBankTarget] & (STATUS3_SEMI_INVULNERABLE | STATUS3_ILLUSION)
 	|| gSideStatuses[SIDE(gBankTarget)] & SIDE_STATUS_CRAFTY_SHIELD
-	#ifdef UNBOUND
-	|| SPECIES(gBankTarget) == SPECIES_EEVEE_HERO
-	#endif
 	|| (IsDynamaxed(gBankAttacker) && IsBannedDynamaxSpecies(SPECIES(gBankTarget)))
 	|| HasRaidShields(gBankTarget)) //Shields can be used outside of a Raid Battle now
 	{

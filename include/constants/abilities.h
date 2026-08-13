@@ -343,7 +343,7 @@
 #define ABILITY_MUTANTADAPT                          337    //变异适应
 #define ABILITY_PSYCHOREBOUND                        338    //精神棱镜
 #define ABILITY_SHADOWHEAL                           339    //暗影治愈
-#define ABILITY_EEVEEHERO                            340    //全能变身伊布
+#define ABILITY_EEVEEHERO                            340    //全知全能
 #define ABILITY_FLOWERBLADE                          341    //花刃
 #define ABILITY_GRIDBIND                             342    //不稳定的电流
 

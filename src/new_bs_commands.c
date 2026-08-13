@@ -1795,11 +1795,7 @@ void atkFF2B_trysetburn(void)
 	{
 		return;
 	}
-	else if (IsOfType(bank, TYPE_FIRE)
-	#ifdef UNBOUND
-	|| SPECIES(bank) == SPECIES_EEVEE_HERO
-	#endif
-	)
+	else if (IsOfType(bank, TYPE_FIRE))
 	{
 		gMoveResultFlags |= MOVE_RESULT_DOESNT_AFFECT_FOE;
 		gBattlescriptCurrInstr = BattleScript_PauseResultMessage;
