@@ -325,6 +325,7 @@ bool8 TryPrimalInstinctTransform(u8 bank, u16 baseSpecies, u16 heroSpecies, stru
         gBattleMons[bank].hp = gBattleMons[bank].maxHP;
     
     // 准备显示文本
+	gBattleScripting.bank = bank;
     PREPARE_TYPE_BUFFER(gBattleTextBuff1, monType);
     BattleScriptPushCursorAndCallback(BattleScript_StartedSchoolingRet2);
     
