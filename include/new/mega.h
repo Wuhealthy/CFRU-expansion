@@ -16,6 +16,7 @@ species_t GetPrimalSpecies(u16 species, u16 item);
 ability_t GetBankMegaFormAbility(u8 megaBank, u8 foe);
 const u8* DoMegaEvolution(u8 bank);
 const u8* DoPrimalReversion(u8 bank, u8 caseId);
+const u8* DoPrimalInstinct(u8 bank, u8 caseId);
 void MegaRevert(pokemon_t* mon);
 void TryRevertMega(pokemon_t* mon);
 bool8 MegaEvolutionEnabled(u8 bank);

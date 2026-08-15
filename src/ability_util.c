@@ -13,9 +13,6 @@
 
 extern const u8 gAbilityNames[][ABILITY_NAME_LENGTH + 1];
 extern const u8* gAbilityDescriptions[];
-extern u8 CalcMonHiddenPowerType(struct Pokemon* mon);
-extern void DoFormChange(u8 bank, u16 species, bool8 ReloadType, bool8 ReloadStats, bool8 reloadAbility);
-extern const u8 BattleScript_StartedSchoolingRet2[];
 
 const u8* GetAbilityName(ability_t ability, unusedArg const u16 species)
 {
@@ -293,43 +290,6 @@ bool8 SpeciesHasHiddenPowerPhysicality(unusedArg u16 species)
         default:
             return FALSE;
     }
-}
-
-bool8 TryPrimalInstinctTransform(u8 bank, u16 baseSpecies, u16 heroSpecies, struct Pokemon* mon)
-{
-    // 检查是否是基础形态且拥有觉醒力量
-    if (SPECIES(bank) != baseSpecies)
-        return FALSE;
-    
-    if (!MoveInMoveset(MOVE_HIDDENPOWER, bank))
-        return FALSE;
-    
-    // 保存旧 HP 用于比例计算
-    u16 oldMaxHP = gBattleMons[bank].maxHP;
-    u16 oldHP = gBattleMons[bank].hp;
-    
-    // 计算 Hidden Power 属性
-    u8 monType = CalcMonHiddenPowerType(mon);
-    
-    // 执行形态变化
-    DoFormChange(bank, heroSpecies, TRUE, TRUE, TRUE);
-    
-    // 更新最大 HP
-    u16 newMaxHP = GetMonData(mon, MON_DATA_MAX_HP, NULL);
-    gBattleMons[bank].maxHP = newMaxHP;
-    
-    // 按比例保留 HP
-    u32 newHP = (u32)oldHP * newMaxHP / oldMaxHP;
-    gBattleMons[bank].hp = (u16)newHP;
-    if (gBattleMons[bank].hp > gBattleMons[bank].maxHP)
-        gBattleMons[bank].hp = gBattleMons[bank].maxHP;
-    
-    // 准备显示文本
-	gBattleScripting.bank = bank;
-    PREPARE_TYPE_BUFFER(gBattleTextBuff1, monType);
-    BattleScriptPushCursorAndCallback(BattleScript_StartedSchoolingRet2);
-    
-    return TRUE;
 }
 
 bool8 AbilityPreventsLoweringStat(ability_t ability, u8 statId)

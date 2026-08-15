@@ -883,6 +883,21 @@ void atk52_switchineffects(void)
 				++gNewBS->switchInEffectsState;
 				return;
 			}
+			const u8* instinctScript = DoPrimalInstinct(gActiveBattler, 1);
+    		if (instinctScript != NULL)
+    		{
+        		BattleScriptPushCursor();
+        		gBattlescriptCurrInstr = instinctScript;
+        		gBattleScripting.bank = gActiveBattler;
+        		gBankAttacker = gActiveBattler;
+        		++gNewBS->switchInEffectsState;
+        		return;
+    		}
+			struct Pokemon* mon = GetBankPartyData(gActiveBattler);
+    		if (SpeciesHasHiddenPowerPhysicality(SPECIES(gActiveBattler)))
+    		{
+        		gBattleMons[gActiveBattler].type1 = CalcMonHiddenPowerType(mon);
+    		}
 			++gNewBS->switchInEffectsState;
 		__attribute__ ((fallthrough));
 

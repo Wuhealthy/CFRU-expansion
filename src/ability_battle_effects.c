@@ -559,28 +559,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 		&& gLastUsedAbility != ABILITYEFFECT_SWITCH_IN_WEATHER)
 			break;
 
-		if (!(gBattleMons[bank].status2 & STATUS2_TRANSFORMED))
-		{
-    		struct Pokemon* mon = GetBankPartyData(bank);
-    
-    		// 使用通用函数，一行搞定一个物种
-    		if (TryPrimalInstinctTransform(bank, SPECIES_GALVANTULA, SPECIES_GALVANTULA_A, mon))
-    		{
-        		++effect;
-    		}
-    		else if (TryPrimalInstinctTransform(bank, SPECIES_EEVEE, SPECIES_EEVEE_HERO, mon))
-    		{
-        		++effect;
-    		}
-
-    		// A 形态每回合更新类型
-    		if (SpeciesHasHiddenPowerPhysicality(SPECIES(bank)))
-    		{
-        		gBattleMons[bank].type1 = CalcMonHiddenPowerType(mon);
-    		}
-		}
-		break;
-
 		switch (gLastUsedAbility)
 		{
 		case ABILITYEFFECT_SWITCH_IN_WEATHER:

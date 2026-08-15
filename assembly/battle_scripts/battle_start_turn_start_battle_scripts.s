@@ -19,6 +19,8 @@ battle_start_turn_start_battle_scripts.s
 .global BattleScript_TotemMultiBoostRet
 .global BattleScript_Primal
 .global BattleScript_PrimalSub
+.global BattleScript_PrimalInstinct
+.global BattleScript_PrimalInstinctSub
 .global BattleScript_ElectricTerrainBattleBegin
 .global BattleScript_GrassyTerrainBattleBegin
 .global BattleScript_MistyTerrainBattleBegin
@@ -144,6 +146,18 @@ PrimalStringDisplay:
 	callasm UpdatePrimalAbility
 	reloadhealthbar BANK_ATTACKER
 	setword BATTLE_STRING_LOADER PrimalReversionString
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	return
+
+BattleScript_PrimalInstinct:
+	call BattleScript_PrimalInstinctSub
+	end3
+
+BattleScript_PrimalInstinctSub:
+	playanimation BANK_ATTACKER ANIM_TRANSFORM 0x0
+	reloadhealthbar BANK_ATTACKER
+	setword BATTLE_STRING_LOADER gText_StartedSchooling1
 	printstring 0x184
 	waitmessage DELAY_1SECOND
 	return

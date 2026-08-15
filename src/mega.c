@@ -29,6 +29,8 @@ static bool8 IsItemKeystone(u16 item);
 static item_t FindTrainerKeystone(u16 trainerId);
 static item_t FindPlayerKeystone(void);
 static item_t FindBankKeystone(u8 bank);
+extern u8 CalcMonHiddenPowerType(struct Pokemon* mon);
+extern bool8 SpeciesHasHiddenPowerPhysicality(u16 species);
 
 static const item_t sKeystoneTable[] =
 {
@@ -247,6 +249,70 @@ const u8* DoPrimalReversion(u8 bank, u8 caseId)
 	}
 
 	return NULL;
+}
+
+const u8* DoPrimalInstinct(u8 bank, u8 caseId)
+{
+    struct Pokemon* mon = GetBankPartyData(bank);
+    u16 species = SPECIES(bank);
+    //u8 gender = GetMonGender(mon);
+    u16 targetSpecies = SPECIES_NONE;
+    
+    // 检查是否拥有觉醒力量
+    if (!MoveInMoveset(MOVE_HIDDENPOWER, bank))
+        return NULL;
+    
+    // === 按物种和性别选择目标形态 ===
+    switch (species)
+    {
+        //case SPECIES_EEVEE:
+        //    targetSpecies = (gender == MON_MALE) ? SPECIES_EEVEE_HERO_MALE : SPECIES_EEVEE_HERO_FEMALE;
+        //    break;
+            
+        case SPECIES_EEVEE:
+            targetSpecies = SPECIES_EEVEE_HERO;
+            break;
+
+		case SPECIES_GALVANTULA:
+            targetSpecies = SPECIES_GALVANTULA_A;
+            break;
+        
+    }
+    
+    if (targetSpecies == SPECIES_NONE)
+        return NULL;
+    
+    // 保存旧 HP 用于比例计算
+    u16 oldMaxHP = gBattleMons[bank].maxHP;
+    u16 oldHP = gBattleMons[bank].hp;
+    
+    // 计算 Hidden Power 属性
+    u8 monType = CalcMonHiddenPowerType(mon);
+    
+    // 执行形态变化
+    DoFormChange(bank, targetSpecies, TRUE, TRUE, TRUE);
+    
+    // 更新最大 HP
+    u16 newMaxHP = GetMonData(mon, MON_DATA_MAX_HP, NULL);
+    gBattleMons[bank].maxHP = newMaxHP;
+    
+    // 按比例保留 HP
+    u32 newHP = (u32)oldHP * newMaxHP / oldMaxHP;
+    gBattleMons[bank].hp = (u16)newHP;
+    if (gBattleMons[bank].hp > gBattleMons[bank].maxHP)
+        gBattleMons[bank].hp = gBattleMons[bank].maxHP;
+    
+    // 准备显示文本
+    gBattleScripting.bank = bank;
+    PREPARE_TYPE_BUFFER(gBattleTextBuff1, monType);
+    
+    // 根据 caseId 返回不同的脚本
+    switch (caseId) {
+        case 0:  // 战斗开始时
+            return BattleScript_PrimalInstinct;
+        default: // SwitchIn 时
+            return BattleScript_PrimalInstinctSub;
+    }
 }
 
 //In theory, this function will do nothing as the regular forms revert should

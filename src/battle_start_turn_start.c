@@ -365,6 +365,35 @@ void BattleBeginFirstTurn(void)
 					}
 				}
 
+				*bank = 0;
+
+				if (!(gBattleTypeFlags & (BATTLE_TYPE_OLD_MAN | BATTLE_TYPE_POKE_DUDE)))
+    			{
+        			for (; *bank < gBattlersCount; ++*bank)
+        			{
+            			const u8* instinctScript = DoPrimalInstinct(gBanksByTurnOrder[*bank], 0);
+
+            			if (instinctScript != NULL)
+            			{
+                			BattleScriptPushCursorAndCallback(instinctScript);
+                			gBankAttacker = gBattleScripting.bank = gBanksByTurnOrder[*bank];
+                			++*bank;
+                			return;
+            			}
+        			}
+    			}
+
+				for (*bank = 0; *bank < gBattlersCount; ++*bank)
+    			{
+        			u8 currBank = gBanksByTurnOrder[*bank];
+        			struct Pokemon* mon = GetBankPartyData(currBank);
+        
+        			if (SpeciesHasHiddenPowerPhysicality(SPECIES(currBank)))
+        			{
+            			gBattleMons[currBank].type1 = CalcMonHiddenPowerType(mon);
+        			}
+    			}
+
 				++*state;
 				*bank = 0;
 				break;
