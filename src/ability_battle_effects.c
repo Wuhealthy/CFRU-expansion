@@ -1981,6 +1981,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 						break;
 
 					case ABILITY_BULLETPROOF:
+					case ABILITY_BIOSHELL:
 						if (gSpecialMoveFlags[move].gBallBombMoves)
 							effect = 1;
                 		break;

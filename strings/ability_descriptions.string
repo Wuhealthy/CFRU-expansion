@@ -1003,3 +1003,6 @@ HP全满时受到的伤害变为效果不好
 
 #org @DESC_GRIDBIND
 使用或受物理招式有时会麻痹对手
+
+#org @DESC_BIOSHELL
+同时拥有连续攻击和防弹

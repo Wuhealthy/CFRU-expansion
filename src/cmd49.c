@@ -794,6 +794,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 
 					if (gCurrentMove == MOVE_POPULATIONBOMB 
         				&& ABILITY(gBankAttacker) != ABILITY_SKILLLINK
+						&& ABILITY(gBankAttacker) != ABILITY_BIOSHELL
 						&& ITEM_EFFECT(gBankAttacker) != ITEM_EFFECT_LOADED_DICE
         				&& gMultiHitCounter > 0)
     				{

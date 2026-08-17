@@ -351,3 +351,4 @@ gAbilityDescriptions:
 .word DESC_EEVEEHERO                             @ 340 ABILITY_EEVEEHERO
 .word DESC_FLOWERBLADE                           @ 341 ABILITY_FLOWERBLADE
 .word DESC_GRIDBIND                              @ 342 ABILITY_GRIDBIND
+.word DESC_BIOSHELL                              @ 343 ABILITY_BIOSHELL

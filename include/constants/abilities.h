@@ -346,5 +346,6 @@
 #define ABILITY_EEVEEHERO                            340    //全知全能
 #define ABILITY_FLOWERBLADE                          341    //花刃
 #define ABILITY_GRIDBIND                             342    //不稳定的电流
+#define ABILITY_BIOSHELL                             343    //生物机甲
 
-#define ABILITIES_COUNT                              343
+#define ABILITIES_COUNT                              344

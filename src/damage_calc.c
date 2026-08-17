@@ -421,7 +421,7 @@ static u8 GetNumHitsBasedOnMove(u16 move, ability_t atkAbility, unusedArg u16 at
 		numHits = 3;
 	else if (gSpecialMoveFlags[move].gTwoToFiveStrikesMoves)
 	{
-		if (atkAbility == ABILITY_SKILLLINK)
+		if (atkAbility == ABILITY_SKILLLINK || atkAbility == ABILITY_BIOSHELL)
 			numHits = 5;
 		else
 			numHits = 3; //Three hits on average
