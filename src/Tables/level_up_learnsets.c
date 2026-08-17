@@ -1777,16 +1777,24 @@ static const struct LevelUpMove sShellderLevelUpLearnset[] = {
 };
 
 static const struct LevelUpMove sCloysterLevelUpLearnset[] = {
-	LEVEL_UP_MOVE( 1, MOVE_HYDROPUMP),
-	LEVEL_UP_MOVE( 1, MOVE_SHELLSMASH),
-	LEVEL_UP_MOVE( 1, MOVE_TOXICSPIKES),
-	LEVEL_UP_MOVE( 1, MOVE_WITHDRAW),
-	LEVEL_UP_MOVE( 1, MOVE_SUPERSONIC),
-	LEVEL_UP_MOVE( 1, MOVE_PROTECT),
-	LEVEL_UP_MOVE( 1, MOVE_AURORABEAM),
-	LEVEL_UP_MOVE(13, MOVE_SPIKECANNON),
-	LEVEL_UP_MOVE(28, MOVE_SPIKES),
-	LEVEL_UP_MOVE(50, MOVE_ICICLECRASH),
+	LEVEL_UP_MOVE( 0, MOVE_ICICLESPEAR),
+	LEVEL_UP_MOVE( 1, MOVE_ICICLECRASH),    // 冰柱坠击
+    LEVEL_UP_MOVE( 1, MOVE_SHELLSMASH),     // 破壳
+    LEVEL_UP_MOVE( 1, MOVE_ICESHARD),       // 冰砾
+    LEVEL_UP_MOVE( 1, MOVE_TOXICSPIKES),    // 毒菱
+    LEVEL_UP_MOVE( 1, MOVE_IRONDEFENSE),    // 铁壁
+    LEVEL_UP_MOVE( 1, MOVE_WHIRLPOOL),      // 潮旋
+    LEVEL_UP_MOVE( 1, MOVE_SPIKES),         // 撒菱
+    LEVEL_UP_MOVE( 1, MOVE_PROTECT),        // 守住
+    LEVEL_UP_MOVE( 1, MOVE_WITHDRAW),       // 缩入壳中
+    LEVEL_UP_MOVE( 1, MOVE_AURORABEAM),     // 极光束
+    LEVEL_UP_MOVE( 1, MOVE_ICEBEAM),        // 冰冻光束
+    LEVEL_UP_MOVE( 1, MOVE_HYDROPUMP),      // 水炮
+    LEVEL_UP_MOVE( 1, MOVE_WATERGUN),      // 水枪
+    LEVEL_UP_MOVE( 1, MOVE_SUPERSONIC),     // 超音波
+    LEVEL_UP_MOVE( 1, MOVE_LEER),           // 瞪眼
+    LEVEL_UP_MOVE( 1, MOVE_TACKLE),         // 撞击
+    LEVEL_UP_MOVE( 5, MOVE_RAZORSHELL),     // 5级 贝壳刃
 	LEVEL_UP_END,
 };
 
@@ -22422,6 +22430,7 @@ const struct LevelUpMove* const gLevelUpLearnsets[] =
 	[SPECIES_MUK] = sMukLevelUpLearnset,
 	[SPECIES_SHELLDER] = sShellderLevelUpLearnset,
 	[SPECIES_CLOYSTER] = sCloysterLevelUpLearnset,
+	[SPECIES_CLOYSTER_MEGA] = sCloysterLevelUpLearnset,
 	[SPECIES_GASTLY] = sGastlyLevelUpLearnset,
 	[SPECIES_HAUNTER] = sHaunterLevelUpLearnset,
 	[SPECIES_GENGAR] = sGengarLevelUpLearnset,

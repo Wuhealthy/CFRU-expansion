@@ -291,6 +291,8 @@ bool8 SpeciesHasHiddenPowerPhysicality(unusedArg u16 species)
             return TRUE;
 		case SPECIES_BANETTE_F:
             return TRUE;
+		case SPECIES_CLOYSTER_MEGA:
+            return TRUE;
         default:
             return FALSE;
     }

@@ -276,6 +276,10 @@ const u8* DoPrimalInstinct(u8 bank, u8 caseId)
 		case SPECIES_GALVANTULA:
             targetSpecies = SPECIES_GALVANTULA_A;
             break;
+
+		case SPECIES_CLOYSTER:
+            targetSpecies = SPECIES_CLOYSTER_MEGA;
+            break;
         
     }
     
