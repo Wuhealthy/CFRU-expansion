@@ -255,7 +255,7 @@ const u8* DoPrimalInstinct(u8 bank, u8 caseId)
 {
     struct Pokemon* mon = GetBankPartyData(bank);
     u16 species = SPECIES(bank);
-    //u8 gender = GetMonGender(mon);
+    u8 gender = GetMonGender(mon);
     u16 targetSpecies = SPECIES_NONE;
     
     // 检查是否拥有觉醒力量
@@ -265,9 +265,9 @@ const u8* DoPrimalInstinct(u8 bank, u8 caseId)
     // === 按物种和性别选择目标形态 ===
     switch (species)
     {
-        //case SPECIES_EEVEE:
-        //    targetSpecies = (gender == MON_MALE) ? SPECIES_EEVEE_HERO_MALE : SPECIES_EEVEE_HERO_FEMALE;
-        //    break;
+        case SPECIES_BANETTE:
+            targetSpecies = (gender == MON_MALE) ? SPECIES_BANETTE_M : SPECIES_BANETTE_F;
+            break;
             
         case SPECIES_EEVEE:
             targetSpecies = SPECIES_EEVEE_HERO;

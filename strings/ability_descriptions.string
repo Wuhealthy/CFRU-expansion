@@ -804,7 +804,7 @@ HP一半时降低双防提升双攻和速度
 受到火属性攻击时，大幅提高防御
 
 #org @DESC_WINDRIDER
-顺风或受风的招式攻击时提高攻击
+受到风的招式时免伤并提高攻击
 
 #org @DESC_GUARDDOG
 受到威吓时，攻击会提高
@@ -920,8 +920,11 @@ HP全满时受到的伤害变为效果不好
 #org @DESC_MEGASOL
 使用招式时，视为在大晴天下使用
 
-#org @DESC_PRIMALINSTINCT
-出场时，会变为觉醒形态
+#org @DESC_NEEDLEGRUDGE
+受到攻击时，使对手陷入诅咒状态
+
+#org @DESC_SILENTGRUDGE
+受到声音类招式时免伤并提升特攻
 
 #org @DESC_FIREMANE
 火属性的招式威力会提高
@@ -999,4 +1002,4 @@ HP全满时受到的伤害变为效果不好
 草招式会击中要害且无视道具效果
 
 #org @DESC_GRIDBIND
-对手使用或受物理招式有时会麻痹
+使用或受物理招式有时会麻痹对手

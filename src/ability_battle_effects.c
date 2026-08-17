@@ -2097,6 +2097,11 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 						effect = 2, statId = STAT_ATK;
 					break;
 
+				case ABILITY_SILENTGRUDGE:
+					if (gSpecialMoveFlags[move].gSoundMoves)
+						effect = 2, statId = STAT_SPATK;
+					break;
+
 				case ABILITY_FLASHFIRE:
 					if (moveType == TYPE_FIRE)
 						effect = 3;
@@ -2619,6 +2624,31 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
         			effect++;
     			}
     			break;
+
+			case ABILITY_NEEDLEGRUDGE:
+				if (MOVE_HAD_EFFECT
+    			&& TOOK_DAMAGE(bank)
+    			&& BATTLER_ALIVE(gBankAttacker)
+    			&& gBankAttacker != bank
+    			&& !(gBattleMons[gBankAttacker].status2 & STATUS2_CURSED))
+    			{
+        			u8 side = SIDE(bank);
+					u8 partyId = gBattlerPartyIndexes[bank];
+
+					if (!gNewBS->oncePerBattleAbilityFlags[side][partyId])
+        			{
+        				gNewBS->oncePerBattleAbilityFlags[side][partyId] = TRUE;
+        
+        				gBattleMons[gBankAttacker].status2 |= STATUS2_CURSED;
+        
+        				gBattleScripting.bank = bank;
+        				BattleScriptPushCursor();
+        				gBattlescriptCurrInstr = BattleScript_NeedleGrudgeActivates;
+        				effect++;
+					}
+    			}
+    			break;
+
 			case ABILITY_VOLATILEEXPLOSION:
 				if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)

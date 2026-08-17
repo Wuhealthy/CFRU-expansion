@@ -2614,8 +2614,6 @@ bool8 SetRainyWeather(void)
 
 void atk7D_setrain(void)
 {
-	u8 bank;
-
 	if (!SetRainyWeather())
 	{
 		gMoveResultFlags |= MOVE_RESULT_FAILED;

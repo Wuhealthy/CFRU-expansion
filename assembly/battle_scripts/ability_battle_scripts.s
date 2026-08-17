@@ -72,6 +72,7 @@ ability_battle_scripts.s
 .global BattleScript_MummyActivates
 .global BattleScript_WanderingSpiritActivates
 .global BattleScript_GooeyActivates
+.global BattleScript_NeedleGrudgeActivates
 .global BattleScript_IllusionBroken
 .global BattleScript_IllusionBrokenFaint
 .global BattleScript_AngerPointActivates
@@ -962,6 +963,16 @@ BattleScript_GooeyActivates:
 GooeyReturn:
 	swapattackerwithtarget
 	return
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+BattleScript_NeedleGrudgeActivates:
+    call BattleScript_AbilityPopUp
+    setword BATTLE_STRING_LOADER gText_NeedleGrudgeCurse
+    printstring 0x184
+    waitmessage DELAY_1SECOND
+    call BattleScript_AbilityPopUpRevert
+    return
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

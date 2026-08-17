@@ -216,6 +216,7 @@ extern const u8 BattleScript_AbilityNoSpecificStatLoss[];
 extern const u8 BattleScript_StickyHoldActivates[];
 extern const u8 BattleScript_ColorChangeActivates[];
 extern const u8 BattleScript_RoughSkinActivates[];
+extern const u8 BattleScript_NeedleGrudgeActivates[];
 extern const u8 BattleScript_VolatileExplosionActivates[];
 extern const u8 BattleScript_VolatileExplosion_SetTerrain[];
 extern const u8 BattleScript_PsychoReboundSetTerrain[];

@@ -287,6 +287,10 @@ bool8 SpeciesHasHiddenPowerPhysicality(unusedArg u16 species)
             return TRUE;
 		case SPECIES_EEVEE_HERO:
             return TRUE;
+		case SPECIES_BANETTE_M:
+            return TRUE;
+		case SPECIES_BANETTE_F:
+            return TRUE;
         default:
             return FALSE;
     }

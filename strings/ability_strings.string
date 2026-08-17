@@ -88,6 +88,9 @@
 #org @gText_MagicBounce
 [SCRIPTING_BANK]\n将[CURRENT_MOVE]反弹了回去！
 
+#org @gText_NeedleGrudgeCurse
+[ATTACKER]\n受到了[SCRIPTING_BANK]的诅咒！
+
 #org @gText_StartedSchooling1
 [SCRIPTING_BANK]变为了觉醒形态，\n并觉醒了[BUFFER][00]属性！
 

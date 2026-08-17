@@ -317,10 +317,10 @@
 #define ABILITY_PIERCINGDRILL                        311
 #define ABILITY_DRAGONIZE                            312
 #define ABILITY_EELEVATE                             313
-#define ABILITY_PRIMALINSTINCT                       314    //本能觉醒
+#define ABILITY_NEEDLEGRUDGE                         314    //针怨
 #define ABILITY_MEGASOL                              315
 #define ABILITY_FIREMANE                             316
-#define ABILITY_317                                  317
+#define ABILITY_SILENTGRUDGE                         317    //缄默怨
 #define ABILITY_SPICYSPRAY                           318
 #define ABILITY_FOCUSBELT                            319    //噬喉啮心
 #define ABILITY_SONILATE                             320    //音浪皮肤
