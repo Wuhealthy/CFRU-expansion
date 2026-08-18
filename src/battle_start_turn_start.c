@@ -2193,7 +2193,7 @@ u8 GetWhoStrikesFirst(u8 bank1, u8 bank2, bool8 ignoreMovePriorities)
 		else if (bank1Priority < bank2Priority)
 			return SecondMon;
 
-		// ========== 蜘蛛感应：先制度相同时，双方都用攻击招式，持有者必定先出 ==========
+		// ========== 抢占先机：先制度相同时，双方都用攻击招式，持有者必定先出 ==========
         if (ABILITY(bank1) == ABILITY_SPIDERSENSE
             && SPLIT(move1) != SPLIT_STATUS
             && HasOpponentUsingAttack(bank1))  // 检查是否有任何对手使用攻击招式
@@ -2207,7 +2207,7 @@ u8 GetWhoStrikesFirst(u8 bank1, u8 bank2, bool8 ignoreMovePriorities)
         {
             return SecondMon;
         }
-        // ========== 蜘蛛感应结束 ==========
+        // ========== 抢占先机结束 ==========
 		if (ABILITY(bank1) == ABILITY_MYCELIUMMIGHT
             && SPLIT(move1) == SPLIT_STATUS)
         {
@@ -2275,7 +2275,7 @@ static u8 GetWhoStrikesFirstUseLastBracketCalc(u8 bank1, u8 bank2)
 	else if (bank1Priority < bank2Priority)
 		return SecondMon;
 
-	// 蜘蛛感应
+	// 抢占先机
     if (ABILITY(bank1) == ABILITY_SPIDERSENSE
         && SPLIT(move1) != SPLIT_STATUS
         && HasOpponentUsingAttack(bank1))  // 检查是否有任何对手使用攻击招式
