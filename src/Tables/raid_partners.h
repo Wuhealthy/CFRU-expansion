@@ -1337,7 +1337,7 @@ static const struct BattleTowerSpread sRaidPartnerSpread_Marlon_Rank56[] =
 		.hpEv = 252,
 		.atkEv = 4,
 		.spDefEv = 252,
-		.ability = FRONTIER_ABILITY_HIDDEN, //ABILITY_FOCUSBELT
+		.ability = FRONTIER_ABILITY_HIDDEN, //ABILITY_FUJIN
 		.item = ITEM_SITRUS_BERRY,
 		.moves =
 		{

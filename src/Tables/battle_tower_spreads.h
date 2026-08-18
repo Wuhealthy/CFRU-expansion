@@ -3545,7 +3545,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		.hpEv = 252,
 		.atkEv = 252,
 		.defEv = 4,
-		.ability = FRONTIER_ABILITY_HIDDEN, //ABILITY_FOCUSBELT
+		.ability = FRONTIER_ABILITY_HIDDEN, //ABILITY_FUJIN
 		.item = ITEM_FIGY_BERRY,
 		.moves =
 		{

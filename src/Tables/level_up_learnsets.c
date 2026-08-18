@@ -5492,13 +5492,29 @@ static const struct LevelUpMove sNuzleafLevelUpLearnset[] = {
 };
 
 static const struct LevelUpMove sShiftryLevelUpLearnset[] = {
-	LEVEL_UP_MOVE( 1, MOVE_RAZORLEAF),
-	LEVEL_UP_MOVE( 1, MOVE_FEINTATTACK),
-	LEVEL_UP_MOVE( 1, MOVE_WHIRLWIND),
-	LEVEL_UP_MOVE( 1, MOVE_NASTYPLOT),
-	LEVEL_UP_MOVE(20, MOVE_LEAFTORNADO),
-	LEVEL_UP_MOVE(32, MOVE_HURRICANE),
-	LEVEL_UP_MOVE(44, MOVE_LEAFSTORM),
+	LEVEL_UP_MOVE( 0, MOVE_LEAFBLADE),      // 叶刃
+	LEVEL_UP_MOVE( 1, MOVE_LEAFBLADE),      // 叶刃
+    LEVEL_UP_MOVE( 1, MOVE_SUNNYDAY),       // 大晴天
+    LEVEL_UP_MOVE( 1, MOVE_AIRCUTTER),      // 空气利刃
+    LEVEL_UP_MOVE( 1, MOVE_PAYBACK),        // 以牙还牙
+    LEVEL_UP_MOVE( 1, MOVE_HURRICANE),      // 暴风
+    LEVEL_UP_MOVE( 1, MOVE_WHIRLWIND),            // 吹飞
+    LEVEL_UP_MOVE( 1, MOVE_TACKLE),          // 撞击
+    LEVEL_UP_MOVE( 1, MOVE_ABSORB),          // 吸取
+    LEVEL_UP_MOVE( 1, MOVE_MEGADRAIN),       // 超级吸取
+    LEVEL_UP_MOVE( 1, MOVE_GROWTH),          // 生长
+    LEVEL_UP_MOVE( 1, MOVE_RAZORLEAF),       // 飞叶快刀
+    LEVEL_UP_MOVE( 1, MOVE_HARDEN),          // 变硬
+    LEVEL_UP_MOVE( 1, MOVE_EXPLOSION),       // 大爆炸
+    LEVEL_UP_MOVE( 1, MOVE_ROLLOUT),         // 滚动
+    LEVEL_UP_MOVE( 1, MOVE_SWAGGER),         // 虚张声势
+    LEVEL_UP_MOVE( 1, MOVE_SYNTHESIS),       // 光合作用
+    LEVEL_UP_MOVE( 1, MOVE_BEATUP),          // 围攻
+    LEVEL_UP_MOVE( 1, MOVE_FAKEOUT),         // 击掌奇袭
+    LEVEL_UP_MOVE( 1, MOVE_TORMENT),         // 无理取闹
+    LEVEL_UP_MOVE( 1, MOVE_ASTONISH),        // 惊吓
+    LEVEL_UP_MOVE( 1, MOVE_EXTRASENSORY),    // 神通力
+    LEVEL_UP_MOVE( 1, MOVE_SUCKERPUNCH),     // 突袭
 	LEVEL_UP_END,
 };
 

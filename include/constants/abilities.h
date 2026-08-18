@@ -322,7 +322,7 @@
 #define ABILITY_FIREMANE                             316
 #define ABILITY_SILENTGRUDGE                         317    //缄默怨
 #define ABILITY_SPICYSPRAY                           318
-#define ABILITY_FOCUSBELT                            319    //噬喉啮心
+#define ABILITY_FUJIN                                319    //风神
 #define ABILITY_SONILATE                             320    //音浪皮肤
 #define ABILITY_IMPROVISE                            321    //随机应变
 #define ABILITY_WAVEFIST                             322    //浪花之拳

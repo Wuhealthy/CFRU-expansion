@@ -226,9 +226,9 @@ bool8 IsPriorityBlockingAbility(ability_t ability)
 	switch (ability)
 	{
 		case ABILITY_DAZZLING:
-		#ifdef ABILITY_QUEENLYMAJESTY
+		case ABILITY_FUJIN:
+		case ABILITY_ARMORTAIL:
 		case ABILITY_QUEENLYMAJESTY:
-		#endif
 			return TRUE;
 		default:
 			return FALSE;
@@ -292,6 +292,12 @@ bool8 SpeciesHasHiddenPowerPhysicality(unusedArg u16 species)
 		case SPECIES_BANETTE_F:
             return TRUE;
 		case SPECIES_CLOYSTER_MEGA:
+            return TRUE;
+		case SPECIES_SHIFTRY_MEGA:
+            return TRUE;
+		case SPECIES_RATICATE_MEGA:
+            return TRUE;
+		case SPECIES_ARBOK_MEGA:
             return TRUE;
         default:
             return FALSE;

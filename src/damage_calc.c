@@ -120,7 +120,7 @@ void atk04_critcalc(void)
 		else if (IsLaserFocused(gBankAttacker)
 		|| (atkAbility == ABILITY_MERCILESS && (gBattleMons[bankDef].status1 & STATUS_PSN_ANY))
 		|| (atkAbility == ABILITY_FLOWERBLADE && moveType == TYPE_GRASS)
-		|| (atkAbility == ABILITY_FOCUSBELT && gSpecialMoveFlags[gCurrentMove].gBitingMoves) //Biting Moves always crit
+		//|| (atkAbility == ABILITY_FUJIN && gSpecialMoveFlags[gCurrentMove].gBitingMoves) //Biting Moves always crit
 		|| gSpecialMoveFlags[gCurrentMove].gAlwaysCriticalMoves)
 		{
 			confirmedCrit = TRUE;
@@ -224,7 +224,7 @@ static u8 CalcPossibleCritChance(u8 bankAtk, u8 bankDef, u16 move, struct Pokemo
 	else if ((IsLaserFocused(bankAtk) && monAtk == NULL)
 	|| (atkAbility == ABILITY_MERCILESS && (defStatus1 & STATUS_PSN_ANY))
 	|| (atkAbility == ABILITY_FLOWERBLADE && moveType == TYPE_GRASS)
-	|| (atkAbility == ABILITY_FOCUSBELT && gSpecialMoveFlags[move].gBitingMoves) //Biting Moves always crit
+	//|| (atkAbility == ABILITY_FUJIN && gSpecialMoveFlags[move].gBitingMoves) //Biting Moves always crit
 	|| gSpecialMoveFlags[move].gAlwaysCriticalMoves)
 	{
 		return TRUE;
@@ -1729,6 +1729,7 @@ u8 GetMoveTypeSpecialPostAbility(u16 move, ability_t atkAbility, bool8 zMoveActi
 				case ABILITY_PIXILATE:
 					return TYPE_FAIRY;
 				case ABILITY_AERILATE:
+				case ABILITY_FUJIN:
 					return TYPE_FLYING;
 				case ABILITY_GALVANIZE:
 					return TYPE_ELECTRIC;
@@ -1780,6 +1781,7 @@ static bool8 AbilityCanChangeTypeAndBoost(u16 move, ability_t atkAbility, u8 ele
 				case ABILITY_REFRIGERATE:
 				case ABILITY_PIXILATE:
 				case ABILITY_AERILATE:
+				case ABILITY_FUJIN:
 				case ABILITY_GALVANIZE:
 				case ABILITY_DRAGONIZE:
 					return TRUE;
@@ -4353,6 +4355,7 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 			break;
 
 		case ABILITY_AERILATE:
+		case ABILITY_FUJIN:
 		case ABILITY_PIXILATE:
 		case ABILITY_REFRIGERATE:
 		case ABILITY_GALVANIZE:

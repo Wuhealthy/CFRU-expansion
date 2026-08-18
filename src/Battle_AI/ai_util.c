@@ -2267,6 +2267,7 @@ bool8 IsDamagingMoveUnusable(u16 move, u8 bankAtk, u8 bankDef)
 				break;
 
 			case ABILITY_DAZZLING:
+			case ABILITY_FUJIN:
 			case ABILITY_ARMORTAIL:
 			case ABILITY_QUEENLYMAJESTY:
 				if (PriorityCalc(bankAtk, ACTION_USE_MOVE, move) > 0) //Check if right num
@@ -2390,6 +2391,7 @@ bool8 IsDamagingMoveUnusableByMon(u16 move, struct Pokemon* monAtk, u8 bankDef)
 				break;
 
 			case ABILITY_DAZZLING:
+			case ABILITY_FUJIN:
 			case ABILITY_ARMORTAIL:
 			case ABILITY_QUEENLYMAJESTY:
 				if (PriorityCalcMon(monAtk, move) > 0) //Check if right num

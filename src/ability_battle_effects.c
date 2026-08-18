@@ -1994,6 +1994,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 						break;
 
 					case ABILITY_DAZZLING:
+					case ABILITY_FUJIN:
 					case ABILITY_ARMORTAIL:
 					case ABILITY_QUEENLYMAJESTY: //Cannot use
 						if (PriorityCalc(gBankAttacker, ACTION_USE_MOVE, move) > 0
@@ -2029,6 +2030,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			{
 				switch (gLastUsedAbility) {
 					case ABILITY_DAZZLING:
+					case ABILITY_FUJIN:
 					case ABILITY_ARMORTAIL:
 					case ABILITY_QUEENLYMAJESTY:
 						if (PriorityCalc(gBankAttacker, ACTION_USE_MOVE, move) > 0)
