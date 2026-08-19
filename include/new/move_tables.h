@@ -26,6 +26,7 @@ struct SpecialMoveFlags
 	bool8 gSheerForceBoostedMoves : 1;
 	bool8 gRecklessBoostedMoves : 1;
 	bool8 gPunchingMoves : 1;
+	bool8 gHammerMoves : 1;
 	bool8 gPulseAuraMoves : 1;
 	bool8 gBitingMoves : 1;
 	bool8 gBallBombMoves : 1;

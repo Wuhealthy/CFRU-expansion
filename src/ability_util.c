@@ -276,6 +276,7 @@ bool8 AbilityPreventsLoweringAtk(ability_t ability)
 {
 	return ability == ABILITY_HYPERCUTTER
 		|| ability == ABILITY_MIRRORARMOR
+		|| ability == ABILITY_HEAVYHAMMER
 		|| IsClearBodyAbility(ability);
 }
 
@@ -284,20 +285,14 @@ bool8 SpeciesHasHiddenPowerPhysicality(unusedArg u16 species)
     switch (species)
     {
         case SPECIES_GALVANTULA_A:
-            return TRUE;
 		case SPECIES_EEVEE_HERO:
-            return TRUE;
 		case SPECIES_BANETTE_M:
-            return TRUE;
 		case SPECIES_BANETTE_F:
-            return TRUE;
 		case SPECIES_CLOYSTER_MEGA:
-            return TRUE;
 		case SPECIES_SHIFTRY_MEGA:
-            return TRUE;
 		case SPECIES_RATICATE_MEGA:
-            return TRUE;
 		case SPECIES_ARBOK_MEGA:
+		case SPECIES_TINKATON_MEGA:
             return TRUE;
         default:
             return FALSE;
@@ -309,13 +304,12 @@ bool8 AbilityPreventsLoweringStat(ability_t ability, u8 statId)
 	switch (ability)
 	{
 		case ABILITY_HYPERCUTTER:
+		case ABILITY_HEAVYHAMMER:
 			return statId == STAT_STAGE_ATK;
 		case ABILITY_BIGPECKS:
 			return statId == STAT_STAGE_DEF;
 		case ABILITY_KEENEYE:
-			return statId == STAT_STAGE_ACC;
 		case ABILITY_ILLUMINATE:
-			return statId == STAT_STAGE_ACC;
 		case ABILITY_MINDSEYE:
 			return statId == STAT_STAGE_ACC;
 		default:

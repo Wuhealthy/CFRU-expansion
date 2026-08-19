@@ -453,6 +453,7 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				break;
 
 			case ABILITY_HYPERCUTTER:
+			case ABILITY_HEAVYHAMMER:
 				if (moveEffect == EFFECT_ATTACK_DOWN || moveEffect == EFFECT_ATTACK_DOWN_2)
 				{
 					DECREASE_VIABILITY(10);
@@ -461,6 +462,8 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				break;
 
 			case ABILITY_KEENEYE:
+			case ABILITY_ILLUMINATE:
+			case ABILITY_MINDSEYE:
 				if (moveEffect == EFFECT_ACCURACY_DOWN
 				||  moveEffect == EFFECT_ACCURACY_DOWN_2)
 				{

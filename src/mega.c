@@ -269,29 +269,13 @@ const u8* DoPrimalInstinct(u8 bank, u8 caseId)
             targetSpecies = (gender == MON_MALE) ? SPECIES_BANETTE_M : SPECIES_BANETTE_F;
             break;
             
-        case SPECIES_EEVEE:
-            targetSpecies = SPECIES_EEVEE_HERO;
-            break;
-
-		case SPECIES_GALVANTULA:
-            targetSpecies = SPECIES_GALVANTULA_A;
-            break;
-
-		case SPECIES_CLOYSTER:
-            targetSpecies = SPECIES_CLOYSTER_MEGA;
-            break;
-
-		case SPECIES_SHIFTRY:
-            targetSpecies = SPECIES_SHIFTRY_MEGA;
-            break;
-
-		case SPECIES_ARBOK:
-            targetSpecies = SPECIES_ARBOK_MEGA;
-            break;
-
-		case SPECIES_ARIADOS:
-            targetSpecies = SPECIES_RATICATE_MEGA;
-            break;
+        case SPECIES_EEVEE:			targetSpecies = SPECIES_EEVEE_HERO;			break;
+		case SPECIES_GALVANTULA:	targetSpecies = SPECIES_GALVANTULA_A;		break;
+		case SPECIES_CLOYSTER:		targetSpecies = SPECIES_CLOYSTER_MEGA;		break;
+		case SPECIES_SHIFTRY:		targetSpecies = SPECIES_SHIFTRY_MEGA;		break;
+		case SPECIES_ARBOK:			targetSpecies = SPECIES_ARBOK_MEGA;			break;
+		case SPECIES_TINKATON:		targetSpecies = SPECIES_TINKATON_MEGA;		break;
+		case SPECIES_ARIADOS:		targetSpecies = SPECIES_RATICATE_MEGA;		break;
         
     }
     

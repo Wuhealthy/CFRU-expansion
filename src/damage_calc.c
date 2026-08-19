@@ -4320,12 +4320,19 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
     		}
 			break;
 
+		case ABILITY_HEAVYHAMMER:
+			if (gSpecialMoveFlags[move].gHammerMoves)
+    		{
+        		power = (power * 12) / 10;
+    		}
+			break;
+
 		case ABILITY_IRONFIST:
 		case ABILITY_WAVEFIST:
 		//1.2x Boost
 			if (gSpecialMoveFlags[move].gPunchingMoves)
     		{
-        		power = (power * 12) / 10;  // 普通铁拳效果
+        		power = (power * 12) / 10;
     		}
 			break;
 
