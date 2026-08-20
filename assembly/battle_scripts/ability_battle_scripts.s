@@ -121,6 +121,7 @@ ability_battle_scripts.s
 .global BattleScript_ProtosynthesisActivates
 .global BattleScript_ProtosynthesisActivates2
 .global BattleScript_BoosterEnergyActivates
+.global BattleScript_BrokenClawSubstitute
 .global BattleScript_SetPuppetConfusion
 .global BattleScript_MoveEffectConfusion
 .global BattleScript_ToxicDebrisActivates
@@ -1619,6 +1620,32 @@ BattleScript_BoosterEnergyActivates:
 	call BattleScript_AbilityPopUpRevert
 	removeitem BANK_SCRIPTING
 	end3
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+BattleScript_BrokenClawSubstitute:
+	call BattleScript_AbilityPopUp
+	jumpifstat BANK_TARGET EQUALS STAT_ATK STAT_MIN BrokenClaw_CheckSubstitute
+	setbyte STAT_ANIM_PLAYED 0x0
+	playstatchangeanimation BANK_TARGET, STAT_ANIM_ATK, STAT_ANIM_DOWN | STAT_ANIM_IGNORE_ABILITIES
+	setstatchanger STAT_ATK | DECREASE_1
+	statbuffchange BANK_TARGET | STAT_BS_PTR | STAT_CERTAIN BrokenClaw_End
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BrokenClaw_End
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+
+BrokenClaw_CheckSubstitute:
+	jumpifbehindsubstitute BANK_TARGET BrokenClaw_End
+    waitstateatk
+    playanimation BANK_TARGET ANIM_SUBSTITUTE2 0x0
+    waitanimation
+	callasm SetBrokenClawSubstitute +1
+    setword BATTLE_STRING_LOADER gText_BrokenClawMadeSubstitute
+    printstring 0x184
+    waitmessage DELAY_1SECOND
+    
+BrokenClaw_End:
+	call BattleScript_AbilityPopUpRevert
+    return
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

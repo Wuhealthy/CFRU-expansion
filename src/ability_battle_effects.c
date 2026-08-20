@@ -1949,7 +1949,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					}
 					break;
 			
-				//case ABILITY_WIMPOUT:
 				case ABILITY_EMERGENCYEXIT:
 				case ABILITY_WIMPOUT:
 					if (!(gStatuses3[bank] & (STATUS3_SKY_DROP_ANY))
@@ -2484,6 +2483,22 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
         			effect++;
     			}
     			break;
+
+			case ABILITY_BROKENCLAW:
+                if (MOVE_HAD_EFFECT
+    			&& TOOK_DAMAGE(bank)
+    			&& BATTLER_ALIVE(bank)
+    			&& gBankAttacker != bank
+    			&& gBattleMons[bank].hp <= gBattleMons[bank].maxHP / 2
+    			&& gBattleMons[bank].hp + gHpDealt > gBattleMons[bank].maxHP / 2
+				&& !(gBattleMons[bank].status2 & STATUS2_SUBSTITUTE))
+				{
+					gBankTarget = bank;
+					BattleScriptPushCursor();
+        			gBattlescriptCurrInstr = BattleScript_BrokenClawSubstitute;
+            		effect++;
+				}
+                break;
 
 			case ABILITY_WEAKARMOR:
     			if (MOVE_HAD_EFFECT

@@ -348,5 +348,6 @@
 #define ABILITY_GRIDBIND                             342    //不稳定的电流
 #define ABILITY_BIOSHELL                             343    //生物机甲
 #define ABILITY_HEAVYHAMMER                          344    //重锤
+#define ABILITY_BROKENCLAW                           345    //断钳
 
-#define ABILITIES_COUNT                              345
+#define ABILITIES_COUNT                              346

@@ -91,6 +91,9 @@
 #org @gText_NeedleGrudgeCurse
 [ATTACKER]\n受到了[SCRIPTING_BANK]的诅咒！
 
+#org @gText_BrokenClawMadeSubstitute
+[TARGET]\n断下的钳子变成了替身！
+
 #org @gText_StartedSchooling1
 [SCRIPTING_BANK]变为了觉醒形态，\n并觉醒了[BUFFER][00]属性！
 

@@ -1635,6 +1635,19 @@ void DoubleShockFunc(void)
 		gBattleMons[gBankAttacker].type3 = TYPE_BLANK;
 }
 
+void SetBrokenClawSubstitute(void)
+{
+    u8 bank = gBankTarget;
+    
+    // 替身 HP = 最大 HP 的 1/4
+    u16 hpCost = gBattleMons[bank].maxHP / 4;
+    if (hpCost < 1) hpCost = 1;
+    
+    gBattleMons[bank].status2 |= STATUS2_SUBSTITUTE;
+    gDisableStructs[bank].substituteHP = hpCost;
+	gBattleSpritesDataPtr->bankData[bank].behindSubstitute = 1;
+}
+
 void SeedRoomServiceLooper(void)
 {
 	for (; *gSeedHelper < gBattlersCount; ++*gSeedHelper)
