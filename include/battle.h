@@ -826,6 +826,7 @@ struct NewBattleStruct
 	u8 ProtosynthesisActivated[MAX_BATTLERS_COUNT];
 	u8 boosterEnergyActivated[MAX_BATTLERS_COUNT];
 	u8 paradoxBoostedStat[MAX_BATTLERS_COUNT];
+	u8 StellarEnergyCounter[MAX_BATTLERS_COUNT];
 	u32 statuses4[MAX_BATTLERS_COUNT]; //Volatile Gen 9 effects (currently Salt Cure)
 
 	//Bit Fields for Banks

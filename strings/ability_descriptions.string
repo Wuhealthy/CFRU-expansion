@@ -1012,3 +1012,6 @@ HP全满时受到的伤害变为效果不好
 
 #org @DESC_BROKENCLAW
 HP低于一半会降低攻击制造出替身
+
+#org @DESC_STELLARENERGY
+拳类招式会逐渐提高物理招式威力

@@ -271,6 +271,7 @@ const u8* DoPrimalInstinct(u8 bank, u8 caseId)
             
         case SPECIES_EEVEE:			targetSpecies = SPECIES_EEVEE_HERO;			break;
 		case SPECIES_GALVANTULA:	targetSpecies = SPECIES_GALVANTULA_A;		break;
+		case SPECIES_LEDIAN:		targetSpecies = SPECIES_LEDIAN_G;			break;
 		case SPECIES_CLOYSTER:		targetSpecies = SPECIES_CLOYSTER_MEGA;		break;
 		case SPECIES_SHIFTRY:		targetSpecies = SPECIES_SHIFTRY_MEGA;		break;
 		case SPECIES_CRAWDAUNT:		targetSpecies = SPECIES_CRAWDAUNT_MEGA;		break;

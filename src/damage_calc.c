@@ -309,6 +309,15 @@ void atk05_damagecalc(void)
 
 	gBattleMoveDamage = gNewBS->DamageTaken[gBankTarget];
 	gCritMultiplier = gNewBS->criticalMultiplier[gBankTarget];
+
+	if (gBattleMoveDamage > 0
+    && ABILITY(gBankAttacker) == ABILITY_STELLARENERGY
+    && gSpecialMoveFlags[gCurrentMove].gPunchingMoves
+    && gNewBS->StellarEnergyCounter[gBankAttacker] < 5
+    && !(gMoveResultFlags & MOVE_RESULT_NO_EFFECT))
+    {
+        gNewBS->StellarEnergyCounter[gBankAttacker]++;
+    }
 	++gBattlescriptCurrInstr;
 }
 
@@ -4324,6 +4333,14 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 			if (gSpecialMoveFlags[move].gHammerMoves)
     		{
         		power = (power * 12) / 10;
+    		}
+			break;
+
+		case ABILITY_STELLARENERGY:
+			if (data->moveSplit == SPLIT_PHYSICAL)
+    		{
+        		u8 bonus = gNewBS->StellarEnergyCounter[bankAtk] * 10;
+				power = power * (100 + bonus) / 100;
     		}
 			break;
 

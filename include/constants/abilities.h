@@ -349,5 +349,6 @@
 #define ABILITY_BIOSHELL                             343    //生物机甲
 #define ABILITY_HEAVYHAMMER                          344    //重锤
 #define ABILITY_BROKENCLAW                           345    //断钳
+#define ABILITY_STELLARENERGY                        346    //星光能量
 
-#define ABILITIES_COUNT                              346
+#define ABILITIES_COUNT                              347

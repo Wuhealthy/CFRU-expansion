@@ -354,3 +354,4 @@ gAbilityDescriptions:
 .word DESC_BIOSHELL                              @ 343 ABILITY_BIOSHELL
 .word DESC_HEAVYHAMMER                           @ 344 ABILITY_HEAVYHAMMER
 .word DESC_BROKENCLAW                            @ 345 ABILITY_BROKENCLAW
+.word DESC_STELLARENERGY                         @ 346 ABILITY_STELLARENERGY
