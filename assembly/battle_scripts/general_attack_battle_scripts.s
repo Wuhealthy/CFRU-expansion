@@ -4513,10 +4513,14 @@ WorrySeedBS_ChangeAbility:
 	attackanimation
 	waitanimation
 
-	playanimation BANK_TARGET ANIM_LOAD_ABILITY_POP_UP 0x0
-	call BattleScript_AbilityPopUpRevert
 	copyarray BATTLE_SCRIPTING_BANK TARGET_BANK 0x1
+	playanimation BANK_SCRIPTING ANIM_LOAD_ABILITY_POP_UP 0x0
+	call BattleScript_AbilityPopUpRevert
+	jumpifmove MOVE_ENTRAINMENT EntrainmentBS_SetAbilitySource
+	goto WorrySeedBS_ShowNewAbility
+EntrainmentBS_SetAbilitySource:
 	callasm EntrainmentSetCorrectTookAbilityFrom
+WorrySeedBS_ShowNewAbility:
 	call BattleScript_AbilityPopUp
 	pause DELAY_HALFSECOND
 	call BattleScript_AbilityPopUpRevert
@@ -4528,8 +4532,11 @@ WorrySeedBS_ChangeAbility:
 	callasm TryRemovePrimalWeatherAfterAbilityChange
 	call 0x81D92DC @;Try to revert Cherrim and Castform
 	callasm RestoreOriginalAttackerAndTarget
+	jumpifmove MOVE_WORRYSEED WorrySeedBS_End
+	jumpifmove MOVE_SIMPLEBEAM WorrySeedBS_End
 	tryactivateswitchinability BANK_TARGET
 	callasm RestoreOriginalAttackerAndTarget
+WorrySeedBS_End:
 	goto BS_MOVE_END
 
 CoreEnforcerBS:
