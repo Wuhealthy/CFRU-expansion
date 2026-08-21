@@ -1015,3 +1015,6 @@ HP低于一半会降低攻击制造出替身
 
 #org @DESC_STELLARENERGY
 拳类招式会逐渐提高物理招式威力
+
+#org @DESC_SPEEDDIVE
+根据对手的重量相应提高招式威力

@@ -4344,6 +4344,33 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
     		}
 			break;
 
+		case ABILITY_SPEEDDIVE:
+    		if (!(data->specialFlags & FLAG_IGNORE_TARGET))
+    		{
+        		u32 weight = GetActualSpeciesWeight(data->defSpecies, data->defAbility, data->defItemEffect, bankDef, !useMonDef) / 10;
+        
+        		u8 bonus = 0;
+        		if (weight >= 200)
+            		bonus = 50;
+        		else if (weight >= 100)
+            		bonus = 40;
+        		else if (weight >= 50)
+            		bonus = 30;
+        		else if (weight >= 25)
+            		bonus = 20;
+        		else if (weight >= 10)
+            		bonus = 10;
+        
+        		if (bonus > 0)
+            		power = power * (100 + bonus) / 100;
+        
+        		if (weight >= 100)
+        		{
+            		gNewBS->speedDiveRecoilBank[bankAtk] = 1;
+        		}
+    		}
+    		break;
+
 		case ABILITY_IRONFIST:
 		case ABILITY_WAVEFIST:
 		//1.2x Boost

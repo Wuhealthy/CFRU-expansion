@@ -350,5 +350,6 @@
 #define ABILITY_HEAVYHAMMER                          344    //重锤
 #define ABILITY_BROKENCLAW                           345    //断钳
 #define ABILITY_STELLARENERGY                        346    //星光能量
+#define ABILITY_SPEEDDIVE                            347    //俯冲
 
-#define ABILITIES_COUNT                              347
+#define ABILITIES_COUNT                              348

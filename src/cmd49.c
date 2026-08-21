@@ -1249,6 +1249,14 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 						effect = 1;
 					}
 				}
+				if (gNewBS->speedDiveRecoilBank[gBankAttacker])
+				{
+					gBattleMoveDamage = MathMax(1, gNewBS->totalDamageGiven / 4);
+					BattleScriptPushCursor();
+					gBattlescriptCurrInstr = BattleScript_Recoil1;
+					effect = 1;
+					gNewBS->speedDiveRecoilBank[gBankAttacker] = 0;
+				}
 				
 				if (effect)
 					gNewBS->selfInflictedDamage += gBattleMoveDamage; //For Emergency Exit

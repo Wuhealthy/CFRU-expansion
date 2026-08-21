@@ -289,6 +289,7 @@ bool8 SpeciesHasHiddenPowerPhysicality(unusedArg u16 species)
 		case SPECIES_BANETTE_M:
 		case SPECIES_BANETTE_F:
 		case SPECIES_LEDIAN_G:
+		case SPECIES_FEAROW_MEGA:
 		case SPECIES_CLOYSTER_MEGA:
 		case SPECIES_SHIFTRY_MEGA:
 		case SPECIES_CRAWDAUNT_MEGA:

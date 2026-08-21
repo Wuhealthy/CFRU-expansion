@@ -94,6 +94,9 @@
 #org @gText_BrokenClawMadeSubstitute
 [TARGET]\n断下的钳子变成了替身！
 
+#org @gText_SpeedDive
+[ATTACKER]\n受到了俯冲的反伤！
+
 #org @gText_StartedSchooling1
 [SCRIPTING_BANK]变为了觉醒形态，\n并觉醒了[BUFFER][00]属性！
 

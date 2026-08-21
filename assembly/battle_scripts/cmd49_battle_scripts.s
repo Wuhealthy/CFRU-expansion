@@ -25,6 +25,7 @@ cmd49_battle_scripts.s
 .global BattleScript_Moxie
 .global BattleScript_MindBlownDamage
 .global BattleScript_Recoil
+.global BattleScript_Recoil1
 .global BattleScript_FaintAttackerForExplosion
 .global BattleScript_ExplosionAnim
 .global BattleScript_ItemSteal
@@ -224,6 +225,20 @@ BattleScript_Recoil:
 	datahpupdate BANK_ATTACKER
 	printstring 0x64 @ STRINGID_PKMNHITWITHRECOIL
 	waitmessage DELAY_1SECOND
+	faintpokemon BANK_ATTACKER 0x0 0x0
+	return
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+BattleScript_Recoil1:
+	call BattleScript_AbilityPopUp
+	orword HIT_MARKER HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_NON_ATTACK_DMG
+	graphicalhpupdate BANK_ATTACKER
+	datahpupdate BANK_ATTACKER
+	setword BATTLE_STRING_LOADER gText_SpeedDive
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
 	faintpokemon BANK_ATTACKER 0x0 0x0
 	return
 
