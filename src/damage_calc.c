@@ -111,6 +111,7 @@ void atk04_critcalc(void)
 
 		if (defAbility == ABILITY_BATTLEARMOR
 		||  defAbility == ABILITY_SHELLARMOR
+		||  defAbility == ABILITY_GUARDSCALE
 		||  CantScoreACrit(gBankAttacker, NULL)
 		||  gBattleTypeFlags & (BATTLE_TYPE_OLD_MAN | BATTLE_TYPE_OAK_TUTORIAL | BATTLE_TYPE_POKE_DUDE)
 		||  gNewBS->LuckyChantTimers[SIDE(bankDef)])
@@ -215,6 +216,7 @@ static u8 CalcPossibleCritChance(u8 bankAtk, u8 bankDef, u16 move, struct Pokemo
 
 	if (defAbility == ABILITY_BATTLEARMOR
 	||  defAbility == ABILITY_SHELLARMOR
+	||  defAbility == ABILITY_GUARDSCALE
 	||  CantScoreACrit(bankAtk, monAtk)
 	||  gBattleTypeFlags & (BATTLE_TYPE_OLD_MAN | BATTLE_TYPE_OAK_TUTORIAL)
 	||  gNewBS->LuckyChantTimers[SIDE(bankDef)])
@@ -4400,6 +4402,7 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 			break;
 
 		case ABILITY_SHEERFORCE:
+		case ABILITY_BRUTALFORCE:
 		//1.3x Boost
 			if (gSpecialMoveFlags[move].gSheerForceBoostedMoves)
 				power = (power * 13) / 10;
@@ -4461,6 +4464,7 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
     		break;
 
 		case ABILITY_TOUGHCLAWS:
+		case ABILITY_SPIKECLAW:
 		//1.3x Boost
 			if (((!useMonAtk && IsContactMove(move, bankAtk, bankDef))
 			   || (useMonAtk && gBattleMoves[move].flags & FLAG_MAKES_CONTACT)) //Party mons can't use any fancy calculations for contact moves

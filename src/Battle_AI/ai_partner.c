@@ -490,6 +490,7 @@ u8 AIScript_Partner(const u8 bankAtk, const u8 bankAtkPartner, const u16 origina
 						IncreaseHelpingHandViability(&viability, class);
 					break;
 				case ABILITY_STAMINA:
+				case ABILITY_GUARDSCALE:
 					if (moveSplit != SPLIT_STATUS
 					&& AI_STAT_CAN_RISE(bankAtkPartner, STAT_STAGE_DEF)
 					&& !MoveKnocksOutXHits(move, bankAtk, bankAtkPartner, 1))

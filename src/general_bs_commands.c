@@ -3103,7 +3103,7 @@ void atk93_tryKO(void)
 			}
 			#endif
 			else if (((gStatuses3[bankDef] & STATUS3_ALWAYS_HITS && gDisableStructs[bankDef].bankWithSureHit == bankAtk)
-			|| atkAbility == ABILITY_NOGUARD || defAbility == ABILITY_NOGUARD))
+			|| atkAbility == ABILITY_NOGUARD || defAbility == ABILITY_NOGUARD || atkAbility == ABILITY_BRUTALFORCE || defAbility == ABILITY_BRUTALFORCE))
 			{
 				chance = TRUE;
 			}
@@ -4599,6 +4599,7 @@ void atkBE_rapidspinfree(void)
 		{
 			if (gCurrentMove == MOVE_RAPIDSPIN //From Gen 8
 			&& ABILITY(bankAtk) != ABILITY_SHEERFORCE
+			&& ABILITY(bankAtk) != ABILITY_BRUTALFORCE
 			&& STAT_CAN_RISE(bankAtk, STAT_STAGE_SPEED))
 			{
 				gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_SPD_PLUS_1 | MOVE_EFFECT_AFFECTS_USER;

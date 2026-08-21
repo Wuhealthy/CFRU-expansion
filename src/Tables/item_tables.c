@@ -423,9 +423,9 @@ const struct FlingStruct gFlingTable[ITEMS_COUNT] =
 	[ITEM_TATSUGIRIITE] = {80, 0},
 	[ITEM_RAICHUXITE] = {80, 0},
 	[ITEM_RAICHUYITE] = {80, 0},
-	[ITEM_SANDSLASHITE] = {80, 0},
-	[ITEM_NIDOQUEENITE] = {80, 0},
-	[ITEM_NIDOKINGITE] = {80, 0},
+	[ITEM_GLIMMORAITE] = {80, 0},
+	[ITEM_SCOVILLAINITE] = {80, 0},
+	[ITEM_FALINKSITE] = {80, 0},
 	[ITEM_CLEFABLEITE] = {80, 0},
 	[ITEM_NINETALESITE] = {80, 0},
 	[ITEM_WIGGLYTUFFITE] = {80, 0},
@@ -957,9 +957,9 @@ const u16 gItemsByType[ITEMS_COUNT] =
 	[ITEM_TATSUGIRIITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_RAICHUXITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_RAICHUYITE] = ITEM_TYPE_MEGA_STONE,
-	[ITEM_SANDSLASHITE] = ITEM_TYPE_MEGA_STONE,
-	[ITEM_NIDOQUEENITE] = ITEM_TYPE_MEGA_STONE,
-	[ITEM_NIDOKINGITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_GLIMMORAITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_SCOVILLAINITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_FALINKSITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_CLEFABLEITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_NINETALESITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_WIGGLYTUFFITE] = ITEM_TYPE_MEGA_STONE,
@@ -14474,8 +14474,8 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x02, 0x89, 0x0B, 0x9B, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
-		.itemId = ITEM_SANDSLASHITE,				//道具编号
+		.name = { 0x07, 0x57, 0x04, 0xAA, 0x05, 0x35, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_GLIMMORAITE,				//道具编号
 		.price = 0,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
@@ -14490,8 +14490,8 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x09, 0xD7, 0x03, 0x85, 0x05, 0x22, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
-		.itemId = ITEM_NIDOQUEENITE,				//道具编号
+		.name = { 0x05, 0x0C, 0x08, 0x26, 0x07, 0x09, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_SCOVILLAINITE,				//道具编号
 		.price = 0,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
@@ -14506,8 +14506,8 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x09, 0xD7, 0x03, 0x85, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
-		.itemId = ITEM_NIDOKINGITE,				//道具编号
+		.name = { 0x08, 0xA3, 0x10, 0x66, 0x01, 0xB5, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_FALINKSITE,				//道具编号
 		.price = 0,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数

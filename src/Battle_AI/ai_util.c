@@ -1822,6 +1822,7 @@ static bool8 MoveAlwaysHitsTarget(u16 move, u8 bankDef)
 bool8 MoveWillHit(u16 move, u8 bankAtk, u8 bankDef)
 {
 	if (ABILITY(bankAtk) == ABILITY_NOGUARD || ABILITY(bankDef) == ABILITY_NOGUARD
+	|| ABILITY(bankAtk) == ABILITY_BRUTALFORCE || ABILITY(bankDef) == ABILITY_BRUTALFORCE
 	|| (gStatuses3[bankDef] & STATUS3_ALWAYS_HITS && gDisableStructs[bankDef].bankWithSureHit == bankAtk))
 		return TRUE;
 
@@ -1835,6 +1836,9 @@ bool8 MoveWillHit(u16 move, u8 bankAtk, u8 bankDef)
 bool8 MonMoveWillHit(u16 move, struct Pokemon* monAtk, u8 bankDef)
 {
 	if (GetMonAbility(monAtk) == ABILITY_NOGUARD || ABILITY(bankDef) == ABILITY_NOGUARD)
+		return TRUE;
+
+	if (GetMonAbility(monAtk) == ABILITY_BRUTALFORCE || ABILITY(bankDef) == ABILITY_BRUTALFORCE)
 		return TRUE;
 
 	if (MoveCantHitTarget(move, bankDef))
@@ -2679,10 +2683,8 @@ static u32 GetContactDamageByDefAbilityItemEffect(ability_t defAbility, u8 defIt
 	u32 dmg = 0;
 
 	if (defAbility == ABILITY_ROUGHSKIN
-	#ifdef ABILITY_IRONBARBS
-	|| defAbility == ABILITY_IRONBARBS
-	#endif
-	)
+	|| defAbility == ABILITY_SPIKECLAW
+	|| defAbility == ABILITY_IRONBARBS)
 		dmg += baseMaxHP / 8;
 
 	if (defItemEffect == ITEM_EFFECT_ROCKY_HELMET)
@@ -2751,7 +2753,7 @@ bool8 HighChanceOfBeingImmobilized(u8 bank)
 
 u16 CalcSecondaryEffectChance(u8 bank, u16 move, ability_t ability)
 {
-	if (ability == ABILITY_SHEERFORCE && gSpecialMoveFlags[move].gSheerForceBoostedMoves)
+	if ((ability == ABILITY_SHEERFORCE || ability == ABILITY_BRUTALFORCE) && gSpecialMoveFlags[move].gSheerForceBoostedMoves)
 		return 0;
 
 	u16 chance = gBattleMoves[move].secondaryEffectChance;
@@ -3066,6 +3068,7 @@ bool8 BadIdeaToMakeContactWith(u8 bankAtk, u8 bankDef)
 			break;
 		case ABILITY_ROUGHSKIN:
 		case ABILITY_IRONBARBS:
+		case ABILITY_SPIKECLAW:
 			badIdea = atkAbility != ABILITY_MAGICGUARD;
 			break;
 		case ABILITY_PICKPOCKET:

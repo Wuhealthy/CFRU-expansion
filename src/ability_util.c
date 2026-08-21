@@ -295,6 +295,9 @@ bool8 SpeciesHasHiddenPowerPhysicality(unusedArg u16 species)
 		case SPECIES_CRAWDAUNT_MEGA:
 		case SPECIES_RATICATE_MEGA:
 		case SPECIES_ARBOK_MEGA:
+		case SPECIES_SANDSLASH_MEGA:
+		case SPECIES_NIDOQUEEN_MEGA:
+		case SPECIES_NIDOKING_MEGA:
 		case SPECIES_TINKATON_MEGA:
             return TRUE;
         default:

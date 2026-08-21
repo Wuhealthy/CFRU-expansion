@@ -277,6 +277,9 @@ const u8* DoPrimalInstinct(u8 bank, u8 caseId)
 		case SPECIES_SHIFTRY:		targetSpecies = SPECIES_SHIFTRY_MEGA;		break;
 		case SPECIES_CRAWDAUNT:		targetSpecies = SPECIES_CRAWDAUNT_MEGA;		break;
 		case SPECIES_ARBOK:			targetSpecies = SPECIES_ARBOK_MEGA;			break;
+		case SPECIES_SANDSLASH:		targetSpecies = SPECIES_SANDSLASH_MEGA;		break;
+		case SPECIES_NIDOQUEEN:		targetSpecies = SPECIES_NIDOQUEEN_MEGA;		break;
+		case SPECIES_NIDOKING:		targetSpecies = SPECIES_NIDOKING_MEGA;		break;
 		case SPECIES_TINKATON:		targetSpecies = SPECIES_TINKATON_MEGA;		break;
 		case SPECIES_ARIADOS:		targetSpecies = SPECIES_RATICATE_MEGA;		break;
         

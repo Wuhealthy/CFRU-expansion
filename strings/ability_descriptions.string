@@ -1018,3 +1018,12 @@ HP低于一半会降低攻击制造出替身
 
 #org @DESC_SPEEDDIVE
 根据对手的重量相应提高招式威力
+
+#org @DESC_SPIKECLAW
+同时拥有硬爪和粗糙皮肤
+
+#org @DESC_GUARDSCALE
+同时拥有持久力和硬壳盔甲
+
+#org @DESC_BRUTALFORCE
+同时拥有强行和无防守

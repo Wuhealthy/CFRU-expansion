@@ -66,7 +66,9 @@ ACCURACY_CHECK_START:
 		}
 		else if (gStatuses3[gBankTarget] & STATUS3_SEMI_INVULNERABLE
 			  && ABILITY(gBankAttacker) != ABILITY_NOGUARD
-			  && ABILITY(gBankTarget) != ABILITY_NOGUARD)
+			  && ABILITY(gBankTarget) != ABILITY_NOGUARD
+			  && ABILITY(gBankAttacker) != ABILITY_BRUTALFORCE
+			  && ABILITY(gBankTarget) != ABILITY_BRUTALFORCE)
 		{
 			gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
 		}
@@ -382,6 +384,7 @@ static bool8 AccuracyCalcHelper(u16 move, u8 bankDef)
 	//then 0 acc moves
 	if (((gStatuses3[bankDef] & STATUS3_ALWAYS_HITS) && gDisableStructs[bankDef].bankWithSureHit == gBankAttacker)
 	||   (ABILITY(gBankAttacker) == ABILITY_NOGUARD) || (ABILITY(bankDef) == ABILITY_NOGUARD)
+	||   (ABILITY(gBankAttacker) == ABILITY_BRUTALFORCE) || (ABILITY(bankDef) == ABILITY_BRUTALFORCE)
 	||   (move == MOVE_TOXIC && IsOfType(gBankAttacker, TYPE_POISON))
 	||   (gSpecialMoveFlags[move].gAlwaysHitWhenMinimizedMoves && gStatuses3[bankDef] & STATUS3_MINIMIZED)
 	||  ((gStatuses3[bankDef] & STATUS3_TELEKINESIS) && gBattleMoves[move].effect != EFFECT_0HKO)
@@ -558,6 +561,7 @@ u32 VisualAccuracyCalc(u16 move, u8 bankAtk, u8 bankDef)
 	u32 acc = AccuracyCalcPassDefAbilityItemEffect(move, bankAtk, bankDef, defAbility, defEffect);
 
 	if (ABILITY(bankAtk) == ABILITY_NOGUARD || defAbility == ABILITY_NOGUARD
+	|| ABILITY(bankAtk) == ABILITY_BRUTALFORCE || defAbility == ABILITY_BRUTALFORCE
 	|| (gStatuses3[bankDef] & STATUS3_ALWAYS_HITS && gDisableStructs[bankDef].bankWithSureHit == bankAtk)
 	|| (move == MOVE_TOXIC && IsOfType(bankAtk, TYPE_POISON))
 	|| (gSpecialMoveFlags[move].gAlwaysHitWhenMinimizedMoves && gStatuses3[bankDef] & STATUS3_MINIMIZED)
@@ -643,7 +647,7 @@ u32 VisualAccuracyCalc_NoTarget(u16 move, u8 bankAtk)
 			calc = (calc * 12) / 10; // 1.2 Micle Berry Boost
 	}
 
-	if (atkAbility == ABILITY_NOGUARD
+	if (atkAbility == ABILITY_NOGUARD || atkAbility == ABILITY_BRUTALFORCE
 	|| (move == MOVE_TOXIC && IsOfType(bankAtk, TYPE_POISON)))
 		calc = 0xFFFF; //No Miss
 	else if (WEATHER_HAS_EFFECT)
