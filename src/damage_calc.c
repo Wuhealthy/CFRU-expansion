@@ -1472,13 +1472,6 @@ TYPE_LOOP:
 		moveType = TYPE_FLYING;
 		goto TYPE_LOOP;
 	}
-	
-	// 浪花之拳: 拳类招式同时带有水属性
-	if (ABILITY(gBankAttacker) == ABILITY_WAVEFIST && gSpecialMoveFlags[move].gPunchingMoves && moveType != TYPE_WATER)
-	{
-		moveType = TYPE_WATER;
-		goto TYPE_LOOP;
-	}
 }
 
 void TypeDamageModificationPartyMon(ability_t atkAbility, struct Pokemon* monDef, u16 move, u8 moveType, u8* flags)
@@ -1500,13 +1493,6 @@ TYPE_LOOP_AI:
 	if (move == MOVE_FLYINGPRESS && moveType != TYPE_FLYING)
 	{
 		moveType = TYPE_FLYING;
-		goto TYPE_LOOP_AI;
-	}
-
-	// 浪花之拳: 拳类招式同时带有水属性
-	if (ABILITY(gBankAttacker) == ABILITY_WAVEFIST && gSpecialMoveFlags[move].gPunchingMoves && moveType != TYPE_WATER)
-	{
-		moveType = TYPE_WATER;
 		goto TYPE_LOOP_AI;
 	}
 }
@@ -1558,6 +1544,9 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 	}
 
 	if (move == MOVE_FREEZEDRY && defType == TYPE_WATER) //Always Super-Effective, even in Inverse Battles
+		multiplier = TYPE_MUL_SUPER_EFFECTIVE;
+
+	if (atkAbility == ABILITY_WAVEFIST && moveType == TYPE_FIGHTING && (defType == TYPE_FIRE || defType == TYPE_GROUND)) //Always Super-Effective, even in Inverse Battles
 		multiplier = TYPE_MUL_SUPER_EFFECTIVE;
 
 	if (moveType == TYPE_FIRE && gNewBS->tarShotBits & gBitTable[bankDef]) //Fire always Super-Effective if covered in tar
@@ -4374,7 +4363,6 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
     		break;
 
 		case ABILITY_IRONFIST:
-		case ABILITY_WAVEFIST:
 		//1.2x Boost
 			if (gSpecialMoveFlags[move].gPunchingMoves)
     		{

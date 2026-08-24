@@ -691,16 +691,22 @@ static const struct LevelUpMove sVulpixLevelUpLearnset[] = {
 };
 
 static const struct LevelUpMove sNinetalesLevelUpLearnset[] = {
-	LEVEL_UP_MOVE( 1, MOVE_DRAININGKISS),
-	LEVEL_UP_MOVE( 1, MOVE_DAZZLINGGLEAM),
-	LEVEL_UP_MOVE( 1, MOVE_STRANGESTEAM),
-	LEVEL_UP_MOVE( 1, MOVE_ALLURINGVOICE),
-	LEVEL_UP_MOVE( 1, MOVE_IMPRISON),
-	LEVEL_UP_MOVE( 1, MOVE_NASTYPLOT),
-	LEVEL_UP_MOVE( 1, MOVE_FLAMETHROWER),
-	LEVEL_UP_MOVE( 1, MOVE_QUICKATTACK),
-	LEVEL_UP_MOVE( 1, MOVE_CONFUSERAY),
-	LEVEL_UP_MOVE( 1, MOVE_SAFEGUARD),
+	LEVEL_UP_MOVE( 1, MOVE_QUICKATTACK),      // 电光一闪
+    LEVEL_UP_MOVE( 1, MOVE_FLAMETHROWER),     // 喷射火焰
+    LEVEL_UP_MOVE( 1, MOVE_TAILWHIP),         // 摇尾巴
+    LEVEL_UP_MOVE( 1, MOVE_DISABLE),          // 定身法
+    LEVEL_UP_MOVE( 1, MOVE_EMBER),            // 火花
+    LEVEL_UP_MOVE( 1, MOVE_FIRESPIN),         // 火焰旋涡
+    LEVEL_UP_MOVE( 1, MOVE_CONFUSERAY),       // 奇异之光
+    LEVEL_UP_MOVE( 1, MOVE_FIREBLAST),
+    LEVEL_UP_MOVE( 1, MOVE_SPITE),            // 怨恨
+    LEVEL_UP_MOVE( 1, MOVE_SAFEGUARD),        // 神秘守护
+    LEVEL_UP_MOVE( 1, MOVE_WILLOWISP),        // 磷火
+    LEVEL_UP_MOVE( 1, MOVE_IMPRISON),         // 封印
+    LEVEL_UP_MOVE( 1, MOVE_EXTRASENSORY),     // 神通力
+    LEVEL_UP_MOVE( 1, MOVE_NASTYPLOT),        // 诡计
+    LEVEL_UP_MOVE( 1, MOVE_INCINERATE),       // 烧净
+    LEVEL_UP_MOVE( 1, MOVE_INFERNO),       // 烈火深渊
 	LEVEL_UP_END,
 };
 
@@ -728,12 +734,27 @@ static const struct LevelUpMove sJigglypuffLevelUpLearnset[] = {
 };
 
 static const struct LevelUpMove sWigglytuffLevelUpLearnset[] = {
-	LEVEL_UP_MOVE( 1, MOVE_DOUBLEEDGE),
-	LEVEL_UP_MOVE( 1, MOVE_PLAYROUGH),
-	LEVEL_UP_MOVE( 1, MOVE_SING),
-	LEVEL_UP_MOVE( 1, MOVE_DEFENSECURL),
-	LEVEL_UP_MOVE( 1, MOVE_DISABLE),
-	LEVEL_UP_MOVE( 1, MOVE_DOUBLESLAP),
+	LEVEL_UP_MOVE( 1, MOVE_STOCKPILE),        // 蓄力
+    LEVEL_UP_MOVE( 1, MOVE_ECHOEDVOICE),      // 回声
+    LEVEL_UP_MOVE( 1, MOVE_ROUND),            // 轮唱
+    LEVEL_UP_MOVE( 1, MOVE_COPYCAT),          // 仿效
+    LEVEL_UP_MOVE( 1, MOVE_GYROBALL),         // 陀螺球
+    LEVEL_UP_MOVE( 1, MOVE_COVET),            // 渴望
+    LEVEL_UP_MOVE( 1, MOVE_HYPERVOICE),       // 巨声
+    LEVEL_UP_MOVE( 1, MOVE_SWALLOW),          // 吞下
+    LEVEL_UP_MOVE( 1, MOVE_SPITUP),           // 喷出
+    LEVEL_UP_MOVE( 1, MOVE_DISARMINGVOICE),   // 魅惑之声
+    LEVEL_UP_MOVE( 1, MOVE_POUND),            // 拍击
+    LEVEL_UP_MOVE( 1, MOVE_SWEETKISS),        // 天使之吻
+    LEVEL_UP_MOVE( 1, MOVE_REST),             // 睡觉
+    LEVEL_UP_MOVE( 1, MOVE_DEFENSECURL),      // 变圆
+    LEVEL_UP_MOVE( 1, MOVE_MIMIC),            // 模仿
+    LEVEL_UP_MOVE( 1, MOVE_DISABLE),          // 定身法
+    LEVEL_UP_MOVE( 1, MOVE_SING),             // 唱歌
+    LEVEL_UP_MOVE( 1, MOVE_DOUBLEEDGE),       // 舍身冲撞
+    LEVEL_UP_MOVE( 1, MOVE_BODYSLAM),         // 泰山压顶
+    LEVEL_UP_MOVE( 1, MOVE_CHARM),            // 撒娇
+    LEVEL_UP_MOVE( 5, MOVE_PLAYROUGH),        // 5级 嬉闹
 	LEVEL_UP_END,
 };
 
@@ -974,31 +995,22 @@ static const struct LevelUpMove sMeowthLevelUpLearnset[] = {
 };
 
 static const struct LevelUpMove sPersianLevelUpLearnset[] = {
-	LEVEL_UP_MOVE( 0, MOVE_SWIFT),
-	LEVEL_UP_MOVE( 1, MOVE_SWIFT),
-	LEVEL_UP_MOVE( 1, MOVE_BARRIER),
-	LEVEL_UP_MOVE( 1, MOVE_AGILITY),
-	LEVEL_UP_MOVE( 1, MOVE_AMNESIA),
-	LEVEL_UP_MOVE( 1, MOVE_SUCKERPUNCH),
-	LEVEL_UP_MOVE( 1, MOVE_PLAYROUGH),
-	LEVEL_UP_MOVE( 1, MOVE_SWITCHEROO),
-	LEVEL_UP_MOVE( 1, MOVE_SCRATCH),
-	LEVEL_UP_MOVE( 1, MOVE_GROWL),
-	LEVEL_UP_MOVE( 1, MOVE_BITE),
-	LEVEL_UP_MOVE( 1, MOVE_FAKEOUT),
-	LEVEL_UP_MOVE( 6, MOVE_BITE),
-	LEVEL_UP_MOVE( 9, MOVE_FAKEOUT),
-	LEVEL_UP_MOVE(14, MOVE_FURYSWIPES),
-	LEVEL_UP_MOVE(17, MOVE_SCREECH),
-	LEVEL_UP_MOVE(22, MOVE_FEINTATTACK),
-	LEVEL_UP_MOVE(25, MOVE_TAUNT),
-	LEVEL_UP_MOVE(32, MOVE_POWERGEM),
-	LEVEL_UP_MOVE(37, MOVE_SLASH),
-	LEVEL_UP_MOVE(44, MOVE_NASTYPLOT),
-	LEVEL_UP_MOVE(49, MOVE_ASSURANCE),
-	LEVEL_UP_MOVE(56, MOVE_CAPTIVATE),
-	LEVEL_UP_MOVE(61, MOVE_NIGHTSLASH),
-	LEVEL_UP_MOVE(65, MOVE_FEINT),
+	LEVEL_UP_MOVE( 0, MOVE_POWERGEM),         // 力量宝石
+	LEVEL_UP_MOVE( 1, MOVE_POWERGEM),
+    LEVEL_UP_MOVE( 1, MOVE_SCRATCH),          // 抓
+    LEVEL_UP_MOVE( 1, MOVE_GROWL),            // 叫声
+    LEVEL_UP_MOVE( 1, MOVE_FAKEOUT),          // 击掌奇袭
+    LEVEL_UP_MOVE( 1, MOVE_FEINT),            // 佯攻
+    LEVEL_UP_MOVE( 1, MOVE_SWITCHEROO),       // 掉包
+    LEVEL_UP_MOVE(12, MOVE_PAYDAY),           // 聚宝功
+    LEVEL_UP_MOVE(16, MOVE_BITE),             // 咬住
+    LEVEL_UP_MOVE(20, MOVE_TAUNT),            // 挑畔
+    LEVEL_UP_MOVE(24, MOVE_ASSURANCE),        // 恶意追击
+    LEVEL_UP_MOVE(31, MOVE_FURYSWIPES),       // 乱抓
+    LEVEL_UP_MOVE(36, MOVE_SCREECH),          // 刺耳声
+    LEVEL_UP_MOVE(42, MOVE_SLASH),            // 劈开
+    LEVEL_UP_MOVE(48, MOVE_NASTYPLOT),        // 诡计
+    LEVEL_UP_MOVE(54, MOVE_PLAYROUGH),        // 嬉闹
 	LEVEL_UP_END,
 };
 
@@ -1165,16 +1177,20 @@ static const struct LevelUpMove sPoliwhirlLevelUpLearnset[] = {
 };
 
 static const struct LevelUpMove sPoliwrathLevelUpLearnset[] = {
-	LEVEL_UP_MOVE( 0, MOVE_SUBMISSION),
-	LEVEL_UP_MOVE( 1, MOVE_SUBMISSION),
-	LEVEL_UP_MOVE( 1, MOVE_CIRCLETHROW),
-	LEVEL_UP_MOVE( 1, MOVE_BUBBLEBEAM),
-	LEVEL_UP_MOVE( 1, MOVE_HYPNOSIS),
-	LEVEL_UP_MOVE( 1, MOVE_THUNDERPUNCH),
-	LEVEL_UP_MOVE( 1, MOVE_DOUBLESLAP),
-	LEVEL_UP_MOVE(32, MOVE_DYNAMICPUNCH),
-	LEVEL_UP_MOVE(43, MOVE_MINDREADER),
-	LEVEL_UP_MOVE(53, MOVE_CIRCLETHROW),
+	LEVEL_UP_MOVE( 0, MOVE_DYNAMICPUNCH),     // 爆裂拳
+	LEVEL_UP_MOVE( 1, MOVE_DYNAMICPUNCH),     // 爆裂拳
+    LEVEL_UP_MOVE( 1, MOVE_BODYSLAM),          // 泰山压顶
+    LEVEL_UP_MOVE( 1, MOVE_BUBBLEBEAM),        // 泡沫光线
+    LEVEL_UP_MOVE( 1, MOVE_HYPNOSIS),          // 催眠术
+    LEVEL_UP_MOVE( 1, MOVE_POUND),             // 拍击
+    LEVEL_UP_MOVE( 1, MOVE_DOUBLEEDGE),        // 舍身冲撞
+    LEVEL_UP_MOVE( 1, MOVE_WATERGUN),         // 水枪
+    LEVEL_UP_MOVE( 1, MOVE_HYDROPUMP),         // 水炮
+    LEVEL_UP_MOVE( 1, MOVE_BELLYDRUM),         // 腹鼓
+    LEVEL_UP_MOVE( 1, MOVE_RAINDANCE),        // 求雨
+    LEVEL_UP_MOVE( 1, MOVE_MUDSHOT),           // 泥巴射击
+    LEVEL_UP_MOVE( 1, MOVE_EARTHPOWER),        // 大地之力
+    LEVEL_UP_MOVE( 1, MOVE_CIRCLETHROW),       // 巴投
 	LEVEL_UP_END,
 };
 
