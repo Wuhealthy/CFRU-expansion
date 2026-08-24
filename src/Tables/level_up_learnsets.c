@@ -19199,24 +19199,22 @@ static const struct LevelUpMove sStunfiskGLevelUpLearnset[] = {
 };		
 
 static const struct LevelUpMove sWyrdeerLevelUpLearnset[] = {
-	LEVEL_UP_MOVE( 0, MOVE_EXTRASENSORY),
-	LEVEL_UP_MOVE( 1, MOVE_PSYSHIELDBASH),
-	LEVEL_UP_MOVE( 1, MOVE_TACKLE),
-	LEVEL_UP_MOVE( 1, MOVE_LEER),
-	LEVEL_UP_MOVE( 1, MOVE_ASTONISH),
-	LEVEL_UP_MOVE( 1, MOVE_SANDATTACK),
-	LEVEL_UP_MOVE(13, MOVE_STOMP),
-	LEVEL_UP_MOVE(17, MOVE_HYPNOSIS),
-	LEVEL_UP_MOVE(20, MOVE_DOUBLEKICK),
-	LEVEL_UP_MOVE(24, MOVE_CONFUSERAY),
-	LEVEL_UP_MOVE(27, MOVE_TAKEDOWN),
-	LEVEL_UP_MOVE(32, MOVE_ZENHEADBUTT),
-	LEVEL_UP_MOVE(36, MOVE_LUNGE),
-	LEVEL_UP_MOVE(42, MOVE_ROLEPLAY),
-	LEVEL_UP_MOVE(46, MOVE_DOUBLEEDGE),
-	LEVEL_UP_MOVE(51, MOVE_JUMPKICK),
-	LEVEL_UP_MOVE(56, MOVE_MEGAHORN),
-	LEVEL_UP_MOVE(61, MOVE_NORETREAT),
+	LEVEL_UP_MOVE( 0, MOVE_PSYSHIELDBASH),    // 屏障猛攻
+	LEVEL_UP_MOVE( 1, MOVE_PSYSHIELDBASH),    // 屏障猛攻
+    LEVEL_UP_MOVE( 1, MOVE_TACKLE),           // 撞击
+    LEVEL_UP_MOVE( 3, MOVE_LEER),             // 瞪眼
+    LEVEL_UP_MOVE( 7, MOVE_ASTONISH),         // 惊吓
+    LEVEL_UP_MOVE(10, MOVE_HYPNOSIS),         // 催眠术
+    LEVEL_UP_MOVE(13, MOVE_STOMP),            // 踩踏
+    LEVEL_UP_MOVE(16, MOVE_SANDATTACK),       // 泼沙
+    LEVEL_UP_MOVE(21, MOVE_TAKEDOWN),         // 猛撞
+    LEVEL_UP_MOVE(23, MOVE_CONFUSERAY),       // 奇异之光
+    LEVEL_UP_MOVE(27, MOVE_CALMMIND),         // 冥想
+    LEVEL_UP_MOVE(32, MOVE_ROLEPLAY),         // 扮演
+    LEVEL_UP_MOVE(37, MOVE_ZENHEADBUTT),      // 意念头锤
+    LEVEL_UP_MOVE(49, MOVE_IMPRISON),         // 封印
+    LEVEL_UP_MOVE(55, MOVE_DOUBLEEDGE),       // 舍身冲撞
+    LEVEL_UP_MOVE(62, MOVE_MEGAHORN),         // 超级角击
 	LEVEL_UP_END
 };		
 
@@ -23374,7 +23372,7 @@ const struct LevelUpMove* const gLevelUpLearnsets[] =
 	[SPECIES_ZERAORA_MEGA] = sZeraoraLevelUpLearnset,
 	[SPECIES_RILLABOOM_MEGA] = sRillaboomLevelUpLearnset,
 	[SPECIES_FALINKS_MEGA] = sFalinksLevelUpLearnset,
-	[SPECIES_SKELEDIRGE_MEGA] = sSkeledirgeLevelUpLearnset,
+	[SPECIES_WYRDEER_MEGA] = sWyrdeerLevelUpLearnset,
 	[SPECIES_SCOVILLAIN_MEGA] = sScovillainLevelUpLearnset,
 	[SPECIES_GLIMMORA_MEGA] = sGlimmoraLevelUpLearnset,
 	[SPECIES_TATSUGIRI_MEGA] = sTatsugiriLevelUpLearnset,
