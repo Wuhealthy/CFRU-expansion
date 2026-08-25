@@ -40,6 +40,7 @@
 #define FLAG_0x025               0x025
 #define FLAG_0x026               0x026
 #define FLAG_0x027               0x027
+#define FLAG_POKENAV             0x0AF
 
 // Hide/show flags
 /*

@@ -139,6 +139,8 @@ static void FieldCallback_Defog(void);
 static bool8 SetUpFieldMove_Defog(void);
 static void CursorCb_MoveItemCallback(u8 taskId);
 static void CursorCb_MoveItem(u8 taskId);
+void CB2_ReturnToPartyMenuFromFlyMap(void);
+void CB2_ReturnToFieldWithNewStartMenu(void);
 
 static void CursorCb_NicknameCallback(u8 taskId);
 static void CursorCb_Nickname(u8 taskId);
@@ -1148,6 +1150,11 @@ static bool8 SetUpFieldMove_Fly(void)
         }
 
         return FALSE;
+}
+
+void CB2_ReturnToPartyMenuFromFlyMap(void)
+{
+	InitPartyMenu(PARTY_MENU_TYPE_FIELD, PARTY_LAYOUT_SINGLE, PARTY_ACTION_CHOOSE_MON, TRUE, PARTY_MSG_CHOOSE_MON, Task_HandleChooseMonInput, CB2_ReturnToFieldWithNewStartMenu);
 }
 
 #define FieldCallback_Surf (void*) (0x812497C | 1)

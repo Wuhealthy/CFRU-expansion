@@ -437,8 +437,6 @@ extern u8 gText_StartMenu_TimeBase[];
 extern u8 gText_StartMenu_TimeBase_12Hr[];
 extern u8 gText_StartMenu_AM[];
 extern u8 gText_StartMenu_PM[];
-extern u8 gText_StartMenu_RedText[];
-extern u8 gText_StartMenu_NormalText[];
 extern u8 gText_StartMenu_Sunday[];
 extern u8 gText_StartMenu_Monday[];
 extern u8 gText_StartMenu_Tuesday[];

@@ -1,32 +1,56 @@
 #org @gText_MenuDexNav
 图鉴导航
 
-#org @gText_StartMenu_MissionLog
+#org @gText_NewStartMenuMoneyLabel
+当前余额 : 
+
+#org @gText_NewStartMenuPokedexName
+宝可梦图鉴
+
+#org @gText_NewStartMenuPokemonName
+同行宝可梦
+
+#org @gText_NewStartMenuBagName
+包包
+
+#org @gText_NewStartMenuPokenavName
 任务日志
 
-#org @gText_StartMenu_CostumeBox
-服装盒
+#org @gText_NewStartMenuPlayerName
+训练家卡
 
-#org @gText_StartMenu_PokemonList
-宝可梦列表
+#org @gText_NewStartMenuSaveName
+保存
 
-#org @gText_StartMenu_Cube
-立方体 V3
+#org @gText_NewStartMenuDexNavName
+图鉴导航
 
-#org @gText_StartMenu_Save
-保存游戏
+#org @gText_NewStartMenuOptionName
+设置
 
-#org @gText_StartMenu_Options
-游戏设置
+#org @gText_NewStartMenuSavePrompt
+保存存档？ A键: 是 B键: 否
+
+#org @gText_NewStartMenuSaving
+存档中...
+
+#org @gText_NewStartMenuSaved
+存档完成。
+
+#org @gText_NewStartMenuSaveError
+存档失败。
+
+#org @gText_NewStartMenuSafariSteps
+剩余步数: [BUFFER1]
+
+#org @gText_NewStartMenuSafariBalls
+剩余球数: [BUFFER1]
 
 #org @gText_MenuExitRight
 退出  [DPAD_RIGHT]
 
 #org @gText_MenuExitLeft
 退出  [DPAD_LEFT]
-
-#org @gText_StartMenu_SafariZoneBase
-[BUFFER1]/[BUFFER2][ALIGN][2C][BUFFER3] 球
 
 #org @gText_StartMenu_TimeBase
 [BUFFER][0C] [BUFFER1]:[BUFFER2]:[BUFFER3]
@@ -39,12 +63,6 @@ AM
 
 #org @gText_StartMenu_PM
 PM
-
-#org @gText_StartMenu_RedText
-[MAIN_COLOUR][0C][SHADOW_COLOUR][0D]
-
-#org @gText_StartMenu_NormalText
-[MAIN_COLOUR][0E][SHADOW_COLOUR][0F]
 
 #org @gText_StartMenu_Sunday
 周日

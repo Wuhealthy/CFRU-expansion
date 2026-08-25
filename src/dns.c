@@ -25,9 +25,12 @@ typedef bool8 IgnoredPalT[16];
 //This file's functions:
 #ifdef TIME_ENABLED
 static void FadeDayNightPalettes(void);
+static u8 GetSafeClockHour(void);
+static u8 GetSafeClockMinuteTens(void);
+static const struct DNSPalFade* GetDNSPalFadeForCurrentTime(void);
 static void BlendFadedPalettes(u32 selectedPalettes, u8 coeff, u32 color);
 static void BlendFadedPalette(u16 palOffset, u16 numEntries, u8 coeff, u32 blendColor);
-static u16 FadeColourForDNS(struct PlttData* blend, u8 coeff, s8 r, s8 g, s8 b);
+static u16 FadeColourForDNS(u16 blendColor, u8 coeff, u16 color);
 static void FadeOverworldBackground(u32 selectedPalettes, u8 coeff, u32 color, bool8 palFadeActive);
 #endif
 static bool8 IsDate1BeforeDate2(u32 y1, u32 m1, u32 d1, u32 y2, u32 m2, u32 d2);
@@ -52,6 +55,21 @@ void TransferPlttBuffer(void)
 }
 
 #ifdef TIME_ENABLED
+static u8 GetSafeClockHour(void)
+{
+	return (gClock.hour < 24) ? gClock.hour : TIME_DAY_START;
+}
+
+static u8 GetSafeClockMinuteTens(void)
+{
+	return (gClock.minute < 60) ? (gClock.minute / 10) : 0;
+}
+
+static const struct DNSPalFade* GetDNSPalFadeForCurrentTime(void)
+{
+	return &gDNSNightFadingByTime[GetSafeClockHour()][GetSafeClockMinuteTens()];
+}
+
 static void FadeDayNightPalettes(void)
 {
 	u32 palsToFade;
@@ -72,8 +90,9 @@ static void FadeDayNightPalettes(void)
 
 			if (fadePalettes)
 			{
-				u8 coeff = gDNSNightFadingByTime[gClock.hour][gClock.minute / 10].amount;
-				u16 colour = gDNSNightFadingByTime[gClock.hour][gClock.minute / 10].colour;
+				const struct DNSPalFade* dnsPalFade = GetDNSPalFadeForCurrentTime();
+				u8 coeff = dnsPalFade->amount;
+				u16 colour = dnsPalFade->colour;
 				bool8 palFadeActive = gPaletteFade->active || gWeatherPtr->palProcessingState == WEATHER_PAL_STATE_SCREEN_FADING_IN;
 
 				if (inOverworld)
@@ -146,13 +165,9 @@ static void BlendFadedPalettes(u32 selectedPalettes, u8 coeff, u32 color)
 		if (selectedPalettes & 1)
 		{
 			switch (GetPalTypeByPaletteOffset(paletteOffset)) {
-				case PalTypeUnused:
-					//if (paletteOffset < 256) //The background
-					//	BlendFadedPalette(paletteOffset, 16, coeff, color);
-					//break;
 				case PalTypeOther: //Fade everything except Poke pics
 					break;
-				default:
+				default: //Also fade slots without an active PalRef (e.g. after returning from a menu) so sprites keep the night tint
 					BlendFadedPalette(paletteOffset, 16, coeff, color);
 			}
 		}
@@ -177,12 +192,7 @@ static void BlendFadedPalette(u16 palOffset, u16 numEntries, u8 coeff, u32 blend
 		//Fixes an issue with pre-battle mugshots
 		if (dontFadeWhite && gPlttBufferFaded[index] == RGB_WHITE) continue;
 
-		struct PlttData *data1 = (struct PlttData*) &gPlttBufferFaded[index];
-		s8 r = data1->r;
-		s8 g = data1->g;
-		s8 b = data1->b;
-		struct PlttData* data2 = (struct PlttData*) &blendColor;
-		((u16*) PLTT)[index] = FadeColourForDNS(data2, coeff, r, g, b);
+		((u16*) PLTT)[index] = FadeColourForDNS(blendColor, coeff, gPlttBufferFaded[index]);
 	}
 }
 
@@ -198,13 +208,7 @@ static void BlendFadedUnfadedPalette(u16 palOffset, u16 numEntries, u8 coeff, u3
 
 		if (gIgnoredDNSPalIndices[ignoreOffset][i]) continue; //Don't fade this index.
 
-		struct PlttData* data1 = (struct PlttData*) &gPlttBufferUnfaded[index];
-		struct PlttData* data2 = (struct PlttData*) &blendColor;
-		s8 r = data1->r;
-		s8 g = data1->g;
-		s8 b = data1->b;
-
-		u16 newColour = FadeColourForDNS(data2, coeff, r, g, b);
+		u16 newColour = FadeColourForDNS(blendColor, coeff, gPlttBufferUnfaded[index]);
 		gPlttBufferUnfaded[index] = newColour;
 
 		if (!palFadeActive)
@@ -212,11 +216,19 @@ static void BlendFadedUnfadedPalette(u16 palOffset, u16 numEntries, u8 coeff, u3
 	}
 }
 
-static u16 FadeColourForDNS(struct PlttData* blend, u8 coeff, s8 r, s8 g, s8 b)
+static u16 FadeColourForDNS(u16 blendColor, u8 coeff, u16 color)
 {
-	return ((r + (((blend->r - r) * coeff) >> 4)) << 0)
-		 | ((g + (((blend->g - g) * coeff) >> 4)) << 5)
-		 | ((b + (((blend->b - b) * coeff) >> 4)) << 10);
+	u16 r = color & 31;
+	u16 g = (color >> 5) & 31;
+	u16 b = (color >> 10) & 31;
+	u16 blendR = blendColor & 31;
+	u16 blendG = (blendColor >> 5) & 31;
+	u16 blendB = (blendColor >> 10) & 31;
+	u16 inverseCoeff = 16 - coeff;
+
+	return (((r * inverseCoeff + blendR * coeff) >> 4) << 0)
+		 | (((g * inverseCoeff + blendG * coeff) >> 4) << 5)
+		 | (((b * inverseCoeff + blendB * coeff) >> 4) << 10);
 
 /*
 	u8 coeffMax = 128;
@@ -334,8 +346,9 @@ void DNSBattleBGPalFade(void)
 	}
 
 	u16 i, palOffset;
-	u8 coeff = gDNSNightFadingByTime[gClock.hour][gClock.minute / 10].amount;
-	u32 blendColor = gDNSNightFadingByTime[gClock.hour][gClock.minute / 10].colour;
+	const struct DNSPalFade* dnsPalFade = GetDNSPalFadeForCurrentTime();
+	u8 coeff = dnsPalFade->amount;
+	u32 blendColor = dnsPalFade->colour;
 	u8 selectedPalettes = BATTLE_DNS_PAL_FADE & 0x1C;
 
 	for (palOffset = 0; selectedPalettes; palOffset += 16)
@@ -345,12 +358,7 @@ void DNSBattleBGPalFade(void)
 			for (i = 0; i < 16; ++i)
 			{
 				u16 index = i + palOffset;
-				struct PlttData* data1 = (struct PlttData*) &gPlttBufferUnfaded[index];
-				s8 r = data1->r;
-				s8 g = data1->g;
-				s8 b = data1->b;
-				struct PlttData *data2 = (struct PlttData *)&blendColor;
-				u16 color = FadeColourForDNS(data2, coeff, r, g, b);
+				u16 color = FadeColourForDNS(blendColor, coeff, gPlttBufferUnfaded[index]);
 
 				gPlttBufferUnfaded[index] = color;
 				gPlttBufferFaded[index] = color;
@@ -411,27 +419,32 @@ void BlendPalettesOptimized(u32 selectedPalettes, u32 coeff, u32 blendColor)
 
 bool8 IsDayTime(void)
 {
-	return gClock.hour >= TIME_MORNING_START && gClock.hour < TIME_NIGHT_START;
+	u8 hour = GetSafeClockHour();
+	return hour >= TIME_MORNING_START && hour < TIME_NIGHT_START;
 }
 
 bool8 IsOnlyDayTime(void)
 {
-	return gClock.hour >= TIME_DAY_START && gClock.hour < TIME_EVENING_START;
+	u8 hour = GetSafeClockHour();
+	return hour >= TIME_DAY_START && hour < TIME_EVENING_START;
 }
 
 bool8 IsNightTime(void)
 {
-	return gClock.hour >= TIME_NIGHT_START || gClock.hour < TIME_MORNING_START;
+	u8 hour = GetSafeClockHour();
+	return hour >= TIME_NIGHT_START || hour < TIME_MORNING_START;
 }
 
 bool8 IsMorning(void)
 {
-	return gClock.hour >= TIME_MORNING_START && gClock.hour < TIME_DAY_START;
+	u8 hour = GetSafeClockHour();
+	return hour >= TIME_MORNING_START && hour < TIME_DAY_START;
 }
 
 bool8 IsEvening(void)
 {
-	return gClock.hour >= TIME_EVENING_START && gClock.hour < TIME_NIGHT_START;
+	u8 hour = GetSafeClockHour();
+	return hour >= TIME_EVENING_START && hour < TIME_NIGHT_START;
 }
 
 static bool8 IsDate1BeforeDate2(u32 y1, u32 m1, u32 d1, u32 y2, u32 m2, u32 d2)

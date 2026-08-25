@@ -12,6 +12,7 @@ DrawBattleEntryBackground 800FAE0 0
 
 ##Other Battle Stuff
 BuildTrainerPartyHook 800FF7E 0
+CB2ReturnToFieldWithOpenMenuHook 80568A8 0
 SpriteCB_WildMon 8011D64 1
 SpriteCB_WildMonShowHealthbox 8011DC8 1
 LoadProperAbilityBattleDataHook 8013144 0
@@ -204,6 +205,7 @@ CursorCb_Enter 8124154 1
 IsMonAllowedInBattleTower 8127550 1
 Task_ClosePartyMenuAfterText 81255BC 1
 PartyMenuAfterCancelLearnMoveHook 8125EEE 1
+CB2_ReturnToPartyMenuFromFlyMap 8124AB0 0
 CanPokemonSelectedBeEnteredInBattleTower 81275F8 0
 ExpandedAbilityNamesSummaryScreen 8136714 1
 ExpandedAbilityDescriptionsSummaryScreen 8136728 1
@@ -506,7 +508,7 @@ FollowMe_WarpNormalEndHook 0807DF74 0
 FollowMe_WarpTeleportEndHook 807E364 0
 FollowMe_WarpStairsEndHook 0807EC5A 0
 FollowMe_WarpHoleEndHook 8084770 0
-##FollowMe_LocalIdHook 0805DF60 3
+FollowMe_LocalIdHook 0805DF60 3
 FollowMe_ScriptHook 0805FC20 3
 FollowMe_WhiteOutHook 8054E1A 2
 FollowMe_FishingHook 80A139C 1
@@ -594,6 +596,7 @@ SaveDialogCB_PrintAskSaveText 806F7A8 0
 SetUpStartMenu 0806ed54 0
 StartCB_HandleInput 0806F280 0
 FixStartMenuSize 080f78f4 0
+NewStartMenuBagMenuFromStartMenu 08107EB8 0
 #endif
 
 ##Pokemon Storage System
@@ -756,7 +759,8 @@ GetBaseStatsTotal 801D884 1
 IsAutoScrollEnabled 801D88C 0
 TierBanScreenFromScript 801D894 0
 #endif
-
+##New Start Menu
+StartMenu_Init 806F258 0
 
 ##Ignore Wild Pokemon
 #ifdef IgnoreWildPokemon

@@ -13,6 +13,11 @@ BuildTrainerPartyHook:
 	bx r0
 
 .pool
+CB2ReturnToFieldWithOpenMenuHook:
+	ldr r0, =NewStartMenuReturnToFieldWithOpenMenuHook
+	bx r0
+
+.pool
 @0x800D2CC with r0
 AIHandleItemUseHook:
 	bl HandleNewBattleRamClearBeforeBattle
