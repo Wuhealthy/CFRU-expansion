@@ -275,6 +275,6 @@ EventScript_Pallet_AideGuy:
 EventScript_GiveMons_Special:
     lock
     faceplayer
-    setflag 0x92B
+    setflag 0xA08
     release
     end

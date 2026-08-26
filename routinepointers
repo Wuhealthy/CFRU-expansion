@@ -276,19 +276,19 @@ CB2_ItemMenuFromField 801D800
 ##Part 2 of Follower Mon Hook
 CB2_ReturnToField 080567E8
 
-##CB2_ReturnToFieldWithOpenMenu 806F4E4
-##CB2_ReturnToFieldWithOpenMenu 806F53C
-##CB2_ReturnToFieldWithOpenMenu 806F5A0
-##CB2_ReturnToFieldWithOpenMenu 808841C
-##CB2_ReturnToFieldWithOpenMenu 809FCB4
-##CB2_ReturnToFieldWithOpenMenu 809FCDC
-##CB2_ReturnToFieldWithOpenMenu 809FD04
-##CB2_ReturnToFieldWithOpenMenu 809FD2C
-##CB2_ReturnToFieldWithOpenMenu 809FD54
-##CB2_ReturnToFieldWithOpenMenu 8102878
-##CB2_ReturnToFieldWithOpenMenu 8107EC8
-##CB2_ReturnToFieldWithOpenMenu 8124AD8
-##CB2_ReturnToFieldWithOpenMenu 8126ED8
+CB2_ReturnToFieldWithOpenMenuHook 806F4E4
+CB2_ReturnToFieldWithOpenMenuHook 806F53C
+CB2_ReturnToFieldWithOpenMenuHook 806F5A0
+CB2_ReturnToFieldWithOpenMenuHook 808841C
+CB2_ReturnToFieldWithOpenMenuHook 809FCB4
+CB2_ReturnToFieldWithOpenMenuHook 809FCDC
+CB2_ReturnToFieldWithOpenMenuHook 809FD04
+CB2_ReturnToFieldWithOpenMenuHook 809FD2C
+CB2_ReturnToFieldWithOpenMenuHook 809FD54
+CB2_ReturnToFieldWithOpenMenuHook 8102878
+CB2_ReturnToFieldWithOpenMenuHook 8107EC8
+CB2_ReturnToFieldWithOpenMenuHook 8124AD8
+CB2_ReturnToFieldWithOpenMenuHook 8126ED8
 ##CB2_EndTrainerBattle 804AD6D
 ##CB2_EndTrainerBattle 80804A8
 

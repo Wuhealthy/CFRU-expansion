@@ -537,6 +537,7 @@ void DebugMenu_HealTeam(void)
 #include "../include/constants/vars.h"
 #include "../include/new/terastallization.h"
 #define VAR_8000 0x8000
+#define VAR_8001 0x8001
 
 void DebugMenu_GivePokemonFromVar(void)
 {
@@ -552,6 +553,12 @@ void DebugMenu_GivePokemonFromVar(void)
 		return;
 
 	CreateMon(&mon, species, 50, 32, TRUE, 0, OT_ID_PLAYER_ID, 0);
+	if (VarGet(VAR_8001) == TRUE)
+		ForceMonShiny(&mon);
+	else if (IsMonShiny(&mon))
+		GiveMonNatureAndAbility(&mon, GetNature(&mon),
+							GetMonData(&mon, MON_DATA_PERSONALITY, NULL) & 1,
+							FALSE, TRUE, TRUE);
 	gPlayerParty[slot] = mon;
 	gSpecialVar_LastResult = TRUE;
 }

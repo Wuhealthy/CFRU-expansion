@@ -58,6 +58,12 @@ Give custom
 #org @gText_DebugMenu_GivePokemonById
 Pokémon
 
+#org @gText_DebugMenu_ShinyFalse
+Shiny: FALSE
+
+#org @gText_DebugMenu_ShinyTrue
+Shiny: TRUE
+
 #org @gText_DebugMenu_EnterSpecies
 Enter the Pokémon's National \nDex Number.
 

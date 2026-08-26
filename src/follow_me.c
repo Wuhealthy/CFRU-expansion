@@ -56,14 +56,24 @@ static void SetFollowerSprite(u8 spriteIndex);
 static void TurnNPCIntoFollower(u8 localId, u8 followerFlags);
 static void Task_HandleFollowerTriggerScript(u8 taskId);
 static void EnsureFollowerTriggerScriptTask(void);
+static void TryCreateFollowerSparkle(void);
 void FixFollowerMonLocalIdAfterWarp(void);
 void RestoreFollowerAfterBattle(void);
+void RestoreFollowerAfterMenu(void);
 extern void ChangeFollowerPalette(void);
 extern const u8* __attribute__((long_call)) GetCoordEventScriptAtPosition(struct MapHeader *mapHeader, u16 x, u16 y, u8 z);
 
 extern u8 EventScript_FollowerMon[];
 
 #define MOVEMENT_INVALID 0xFE
+
+static bool8 sSuppressFollowerSparkle;
+
+static void TryCreateFollowerSparkle(void)
+{
+	if (!sSuppressFollowerSparkle)
+		CreateSparkleSprite();
+}
 
 enum
 {
@@ -152,7 +162,7 @@ void HideFollower(void)
 
 void ShowFollower(void)
 {
-	CreateSparkleSprite();
+	TryCreateFollowerSparkle();
 	ChangeFollowerPalette();
 	gEventObjects[gFollowerState.objId].invisible = FALSE;
 }
@@ -1787,7 +1797,18 @@ void RestoreFollowerAfterBattle(void)
 		gEventObjects[gFollowerState.objId].localId = DEFAULT_FOLLOWER_LOCAL_ID;
 		gFollowerState.inProgress = TRUE;
 		gEventObjects[gFollowerState.objId].active = TRUE;
+		// The follower is recreated with its normal palette when returning from
+		// menus. Apply the party lead's palette now that the sprite is active,
+		// rather than waiting until the Start Menu is closed.
+		ChangeFollowerPalette();
 	}
+}
+
+void RestoreFollowerAfterMenu(void)
+{
+	sSuppressFollowerSparkle = TRUE;
+	RestoreFollowerAfterBattle();
+	sSuppressFollowerSparkle = FALSE;
 }
 
 void UpdateAutomaticFollowerMon(void)
@@ -1827,7 +1848,7 @@ void UpdateAutomaticFollowerMon(void)
 		if (gFollowerState.inProgress)
 		{
 			TurnFollowerMonToPlayer();
-			CreateSparkleSprite();
+			TryCreateFollowerSparkle();
 		}
 	}
 	else if (gFollowerState.gfxId != followerMonGfx)

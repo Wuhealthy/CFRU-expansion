@@ -10131,7 +10131,7 @@
     .trainerName = {_P, _a, _x, _t, _o, _n, _END},
     .items = {ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE},
     .doubleBattle = FALSE,
-    .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
+    .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_SEMI_SMART,
     .partySize = NELEMS(sShowdownParty_CueBallPaxton),
     .party = {.NoItemDefaultMoves = sShowdownParty_CueBallPaxton}
 },
