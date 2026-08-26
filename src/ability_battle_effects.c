@@ -852,6 +852,33 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			break;
 		}
 
+		case ABILITY_MUTANTADAPT:
+    	{
+        	// 显示特性提示
+        	gBattleStringLoader = gText_DefensiveToOffensiveActivate;
+        	BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+        
+        	// 备份原招式（用于战斗结束后恢复）
+        	for (u8 i = 0; i < MAX_MON_MOVES; i++)
+        	{
+            	gNewBS->backupMoves[bank][i] = gBattleMons[bank].moves[i];
+        	}
+        
+        	// 替换招式
+        	for (u8 i = 0; i < MAX_MON_MOVES; i++)
+        	{
+            	u16 move = gBattleMons[bank].moves[i];
+            	u16 newMove = GetDefensiveToOffensiveMove(move);
+            	if (newMove != MOVE_NONE)
+            	{
+                	gBattleMons[bank].moves[i] = newMove;
+            	}
+        	}
+        
+        	effect++;
+    	}
+    	break;
+
 		case ABILITY_SUPERSWEETSYRUP:
 		{
 			u8 side = SIDE(bank);
@@ -2185,8 +2212,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 		case ABILITYEFFECT_CONTACT: //After being hit by a move. Not necessarilly contact.
 			gBattleScripting.bank = bank;
 
-			if((SPECIES(bank) == SPECIES_PRIMEAPE || SPECIES(bank) == SPECIES_ANNIHILAPE) &&
-			MoveInMoveset(MOVE_RAGEFIST, bank))
+			if(MoveInMoveset(MOVE_RAGEFIST, bank))
 			{
 				if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)

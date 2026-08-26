@@ -817,6 +817,7 @@ struct NewBattleStruct
 	u8 quickClawRandomNumber[MAX_BATTLERS_COUNT];
 	u8 quickDrawRandomNumber[MAX_BATTLERS_COUNT];
 	u16 tookAbilityFrom[MAX_BATTLERS_COUNT]; //Helps display the correct Ability when one has been passed around
+	u16 backupMoves[MAX_BATTLERS_COUNT][MAX_MON_MOVES];
 	u8 rageFistCounter[MAX_BATTLERS_COUNT];
 	u8 CudChewCounter[MAX_BATTLERS_COUNT];
 	bool8 ElectroCounter[MAX_BATTLERS_COUNT];

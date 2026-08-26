@@ -294,6 +294,7 @@ bool8 SpeciesHasHiddenPowerPhysicality(unusedArg u16 species)
 		case SPECIES_SHIFTRY_MEGA:
 		case SPECIES_CRAWDAUNT_MEGA:
 		case SPECIES_WYRDEER_MEGA:
+		case SPECIES_PYUKUMUKU_MEGA:
 		case SPECIES_RATICATE_MEGA:
 		case SPECIES_ARBOK_MEGA:
 		case SPECIES_SANDSLASH_MEGA:
@@ -307,6 +308,25 @@ bool8 SpeciesHasHiddenPowerPhysicality(unusedArg u16 species)
             return TRUE;
         default:
             return FALSE;
+    }
+}
+
+u16 GetDefensiveToOffensiveMove(u16 move)
+{
+    switch (move)
+    {
+        case MOVE_COUNTER:
+            return MOVE_POWERUPPUNCH;
+        case MOVE_HAIL:
+            return MOVE_ICEHAMMER;
+        case MOVE_RECOVER:
+            return MOVE_DIZZYPUNCH;
+        case MOVE_CURSE:
+            return MOVE_RAGEFIST;
+        case MOVE_RAINDANCE:
+            return MOVE_SURGINGSTRIKES;
+        default:
+            return MOVE_NONE;
     }
 }
 

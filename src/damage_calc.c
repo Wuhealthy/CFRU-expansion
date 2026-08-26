@@ -3823,7 +3823,7 @@ static u16 GetBasePower(struct DamageCalc* data)
 
 		case MOVE_RAGEFIST:
 			if (gNewBS->rageFistCounter[bankAtk])
-				power = 50 * gNewBS->rageFistCounter[bankAtk];
+				power = 50 + (50 * gNewBS->rageFistCounter[bankAtk]);
 			break;
 
 		case MOVE_ROUND:
@@ -5133,7 +5133,7 @@ static void ApplySTABMultipliers(bool8 consumeStellarBoost)
     bool8 terastallized = IsTerastallized(gBankAttacker);
     bool8 originalStab = moveType == originalType1 || moveType == originalType2;
     bool8 currentStab = moveType == atkType1 || moveType == atkType2 || moveType == atkType3;
-	bool8 hasAdaptability = (atkAbility == ABILITY_ADAPTABILITY) || (atkAbility == ABILITY_MUTANTADAPT);
+	bool8 hasAdaptability = atkAbility == ABILITY_ADAPTABILITY;
 
     // Stellar grants one boost per move type: 2x for an original STAB type,
     // 1.2x otherwise. Never index the tracker with pseudo/invalid move types.

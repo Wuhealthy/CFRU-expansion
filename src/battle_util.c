@@ -1543,7 +1543,7 @@ bool8 MonMoveBlockedBySubstitute(u16 move, struct Pokemon* monAtk, u8 bankDef)
 
 bool8 BypassesScreens(ability_t ability)
 {
-	return ability == ABILITY_INFILTRATOR || ability == ABILITY_MUTANTADAPT;
+	return ability == ABILITY_INFILTRATOR;
 }
 
 bool8 BypassesFog(unusedArg ability_t ability, unusedArg u8 itemEffect)

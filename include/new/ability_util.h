@@ -48,3 +48,4 @@ bool8 CheckStatusAny(u8 bank);
 bool8 IsFaintedPokemonInParty(u8 bank);
 bool8 AngerShellStatsCheck(u8 bank);
 bool8 SpeciesHasHiddenPowerPhysicality(u16 species);
+u16 GetDefensiveToOffensiveMove(u16 move);

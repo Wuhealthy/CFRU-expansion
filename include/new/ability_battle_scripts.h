@@ -156,6 +156,7 @@ extern const u8 PrimalSunEndString[];
 extern const u8 PrimalAirCurrentEndString[];
 extern const u8 gText_BeadsofRuin[];
 extern const u8 gText_TerrainEnds[];
+extern const u8 gText_DefensiveToOffensiveActivate[];
 extern const u8 gText_TabletsofRuin[];
 extern const u8 gText_SwordofRuin[];
 extern const u8 gText_VesselofRuin[];
