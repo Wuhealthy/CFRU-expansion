@@ -317,14 +317,12 @@ u16 GetDefensiveToOffensiveMove(u16 move)
     {
         case MOVE_COUNTER:
             return MOVE_POWERUPPUNCH;
-        case MOVE_HAIL:
-            return MOVE_ICEHAMMER;
         case MOVE_RECOVER:
             return MOVE_DIZZYPUNCH;
         case MOVE_CURSE:
             return MOVE_RAGEFIST;
-        case MOVE_RAINDANCE:
-            return MOVE_SURGINGSTRIKES;
+        case MOVE_WATERSPORT:
+            return MOVE_JETPUNCH;
         default:
             return MOVE_NONE;
     }
