@@ -322,7 +322,7 @@
 #define ABILITY_FIREMANE                             316
 #define ABILITY_SILENTGRUDGE                         317    //缄默怨
 #define ABILITY_SPICYSPRAY                           318
-#define ABILITY_FUJIN                                319    //风神
+#define ABILITY_FUJIN                                319    //串联
 #define ABILITY_SONILATE                             320    //音浪皮肤
 #define ABILITY_IMPROVISE                            321    //随机应变
 #define ABILITY_WAVEFIST                             322    //浪花之拳
@@ -345,7 +345,7 @@
 #define ABILITY_SHADOWHEAL                           339    //暗影治愈
 #define ABILITY_EEVEEHERO                            340    //全知全能
 #define ABILITY_FLOWERBLADE                          341    //花刃
-#define ABILITY_GRIDBIND                             342    //不稳定的电流
+#define ABILITY_GRIDBIND                             342    //不稳定的电流（暂无人使用）
 #define ABILITY_BIOSHELL                             343    //生物机甲
 #define ABILITY_HEAVYHAMMER                          344    //重锤
 #define ABILITY_BROKENCLAW                           345    //断钳

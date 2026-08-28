@@ -1729,7 +1729,6 @@ u8 GetMoveTypeSpecialPostAbility(u16 move, ability_t atkAbility, bool8 zMoveActi
 				case ABILITY_PIXILATE:
 					return TYPE_FAIRY;
 				case ABILITY_AERILATE:
-				case ABILITY_FUJIN:
 					return TYPE_FLYING;
 				case ABILITY_GALVANIZE:
 					return TYPE_ELECTRIC;
@@ -1781,7 +1780,6 @@ static bool8 AbilityCanChangeTypeAndBoost(u16 move, ability_t atkAbility, u8 ele
 				case ABILITY_REFRIGERATE:
 				case ABILITY_PIXILATE:
 				case ABILITY_AERILATE:
-				case ABILITY_FUJIN:
 				case ABILITY_GALVANIZE:
 				case ABILITY_DRAGONIZE:
 					return TRUE;
@@ -4370,6 +4368,15 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
     		}
 			break;
 
+		case ABILITY_FUJIN:
+		//串联特性
+		{
+			u8 boostCount = GetFujinBoost(bankAtk);
+    		if (boostCount > 0)
+        		power = (power * (10 + boostCount)) / 10;  // 每只电属性队友提升10%
+		}
+			break;
+
 		case ABILITY_TOXICBOOST:
 		//1.5x Boost
 			if (data->atkStatus1 & STATUS_PSN_ANY && data->moveSplit == SPLIT_PHYSICAL)
@@ -4397,7 +4404,6 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 			break;
 
 		case ABILITY_AERILATE:
-		case ABILITY_FUJIN:
 		case ABILITY_PIXILATE:
 		case ABILITY_REFRIGERATE:
 		case ABILITY_GALVANIZE:

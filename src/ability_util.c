@@ -226,13 +226,38 @@ bool8 IsPriorityBlockingAbility(ability_t ability)
 	switch (ability)
 	{
 		case ABILITY_DAZZLING:
-		case ABILITY_FUJIN:
 		case ABILITY_ARMORTAIL:
 		case ABILITY_QUEENLYMAJESTY:
 			return TRUE;
 		default:
 			return FALSE;
 	}
+}
+
+bool8 GetFujinBoost(u8 bank)
+{
+    u8 count = 0;
+    u8 side = SIDE(bank);
+    struct Pokemon* party = (side == B_SIDE_PLAYER) ? gPlayerParty : gEnemyParty;
+    u8 partyCount = (side == B_SIDE_PLAYER) ? gPlayerPartyCount : gEnemyPartyCount;
+    u16 species;
+    u8 i;
+
+    for (i = 0; i < partyCount; i++)
+    {
+        // 跳过当前正在战斗的宝可梦本身
+        if (i == gBattlerPartyIndexes[bank])
+            continue;
+
+        species = GetMonData(&party[i], MON_DATA_SPECIES, NULL);
+        if (species != SPECIES_NONE && species != SPECIES_EGG)
+        {
+            if (IsSpeciesOfType(species, TYPE_ELECTRIC))
+                count++;
+        }
+    }
+
+    return count;
 }
 
 bool8 IsUnnerveAbility(ability_t ability)

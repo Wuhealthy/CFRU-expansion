@@ -29,6 +29,7 @@ bool8 IsElectricAbsorptionAblity(ability_t ability);
 bool8 IsPlusMinusAbility(ability_t ability);
 bool8 IsMultiscaleAbility(ability_t ability);
 bool8 IsPriorityBlockingAbility(ability_t ability);
+bool8 GetFujinBoost(u8 bank);
 bool8 IsUnnerveAbility(ability_t ability);
 bool8 UnnerveOnOpposingField(u8 bank);
 bool8 AbilityIncreasesWildItemChance(ability_t ability);
