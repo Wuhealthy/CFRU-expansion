@@ -623,7 +623,7 @@
 让对手陷入剧毒状态。\n随着回合的推进，\n中毒伤害会增加。
 
 #org @DESC_TM07
-在5回合内一直降冰雹，\n除冰属性的宝可梦以外，\n给予全体宝可梦伤害。
+升起黑雾，将正在场\n上战斗的全体宝可梦\n的能力变回原点。
 
 #org @DESC_TM08
 使出全身力气绷紧肌\n肉，从而提高自己的\n攻击和防御。
@@ -635,7 +635,7 @@
 招式的属性会随着使\n用此招式的宝可梦而\n改变。
 
 #org @DESC_TM11
-在5回合内让日照变得\n强烈，从而提高火属性\n的招式威力。水属性的\n招式威力则降低。
+从天空中向对手落下\n陨石。使用之后因为\n反作用力，自己的特\n攻会大幅降低。
 
 #org @DESC_TM12
 使对手愤怒。在3回\n合内让对手只能使出\n给予伤害的招式。
@@ -656,7 +656,7 @@
 完全抵挡对手的攻击。\n连续使出则容易失败。
 
 #org @DESC_TM18
-在5回合内一直降雨，\n从而提高水属性的招式\n威力。火属性的招式威\n力则降低。
+将头脑清空，瞬间忘\n记某事，从而大幅提\n高自己的特防。
 
 #org @DESC_TM19
 吸取对手的养分进行\n攻击。可以回复给予\n对手伤害的一半HP。
@@ -665,94 +665,94 @@
 用天使般的歌声攻击\n对手。会让此回合内\n能力有提高的宝可梦\n陷入混乱状态。
 
 #org @DESC_TM21
-This attack move\ngrows more powerful\nthe less the user\nlikes its TRAINER.
+用手臂或钳子压迫对\n手。对手剩余的HP越\n多，威力越大。
 
 #org @DESC_TM22
-A 2-turn move that\nblasts the foe with\nabsorbed energy in\nthe 2nd turn.
+第1回合收集满满的\n日光，第2回合发射\n光束进行攻击。
 
 #org @DESC_TM23
-An attack with a\nsteel-hard tail.\nIt may lower the\nfoe's DEFENSE stat.
+使用坚硬的尾巴摔打\n对手进行攻击。有时\n会降低对手的防御。
 
 #org @DESC_TM24
-A strong electrical\nattack that may\nalso leave the foe\nparalyzed.
+向对手发出强力电击\n进行攻击。有时会让\n对手陷入麻痹状态。
 
 #org @DESC_TM25
-A brutal lightning\nattack that may\nalso leave the foe\nparalyzed.
+向对手劈下暴雷进行\n攻击。有时会让对手\n陷入麻痹状态。
 
 #org @DESC_TM26
-An earthquake that\nstrikes all POK\eMON\nin battle excluding\nthe user.
+利用地震的冲击，攻\n击自己周围所有的宝\n可梦。
 
 #org @DESC_TM27
-This attack move\ngrows more powerful\nthe more the user\nlikes its TRAINER.
+为了训练家而全力攻\n击对手。亲密度越高，\n威力越大。
 
 #org @DESC_TM28
-An attack that hits\non the 2nd turn.\nCan also be used\nto exit dungeons.
+第1回合钻入，第2回\n合攻击对手。
 
 #org @DESC_TM29
-A strong telekinetic\nattack. It may also\nlower the foe's\nSP. DEF stat.
+向对手发送强大的念\n力进行攻击。有时会\n降低对手的特防。
 
 #org @DESC_TM30
-A shadowy blob is\nhurled at the foe.\nMay also lower the\nfoe's SP. DEF.
+投掷一团黑影进行攻\n击。有时会降低对手\n的特防。
 
 #org @DESC_TM31
-An attack that also\nbreaks any barrier\nlike LIGHT SCREEN\nand REFLECT.
+将手刀猛烈地挥下攻\n击对手。还可以破坏\n光墙和反射壁等。
 
 #org @DESC_TM32
-The user creates\nillusory copies of\nitself to raise its\nevasiveness.
+通过快速移动来制造\n分身，扰乱对手，从\n而提高闪避率。
 
 #org @DESC_TM33
-A wall of light\ncuts damage from\nphysical attacks\nfor five turns.
+在5回合内使用神奇\n的墙，减弱从对手那\n受到的物理攻击的伤\n害。
 
 #org @DESC_TM34
-A rapid jolt of\nelectricity strikes\nthe foe. It can't\nbe evaded.
+使用该招式的宝可梦，\n其属性是幽灵属性或\n其他属性时，效果会\n不一样。
 
 #org @DESC_TM35
-The foe is scorched\nwith intense flames.\nThe foe may suffer\na burn.
+向对手发射烈焰进行\n攻击。有时会让对手\n陷入灼伤状态。
 
 #org @DESC_TM36
-Filthy sludge is\nhurled at the foe.\nIt may poison the\ntarget.
+用污泥投掷对手进行\n攻击。有时会让对手\n陷入中毒状态。
 
 #org @DESC_TM37
-A 5-turn sandstorm\nthat damages all\ntypes except ROCK,\nGROUND, and STEEL.
+吸取血液攻击对手。\n可以回复给予对手伤\n害的一半HP。
 
 #org @DESC_TM38
-The foe is hit with\nan intense flame.\nIt may leave the\ntarget with a burn.
+用大字形状的火焰烧\n尽对手。有时会让对\n手陷入灼伤状态。
 
 #org @DESC_TM39
-Boulders are hurled\nat the foe. It also\nlowers the foe's\nSPEED if it hits.
+投掷岩石进行攻击。\n封住对手的行动，从\n而降低速度。
 
 #org @DESC_TM40
-An extremely fast\nattack against one\ntarget. It can't be\nevaded.
+让身体带电后压向对\n手。如果没有命中则\n自己会受到伤害。
 
 #org @DESC_TM41
-It enrages the foe,\nmaking it incapable\nof using the same\nmove successively.
+以自暴自弃的气势进\n行攻击。如果上一回\n合招式没有命中，威\n力就会翻倍。
 
 #org @DESC_TM42
-An attack that is\nboosted if user is\nburned, poisoned,\nor paralyzed.
+当自己处于中毒、麻\n痹、灼伤状态时，向\n对手使出此招式的话，\n威力会变成2倍。
 
 #org @DESC_TM43
-An attack that may\nhave an additional\neffect that varies\nwith the terrain.
+猛烈地刮起飞雪般的\n落花，攻击周围所有\n的宝可梦，并给予伤\n害。
 
 #org @DESC_TM44
-The user sleeps for\ntwo turns to fully\nrestore HP and heal\nany status problem.
+连续睡上2回合。回\n复自己的全部HP以及\n治愈所有异常状态。
 
 #org @DESC_TM45
-If it is the other\ngender, the foe is\nmade infatuated and\nunlikely to attack.
+拼命地猛撞向对手进\n行攻击。自己也会受\n到不小的伤害。
 
 #org @DESC_TM46
-An attack that may\ntake the foe's held\nitem if the user\nisn't holding one.
+攻击的同时盗取道具。\n当自己携带道具时，\n不会去盗取。
 
 #org @DESC_TM47
-The foe is hit with\nwings of steel.\nIt may also raise\nthe user's DEFENSE.
+用坚硬的翅膀敲打对\n手进行攻击。有时会\n提高自己的防御。
 
 #org @DESC_TM48
-The user employs\nits psychic power\nto swap abilities\nwith the foe.
+全力猛扑对手进行攻\n击。从而降低对手的\n攻击。
 
 #org @DESC_TM49
-Steals the effects\nof the foe's\nhealing or status-\nchanging move.
+将从全身聚集的钢铁\n化为光束，激烈地发\n射出去。自己也会受\n到伤害。
 
 #org @DESC_TM50
-An intense attack\nthat also sharply\nreduces the user's\nSP. ATK stat.
+使出全部力量攻击对\n手。使用之后会因为\n反作用力，自己的特\n攻大幅降低。
 
 #org @DESC_CRAZY_AXE
 
@@ -1084,214 +1084,214 @@ An intense attack\nthat also sharply\nreduces the user's\nSP. ATK stat.
 蕴藏着未知力量的圆环。能让携带着\n超级石战斗的宝可梦进行超级进化。
 
 #org @DESC_TM51
-The user rests and\nrecovers HP. It also\nremoves status conditions.
+降到地面，使身体休\n息。回复自己最大HP\n的一半。
 
 #org @DESC_TM52
-The user heightens its\nmental focus and unleashes\nits power. May low\ntarget SpDef stat.
+提高气势，释放出全\n部力量。有时会降低\n对手的特防。
 
 #org @DESC_TM53
-The user draws power\nfrom nature and fires\nit at the foe. May\nlow target SpDef stat.
+发射从自然收集的生\n命力量。有时会降低\n对手的特防。
 
 #org @DESC_TM54
-A restrained attack that\nprevents the foe from\nfainting. The target is\nleft with at least 1 HP.
+对手的HP至少会留下\n1HP，如此般手下留\n情地攻击。
 
 #org @DESC_TM55
-This move's power is\ndoubled if the\ntarget's HP is at\nhalf or less.
+当对手的HP负伤到一\n半左右时，招式威力\n会变成2倍。
 
 #org @DESC_TM56
-User sharpens its\nclaws to increase\nits Attack and\nAccuracy.
+将爪子磨得更加锋利。\n提高自己的攻击和\n命中率。
 
 #org @DESC_TM57
-User attacks with\nbeam of energy that\nmay also raise its\nSpecial Attack.
+向对手发射电击光束。\n由于蓄满电流，有时\n会提高自己的特攻。
 
 #org @DESC_TM58
-The user endures any\nhit with 1 HP left.\nIt may fail if used\nin succession.
+即使受到攻击，也至\n少会留下1HP。连续\n使出则容易失败。
 
 #org @DESC_TM59
-The target is attacked\nwith a shock wave\ngenerated by the user's\ngaping mouth.
+从大大的口中掀起冲\n击波攻击对手。
 
 #org @DESC_TM60
-User attacks with an\nenergy-draining\npunch that restores\nthe user's HP.
+用拳头吸取对手的力\n量。可以回复给予对\n手伤害的一半HP。
 
 #org @DESC_TM61
-The user shoots a\nsinister flame at\nthe target to\ninflict a burn.
+放出怪异的火焰，从\n而让对手陷入灼伤状\n态。
 
 #org @DESC_TM62
-The foe is attacked\nwith a silver dust.\nIt may raise all\nthe user's stats.
+在风中掺入鳞粉攻击\n对手。有时会提高自\n己的全部能力。
 
 #org @DESC_TM63
-The foe is soaked by\na special acid. Its\npower doubles if the\nfoe is poisoned.
+将特殊的毒液泼向对\n手。对处于中毒状态\n的对手，威力会变成\n2倍。
 
 #org @DESC_TM64
-The user explodes to\ninflict terrible\ndamage even while\nfainting itself.
+引发大爆炸，攻击自\n己周围所有的宝可梦。\n使用后自己会陷入昏\n厥。
 
 #org @DESC_TM65
-User slashes with a\nsharp claw made from\nshadows. Critical\nhits land easily.
+以影子做成的锐爪，\n劈开对手。容易击中\n要害。
 
 #org @DESC_TM66
-If the user can use\nthis attack after\nthe foe attacks, its\npower is doubled.
+蓄力攻击。如果能在\n对手之后攻击，招式\n的威力会变成2倍。
 
 #org @DESC_TM67
-A move that recycles\na used item for use\nonce more.
+使战斗中已经消耗掉\n的自己的持有物再生，\n并可以再次使用。
 
 #org @DESC_TM68
-User charges at the\nfoe using every bit\nof its power. Must\nrecharge next turn.
+使出自己浑身力量突\n击对手。下一回合自\n己将无法动弹。
 
 #org @DESC_TM69
-User polishes its\nbody to reduce drag.\nIt can sharply raise\nthe Speed stat.
+打磨自己的身体，减\n少空气阻力。可以大\n幅提高自己的速度。
 
 #org @DESC_TM70
-A blast of light\nthat cuts the foe's\naccuracy. It also\nilluminates caves.
+使出光芒，从而降低\n对手的命中率。也可\n在阴暗的洞窟里照亮\n四周。
 
 #org @DESC_TM71
-The user stabs the target\nwith sharpened stones\nfrom below. Critical hits\nland more easily.
+用尖尖的岩石刺入对\n手进行攻击。容易击\n中要害。
 
 #org @DESC_TM72
-This move's power is\ndoubled if target has\ninflicted damage on\nuser in same turn.
+如果受到对手的招式\n攻击，就能给予该对\n手2倍威力的攻击。
 
 #org @DESC_TM73
-A weak electric\nshock that is sure\nto cause paralysis\nif it hits.
+向对手发出微弱的电\n击，从而让对手陷入\n麻痹状态。
 
 #org @DESC_TM74
-Tackles the foe with\na high-speed spin.\nThe slower the user,\nthe greater the damage.
+让身体高速旋转并撞\n击对手。速度比对手\n越慢，威力越大。
 
 #org @DESC_TM75
-A frenetic dance of\nfighting. It sharply\nraises the Attack\nstat.
+激烈地跳起战舞提高\n气势。大幅提高自己\n的攻击。
 
 #org @DESC_TM76
-Levitating rocks\nare laid around the\nfoe's party to hurt\nfoes switching in.
+将无数岩石悬浮在对\n手的周围，从而对替\n换出场的对手的宝可\n梦给予伤害。
 
 #org @DESC_TM77
-Cloaking itself in\nflame, the user\nattacks. The user\nraises its Speed stat.
+让火焰覆盖全身，攻\n击对手。积蓄力量并\n提高自己的速度。
 
 #org @DESC_TM78
-The user attacks\nthe foe's legs,\nlowering its\nSpeed stat.
+以敏捷的动作瞄准对\n手的脚进行攻击。降\n低对手的速度。
 
 #org @DESC_TM79
-User releases a horrible\naura imbued with dark\nthoughts. It may also\nmake the target flinch.
+从体内发出充满恶意\n的恐怖气场。有时会\n使对手畏缩。
 
 #org @DESC_TM80
-Large boulders are\nhurled at the foe.\nIt may make the\nfoe flinch.
+将大岩石猛烈地撞向\n对手进行攻击。有时\n会使对手畏缩。
 
 #org @DESC_TM81
-The user slashes\nthe foe with crossed\nclaws as if they\nwere scissors.
+将镰刀或爪子像剪刀\n般地交叉，顺势劈开\n对手。
 
 #org @DESC_TM82
-While asleep, the\nuser randomly uses\none of the moves it\nknows.
+从自己已学会的招式\n中任意使出1个。只\n能在自己睡觉时使用。
 
 #org @DESC_TM83
-Boiling water is\nshot at the foe.\nIt may also cause\na burn.
+向对手喷射煮得翻滚\n的开水进行攻击。有\n时会让对手陷入灼伤\n状态。
 
 #org @DESC_TM84
-The foe is stabbed\nby an arm steeped\nin poison. It may\nalso poison the foe.
+用带毒的触手或手臂\n刺入对手。有时会让\n对手陷入中毒状态。
 
 #org @DESC_TM85
-The user eats the\nfoe's dreams to deal\ndamage and\nrecover HP.
+吃掉正在睡觉的对手\n的梦进行攻击。回复\n对手所受到伤害的一\n半HP。
 
 #org @DESC_TM86
-Grass snares and\ntrips the foe. It\ndoes more damage\nto heavier foes.
+用草缠住并绊倒对手。\n对手越重，威力越大。
 
 #org @DESC_TM87
-A move that makes\nthe foe confused,\nbut also sharply\nraises its Attack.
+显示恐怖幻影，只给\n予对手和自己等级相\n同的伤害。
 
 #org @DESC_TM88
-User pecks the foe.\nIf foe is holding a\nBerry, the user\ngains its effect.
+用喙进行攻击。当对\n手携带树果时，可以\n食用并获得其效果。
 
 #org @DESC_TM89
-After attacking,\nthe user switches\nplaces with a\nparty Pokémon.
+在攻击之后急速返回，\n和后备宝可梦进行替\n换。
 
 #org @DESC_TM90
-The user creates a\nsubstitute for itself using\nsome of its HP.
+削减少许自己的HP，\n制造分身。分身将成\n为自己的替身。
 
 #org @DESC_TM91
-Light energy is\nshot at the foe.\nIt may also lower\nthe foe's Sp. Def.
+将身体的光芒聚集在\n一点释放出去。有时\n会降低对手的特防。
 
 #org @DESC_TM92
-After attacking,\nthe user switches\nplaces with a\nparty Pokémon.
+在攻击之后急速返回，\n和后备宝可梦进行替\n换。
 
 #org @DESC_TM93
-The foe is made to\nswitch out with an\nally. In the wild,\nthe battle ends.
+弹飞对手，强制拉后\n备宝可梦上场。如果\n对手为野生宝可梦，\n战斗将直接结束。
 
 #org @DESC_TM94
-If the target is\nholding a Berry, the\nBerry becomes burnt\nup and unusable.
+用火焰攻击对手。对\n手携带树果等时，会\n烧掉，使其不能使用。
 
 #org @DESC_TM95
-Resisting, the user\nattacks the opposing\nPokémon. Foe's SpAtk\nstat is reduced.
+抵抗并攻击对手。降\n低对手的特攻。
 
 #org @DESC_TM96
-The user hits all\nPokémon in battle\nby stomping. Lowers\nSpeed of those hit.
+用力踩踏地面并攻击\n自己周围所有的宝可\n梦。会降低对方的速\n度。
 
 #org @DESC_TM97
-User blows a cold\nbreath on target.\nThis attack always\nlands critical hit.
+将冰冷的气息吹向对\n手进行攻击。必定会\n击中要害。
 
 #org @DESC_TM98
-The user rouses\nitself to raise\nits Attack and\nSp. Atk stats.
+激励自己，从而提高\n攻击和特攻。
 
 #org @DESC_TM99
-The user throws an\nelectrified tackle.\nIt hurts the user\na little.
+让电流覆盖全身撞向\n对手进行攻击。自己\n也会受到少许伤害。
 
 #org @DESC_TM100
-Target is infested\nand attacked for 4\nto 5 turns. Foe cant\nflee during effect.
+喷出能溶化对手的液\n体进行攻击。大幅降\n低对手的特防。
 
 #org @DESC_TM101
-Striking over and\nover hardens the\nuser's fists.\nRaises Attack.
+通过反复击打对手，\n使自己的拳头慢慢变\n硬。打中对手攻击就\n会提高。
 
 #org @DESC_TM102
-The user damages\nopposing Pokémon\nby emitting a\npowerful flash.
+向对手发射强光，并\n给予伤害。
 
 #org @DESC_TM103
-The user releases a\ntoxic wave that may\nalso poison the foe.
+用污泥波攻击自己周\n围所有的宝可梦。有\n时会陷入中毒状态。
 
 #org @DESC_TM104
-An odd psychic wave\nattacks the target.\nThis attack does\nphysical damage.
+将神奇的念波实体化\n攻击对手。给予物理\n伤害。
 
 #org @DESC_TM105
-User swings its body\naround violently to\ninflict damage on\neverything.
+用自己的身体狂舞挥\n打，给予对手伤害。
 
 #org @DESC_TM106
-The user stabs the\ntarget with a sharp\nhorn. This attack\nnever misses.
+用尖尖的角刺入对手\n进行攻击。攻击必定\n会命中。
 
 #org @DESC_TM107
-User nimbly strikes\nthe target. Power\ndoubled if user's\nnot holding a item.
+轻巧地攻击对手。自\n己没有携带道具时，\n会给予较大的伤害。
 
 #org @DESC_TM108
-User yells as if it\nis ranting about\nsomething, making\nfoes SpAtk decrease.
+没完没了地大声斥责，\n从而降低对手的特攻。
 
 #org @DESC_TM109
-A strong wind blows\naway foes barriers.\nThis also lowers the\ntargets evasiveness.
+用强风吹开对手的反\n射壁或光墙等。也会\n降低对手的闪避率。
 
 #org @DESC_TM110
-If it is the opposite\ngender of the user,\nthe foe is charmed\ninto lower its SpAtk.
+用一个吻吸取对手的\nHP。回复给予对手伤\n害的一半以上的HP。
 
 #org @DESC_TM111
-User throws a stone\nor projectile. A\nflying Pokémon will\nfall to the ground.
+让对手掉落于地裂的\n裂缝中进行攻击。只\n要命中就会一击昏厥。
 
 #org @DESC_TM112
-User emits a musical\nsound. Others can\njoin in the Round to\nboost atk's power.
+用歌声攻击对手。同\n伴还可以接着使出轮\n唱招式，威力也会提\n高。
 
 #org @DESC_TM113
-User releases an\nechoed voice. If move\nis used every turn,\ndoes greater damage.
+用回声攻击对手。如\n果每回合都有宝可梦\n接着使用该招式，威\n力就会提高。
 
 #org @DESC_TM114
-The user draws power\nto attack by using\nits held Berry.
+用3种光线进行攻击。\n有时会让对手陷入麻\n痹、灼伤或冰冻的状\n态。
 
 #org @DESC_TM115
-The user suppresses\nthe target and makes\nits move go last.
+压制对手，从而将其\n行动顺序放到最后。
 
 #org @DESC_TM116
-The user creates a\nbizarre area in\nwhich slower Pokémon\nget to move first.
+制造出离奇的空间。\n在5回合内速度慢的\n宝可梦可以先行动。
 
 #org @DESC_TM117
-The user flings its\nheld item at the foe\nto attack. The Power\ndepends on the item.
+快速投掷携带的道具\n进行攻击。根据道具\n不同，威力和效果会\n改变。
 
 #org @DESC_TM118
-This move reduces\ndamage from physical\nand special moves\nfor five turns.
+在5回合内减弱物理\n和特殊的伤害。只有\n下雪时才能使出。
 
 #org @DESC_TM119
-The user takes the\ntarget into the sky,\nthen drops it during\nthe next turn.
+从身体放射出怪异电\n波，让对手沐浴其中，\n从而大幅降低其特攻。
 
 #org @DESC_TM120
-An attack that\nchanges type\ndepending on the\nuser's location.
+用自然之力进行攻击。\n根据所使用场所的\n不同，使出的招式也\n会有所变化。
 
 #org @DESC_OCCA_BERRY
 让宝可梦携带后，在受到效果绝佳的\n火属性招式攻击时，令其威力减弱。
@@ -1553,141 +1553,6 @@ An attack that\nchanges type\ndepending on the\nuser's location.
 
 #org @DESC_ULTRANECROZIUM_Z
 Z力量的结晶。会将奈克洛兹玛的光\n子喷涌升级成Z招式。
-
-#org @DESC_VENUSAURITE
-Have Venusaur hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_CHARIZARDITE
-Have Charizard hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_BLASTOISINITE
-Have Blastoise hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_BEEDRILLITE
-Have Beedrill hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_PIDGEOTITE
-Have Pidgeot hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_ALAKAZITE
-Have Alakazam hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_SLOWBRONITE
-Have Slowbro hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_GENGARITE
-Have Gengar hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_KANGASKHANITE
-Have Kangaskhan hold this, and\nthis stone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_PINSIRITE
-Have Pinsir hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_GYARADOSITE
-Have Gyarados hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_AERODACTYLITE
-Have Aerodactyl hold this, and\nthis stone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_MEWTWONITE
-Have Mewtwo hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_AMPHAROSITE
-Have Ampharos hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_STEELIXITE
-Have Steelix hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_SCIZORITE
-Have Scizor hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_HERACRONITE
-Have Heracross hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_HOUNDOOMINITE
-Have Houndoom hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_TYRANITARITE
-Have Tyranitar hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_SCEPTILITE
-Have Sceptile hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_BLAZIKENITE
-Have Blaziken hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_SWAMPERTITE
-Have Swampert hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_GARDEVOIRITE
-Have Gardevoir hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_SABLENITE
-Have Sableye hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_MAWILITE
-Have Mawile hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_AGGRONITE
-Have Aggron hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_MEDICHAMITE
-Have Medicham hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_MANECTITE
-Have Manectric hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_SHARPEDONITE
-Have Sharpedo hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_CAMERUPTITE
-Have Camerupt hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_ALTARIANITE
-Have Altaria hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_BANETTITE
-Have Banette hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_ABSOLITE
-Have Absol hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_GLALITITE
-Have Glalie hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_SALAMENCITE
-Have Salamence hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_METAGROSSITE
-Have Metagross hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_LATIASITE
-Have Latias hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_LATIOSITE
-Have Latios hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_LOPUNNITE
-Have Lopunny hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_GARCHOMPITE
-Have Garchomp hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_LUCARIONITE
-Have Lucario hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_ABOMASITE
-Have Abomasnow hold this, and this\nstone will enable it to Mega\nEvolve during battle.
-
-#org @DESC_GALLADITE
-Have Gallade hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_AUDINITE
-Have Audino hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
-
-#org @DESC_DIANCITE
-Have Diancie hold this, and this\nstone will enable it to Mega Evolve\nduring battle.
 
 #org @DESC_NORMALIUM_Z
 Z力量的结晶。会将一般属性的招式\n升级成Z招式。
@@ -2277,5 +2142,50 @@ Z力量的结晶。会将卡璞们的自然之\n怒升级成Z招式。
 #org @DESC_PORTABLE_PC
 一台便携式电脑，内含与宝可梦\n相关的实用操作功能。
 
+#org @DESC_VENUSAURITE
+#org @DESC_CHARIZARDITE
+#org @DESC_BLASTOISINITE
+#org @DESC_BEEDRILLITE
+#org @DESC_PIDGEOTITE
+#org @DESC_ALAKAZITE
+#org @DESC_SLOWBRONITE
+#org @DESC_GENGARITE
+#org @DESC_KANGASKHANITE
+#org @DESC_PINSIRITE
+#org @DESC_GYARADOSITE
+#org @DESC_AERODACTYLITE
+#org @DESC_MEWTWONITE
+#org @DESC_AMPHAROSITE
+#org @DESC_STEELIXITE
+#org @DESC_SCIZORITE
+#org @DESC_HERACRONITE
+#org @DESC_HOUNDOOMINITE
+#org @DESC_TYRANITARITE
+#org @DESC_SCEPTILITE
+#org @DESC_BLAZIKENITE
+#org @DESC_SWAMPERTITE
+#org @DESC_GARDEVOIRITE
+#org @DESC_SABLENITE
+#org @DESC_MAWILITE
+#org @DESC_AGGRONITE
+#org @DESC_MEDICHAMITE
+#org @DESC_MANECTITE
+#org @DESC_SHARPEDONITE
+#org @DESC_CAMERUPTITE
+#org @DESC_ALTARIANITE
+#org @DESC_BANETTITE
+#org @DESC_ABSOLITE
+#org @DESC_GLALITITE
+#org @DESC_SALAMENCITE
+#org @DESC_METAGROSSITE
+#org @DESC_LATIASITE
+#org @DESC_LATIOSITE
+#org @DESC_LOPUNNITE
+#org @DESC_GARCHOMPITE
+#org @DESC_LUCARIONITE
+#org @DESC_ABOMASITE
+#org @DESC_GALLADITE
+#org @DESC_AUDINITE
+#org @DESC_DIANCITE
 #org @DESC_RATICATEITE
 让宝可梦携带后，\n在战斗时就能进行超级进化\n的一种神奇超级石。
