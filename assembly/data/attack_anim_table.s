@@ -1037,6 +1037,7 @@ gMoveAnimations:
 .word ANIM_ALLURINGVOICE
 .word ANIM_TEMPERFLARE
 .word ANIM_SUPERCELLSLAM
+.word ANIM_LIGHTNINGBALL
 .word ANIM_PSYCHICNOISE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -31141,6 +31142,77 @@ SPARKS_PLAYER:
 	waitanimation
 	launchtask AnimTask_pal_fade_complex 0x2 0x6 0x1 | 0x2 0xFFE1 0x1 0x0 0x0 0x5BFF @;ElectricYellow
 	return
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+ANIM_LIGHTNINGBALL:
+	loadparticle ANIM_TAG_CIRCLE_OF_LIGHT @charge
+	loadparticle ANIM_TAG_ELECTRIC_ORBS @launchtask particles
+	loadparticle ANIM_TAG_ORBS @beam particles
+	loadparticle ANIM_TAG_ELECTRICITY @discharge
+	loadparticle ANIM_TAG_SPARK_2 @yellow color
+	loadparticle ANIM_TAG_EXPLOSION @explosion
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_ELECTRIC_ORBS 0x0 0xC 0xC 0x07FE @;Yellow (闪电黄)
+	waitanimation
+	launchtask AnimTask_ChargeBalls 0x2 0x4 bank_attacker 0x14 0x0 0x2
+	playsoundpanchange 0xc2 SOUND_PAN_ATTACKER SOUND_PAN_TARGET 0x2 0x0
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0xF 0x07FE @;Yellow fade
+	launchtask AnimTask_move_bank 0x2 0x5 bank_attacker 0x0 0x4 0x32 0x1
+	launchtask AnimTask_FlashAnimTagWithColor 0x2 0x7 ANIM_TAG_ORBS 0x1 0xc 0x1f 0x10 0x0 0x0
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	launchtask AnimTask_move_bank_2 0x2 0x5 0x1 0x4 0x0 0x32 0x1
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	call LOR_YELLOW_BEAM
+	pause 0x20
+	playsound2 0xab SOUND_PAN_ATTACKER
+	launchtemplate LOR_YELLOWDISCHARGE 0x2 0x3 0x1 0x10 0x10
+	pause 0x2
+	launchtemplate LOR_YELLOWDISCHARGE 0x2 0x3 0x1 0xfff0 0xfff0
+	pause 0x5
+	launchtask AnimTask_move_bank 0x5 0x5 bank_target 0x0 0x5 0xb 0x1
+	launchtemplate LOR_YELLOWEXPLOSION 0x3 0x4 0x0 0x0 0x1 0x1
+	pause 0x10
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x10 0x0 0x7FFF
+	waitanimation
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ALL_BANKS 0x1 0x0 0x0 0x0
+	waitanimation
+	endanimation
+
+LOR_YELLOW_BEAM:
+    launchtemplate LOR_YELLOWPARTICLES TEMPLATE_TARGET | 2, 0x0
+    launchtemplate LOR_YELLOWPARTICLES TEMPLATE_TARGET | 2, 0x0
+    pause 0x1
+    return
+
+.align 2
+LOR_YELLOWPARTICLES: objtemplate ANIM_TAG_ORBS ANIM_TAG_SPARK_2 OAM_OFF_8x8 0x83E2A20 0x0 gDummySpriteAffineAnimTable 0x80A25ED
+LOR_YELLOWAFTERMATH: objtemplate ANIM_TAG_SMALL_BUBBLES ANIM_TAG_SPARK_2 OAM_NORMAL_BLEND_16x16 0x83E5A78 0x0 0x83E6AB4 0x80B1839
+LOR_YELLOWDISCHARGE: objtemplate ANIM_TAG_ELECTRICITY ANIM_TAG_SPARK_2 OAM_OFF_32x32 0x83E6200 0x0 gDummySpriteAffineAnimTable 0x80AE775
+LOR_YELLOWEXPLOSION: objtemplate ANIM_TAG_EXPLOSION ANIM_TAG_SPARK_2 OAM_OFF_32x32 0x83E3F90 0x0 gDummySpriteAffineAnimTable SpriteCB_AnimSpriteOnMonPos
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

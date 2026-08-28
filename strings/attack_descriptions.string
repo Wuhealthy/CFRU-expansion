@@ -2696,5 +2696,8 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 #org @DESC_SUPERCELLSLAM
 让身体带电后压向对\n手。如果没有命中则\n自己会受到伤害。
 
+#org @DESC_LIGHTNINGBALL
+向对手发射凝聚电能\n的球形光弹进行攻击。\n有时会降低对手的命\n中率。
+
 #org @DESC_PSYCHICNOISE
 用令对手不舒服的音\n波进行攻击。让对手\n在2回合内无法通过\n招式、特性或携带的\n道具回复HP。
