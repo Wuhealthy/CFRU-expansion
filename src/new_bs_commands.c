@@ -785,12 +785,12 @@ void atkFF19_formchange(void)
 void atkFF1A_jumpifabilitypresentattackerfield(void)
 {
 	ability_t ability = T1_READ_16(gBattlescriptCurrInstr + 2);
-	u8* ptr = T1_READ_PTR(gBattlescriptCurrInstr + 4);
+	u8* ptr = T1_READ_PTR(gBattlescriptCurrInstr + 3);
 
 	if (AbilityBattleEffects(ABILITYEFFECT_CHECK_BANK_SIDE, gBankAttacker, ability, 0, 0))
 		gBattlescriptCurrInstr = ptr;
 	else
-		gBattlescriptCurrInstr += 8;
+		gBattlescriptCurrInstr += 7;
 }
 
 //tryactivateswitchinability BANK
