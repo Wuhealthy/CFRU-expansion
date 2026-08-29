@@ -2286,7 +2286,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 
 			case ABILITY_ROUGHSKIN:
 			case ABILITY_IRONBARBS:
-			case ABILITY_SPIKECLAW:
 				if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
 				&& BATTLER_ALIVE(gBankAttacker)
@@ -2664,6 +2663,31 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
         			BattleScriptPushCursor();
         			gBattlescriptCurrInstr = BattleScript_RoughSkinActivates;
         			effect++;
+    			}
+    			break;
+
+			case ABILITY_SPIKECLAW:	//斗志
+				if (MOVE_HAD_EFFECT
+    			&& TOOK_DAMAGE(bank)
+    			&& BATTLER_ALIVE(bank)
+    			&& gBankAttacker != bank
+				&& gBattleMons[bank].hp < gBattleMons[bank].maxHP / 3
+    			&& gBattleMons[bank].hp + gHpDealt > gBattleMons[bank].maxHP / 3)
+    			{
+        			u8 side = SIDE(bank);
+					u8 partyId = gBattlerPartyIndexes[bank];
+
+					if (!gNewBS->oncePerBattleAbilityFlags[side][partyId])
+        			{
+        				gNewBS->oncePerBattleAbilityFlags[side][partyId] = TRUE;
+        
+        				gBattleMoveDamage = -(gBattleMons[bank].maxHP - gBattleMons[bank].hp);
+        
+        				gBattleScripting.bank = bank;
+						BattleScriptPushCursor();
+        				gBattlescriptCurrInstr = BattleScript_SpikeClawActivates;
+            			effect++;
+					}
     			}
     			break;
 

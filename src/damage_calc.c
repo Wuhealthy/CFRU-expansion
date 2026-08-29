@@ -3033,13 +3033,9 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 		case ITEM_EFFECT_THICK_CLUB:
 		//2x Boost
 			if (data->atkSpecies == SPECIES_CUBONE
-			#ifdef SPECIES_MAROWAK
 			||  data->atkSpecies == SPECIES_MAROWAK
-			#endif
-			#ifdef SPECIES_MAROWAK_A
 			||  data->atkSpecies == SPECIES_MAROWAK_A
-			#endif
-			)
+			||  data->atkSpecies == SPECIES_MAROWAK_MEGA)
 			{
 				if (!IsScaleMonsBattle() //Too OP
 				|| !IsSpeciesAffectedByScalemons(data->atkSpecies)) //Doesn't get the Scalemons boost
@@ -4458,7 +4454,6 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
     		break;
 
 		case ABILITY_TOUGHCLAWS:
-		case ABILITY_SPIKECLAW:
 		//1.3x Boost
 			if (((!useMonAtk && IsContactMove(move, bankAtk, bankDef))
 			   || (useMonAtk && gBattleMoves[move].flags & FLAG_MAKES_CONTACT)) //Party mons can't use any fancy calculations for contact moves

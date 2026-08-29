@@ -145,6 +145,9 @@
 #org @gText_DefensiveToOffensiveActivate
 [SCRIPTING_BANK]\n转守为攻了！
 
+#org @gText_SpikeClawHeal
+[SCRIPTING_BANK]\n完全回复了HP！
+
 #org @gText_BeadsofRuin
 [SCRIPTING_BANK]的灾祸之玉\n令周围的宝可梦的特防减弱了！
 

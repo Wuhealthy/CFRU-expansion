@@ -2681,7 +2681,6 @@ static u32 GetContactDamageByDefAbilityItemEffect(ability_t defAbility, u8 defIt
 	u32 dmg = 0;
 
 	if (defAbility == ABILITY_ROUGHSKIN
-	|| defAbility == ABILITY_SPIKECLAW
 	|| defAbility == ABILITY_IRONBARBS)
 		dmg += baseMaxHP / 8;
 
@@ -3066,7 +3065,6 @@ bool8 BadIdeaToMakeContactWith(u8 bankAtk, u8 bankDef)
 			break;
 		case ABILITY_ROUGHSKIN:
 		case ABILITY_IRONBARBS:
-		case ABILITY_SPIKECLAW:
 			badIdea = atkAbility != ABILITY_MAGICGUARD;
 			break;
 		case ABILITY_PICKPOCKET:

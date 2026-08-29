@@ -351,7 +351,7 @@
 #define ABILITY_BROKENCLAW                           345    //断钳
 #define ABILITY_STELLARENERGY                        346    //星光能量
 #define ABILITY_SPEEDDIVE                            347    //俯冲
-#define ABILITY_SPIKECLAW                            348    //尖刺利爪
+#define ABILITY_SPIKECLAW                            348    //斗志
 #define ABILITY_GUARDSCALE                           349    //守护鳞片
 #define ABILITY_BRUTALFORCE                          350    //强攻
 

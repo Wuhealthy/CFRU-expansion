@@ -122,6 +122,7 @@ ability_battle_scripts.s
 .global BattleScript_ProtosynthesisActivates2
 .global BattleScript_BoosterEnergyActivates
 .global BattleScript_BrokenClawSubstitute
+.global BattleScript_SpikeClawActivates
 .global BattleScript_SetPuppetConfusion
 .global BattleScript_MoveEffectConfusion
 .global BattleScript_ToxicDebrisActivates
@@ -1620,6 +1621,30 @@ BattleScript_BoosterEnergyActivates:
 	call BattleScript_AbilityPopUpRevert
 	removeitem BANK_SCRIPTING
 	end3
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+BattleScript_SpikeClawActivates:
+    call BattleScript_AbilityPopUp
+    orword HIT_MARKER, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_NON_ATTACK_DMG | HITMARKER_GRUDGE
+	playanimation BANK_SCRIPTING ANIM_HEALING_SPARKLES 0x0
+    waitanimation
+    graphicalhpupdate BANK_SCRIPTING
+    datahpupdate BANK_SCRIPTING
+    setword BATTLE_STRING_LOADER gText_SpikeClawHeal
+    printstring 0x184
+    waitmessage DELAY_1SECOND
+	jumpifstat BANK_SCRIPTING EQUALS STAT_ATK STAT_MAX SpikeClaw_AttackBoostEnd
+    setbyte STAT_ANIM_PLAYED 0x0
+    playstatchangeanimation BANK_SCRIPTING, STAT_ANIM_ATK, STAT_ANIM_UP | STAT_ANIM_IGNORE_ABILITIES
+	setstatchanger STAT_ATK | INCREASE_1
+    statbuffchange BANK_SCRIPTING | STAT_BS_PTR | STAT_CERTAIN SpikeClaw_AttackBoostEnd
+    jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 SpikeClaw_AttackBoostEnd
+    printfromtable gStatUpStringIds
+    waitmessage DELAY_1SECOND
+
+SpikeClaw_AttackBoostEnd:
+	call BattleScript_AbilityPopUpRevert
+    return
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 BattleScript_BrokenClawSubstitute:
