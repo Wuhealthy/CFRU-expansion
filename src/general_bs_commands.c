@@ -2904,7 +2904,7 @@ void atk8D_setmultihitcounter(void) {
 	if (gBattlescriptCurrInstr[1])
 		gMultiHitCounter = gBattlescriptCurrInstr[1];
 
-	if (ABILITY(gBankAttacker) == ABILITY_SKILLLINK || ABILITY(gBankAttacker) == ABILITY_BIOSHELL)
+	if (ABILITY(gBankAttacker) == ABILITY_SKILLLINK)
 		gMultiHitCounter = 5;
 
 	#ifdef SPECIES_ASHGRENINJA

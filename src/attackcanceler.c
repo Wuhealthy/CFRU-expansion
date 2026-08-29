@@ -975,14 +975,14 @@ static u8 AtkCanceller_UnableToUseMove(void)
 				}
 				else if (gCurrentMove == MOVE_POPULATIONBOMB)
 				{
-					if (ability == ABILITY_SKILLLINK || ability == ABILITY_BIOSHELL)
+					if (ability == ABILITY_SKILLLINK)
 						gMultiHitCounter = 10;
 					else if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_LOADED_DICE)
 						gMultiHitCounter = 4 + (Random() % 7);
 					else
 						gMultiHitCounter = 10;
 				}
-				else if (ability == ABILITY_SKILLLINK || ability == ABILITY_BIOSHELL)
+				else if (ability == ABILITY_SKILLLINK)
 				{
 					gMultiHitCounter = 5;
 				}

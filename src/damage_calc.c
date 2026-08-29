@@ -432,7 +432,7 @@ static u8 GetNumHitsBasedOnMove(u16 move, ability_t atkAbility, unusedArg u16 at
 		numHits = 3;
 	else if (gSpecialMoveFlags[move].gTwoToFiveStrikesMoves)
 	{
-		if (atkAbility == ABILITY_SKILLLINK || atkAbility == ABILITY_BIOSHELL)
+		if (atkAbility == ABILITY_SKILLLINK)
 			numHits = 5;
 		else
 			numHits = 3; //Three hits on average
@@ -4499,6 +4499,12 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 		case ABILITY_ANALYTIC:
 		//1.3x Boost
 			if (BankMovedBefore(bankDef, bankAtk))
+				power = (power * 13) / 10;
+			break;
+
+		case ABILITY_BIOSHELL:
+		//1.3x Boost
+			if (BankMovedBeforeIgnoreSwitch(bankAtk, bankDef))
 				power = (power * 13) / 10;
 			break;
 
