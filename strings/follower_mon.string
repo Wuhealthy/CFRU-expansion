@@ -1,206 +1,203 @@
-#org @gText_FollowerMon_Test
-[BUFFER1] eagerly looks around, \nready for adventure!
-
 #org @sText_HappyJumping
-[BUFFER1] is jumping with joy!
+[BUFFER1]\n高兴地跳了起来！
 
 #org @sText_LooksLonely
-[BUFFER1] looks a little lonely…
+[BUFFER1]\n看起来有点孤单……
 
 #org @sText_TiredButReady
-[BUFFER1] looks tired but ready to keep going.
+[BUFFER1]\n看起来很累，但还是准备继续前进。
 
 #org @sText_StatusAsleep
-[BUFFER1] dreaming deeply.
+[BUFFER1]\n睡得很香。
 
 #org @sText_StatusParalyzed
-[BUFFER1] struggling to move.
+[BUFFER1]\n动弹不得。
 
 #org @sText_StatusPoisoned
-[BUFFER1] seems to be in discomfort.
+[BUFFER1]\n似乎很不舒服。
 
 #org @sText_StatusBurned
-[BUFFER1] is trembling slightly \nfrom the heat.
+[BUFFER1]\n因为灼伤而微微颤抖。
 
 #org @sText_StatusFrozen
-[BUFFER1] looks stiff and chilly.
+[BUFFER1]\n看起来身体僵硬，冷冰冰的。
 
 #org @sText_TypeFire
-[BUFFER1] warms up the area around you.
+[BUFFER1]\n让周围的温度渐渐升了起来。
 
 #org @sText_TypeWater
-You feel a cool mist around.
+你感到周围有一阵清凉的薄雾。
 
 #org @sText_TypeElectric
-The air feels slightly charged.
+空气中有轻微的静电感。
 
 #org @sText_TypeGrass
-There's a fresh scent of grass nearby.
+附近飘来清新的青草气息。
 
 #org @sText_TypeIce
-It's suddenly a bit colder near [BUFFER1].
+[BUFFER1]\n附近突然变得有点冷。
 
 #org @sText_TypeFighting
-[BUFFER1] looks ready to spar.
+[BUFFER1]\n看起来随时准备切磋。
 
 #org @sText_TypeFlying
-A breeze follows [BUFFER1] as it moves.
+[BUFFER1]\n移动时，有微风随之而来。
 
 #org @sText_TypePoison
-There's a strange, sharp smell in the air...
+空气中有一股奇怪刺鼻的气味……
 
 #org @sText_TypeGround
-The ground seems to tremble slightly.
+地面似乎在微微颤动。
 
 #org @sText_TypeRock
-You hear the faint crunch of gravel underfoot.
+你听到脚下碎石发出的细微声响。
 
 #org @sText_TypeBug
-You hear faint buzzing near [BUFFER1].
+你听到[BUFFER1]附近\n传来微弱的嗡嗡声。
 
 #org @sText_TypeGhost
-A chill runs down your spine...
+一股寒意顺着你的脊椎蔓延……
 
 #org @sText_TypeSteel
-You hear metallic clinking as [BUFFER1] moves.
+你听到[BUFFER1]移动时\n发出金属碰撞的叮当声。
 
 #org @sText_TypePsychic
-You feel like something is watching you.
+你感觉有什么东西在注视着你。
 
 #org @sText_TypeDragon
-[BUFFER1]'s presence feels powerful.
+[BUFFER1]的存在感十分强大。
 
 #org @sText_TypeDark
-You feel a shadow following you...
+你感觉有一个影子在跟着你……
 
 #org @sText_TypeFairy
-There's a soft shimmer in the air around [BUFFER1].
+[BUFFER1]\n周身环绕着一层柔和的微光。
 
 #org @sText_TypeNormal
-Nothing seems out of the ordinary.
+没有什么异常。
 
 #org @sText_FoundItem
-[BUFFER1] found something!\pAdded to the bag!
+[BUFFER1]\n发现了什么东西！\p已添加到包包中！
 
 #org @sText_IdleLookingAround
-[BUFFER1] eagerly looks around, \nready for adventure!
+[BUFFER1]\n迫不及待地环顾四周，准备冒险！
 
 #org @sText_IdleBored
-[BUFFER1] seems a bit bored…
+[BUFFER1]\n看起来有点无聊……
 
 #org @sText_IdleStretching
-[BUFFER1] is stretching and \nrelaxing a bit.
+[BUFFER1]\n正在伸懒腰，稍微放松一下。
 
 #org @sText_IdleTailWag
-[BUFFER1] wagging its tail happily.
+[BUFFER1]\n开心地摇着尾巴。
 
 #org @sText_RecallsMetLocation
-[BUFFER1] seems to miss [BUFFER2]\na little.
+[BUFFER1]\n似乎有点想念[BUFFER2]。
 
 #org @sText_NatureHardy
-[BUFFER1] is standing firm.
+[BUFFER1]\n稳稳地站着不动。
 
 #org @sText_NatureLonely
-[BUFFER1] looks a little lonely...
+[BUFFER1]\n看起来有点孤单……
 
 #org @sText_NatureBrave
-[BUFFER1] seems fearless.
+[BUFFER1]\n看起来无所畏惧。
 
 #org @sText_NatureAdamant
-[BUFFER1] is flexing its muscles!
+[BUFFER1]\n正在炫耀它的肌肉！
 
 #org @sText_NatureNaughty
-[BUFFER1] is looking mischievous!
+[BUFFER1]\n看起来顽皮极了！
 
 #org @sText_NatureBold
-[BUFFER1] is puffing its chest.
+[BUFFER1]\n挺起了胸膛。
 
 #org @sText_NatureDocile
-[BUFFER1] is calmly watching.
+[BUFFER1]\n正平静地观察着。
 
 #org @sText_NatureRelaxed
-[BUFFER1] looks chill.
+[BUFFER1]\n看起来很放松。
 
 #org @sText_NatureImpish
-[BUFFER1] is grinning playfully.
+[BUFFER1]\n调皮地咧嘴笑着。
 
 #org @sText_NatureLax
-[BUFFER1] is wagging lazily.
+[BUFFER1]\n懒洋洋地摇着尾巴。
 
 #org @sText_NatureTimid
-[BUFFER1] is hiding behind you.
+[BUFFER1]\n躲在你身后。
 
 #org @sText_NatureHasty
-[BUFFER1] is darting around.
+[BUFFER1]\n正在四处窜来窜去。
 
 #org @sText_NatureSerious
-[BUFFER1] is staying focused.
+[BUFFER1]\n保持着专注。
 
 #org @sText_NatureJolly
-[BUFFER1] is bouncing happily!
+[BUFFER1]\n开心地蹦蹦跳跳！
 
 #org @sText_NatureNaive
-[BUFFER1] is staring in awe.
+[BUFFER1]\n满眼惊叹地凝视着。
 
 #org @sText_NatureModest
-[BUFFER1] is quietly smiling.
+[BUFFER1]\n静静地微笑着。
 
 #org @sText_NatureMild
-[BUFFER1] is humming softly.
+[BUFFER1]\n轻轻地哼着歌。
 
 #org @sText_NatureQuiet
-[BUFFER1] is lost in thought.
+[BUFFER1]\n陷入了沉思。
 
 #org @sText_NatureBashful
-[BUFFER1] blushes when noticed.
+[BUFFER1]\n被注意到时会害羞脸红。
 
 #org @sText_NatureRash
-[BUFFER1] is eager to go!
+[BUFFER1]\n迫不及待想要出发！
 
 #org @sText_NatureCalm
-[BUFFER1] brings a peaceful vibe.
+[BUFFER1]\n带来一种宁静平和的气氛。
 
 #org @sText_NatureGentle
-[BUFFER1] brushes against you.
+[BUFFER1]\n轻轻地蹭着你。
 
 #org @sText_NatureSassy
-[BUFFER1] smirks confidently.
+[BUFFER1]\n自信地得意一笑。
 
 #org @sText_NatureCareful
-[BUFFER1] scans the area cautiously.
+[BUFFER1]\n谨慎地打量着周围。
 
 #org @sText_NatureQuirky
-[BUFFER1] is acting weird again.
+[BUFFER1]\n又开始变得奇怪了。
 
 #org @sText_HoldingFood
-[BUFFER1] munches on something happily.
+[BUFFER1]\n开心地嚼着什么东西。
 
 #org @sText_ChecksHeldItem
-[BUFFER1] fiddles with its held item.
+[BUFFER1]\n摆弄着它携带的道具。
 
 #org @sText_LuxuryBallPride
-[BUFFER1] seems proud of its shiny ball.
+[BUFFER1]\n对自己的豪华球感到自豪。
 
 #org @sText_TryingToStandUpright
-[BUFFER1] tries walking like you.
+[BUFFER1]\n试着像你一样直立行走。
 
 #org @sText_StompingAround
-[BUFFER1] stomps heavily as it walks.
+[BUFFER1]\n重重地跺着脚走路。
 
 #org @sText_SkippingAlong
-[BUFFER1] is skipping cheerfully\nbeside you.
+[BUFFER1]\n在你身边蹦蹦跳跳地走着。
 
 #org @sText_SeemsDistracted
-[BUFFER1] seems to be thinking \nof its old Trainer.
+[BUFFER1]\n似乎在想它的原训练家。
 
 #org @sText_FlexesMuscles
-[BUFFER1] flexes confidently, \nshowing off its strength.
+[BUFFER1]\n自信地鼓起肌肉，炫耀自己的力量。
 
 #org @sText_EnjoyingSunlight
-[BUFFER1] is basking in sunlight!
+[BUFFER1]\n正在沐浴阳光！
 
 #org @sText_NighttimeEnergy
-[BUFFER1] is feeling energized from\nthe moonlight!
+[BUFFER1]\n从月光中获得了能量！
 
 #org @sText_MorningGreeting
-[BUFFER1] yawns[.] Sounds like it's\nsaying "Good morning"!
+[BUFFER1]\n打了个哈欠……\l听起来像是在说早上好！
