@@ -357,5 +357,5 @@ gAbilityDescriptions:
 .word DESC_STELLARENERGY                         @ 346 ABILITY_STELLARENERGY
 .word DESC_SPEEDDIVE                             @ 347 ABILITY_SPEEDDIVE
 .word DESC_SPIKECLAW                             @ 348 ABILITY_SPIKECLAW
-.word DESC_GUARDSCALE                            @ 349 ABILITY_GUARDSCALE
+.word DESC_AURAGUARD                             @ 349 ABILITY_AURAGUARD
 .word DESC_BRUTALFORCE                           @ 350 ABILITY_BRUTALFORCE

@@ -921,7 +921,7 @@ HP全满时受到的伤害变为效果不好
 使用招式时，视为在大晴天下使用
 
 #org @DESC_NEEDLEGRUDGE
-受到攻击时，使对手陷入诅咒状态
+首次受到攻击时，使对手陷入诅咒
 
 #org @DESC_SILENTGRUDGE
 受到声音类招式时免伤并提升特攻
@@ -951,7 +951,7 @@ HP全满时受到的伤害变为效果不好
 出场时，让对手进入意念移物状态
 
 #org @DESC_VOLATILEEXPLOSION
-被接触会炸伤对手并布下电气场地
+首次被接触会炸伤对手并布下电场
 
 #org @DESC_STICKSTICKPASS
 连续攻击两次的招式威力会翻倍
@@ -1020,10 +1020,10 @@ HP低于一半会降低攻击制造出替身
 根据对手的重量相应提高招式威力
 
 #org @DESC_SPIKECLAW
-HP低于1/3时完全回复并提升攻击
+HP首次低于1/3时回满HP并提升攻击
 
-#org @DESC_GUARDSCALE
-同时拥有持久力和硬壳盔甲
+#org @DESC_AURAGUARD
+受到接触类招式的伤害减半
 
 #org @DESC_BRUTALFORCE
 同时拥有强行和无防守

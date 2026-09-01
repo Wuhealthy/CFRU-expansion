@@ -111,7 +111,6 @@ void atk04_critcalc(void)
 
 		if (defAbility == ABILITY_BATTLEARMOR
 		||  defAbility == ABILITY_SHELLARMOR
-		||  defAbility == ABILITY_GUARDSCALE
 		||  CantScoreACrit(gBankAttacker, NULL)
 		||  gBattleTypeFlags & (BATTLE_TYPE_OLD_MAN | BATTLE_TYPE_OAK_TUTORIAL | BATTLE_TYPE_POKE_DUDE)
 		||  gNewBS->LuckyChantTimers[SIDE(bankDef)])
@@ -216,7 +215,6 @@ static u8 CalcPossibleCritChance(u8 bankAtk, u8 bankDef, u16 move, struct Pokemo
 
 	if (defAbility == ABILITY_BATTLEARMOR
 	||  defAbility == ABILITY_SHELLARMOR
-	||  defAbility == ABILITY_GUARDSCALE
 	||  CantScoreACrit(bankAtk, monAtk)
 	||  gBattleTypeFlags & (BATTLE_TYPE_OLD_MAN | BATTLE_TYPE_OAK_TUTORIAL)
 	||  gNewBS->LuckyChantTimers[SIDE(bankDef)])
@@ -3516,6 +3514,12 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			if (data->moveType == TYPE_FIRE)
 				damage *= 2;
 
+			if ((useMonAtk && CheckContactByMon(move, data->monAtk))
+			|| (!useMonAtk && CheckContact(move, bankAtk, bankDef)))
+				damage /= 2;
+			break;
+
+		case ABILITY_AURAGUARD:
 			if ((useMonAtk && CheckContactByMon(move, data->monAtk))
 			|| (!useMonAtk && CheckContact(move, bankAtk, bankDef)))
 				damage /= 2;

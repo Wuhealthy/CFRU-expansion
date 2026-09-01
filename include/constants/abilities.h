@@ -352,7 +352,7 @@
 #define ABILITY_STELLARENERGY                        346    //星光能量
 #define ABILITY_SPEEDDIVE                            347    //俯冲
 #define ABILITY_SPIKECLAW                            348    //斗志
-#define ABILITY_GUARDSCALE                           349    //守护鳞片
+#define ABILITY_AURAGUARD                            349    //波导防护
 #define ABILITY_BRUTALFORCE                          350    //强攻
 
 #define ABILITIES_COUNT                              351
