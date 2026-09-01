@@ -292,6 +292,7 @@ void SetUpStartMenu(void)
 extern u8 sRTCFrameCount;
 extern void RemoveFollowerBeforeBattle(void);
 extern void RestoreFollowerAfterBattle(void);
+extern void RestoreFollowerAfterMenu(void);
 extern void ChangeFollowerPalette(void);
 
 bool8 StartCB_HandleInput(void)
@@ -368,7 +369,7 @@ bool8 StartCB_HandleInput(void)
 		if (sStartMenuOrder[sStartMenuCursorPos] != STARTMENU_SAVE && sStartMenuOrder[sStartMenuCursorPos] != STARTMENU_EXIT &&
 			sStartMenuOrder[sStartMenuCursorPos] != STARTMENU_EXIT_LEFT && sStartMenuOrder[sStartMenuCursorPos] != STARTMENU_EXIT_RIGHT)
 		{
-			RestoreFollowerAfterBattle(); //Restore follower after exiting a menu
+			RestoreFollowerAfterMenu(); //Restore follower without the spawn effect after exiting a menu
 			ChangeFollowerPalette();
 		}
 		CloseStartMenu();

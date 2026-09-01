@@ -1383,8 +1383,16 @@ void RunTurnActionsFunctions(void)
 				{
 					u8 bank1 = gBanksByTurnOrder[i];
 					u8 bank2 = gBanksByTurnOrder[j];
-					if (GetWhoStrikesFirst(bank1, bank2, FALSE))
-						SwapTurnOrder(i, j);
+					if (gActionsByTurnOrder[i] != ACTION_USE_ITEM
+					 && gActionsByTurnOrder[j] != ACTION_USE_ITEM
+					 && gActionsByTurnOrder[i] != ACTION_SWITCH
+					 && gActionsByTurnOrder[j] != ACTION_SWITCH
+					 && gActionsByTurnOrder[i] != ACTION_FINISHED
+					 && gActionsByTurnOrder[j] != ACTION_FINISHED)
+					{
+						if (GetWhoStrikesFirst(bank1, bank2, FALSE))
+							SwapTurnOrder(i, j);
+					}
 				}
 			}
 			*teraBank = 0;

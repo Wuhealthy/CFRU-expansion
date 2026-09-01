@@ -3105,16 +3105,27 @@ const union AnimCmd gEventObjectImageAnim_RunEast[] =
 };
 #endif
 
-/*
-#define ReturnFieldOpenedMenu ((void*)0x0807E3BD)
-void CB2_ReturnToFieldWithOpenMenu(void)
+#define ReturnFieldOpenedMenu ((bool8 (*)(void)) (0x0807E3BD))
+
+static bool8 ReturnFieldOpenedMenuWithFollowerPalette(void)
 {
-    FieldClearVBlankHBlankCallbacks(); 
-    gFieldCallback2 = ReturnFieldOpenedMenu;
-	if (FlagGet(FLAG_FOLLOWER_POKEMON) && gFollowerState.inProgress)
-    	UpdateFollowerMonSprite();
+    bool8 result = ReturnFieldOpenedMenu();
+
+    // The field reload restores the normal object palette after the follower
+    // has already been recreated. Reapply the lead Pokemon's palette only
+    // after the original open-menu callback has finished that work.
+    ChangeFollowerPalette();
+    return result;
+}
+
+void CB2_ReturnToFieldWithOpenMenuHook(void)
+{
+    FieldClearVBlankHBlankCallbacks();
+    gFieldCallback2 = ReturnFieldOpenedMenuWithFollowerPalette;
     CB2_ReturnToField();
 }
+
+/*
 static u16 GetTrainerAFlag(void)
 {
     return FLAG_TRAINER_FLAG_START + gTrainerBattleOpponent_A;
@@ -3273,6 +3284,7 @@ void CB2_WhiteOut(void)
 }
 
 extern void RestoreFollowerAfterBattle(void);
+extern void RestoreFollowerAfterMenu(void);
 void CB2_ReturnToField(void)
 {
     if (IsUpdateLinkStateCBActive() == TRUE)
@@ -3289,7 +3301,10 @@ void CB2_ReturnToField(void)
 		UpdateFollowerMonSprite();
 		ChangeFollowerPalette();
 	}
-	RestoreFollowerAfterBattle();
+	if (gFieldCallback2 == ReturnFieldOpenedMenuWithFollowerPalette)
+		RestoreFollowerAfterMenu();
+	else
+		RestoreFollowerAfterBattle();
 }
 
 const struct Coords32 gDirectionToVectors[] = 

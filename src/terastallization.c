@@ -367,7 +367,7 @@ void TryActivateTeraFormAbility(void)
 		gBankTarget = bank;
 		gBattleScripting.statChanger = stat | INCREASE_1;
 		BattleScriptPush(gBattlescriptCurrInstr + 5);
-		gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise - 5;
+		gBattlescriptCurrInstr = (const u8*)((u32)BattleScript_TargetAbilityStatRaise - 5);
 	}
 }
 
@@ -532,7 +532,7 @@ bool8 TerastalEnabled(u8 bank)
      || gNewBS->dynamaxData.used[bank] || gNewBS->dynamaxData.toBeUsed[bank])
         return FALSE;
 
-    // Opponents don't rely on held Tera Orbs
+    // Opposing trainers must have a Tera Orb in one of their item slots.
     if (GetBattlerSide(bank) == B_SIDE_OPPONENT)
     {
         // Wild Battle check
@@ -543,7 +543,7 @@ bool8 TerastalEnabled(u8 bank)
         if (!FlagGet(FLAG_TERA_BATTLE))
             return FALSE;
 
-        return TRUE; // Allow tera
+        return FindBankTeraOrb(bank) != ITEM_NONE;
     }
 
     // The rest of the code assumes B_SIDE_PLAYER

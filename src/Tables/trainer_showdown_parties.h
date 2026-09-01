@@ -14023,8 +14023,8 @@ static const struct TrainerMonNoItemDefaultMoves sShowdownParty_CueBallPaxton[] 
     },
     {
         .iv = 0,
-        .lvl = 39,
-        .species = SPECIES_MUK,
+        .lvl = 50,
+        .species = SPECIES_HONCHKROW,
     },
 };
 

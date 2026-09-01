@@ -471,19 +471,18 @@ void DebugMenu_ProcessGiveItem(void)
 			AddBagItem(ITEM_MARANGA_BERRY, 100);
 			break;
 		case 4: //TMs & HMs
-			#ifdef UNBOUND //Remove if you want this, enums can't be #ifdefed
-			for (i = ITEM_TM01_FOCUS_PUNCH; i <= ITEM_TM50_OVERHEAT; ++i)
+			//Remove if you want this, enums can't be #ifdefed
+			for (i = ITEM_TM01; i <= ITEM_TM50; ++i)
 				AddBagItem(i, 1);
 
-			for (i = ITEM_TM51_ROOST; i <= ITEM_TM58_ENDURE; ++i)
+			for (i = ITEM_TM51; i <= ITEM_TM58; ++i)
 				AddBagItem(i, 1);
 
-			for (i = ITEM_TM59_DRAGON_PULSE; i <= ITEM_TM120_NATURE_POWER; ++i)
+			for (i = ITEM_TM59; i <= ITEM_TM120; ++i)
 				AddBagItem(i, 1);
 
 			for (i = ITEM_HM01_CUT; i <= ITEM_HM08_ROCK_CLIMB; ++i)
 				AddBagItem(i, 1);
-			#endif
 			break;
 		case 5: //All items
 			for (i = 0; i < ITEMS_COUNT; ++i)
@@ -537,6 +536,7 @@ void DebugMenu_HealTeam(void)
 #include "../include/constants/vars.h"
 #include "../include/new/terastallization.h"
 #define VAR_8000 0x8000
+#define VAR_8001 0x8001
 
 void DebugMenu_GivePokemonFromVar(void)
 {
@@ -552,6 +552,12 @@ void DebugMenu_GivePokemonFromVar(void)
 		return;
 
 	CreateMon(&mon, species, 100, 32, FALSE, 0, OT_ID_PLAYER_ID, 0);
+	if (VarGet(VAR_8001) == TRUE)
+		ForceMonShiny(&mon);
+	else if (IsMonShiny(&mon))
+		GiveMonNatureAndAbility(&mon, GetNature(&mon),
+							GetMonData(&mon, MON_DATA_PERSONALITY, NULL) & 1,
+							FALSE, TRUE, TRUE);
 	gPlayerParty[slot] = mon;
 	gSpecialVar_LastResult = TRUE;
 }

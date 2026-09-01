@@ -1225,6 +1225,10 @@ SystemScript_DebugMenu_GivePokemonPrompt:
 	copyvar 0x8000, LASTRESULT
 	compare 0x8000 0x0
 	if equal _goto SystemScript_DebugMenu_Custom
+	multichoiceoption gText_DebugMenu_ShinyFalse 0
+	multichoiceoption gText_DebugMenu_ShinyTrue 1
+	multichoice 0, 0, TWO_MULTICHOICE_OPTIONS, 0
+	copyvar 0x8001, LASTRESULT
 	callasm DebugMenu_GivePokemonFromVar
 	bufferpokemon 0x0 0x8000
 	compare LASTRESULT 0x1

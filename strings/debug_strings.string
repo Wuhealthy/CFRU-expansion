@@ -58,6 +58,12 @@
 #org @gText_DebugMenu_GivePokemonById
 宝可梦
 
+#org @gText_DebugMenu_ShinyFalse
+是否闪光: 否
+
+#org @gText_DebugMenu_ShinyTrue
+是否闪光: 是
+
 #org @gText_DebugMenu_EnterSpecies
 请输入宝可梦的全国图鉴编号。
 

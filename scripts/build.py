@@ -71,6 +71,12 @@ LDFLAGS = ['BPRE.ld', '-T', 'linker.ld']
 CFLAGS = ['-mthumb', '-mno-thumb-interwork', '-mcpu=arm7tdmi', '-mtune=arm7tdmi',
           '-mno-long-calls', '-march=armv4t', '-Wall', '-Wextra', '-Os', '-fira-loop-pressure', '-fipa-pta', '-nostdlib', '-ffreestanding']
 
+TRAINER_DATA_SOURCE = os.path.normpath(os.path.join(SRC, 'Tables', 'trainer_data.c'))
+TRAINER_DATA_DEPENDENCIES = [
+    os.path.normpath(os.path.join(SRC, 'Tables', 'trainers.party')),
+    os.path.normpath(os.path.join('scripts', 'trainer_party.py')),
+]
+
 
 class Master:
     @staticmethod
@@ -224,6 +230,17 @@ def ProcessAssembly(assemblyFile: str) -> str:
 def ProcessC(cFile: str) -> str:
     """Compile C."""
     objectFile, regenerateObjectFile = MakeGeneralOutputFile(cFile)
+
+    # trainer_data.c includes headers generated from trainers.party. Treat the
+    # source party file and its generator as build dependencies so an
+    # incremental build cannot reuse stale trainer data.
+    if not regenerateObjectFile and os.path.normpath(cFile) == TRAINER_DATA_SOURCE:
+        objectMtime = os.path.getmtime(objectFile)
+        regenerateObjectFile = any(
+            objectMtime <= os.path.getmtime(dependency)
+            for dependency in TRAINER_DATA_DEPENDENCIES
+        )
+
     if regenerateObjectFile is False:
         return objectFile  # No point in recompiling file
     return ProcessCToObjectFile(cFile, objectFile)
