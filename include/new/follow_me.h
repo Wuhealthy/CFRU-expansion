@@ -31,6 +31,7 @@ void FollowMe_WarpSetEnd(void);
 bool8 IsFollowerAtCoords(s16 x, s16 y);
 void CreateFollowerAvatar(void);
 void TryAttachFollowerToPlayer(void);
+bool8 IsFollowerPokemon(void);
 
 //Functions Hooked In
 void PlayerGoThroughDoor(u8 taskId);
@@ -79,4 +80,3 @@ struct Follower
 #define DEFAULT_FOLLOWER_LOCAL_ID 0xFE
 
 extern struct Follower gFollowerState; //0x203B818
-

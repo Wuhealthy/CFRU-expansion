@@ -54,8 +54,10 @@ static void CalculateFollowerEscalatorTrajectoryUp(struct Task *task);
 static void CalculateFollowerEscalatorTrajectoryDown(struct Task *task);
 static void SetFollowerSprite(u8 spriteIndex);
 static void TurnNPCIntoFollower(u8 localId, u8 followerFlags);
+#ifdef ENABLE_FOLLOWER_POKEMON
 static void Task_HandleFollowerTriggerScript(u8 taskId);
 static void EnsureFollowerTriggerScriptTask(void);
+#endif
 static void TryCreateFollowerSparkle(void);
 void FixFollowerMonLocalIdAfterWarp(void);
 void RestoreFollowerAfterBattle(void);
@@ -68,6 +70,15 @@ extern u8 EventScript_FollowerMon[];
 #define MOVEMENT_INVALID 0xFE
 
 static bool8 sSuppressFollowerSparkle;
+
+bool8 IsFollowerPokemon(void)
+{
+#ifdef ENABLE_FOLLOWER_POKEMON
+	return gFollowerState.inProgress && gFollowerState.script == EventScript_FollowerMon;
+#else
+	return FALSE;
+#endif
+}
 
 static void TryCreateFollowerSparkle(void)
 {
@@ -144,14 +155,14 @@ void HideFollower(void)
 		return;
 
 	if ((gFollowerState.createSurfBlob == SURF_BLOB_STATE_ON || gFollowerState.createSurfBlob == SURF_BLOB_STATE_GET_OFF)
-		&& !FlagGet(FLAG_FOLLOWER_POKEMON))
+		&& !IsFollowerPokemon())
 	{
 		SetSurfBobState(gEventObjects[GetFollowerMapObjId()].fieldEffectSpriteId, 2);
 		DestroySprite(&gSprites[gEventObjects[GetFollowerMapObjId()].fieldEffectSpriteId]);
 		gEventObjects[GetFollowerMapObjId()].fieldEffectSpriteId = 0;
 		gFollowerState.createSurfBlob = SURF_BLOB_STATE_HIDDEN_ON;
 	}
-	else if (FlagGet(FLAG_FOLLOWER_POKEMON))
+	else if (IsFollowerPokemon())
 	{
 		gFollowerState.createSurfBlob = SURF_BLOB_STATE_NONE; // prevent mistaken respawn
 	}
@@ -317,7 +328,7 @@ void FollowMe(struct EventObject* npc, u8 state, bool8 ignoreScriptActive)
 	{
 		gFollowerState.createSurfBlob = 0;
 	
-		if (!FlagGet(FLAG_FOLLOWER_POKEMON))
+		if (!IsFollowerPokemon())
 		{
 			gPlayerAvatar->preventStep = TRUE;
 			SetSurfDismount();
@@ -810,7 +821,7 @@ void FollowMe_FollowerToWater(void)
 {
 	if (!gFollowerState.inProgress)
 		return;
-    if (FlagGet(FLAG_FOLLOWER_POKEMON))
+    if (IsFollowerPokemon())
     {
         gFollowerState.createSurfBlob = SURF_BLOB_STATE_NONE; // Skip blob
         gPlayerAvatar->preventStep = FALSE; // Make sure player can still move
@@ -830,7 +841,7 @@ void FollowMe_BindToSurbBlobOnReloadScreen(void)
 
 	TryUpdateFollowerSpriteUnderwater();
 
-    if (FlagGet(FLAG_FOLLOWER_POKEMON))
+    if (IsFollowerPokemon())
     {
 	  return; 
 	}
@@ -1156,7 +1167,7 @@ void Task_PlayerExitDoor(u8 taskId)
 			break;
 		case 5:
 			#ifdef FOLLOWING_POKEMON
-			if (gFollowerState.inProgress && FlagGet(FLAG_FOLLOWER_POKEMON))
+			if (IsFollowerPokemon())
  			{
 				if (gFollowerState.objId < MAP_OBJECTS_COUNT)
 				{
@@ -1451,7 +1462,7 @@ static void SetFollowerSprite(u8 spriteIndex)
 	RemoveEventObject(&gEventObjects[GetFollowerMapObjId()]);
 
 	struct EventObjectTemplate clone;
-	if (FlagGet(FLAG_FOLLOWER_POKEMON))
+	if (IsFollowerPokemon())
 	{
 		clone = (struct EventObjectTemplate)
 		{
@@ -1526,7 +1537,7 @@ void CreateFollowerAvatar(void)
 		return;
 
 	player = &gEventObjects[gPlayerAvatar->eventObjectId];
-	if (FlagGet(FLAG_FOLLOWER_POKEMON))
+	if (IsFollowerPokemon())
 	{
 		clone = (struct EventObjectTemplate)
 		{
@@ -1605,7 +1616,7 @@ static void TurnNPCIntoFollower(u8 localId, u8 followerFlags)
 			gFollowerState.map.id = gEventObjects[eventObjId].localId;
 			gFollowerState.map.number = gSaveBlock1->location.mapNum;
 			gFollowerState.map.group = gSaveBlock1->location.mapGroup;
-			if (FlagGet(FLAG_FOLLOWER_POKEMON))
+			if (localId == DEFAULT_FOLLOWER_LOCAL_ID)
 			gFollowerState.script = EventScript_FollowerMon;
 			else
 			gFollowerState.script = script;
@@ -1626,7 +1637,7 @@ static void TurnNPCIntoFollower(u8 localId, u8 followerFlags)
 //			Var8001 - Follower flags.
 void sp0D1_SetUpFollowerSprite(void)
 {
-	if (FlagGet(FLAG_FOLLOWER_POKEMON))
+	if (IsFollowerPokemon())
 	{
 		CreateFollowerMonObject();
 		TurnNPCIntoFollower(DEFAULT_FOLLOWER_LOCAL_ID, Var8001);
@@ -1761,7 +1772,7 @@ void UpdateFollowerMonSprite(void)
 }
 void FixFollowerMonLocalIdAfterWarp(void)
 {
-	if (gFollowerState.inProgress && FlagGet(FLAG_FOLLOWER_POKEMON))
+	if (IsFollowerPokemon())
 	{
 	   if (gFollowerState.objId < MAP_OBJECTS_COUNT)
 	   {
@@ -1782,7 +1793,7 @@ void RemoveFollowerBeforeBattle(void)
 void RestoreFollowerAfterBattle(void)
 {
 	UpdateAutomaticFollowerMon();
-	if (FlagGet(FLAG_FOLLOWER_POKEMON) && gFollowerState.inProgress)
+	if (IsFollowerPokemon())
 	{
 		if (MetatileBehavior_IsSurfableWaterOrUnderwater(MapGridGetMetatileBehaviorAt(
             gEventObjects[gPlayerAvatar->eventObjectId].currentCoords.x,
@@ -1813,24 +1824,23 @@ void RestoreFollowerAfterMenu(void)
 
 void UpdateAutomaticFollowerMon(void)
 {
+#ifdef ENABLE_FOLLOWER_POKEMON
 	u16 followerMonGfx = GetFollowerMonSprite();
 
 	// Never replace a scripted NPC follower.
-	if (gFollowerState.inProgress && !FlagGet(FLAG_FOLLOWER_POKEMON))
+	if (gFollowerState.inProgress && !IsFollowerPokemon())
 		return;
 
 	if (followerMonGfx == 0)
 	{
-		if (gFollowerState.inProgress && FlagGet(FLAG_FOLLOWER_POKEMON))
+		if (IsFollowerPokemon())
 		{
 			RemoveEventObject(&gEventObjects[gFollowerState.objId]);
 			gFollowerState.inProgress = FALSE;
 		}
-		FlagClear(FLAG_FOLLOWER_POKEMON);
 		return;
 	}
 
-	FlagSet(FLAG_FOLLOWER_POKEMON);
 	EnsureFollowerTriggerScriptTask();
 	if (MetatileBehavior_IsSurfableWaterOrUnderwater(MapGridGetMetatileBehaviorAt(
 		gEventObjects[gPlayerAvatar->eventObjectId].currentCoords.x,
@@ -1856,8 +1866,10 @@ void UpdateAutomaticFollowerMon(void)
 		UpdateFollowerMonSprite();
 		ChangeFollowerPalette();
 	}
+#endif
 }
 
+#ifdef ENABLE_FOLLOWER_POKEMON
 static void EnsureFollowerTriggerScriptTask(void)
 {
 	if (FindTaskIdByFunc(Task_HandleFollowerTriggerScript) == 0xFF)
@@ -1869,7 +1881,7 @@ static void Task_HandleFollowerTriggerScript(u8 taskId)
 	struct Task *task = &gTasks[taskId];
 	struct MapPosition position;
 
-	if (!FlagGet(FLAG_FOLLOWER_POKEMON) || !gFollowerState.inProgress
+	if (!IsFollowerPokemon()
 	 || gFollowerState.objId >= MAP_OBJECTS_COUNT)
 	{
 		task->data[0] = FALSE;
@@ -1910,3 +1922,4 @@ static void Task_HandleFollowerTriggerScript(u8 taskId)
 		task->data[0] = FALSE;
 	}
 }
+#endif
