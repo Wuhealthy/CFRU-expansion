@@ -142,6 +142,9 @@
 #org @gText_TerrainEnds
 场上的天气和场地都消失了。
 
+#org @gText_VenomForteToxicBoost
+[TARGET]受到了\n剧毒的伤害！
+
 #org @gText_DefensiveToOffensiveActivate
 [SCRIPTING_BANK]\n转守为攻了！
 

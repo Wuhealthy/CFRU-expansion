@@ -33,6 +33,7 @@ new_bs_commands.c
 
 extern void (* const gBattleScriptingCommandsTable[])(void);
 extern void (* const gBattleScriptingCommandsTable2[])(void);
+u32 GetPoisonDamage(u8 bank, bool8 aiCalc);
 
 // For Terastallization
 extern bool8 IsTerastallized(u8 bank);
@@ -992,13 +993,48 @@ void atkFE_prefaintmoveendeffects(void)
 
 					case ABILITY_VENOMFORTE:
 						if (ABILITY(gBankTarget) != ABILITY_SHIELDDUST
-						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK
-						&& CanBePoisoned(gBankTarget, gBankAttacker, TRUE))
+						&& ITEM_EFFECT(gBankTarget) != ITEM_EFFECT_COVERT_CLOAK)
 						{
-        					BattleScriptPushCursor();
-        					gBattlescriptCurrInstr = BattleScript_PoisonTouch;
-        					effect = TRUE;
-						}
+        					if (gBattleMons[gBankTarget].status1 & STATUS1_TOXIC_POISON)
+        					{
+            					// 已是剧毒状态 → 计数器+1，立即结算一次剧毒伤害
+            					u8 toxicCounter = (gBattleMons[gBankTarget].status1 & STATUS1_TOXIC_COUNTER) >> 8;
+            
+            					// 计数器+1（最多15）
+            					if (toxicCounter < 15)
+            					{
+                					toxicCounter++;
+                					gBattleMons[gBankTarget].status1 &= ~STATUS1_TOXIC_COUNTER;
+                					gBattleMons[gBankTarget].status1 |= STATUS1_TOXIC_TURN(toxicCounter);
+            					}
+            
+            					// 计算剧毒伤害
+            					gBattleMoveDamage = GetPoisonDamage(gBankTarget, TRUE);
+            
+            					// 调用脚本显示伤害
+            					BattleScriptPushCursor();
+            					gBattlescriptCurrInstr = BattleScript_VenomForteToxicBoost;
+            					effect = TRUE;
+        					}
+							// 检查是否已普通中毒
+        					else if (gBattleMons[gBankTarget].status1 & STATUS1_POISON)
+        					{
+            					// 普通中毒 → 剧毒
+            					gBattleMons[gBankTarget].status1 &= ~STATUS1_POISON;
+            
+            					// 用脚本施加剧毒（脚本里会处理动画和消息）
+            					BattleScriptPushCursor();
+            					gBattlescriptCurrInstr = BattleScript_ToxicChain;
+            					effect = TRUE;
+        					}
+        					else if (CanBePoisoned(gBankTarget, gBankAttacker, TRUE))
+        					{
+            					// 未中毒，施加普通中毒
+            					BattleScriptPushCursor();
+            					gBattlescriptCurrInstr = BattleScript_PoisonTouch;
+            					effect = TRUE;
+        					}
+    					}
 						break;
 						
 					case ABILITY_TOXICCHAIN:

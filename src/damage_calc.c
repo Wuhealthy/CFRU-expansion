@@ -4450,10 +4450,13 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
     		break;
 
 		case ABILITY_VENOMFORTE:
-    	// 强注毒液: 目标未中毒时，伤害提升30%
     		if (!(gBattleMons[bankDef].status1 & STATUS1_PSN_ANY))
     		{
-        		power = (power * 13) / 10;
+        		power = (power * 15) / 10;
+    		}
+			else if (gBattleMons[bankDef].status1 & STATUS1_POISON)
+			{
+        		power = (power * 12) / 10;
     		}
     		break;
 

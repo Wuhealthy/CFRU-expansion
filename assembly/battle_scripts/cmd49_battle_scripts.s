@@ -41,6 +41,7 @@ cmd49_battle_scripts.s
 .global BattleScript_RaidBattleStatIncrease
 .global BattleScript_MistProtected
 .global BattleScript_ToxicChain
+.global BattleScript_VenomForteToxicBoost
 
 .global ToxicOrbString
 .global FlameOrbString
@@ -72,6 +73,19 @@ BattleScript_GridBind:
 	setbyte POISONED_BY 0x1
 	setbyte EFFECT_BYTE 0x5
 	seteffectsecondary @;Affected by Safeguard
+	return
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+BattleScript_VenomForteToxicBoost:
+	call BattleScript_AbilityPopUp
+	setword BATTLE_STRING_LOADER gText_VenomForteToxicBoost
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
+	orword HIT_MARKER, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_NON_ATTACK_DMG
+	graphicalhpupdate BANK_TARGET
+	datahpupdate BANK_TARGET
+	faintpokemon BANK_TARGET 0x0 0x0
 	return
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
