@@ -80,6 +80,12 @@ bool8 IsFollowerPokemon(void)
 #endif
 }
 
+static bool8 FollowerHasRunningFrames(void)
+{
+	return !IsFollowerPokemon()
+		&& (gFollowerState.flags & FOLLOWER_FLAG_HAS_RUNNING_FRAMES);
+}
+
 static void TryCreateFollowerSparkle(void)
 {
 	if (!sSuppressFollowerSparkle)
@@ -471,7 +477,7 @@ static u8 DetermineFollowerState(struct EventObject* follower, u8 state, u8 dire
 
 		case MOVEMENT_ACTION_PLAYER_RUN_DOWN ... MOVEMENT_ACTION_PLAYER_RUN_RIGHT:
 			//Running frames
-			if (gFollowerState.flags & FOLLOWER_FLAG_HAS_RUNNING_FRAMES)
+			if (FollowerHasRunningFrames())
 				RETURN_STATE(MOVEMENT_ACTION_PLAYER_RUN_DOWN, direction);
 
 			RETURN_STATE(MOVEMENT_ACTION_WALK_FAST_DOWN, direction);
@@ -479,7 +485,7 @@ static u8 DetermineFollowerState(struct EventObject* follower, u8 state, u8 dire
 
 		case MOVEMENT_ACTION_PLAYER_RUN_DOWN_SLOW ... MOVEMENT_ACTION_PLAYER_RUN_RIGHT_SLOW:
 			//Stairs (slow walking)
-			if (gFollowerState.flags & FOLLOWER_FLAG_HAS_RUNNING_FRAMES)
+			if (FollowerHasRunningFrames())
 			{
 				//Running sideways on stairs does not use the slow
 				//frames, so split this into two.
@@ -511,7 +517,7 @@ static u8 DetermineFollowerState(struct EventObject* follower, u8 state, u8 dire
 			||  ((newState - direction) >= 0x84 && (newState - direction) <= 0x87)) //Previously jumped
 			{
 				newState = MOVEMENT_INVALID;
-				if (gFollowerState.flags & FOLLOWER_FLAG_HAS_RUNNING_FRAMES)
+				if (FollowerHasRunningFrames())
 				{
 					RETURN_STATE(0x84, direction); //Jump right away
 				}
@@ -521,12 +527,12 @@ static u8 DetermineFollowerState(struct EventObject* follower, u8 state, u8 dire
 				}
 			}
 
-			if (gFollowerState.flags & FOLLOWER_FLAG_HAS_RUNNING_FRAMES)
+			if (FollowerHasRunningFrames())
 				gFollowerState.delayedState = 0x84;
 			else
 				gFollowerState.delayedState = MOVEMENT_ACTION_JUMP_2_DOWN;
 
-			if (gFollowerState.flags & FOLLOWER_FLAG_HAS_RUNNING_FRAMES)
+			if (FollowerHasRunningFrames())
 				RETURN_STATE(MOVEMENT_ACTION_PLAYER_RUN_DOWN, direction);
 
 			RETURN_STATE(MOVEMENT_ACTION_WALK_FAST_DOWN, direction);
@@ -598,7 +604,7 @@ static u8 DetermineFollowerState(struct EventObject* follower, u8 state, u8 dire
 			u8 simpleState;
 			u8 action;
 
-			if (gFollowerState.flags & FOLLOWER_FLAG_HAS_RUNNING_FRAMES)
+			if (FollowerHasRunningFrames())
 			{
 				delayState = state;
 				simpleState = MOVEMENT_ACTION_RUN_LEFT_DOWN_FACE_LEFT;
@@ -1602,6 +1608,14 @@ static void TurnNPCIntoFollower(u8 localId, u8 followerFlags)
 
 		if (gEventObjects[eventObjId].localId == localId)
 		{
+			// Always use the standard Pokémon follower capabilities.  In particular,
+			// do not inherit HAS_RUNNING_FRAMES from setup values such as 0xFD.
+			if (localId == DEFAULT_FOLLOWER_LOCAL_ID)
+				followerFlags = FOLLOWER_FLAG_CAN_BIKE
+							  | FOLLOWER_FLAG_CAN_LEAVE_ROUTE
+							  | FOLLOWER_FLAG_CAN_SURF
+							  | FOLLOWER_FLAG_CAN_WATERFALL; // 0x1E
+
 			follower = &gEventObjects[eventObjId];
 			follower->movementType = 0; //Doesn't get to move on its own anymore
 			gSprites[follower->spriteId].callback = (void*) 0x805FFB5; //MovementType_None

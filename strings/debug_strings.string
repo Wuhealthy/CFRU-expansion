@@ -89,7 +89,16 @@ Pokémon No.:
 Item No.:
 
 #org @gText_DebugSelector_FlagNo
-Flag No.:
+Decimal:
+
+#org @gText_DebugSelector_Hex
+Hex: 0x
+
+#org @gText_DebugSelector_True
+TRUE
+
+#org @gText_DebugSelector_False
+FALSE
 
 #org @gText_DebugSelector_VarNo
 Var No.:
