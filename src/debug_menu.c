@@ -502,7 +502,7 @@ void DebugMenu_SetTeamToLevel100(void)
 		u16 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2, NULL);
 		if (species != SPECIES_NONE && species != SPECIES_EGG)
 		{
-			u32 exp = gExperienceTables[gBaseStats[species].growthRate][MAX_LEVEL];
+			u32 exp = gExperienceTables[gBaseStats[species].growthRate][50];
 			SetMonData(&gPlayerParty[i], MON_DATA_EXP, &exp);
 			CalculateMonStats(&gPlayerParty[i]);
 			HealMon(&gPlayerParty[i]);

@@ -287,9 +287,6 @@ bool8 CanHitSemiInvulnerableTarget(u8 bankAtk, u8 bankDef, u16 move)
 	if (ABILITY(bankAtk) == ABILITY_NOGUARD || ABILITY(bankDef) == ABILITY_NOGUARD)
 		return TRUE;
 
-	if (ABILITY(bankAtk) == ABILITY_BRUTALFORCE || ABILITY(bankDef) == ABILITY_BRUTALFORCE)
-		return TRUE;
-
 	if (move == MOVE_TOXIC && IsOfType(bankAtk, TYPE_POISON))
 		return TRUE;
 
@@ -577,7 +574,7 @@ bool8 CheckRecoil(u16 move)
 
 bool8 SheerForceCheck(void)
 {
-	return (ABILITY(gBankAttacker) == ABILITY_SHEERFORCE || ABILITY(gBankAttacker) == ABILITY_BRUTALFORCE) && gSpecialMoveFlags[gCurrentMove].gSheerForceBoostedMoves;
+	return ABILITY(gBankAttacker) == ABILITY_SHEERFORCE && gSpecialMoveFlags[gCurrentMove].gSheerForceBoostedMoves;
 }
 
 bool8 IsOfType(u8 bank, u8 type)

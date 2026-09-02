@@ -4397,7 +4397,6 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 			break;
 
 		case ABILITY_SHEERFORCE:
-		case ABILITY_BRUTALFORCE:
 		//1.3x Boost
 			if (gSpecialMoveFlags[move].gSheerForceBoostedMoves)
 				power = (power * 13) / 10;

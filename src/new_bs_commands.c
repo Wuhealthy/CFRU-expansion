@@ -851,8 +851,7 @@ void atkFF1F_flowershieldlooper(void)
 				gNewBS->StompingTantrumTimers[gBankAttacker] = 2;
 			}
 			else if (BATTLER_SEMI_INVULNERABLE(bank)
-			&& ABILITY(gBankAttacker) != ABILITY_NOGUARD && ABILITY(bank) != ABILITY_NOGUARD
-			&& ABILITY(gBankAttacker) != ABILITY_BRUTALFORCE && ABILITY(bank) != ABILITY_BRUTALFORCE)
+			&& ABILITY(gBankAttacker) != ABILITY_NOGUARD && ABILITY(bank) != ABILITY_NOGUARD)
 			{
 				gBattleCommunication[MULTISTRING_CHOOSER] = 0; //Avoided attack
 				gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 6);

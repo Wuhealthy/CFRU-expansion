@@ -1873,8 +1873,6 @@ SKIP_CHECK_TARGET:
 					if ((data->defStatus3 & STATUS3_LOCKON && gDisableStructs[bankDef].bankWithSureHit == bankAtk) //It's the target that has the status, not the attacker!
 					|| data->atkAbility == ABILITY_NOGUARD
 					|| data->defAbility == ABILITY_NOGUARD
-					|| data->atkAbility == ABILITY_BRUTALFORCE
-					|| data->defAbility == ABILITY_BRUTALFORCE
 					|| PARTNER_MOVE_EFFECT_IS_SAME)
 						DECREASE_VIABILITY(10);
 					else
