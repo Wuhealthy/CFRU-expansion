@@ -757,6 +757,7 @@ void BattleBeginFirstTurn(void)
 							{
 								//These Abilities are commonly switched out of on the first turn
 								case ABILITY_INTIMIDATE:
+								case ABILITY_BRUTALFORCE:
 								case ABILITY_SUPERSWEETSYRUP:
 									gNewBS->ai.switchesInARow[i] = 2; //So the AI gets smart if the player immediately switches out
 									break;

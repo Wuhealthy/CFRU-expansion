@@ -17,6 +17,8 @@ ability_battle_scripts.s
 .global BattleScript_WeatherAbilityBlockedByPrimalWeatherRet
 .global BattleScript_StrongWindsWeakenedttack
 .global BattleScript_IntimidateActivatesEnd3
+.global BattleScript_IntimidateActivatesEnd33
+.global BattleScript_IntimidateActivatesEnd333
 .global BattleScript_TraceActivates
 .global BattleScript_Frisk
 .global BattleScript_FriskEnd
@@ -196,7 +198,6 @@ BattleScript_IntimidateActivatesRet:
 	setbyte TARGET_BANK 0x0
 
 BS_IntimidateActivatesLoop:
-	jumpifability BANK_ATTACKER ABILITY_SUPERSWEETSYRUP SSSyrupActivatesLowStats
 	setstatchanger STAT_ATK | DECREASE_1
 	trygetintimidatetarget BattleScript_IntimidateActivatesReturn
 	jumpifbehindsubstitute BANK_TARGET IntimidateActivatesLoopIncrement
@@ -243,17 +244,83 @@ BattleScript_IntimidateActivatesReturn:
 	callasm RemoveIntimidateActive
 	return
 
-SSSyrupActivatesLowStats:
-	setstatchanger STAT_EVASION | DECREASE_1
-	trygetintimidatetarget BattleScript_IntimidateActivatesReturn
-	jumpifbehindsubstitute BANK_TARGET IntimidateActivatesLoopIncrement
-	statbuffchange STAT_TARGET | STAT_NOT_PROTECT_AFFECTED | STAT_BS_PTR IntimidateActivatesLoopIncrement
-	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BattleScript_IntimidatePrevented
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+BattleScript_IntimidateActivatesEnd33:
+	call BattleScript_IntimidateActivatesRet1
+	end3
+
+BattleScript_IntimidateActivatesRet1:
+	call BattleScript_AbilityPopUp
+	setbyte TARGET_BANK 0x0
+
+SSSyrupActivatesLowStatss:
+	setstatchanger STAT_DEF | DECREASE_1
+	trygetintimidatetarget BattleScript_IntimidateActivatesReturn1
+	jumpifbehindsubstitute BANK_TARGET IntimidateActivatesLoopIncrement1
+	statbuffchange STAT_TARGET | STAT_NOT_PROTECT_AFFECTED | STAT_BS_PTR IntimidateActivatesLoopIncrement1
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BattleScript_IntimidatePrevented1
 	setgraphicalstatchangevalues
 	playanimation BANK_TARGET ANIM_STAT_BUFF ANIM_ARG_1
 	printfromtable gStatDownStringIds
 	waitmessage DELAY_1SECOND
-	goto IntimidateActivatesLoopIncrement
+	goto IntimidateActivatesLoopIncrement1
+
+BattleScript_IntimidatePrevented1:
+	pause DELAY_HALFSECOND
+	printfromtable gStatDownStringIds
+	waitmessage DELAY_1SECOND
+
+IntimidateActivatesLoopIncrement1:
+	jumpifword NOTANDS BATTLE_TYPE BATTLE_DOUBLE BattleScript_IntimidateActivatesReturn1
+	addbyte TARGET_BANK 0x1
+	trygetintimidatetarget BattleScript_IntimidateActivatesReturn1
+	callasm TryReactiveIntimidatePopUp
+	goto SSSyrupActivatesLowStatss
+
+BattleScript_IntimidateActivatesReturn1:
+	callasm TryRemoveIntimidateAbilityPopUp @;In case the battle scripting bank is changed
+	callasm RemoveIntimidateActive
+	return
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+BattleScript_IntimidateActivatesEnd333:
+	call BattleScript_IntimidateActivatesRet2
+	end3
+
+BattleScript_IntimidateActivatesRet2:
+	call BattleScript_AbilityPopUp
+	setbyte TARGET_BANK 0x0
+
+SSSyrupActivatesLowStats:
+	setstatchanger STAT_EVASION | DECREASE_1
+	trygetintimidatetarget BattleScript_IntimidateActivatesReturn2
+	jumpifbehindsubstitute BANK_TARGET IntimidateActivatesLoopIncrement2
+	statbuffchange STAT_TARGET | STAT_NOT_PROTECT_AFFECTED | STAT_BS_PTR IntimidateActivatesLoopIncrement2
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BattleScript_IntimidatePrevented2
+	setgraphicalstatchangevalues
+	playanimation BANK_TARGET ANIM_STAT_BUFF ANIM_ARG_1
+	printfromtable gStatDownStringIds
+	waitmessage DELAY_1SECOND
+	goto IntimidateActivatesLoopIncrement2
+
+BattleScript_IntimidatePrevented2:
+	pause DELAY_HALFSECOND
+	printfromtable gStatDownStringIds
+	waitmessage DELAY_1SECOND
+
+IntimidateActivatesLoopIncrement2:
+	jumpifword NOTANDS BATTLE_TYPE BATTLE_DOUBLE BattleScript_IntimidateActivatesReturn2
+	addbyte TARGET_BANK 0x1
+	trygetintimidatetarget BattleScript_IntimidateActivatesReturn2
+	callasm TryReactiveIntimidatePopUp
+	goto SSSyrupActivatesLowStats
+
+BattleScript_IntimidateActivatesReturn2:
+	callasm TryRemoveIntimidateAbilityPopUp @;In case the battle scripting bank is changed
+	callasm RemoveIntimidateActive
+	return
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

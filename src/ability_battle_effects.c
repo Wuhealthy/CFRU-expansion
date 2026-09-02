@@ -498,6 +498,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 
 			switch (gLastUsedAbility) {		//All of these abilities either use or make changes to
 				case ABILITY_INTIMIDATE:
+				case ABILITY_BRUTALFORCE:
 				case ABILITY_SUPERSWEETSYRUP:	//the unidentified Ghost. In FR, only Intimidate and
 				case ABILITY_TRACE:			//Trace were included in this list. It has thus been
 				case ABILITY_DOWNLOAD:		//been expanded to support newer abilities.
@@ -523,6 +524,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 
 		switch (gLastUsedAbility) {
 			case ABILITY_INTIMIDATE:
+			case ABILITY_BRUTALFORCE:
 			case ABILITY_SUPERSWEETSYRUP:
 			case ABILITY_DOWNLOAD:
 			case ABILITY_FOREWARN:
@@ -891,12 +893,22 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
             		gNewBS->oncePerBattleAbilityFlags[side][partyId] = TRUE;
 					gBattleStruct->intimidateBank = bank;
             		gNewBS->intimidateActive = bank + 1;
-					BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivatesEnd3);
+					BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivatesEnd333);
             		effect++;
         		}
 			}
 			break;
 		}
+
+		case ABILITY_BRUTALFORCE:
+			if (CanBeAffectedByIntimidate(FOE(bank)) || (IS_DOUBLE_BATTLE && CanBeAffectedByIntimidate(PARTNER(FOE(bank)))))
+			{
+				BattleScriptPushCursorAndCallback(BattleScript_IntimidateActivatesEnd33);
+				gBattleStruct->intimidateBank = bank;
+				gNewBS->intimidateActive = bank + 1;
+				effect++;
+			}
+			break;
 
 		case ABILITY_INTIMIDATE:
     		if (CanBeAffectedByIntimidate(FOE(bank)) || (IS_DOUBLE_BATTLE && CanBeAffectedByIntimidate(PARTNER(FOE(bank)))))
