@@ -1,0 +1,107 @@
+#include "src/config.h"
+
+// Battle Status Strings for Team Preview Panel
+// Weather strings
+#org @gText_WeatherRain
+雨天
+
+#org @gText_WeatherSandstorm
+沙暴
+
+#org @gText_WeatherHail
+冰雹
+
+#org @gText_WeatherSunny
+晴天
+
+#org @gText_WeatherFog
+雾天
+
+// Terrain strings
+#org @gText_TerrainElectric
+电气
+
+#org @gText_TerrainGrassy
+青草
+
+#org @gText_TerrainMisty
+薄雾
+
+#org @gText_TerrainPsychic
+精神
+
+// Screen strings (player side)
+#org @gText_ScreenReflect
+反射壁
+
+#org @gText_ScreenLight
+光墙
+
+#org @gText_ScreenAurora
+极光幕
+
+// Other status strings
+#org @gText_StatusTailwind
+顺风
+
+#org @gText_HazardStealthRock
+隐岩
+
+#org @gText_HazardSpikes
+菱
+
+#org @gText_HazardStickyWeb
+黏网
+
+#org @gText_HazardTSpikes
+毒菱
+
+// Stat change strings
+#org @gText_StatAtkUp
+物攻+
+
+#org @gText_StatAtkDown
+物攻-
+
+#org @gText_StatDefUp
+物防+
+
+#org @gText_StatDefDown
+物防-
+
+#org @gText_StatSpAtkUp
+特攻+
+
+#org @gText_StatSpAtkDown
+特攻-
+
+#org @gText_StatSpDefUp
+特防+
+
+#org @gText_StatSpDefDown
+特防-
+
+#org @gText_StatSpeedUp
+速度+
+
+#org @gText_StatSpeedDown
+速度-
+
+#org @gText_StatEvasionUp
+闪避+
+
+#org @gText_StatEvasionDown
+闪避-
+
+#org @gText_StatAccuracyUp
+命中+
+
+#org @gText_StatAccuracyDown
+命中-
+
+// Combined strings for better layout
+#org @gText_BattleStatusLine1
+雨天 电气 反射壁 顺风
+
+#org @gText_BattleStatusLine2
+隐岩 菱 黏网

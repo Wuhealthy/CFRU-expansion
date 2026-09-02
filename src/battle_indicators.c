@@ -8,6 +8,7 @@
 #include "../include/menu.h"
 #include "../include/pokemon_icon.h"
 #include "../include/string_util.h"
+#include "../include/window.h"
 #include "../include/constants/items.h"
 
 #include "../include/new/battle_indicators.h"
@@ -67,6 +68,49 @@ extern const u8 gText_TeamPreviewSingleDoubleText[];
 extern const u8 gText_TeamPreviewSingleDoubleLinkText[];
 extern const u8 gText_TeamPreviewMultiText[];
 extern const u8 gText_TeamPreviewMultiLinkText[];
+extern struct WishFutureKnock gWishFutureKnock;
+
+// Battle status strings
+extern const u8 gText_WeatherRain[];
+extern const u8 gText_WeatherSandstorm[];
+extern const u8 gText_WeatherHail[];
+extern const u8 gText_WeatherSunny[];
+extern const u8 gText_WeatherFog[];
+extern const u8 gText_TerrainElectric[];
+extern const u8 gText_TerrainGrassy[];
+extern const u8 gText_TerrainMisty[];
+extern const u8 gText_TerrainPsychic[];
+extern const u8 gText_ScreenReflect[];
+extern const u8 gText_ScreenLight[];
+extern const u8 gText_ScreenAurora[];
+extern const u8 gText_StatusTailwind[];
+extern const u8 gText_HazardStealthRock[];
+extern const u8 gText_HazardSpikes[];
+extern const u8 gText_HazardStickyWeb[];
+extern const u8 gText_HazardTSpikes[];
+extern const u8 gText_StatAtkUp[];
+extern const u8 gText_StatAtkDown[];
+extern const u8 gText_StatDefUp[];
+extern const u8 gText_StatDefDown[];
+extern const u8 gText_StatSpAtkUp[];
+extern const u8 gText_StatSpAtkDown[];
+extern const u8 gText_StatSpDefUp[];
+extern const u8 gText_StatSpDefDown[];
+extern const u8 gText_StatSpeedUp[];
+extern const u8 gText_StatSpeedDown[];
+extern const u8 gText_StatEvasionUp[];
+extern const u8 gText_StatEvasionDown[];
+extern const u8 gText_StatAccuracyUp[];
+extern const u8 gText_StatAccuracyDown[];
+
+// Inline color control code arrays (0xFC = EXT_CTRL_CODE_BEGIN, 0x01 = set color)
+// 基于背景色285068（R40/G80/B104，深蓝青底）优化，遵循"亮+浊"原则
+static const u8 sColorDefault[] = {0xFC, 0x01, TEXT_COLOR_WHITE, 0xFF};           // 白色（最稳，医疗/科技感）
+static const u8 sColorRed[]     = {0xFC, 0x01, TEXT_COLOR_LIGHT_RED, 0xFF};       // 浅红色（避免纯红，用浊暖色）
+static const u8 sColorBlue[]    = {0xFC, 0x01, TEXT_DYNAMIC_COLOR_6, 0xFF};       // 天蓝色（浅灰蓝，同色系提亮）
+static const u8 sColorGreen[]   = {0xFC, 0x01, TEXT_DYNAMIC_COLOR_4, 0xFF};       // 水绿色（浅青，柔和高级）
+
+static u16 sStatusPanelWinId;
 
 extern const struct SpriteTemplate gHeldItemTemplate;
 extern const struct SpriteSheet gHeldItemSpriteSheet;
@@ -247,9 +291,9 @@ static const struct CompressedSpriteSheet sLastBallTriggerSpriteSheet = {Last_Ba
 static const struct CompressedSpriteSheet sTeamPreviewTriggerSpriteSheet = {TeamPreviewTriggerTiles, (32 * 32) / 2, GFX_TAG_TEAM_PREVIEW_TRIGGER};
 //static const struct SpritePalette sTeamPreviewTriggerPalette = {TeamPreviewTriggerPal, GFX_TAG_TEAM_PREVIEW_TRIGGER};
 
-static const struct CompressedSpriteSheet sTeamPreviewFaintedMonIconSpriteSheet = {TeamPreviewFaintedMonIconTiles, (32 * 32) / 2, GFX_TAG_FAINTED_TEAM_PREVIEW_ICON};
+static const struct CompressedSpriteSheet sTeamPreviewFaintedMonIconSpriteSheet __attribute__((unused)) = {TeamPreviewFaintedMonIconTiles, (32 * 32) / 2, GFX_TAG_FAINTED_TEAM_PREVIEW_ICON};
 
-static const struct CompressedSpriteSheet sTeamPreviewStatusIconsSpriteSheet = {TeamPreviewStatusIconsTiles, (8 * 8 * 6) / 2, GFX_TAG_TEAM_PREVIEW_STATUS_ICON};
+static const struct CompressedSpriteSheet sTeamPreviewStatusIconsSpriteSheet __attribute__((unused)) = {TeamPreviewStatusIconsTiles, (8 * 8 * 6) / 2, GFX_TAG_TEAM_PREVIEW_STATUS_ICON};
 
 static const struct SpritePalette sTypeIconPalTemplate = {CamomonsTypeIconsPal, TYPE_ICON_TAG};
 static const struct SpritePalette sTypeIconPalTemplate2 = {CamomonsTypeIcons2Pal, TYPE_ICON_TAG_2};
@@ -760,7 +804,7 @@ static const struct SpriteTemplate sTeamPreviewTriggerSpriteTemplate =
 	.callback = SpriteCallbackDummy,
 };*/
 
-static const struct SpriteTemplate sStatusIconTemplate =
+static const struct SpriteTemplate sStatusIconTemplate __attribute__((unused)) =
 {
 	.tileTag = GFX_TAG_TEAM_PREVIEW_STATUS_ICON,
 	.paletteTag = POKE_ICON_BASE_PAL_TAG, //Used same palette as mon icon 0
@@ -1417,7 +1461,10 @@ static void SpriteCB_LastBallTrigger(struct Sprite* self)
 			self->data[3] += 2;
 		else
 		{
-			void (*destructionFunc)(struct Sprite*) = (void*) (((u16) self->data[6]) | (((u16) self->data[7]) << 16));
+		#pragma GCC diagnostic push
+		#pragma GCC diagnostic ignored "-Wint-to-pointer-cast"
+			void (*destructionFunc)(struct Sprite*) = (void (*)(struct Sprite*)) (((u16) self->data[6]) | (((u16) self->data[7]) << 16));
+		#pragma GCC diagnostic pop
 			destructionFunc(self);
 			return;
 		}
@@ -1442,7 +1489,10 @@ static void SpriteCB_TeamPreviewTrigger(struct Sprite* self)
 			self->data[3] += 2; //Recede
 		else
 		{
-			void (*destructionFunc)(struct Sprite*) = (void*) (((u16) self->data[6]) | (((u16) self->data[7]) << 16));
+		#pragma GCC diagnostic push
+		#pragma GCC diagnostic ignored "-Wint-to-pointer-cast"
+			void (*destructionFunc)(struct Sprite*) = (void (*)(struct Sprite*)) (((u16) self->data[6]) | (((u16) self->data[7]) << 16));
+		#pragma GCC diagnostic pop
 			destructionFunc(self);
 			return;
 		}
@@ -2282,8 +2332,11 @@ void TryLoadLastUsedBallTrigger(void)
 	{
 		gSprites[spriteId].data[3] = 32;
 		gSprites[spriteId].data[4] = gActiveBattler;
+		#pragma GCC diagnostic push
+		#pragma GCC diagnostic ignored "-Wpointer-to-int-cast"
 		gSprites[spriteId].data[6] = ((u32) DestroyLastBallTrigger) & 0xFFFF;
 		gSprites[spriteId].data[7] = ((u32) DestroyLastBallTrigger) >> 16;
+		#pragma GCC diagnostic pop
 	}
 	
 	spriteId = AddItemIconSprite(GFX_TAG_LAST_BALL_TRIGGER_BALL, GFX_TAG_LAST_BALL_TRIGGER_BALL, GetLastUsedBall());
@@ -2293,8 +2346,11 @@ void TryLoadLastUsedBallTrigger(void)
 		gSprites[spriteId].pos1.y = 75 + (40 / 2);
 		gSprites[spriteId].data[3] = 32;
 		gSprites[spriteId].data[4] = gActiveBattler;
+		#pragma GCC diagnostic push
+		#pragma GCC diagnostic ignored "-Wpointer-to-int-cast"
 		gSprites[spriteId].data[6] = ((u32) DestroyLastBallTriggerBall) & 0xFFFF;
 		gSprites[spriteId].data[7] = ((u32) DestroyLastBallTriggerBall) >> 16;
+		#pragma GCC diagnostic pop
 		gSprites[spriteId].callback = SpriteCB_LastBallTrigger;
 	}
 }
@@ -2346,21 +2402,8 @@ bool8 CantLoadTeamPreviewTrigger(void)
 	if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER)) //Wild Battle
 		return TRUE; //No enemy team
 
-	if (gBattleTypeFlags & BATTLE_TYPE_FRONTIER
-	&& BATTLE_FACILITY_NUM == IN_RING_CHALLENGE)
-		return TRUE; //No point in showing here
-
-	if (gBattleTypeFlags & BATTLE_TYPE_LINK)
-		return FALSE; //TODO: Not unless the player selects it beforehand
-
-	bool8 can = (gBattleTypeFlags & BATTLE_TYPE_FRONTIER) != 0 //Regular Frontier battle
-		//|| gBattleTypeFlags & BATTLE_TYPE_LINK
-		#ifdef FLAG_IN_BATTLE_TEAM_PREVIEW
-		|| FlagGet(FLAG_IN_BATTLE_TEAM_PREVIEW)
-		#endif
-		;
-
-	return !can;
+	// 所有训练家战斗中默认开启Team Preview
+	return FALSE;
 }
 
 void TryLoadTeamPreviewTrigger(void)
@@ -2388,8 +2431,11 @@ void TryLoadTeamPreviewTrigger(void)
 	{
 		gSprites[spriteId].data[3] = 32;
 		gSprites[spriteId].data[4] = gActiveBattler;
+		#pragma GCC diagnostic push
+		#pragma GCC diagnostic ignored "-Wpointer-to-int-cast"
 		gSprites[spriteId].data[6] = ((u32) DestroyTeamPreviewTrigger) & 0xFFFF;
 		gSprites[spriteId].data[7] = ((u32) DestroyTeamPreviewTrigger) >> 16;
+		#pragma GCC diagnostic pop
 	}
 }
 
@@ -2431,7 +2477,7 @@ static bool8 CanShowEnemyMonIcon(u8 monId)
 	return (gNewBS->revealedEnemyMons & gBitTable[monId]) != 0;
 }
 
-static bool8 EntireEnemyTeamRevealed(void)
+__attribute__((unused)) static bool8 EntireEnemyTeamRevealed(void)
 {
 	u32 i;
 
@@ -2453,7 +2499,6 @@ static void Task_DisplayInBattleTeamPreview(u8 taskId)
 {
 	u32 i;
 	s16 x, y;
-	const u8* string;
 
 	//Update Background
 	gBattle_BG0_Y = 0; //Hide action selection - must go before creating icons! Causes sprite bugs otherwise
@@ -2492,7 +2537,7 @@ static void Task_DisplayInBattleTeamPreview(u8 taskId)
 		if (species != SPECIES_NONE && species != SPECIES_EGG)
 		{
 			if (!CanShowEnemyMonIcon(i))
-				species = SPECIES_NONE; //Replace unrevealed icon with question mark
+				species = SPECIES_NONE;
 			else if (GetMonAbility(&gEnemyParty[i]) == ABILITY_ILLUSION && !EntireEnemyTeamRevealed())
 			{
 				u8 bank;
@@ -2506,14 +2551,14 @@ static void Task_DisplayInBattleTeamPreview(u8 taskId)
 			u16 hp = GetMonData(&gEnemyParty[i], MON_DATA_HP, NULL);
 			x = (64 + (32 / 2)) + (40 * (i % 3));
 			y = (20 + (32 / 2)) + (40 * (i / 3));
-			void* callback = hp == 0 ? SpriteCallbackDummy : SpriteCB_PokeIcon; //Don't animate when fainted
+			void* callback = hp == 0 ? SpriteCallbackDummy : SpriteCB_PokeIcon;
 
-			LoadMonIconPalette(species); //On the off chance the palette didn't get loaded above
+			LoadMonIconPalette(species);
 			u8 spriteId = CreateMonIcon(species, callback, x, y, 1, GetMonData(&gEnemyParty[i], MON_DATA_PERSONALITY, NULL), FALSE);
 			if (spriteId < MAX_SPRITES)
 			{
 				struct Sprite* sprite = &gSprites[spriteId];
-				sprite->oam.priority = 0; //Above BG
+				sprite->oam.priority = 0;
 
 				if (species != SPECIES_NONE)
 				{
@@ -2521,7 +2566,7 @@ static void Task_DisplayInBattleTeamPreview(u8 taskId)
 					{
 						if (GetMonData(&gEnemyParty[i], MON_DATA_HELD_ITEM, NULL) != ITEM_NONE)
 						{
-							x = (80 + (8 / 2)) + (40 * (i % 3)); //Based on the item icon positions on the summary screen
+							x = (80 + (8 / 2)) + (40 * (i % 3));
 							y = (44 + (8 / 2)) + (40 * (i / 3));
 							CreateSprite(&gHeldItemTemplate, x, y, 0);
 						}
@@ -2537,7 +2582,7 @@ static void Task_DisplayInBattleTeamPreview(u8 taskId)
 							{
 								u8 tileNum = 0;
 
-								if (status & STATUS1_POISON) //Not including Toxic
+								if (status & STATUS1_POISON)
 									tileNum = 1;
 								else if (status & STATUS1_BURN)
 									tileNum = 2;
@@ -2548,46 +2593,298 @@ static void Task_DisplayInBattleTeamPreview(u8 taskId)
 								else if (status & STATUS1_TOXIC_POISON)
 									tileNum = 5;
 
-								gSprites[spriteId].oam.tileNum += (8 / 8) * (8 / 8) * tileNum; //Get the right status image
+								gSprites[spriteId].oam.tileNum += (8 / 8) * (8 / 8) * tileNum;
 							}
 						}
 					}
 					else
 					{
-						sprite->oam.paletteNum = faintedIconPalNum; //Make palette all white
-
-						LoadMonIconPalette(species); //On the off chance the palette didn't get loaded above
-						/*u8 spriteId = CreateSprite(&sFaintedMonIconTemplate, x, y, 0);
-						if (spriteId < MAX_SPRITES)
-							gSprites[spriteId].oam.priority = 0; //Above everything*/
+						sprite->oam.paletteNum = faintedIconPalNum;
+						LoadMonIconPalette(species);
 					}
 				}
 			}
 		}
 	}
 
-	//Update Textbox
-	if (gBattleTypeFlags & BATTLE_TYPE_LINK)
+	// Build battle status string directly (no "XX的队伍")
+	// B_WIN_MSG is 28x2 tiles, each Chinese char = 2 tiles wide, so max ~14 chars per line
+	gDisplayedStringBattle[0] = EOS; // Clear buffer first - battle system may have left content
+	u8* dst = gDisplayedStringBattle;
+
+	// Weather with turn count
+	if (gBattleWeather & WEATHER_RAIN_ANY)
 	{
-		if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
-		{
-			if (IS_TOWER_LINK_MULTI_BATTLE)
-				string = gText_TeamPreviewMultiText;
-			else
-				string = gText_TeamPreviewMultiLinkText;
-		}
-		else
-			string = gText_TeamPreviewSingleDoubleLinkText;
+		dst = StringAppend(dst, gText_WeatherRain);
+		if (!(gBattleWeather & WEATHER_RAIN_PERMANENT))
+		{ u8 numBuf[4]; ConvertIntToDecimalStringN(numBuf, gWishFutureKnock.weatherDuration, STR_CONV_MODE_LEFT_ALIGN, 2); dst = StringAppend(dst, numBuf); }
 	}
-	else
+	else if (gBattleWeather & WEATHER_SANDSTORM_ANY)
 	{
-		if (IsTwoOpponentBattle())
-			string = gText_TeamPreviewMultiText;
-		else
-			string = gText_TeamPreviewSingleDoubleText;
+		dst = StringAppend(dst, gText_WeatherSandstorm);
+		if (!(gBattleWeather & WEATHER_SANDSTORM_PERMANENT))
+		{ u8 numBuf[4]; ConvertIntToDecimalStringN(numBuf, gWishFutureKnock.weatherDuration, STR_CONV_MODE_LEFT_ALIGN, 2); dst = StringAppend(dst, numBuf); }
+	}
+	else if (gBattleWeather & WEATHER_HAIL_ANY)
+	{
+		dst = StringAppend(dst, gText_WeatherHail);
+		if (!(gBattleWeather & WEATHER_HAIL_PERMANENT))
+		{ u8 numBuf[4]; ConvertIntToDecimalStringN(numBuf, gWishFutureKnock.weatherDuration, STR_CONV_MODE_LEFT_ALIGN, 2); dst = StringAppend(dst, numBuf); }
+	}
+	else if (gBattleWeather & WEATHER_SUN_ANY)
+	{
+		dst = StringAppend(dst, gText_WeatherSunny);
+		if (!(gBattleWeather & WEATHER_SUN_PERMANENT))
+		{ u8 numBuf[4]; ConvertIntToDecimalStringN(numBuf, gWishFutureKnock.weatherDuration, STR_CONV_MODE_LEFT_ALIGN, 2); dst = StringAppend(dst, numBuf); }
+	}
+	else if (gBattleWeather & WEATHER_FOG_ANY)
+	{
+		dst = StringAppend(dst, gText_WeatherFog);
+		if (!(gBattleWeather & WEATHER_FOG_PERMANENT))
+		{ u8 numBuf[4]; ConvertIntToDecimalStringN(numBuf, gWishFutureKnock.weatherDuration, STR_CONV_MODE_LEFT_ALIGN, 2); dst = StringAppend(dst, numBuf); }
 	}
 
-	BattleStringExpandPlaceholdersToDisplayedString(string);
+	// Terrain (blue - neutral environment) with turn count
+	if (gTerrainType != NO_TERRAIN && gNewBS->TerrainTimer > 0)
+	{
+		u8 numBuf[4];
+		if (gTerrainType == ELECTRIC_TERRAIN)
+			dst = StringAppend(dst, gText_TerrainElectric);
+		else if (gTerrainType == GRASSY_TERRAIN)
+			dst = StringAppend(dst, gText_TerrainGrassy);
+		else if (gTerrainType == MISTY_TERRAIN)
+			dst = StringAppend(dst, gText_TerrainMisty);
+		else if (gTerrainType == PSYCHIC_TERRAIN)
+			dst = StringAppend(dst, gText_TerrainPsychic);
+		ConvertIntToDecimalStringN(numBuf, gNewBS->TerrainTimer, STR_CONV_MODE_LEFT_ALIGN, 2);
+		dst = StringAppend(dst, numBuf);
+	}
+
+	// Player screens with turn count (no color - helps me)
+	if (gSideTimers[SIDE_PLAYER].reflectTimer > 0
+	|| gSideTimers[SIDE_PLAYER].lightscreenTimer > 0
+	|| gNewBS->AuroraVeilTimers[SIDE_PLAYER] > 0)
+	{
+		u8 numBuf[4];
+		if (gSideTimers[SIDE_PLAYER].reflectTimer > 0)
+		{
+			dst = StringAppend(dst, gText_ScreenReflect);
+			ConvertIntToDecimalStringN(numBuf, gSideTimers[SIDE_PLAYER].reflectTimer, STR_CONV_MODE_LEFT_ALIGN, 2);
+			dst = StringAppend(dst, numBuf);
+		}
+		if (gSideTimers[SIDE_PLAYER].lightscreenTimer > 0)
+		{
+			dst = StringAppend(dst, gText_ScreenLight);
+			ConvertIntToDecimalStringN(numBuf, gSideTimers[SIDE_PLAYER].lightscreenTimer, STR_CONV_MODE_LEFT_ALIGN, 2);
+			dst = StringAppend(dst, numBuf);
+		}
+		if (gNewBS->AuroraVeilTimers[SIDE_PLAYER] > 0)
+		{
+			dst = StringAppend(dst, gText_ScreenAurora);
+			ConvertIntToDecimalStringN(numBuf, gNewBS->AuroraVeilTimers[SIDE_PLAYER], STR_CONV_MODE_LEFT_ALIGN, 2);
+			dst = StringAppend(dst, numBuf);
+		}
+	}
+
+	// Enemy screens with turn count (red - helps enemy)
+	if (gSideTimers[SIDE_OPPONENT].reflectTimer > 0
+	|| gSideTimers[SIDE_OPPONENT].lightscreenTimer > 0
+	|| gNewBS->AuroraVeilTimers[SIDE_OPPONENT] > 0)
+	{
+		u8 numBuf[4];
+		if (gSideTimers[SIDE_OPPONENT].reflectTimer > 0)
+		{
+			dst = StringAppend(dst, sColorRed);
+			dst = StringAppend(dst, gText_ScreenReflect);
+			ConvertIntToDecimalStringN(numBuf, gSideTimers[SIDE_OPPONENT].reflectTimer, STR_CONV_MODE_LEFT_ALIGN, 2);
+			dst = StringAppend(dst, numBuf);
+		}
+		if (gSideTimers[SIDE_OPPONENT].lightscreenTimer > 0)
+		{
+			dst = StringAppend(dst, sColorRed);
+			dst = StringAppend(dst, gText_ScreenLight);
+			ConvertIntToDecimalStringN(numBuf, gSideTimers[SIDE_OPPONENT].lightscreenTimer, STR_CONV_MODE_LEFT_ALIGN, 2);
+			dst = StringAppend(dst, numBuf);
+		}
+		if (gNewBS->AuroraVeilTimers[SIDE_OPPONENT] > 0)
+		{
+			dst = StringAppend(dst, sColorRed);
+			dst = StringAppend(dst, gText_ScreenAurora);
+			ConvertIntToDecimalStringN(numBuf, gNewBS->AuroraVeilTimers[SIDE_OPPONENT], STR_CONV_MODE_LEFT_ALIGN, 2);
+			dst = StringAppend(dst, numBuf);
+		}
+	}
+
+	// Player Tailwind (no color - helps me)
+	if (gNewBS->TailwindTimers[SIDE_PLAYER] > 0)
+	{
+		u8 numBuf[4];
+		dst = StringAppend(dst, gText_StatusTailwind);
+		ConvertIntToDecimalStringN(numBuf, gNewBS->TailwindTimers[SIDE_PLAYER], STR_CONV_MODE_LEFT_ALIGN, 2);
+		dst = StringAppend(dst, numBuf);
+	}
+
+	// Enemy Tailwind (red - helps enemy)
+	if (gNewBS->TailwindTimers[SIDE_OPPONENT] > 0)
+	{
+		u8 numBuf[4];
+		dst = StringAppend(dst, sColorRed);
+		dst = StringAppend(dst, gText_StatusTailwind);
+		ConvertIntToDecimalStringN(numBuf, gNewBS->TailwindTimers[SIDE_OPPONENT], STR_CONV_MODE_LEFT_ALIGN, 2);
+		dst = StringAppend(dst, numBuf);
+	}
+
+	// Player-side hazards (red - hurts me)
+	if (gSideTimers[SIDE_PLAYER].srAmount > 0
+	|| gSideTimers[SIDE_PLAYER].spikesAmount > 0
+	|| gSideTimers[SIDE_PLAYER].tspikesAmount > 0
+	|| gSideTimers[SIDE_PLAYER].stickyWeb > 0)
+	{
+		if (gSideTimers[SIDE_PLAYER].srAmount > 0)
+			{ dst = StringAppend(dst, sColorRed); dst = StringAppend(dst, gText_HazardStealthRock); }
+		if (gSideTimers[SIDE_PLAYER].spikesAmount > 0)
+			{ dst = StringAppend(dst, sColorRed); dst = StringAppend(dst, gText_HazardSpikes); }
+		if (gSideTimers[SIDE_PLAYER].tspikesAmount > 0)
+			{ dst = StringAppend(dst, sColorRed); dst = StringAppend(dst, gText_HazardTSpikes); }
+		if (gSideTimers[SIDE_PLAYER].stickyWeb > 0)
+			{ dst = StringAppend(dst, sColorRed); dst = StringAppend(dst, gText_HazardStickyWeb); }
+	}
+
+	// Opponent-side hazards (no color - hurts enemy)
+	if (gSideTimers[SIDE_OPPONENT].srAmount > 0
+	|| gSideTimers[SIDE_OPPONENT].spikesAmount > 0
+	|| gSideTimers[SIDE_OPPONENT].tspikesAmount > 0
+	|| gSideTimers[SIDE_OPPONENT].stickyWeb > 0)
+	{
+		if (gSideTimers[SIDE_OPPONENT].srAmount > 0)
+			dst = StringAppend(dst, gText_HazardStealthRock);
+		if (gSideTimers[SIDE_OPPONENT].spikesAmount > 0)
+			dst = StringAppend(dst, gText_HazardSpikes);
+		if (gSideTimers[SIDE_OPPONENT].tspikesAmount > 0)
+			dst = StringAppend(dst, gText_HazardTSpikes);
+		if (gSideTimers[SIDE_OPPONENT].stickyWeb > 0)
+			dst = StringAppend(dst, gText_HazardStickyWeb);
+	}
+
+	// Stat changes for active Pokemon (player side)
+	if (gBattleMons[0].hp > 0)
+	{
+		s8* stages = gBattleMons[0].statStages;
+		s8 diff;
+		u8 numBuf[4];
+		// ATK
+		diff = stages[STAT_STAGE_ATK - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, (diff > 0) ? gText_StatAtkUp : gText_StatAtkDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// DEF
+		diff = stages[STAT_STAGE_DEF - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, (diff > 0) ? gText_StatDefUp : gText_StatDefDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// SPATK
+		diff = stages[STAT_STAGE_SPATK - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, (diff > 0) ? gText_StatSpAtkUp : gText_StatSpAtkDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// SPDEF
+		diff = stages[STAT_STAGE_SPDEF - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, (diff > 0) ? gText_StatSpDefUp : gText_StatSpDefDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// SPEED
+		diff = stages[STAT_STAGE_SPEED - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, (diff > 0) ? gText_StatSpeedUp : gText_StatSpeedDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// ACC
+		diff = stages[STAT_STAGE_ACC - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, (diff > 0) ? gText_StatAccuracyUp : gText_StatAccuracyDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// EVASION
+		diff = stages[STAT_STAGE_EVASION - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, (diff > 0) ? gText_StatEvasionUp : gText_StatEvasionDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+	}
+
+	// Stat changes for active Pokemon (opponent side) - red color
+	if (gBattleMons[1].hp > 0)
+	{
+		s8* stages = gBattleMons[1].statStages;
+		s8 diff;
+		u8 numBuf[4];
+		// ATK
+		diff = stages[STAT_STAGE_ATK - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorRed); dst = StringAppend(dst, (diff > 0) ? gText_StatAtkUp : gText_StatAtkDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// DEF
+		diff = stages[STAT_STAGE_DEF - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorRed); dst = StringAppend(dst, (diff > 0) ? gText_StatDefUp : gText_StatDefDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// SPATK
+		diff = stages[STAT_STAGE_SPATK - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorRed); dst = StringAppend(dst, (diff > 0) ? gText_StatSpAtkUp : gText_StatSpAtkDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// SPDEF
+		diff = stages[STAT_STAGE_SPDEF - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorRed); dst = StringAppend(dst, (diff > 0) ? gText_StatSpDefUp : gText_StatSpDefDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// SPEED
+		diff = stages[STAT_STAGE_SPEED - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorRed); dst = StringAppend(dst, (diff > 0) ? gText_StatSpeedUp : gText_StatSpeedDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// ACC
+		diff = stages[STAT_STAGE_ACC - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorRed); dst = StringAppend(dst, (diff > 0) ? gText_StatAccuracyUp : gText_StatAccuracyDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// EVASION
+		diff = stages[STAT_STAGE_EVASION - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorRed); dst = StringAppend(dst, (diff > 0) ? gText_StatEvasionUp : gText_StatEvasionDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+	}
+
+	// Stat changes for active Pokemon (player right - double battle) - blue color
+	if (IS_DOUBLE_BATTLE && gBattleMons[2].hp > 0)
+	{
+		s8* stages = gBattleMons[2].statStages;
+		s8 diff;
+		u8 numBuf[4];
+		// ATK
+		diff = stages[STAT_STAGE_ATK - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorBlue); dst = StringAppend(dst, (diff > 0) ? gText_StatAtkUp : gText_StatAtkDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// DEF
+		diff = stages[STAT_STAGE_DEF - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorBlue); dst = StringAppend(dst, (diff > 0) ? gText_StatDefUp : gText_StatDefDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// SPATK
+		diff = stages[STAT_STAGE_SPATK - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorBlue); dst = StringAppend(dst, (diff > 0) ? gText_StatSpAtkUp : gText_StatSpAtkDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// SPDEF
+		diff = stages[STAT_STAGE_SPDEF - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorBlue); dst = StringAppend(dst, (diff > 0) ? gText_StatSpDefUp : gText_StatSpDefDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// SPEED
+		diff = stages[STAT_STAGE_SPEED - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorBlue); dst = StringAppend(dst, (diff > 0) ? gText_StatSpeedUp : gText_StatSpeedDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// ACC
+		diff = stages[STAT_STAGE_ACC - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorBlue); dst = StringAppend(dst, (diff > 0) ? gText_StatAccuracyUp : gText_StatAccuracyDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// EVASION
+		diff = stages[STAT_STAGE_EVASION - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorBlue); dst = StringAppend(dst, (diff > 0) ? gText_StatEvasionUp : gText_StatEvasionDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+	}
+
+	// Stat changes for active Pokemon (opponent right - double battle) - green color
+	if (IS_DOUBLE_BATTLE && gBattleMons[3].hp > 0)
+	{
+		s8* stages = gBattleMons[3].statStages;
+		s8 diff;
+		u8 numBuf[4];
+		// ATK
+		diff = stages[STAT_STAGE_ATK - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorGreen); dst = StringAppend(dst, (diff > 0) ? gText_StatAtkUp : gText_StatAtkDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// DEF
+		diff = stages[STAT_STAGE_DEF - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorGreen); dst = StringAppend(dst, (diff > 0) ? gText_StatDefUp : gText_StatDefDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// SPATK
+		diff = stages[STAT_STAGE_SPATK - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorGreen); dst = StringAppend(dst, (diff > 0) ? gText_StatSpAtkUp : gText_StatSpAtkDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// SPDEF
+		diff = stages[STAT_STAGE_SPDEF - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorGreen); dst = StringAppend(dst, (diff > 0) ? gText_StatSpDefUp : gText_StatSpDefDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// SPEED
+		diff = stages[STAT_STAGE_SPEED - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorGreen); dst = StringAppend(dst, (diff > 0) ? gText_StatSpeedUp : gText_StatSpeedDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// ACC
+		diff = stages[STAT_STAGE_ACC - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorGreen); dst = StringAppend(dst, (diff > 0) ? gText_StatAccuracyUp : gText_StatAccuracyDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+		// EVASION
+		diff = stages[STAT_STAGE_EVASION - 1] - 6;
+		if (diff != 0) { dst = StringAppend(dst, sColorGreen); dst = StringAppend(dst, (diff > 0) ? gText_StatEvasionUp : gText_StatEvasionDown); ConvertIntToDecimalStringN(numBuf, (diff > 0) ? diff : -diff, STR_CONV_MODE_LEFT_ALIGN, 1); dst = StringAppend(dst, numBuf); }
+	}
+
+	// Reset to default color at end
+	dst = StringAppend(dst, sColorDefault);
+
 	BattlePutTextOnWindow(gDisplayedStringBattle, 0);
 	DestroyTask(taskId);
 }
@@ -2608,6 +2905,13 @@ void HideInBattleTeamPreview(void)
 	//Hide BG
 	gBattle_BG0_Y = 160; //Show action selection
 	RequestDma3Fill(0, (void*)(BG_SCREEN_ADDR(28)), 0x1000, DMA3_32BIT); //Wipe tilemap (tiles don't need to be wiped)
+
+	//Remove name text window
+	if (sStatusPanelWinId != 0)
+	{
+		RemoveWindow(sStatusPanelWinId);
+		sStatusPanelWinId = 0;
+	}
 
 	//Destroy Sprites
 	for (i = 0; i < MAX_SPRITES; ++i)

@@ -2191,6 +2191,7 @@ void HandleInputChooseAction(void)
 #ifdef TEAM_PREVIEW_TRIGGER
 static void HandleInputTeamPreview(void)
 {
+	gBattle_BG0_Y = 0; //Keep BG0 hidden so our name text window stays visible
 	if (JOY_NEW(A_BUTTON | B_BUTTON | L_BUTTON | DPAD_ANY))
 	{
 		PlaySE(SE_SELECT);
