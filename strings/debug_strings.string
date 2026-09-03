@@ -89,7 +89,16 @@
 道具编号:
 
 #org @gText_DebugSelector_FlagNo
-Flag编号:
+十进制:
+
+#org @gText_DebugSelector_Hex
+十六进制: 0x
+
+#org @gText_DebugSelector_True
+TRUE
+
+#org @gText_DebugSelector_False
+FALSE
 
 #org @gText_DebugSelector_VarNo
 变量编号:

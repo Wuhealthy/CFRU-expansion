@@ -17,6 +17,7 @@
 #include "../include/sprite.h"
 #include "../include/string_util.h"
 #include "../include/task.h"
+#include "../include/text.h"
 #include "../include/window.h"
 #include "../include/constants/songs.h"
 
@@ -28,6 +29,9 @@ extern const u8 gText_DebugSelector_Step1000[];
 extern const u8 gText_DebugSelector_Controls[];
 extern const u8 gText_DebugSelector_ItemNo[];
 extern const u8 gText_DebugSelector_FlagNo[];
+extern const u8 gText_DebugSelector_Hex[];
+extern const u8 gText_DebugSelector_True[];
+extern const u8 gText_DebugSelector_False[];
 extern const u8 gText_DebugSelector_VarNo[];
 extern const u8 gText_DebugSelector_Value[];
 extern const u8 gText_DebugSelector_Step10000[];
@@ -202,6 +206,18 @@ static const u8 *const sDebugNumberTitles[] =
 	gText_DebugSelector_Value,
 };
 
+static void DebugMenu_ConvertToHexString(u8 *dest, u16 number)
+{
+	u8 i;
+
+	for (i = 0; i < 4; ++i)
+	{
+		u8 digit = (number >> ((3 - i) * 4)) & 0xF;
+		dest[i] = digit < 10 ? CHAR_0 + digit : CHAR_A + digit - 10;
+	}
+	dest[4] = EOS;
+}
+
 static void DebugMenu_DrawNumberSelector(u8 taskId)
 {
 	struct Task *task = &gTasks[taskId];
@@ -216,6 +232,12 @@ static void DebugMenu_DrawNumberSelector(u8 taskId)
 	WindowPrint(windowId, 2, 100, 3, &sDebugSelectorTextColor, TEXT_SPEED_FF, gStringVar1);
 	if (task->tNumberType == DEBUG_NUMBER_ITEM)
 		WindowPrint(windowId, 2, 4, 21, &sDebugSelectorTextColor, TEXT_SPEED_FF, ItemId_GetName(number));
+	else if (task->tNumberType == DEBUG_NUMBER_FLAG)
+	{
+		WindowPrint(windowId, 2, 4, 21, &sDebugSelectorTextColor, TEXT_SPEED_FF, gText_DebugSelector_Hex);
+		DebugMenu_ConvertToHexString(gStringVar2, number);
+		WindowPrint(windowId, 2, 100, 21, &sDebugSelectorTextColor, TEXT_SPEED_FF, gStringVar2);
+	}
 	else if (task->tNumberType == DEBUG_NUMBER_VAR)
 	{
 		ConvertIntToDecimalStringN(gStringVar2, VarGet(number), STR_CONV_MODE_RIGHT_ALIGN, 5);
@@ -223,7 +245,15 @@ static void DebugMenu_DrawNumberSelector(u8 taskId)
 	}
 	WindowPrint(windowId, 2, 4, 39, &sDebugSelectorTextColor, TEXT_SPEED_FF,
 				task->tDigit == 4 ? gText_DebugSelector_Step10000 : sDebugSelectorStepTexts[task->tDigit]);
-	WindowPrint(windowId, 2, 4, 55, &sDebugSelectorTextColor, TEXT_SPEED_FF, gText_DebugSelector_Controls);
+	if (task->tNumberType == DEBUG_NUMBER_FLAG)
+	{
+		WindowPrint(windowId, 2, 4, 55, &sDebugSelectorTextColor, TEXT_SPEED_FF,
+					FlagGet(number) ? gText_DebugSelector_True : gText_DebugSelector_False);
+	}
+	else
+	{
+		WindowPrint(windowId, 2, 4, 55, &sDebugSelectorTextColor, TEXT_SPEED_FF, gText_DebugSelector_Controls);
+	}
 	CopyWindowToVram(windowId, COPYWIN_GFX);
 }
 

@@ -106,7 +106,7 @@ static void SpriteCB_Sparkle(struct Sprite *sprite)
 
 void CreateSparkleSprite(void)
 {
-    if (FlagGet(FLAG_FOLLOWER_POKEMON) && gFollowerState.inProgress)
+    if (IsFollowerPokemon())
     {
         struct Sprite *followerSprite = &gSprites[gEventObjects[gFollowerState.objId].spriteId];
         s16 posX = followerSprite->pos1.x - 16;
@@ -229,7 +229,7 @@ void TurnFollowerMonToPlayer(void)
 
 void ShowFollowerMon(void)
 {
-    if (FlagGet(FLAG_FOLLOWER_POKEMON) && gFollowerState.inProgress)
+    if (IsFollowerPokemon())
         gEventObjects[gFollowerState.objId].invisible = FALSE;
 }
 extern void Task_ScriptShowMonPic(u8 taskId);
