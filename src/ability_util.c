@@ -335,6 +335,8 @@ bool8 SpeciesHasHiddenPowerPhysicality(unusedArg u16 species)
 		case SPECIES_HYPNO_MEGA:
 		case SPECIES_ELECTRODE_MEGA:
 		case SPECIES_MAROWAK_MEGA:
+		case SPECIES_JYNX_MEGA:
+		case SPECIES_TAUROS_MEGA:
 		case SPECIES_TYRANTRUM_MEGA:
 		case SPECIES_AURORUS_MEGA:
 		case SPECIES_WEEZING_MEGA:
