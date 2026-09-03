@@ -68,6 +68,8 @@ void Task_HandleChooseMonInput(u8 taskId);
 #define NEW_START_MENU_CURSOR_BOB_SPEED 8
 #define NEW_START_MENU_LAST_ACTION_NONE 0xFF
 #define NEW_START_MENU_LAST_ACTION_VALID 0x80
+#define StartWeather_ ((void (*)(void))0x08079C09)
+#define ResumePausedWeather_ ((void (*)(void))0x0807B1B9)
 
 #define sReturnToNewStartMenu (*(bool8 *)0x0203E057)
 #define sLastNewStartMenuAction (*(u8 *)0x0203E058)
@@ -207,6 +209,7 @@ static void Task_NewStartMenu(u8 taskId);
 static void CleanupNewStartMenuResources(struct NewStartMenuState *state);
 static void HideNewStartMenuInternal(struct NewStartMenuState *state);
 static void CloseNewStartMenuForFieldScript(struct NewStartMenuState *state);
+static void RestoreWeatherAfterNewStartMenu(void);
 static void LaunchNewStartMenuFieldScript(u8 taskId, struct NewStartMenuState *state, const u8 *script);
 static void SpriteCB_NewStartMenuArrow(struct Sprite *sprite);
 static bool8 FieldCB2_OpenNewStartMenuFromReturn(void);
@@ -1751,9 +1754,17 @@ static void CloseNewStartMenuForFieldScript(struct NewStartMenuState *state)
     CleanupNewStartMenuResources(state);
 }
 
+static void RestoreWeatherAfterNewStartMenu(void)
+{
+    StartWeather_();
+    ResumePausedWeather_();
+    gWeatherPtr->readyForInit = TRUE;
+}
+
 static void HideNewStartMenuInternal(struct NewStartMenuState *state)
 {
     CleanupNewStartMenuResources(state);
+    RestoreWeatherAfterNewStartMenu();
     ScriptContext2_Disable();
     ClearPlayerHeldMovementAndUnfreezeObjectEvents_();
     UnlockPlayerFieldControls_();
