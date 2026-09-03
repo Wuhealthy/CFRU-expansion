@@ -148,6 +148,12 @@
 #org @gText_DefensiveToOffensiveActivate
 [SCRIPTING_BANK]\n转守为攻了！
 
+#org @gText_PhantomWallActivate
+[SCRIPTING_BANK]\n做出了看不见的墙壁！
+
+#org @gText_PhantomWallShattered
+[SCRIPTING_BANK]\n场上的墙壁消失了！
+
 #org @gText_SpikeClawHeal
 [SCRIPTING_BANK]\n完全回复了HP！
 

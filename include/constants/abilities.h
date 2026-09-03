@@ -354,5 +354,6 @@
 #define ABILITY_SPIKECLAW                            348    //斗志
 #define ABILITY_AURAGUARD                            349    //波导防护
 #define ABILITY_BRUTALFORCE                          350    //威压
+#define ABILITY_PHANTOMWALL                          351    //幻墙
 
-#define ABILITIES_COUNT                              351
+#define ABILITIES_COUNT                              352

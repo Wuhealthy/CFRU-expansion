@@ -359,3 +359,4 @@ gAbilityDescriptions:
 .word DESC_SPIKECLAW                             @ 348 ABILITY_SPIKECLAW
 .word DESC_AURAGUARD                             @ 349 ABILITY_AURAGUARD
 .word DESC_BRUTALFORCE                           @ 350 ABILITY_BRUTALFORCE
+.word DESC_PHANTOMWALL                           @ 351 ABILITY_PHANTOMWALL

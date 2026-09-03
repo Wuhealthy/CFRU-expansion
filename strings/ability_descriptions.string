@@ -1027,3 +1027,6 @@ HP首次低于1/3时回满HP并提升攻击
 
 #org @DESC_BRUTALFORCE
 出场时，降低对手的防御
+
+#org @DESC_PHANTOMWALL
+出场时，制造出光墙和反射壁

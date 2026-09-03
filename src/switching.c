@@ -111,6 +111,25 @@ void atkE2_switchoutabilities(void)
 					EmitSetMonData(0, REQUEST_STATUS_BATTLE, gBitTable[gBattleStruct->switchoutPartyIndex[gActiveBattler]], 4, &gBattleMons[gActiveBattler].status1);
 					MarkBufferBankForExecution(gActiveBattler);
 					break;
+				case ABILITY_PHANTOMWALL:
+				{
+                    u8 side = SIDE(gActiveBattler);
+
+                    // 移除光墙
+                    if (gSideStatuses[side] & SIDE_STATUS_LIGHTSCREEN)
+                    {
+                        gSideStatuses[side] &= ~SIDE_STATUS_LIGHTSCREEN;
+                        gSideTimers[side].lightscreenTimer = 0;
+                    }
+
+                    // 移除反射壁
+                    if (gSideStatuses[side] & SIDE_STATUS_REFLECT)
+                    {
+                        gSideStatuses[side] &= ~SIDE_STATUS_REFLECT;
+                        gSideTimers[side].reflectTimer = 0;
+                    }
+                    break;
+				}
 				case ABILITY_REGENERATOR:
 					gBattleMons[gActiveBattler].hp = MathMin(gBattleMons[gActiveBattler].maxHP, gBattleMons[gActiveBattler].hp + (gBattleMons[gActiveBattler].maxHP / 3));
 					EmitSetMonData(0, REQUEST_HP_BATTLE, gBitTable[gBattleStruct->switchoutPartyIndex[gActiveBattler]], 4, &gBattleMons[gActiveBattler].hp);

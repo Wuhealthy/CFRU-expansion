@@ -316,6 +316,7 @@ bool8 SpeciesHasHiddenPowerPhysicality(unusedArg u16 species)
 		case SPECIES_LEDIAN_G:
 		case SPECIES_FEAROW_MEGA:
 		case SPECIES_CLOYSTER_MEGA:
+		case SPECIES_MR_MIME_MEGA:
 		case SPECIES_SHIFTRY_MEGA:
 		case SPECIES_CRAWDAUNT_MEGA:
 		case SPECIES_WYRDEER_MEGA:

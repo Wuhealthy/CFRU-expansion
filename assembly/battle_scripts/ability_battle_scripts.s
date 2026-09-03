@@ -125,6 +125,7 @@ ability_battle_scripts.s
 .global BattleScript_BoosterEnergyActivates
 .global BattleScript_BrokenClawSubstitute
 .global BattleScript_SpikeClawActivates
+.global BattleScript_PhantomWallShattered
 .global BattleScript_SetPuppetConfusion
 .global BattleScript_MoveEffectConfusion
 .global BattleScript_ToxicDebrisActivates
@@ -1688,6 +1689,17 @@ BattleScript_BoosterEnergyActivates:
 	call BattleScript_AbilityPopUpRevert
 	removeitem BANK_SCRIPTING
 	end3
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+BattleScript_PhantomWallShattered:
+	call BattleScript_AbilityPopUp
+	playanimation BANK_SCRIPTING ANIM_SUBSTITUTE_REMOVAL 0x0
+	waitanimation
+    setword BATTLE_STRING_LOADER gText_PhantomWallShattered
+    printstring 0x184
+    waitmessage DELAY_1SECOND
+    call BattleScript_AbilityPopUpRevert
+	return
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 BattleScript_SpikeClawActivates:
