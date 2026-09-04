@@ -533,6 +533,7 @@ bool8 TerastalEnabled(u8 bank)
         return FALSE;
 
     // Opposing trainers must have a Tera Orb in one of their item slots.
+    #ifdef FLAG_TERA_BATTLE
     if (GetBattlerSide(bank) == B_SIDE_OPPONENT)
     {
         // Wild Battle check
@@ -552,6 +553,7 @@ bool8 TerastalEnabled(u8 bank)
 
     if (FindBankTeraOrb(bank) != ITEM_NONE)
         return TRUE;
+    #endif
 
     #ifdef DEBUG_TERASTAL
         return TRUE;

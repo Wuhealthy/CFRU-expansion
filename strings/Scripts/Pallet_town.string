@@ -78,3 +78,9 @@
 
 #org @gText_TestScript2
 太晶标志已设定！
+
+#org @gText_GiveMons_Special_Give
+这个给你！
+
+#org @gText_GiveMons_Special_Done
+我已经没什么可以给你了。

@@ -275,6 +275,15 @@ EventScript_Pallet_AideGuy:
 EventScript_GiveMons_Special:
     lock
     faceplayer
-    setflag 0xA08
+    checkflag 0x2
+    goto_if TRUE EventScript_GiveMons_Special_Done
+    msgbox gText_GiveMons_Special_Give MSG_NORMAL
+    giveitem ITEM_TM10 1 MSG_OBTAIN
+    setflag 0x2
+    release
+    end
+
+EventScript_GiveMons_Special_Done:
+    msgbox gText_GiveMons_Special_Done MSG_NORMAL
     release
     end
