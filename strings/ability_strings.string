@@ -148,6 +148,9 @@
 #org @gText_DefensiveToOffensiveActivate
 [SCRIPTING_BANK]\n转守为攻了！
 
+#org @gText_VampireHeal
+[ATTACKER]\n从[TARGET]身上吸取HP！
+
 #org @gText_PhantomWallActivate
 [SCRIPTING_BANK]\n做出了看不见的墙壁！
 

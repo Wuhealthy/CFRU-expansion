@@ -42,6 +42,8 @@ cmd49_battle_scripts.s
 .global BattleScript_MistProtected
 .global BattleScript_ToxicChain
 .global BattleScript_VenomForteToxicBoost
+.global BattleScript_VampireLiquidOoze
+.global BattleScript_VampireHeal
 
 .global ToxicOrbString
 .global FlameOrbString
@@ -87,6 +89,31 @@ BattleScript_VenomForteToxicBoost:
 	datahpupdate BANK_TARGET
 	faintpokemon BANK_TARGET 0x0 0x0
 	return
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+BattleScript_VampireLiquidOoze:
+    copybyte BATTLE_SCRIPTING_BANK TARGET_BANK
+    call BattleScript_AbilityPopUp
+	orword HIT_MARKER, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_NON_ATTACK_DMG
+    graphicalhpupdate BANK_ATTACKER
+    datahpupdate BANK_ATTACKER
+    printfromtable 0x83FE5DC @;gLeechSeedDrainStringIds
+    waitmessage DELAY_1SECOND
+    call BattleScript_AbilityPopUpRevert
+    faintpokemon BANK_ATTACKER 0x0 0x0
+    return
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+BattleScript_VampireHeal:
+    call BattleScript_AbilityPopUp
+    orword HIT_MARKER, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_NON_ATTACK_DMG
+    graphicalhpupdate BANK_ATTACKER
+    datahpupdate BANK_ATTACKER
+    setword BATTLE_STRING_LOADER gText_VampireHeal
+    printstring 0x184
+	waitmessage DELAY_1SECOND
+    call BattleScript_AbilityPopUpRevert
+    return
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

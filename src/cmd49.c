@@ -1292,6 +1292,28 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 					effect = 1;
 					gNewBS->speedDiveRecoilBank[gBankAttacker] = 0;
 				}
+                if (!IsHealBlocked(gBankAttacker)
+				&& gBattleMons[gBankAttacker].hp < gBattleMons[gBankAttacker].maxHP
+				&& ABILITY(gBankAttacker) == ABILITY_VAMPIRE)
+                {
+                    // 检查对手是否为污泥浆特性
+                    if (ABILITY(gBankTarget) == ABILITY_LIQUIDOOZE)
+                    {
+						// 污泥浆特性：将回复变为伤害
+						gBattleMoveDamage = MathMax(1, gNewBS->totalDamageGiven / 2);
+						BattleScriptPushCursor();
+						gBattlescriptCurrInstr = BattleScript_VampireLiquidOoze;
+						effect = 1;
+					}
+					else
+					{
+						gBattleMoveDamage = MathMax(1, gNewBS->totalDamageGiven / 2);
+						gBattleMoveDamage *= -1;
+						BattleScriptPushCursor();
+						gBattlescriptCurrInstr = BattleScript_VampireHeal;
+						effect = 1;
+					}
+				}
 				
 				if (effect)
 					gNewBS->selfInflictedDamage += gBattleMoveDamage; //For Emergency Exit

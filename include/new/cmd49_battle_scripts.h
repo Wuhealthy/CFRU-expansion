@@ -44,3 +44,5 @@ extern const u8 BattleScript_BrokenRaidBarrier[];
 extern const u8 BattleScript_RaidBattleStatIncrease[];
 extern const u8 BattleScript_ToxicChain[];
 extern const u8 BattleScript_VenomForteToxicBoost[];
+extern const u8 BattleScript_VampireLiquidOoze[];
+extern const u8 BattleScript_VampireHeal[];

@@ -1030,3 +1030,6 @@ HP首次低于1/3时回满HP并提升攻击
 
 #org @DESC_PHANTOMWALL
 出场时，制造出光墙和反射壁
+
+#org @DESC_VAMPIRE
+攻击能回复造成伤害的一半HP
