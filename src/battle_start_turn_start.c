@@ -2053,7 +2053,7 @@ u16 GetMUS_ForBattle(void)
 	&& gWildSpeciesBasedBattleBGM[species] != 0)
 		return gWildSpeciesBasedBattleBGM[species];
 
-	if (FlagGet(FLAG_DOUBLE_WILD_BATTLE)
+	if ((FlagGet(FLAG_DOUBLE_WILD_BATTLE) || VarGet(VAR_DOUBLE_BATTLE) == 1)
 	&& gEnemyParty[1].species != SPECIES_NONE
 	&& gEnemyParty[1].species < gWildSpeciesBasedBattleBGMLength
 	&& gWildSpeciesBasedBattleBGM[gEnemyParty[1].species] != 0)

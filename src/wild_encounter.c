@@ -724,7 +724,7 @@ SKIP_INDEX_SEARCH:
 
 
 	#ifdef FLAG_DOUBLE_WILD_BATTLE
-	if (FlagGet(FLAG_DOUBLE_WILD_BATTLE))
+	if (FlagGet(FLAG_DOUBLE_WILD_BATTLE) || VarGet(VAR_DOUBLE_BATTLE) == 1)
 	{
 		wildMonIndex = 0;
 
@@ -774,7 +774,7 @@ static species_t GenerateFishingWildMon(const struct WildPokemonInfo* wildMonInf
 	CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, wildMonIndex, TRUE);
 
 	#ifdef FLAG_DOUBLE_WILD_BATTLE
-	if (FlagGet(FLAG_DOUBLE_WILD_BATTLE))
+	if (FlagGet(FLAG_DOUBLE_WILD_BATTLE) || VarGet(VAR_DOUBLE_BATTLE) == 1)
 	{
 		u8 wildMonIndex = ChooseWildMonIndex_Fishing(rod);
 		u8 level = ChooseWildMonLevel(&wildMonInfo->wildPokemon[wildMonIndex]);
@@ -953,6 +953,7 @@ bool8 StandardWildEncounter(const u32 currMetaTileBehavior, const u16 previousMe
 			//Try a regular wild land encounter
 			#ifdef FLAG_DOUBLE_WILD_BATTLE
 			if (!FlagGet(FLAG_DOUBLE_WILD_BATTLE) //Flag hasn't already been set by user
+			&&  (VarGet(VAR_DOUBLE_BATTLE) != 1)
 			&&  ViableMonCount(gPlayerParty) >= 2
 			&&  (lowerByte & TILE_FLAG_WILD_DOUBLE)
 			&&  Random() % 100 < WILD_DOUBLE_RANDOM_CHANCE)
@@ -1003,6 +1004,7 @@ bool8 StandardWildEncounter(const u32 currMetaTileBehavior, const u16 previousMe
 		{
 			#ifdef FLAG_DOUBLE_WILD_BATTLE
 			if (!FlagGet(FLAG_DOUBLE_WILD_BATTLE) //Flag hasn't already been set by user
+			&&  (VarGet(VAR_DOUBLE_BATTLE) != 1)
 			&&  ViableMonCount(gPlayerParty) >= 2
 			&&  lowerByte & TILE_FLAG_WILD_DOUBLE
 			&&  Random() % 100 < WILD_DOUBLE_RANDOM_CHANCE)
@@ -1119,6 +1121,7 @@ static void TrySetDoubleSweetScentBattle(void)
 {
 	#ifdef SWEET_SCENT_WILD_DOUBLE_BATTLES
 	if (!FlagGet(FLAG_DOUBLE_WILD_BATTLE) //Flag hasn't already been set
+	&& (VarGet(VAR_DOUBLE_BATTLE) != 1)
 	&& Random() % 100 < WILD_DOUBLE_RANDOM_CHANCE
 	&& ViableMonCount(gPlayerParty) >= 2) //Player has two Pokeon that can battle on their own
 		FlagSet(FLAG_DOUBLE_WILD_BATTLE); //Sweet Scent can trigger a wild double battle
@@ -1280,7 +1283,7 @@ void DoStandardWildBattle(void)
 	gBattleTypeFlags = 0;
 
 	#ifdef FLAG_DOUBLE_WILD_BATTLE
-	if (FlagGet(FLAG_DOUBLE_WILD_BATTLE))
+	if (FlagGet(FLAG_DOUBLE_WILD_BATTLE) || VarGet(VAR_DOUBLE_BATTLE) == 1)
 	{
 		gBattleTypeFlags |= BATTLE_TYPE_DOUBLE;
 
@@ -1320,7 +1323,7 @@ void sp138_StartLegendaryBattle(void)
 	gBattleTypeFlags = BATTLE_TYPE_SCRIPTED_WILD_1 | BATTLE_TYPE_LEGENDARY_FRLG;
 
 	#ifdef FLAG_DOUBLE_WILD_BATTLE
-	if (FlagGet(FLAG_DOUBLE_WILD_BATTLE)
+	if ((FlagGet(FLAG_DOUBLE_WILD_BATTLE) || VarGet(VAR_DOUBLE_BATTLE) == 1)
 	&& gEnemyParty[1].species != SPECIES_NONE
 	&& (FlagGet(FLAG_TAG_BATTLE) || ViableMonCount(gPlayerParty) > 1)) //At least two alive Pokemon
 	{
@@ -1388,7 +1391,7 @@ void sp118_StartRaidBattle(void)
 	FlagSet(FLAG_RAID_BATTLE);
 	#endif
 
-	if (FlagGet(FLAG_DOUBLE_WILD_BATTLE) && ViableMonCount(gPlayerParty) >= 2)
+	if ((FlagGet(FLAG_DOUBLE_WILD_BATTLE) || VarGet(VAR_DOUBLE_BATTLE) == 1) && ViableMonCount(gPlayerParty) >= 2)
 		gBattleTypeFlags |= BATTLE_TYPE_DOUBLE;
 
 	if (FlagGet(FLAG_TAG_BATTLE))
@@ -1549,7 +1552,7 @@ static void CreateScriptedWildMon(u16 species, u8 level, u16 item, u16* moves, b
 void TrySetWildDoubleBattleTypeScripted()
 {
 	#ifdef FLAG_DOUBLE_WILD_BATTLE
-	if (FlagGet(FLAG_DOUBLE_WILD_BATTLE))
+	if (FlagGet(FLAG_DOUBLE_WILD_BATTLE) || VarGet(VAR_DOUBLE_BATTLE) == 1)
 		gBattleTypeFlags |= BATTLE_TYPE_DOUBLE;
 	#endif
 }
