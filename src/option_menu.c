@@ -83,6 +83,13 @@ enum
     MENUITEM_PAGE2_COUNT,
 };
 
+enum
+{
+    MENUITEM_DOUBLE_BATTLE = 0,      // 双打对战
+    MENUITEM_CANCEL_PAGE_3,          // 取消（第三页）
+    MENUITEM_PAGE3_COUNT,            // 第三页菜单项总数
+};
+
 // Window Ids
 enum
 {
@@ -99,6 +106,7 @@ struct OptionMenu
     /*0x??*/ u8 loadPaletteState;
     /*0x??*/ u8 page;
     /*0x??*/ u16 option_secondPage[MENUITEM_PAGE2_COUNT];
+    /*0x??*/ u16 option_thirdPage[MENUITEM_PAGE3_COUNT];   // 新增：第三页选项值
 };
 
 extern struct OptionMenu *sOptionMenuPtr;
@@ -115,6 +123,8 @@ extern const u8 gText_WildLevelScaling[];
 extern const u8 gText_AutoSortBag[];
 extern const u8 gText_GameDifficulty[];
 extern const u8 gText_InverseBattle[];
+extern const u8 gText_DoubleBattle[];
+
 static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
 {
     [MENUITEM_TEXTSPEED]   = gText_TextSpeed,
@@ -125,7 +135,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_FRAMETYPE]   = gText_Frame,
     [MENUITEM_CANCEL]      = gText_OptionMenuCancel,
 };
-static const u8 *const sOptionMenuItemsNames_SecondPage[MENUITEM_COUNT] =
+static const u8 *const sOptionMenuItemsNames_SecondPage[MENUITEM_PAGE2_COUNT] =
 {
     [MENUITEM_RBUTTONMODE] = gText_RButtonMode,
     [MENUITEM_BATTLEMUSIC] = gText_BattleMusic,
@@ -134,6 +144,11 @@ static const u8 *const sOptionMenuItemsNames_SecondPage[MENUITEM_COUNT] =
 	[MENUITEM_GAME_DIFFICULTY] = gText_GameDifficulty,
     [MENUITEM_INVERSE_BATTLE] = gText_InverseBattle,
     [MENUITEM_CANCEL_PAGE_2] = gText_OptionMenuCancel,
+};
+static const u8 *const sOptionMenuItemsNames_ThirdPage[MENUITEM_PAGE3_COUNT] =
+{
+    [MENUITEM_DOUBLE_BATTLE] = gText_DoubleBattle,
+    [MENUITEM_CANCEL_PAGE_3] = gText_OptionMenuCancel,
 };
 
 extern const u8 gText_TextSpeedSlow[];
@@ -230,8 +245,14 @@ static const u8 *const sInverseBattleOptions[] =
     gText_OffOption,
     gText_OnOption
 };
+static const u8 *const sDoubleBattleOptions[] =
+{
+    gText_OffOption,
+    gText_OnOption
+};
 static const u16 sOptionMenuItemCounts[MENUITEM_COUNT] = {3, 2, 2, 2, 3, 10, 0};
 static const u16 sOptionMenuItemCounts_SecondPage[MENUITEM_PAGE2_COUNT] = {3, 2, 2, 4, 4, 2, 0};
+static const u16 sOptionMenuItemCounts_ThirdPage[MENUITEM_PAGE3_COUNT] = {2, 0};
 
 void CB2_OptionsMenuFromStartMenu(void)
 {
@@ -256,6 +277,7 @@ void CB2_OptionsMenuFromStartMenu(void)
     sOptionMenuPtr->option_secondPage[MENUITEM_AUTOSORTBAG] = VarGet(VAR_AUTO_SORT_BAG);
     sOptionMenuPtr->option_secondPage[MENUITEM_GAME_DIFFICULTY] = VarGet(VAR_GAME_DIFFICULTY);
     sOptionMenuPtr->option_secondPage[MENUITEM_INVERSE_BATTLE] = VarGet(VAR_INVERSE_BATTLE);
+    sOptionMenuPtr->option_thirdPage[MENUITEM_DOUBLE_BATTLE] = VarGet(VAR_DOUBLE_BATTLE);
     
     for (i = 0; i < MENUITEM_COUNT - 1; i++)
     {
@@ -327,6 +349,24 @@ void Task_OptionMenu(u8 taskId)
             UpdateSettingSelectionDisplay(sOptionMenuPtr->cursorPos);
             OptionMenu_PickSwitchCancel();
             break;
+        case 7:  // 新增：切换到第三页（按R键从第二页）
+            sOptionMenuPtr->page = 2;
+            LoadOptionMenuItemNames();
+            for(i = 0; i < MENUITEM_PAGE3_COUNT; i++)
+            BufferOptionMenuString(i);
+            sOptionMenuPtr->cursorPos = 0;
+            UpdateSettingSelectionDisplay(sOptionMenuPtr->cursorPos);
+            OptionMenu_PickSwitchCancel();
+            break;
+        case 8:  // 新增：切换到第二页（按L键从第三页）
+            sOptionMenuPtr->page = 1;
+            LoadOptionMenuItemNames();
+            for(i = 0; i < MENUITEM_PAGE2_COUNT; i++)
+            BufferOptionMenuString(i);
+            sOptionMenuPtr->cursorPos = 0;
+            UpdateSettingSelectionDisplay(sOptionMenuPtr->cursorPos);
+            OptionMenu_PickSwitchCancel();
+            break;
         }
         break;
     case 3:
@@ -360,6 +400,7 @@ void CloseAndSaveOptionMenu(u8 taskId)
     VarSet(VAR_AUTO_SORT_BAG, sOptionMenuPtr->option_secondPage[MENUITEM_AUTOSORTBAG]);
     VarSet(VAR_GAME_DIFFICULTY, sOptionMenuPtr->option_secondPage[MENUITEM_GAME_DIFFICULTY]);
     VarSet(VAR_INVERSE_BATTLE, sOptionMenuPtr->option_secondPage[MENUITEM_INVERSE_BATTLE]);
+    VarSet(VAR_DOUBLE_BATTLE, sOptionMenuPtr->option_thirdPage[MENUITEM_DOUBLE_BATTLE]);
     SetPokemonCryStereo(gSaveBlock2->optionsSound);
     FREE_AND_SET_NULL(sOptionMenuPtr);
     DestroyTask(taskId);
@@ -454,7 +495,7 @@ void BufferOptionMenuString(u8 selection)
             break;
         }
     }
-    else
+    else if(sOptionMenuPtr->page == 1)  // 第二页
     {
         switch (selection)
         {
@@ -475,6 +516,17 @@ void BufferOptionMenuString(u8 selection)
                 break;
             case MENUITEM_INVERSE_BATTLE:
                 AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sInverseBattleOptions[sOptionMenuPtr->option_secondPage[selection]]);
+                break;
+            default:
+                break;
+        }
+    }
+    else  // 第三页
+    {
+        switch (selection)
+        {
+            case MENUITEM_DOUBLE_BATTLE:
+                AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sDoubleBattleOptions[sOptionMenuPtr->option_thirdPage[selection]]);
                 break;
             default:
                 break;
@@ -502,13 +554,22 @@ u8 OptionMenu_ProcessInput(void)
             else
                 return 4;
         }
-        else
+        else if(sOptionMenuPtr->page == 1)  // 第二页
         {
             current = sOptionMenuPtr->option_secondPage[(sOptionMenuPtr->cursorPos)];
             if (current == (sOptionMenuItemCounts_SecondPage[sOptionMenuPtr->cursorPos] - 1))
                 sOptionMenuPtr->option_secondPage[sOptionMenuPtr->cursorPos] = 0;
             else
                 sOptionMenuPtr->option_secondPage[sOptionMenuPtr->cursorPos] = current + 1;
+            return 4;
+        }
+        else  // 第三页
+        {
+            current = sOptionMenuPtr->option_thirdPage[(sOptionMenuPtr->cursorPos)];
+            if (current == (sOptionMenuItemCounts_ThirdPage[sOptionMenuPtr->cursorPos] - 1))
+                sOptionMenuPtr->option_thirdPage[sOptionMenuPtr->cursorPos] = 0;
+            else
+                sOptionMenuPtr->option_thirdPage[sOptionMenuPtr->cursorPos] = current + 1;
             return 4;
         }
     }
@@ -527,7 +588,7 @@ u8 OptionMenu_ProcessInput(void)
             else
                 return 4;
         }
-        else
+        else if(sOptionMenuPtr->page == 1)  // 第二页
         {
             curr = &sOptionMenuPtr->option_secondPage[sOptionMenuPtr->cursorPos];
             if (*curr == 0)
@@ -535,6 +596,15 @@ u8 OptionMenu_ProcessInput(void)
             else
                 --*curr;
 
+            return 4;
+        }
+        else  // 第三页
+        {
+            curr = &sOptionMenuPtr->option_thirdPage[sOptionMenuPtr->cursorPos];
+            if (*curr == 0)
+                *curr = sOptionMenuItemCounts_ThirdPage[sOptionMenuPtr->cursorPos] - 1;
+            else
+                --*curr;
             return 4;
         }
     }
@@ -547,10 +617,17 @@ u8 OptionMenu_ProcessInput(void)
             else
                 sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos - 1;
         }
-        else
+        else if(sOptionMenuPtr->page == 1)  // 第二页
         {
             if (sOptionMenuPtr->cursorPos == MENUITEM_RBUTTONMODE)
                 sOptionMenuPtr->cursorPos = MENUITEM_CANCEL_PAGE_2;
+            else
+                sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos - 1;
+        }
+        else  // 第三页
+        {
+            if (sOptionMenuPtr->cursorPos == MENUITEM_DOUBLE_BATTLE)
+                sOptionMenuPtr->cursorPos = MENUITEM_CANCEL_PAGE_3;
             else
                 sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos - 1;
         }
@@ -565,28 +642,53 @@ u8 OptionMenu_ProcessInput(void)
             else
                 sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos + 1;
         }
-        else
+        else if(sOptionMenuPtr->page == 1)  // 第二页
         {
             if (sOptionMenuPtr->cursorPos == MENUITEM_CANCEL_PAGE_2)
                 sOptionMenuPtr->cursorPos = MENUITEM_RBUTTONMODE;
             else
                 sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos + 1;
         }
+        else  // 第三页
+        {
+            if (sOptionMenuPtr->cursorPos == MENUITEM_CANCEL_PAGE_3)
+                sOptionMenuPtr->cursorPos = MENUITEM_DOUBLE_BATTLE;
+            else
+                sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos + 1;
+        }
         return 3;
     }
     else if (JOY_NEW(R_BUTTON))
-    {   if(sOptionMenuPtr->page == 1)
+    {
+        if(sOptionMenuPtr->page == 0)  // 从第一页到第二页
+        {
+            sOptionMenuPtr->page = 1;
+            PlaySE(SE_SELECT);
+            return 5;
+        }
+        else if(sOptionMenuPtr->page == 1)  // 从第二页到第三页
+        {
+            sOptionMenuPtr->page = 2;
+            PlaySE(SE_SELECT);
+            return 7;
+        }
         return 0;
-        sOptionMenuPtr->page = 1;
-        PlaySE(SE_SELECT);
-        return 5;
     }
     else if (JOY_NEW(L_BUTTON))
-    {   if(sOptionMenuPtr->page == 0)
+    {
+        if(sOptionMenuPtr->page == 2)  // 从第三页到第二页
+        {
+            sOptionMenuPtr->page = 1;
+            PlaySE(SE_SELECT);
+            return 8;
+        }
+        else if(sOptionMenuPtr->page == 1)  // 从第二页到第一页
+        {
+            sOptionMenuPtr->page = 0;
+            PlaySE(SE_SELECT);
+            return 6;
+        }
         return 0;
-        sOptionMenuPtr->page = 0;
-        PlaySE(SE_SELECT);
-        return 6;
     }
     else if (JOY_NEW(B_BUTTON) || JOY_NEW(A_BUTTON))
     {
@@ -633,17 +735,25 @@ void LoadOptionMenuItemNames(void)
             AddTextPrinterParameterized(WIN_OPTIONS, 2, sOptionMenuItemsNames[i], 8, (u8)((i * (GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT))) + 2) - i, TEXT_SPEED_FF, NULL);    
         }
     }
-    else
+    else if(sOptionMenuPtr->page == 1)  // 第二页
     {
         for (i = 0; i < MENUITEM_PAGE2_COUNT; i++)
         {
             AddTextPrinterParameterized(WIN_OPTIONS, 2, sOptionMenuItemsNames_SecondPage[i], 8, (u8)((i * (GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT))) + 2) - i, TEXT_SPEED_FF, NULL);       
         } 
     }
+    else  // 第三页
+    {
+        for (i = 0; i < MENUITEM_PAGE3_COUNT; i++)
+        {
+            AddTextPrinterParameterized(WIN_OPTIONS, 2, sOptionMenuItemsNames_ThirdPage[i], 8, (u8)((i * (GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT))) + 2) - i, TEXT_SPEED_FF, NULL);       
+        } 
+    }
 }
 
 extern const u8 gText_PickSwitchCancel_Page1[];
 extern const u8 gText_PickSwitchCancel_Page2[];
+extern const u8 gText_PickSwitchCancel_Page3[];   // 新增：第三页顶部提示
 
 void OptionMenu_PickSwitchCancel(void)
 {
@@ -656,11 +766,19 @@ void OptionMenu_PickSwitchCancel(void)
         PutWindowTilemap(2);
         CopyWindowToVram(2, COPYWIN_BOTH);   
     }
-    else
+    else if(sOptionMenuPtr->page == 1)  // 第二页
     {
         x = 0xE4 - GetStringWidth(0, gText_PickSwitchCancel_Page2, 0);
         FillWindowPixelBuffer(2, PIXEL_FILL(15)); 
         AddTextPrinterParameterized3(2, 0, x, 0, sOptionMenuPickSwitchCancelTextColor, 0, gText_PickSwitchCancel_Page2);
+        PutWindowTilemap(2);
+        CopyWindowToVram(2, COPYWIN_BOTH);
+    }
+    else  // 第三页
+    {
+        x = 0xE4 - GetStringWidth(0, gText_PickSwitchCancel_Page3, 0);
+        FillWindowPixelBuffer(2, PIXEL_FILL(15)); 
+        AddTextPrinterParameterized3(2, 0, x, 0, sOptionMenuPickSwitchCancelTextColor, 0, gText_PickSwitchCancel_Page3);
         PutWindowTilemap(2);
         CopyWindowToVram(2, COPYWIN_BOTH);
     }

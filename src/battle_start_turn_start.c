@@ -2163,6 +2163,9 @@ u8 GetTrainerBattleTransition(void)
 	#ifdef FLAG_DOUBLE_BATTLE
 	|| FlagGet(FLAG_DOUBLE_BATTLE)
 	#endif
+	#ifdef VAR_DOUBLE_BATTLE
+    || VarGet(VAR_DOUBLE_BATTLE) == 1
+    #endif
 	) && ViableMonCount(gPlayerParty) >= 2)
 		minPartyCount = 2; // double battles always at least have 2 pokemon.
 	else

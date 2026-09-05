@@ -16,6 +16,9 @@ R键模式
 #org @gText_PickSwitchCancel_Page2
 [L_BUTTON][R_BUTTON]第2页 [DPAD_UP_DOWN]选择 [DPAD_LEFT_RIGHT]切换 [A_BUTTON][B_BUTTON]退出
 
+#org @gText_PickSwitchCancel_Page3
+[L_BUTTON][R_BUTTON]第3页 [DPAD_UP_DOWN]选择 [DPAD_LEFT_RIGHT]切换 [A_BUTTON][B_BUTTON]退出
+
 #org @gText_BattleMusic
 对战音乐
 

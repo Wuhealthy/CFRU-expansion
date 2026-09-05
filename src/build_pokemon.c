@@ -283,7 +283,7 @@ void BuildTrainerPartySetup(void)
 				}
 
 				#ifdef FLAG_DOUBLE_BATTLE
-				if (FlagGet(FLAG_DOUBLE_BATTLE) && k >= 2 && ViableMonCount(gPlayerParty) >= 2)
+				if ((FlagGet(FLAG_DOUBLE_BATTLE) || VarGet(VAR_DOUBLE_BATTLE) == 1) && k >= 2 && ViableMonCount(gPlayerParty) >= 2)
 					gBattleTypeFlags |= BATTLE_TYPE_DOUBLE;
 				#endif
 			}
@@ -1231,6 +1231,9 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 		#ifdef FLAG_DOUBLE_BATTLE
 		|| FlagGet(FLAG_DOUBLE_BATTLE)
 		#endif
+		#ifdef VAR_DOUBLE_BATTLE
+    	|| VarGet(VAR_DOUBLE_BATTLE) == 1        // 新增：选项菜单中的双打对战设置
+    	#endif
 		)
 		{
 			#ifdef OPEN_WORLD_TRAINERS

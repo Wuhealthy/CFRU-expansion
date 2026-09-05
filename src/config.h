@@ -349,6 +349,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define VAR_WILD_LEVEL_SCALING 0x5153
 #define VAR_AUTO_SORT_BAG 0x5154
 #define VAR_INVERSE_BATTLE 0x515A
+#define VAR_DOUBLE_BATTLE 0x515B
 
 /*Expansion specials!*/
 #define SIDEWAY_STAIRS_IMPLEMENTED //Uncomment if you're using Sideway Stairs patch.
