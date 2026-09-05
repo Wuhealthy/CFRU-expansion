@@ -702,6 +702,7 @@ static void RestoreNonConsumableItems(void)
 	u16* items = gNewBS->itemBackup;
 	#ifdef FLAG_KEEP_CONSUMABLE_ITEMS
 	bool8 keepConsumables = FlagGet(FLAG_KEEP_CONSUMABLE_ITEMS)
+			|| (VarGet(VAR_GAME_DIFFICULTY) != OPTIONS_EASY_DIFFICULTY)
 			#ifdef FLAG_SANDBOX_MODE
 			|| (FlagGet(FLAG_SANDBOX_MODE) && gBattleTypeFlags & BATTLE_TYPE_TRAINER) //All Trainer battles
 			#endif

@@ -928,6 +928,7 @@ bool8 SetMoveEffect2(void)
 		#ifdef FLAG_KEEP_CONSUMABLE_ITEMS
 		&& !FlagGet(FLAG_KEEP_CONSUMABLE_ITEMS) //Can't keep these items
 		#endif
+		&& VarGet(VAR_GAME_DIFFICULTY) == OPTIONS_EASY_DIFFICULTY
 		)
 		{
 			//Allow knocking off wild item even if KOd
@@ -1038,6 +1039,7 @@ bool8 SetMoveEffect2(void)
 				#ifdef FLAG_KEEP_CONSUMABLE_ITEMS
 				&& !FlagGet(FLAG_KEEP_CONSUMABLE_ITEMS) //Can't keep these items
 				#endif
+				&& VarGet(VAR_GAME_DIFFICULTY) == OPTIONS_EASY_DIFFICULTY
 				)
 					gNewBS->knockedOffWildItem = gLastUsedItem;
 				#endif
