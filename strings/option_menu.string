@@ -55,6 +55,9 @@ R键模式
 #org @gText_InverseBattle
 属性克制反转
 
+#org @gText_NoRandomWildEncounters
+无限喷雾
+
 #org @gText_Normal
 普通
 

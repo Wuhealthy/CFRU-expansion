@@ -86,6 +86,7 @@ enum
 enum
 {
     MENUITEM_DOUBLE_BATTLE = 0,      // 双打对战
+    MENUITEM_NO_RANDOM_WILD_ENCOUNTERS,      // 禁止随机野生遭遇
     MENUITEM_CANCEL_PAGE_3,          // 取消（第三页）
     MENUITEM_PAGE3_COUNT,            // 第三页菜单项总数
 };
@@ -124,6 +125,7 @@ extern const u8 gText_AutoSortBag[];
 extern const u8 gText_GameDifficulty[];
 extern const u8 gText_InverseBattle[];
 extern const u8 gText_DoubleBattle[];
+extern const u8 gText_NoRandomWildEncounters[];
 
 static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
 {
@@ -148,6 +150,7 @@ static const u8 *const sOptionMenuItemsNames_SecondPage[MENUITEM_PAGE2_COUNT] =
 static const u8 *const sOptionMenuItemsNames_ThirdPage[MENUITEM_PAGE3_COUNT] =
 {
     [MENUITEM_DOUBLE_BATTLE] = gText_DoubleBattle,
+    [MENUITEM_NO_RANDOM_WILD_ENCOUNTERS] = gText_NoRandomWildEncounters,
     [MENUITEM_CANCEL_PAGE_3] = gText_OptionMenuCancel,
 };
 
@@ -250,9 +253,14 @@ static const u8 *const sDoubleBattleOptions[] =
     gText_OffOption,
     gText_OnOption
 };
+static const u8 *const sNoRandomWildEncountersOptions[] =
+{
+    gText_OffOption,        // 关
+    gText_OnOption          // 开
+};
 static const u16 sOptionMenuItemCounts[MENUITEM_COUNT] = {3, 2, 2, 2, 3, 10, 0};
 static const u16 sOptionMenuItemCounts_SecondPage[MENUITEM_PAGE2_COUNT] = {3, 2, 2, 4, 4, 2, 0};
-static const u16 sOptionMenuItemCounts_ThirdPage[MENUITEM_PAGE3_COUNT] = {2, 0};
+static const u16 sOptionMenuItemCounts_ThirdPage[MENUITEM_PAGE3_COUNT] = {2, 2, 0};
 
 void CB2_OptionsMenuFromStartMenu(void)
 {
@@ -278,7 +286,8 @@ void CB2_OptionsMenuFromStartMenu(void)
     sOptionMenuPtr->option_secondPage[MENUITEM_GAME_DIFFICULTY] = VarGet(VAR_GAME_DIFFICULTY);
     sOptionMenuPtr->option_secondPage[MENUITEM_INVERSE_BATTLE] = VarGet(VAR_INVERSE_BATTLE);
     sOptionMenuPtr->option_thirdPage[MENUITEM_DOUBLE_BATTLE] = VarGet(VAR_DOUBLE_BATTLE);
-    
+    sOptionMenuPtr->option_thirdPage[MENUITEM_NO_RANDOM_WILD_ENCOUNTERS] = VarGet(VAR_NO_RANDOM_WILD_ENCOUNTERS);
+
     for (i = 0; i < MENUITEM_COUNT - 1; i++)
     {
         if (sOptionMenuPtr->option[i] > (sOptionMenuItemCounts[i]) - 1)
@@ -401,6 +410,7 @@ void CloseAndSaveOptionMenu(u8 taskId)
     VarSet(VAR_GAME_DIFFICULTY, sOptionMenuPtr->option_secondPage[MENUITEM_GAME_DIFFICULTY]);
     VarSet(VAR_INVERSE_BATTLE, sOptionMenuPtr->option_secondPage[MENUITEM_INVERSE_BATTLE]);
     VarSet(VAR_DOUBLE_BATTLE, sOptionMenuPtr->option_thirdPage[MENUITEM_DOUBLE_BATTLE]);
+    VarSet(VAR_NO_RANDOM_WILD_ENCOUNTERS, sOptionMenuPtr->option_thirdPage[MENUITEM_NO_RANDOM_WILD_ENCOUNTERS]);
     SetPokemonCryStereo(gSaveBlock2->optionsSound);
     FREE_AND_SET_NULL(sOptionMenuPtr);
     DestroyTask(taskId);
@@ -527,6 +537,9 @@ void BufferOptionMenuString(u8 selection)
         {
             case MENUITEM_DOUBLE_BATTLE:
                 AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sDoubleBattleOptions[sOptionMenuPtr->option_thirdPage[selection]]);
+                break;
+            case MENUITEM_NO_RANDOM_WILD_ENCOUNTERS:  // 新增
+                AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sNoRandomWildEncountersOptions[sOptionMenuPtr->option_thirdPage[selection]]);
                 break;
             default:
                 break;
