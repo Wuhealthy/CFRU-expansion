@@ -2540,6 +2540,7 @@ bool8 IsInverseBattle(void)
 		#ifdef FLAG_INVERSE
 		FlagGet(FLAG_INVERSE) ||
 		#endif
+		VarGet(VAR_INVERSE_BATTLE) == 1 ||
 		(IS_BATTLE_CIRCUS && gBattleCircusFlags & BATTLE_CIRCUS_INVERSE);
 }
 

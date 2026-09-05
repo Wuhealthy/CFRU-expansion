@@ -78,6 +78,7 @@ enum
     MENUITEM_WILDLEVELSCALING,
     MENUITEM_AUTOSORTBAG,
 	MENUITEM_GAME_DIFFICULTY,
+    MENUITEM_INVERSE_BATTLE,
     MENUITEM_CANCEL_PAGE_2,
     MENUITEM_PAGE2_COUNT,
 };
@@ -113,7 +114,7 @@ extern const u8 gText_BattleMusic[];
 extern const u8 gText_WildLevelScaling[];
 extern const u8 gText_AutoSortBag[];
 extern const u8 gText_GameDifficulty[];
-
+extern const u8 gText_InverseBattle[];
 static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
 {
     [MENUITEM_TEXTSPEED]   = gText_TextSpeed,
@@ -131,6 +132,7 @@ static const u8 *const sOptionMenuItemsNames_SecondPage[MENUITEM_COUNT] =
     [MENUITEM_WILDLEVELSCALING] = gText_WildLevelScaling,
     [MENUITEM_AUTOSORTBAG] = gText_AutoSortBag,
 	[MENUITEM_GAME_DIFFICULTY] = gText_GameDifficulty,
+    [MENUITEM_INVERSE_BATTLE] = gText_InverseBattle,
     [MENUITEM_CANCEL_PAGE_2] = gText_OptionMenuCancel,
 };
 
@@ -223,9 +225,13 @@ static const u8 *const sGameDifficultyOptions[] =
 	gText_Hard,
 	gText_Expert,
 };
-
+static const u8 *const sInverseBattleOptions[] =
+{
+    gText_OffOption,
+    gText_OnOption
+};
 static const u16 sOptionMenuItemCounts[MENUITEM_COUNT] = {3, 2, 2, 2, 3, 10, 0};
-static const u16 sOptionMenuItemCounts_SecondPage[MENUITEM_PAGE2_COUNT] = {3, 2, 2, 4, 4, 0};
+static const u16 sOptionMenuItemCounts_SecondPage[MENUITEM_PAGE2_COUNT] = {3, 2, 2, 4, 4, 2, 0};
 
 void CB2_OptionsMenuFromStartMenu(void)
 {
@@ -249,7 +255,7 @@ void CB2_OptionsMenuFromStartMenu(void)
     sOptionMenuPtr->option_secondPage[MENUITEM_WILDLEVELSCALING] = VarGet(VAR_WILD_LEVEL_SCALING);
     sOptionMenuPtr->option_secondPage[MENUITEM_AUTOSORTBAG] = VarGet(VAR_AUTO_SORT_BAG);
     sOptionMenuPtr->option_secondPage[MENUITEM_GAME_DIFFICULTY] = VarGet(VAR_GAME_DIFFICULTY);
-
+    sOptionMenuPtr->option_secondPage[MENUITEM_INVERSE_BATTLE] = VarGet(VAR_INVERSE_BATTLE);
     
     for (i = 0; i < MENUITEM_COUNT - 1; i++)
     {
@@ -353,6 +359,7 @@ void CloseAndSaveOptionMenu(u8 taskId)
     VarSet(VAR_WILD_LEVEL_SCALING, sOptionMenuPtr->option_secondPage[MENUITEM_WILDLEVELSCALING]);
     VarSet(VAR_AUTO_SORT_BAG, sOptionMenuPtr->option_secondPage[MENUITEM_AUTOSORTBAG]);
     VarSet(VAR_GAME_DIFFICULTY, sOptionMenuPtr->option_secondPage[MENUITEM_GAME_DIFFICULTY]);
+    VarSet(VAR_INVERSE_BATTLE, sOptionMenuPtr->option_secondPage[MENUITEM_INVERSE_BATTLE]);
     SetPokemonCryStereo(gSaveBlock2->optionsSound);
     FREE_AND_SET_NULL(sOptionMenuPtr);
     DestroyTask(taskId);
@@ -465,6 +472,9 @@ void BufferOptionMenuString(u8 selection)
                 break;
             case MENUITEM_GAME_DIFFICULTY:
                 AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sGameDifficultyOptions[sOptionMenuPtr->option_secondPage[selection]]);
+                break;
+            case MENUITEM_INVERSE_BATTLE:
+                AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sInverseBattleOptions[sOptionMenuPtr->option_secondPage[selection]]);
                 break;
             default:
                 break;

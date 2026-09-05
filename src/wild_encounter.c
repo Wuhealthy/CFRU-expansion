@@ -153,8 +153,8 @@ static u8 ChooseWildMonLevel(const struct WildPokemon* wildPokemon)
 		}
 		level /= gPlayerPartyCount;
 		if(min <= level && max <= level) {
-			min = level - 6;
-			max = level - 7;
+			min = level - 2;
+			max = level - 3;
 		}
 		if (min < 1 || min > 100) {
 			min = 2;

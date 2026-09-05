@@ -348,6 +348,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define VAR_BATTLE_MUSIC  0x5151
 #define VAR_WILD_LEVEL_SCALING 0x5153
 #define VAR_AUTO_SORT_BAG 0x5154
+#define VAR_INVERSE_BATTLE 0x515A
 
 /*Expansion specials!*/
 #define SIDEWAY_STAIRS_IMPLEMENTED //Uncomment if you're using Sideway Stairs patch.

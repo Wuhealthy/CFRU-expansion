@@ -49,6 +49,9 @@ R键模式
 #org @gText_GameDifficulty
 游戏难度
 
+#org @gText_InverseBattle
+属性克制反转
+
 #org @gText_Normal
 普通
 
