@@ -334,25 +334,25 @@ static const u8 * const sIVRankings_Images[] =
     [31] = sIVRankings_STiles,
 };
 
-#define HP_TEXT_X_POS 14
-#define STATS_TEXT_POS 50
+#define HP_TEXT_X_POS 40
+#define STATS_TEXT_POS 52
 #define EXP_TEXT_X_POS1 15
-#define EXP_TEXT_X_POS2 15
-#define HP_TEXT_Y_POS 4
-#define ATK_TEXT_Y_POS 22
-#define DEF_TEXT_Y_POS 35
-#define SPATK_TEXT_Y_POS 48
-#define SPDEF_TEXT_Y_POS 61
-#define SPD_TEXT_Y_POS 74
-#define EXP1_TEXT_Y_POS 87
-#define EXP2_TEXT_Y_POS 100
-#define STATS_IV_POS_X 15
-#define HP_IV_POS_Y 6
-#define ATK_IV_POS_Y 23
-#define DEF_IV_POS_Y 36
-#define SPATK_IV_POS_Y 49
-#define SPDEF_IV_POS_Y 62
-#define SPD_IV_POS_Y 75
+#define EXP_TEXT_X_POS2 16
+#define HP_TEXT_Y_POS 0
+#define ATK_TEXT_Y_POS 20
+#define DEF_TEXT_Y_POS 32
+#define SPATK_TEXT_Y_POS 44
+#define SPDEF_TEXT_Y_POS 56
+#define SPD_TEXT_Y_POS 68
+#define EXP1_TEXT_Y_POS 80
+#define EXP2_TEXT_Y_POS 92
+#define STATS_IV_POS_X 40
+#define HP_IV_POS_Y 2
+#define ATK_IV_POS_Y 22
+#define DEF_IV_POS_Y 34
+#define SPATK_IV_POS_Y 46
+#define SPDEF_IV_POS_Y 58
+#define SPD_IV_POS_Y 70
 
 void PrintSkillsPage(void)
 {
