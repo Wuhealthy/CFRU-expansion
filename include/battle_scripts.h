@@ -186,6 +186,7 @@ extern const u8 BattleScript_ShedSkinActivates[];
 extern const u8 BattleScript_WeatherFormChanges[];
 extern const u8 BattleScript_WeatherFormChangesLoop[];
 extern const u8 BattleScript_CastformChange[];
+extern const u8 BattleScript_TrickRoomEntryActivates[];
 extern const u8 BattleScript_82DB4AF[];
 extern const u8 BattleScript_82DB4B8[];
 extern const u8 BattleScript_82DB4BE[];

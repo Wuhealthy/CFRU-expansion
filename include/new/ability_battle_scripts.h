@@ -77,6 +77,7 @@ extern const u8 BattleScript_IllusionBroken[];
 extern const u8 BattleScript_SynchronizeActivates[];
 extern const u8 BattleScript_ObliviousPrevents[];
 extern const u8 BattleScript_CastformChange[];
+extern const u8 BattleScript_TrickRoomEntryActivates[];
 extern const u8 BattleScript_CottonDownActivates[];
 extern const u8 BattleScript_PerishBody[];
 extern const u8 BattleScript_PerishBodyReturn[];

@@ -361,3 +361,4 @@ gAbilityDescriptions:
 .word DESC_BRUTALFORCE                           @ 350 ABILITY_BRUTALFORCE
 .word DESC_PHANTOMWALL                           @ 351 ABILITY_PHANTOMWALL
 .word DESC_VAMPIRE                               @ 352 ABILITY_VAMPIRE
+.word DESC_TRICKROOMENTRY                        @ 352 ABILITY_TRICKROOMENTRY

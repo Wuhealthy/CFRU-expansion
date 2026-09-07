@@ -98,6 +98,7 @@ ability_battle_scripts.s
 .global BattleScript_AbilityNoSpecificStatLoss
 .global BattleScript_MirrorArmorReflectsIntimidate
 .global BattleScript_CastformChange
+.global BattleScript_TrickRoomEntryActivates
 .global BattleScript_CottonDownActivates
 .global BattleScript_PerishBody
 .global BattleScript_SturdyPreventsOHKO
@@ -1385,6 +1386,16 @@ CastformChangeSkipAbilityPopUp:
 	waitmessage DELAY_1SECOND
 	call BattleScript_AbilityPopUpRevert
 	return
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+BattleScript_TrickRoomEntryActivates:
+    call BattleScript_AbilityPopUp
+	playanimation BANK_SCRIPTING B_ANIM_TRICK_ROOM 0x0
+    setword BATTLE_STRING_LOADER TrickRoomSetAString
+    printstring 0x184
+    waitmessage DELAY_1SECOND
+    call BattleScript_AbilityPopUpRevert
+    end3
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

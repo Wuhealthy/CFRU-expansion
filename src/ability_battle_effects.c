@@ -952,6 +952,18 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			}
 			break;
 
+		case ABILITY_TRICKROOMENTRY:
+			if (gNewBS->TrickRoomTimer == 0)
+        	{
+            	// 设置戏法空间持续5回合
+            	gNewBS->TrickRoomTimer = 5;
+            
+            	// 显示特性弹出框和戏法空间消息
+            	BattleScriptPushCursorAndCallback(BattleScript_TrickRoomEntryActivates);
+            	effect++;
+        	}
+			break;
+
 		case ABILITY_FORECAST:
 			effect = CastformDataTypeChange(bank);
 			if (effect != 0)

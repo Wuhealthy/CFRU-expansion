@@ -275,6 +275,7 @@ const u8* DoPrimalInstinct(u8 bank, u8 caseId)
 		case SPECIES_FEAROW:		targetSpecies = SPECIES_FEAROW_MEGA;		break;
 		case SPECIES_CLOYSTER:		targetSpecies = SPECIES_CLOYSTER_MEGA;		break;
 		case SPECIES_MR_MIME:		targetSpecies = SPECIES_MR_MIME_MEGA;		break;
+		case SPECIES_CARBINK:		targetSpecies = SPECIES_CARBINK_MEGA;		break;
 		case SPECIES_LANTURN:		targetSpecies = SPECIES_LANTURN_MEGA;		break;
 		case SPECIES_ARCANINE:		targetSpecies = SPECIES_GOLEM_MEGA;			break;
 		case SPECIES_RAPIDASH:		targetSpecies = SPECIES_RAPIDASH_MEGA;		break;

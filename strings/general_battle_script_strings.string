@@ -25,6 +25,9 @@
 #org @TrickRoomSetString
 [ATTACKER]扭曲了时空！
 
+#org @TrickRoomSetAString
+[SCRIPTING_BANK]扭曲了时空！
+
 #org @WonderRoomSetString
 凭空制造出了互换\n防御和特防的空间！
 

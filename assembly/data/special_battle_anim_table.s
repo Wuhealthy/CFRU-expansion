@@ -106,6 +106,7 @@ gBattleAnims_General:
 .word ANIM_SPIKES2
 .word ANIM_FROSTBITE
 .word B_ANIM_PSY_GRAVITY
+.word B_ANIM_TRICK_ROOM
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -1305,6 +1306,25 @@ B_ANIM_PSY_GRAVITY:
     launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x2 0x9 0x0 0x7fff
     waitanimation
     endanimation
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+.global B_ANIM_TRICK_ROOM
+B_ANIM_TRICK_ROOM:
+    call BEGIN_ROOM
+    loadBG1 BG_TRICK_ROOM
+    waitbgfadein
+    pause 0x40
+    loaddefaultBG
+    waitbgfadein
+    resetblends
+    endanimation
+
+BEGIN_ROOM:
+	setblends 0x808
+	playsound2 0xB1 SOUND_PAN_TARGET
+	launchtask AnimTask_ScaleMonAndRestore 0x5 0x5 0xfffa 0xfffa 0xf bank_attacker 0x1
+	return
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
