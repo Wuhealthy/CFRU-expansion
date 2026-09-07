@@ -815,6 +815,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 		if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS && side == B_SIDE_OPPONENT)
 		{	
 			#ifdef OPEN_WORLD_TRAINERS
+			u8 class = trainer->trainerClass;
 			if ((firstTrainer && gTrainerBattleOpponent_A < DYNAMIC_TRAINER_LIMIT && class != CLASS_RIVAL && class != CLASS_RIVAL_2)
 			||  (!firstTrainer && VarGet(VAR_SECOND_OPPONENT) < DYNAMIC_TRAINER_LIMIT))
 			{
@@ -4076,7 +4077,9 @@ void SetMonHeldItem(struct PokemonSubstruct0* data, u16 item, struct Pokemon* mo
 
 static u8 GetOpenWorldTrainerMonAmount(void)
 {
-	switch (GetOpenWorldBadgeCount()) {
+	return gPlayerPartyCount > 0 ? gPlayerPartyCount : 1;
+
+	/*switch (GetOpenWorldBadgeCount()) {
 		case 0:
 			return 1;
 		case 1:
@@ -4095,7 +4098,7 @@ static u8 GetOpenWorldTrainerMonAmount(void)
 			return 5;
 		default:
 			return 6;
-	}
+	}*/
 }
 
 static u8 GetOpenWorldSpeciesIndex(u32 nameHash, u8 i)
@@ -4105,13 +4108,43 @@ static u8 GetOpenWorldSpeciesIndex(u32 nameHash, u8 i)
 
 static u8 GetOpenWorldSpeciesLevel(u32 nameHash, u8 i)
 {
-	u8 badgeCount = GetOpenWorldBadgeCount();
+	u8 highestLevel = 0;
+    u8 level;
+
+    // 获取队伍最高等级
+    for (u8 j = 0; j < PARTY_SIZE; j++)
+    {
+        if (GetMonData(&gPlayerParty[j], MON_DATA_SPECIES, NULL) != SPECIES_NONE
+            && GetMonData(&gPlayerParty[j], MON_DATA_SPECIES, NULL) != SPECIES_EGG)
+        {
+            level = GetMonData(&gPlayerParty[j], MON_DATA_LEVEL, NULL);
+            if (level > highestLevel)
+                highestLevel = level;
+        }
+    }
+
+    if (highestLevel == 0)
+        highestLevel = 5;  // 保底值
+    
+    // 设置等级范围：最高等级 ± 2
+    u8 min = highestLevel > 2 ? highestLevel - 2 : 5;
+    u8 max = highestLevel + 2;
+    
+    // 限制等级范围
+    if (min < 5) min = 5;
+    if (max > 100) max = 100;
+    if (min > max) min = max - 2;
+    
+    u8 range = (max - min) + 1;
+    return min + ((nameHash + 7 * i) ^ T1_READ_32(gSaveBlock2->playerTrainerId)) % range;
+	
+	/*u8 badgeCount = GetOpenWorldBadgeCount();
 
 	u8 max = MathMax(gOpenWorldLevelRanges[badgeCount][0], gOpenWorldLevelRanges[badgeCount][1]); //Prevent incorrect order errors
 	u8 min = MathMin(gOpenWorldLevelRanges[badgeCount][0], gOpenWorldLevelRanges[badgeCount][1]);
 	u8 range = (max - min) + 1;
 
-	return min + ((nameHash + 7 * i) ^ T1_READ_32(gSaveBlock2->playerTrainerId)) % range;
+	return min + ((nameHash + 7 * i) ^ T1_READ_32(gSaveBlock2->playerTrainerId)) % range;*/
 }
 
 #endif
