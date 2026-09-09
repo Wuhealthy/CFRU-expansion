@@ -3928,7 +3928,7 @@ const struct Trainer gTrainers[] = {
 	    .party = {.NoItemCustomMoves = sParty_TrainerRivalRoute22EarlyCharmander}
 	},
 	[TRAINER_RIVAL_CERULEAN_SQUIRTLE] = {
-	    .partyFlags = PARTY_FLAG_CUSTOM_MOVES,
+	    .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,
 	    .trainerClass = CLASS_RIVAL,
 	    .encounterMusic = TRAINER_ENCOUNTER_MUSIC_MALE,
 	    .trainerPic = TRAINER_PIC_BLUE,
@@ -3937,10 +3937,10 @@ const struct Trainer gTrainers[] = {
 	    .doubleBattle = FALSE,
 	    .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_GOOD_MOVE | AI_SCRIPT_SEMI_SMART,
 	    .partySize = NELEMS(sParty_TrainerRivalCeruleanSquirtle),
-	    .party = {.NoItemCustomMoves = sParty_TrainerRivalCeruleanSquirtle}
+	    .party = {.ItemCustomMoves = sParty_TrainerRivalCeruleanSquirtle}
 	},
 	[TRAINER_RIVAL_CERULEAN_BULBASAUR] = {
-	    .partyFlags = PARTY_FLAG_CUSTOM_MOVES,
+	    .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,
 	    .trainerClass = CLASS_RIVAL,
 	    .encounterMusic = TRAINER_ENCOUNTER_MUSIC_MALE,
 	    .trainerPic = TRAINER_PIC_BLUE,
@@ -3949,10 +3949,10 @@ const struct Trainer gTrainers[] = {
 	    .doubleBattle = FALSE,
 	    .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_GOOD_MOVE | AI_SCRIPT_SEMI_SMART,
 	    .partySize = NELEMS(sParty_TrainerRivalCeruleanBulbasaur),
-	    .party = {.NoItemCustomMoves = sParty_TrainerRivalCeruleanBulbasaur}
+	    .party = {.ItemCustomMoves = sParty_TrainerRivalCeruleanBulbasaur}
 	},
 	[TRAINER_RIVAL_CERULEAN_CHARMANDER] = {
-	    .partyFlags = PARTY_FLAG_CUSTOM_MOVES,
+	    .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,
 	    .trainerClass = CLASS_RIVAL,
 	    .encounterMusic = TRAINER_ENCOUNTER_MUSIC_MALE,
 	    .trainerPic = TRAINER_PIC_BLUE,
@@ -3961,7 +3961,7 @@ const struct Trainer gTrainers[] = {
 	    .doubleBattle = FALSE,
 	    .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_GOOD_MOVE | AI_SCRIPT_SEMI_SMART,
 	    .partySize = NELEMS(sParty_TrainerRivalCeruleanCharmander),
-	    .party = {.NoItemCustomMoves = sParty_TrainerRivalCeruleanCharmander}
+	    .party = {.ItemCustomMoves = sParty_TrainerRivalCeruleanCharmander}
 	},
 	[TRAINER_SCIENTIST_TED] = {
 	    .partyFlags = 0,

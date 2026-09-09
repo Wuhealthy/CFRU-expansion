@@ -3815,84 +3815,96 @@ static const struct TrainerMonNoItemCustomMoves sParty_TrainerRivalRoute22EarlyC
     },
 };
 
-static const struct TrainerMonNoItemCustomMoves sParty_TrainerRivalCeruleanSquirtle[] = {
+static const struct TrainerMonItemCustomMoves sParty_TrainerRivalCeruleanSquirtle[] = {//华蓝市劲敌水主
+    {
+        .iv = 50,
+        .lvl = 19,
+        .species = SPECIES_DODUO,//嘟嘟
+        .heldItem = ITEM_SHARP_BEAK,//锐利鸟嘴
+        .moves = {MOVE_DOUBLEHIT, MOVE_PLUCK, MOVE_ENDEAVOR, MOVE_MIRRORMOVE},//二连击、啄食、蛮干、鹦鹉学舌
+    },
+    {
+        .iv = 50,
+        .lvl = 18,
+        .species = SPECIES_GROWLITHE,//卡蒂狗
+        .heldItem = ITEM_MUSCLE_BAND,//力量头带
+        .moves = {MOVE_FLAMEWHEEL, MOVE_BITE, MOVE_DOUBLEKICK, MOVE_HOWL},//火焰轮、咬住、二连踢、长嚎
+    },
     {
         .iv = 50,
         .lvl = 17,
-        .species = SPECIES_PIDGEOTTO,
-        .moves = {MOVE_TACKLE, MOVE_SANDATTACK, MOVE_GUST, MOVE_QUICKATTACK},
-    },
-    {
-        .iv = 50,
-        .lvl = 16,
-        .species = SPECIES_ABRA,
-        .moves = {MOVE_TELEPORT, MOVE_NONE, MOVE_NONE, MOVE_NONE},
-    },
-    {
-        .iv = 50,
-        .lvl = 15,
-        .species = SPECIES_RATTATA,
-        .moves = {MOVE_TACKLE, MOVE_TAILWHIP, MOVE_QUICKATTACK, MOVE_NONE},
+        .species = SPECIES_RHYHORN,//独角犀牛
+        .heldItem = ITEM_QUICK_CLAW,//先制之爪
+        .moves = {MOVE_CURSE, MOVE_METALBURST, MOVE_SMACKDOWN, MOVE_BULLDOZE},//诅咒、金属爆炸、击落、重踏
     },
     {
         .iv = 100,
-        .lvl = 18,
-        .species = SPECIES_SQUIRTLE,
-        .moves = {MOVE_TACKLE, MOVE_TAILWHIP, MOVE_WITHDRAW, MOVE_WATERGUN},
+        .lvl = 20,
+        .species = SPECIES_WARTORTLE,//卡咪龟
+        .heldItem = ITEM_LEFTOVERS,//吃剩的东西
+        .moves = {MOVE_YAWN, MOVE_PROTECT, MOVE_AQUAJET, MOVE_RAPIDSPIN},//哈欠、守住、水流喷射、高速旋转
     },
 };
 
-static const struct TrainerMonNoItemCustomMoves sParty_TrainerRivalCeruleanBulbasaur[] = {
+static const struct TrainerMonItemCustomMoves sParty_TrainerRivalCeruleanBulbasaur[] = {//华蓝市劲敌草主
+    {
+        .iv = 50,
+        .lvl = 19,
+        .species = SPECIES_DODUO,//嘟嘟
+        .heldItem = ITEM_SHARP_BEAK,//锐利鸟嘴
+        .moves = {MOVE_DOUBLEHIT, MOVE_PLUCK, MOVE_ENDEAVOR, MOVE_MIRRORMOVE},//二连击、啄食、蛮干、鹦鹉学舌
+    },
+    {
+        .iv = 50,
+        .lvl = 18,
+        .species = SPECIES_GROWLITHE,//卡蒂狗
+        .heldItem = ITEM_MUSCLE_BAND,//力量头带
+        .moves = {MOVE_FLAMEWHEEL, MOVE_BITE, MOVE_DOUBLEKICK, MOVE_HOWL},//火焰轮、咬住、二连踢、长嚎
+    },
     {
         .iv = 50,
         .lvl = 17,
-        .species = SPECIES_PIDGEOTTO,
-        .moves = {MOVE_TACKLE, MOVE_SANDATTACK, MOVE_GUST, MOVE_QUICKATTACK},
-    },
-    {
-        .iv = 50,
-        .lvl = 16,
-        .species = SPECIES_ABRA,
-        .moves = {MOVE_TELEPORT, MOVE_NONE, MOVE_NONE, MOVE_NONE},
-    },
-    {
-        .iv = 50,
-        .lvl = 15,
-        .species = SPECIES_RATTATA,
-        .moves = {MOVE_TACKLE, MOVE_TAILWHIP, MOVE_QUICKATTACK, MOVE_NONE},
+        .species = SPECIES_RHYHORN,//独角犀牛
+        .heldItem = ITEM_QUICK_CLAW,//先制之爪
+        .moves = {MOVE_CURSE, MOVE_METALBURST, MOVE_SMACKDOWN, MOVE_BULLDOZE},//诅咒、金属爆炸、击落、重踏
     },
     {
         .iv = 100,
-        .lvl = 18,
-        .species = SPECIES_BULBASAUR,
-        .moves = {MOVE_SLEEPPOWDER, MOVE_POISONPOWDER, MOVE_VINEWHIP, MOVE_LEECHSEED},
+        .lvl = 20,
+        .species = SPECIES_IVYSAUR,//妙蛙草
+        .heldItem = ITEM_LEFTOVERS,//吃剩的东西
+        .moves = {MOVE_SLEEPPOWDER, MOVE_SEEDBOMB, MOVE_SLUDGE, MOVE_LEECHSEED},//催眠粉、种子炸弹、污泥攻击、寄生种子
     },
 };
 
-static const struct TrainerMonNoItemCustomMoves sParty_TrainerRivalCeruleanCharmander[] = {
+static const struct TrainerMonItemCustomMoves sParty_TrainerRivalCeruleanCharmander[] = {//华蓝市劲敌火主
+    {
+        .iv = 50,
+        .lvl = 19,
+        .species = SPECIES_DODUO,//嘟嘟
+        .heldItem = ITEM_SHARP_BEAK,//锐利鸟嘴
+        .moves = {MOVE_DOUBLEHIT, MOVE_PLUCK, MOVE_ENDEAVOR, MOVE_MIRRORMOVE},//二连击、啄食、蛮干、鹦鹉学舌
+    },
+    {
+        .iv = 50,
+        .lvl = 18,
+        .species = SPECIES_HORSEA,//墨海马
+        .heldItem = ITEM_QUICK_CLAW,//先制之爪
+        .moves = {MOVE_SMOKESCREEN, MOVE_WATERPULSE, MOVE_DRAGONRAGE, MOVE_AURORABEAM},//烟幕、水之波动、龙之怒、极光束
+    },
     {
         .iv = 50,
         .lvl = 17,
-        .species = SPECIES_PIDGEOTTO,
-        .moves = {MOVE_TACKLE, MOVE_SANDATTACK, MOVE_GUST, MOVE_QUICKATTACK},
-    },
-    {
-        .iv = 50,
-        .lvl = 16,
-        .species = SPECIES_ABRA,
-        .moves = {MOVE_TELEPORT, MOVE_NONE, MOVE_NONE, MOVE_NONE},
-    },
-    {
-        .iv = 50,
-        .lvl = 15,
-        .species = SPECIES_RATTATA,
-        .moves = {MOVE_TACKLE, MOVE_TAILWHIP, MOVE_QUICKATTACK, MOVE_NONE},
+        .species = SPECIES_RHYHORN,//独角犀牛
+        .heldItem = ITEM_LEFTOVERS,//吃剩的东西
+        .moves = {MOVE_CURSE, MOVE_METALBURST, MOVE_SMACKDOWN, MOVE_BULLDOZE},//诅咒、金属爆炸、击落、重踏
     },
     {
         .iv = 100,
-        .lvl = 18,
-        .species = SPECIES_CHARMANDER,
-        .moves = {MOVE_METALCLAW, MOVE_EMBER, MOVE_GROWL, MOVE_SCRATCH},
+        .lvl = 20,
+        .species = SPECIES_CHARMELEON,//火恐龙
+        .heldItem = ITEM_CHOICE_BAND,//讲究头带
+        .moves = {MOVE_METALCLAW, MOVE_FIREFANG, MOVE_DRAGONRAGE, MOVE_BITE},//金属爪、火焰牙、龙之怒、咬住
     },
 };
 
