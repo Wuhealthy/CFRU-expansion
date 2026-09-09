@@ -198,6 +198,7 @@ static void PostProcessTeam(struct Pokemon* party, struct TeamBuilder* builder);
 static void TryShuffleMovesForCamomons(struct Pokemon* party, u8 tier, u16 trainerId);
 static u8 GetPartyIdFromPartyData(struct Pokemon* mon);
 static u8 GetHighestMonLevel(const struct Pokemon* const party);
+static u8 GetDynamicLevelRange(const struct Pokemon* const party, s8 minOffset, s8 maxOffset);
 static void CheckShinyMon(struct Pokemon* mon);
 #ifdef UNBOUND
 extern u8 GetEVSpreadNumForUnboundRivalChallenge(struct Pokemon* mon, u32 aiFlags, u8 trainerClass);
@@ -4055,6 +4056,49 @@ static u8 GetHighestMonLevel(const struct Pokemon* const party)
 	}
 
 	return max;
+}
+
+static u8 GetDynamicLevelRange(const struct Pokemon* const party, s8 minOffset, s8 maxOffset)
+{
+    u8 highestLevel = 0;
+    u8 i;
+
+    // 获取队伍最高等级
+    for (i = 0; i < PARTY_SIZE; ++i)
+    {
+        u16 species = GetMonData(&party[i], MON_DATA_SPECIES2, NULL);
+
+        if (species == SPECIES_NONE)
+            break;
+
+        if (species == SPECIES_EGG)
+            continue;
+
+        u8 level = GetMonData(&party[i], MON_DATA_LEVEL, NULL);
+        if (level > highestLevel)
+        {
+            highestLevel = level;
+            if (highestLevel == MAX_LEVEL)
+                break;
+        }
+    }
+
+    // 保底值
+    if (highestLevel == 0)
+        highestLevel = 5;
+
+    // 计算等级范围
+    s32 min = highestLevel + minOffset;
+    s32 max = highestLevel + maxOffset;
+
+    // 限制等级范围
+    if (min < 1) min = 1;
+    if (max > MAX_LEVEL) max = MAX_LEVEL;
+    if (min > max) min = max - 2;
+
+    // 随机返回范围内的一个等级
+    u8 range = (max - min) + 1;
+    return min + (Random() % range);
 }
 
 u8 GetMonPokeBall(struct PokemonSubstruct0* data)

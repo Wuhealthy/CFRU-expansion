@@ -21,6 +21,10 @@
 	if (FlagGet(FLAG_SCALE_TRAINER_LEVELS)																													\
 	|| (gBattleTypeFlags & BATTLE_TYPE_TRAINER_TOWER))																										\
 		lvl = GetHighestMonLevel(gPlayerParty);																												\
+	else if (VarGet(VAR_GAME_DIFFICULTY) >= 2)																												\
+	{																																						\
+		lvl = GetDynamicLevelRange(gPlayerParty, -2, +2);																									\
+	}																																						\
 																																							\
 	if (levelScaling && (side == B_SIDE_OPPONENT || !firstTrainer))																							\
 	{																																						\
