@@ -3892,7 +3892,7 @@ const struct Trainer gTrainers[] = {
 	    .party = {.NoItemDefaultMoves = sParty_TrainerRivalOaksLabCharmander}
 	},
 	[TRAINER_RIVAL_ROUTE22_EARLY_SQUIRTLE] = {
-	    .partyFlags = PARTY_FLAG_CUSTOM_MOVES,
+	    .partyFlags = 0,
 	    .trainerClass = CLASS_RIVAL,
 	    .encounterMusic = TRAINER_ENCOUNTER_MUSIC_MALE,
 	    .trainerPic = TRAINER_PIC_BLUE,
@@ -3904,7 +3904,7 @@ const struct Trainer gTrainers[] = {
 	    .party = {.NoItemCustomMoves = sParty_TrainerRivalRoute22EarlySquirtle}
 	},
 	[TRAINER_RIVAL_ROUTE22_EARLY_BULBASAUR] = {
-	    .partyFlags = PARTY_FLAG_CUSTOM_MOVES,
+	    .partyFlags = 0,
 	    .trainerClass = CLASS_RIVAL,
 	    .encounterMusic = TRAINER_ENCOUNTER_MUSIC_MALE,
 	    .trainerPic = TRAINER_PIC_BLUE,
@@ -3916,7 +3916,7 @@ const struct Trainer gTrainers[] = {
 	    .party = {.NoItemCustomMoves = sParty_TrainerRivalRoute22EarlyBulbasaur}
 	},
 	[TRAINER_RIVAL_ROUTE22_EARLY_CHARMANDER] = {
-	    .partyFlags = PARTY_FLAG_CUSTOM_MOVES,
+	    .partyFlags = 0,
 	    .trainerClass = CLASS_RIVAL,
 	    .encounterMusic = TRAINER_ENCOUNTER_MUSIC_MALE,
 	    .trainerPic = TRAINER_PIC_BLUE,

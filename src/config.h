@@ -382,7 +382,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define VAR_GAME_DIFFICULTY 0x5157 //Var to store the game difficulty level. If 0 difficulty is normal(vanilla), if 1 its easy, if 2 its Hard, if 3 its Expert. ShouldGiveTrainerMonMaxFriendship and ShouldGiveTrainerMonMaxEVs need to be set at your choice in build_pokemon.c
 #define CRY_SPECIES SPECIES_CHARIZARD //The species that will be used for the cry in the titlescreen. Currently its 0x6 (Charizard).
 #define OAK_INTRO_SPECIES SPECIES_CARBINK_MEGA //The species that appears in Oak's intro(New Game).
-#define OPEN_WORLD_TRAINERS // Custom Trainers and teams based on party levels (Not area based, making game open world). CAUTION: NOT TO USE WQITH EXPAND_TRAINERS
+//#define OPEN_WORLD_TRAINERS // Custom Trainers and teams based on party levels (Not area based, making game open world). CAUTION: NOT TO USE WQITH EXPAND_TRAINERS
 //Also, using OPEN_WORLD_TRAINERS, you would need to edit gGeneralTrainerSpreads in build_pokemon.c
 #define SHOW_MEGAS_IN_HOF // Uncomment if you want mega and primal to be shown in hall of fame.
 #define FLAG_STAT_EDITOR_UNLOCKED 0xA0C
@@ -407,4 +407,4 @@ enum //These vars need to be one after the other (hence the enum)
 #define PALETTE_SWAPPER
 
 /* Trainer Data */
-//#define EXPAND_TRAINERS // Makes trainers editable, well useless if OPEN_WORLD_TRAINERS is being used.
+#define EXPAND_TRAINERS // Makes trainers editable, well useless if OPEN_WORLD_TRAINERS is being used.

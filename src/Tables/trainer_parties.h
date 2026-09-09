@@ -3780,14 +3780,12 @@ static const struct TrainerMonNoItemCustomMoves sParty_TrainerRivalRoute22EarlyS
     {
         .iv = 50,
         .lvl = 9,
-        .species = SPECIES_PIDGEY,
-        .moves = {MOVE_TACKLE, MOVE_SANDATTACK, MOVE_NONE, MOVE_NONE},
+        .species = SPECIES_DODUO,
     },
     {
         .iv = 50,
         .lvl = 9,
         .species = SPECIES_SQUIRTLE,
-        .moves = {MOVE_TACKLE, MOVE_TAILWHIP, MOVE_NONE, MOVE_NONE},
     },
 };
 
@@ -3795,14 +3793,12 @@ static const struct TrainerMonNoItemCustomMoves sParty_TrainerRivalRoute22EarlyB
     {
         .iv = 50,
         .lvl = 9,
-        .species = SPECIES_PIDGEY,
-        .moves = {MOVE_TACKLE, MOVE_SANDATTACK, MOVE_NONE, MOVE_NONE},
+        .species = SPECIES_DODUO,
     },
     {
         .iv = 50,
         .lvl = 9,
         .species = SPECIES_BULBASAUR,
-        .moves = {MOVE_TACKLE, MOVE_GROWL, MOVE_NONE, MOVE_NONE},
     },
 };
 
@@ -3810,14 +3806,12 @@ static const struct TrainerMonNoItemCustomMoves sParty_TrainerRivalRoute22EarlyC
     {
         .iv = 50,
         .lvl = 9,
-        .species = SPECIES_PIDGEY,
-        .moves = {MOVE_TACKLE, MOVE_SANDATTACK, MOVE_NONE, MOVE_NONE},
+        .species = SPECIES_DODUO,
     },
     {
         .iv = 50,
         .lvl = 9,
         .species = SPECIES_CHARMANDER,
-        .moves = {MOVE_SCRATCH, MOVE_GROWL, MOVE_NONE, MOVE_NONE},
     },
 };
 
