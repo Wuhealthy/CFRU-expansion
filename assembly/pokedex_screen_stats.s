@@ -13,7 +13,9 @@ PokedexScreenStats:
 	str r6, [sp, #4]
 	mov r0, r10
 	cmp r0, #0
-	beq unknown_base_stats
+	bne stats_continue 
+	b unknown_base_stats
+stats_continue:
 	
 hp:
 	mov r0, #0
@@ -76,12 +78,12 @@ spe:
 	bl call_via_r5
 
 print_ability_one:
-	ldrh r0, [sp, #0x1C] @Species
+	ldrh r0, [sp, #0x1C] @ Species
 	bl GetAbility1
 	ldrh r1, [sp, #0x1C]
 	bl GetAbilityName
 	mov r2, r0
- 
+
 	ldr r1, [r7]
 	add r1, #0x53
 	ldrb r1, [r1]
@@ -97,17 +99,19 @@ print_ability_two:
 	ldrh r0, [sp, #0x1C]
 	bl GetAbility1
 	mov r5, r0
-	ldr r0, [sp, #0x1C]
+
+	ldrh r0, [sp, #0x1C]
 	bl GetAbility2
 
-	cmp r5, r0 @Ability 1 == Ability 2
-	beq return
-	cmp r0, #0 @Ability 2 == 0
-	beq return
+	cmp r5, r0 @ Ability 1 == Ability 2
+	beq skip_ability_two
+	cmp r0, #0 @ Ability 2 == 0
+	beq skip_ability_two
+
 	ldrh r1, [sp, #0x1C]
 	bl GetAbilityName
-   	mov r2, r0
-	
+	mov r2, r0
+
 	ldr r1, [r7]
 	add r1, #0x53
 	ldrb r1, [r1]
@@ -116,6 +120,44 @@ print_ability_two:
 	mov r3, #60
 	str r3, [sp]
 	mov r3, #0
+	ldr r5, write_method
+	bl call_via_r5
+
+skip_ability_two:
+	b print_ability_three
+
+print_ability_three:
+	ldrh r0, [sp, #0x1C]
+	bl GetAbility1
+	mov r5, r0
+
+	ldrh r0, [sp, #0x1C]
+	bl GetHiddenAbility
+
+	cmp r5, r0
+	beq return
+	cmp r0, #0
+	beq return
+	mov r5, r0
+
+	ldrh r0, [sp, #0x1C]
+	bl GetAbility2
+	cmp r0, r5
+	beq return
+
+	mov r0, r5
+	ldrh r1, [sp, #0x1C]
+	bl GetAbilityName
+	mov r2, r0
+
+	ldr r1, [r7]
+	add r1, #0x53
+	ldrb r1, [r1]
+	mov r0, r1
+	mov r1, #0
+	mov r3, #46
+	str r3, [sp]
+	mov r3, #0x28
 	ldr r5, write_method
 	bl call_via_r5
 	b return
