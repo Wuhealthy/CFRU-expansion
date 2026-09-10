@@ -31,6 +31,7 @@
 #include "../include/new/dynamic_ow_pals.h"
 
 void Task_HandleChooseMonInput(u8 taskId);
+u8* __attribute__((long_call)) GetMapName(u8* dest, u16 regionMapId, u16 padLength);
 
 #define NEW_START_MENU_VISIBLE_ICONS 7
 #define NEW_START_MENU_ACTION_COUNT 9
@@ -1450,9 +1451,18 @@ static void DrawNewStartMenuInfo(struct NewStartMenuState *state)
 
         // 组合完整时间字符串
         StringExpandPlaceholders(gStringVar4, gText_StartMenu_TimeBase_12Hr);
+        
+        s16 timeWidth = NEW_START_MENU_INFO_RIGHT_EDGE
+                      - GetNewStartMenuRenderedRightAlignX(state, gStringVar4, NEW_START_MENU_INFO_RIGHT_EDGE);
 
         // 打印时间
         PrintNewStartMenuInfoText(state, 4, gStringVar4);
+
+        {
+            u8 mapNameBuf[32];
+            GetMapName(mapNameBuf, gMapHeader.regionMapSectionId, 0);
+            PrintNewStartMenuInfoText(state, 4 + timeWidth + 16, mapNameBuf);
+        }
     }
 
     StringExpandPlaceholders(gStringVar2, sNewStartMenuDisplayNames[action]);
