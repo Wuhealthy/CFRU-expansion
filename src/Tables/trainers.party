@@ -5490,11 +5490,11 @@ Items:
 Double Battle: No
 AI: Check Bad Move / Semi Smart / Check Good Move
 
-Pidgey
+Doduo
 Level: 9
 CFRU IV: 50
-- Tackle
-- Sand Attack
+- Fury Attack
+- Peck
 
 Squirtle
 Level: 9
@@ -5512,11 +5512,11 @@ Items:
 Double Battle: No
 AI: Check Bad Move / Check Good Move / Semi Smart
 
-Pidgey
+Doduo
 Level: 9
 CFRU IV: 50
-- Tackle
-- Sand Attack
+- Fury Attack
+- Peck
 
 Bulbasaur
 Level: 9
@@ -5534,11 +5534,11 @@ Items:
 Double Battle: No
 AI: Check Bad Move / Check Good Move / Semi Smart
 
-Pidgey
+Doduo
 Level: 9
 CFRU IV: 50
-- Tackle
-- Sand Attack
+- Fury Attack
+- Peck
 
 Charmander
 Level: 9
@@ -5546,7 +5546,7 @@ CFRU IV: 50
 - Scratch
 - Growl
 
-=== TRAINER_RIVAL_CERULEAN_SQUIRTLE ===
+=== TRAINER_RIVAL_CERULEAN_SQUIRTLE === /*华蓝市劲敌水主*/
 Name: Terry
 Class: Rival
 Pic: Blue
@@ -5556,35 +5556,39 @@ Items:
 Double Battle: No
 AI: Check Bad Move / Check Good Move / Semi Smart
 
-Pidgeotto
+Doduo @ Sharp Beak  /*嘟嘟 锐利鸟嘴*/
+Level: 19
+CFRU IV: 50
+- Double Hit        /*二连击*/
+- Pluck             /*啄食*/
+- Endeavor          /*蛮干*/
+- Mirror Move       /*鹦鹉学舌*/
+
+Growlithe @ Muscle Band /*卡蒂狗 力量头带*/
+Level: 18
+CFRU IV: 50
+- Flame Wheel       /*火焰轮*/
+- Bite              /*咬住*/
+- Double Kick       /*二连踢*/
+- Howl              /*长嚎*/
+
+Rhyhorn @ Quick Claw /*独角犀牛 先制之爪*/
 Level: 17
 CFRU IV: 50
-- Tackle
-- Sand Attack
-- Gust
-- Quick Attack
+- Curse             /*诅咒*/
+- Metal Burst       /*金属爆炸*/
+- Smack Down        /*击落*/
+- Bulldoze          /*重踏*/
 
-Abra
-Level: 16
-CFRU IV: 50
-- Teleport
-
-Rattata
-Level: 15
-CFRU IV: 50
-- Tackle
-- Tail Whip
-- Quick Attack
-
-Squirtle
-Level: 18
+Wartortle @ Leftovers   /*卡咪龟 吃剩的东西*/
+Level: 20
 CFRU IV: 100
-- Tackle
-- Tail Whip
-- Withdraw
-- Water Gun
+- Yawn              /*哈欠*/
+- Protect           /*守住*/
+- Aqua Jet          /*水流喷射*/
+- Rapid Spin        /*高速旋转*/
 
-=== TRAINER_RIVAL_CERULEAN_BULBASAUR ===
+=== TRAINER_RIVAL_CERULEAN_BULBASAUR === /*华蓝市劲敌草主*/
 Name: Terry
 Class: Rival
 Pic: Blue
@@ -5594,35 +5598,39 @@ Items:
 Double Battle: No
 AI: Check Bad Move / Check Good Move / Semi Smart
 
-Pidgeotto
+Doduo @ Sharp Beak  /*嘟嘟 锐利鸟嘴*/
+Level: 19
+CFRU IV: 50
+- Double Hit        /*二连击*/
+- Pluck             /*啄食*/
+- Endeavor          /*蛮干*/
+- Mirror Move       /*鹦鹉学舌*/
+
+Growlithe @ Muscle Band /*卡蒂狗 力量头带*/
+Level: 18
+CFRU IV: 50
+- Flame Wheel       /*火焰轮*/
+- Bite              /*咬住*/
+- Double Kick       /*二连踢*/
+- Howl              /*长嚎*/
+
+Rhyhorn @ Quick Claw /*独角犀牛 先制之爪*/
 Level: 17
 CFRU IV: 50
-- Tackle
-- Sand Attack
-- Gust
-- Quick Attack
+- Curse             /*诅咒*/
+- Metal Burst       /*金属爆炸*/
+- Smack Down        /*击落*/
+- Bulldoze          /*重踏*/
 
-Abra
-Level: 16
-CFRU IV: 50
-- Teleport
-
-Rattata
-Level: 15
-CFRU IV: 50
-- Tackle
-- Tail Whip
-- Quick Attack
-
-Bulbasaur
+Ivysaur @ Leftovers /*妙蛙草 吃剩的东西*/
 Level: 18
 CFRU IV: 100
-- Sleep Powder
-- PoisonPowder
-- Vine Whip
-- Leech Seed
+- Sleep Powder      /*催眠粉*/
+- Seed Bomb         /*种子炸弹*/
+- Sludge            /*污泥攻击*/
+- Leech Seed        /*寄生种子*/
 
-=== TRAINER_RIVAL_CERULEAN_CHARMANDER ===
+=== TRAINER_RIVAL_CERULEAN_CHARMANDER === /*华蓝市劲敌火主*/
 Name: Terry
 Class: Rival
 Pic: Blue
@@ -5632,33 +5640,38 @@ Items:
 Double Battle: No
 AI: Check Bad Move / Check Good Move / Semi Smart
 
-Pidgeotto
-Level: 17
+Doduo @ Sharp Beak  /*嘟嘟 锐利鸟嘴*/
+Level: 19
 CFRU IV: 50
-- Tackle
-- Sand Attack
-- Gust
-- Quick Attack
+- Double Hit        /*二连击*/
+- Pluck             /*啄食*/
+- Endeavor          /*蛮干*/
+- Mirror Move       /*鹦鹉学舌*/
 
-Abra
+Horsea @ Quick Claw /*墨海马 先制之爪*/
 Level: 16
 CFRU IV: 50
-- Teleport
+- Smokescreen       /*烟幕*/
+- Water Pulse       /*水之波动*/
+- Dragon Rage       /*龙之怒*/
+- Aurora Beam       /*极光束*/
 
-Rattata
-Level: 15
+Rhyhorn @ Leftovers /*独角犀牛 吃剩的东西*/
+Level: 17
 CFRU IV: 50
-- Tackle
-- Tail Whip
-- Quick Attack
+- Curse             /*诅咒*/
+- Metal Burst       /*金属爆炸*/
+- Smack Down        /*击落*/
+- Bulldoze          /*重踏*/
 
-Charmander
+Charmeleon @ Choice Band /*火恐龙 讲究头带*/
 Level: 18
 CFRU IV: 100
-- Metal Claw
-- Ember
-- Growl
-- Scratch
+Nature: Adamant
+- Metal Claw        /*金属爪*/
+- Fire Fang         /*火焰牙*/
+- Dragon Rage       /*龙之怒*/
+- Bite              /*咬住*/
 
 === TRAINER_SCIENTIST_TED ===
 Name: Ted
