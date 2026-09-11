@@ -94,14 +94,14 @@ u8 GetCurrentLevelCap(void)
 	switch (badgeCount)
 	{
 		case 0:  return 15; // Before 1st badge
-		case 1:  return 20;
-		case 2:  return 25;
-		case 3:  return 30;
-		case 4:  return 35;
-		case 5:  return 40;
-		case 6:  return 45;
-		case 7:  return 50;
-		case 8:  return 100; // After all badges
+		case 1:  return 22;
+		case 2:  return 29;
+		case 3:  return 35;
+		case 4:  return 42;
+		case 5:  return 49;
+		case 6:  return 56;
+		case 7:  return 63;
+		case 8:  return 70; // After all badges
 		default: return 100; // Just in case
 	}
 }
@@ -623,7 +623,7 @@ static bool8 IsAffectedByHardLevelCap(unusedArg struct Pokemon* mon)
 {
 	#ifdef FLAG_HARD_LEVEL_CAP
 	extern u8 GetCurrentLevelCap(void); //Must be implemented yourself
-	if (FlagGet(FLAG_HARD_LEVEL_CAP))
+	if (FlagGet(FLAG_HARD_LEVEL_CAP) || VarGet(VAR_GAME_DIFFICULTY) != OPTIONS_EASY_DIFFICULTY)
 	{
 		if (GetMonData(mon, MON_DATA_LEVEL, NULL) >= GetCurrentLevelCap())
 			return TRUE;

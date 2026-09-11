@@ -2859,7 +2859,7 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc func)
 
         if (level >= MAX_LEVEL
         #ifdef FLAG_HARD_LEVEL_CAP
-        || (FlagGet(FLAG_HARD_LEVEL_CAP) && level >= GetCurrentLevelCap())
+        || ((FlagGet(FLAG_HARD_LEVEL_CAP) || VarGet(VAR_GAME_DIFFICULTY) != OPTIONS_EASY_DIFFICULTY) && level >= GetCurrentLevelCap())
         #endif
         )
         {

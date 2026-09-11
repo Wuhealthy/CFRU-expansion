@@ -1347,7 +1347,7 @@ static u8 DexNavGenerateMonLevel(u16 species, u8 chainLevel, u8 environment, boo
 	if (levelBase + levelBonus > MAX_LEVEL)
 		return MAX_LEVEL;
 	#ifdef FLAG_HARD_LEVEL_CAP
-	else if (FlagGet(FLAG_HARD_LEVEL_CAP) && levelBase + levelBonus > GetCurrentLevelCap())
+	else if ((FlagGet(FLAG_HARD_LEVEL_CAP) || VarGet(VAR_GAME_DIFFICULTY) != OPTIONS_EASY_DIFFICULTY) && levelBase + levelBonus > GetCurrentLevelCap())
 		return GetCurrentLevelCap();
 	#endif
 	else

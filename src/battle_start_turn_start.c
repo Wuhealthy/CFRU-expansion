@@ -229,8 +229,10 @@ static void TryClearLevelCapKeptOn(void)
 {
 	#if (defined FLAG_HARD_LEVEL_CAP && defined FLAG_KEPT_LEVEL_CAP_ON)
 	if (!FlagGet(FLAG_SYS_GAME_CLEAR) //Main game
-	&& FlagGet(FLAG_HARD_LEVEL_CAP) //Level Cap is on
-	&& FlagGet(FLAG_KEPT_LEVEL_CAP_ON)) //And it hasn't ever been turned off
+	&& (FlagGet(FLAG_HARD_LEVEL_CAP) //Level Cap is on
+	&& FlagGet(FLAG_KEPT_LEVEL_CAP_ON)
+	|| VarGet(VAR_GAME_DIFFICULTY) != OPTIONS_EASY_DIFFICULTY)
+	) //And it hasn't ever been turned off
 	{
 		u32 i, levelCap;
 		
