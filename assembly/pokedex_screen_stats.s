@@ -33,7 +33,7 @@ atk:
 	bl print_stat
 	mov r3, #4 @ y co-ord
 	str r3, [sp]
-	mov r3, #0x28 @ x co-ord
+	mov r3, #0x2C @ x co-ord
 	ldr r5, write_method
 	bl call_via_r5
 
@@ -53,7 +53,7 @@ spa:
 	bl print_stat
 	mov r3, #18 @ y co-ord
 	str r3, [sp]
-	mov r3, #0x28 @ x co-ord
+	mov r3, #0x2C @ x co-ord
 	ldr r5, write_method
 	bl call_via_r5
 
@@ -73,7 +73,7 @@ spe:
 	bl print_stat
 	mov r3, #32 @ y co-ord
 	str r3, [sp]
-	mov r3, #0x28 @ x co-ord
+	mov r3, #0x2C @ x co-ord
 	ldr r5, write_method
 	bl call_via_r5
 
@@ -89,7 +89,7 @@ print_ability_one:
 	ldrb r1, [r1]
 	mov r0, r1
 	mov r1, #0
-	mov r3, #46
+	mov r3, #44
 	str r3, [sp]
 	mov r3, #0
 	ldr r5, write_method
@@ -117,7 +117,7 @@ print_ability_two:
 	ldrb r1, [r1]
 	mov r0, r1
 	mov r1, #0
-	mov r3, #60
+	mov r3, #56
 	str r3, [sp]
 	mov r3, #0
 	ldr r5, write_method
@@ -155,9 +155,9 @@ print_ability_three:
 	ldrb r1, [r1]
 	mov r0, r1
 	mov r1, #0
-	mov r3, #46
+	mov r3, #68
 	str r3, [sp]
-	mov r3, #0x28
+	mov r3, #0
 	ldr r5, write_method
 	bl call_via_r5
 	b return
