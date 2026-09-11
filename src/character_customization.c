@@ -1485,11 +1485,13 @@ static NPCPtr sOverworldTable6[] =
     &gFollowerMonGfxTable4[238],
     &gFollowerMonGfxTable4[239],
 };
+/*
 extern const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_YoungsterMale;
 static NPCPtr sOverworldTable7[] =
 {
 	&gEventObjectGraphicsInfo_YoungsterMale,
 };
+*/
 #endif
 
 	// create 255 OW tables
@@ -1501,7 +1503,7 @@ static NPCPtr sOverworldTable7[] =
 		sOverworldTable4,
 		sOverworldTable5,
 		sOverworldTable6,
-        sOverworldTable7,
+        /*sOverworldTable7,*/
 		// etc...
 		// please note that this method makes compatability with OW Manager challenging
 	};
@@ -3884,10 +3886,12 @@ static NPCPtr sOverworldTable7[] =
         {gFollowingMonPic_VeluzaShinyPal, OBJ_EVENT_PAL_TAG_VELUZA_SHINY},
 		{NULL, 0x11FF}
 	};
+    /*
 extern const u16 gEventObjectPic_YoungsterMalePal[];
     const struct SpritePalette gObjectEventSpritePalettes21[] = {
         {gEventObjectPic_YoungsterMalePal, 0x2100},
     };
+    */
 #ifdef PALETTE_SWAPPER
 	const struct SpritePalette* const gObjectEventSpritePalettesSwitcher[255] =
 	{
@@ -3897,7 +3901,7 @@ extern const u16 gEventObjectPic_YoungsterMalePal[];
 		[0x14] = gObjectEventSpritePalettes14,
 		[0x15] = gObjectEventSpritePalettes15,
 		[0x16] = gObjectEventSpritePalettes16,
-        [0x21] = gObjectEventSpritePalettes21,
+        /*[0x21] = gObjectEventSpritePalettes21,*/
 	};
 #endif
 

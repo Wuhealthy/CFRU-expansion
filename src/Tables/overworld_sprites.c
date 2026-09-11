@@ -16,7 +16,7 @@
 #define gEventObjectImageAnimTable_FieldMove ((const union AnimCmd* const*) 0x83A3638)
 #define gEventObjectImageAnimTable_Fishing ((const union AnimCmd* const*) 0x83A3668)
 #define gEventObjectImageAnimTable_VsSeekerBike ((const union AnimCmd* const*) 0x83A3640)
-
+/*
 extern const u8 gEventObjectPic_YoungsterMaleTiles[];
 
 static const struct SpriteFrameImage gEventObjectPicTable_YoungsterMale[] =
@@ -52,4 +52,4 @@ const struct EventObjectGraphicsInfo gEventObjectGraphicsInfo_YoungsterMale =
     .anims = gEventObjectImageAnimTable_Standard,
     .images = gEventObjectPicTable_YoungsterMale,
     .affineAnims = gDummySpriteAffineAnimTable,
-};
+};*/
