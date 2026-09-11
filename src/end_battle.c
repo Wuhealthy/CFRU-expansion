@@ -890,6 +890,16 @@ static void EndBattleFlagClear(void)
 
 	CorrectPartyMonHPAfterBattle();
 
+	// ===== 训练家对战胜利后自动治疗队伍 =====
+	if (gBattleOutcome == B_OUTCOME_WON
+    	&& (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+		&& VarGet(VAR_GAME_DIFFICULTY) != OPTIONS_EASY_DIFFICULTY
+    	&& !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_SAFARI | BATTLE_TYPE_OLD_MAN)))
+	{
+    	HealPlayerParty();
+	}
+	// ===== 结束新增 =====
+
 	//Handle Sirfetch'd Evolution
 	gScored3CritsInBattle = 0;
 	for (i = 0; i < PARTY_SIZE; ++i)
