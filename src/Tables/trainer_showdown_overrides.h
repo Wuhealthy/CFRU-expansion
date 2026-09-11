@@ -1443,7 +1443,7 @@
 },
 
 [TRAINER_BUG_CATCHER_SAMMY] = {
-    .partyFlags = 0,
+    .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,
     .trainerClass = CLASS_BUG_CATCHER,
     .encounterMusic = TRAINER_ENCOUNTER_MUSIC_MALE,
     .gender = GENDER_MALE,
@@ -1451,9 +1451,9 @@
     .trainerName = {_S, _a, _m, _m, _y, _END},
     .items = {ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE},
     .doubleBattle = FALSE,
-    .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
+    .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_GOOD_MOVE | AI_SCRIPT_SEMI_SMART,
     .partySize = NELEMS(sShowdownParty_BugCatcherSammy),
-    .party = {.NoItemDefaultMoves = sShowdownParty_BugCatcherSammy}
+    .party = {.ItemCustomMoves = sShowdownParty_BugCatcherSammy}
 },
 
 [TRAINER_BUG_CATCHER_COLTON] = {
@@ -7169,7 +7169,7 @@
 },
 
 [TRAINER_BUG_CATCHER_ANTHONY] = {
-    .partyFlags = 0,
+    .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,
     .trainerClass = CLASS_BUG_CATCHER,
     .encounterMusic = TRAINER_ENCOUNTER_MUSIC_MALE,
     .gender = GENDER_MALE,
@@ -7177,13 +7177,13 @@
     .trainerName = {_A, _n, _t, _h, _o, _n, _y, _END},
     .items = {ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE},
     .doubleBattle = FALSE,
-    .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
+    .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_GOOD_MOVE | AI_SCRIPT_SEMI_SMART,
     .partySize = NELEMS(sShowdownParty_BugCatcherAnthony),
-    .party = {.NoItemDefaultMoves = sShowdownParty_BugCatcherAnthony}
+    .party = {.ItemCustomMoves = sShowdownParty_BugCatcherAnthony}
 },
 
 [TRAINER_BUG_CATCHER_CHARLIE] = {
-    .partyFlags = 0,
+    .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,
     .trainerClass = CLASS_BUG_CATCHER,
     .encounterMusic = TRAINER_ENCOUNTER_MUSIC_MALE,
     .gender = GENDER_MALE,
@@ -7191,9 +7191,9 @@
     .trainerName = {_C, _h, _a, _r, _l, _i, _e, _END},
     .items = {ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE},
     .doubleBattle = FALSE,
-    .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
+    .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_GOOD_MOVE | AI_SCRIPT_SEMI_SMART,
     .partySize = NELEMS(sShowdownParty_BugCatcherCharlie),
-    .party = {.NoItemDefaultMoves = sShowdownParty_BugCatcherCharlie}
+    .party = {.ItemCustomMoves = sShowdownParty_BugCatcherCharlie}
 },
 
 [TRAINER_TWINS_ELI_ANNE_2] = {

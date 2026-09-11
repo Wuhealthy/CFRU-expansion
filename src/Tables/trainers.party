@@ -1449,7 +1449,7 @@ Ability: Ability 2
 - Fury Cutter
 - Flail
 
-=== TRAINER_BUG_CATCHER_SAMMY ===
+=== TRAINER_BUG_CATCHER_SAMMY === /*常青森林捕虫少年5*/
 Name: Sammy
 Class: Bug Catcher
 Pic: Bug Catcher
@@ -1457,10 +1457,22 @@ Gender: Male
 Music: Male
 Items: 
 Double Battle: No
-AI: Check Bad Move
+AI: Check Bad Move / Check Good Move / Semi Smart
 
-Weedle
-Level: 9
+Vivillon @ Focus Sash
+Level: 15
+Ability: Ability 2
+- Struggle Bug
+- Sleep Powder
+- Rage Powder
+- Light Screen
+
+Scyther @ Silver Powder
+Level: 15
+- Aerial Ace
+- Fury Cutter
+- Quick Attack
+- False Swipe
 
 === TRAINER_BUG_CATCHER_COLTON ===
 Name: Colton
@@ -10059,7 +10071,7 @@ AI: Check Bad Move
 Ekans
 Level: 5
 
-=== TRAINER_BUG_CATCHER_ANTHONY ===
+=== TRAINER_BUG_CATCHER_ANTHONY === /*常青森林捕虫少年3*/
 Name: Anthony
 Class: Bug Catcher
 Pic: Bug Catcher
@@ -10067,15 +10079,24 @@ Gender: Male
 Music: Male
 Items: 
 Double Battle: No
-AI: Check Bad Move
+AI: Check Bad Move / Check Good Move / Semi Smart
 
-Caterpie
-Level: 7
+Pineco @ Normal Gem
+Level: 15
+- Pin Missile
+- Self-Destruct
+- Toxic Spikes
+- Protect
 
-Caterpie
-Level: 8
+Illumise
+Level: 15
+Ability: Hidden
+- Attract
+- Growth
+- Roost
+- Struggle Bug
 
-=== TRAINER_BUG_CATCHER_CHARLIE ===
+=== TRAINER_BUG_CATCHER_CHARLIE === /*常青森林捕虫少年4*/
 Name: Charlie
 Class: Bug Catcher
 Pic: Bug Catcher
@@ -10083,16 +10104,21 @@ Gender: Male
 Music: Male
 Items: 
 Double Battle: No
-AI: Check Bad Move
+AI: Check Bad Move / Check Good Move / Semi Smart
 
-Metapod
-Level: 7
+Surskit @ Bug Gem
+Level: 15
+Ability: Hidden
+- Struggle Bug
+- Soak
+- Water Gun
 
-Caterpie
-Level: 7
-
-Metapod
-Level: 7
+Joltik @ Silver Powder
+Level: 15
+Ability: Ability 2
+- Electroweb
+- Absorb
+- Charge Beam
 
 === TRAINER_TWINS_ELI_ANNE_2 ===
 Name: Eli  Anne

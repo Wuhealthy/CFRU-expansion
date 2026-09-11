@@ -1049,12 +1049,31 @@ static const struct TrainerMonItemCustomMoves sShowdownParty_BugCatcherDoug[] =
     },
 };
 
-static const struct TrainerMonNoItemDefaultMoves sShowdownParty_BugCatcherSammy[] =
+static const struct TrainerMonItemCustomMoves sShowdownParty_BugCatcherSammy[] =
 {
     {
+        .lvl = 15,
+        .species = SPECIES_VIVILLON,
         .iv = 0,
-        .lvl = 9,
-        .species = SPECIES_WEEDLE,
+        .ability = Ability_2,
+        .nature = NATURE_HARDY,
+        .ivSpread = {31, 31, 31, 31, 31, 31},
+        .evSpread = {0, 0, 0, 0, 0, 0},
+        .heldItem = ITEM_FOCUS_SASH,
+        .moves = {MOVE_STRUGGLEBUG, MOVE_SLEEPPOWDER, MOVE_RAGEPOWDER, MOVE_LIGHTSCREEN},
+        .teraType = TYPE_NORMAL,
+    },
+    {
+        .lvl = 15,
+        .species = SPECIES_SCYTHER,
+        .iv = 0,
+        .ability = Ability_RandomAll,
+        .nature = NATURE_HARDY,
+        .ivSpread = {31, 31, 31, 31, 31, 31},
+        .evSpread = {0, 0, 0, 0, 0, 0},
+        .heldItem = ITEM_SILVER_POWDER,
+        .moves = {MOVE_AERIALACE, MOVE_FURYCUTTER, MOVE_QUICKATTACK, MOVE_FALSESWIPE},
+        .teraType = TYPE_NORMAL,
     },
 };
 
@@ -9690,36 +9709,59 @@ static const struct TrainerMonNoItemDefaultMoves sShowdownParty_Biker2[] =
     },
 };
 
-static const struct TrainerMonNoItemDefaultMoves sShowdownParty_BugCatcherAnthony[] =
+static const struct TrainerMonItemCustomMoves sShowdownParty_BugCatcherAnthony[] =
 {
     {
+        .lvl = 15,
+        .species = SPECIES_PINECO,
         .iv = 0,
-        .lvl = 7,
-        .species = SPECIES_CATERPIE,
+        .ability = Ability_RandomAll,
+        .nature = NATURE_HARDY,
+        .ivSpread = {31, 31, 31, 31, 31, 31},
+        .evSpread = {0, 0, 0, 0, 0, 0},
+        .heldItem = ITEM_NORMAL_GEM,
+        .moves = {MOVE_PINMISSILE, MOVE_SELFDESTRUCT, MOVE_TOXICSPIKES, MOVE_PROTECT},
+        .teraType = TYPE_NORMAL,
     },
     {
+        .lvl = 15,
+        .species = SPECIES_ILLUMISE,
         .iv = 0,
-        .lvl = 8,
-        .species = SPECIES_CATERPIE,
+        .ability = Ability_Hidden,
+        .nature = NATURE_HARDY,
+        .ivSpread = {31, 31, 31, 31, 31, 31},
+        .evSpread = {0, 0, 0, 0, 0, 0},
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_ATTRACT, MOVE_GROWTH, MOVE_ROOST, MOVE_STRUGGLEBUG},
+        .teraType = TYPE_NORMAL,
     },
 };
 
-static const struct TrainerMonNoItemDefaultMoves sShowdownParty_BugCatcherCharlie[] =
+static const struct TrainerMonItemCustomMoves sShowdownParty_BugCatcherCharlie[] =
 {
     {
+        .lvl = 15,
+        .species = SPECIES_SURSKIT,
         .iv = 0,
-        .lvl = 7,
-        .species = SPECIES_METAPOD,
+        .ability = Ability_Hidden,
+        .nature = NATURE_HARDY,
+        .ivSpread = {31, 31, 31, 31, 31, 31},
+        .evSpread = {0, 0, 0, 0, 0, 0},
+        .heldItem = ITEM_BUG_GEM,
+        .moves = {MOVE_STRUGGLEBUG, MOVE_SOAK, MOVE_WATERGUN, MOVE_NONE},
+        .teraType = TYPE_NORMAL,
     },
     {
+        .lvl = 15,
+        .species = SPECIES_JOLTIK,
         .iv = 0,
-        .lvl = 7,
-        .species = SPECIES_CATERPIE,
-    },
-    {
-        .iv = 0,
-        .lvl = 7,
-        .species = SPECIES_METAPOD,
+        .ability = Ability_2,
+        .nature = NATURE_HARDY,
+        .ivSpread = {31, 31, 31, 31, 31, 31},
+        .evSpread = {0, 0, 0, 0, 0, 0},
+        .heldItem = ITEM_SILVER_POWDER,
+        .moves = {MOVE_ELECTROWEB, MOVE_ABSORB, MOVE_CHARGEBEAM, MOVE_NONE},
+        .teraType = TYPE_NORMAL,
     },
 };
 
