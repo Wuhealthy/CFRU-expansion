@@ -2255,7 +2255,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _a, _r, _a, _l, _y, _z, _SPACE, _H, _e, _a, _l, _END},
+		.name = { 0x07, 0x34, 0x09, 0x23, 0x0E, 0xF0, 0xFF},
 		.itemId = ITEM_PARALYZE_HEAL,
 		.price = 200,
 		.holdEffect = 0,
@@ -4207,7 +4207,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _e, _r, _s, _i, _m, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = { 0xFC, 0x03, 0x00, 0x0C, 0x06, 0x11, 0x08, 0x04, 0xC3, 0xFF},
 		.itemId = ITEM_PERSIM_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_CURE_CONFUSION,
@@ -4719,7 +4719,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_A, _p, _i, _c, _o, _t, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = { 0xFC, 0x03, 0x00, 0x0E, 0x5E, 0x11, 0x08, 0x04, 0xC3, 0xFF},
 		.itemId = ITEM_APICOT_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_SP_DEFENSE_UP,
@@ -6239,7 +6239,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_Z, _HYPHEN, _P, _o, _w, _e, _r, _SPACE, _R, _i, _n, _g, _END},
+		.name = { 0xFC, 0x03, 0x00, 0xD4, 0x0A, 0xD8, 0x08, 0x79, 0x0C, 0x1B, 0x05, 0x44, 0xFF},
 		.itemId = ITEM_Z_POWER_RING,
 		.price = 0,
 		.holdEffect = 0,
