@@ -180,7 +180,7 @@ FILL_FF=True
 负电
 
 #org @NAME_ABILITY_059_FORECAST
-\z倒阴晴不定
+阴晴不定
 
 #org @NAME_ABILITY_060_STICKY_HOLD
 黏着
@@ -561,7 +561,7 @@ FILL_FF=True
 亲子爱
 
 #org @NAME_ABILITY_186_DARK_AURA
-\z倒暗黑气场
+暗黑气场
 
 #org @NAME_ABILITY_187_FAIRY_AURA
 妖精气场
@@ -798,7 +798,7 @@ AR系统
 苍白嘶鸣
 
 #org @NAME_ABILITY_265_GRIM_NEIGH
-\z倒漆黑嘶鸣
+漆黑嘶鸣
 
 #org @NAME_ABILITY_266_AS_ONE_ICE_RIDER
 人马一体

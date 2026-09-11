@@ -21,8 +21,8 @@ const u8* GetAbilityName(ability_t ability, unusedArg const u16 species)
 
 	const u8* ptr = gAbilityNames[ability];
 
-	if (ptr[3] == 0x8 || ptr[3] == 0x9) //Expanded Ability Names
-		ptr = T1_READ_PTR(ptr);
+	/*if (ptr[3] == 0x8 || ptr[3] == 0x9) //Expanded Ability Names
+		ptr = T1_READ_PTR(ptr);*/
 
 	return ptr;
 }
