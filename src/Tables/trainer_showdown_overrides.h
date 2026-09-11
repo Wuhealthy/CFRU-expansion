@@ -1415,7 +1415,7 @@
 },
 
 [TRAINER_BUG_CATCHER_RICK] = {
-    .partyFlags = 0,
+    .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,
     .trainerClass = CLASS_BUG_CATCHER,
     .encounterMusic = TRAINER_ENCOUNTER_MUSIC_MALE,
     .gender = GENDER_MALE,
@@ -1423,13 +1423,13 @@
     .trainerName = {_R, _i, _c, _k, _END},
     .items = {ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE},
     .doubleBattle = FALSE,
-    .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
+    .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_GOOD_MOVE | AI_SCRIPT_SEMI_SMART,
     .partySize = NELEMS(sShowdownParty_BugCatcherRick),
-    .party = {.NoItemDefaultMoves = sShowdownParty_BugCatcherRick}
+    .party = {.ItemCustomMoves = sShowdownParty_BugCatcherRick}
 },
 
 [TRAINER_BUG_CATCHER_DOUG] = {
-    .partyFlags = 0,
+    .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,
     .trainerClass = CLASS_BUG_CATCHER,
     .encounterMusic = TRAINER_ENCOUNTER_MUSIC_MALE,
     .gender = GENDER_MALE,
@@ -1437,9 +1437,9 @@
     .trainerName = {_D, _o, _u, _g, _END},
     .items = {ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE},
     .doubleBattle = FALSE,
-    .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
+    .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_CHECK_GOOD_MOVE | AI_SCRIPT_SEMI_SMART,
     .partySize = NELEMS(sShowdownParty_BugCatcherDoug),
-    .party = {.NoItemDefaultMoves = sShowdownParty_BugCatcherDoug}
+    .party = {.ItemCustomMoves = sShowdownParty_BugCatcherDoug}
 },
 
 [TRAINER_BUG_CATCHER_SAMMY] = {

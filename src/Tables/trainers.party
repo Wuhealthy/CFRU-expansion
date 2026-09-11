@@ -1383,7 +1383,7 @@ Ekans
 Level: 17
 CFRU IV: 20
 
-=== TRAINER_BUG_CATCHER_RICK ===
+=== TRAINER_BUG_CATCHER_RICK === /*常青森林捕虫少年1*/
 Name: Rick
 Class: Bug Catcher
 Pic: Bug Catcher
@@ -1391,15 +1391,23 @@ Gender: Male
 Music: Male
 Items: 
 Double Battle: No
-AI: Check Bad Move
+AI: Check Bad Move / Check Good Move / Semi Smart
 
-Weedle
-Level: 6
+Wimpod @ Jaboca Berry
+Level: 5
+- Sand Attack
+- Struggle Bug
+- Defense Curl
+- Aqua Jet
 
-Caterpie
-Level: 6
+Dwebble @ Kebia Berry
+Level: 5
+- Bug Bite
+- Smack Down
+- Withdraw
+- Block
 
-=== TRAINER_BUG_CATCHER_DOUG ===
+=== TRAINER_BUG_CATCHER_DOUG === /*常青森林捕虫少年2*/
 Name: Doug
 Class: Bug Catcher
 Pic: Bug Catcher
@@ -1407,16 +1415,39 @@ Gender: Male
 Music: Male
 Items: 
 Double Battle: No
-AI: Check Bad Move
+AI: Check Bad Move / Check Good Move / Semi Smart
 
-Weedle
-Level: 7
+Yanma @ Flying Gem
+Level: 5
+Ability: Ability 1
+- Quick Attack
+- Double Team
+- Air Cutter
+- Whirlwind
 
-Kakuna
-Level: 7
+Dustox @ Black Sludge
+Level: 5
+Ability: Hidden
+- Confusion
+- Poison Powder
+- Gust
+- Harden
 
-Weedle
-Level: 7
+Nincada @ Oran Berry
+Level: 5
+Ability: Ability 1
+- Scratch
+- Sand Attack
+- Bug Bite
+- Mud Slap
+
+Durant @ Sitrus Berry
+Level: 5
+Ability: Ability 2
+- Vice Grip
+- Metal Claw
+- Fury Cutter
+- Flail
 
 === TRAINER_BUG_CATCHER_SAMMY ===
 Name: Sammy

@@ -969,36 +969,83 @@ static const struct TrainerMonNoItemDefaultMoves sShowdownParty_YoungsterBen2[] 
     },
 };
 
-static const struct TrainerMonNoItemDefaultMoves sShowdownParty_BugCatcherRick[] =
+static const struct TrainerMonItemCustomMoves sShowdownParty_BugCatcherRick[] =
 {
     {
+        .lvl = 5,
+        .species = SPECIES_WIMPOD,
         .iv = 0,
-        .lvl = 6,
-        .species = SPECIES_WEEDLE,
+        .ability = Ability_RandomAll,
+        .nature = NATURE_HARDY,
+        .ivSpread = {31, 31, 31, 31, 31, 31},
+        .evSpread = {0, 0, 0, 0, 0, 0},
+        .heldItem = ITEM_JABOCA_BERRY,
+        .moves = {MOVE_SANDATTACK, MOVE_STRUGGLEBUG, MOVE_DEFENSECURL, MOVE_AQUAJET},
+        .teraType = TYPE_NORMAL,
     },
     {
+        .lvl = 5,
+        .species = SPECIES_DWEBBLE,
         .iv = 0,
-        .lvl = 6,
-        .species = SPECIES_CATERPIE,
+        .ability = Ability_RandomAll,
+        .nature = NATURE_HARDY,
+        .ivSpread = {31, 31, 31, 31, 31, 31},
+        .evSpread = {0, 0, 0, 0, 0, 0},
+        .heldItem = ITEM_KEBIA_BERRY,
+        .moves = {MOVE_BUGBITE, MOVE_SMACKDOWN, MOVE_WITHDRAW, MOVE_BLOCK},
+        .teraType = TYPE_NORMAL,
     },
 };
 
-static const struct TrainerMonNoItemDefaultMoves sShowdownParty_BugCatcherDoug[] =
+static const struct TrainerMonItemCustomMoves sShowdownParty_BugCatcherDoug[] =
 {
     {
+        .lvl = 5,
+        .species = SPECIES_YANMA,
         .iv = 0,
-        .lvl = 7,
-        .species = SPECIES_WEEDLE,
+        .ability = Ability_1,
+        .nature = NATURE_HARDY,
+        .ivSpread = {31, 31, 31, 31, 31, 31},
+        .evSpread = {0, 0, 0, 0, 0, 0},
+        .heldItem = ITEM_FLYING_GEM,
+        .moves = {MOVE_QUICKATTACK, MOVE_DOUBLETEAM, MOVE_AIRCUTTER, MOVE_WHIRLWIND},
+        .teraType = TYPE_NORMAL,
     },
     {
+        .lvl = 5,
+        .species = SPECIES_DUSTOX,
         .iv = 0,
-        .lvl = 7,
-        .species = SPECIES_KAKUNA,
+        .ability = Ability_Hidden,
+        .nature = NATURE_HARDY,
+        .ivSpread = {31, 31, 31, 31, 31, 31},
+        .evSpread = {0, 0, 0, 0, 0, 0},
+        .heldItem = ITEM_BLACK_SLUDGE,
+        .moves = {MOVE_CONFUSION, MOVE_POISONPOWDER, MOVE_GUST, MOVE_HARDEN},
+        .teraType = TYPE_NORMAL,
     },
     {
+        .lvl = 5,
+        .species = SPECIES_NINCADA,
         .iv = 0,
-        .lvl = 7,
-        .species = SPECIES_WEEDLE,
+        .ability = Ability_1,
+        .nature = NATURE_HARDY,
+        .ivSpread = {31, 31, 31, 31, 31, 31},
+        .evSpread = {0, 0, 0, 0, 0, 0},
+        .heldItem = ITEM_ORAN_BERRY,
+        .moves = {MOVE_SCRATCH, MOVE_SANDATTACK, MOVE_BUGBITE, MOVE_MUDSLAP},
+        .teraType = TYPE_NORMAL,
+    },
+    {
+        .lvl = 5,
+        .species = SPECIES_DURANT,
+        .iv = 0,
+        .ability = Ability_2,
+        .nature = NATURE_HARDY,
+        .ivSpread = {31, 31, 31, 31, 31, 31},
+        .evSpread = {0, 0, 0, 0, 0, 0},
+        .heldItem = ITEM_SITRUS_BERRY,
+        .moves = {MOVE_VICEGRIP, MOVE_METALCLAW, MOVE_FURYCUTTER, MOVE_FLAIL},
+        .teraType = TYPE_NORMAL,
     },
 };
 
