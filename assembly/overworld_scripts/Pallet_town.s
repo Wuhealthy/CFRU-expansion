@@ -469,3 +469,172 @@ EventScript_Pallet_LittleGirl_AlreadyDone:
 	msgbox Text_Pallet_LittleGirl_After, MSG_NORMAL
 	release
 	end
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+EventScript_DynamicShopNPC:     @ 商店根据徽章售卖道具
+	lock
+	faceplayer
+
+	@ 按徽章数量决定商品列表
+	checkflag 0x827
+    goto_if TRUE, EventScript_DynamicShop_8
+    checkflag 0x826
+    goto_if TRUE, EventScript_DynamicShop_7
+    checkflag 0x825
+    goto_if TRUE, EventScript_DynamicShop_6
+    checkflag 0x824
+    goto_if TRUE, EventScript_DynamicShop_5
+    checkflag 0x823
+    goto_if TRUE, EventScript_DynamicShop_4
+    checkflag 0x822
+    goto_if TRUE, EventScript_DynamicShop_3
+    checkflag 0x821
+    goto_if TRUE, EventScript_DynamicShop_2
+    checkflag 0x820
+    goto_if TRUE, EventScript_DynamicShop_1
+    goto EventScript_DynamicShop_0
+
+EventScript_DynamicShop_0:
+	preparemsg Text_DynamicShop_Greeting
+	waitmsg
+	pokemart ShopItems_0
+	msgbox Text_DynamicShop_Farewell, MSG_KEEPOPEN
+	release
+	end
+
+EventScript_DynamicShop_1:
+	preparemsg Text_DynamicShop_Greeting
+	waitmsg
+	pokemart ShopItems_1
+	msgbox Text_DynamicShop_Farewell, MSG_KEEPOPEN
+	release
+	end
+
+EventScript_DynamicShop_2:
+	preparemsg Text_DynamicShop_Greeting
+	waitmsg
+	pokemart ShopItems_2
+	msgbox Text_DynamicShop_Farewell, MSG_KEEPOPEN
+	release
+	end
+
+EventScript_DynamicShop_3:
+	preparemsg Text_DynamicShop_Greeting
+	waitmsg
+	pokemart ShopItems_3
+	msgbox Text_DynamicShop_Farewell, MSG_KEEPOPEN
+	release
+	end
+
+EventScript_DynamicShop_4:
+	preparemsg Text_DynamicShop_Greeting
+	waitmsg
+	pokemart ShopItems_4
+	msgbox Text_DynamicShop_Farewell, MSG_KEEPOPEN
+	release
+	end
+
+EventScript_DynamicShop_5:
+	preparemsg Text_DynamicShop_Greeting
+	waitmsg
+	pokemart ShopItems_5
+	msgbox Text_DynamicShop_Farewell, MSG_KEEPOPEN
+	release
+	end
+
+EventScript_DynamicShop_6:
+	preparemsg Text_DynamicShop_Greeting
+	waitmsg
+	pokemart ShopItems_6
+	msgbox Text_DynamicShop_Farewell, MSG_KEEPOPEN
+	release
+	end
+
+EventScript_DynamicShop_7:
+	preparemsg Text_DynamicShop_Greeting
+	waitmsg
+	pokemart ShopItems_7
+	msgbox Text_DynamicShop_Farewell, MSG_KEEPOPEN
+	release
+	end
+
+EventScript_DynamicShop_8:
+	preparemsg Text_DynamicShop_Greeting
+	waitmsg
+	pokemart ShopItems_8
+	msgbox Text_DynamicShop_Farewell, MSG_KEEPOPEN
+	release
+	end
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.align 2
+ShopItems_0:
+	.hword ITEM_POKE_BALL
+	.hword ITEM_POTION
+	.hword 0x0
+
+ShopItems_1:
+	.hword ITEM_POKE_BALL
+	.hword ITEM_POTION
+	.hword ITEM_ANTIDOTE
+	.hword 0x0
+
+ShopItems_2:
+	.hword ITEM_POKE_BALL
+	.hword ITEM_GREAT_BALL
+	.hword ITEM_POTION
+	.hword ITEM_SUPER_POTION
+	.hword ITEM_ANTIDOTE
+	.hword 0x0
+
+ShopItems_3:
+	.hword ITEM_POKE_BALL
+	.hword ITEM_GREAT_BALL
+	.hword ITEM_POTION
+	.hword ITEM_SUPER_POTION
+	.hword ITEM_ANTIDOTE
+	.hword 0x0
+
+ShopItems_4:
+	.hword ITEM_GREAT_BALL
+	.hword ITEM_SUPER_POTION
+	.hword ITEM_SUPER_POTION
+	.hword ITEM_AWAKENING
+	.hword ITEM_BURN_HEAL
+	.hword ITEM_ICE_HEAL
+	.hword 0x0
+
+ShopItems_5:
+	.hword ITEM_ULTRA_BALL
+	.hword ITEM_HYPER_POTION
+	.hword ITEM_FULL_HEAL
+	.hword ITEM_REVIVE
+	.hword ITEM_ESCAPE_ROPE
+	.hword 0x0
+
+ShopItems_6:
+	.hword ITEM_ULTRA_BALL
+	.hword ITEM_HYPER_POTION
+	.hword ITEM_FULL_HEAL
+	.hword ITEM_REVIVE
+	.hword ITEM_MAX_REPEL
+	.hword 0x0
+
+ShopItems_7:
+	.hword ITEM_ULTRA_BALL
+	.hword ITEM_HYPER_POTION
+	.hword ITEM_FULL_HEAL
+	.hword ITEM_REVIVE
+	.hword ITEM_MAX_REPEL
+	.hword ITEM_MAX_POTION
+	.hword 0x0
+
+ShopItems_8:
+	.hword ITEM_ULTRA_BALL
+	.hword ITEM_HYPER_POTION
+	.hword ITEM_FULL_HEAL
+	.hword ITEM_REVIVE
+	.hword ITEM_MAX_REPEL
+	.hword ITEM_MAX_POTION
+	.hword ITEM_FULL_RESTORE
+	.hword 0x0

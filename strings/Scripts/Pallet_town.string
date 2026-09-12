@@ -109,6 +109,12 @@
 #org @Text_Pallet_LittleGirl_After
 你的[BUFFER1]还好吗？\p那条围巾，\n要好好用哦！
 
+#org @Text_DynamicShop_Greeting
+嗨！\n有什么能帮到你的吗？
+
+#org @Text_DynamicShop_Farewell
+请下次再来！
+
 #org @Text_BugCatcher_Intro
 我的宝可梦居然进化成了\n觉醒形态。\p不信？那就来对战看看吧。\p你准备好了吗？
 
