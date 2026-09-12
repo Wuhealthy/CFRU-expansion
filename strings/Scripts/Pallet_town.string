@@ -85,6 +85,21 @@
 #org @gText_GiveMons_Special_Done
 我已经没什么可以给你了。
 
+#org @Text_Pallet_FatGuy_CoinIntro
+我每天都会在这里猜硬币。\p你要不要也来猜一次？\p猜对了有奖励哦！
+
+#org @Text_Pallet_FatGuy_CoinWin
+叮！是正面！\p你赢了！\n这个给你。
+
+#org @Text_Pallet_FatGuy_CoinLose
+叮！是反面！\p可惜，明天再来吧。
+
+#org @Text_Pallet_FatGuy_CoinDeclined
+好吧，那明天再说。
+
+#org @Text_Pallet_FatGuy_CoinAlreadyPlayed
+今天已经猜过了。\p明天再来吧！
+
 #org @Text_BugCatcher_Intro
 我的宝可梦居然进化成了\n觉醒形态。\p不信？那就来对战看看吧。\p你准备好了吗？
 

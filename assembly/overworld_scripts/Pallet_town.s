@@ -322,7 +322,7 @@ EventScript_CoffeeGuy_Tile_Event:
 	setvar 0x4051, 0x2
 	setflag 0x91E
 	setflag 0x829
-    giveitem 0x119, 1, MSG_OBTAIN
+    giveitem ITEM_ROOM_1_KEY, 1, MSG_OBTAIN     @ 图鉴导航
 	msgbox Text_CoffeeGuy_Tile_Gift, MSG_KEEPOPEN
 	release
 	end
@@ -359,7 +359,7 @@ EventScript_BugCatcher_Battle:
 EventScript_BugCatcher_AfterBattle:
     setflag 0x1200
 	msgbox Text_BugCatcher_AfterBattle, MSG_NORMAL
-	giveitem 0x12A, 1, MSG_OBTAIN
+	giveitem ITEM_TM10, 1, MSG_OBTAIN       @ 觉醒力量招式学习器
 	msgbox Text_BugCatcher_Gift, MSG_NORMAL
 	release
 	end
@@ -369,6 +369,79 @@ EventScript_BugCatcher_AlreadyDefeated:
 	release
 	end
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+EventScript_Pallet_FatGuy_CoinGame: @真新镇胖子每天猜硬币拿奖励
+	lock
+	faceplayer
+
+	@ 检查今天是否已经玩过
+	checkflag 0xE00
+	goto_if TRUE, EventScript_Pallet_FatGuy_CoinGame_AlreadyPlayed
+
+	msgbox Text_Pallet_FatGuy_CoinIntro, MSG_YESNO
+	compare LASTRESULT, 0x1
+	goto_if notequal, EventScript_Pallet_FatGuy_CoinGame_Declined
+
+    @ 标记今天已玩
+	setflag 0xE00
+
+	@ 猜硬币：正面/反面
+	random 2
+	compare LASTRESULT, 0x1
+	goto_if equal, EventScript_Pallet_FatGuy_CoinGame_Win
+
+	msgbox Text_Pallet_FatGuy_CoinLose, MSG_NORMAL
+	release
+	end
+
+EventScript_Pallet_FatGuy_CoinGame_Win:
+	msgbox Text_Pallet_FatGuy_CoinWin, MSG_NORMAL
+
+	random 5          @ 随机 0~4
+	switch LASTRESULT
+	case 0, EventScript_Pallet_FatGuy_Prize0
+	case 1, EventScript_Pallet_FatGuy_Prize1
+	case 2, EventScript_Pallet_FatGuy_Prize2
+	case 3, EventScript_Pallet_FatGuy_Prize3
+	case 4, EventScript_Pallet_FatGuy_Prize4
+	release
+	end
+
+EventScript_Pallet_FatGuy_Prize0:   @ 吃剩的东西
+	giveitem ITEM_LEFTOVERS, 1, MSG_OBTAIN
+	release
+	end
+
+EventScript_Pallet_FatGuy_Prize1:   @ 文柚果
+	giveitem ITEM_SITRUS_BERRY, 1, MSG_OBTAIN
+	release
+	end
+
+EventScript_Pallet_FatGuy_Prize2:   @ 饱腹熏香
+	giveitem ITEM_FULL_INCENSE, 1, MSG_OBTAIN
+	release
+	end
+
+EventScript_Pallet_FatGuy_Prize3:   @ 突击背心
+	giveitem ITEM_ASSAULT_VEST, 1, MSG_OBTAIN
+	release
+	end
+
+EventScript_Pallet_FatGuy_Prize4:   @ 厚底靴
+	giveitem ITEM_HEAVY_DUTY_BOOTS, 1, MSG_OBTAIN
+	release
+	end
+
+EventScript_Pallet_FatGuy_CoinGame_Declined:
+	msgbox Text_Pallet_FatGuy_CoinDeclined, MSG_NORMAL
+	release
+	end
+
+EventScript_Pallet_FatGuy_CoinGame_AlreadyPlayed:
+	msgbox Text_Pallet_FatGuy_CoinAlreadyPlayed, MSG_NORMAL
+	release
+	end
+    
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 .global EventScript_GiveMons_Special
