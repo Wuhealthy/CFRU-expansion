@@ -6463,7 +6463,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _M, _PERIOD, _SPACE, _1, _SPACE, _K, _e, _y, _END},
+		.name = { 0x0D, 0x24, 0x05, 0xE3, 0x03, 0x03, 0x04, 0xE3, 0xFF},
 		.itemId = ITEM_ROOM_1_KEY,
 		.price = 0,
 		.holdEffect = 0,

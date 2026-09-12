@@ -271,6 +271,106 @@ EventScript_Pallet_AideGuy:
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+EventScript_CoffeeGuy_NPC:      @常青市老爷爷正常对话
+	lock
+	faceplayer
+    checkflag 0x91E
+	goto_if TRUE, EventScript_CoffeeGuy_NPC_AlreadyDone
+	call EventScript_CoffeeGuy_Tile_Event
+	end
+
+EventScript_CoffeeGuy_NPC_AlreadyDone:
+	msgbox Text_CoffeeGuy_Tile_Gift, MSG_NORMAL
+	release
+	end
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+EventScript_CoffeeGuy_Tile:     @常青市老爷爷右边陷阱脚本给图鉴导航
+	lockall
+	textcolor 0x0
+	applymovement 0x4, Movement_CoffeeGuy_Approach
+	waitmovement 0x0
+	applymovement 0xFF, Movement_Player_Approach
+	waitmovement 0x0
+	call EventScript_CoffeeGuy_Tile_Event
+	end
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+EventScript_CoffeeGuy_Tile1:    @常青市老爷爷左边陷阱脚本给图鉴导航
+	lockall
+	textcolor 0x0
+	applymovement 0x4, Movement_Player_Approach
+	waitmovement 0x0
+	applymovement 0xFF, Movement_CoffeeGuy_Approach
+	waitmovement 0x0
+	call EventScript_CoffeeGuy_Tile_Event
+	end
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+EventScript_CoffeeGuy_Tile_Event:
+	msgbox Text_CoffeeGuy_Tile_Intro, MSG_KEEPOPEN
+	closeonkeypress
+	special 0x187
+	compare 0x800D, 0x2
+	goto_if equal, EventScript_CoffeeGuy_Tile_End
+	special 0x188
+	special 0x9D
+	waitstate
+	lock
+	faceplayer
+	msgbox Text_CoffeeGuy_Tile_After, MSG_KEEPOPEN
+	setvar 0x4051, 0x2
+	setflag 0x91E
+	setflag 0x829
+    giveitem 0x119, 1, MSG_OBTAIN
+	msgbox Text_CoffeeGuy_Tile_Gift, MSG_KEEPOPEN
+	release
+	end
+
+EventScript_CoffeeGuy_Tile_End:
+	release
+	end
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Movement_CoffeeGuy_Approach:
+	.byte 0x30, 0xFE
+
+Movement_Player_Approach:
+	.byte 0x2F, 0xFE
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+EventScript_BugCatcher_Strongest:
+	lock
+	faceplayer
+	checkflag 0x1200
+	goto_if TRUE, EventScript_BugCatcher_AlreadyDefeated
+
+	msgbox Text_BugCatcher_Intro, MSG_YESNO
+	compare LASTRESULT, 0x1
+	goto_if equal, EventScript_BugCatcher_Battle
+
+	msgbox Text_BugCatcher_Declined, MSG_NORMAL
+	release
+	end
+
+EventScript_BugCatcher_Battle:
+	trainerbattle1 1, 1, 0, Text_BugCatcher_Ready, Text_BugCatcher_Defeat, EventScript_BugCatcher_AfterBattle
+
+EventScript_BugCatcher_AfterBattle:
+    setflag 0x1200
+	msgbox Text_BugCatcher_AfterBattle, MSG_NORMAL
+	giveitem 0x12A, 1, MSG_OBTAIN
+	msgbox Text_BugCatcher_Gift, MSG_NORMAL
+	release
+	end
+
+EventScript_BugCatcher_AlreadyDefeated:
+	msgbox Text_BugCatcher_AlreadyDefeated, MSG_NORMAL
+	release
+	end
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 .global EventScript_GiveMons_Special
 EventScript_GiveMons_Special:
     lock

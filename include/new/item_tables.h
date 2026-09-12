@@ -588,8 +588,8 @@ extern const u32 gBag_BlueOrbPal[];
 #define gBag_GoGogglesPal ((u32*)0x08E91508)
 #define gBag_MeteoriteTiles ((u32*)0x08E91528)
 #define gBag_MeteoritePal ((u32*)0x08E91608)
-#define gBag_RM1KeyTiles ((u32*)0x08E91628)
-#define gBag_RM1KeyPal ((u32*)0x08E92754)
+extern const u32 gBag_RM1KeyTiles[];
+extern const u32 gBag_RM1KeyPal[];
 #define gBag_RM2KeyTiles ((u32*)0x08E916E0)
 #define gBag_RM2KeyPal ((u32*)0x08E92754)
 #define gBag_RM4KeyTiles ((u32*)0x08E9179C)

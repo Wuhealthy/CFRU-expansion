@@ -84,3 +84,33 @@
 
 #org @gText_GiveMons_Special_Done
 我已经没什么可以给你了。
+
+#org @Text_BugCatcher_Intro
+我的宝可梦居然进化成了\n觉醒形态。\p不信？那就来对战看看吧。\p你准备好了吗？
+
+#org @Text_BugCatcher_Declined
+哼，胆小鬼。\n等你准备好再来找我吧！
+
+#org @Text_BugCatcher_Ready
+很好！那就让你见识一下\n觉醒宝可梦的实力！
+
+#org @Text_BugCatcher_Defeat
+看来我还是不够强大……
+
+#org @Text_BugCatcher_AfterBattle
+你是个实力相当的对手。\p这是我的见面礼，\n希望下次能再来一场对战。
+
+#org @Text_BugCatcher_Gift
+下次再会！
+
+#org @Text_BugCatcher_AlreadyDefeated
+我还要再训练一会，\n你先忙去吧！
+
+#org @Text_CoffeeGuy_Tile_Intro
+嗯？\n你手上拿着的那个红色盒子是什么？\p噢，你在完成你的宝可梦图鉴啊。\p那么让我给你一些建议吧。\p宝可梦图鉴会在你收服到\n宝可梦时自动更新数据。\p……你不知道该怎么收服宝可梦?\p那我想我应该教你怎么做!
+
+#org @Text_CoffeeGuy_Tile_After
+怎么样?\n是不是受益匪浅啊?\p把这个图鉴导航也带上吧。
+
+#org @Text_CoffeeGuy_Tile_Gift
+如果有什么你不懂的,\n一定要仔细看它。\p它将教会你如何成为\n一名合格的宝可梦训练家。
