@@ -530,10 +530,14 @@ static void Task_UpdateDailyValues(u8 taskId)
 	if (--gTasks[taskId].data[0] == 0) //Decrement the timer
 	{
 		DirectClockUpdate();
-		if (gClock.day == gTasks[taskId].data[1]
-		&& gClock.month == gTasks[taskId].data[2]
-		&& gClock.year == gTasks[taskId].data[3]) //The date change was true and the RTC didn't just glitch out momentarily
+		if (gClock.day != gTasks[taskId].data[1]
+		|| gClock.month != gTasks[taskId].data[2]
+		|| gClock.year != gTasks[taskId].data[3]) //The date change was true and the RTC didn't just glitch out momentarily
 		{
+			gTasks[taskId].data[1] = gClock.day;
+			gTasks[taskId].data[2] = gClock.month;
+			gTasks[taskId].data[3] = gClock.year;
+			
 			u32 backupVar = VarGet(VAR_SWARM_DAILY_EVENT) | (VarGet(VAR_SWARM_DAILY_EVENT + 1) << 16);
 
 			CheckAndSetDailyEvent(VAR_SWARM_DAILY_EVENT, TRUE); //Update the value in the var
