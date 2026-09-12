@@ -100,6 +100,15 @@
 #org @Text_Pallet_FatGuy_CoinAlreadyPlayed
 今天已经猜过了。\p明天再来吧！
 
+#org @Text_Pallet_LittleGirl_ShowMon
+哇，你有宝可梦！\p是[BUFFER1]啊，\n好可爱！\p我也好想有一只……\p这个给你，\n是我妈妈给我的围巾。\p把它带在宝可梦身上，\n一般属性的招式会变强哦！
+
+#org @Text_Pallet_LittleGirl_NoMon
+你还没有宝可梦吗？\p大木博士那里好像有，\n你去问问看吧！
+
+#org @Text_Pallet_LittleGirl_After
+你的[BUFFER1]还好吗？\p那条围巾，\n要好好用哦！
+
 #org @Text_BugCatcher_Intro
 我的宝可梦居然进化成了\n觉醒形态。\p不信？那就来对战看看吧。\p你准备好了吗？
 

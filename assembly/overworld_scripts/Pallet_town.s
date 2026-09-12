@@ -441,22 +441,31 @@ EventScript_Pallet_FatGuy_CoinGame_AlreadyPlayed:
 	msgbox Text_Pallet_FatGuy_CoinAlreadyPlayed, MSG_NORMAL
 	release
 	end
-    
+
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+EventScript_Pallet_LittleGirl:      @ 真新镇小女孩送丝绸围巾
+	lock
+	faceplayer
+	checkflag 0x1201
+	goto_if TRUE, EventScript_Pallet_LittleGirl_AlreadyDone
 
-.global EventScript_GiveMons_Special
-EventScript_GiveMons_Special:
-    lock
-    faceplayer
-    checkflag 0x2
-    goto_if TRUE EventScript_GiveMons_Special_Done
-    msgbox gText_GiveMons_Special_Give MSG_NORMAL
-    giveitem ITEM_TM10 1 MSG_OBTAIN
-    setflag 0x2
-    release
-    end
+	countpokemon
+	compare LASTRESULT, 0
+	goto_if equal, EventScript_Pallet_LittleGirl_NoMon
 
-EventScript_GiveMons_Special_Done:
-    msgbox gText_GiveMons_Special_Done MSG_NORMAL
-    release
-    end
+	bufferfirstpokemon 0x0
+	msgbox Text_Pallet_LittleGirl_ShowMon, MSG_NORMAL
+	giveitem ITEM_SILK_SCARF, 1, MSG_OBTAIN
+	setflag 0x1201
+	release
+	end
+
+EventScript_Pallet_LittleGirl_NoMon:
+	msgbox Text_Pallet_LittleGirl_NoMon, MSG_NORMAL
+	release
+	end
+
+EventScript_Pallet_LittleGirl_AlreadyDone:
+	msgbox Text_Pallet_LittleGirl_After, MSG_NORMAL
+	release
+	end
