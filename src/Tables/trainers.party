@@ -32,18 +32,30 @@ Tera Type: Normal
 Important CFRU limitation: Ability, Nature, per-stat IVs/EVs and Tera Type
 require explicit moves for every Pokemon in that trainer's party.
 */
-=== TRAINER_AQUA_LEADER ===
-Name: 
-Class: Aqua Leader
-Pic: Archie
+=== TRAINER_AQUA_LEADER === /*常青森林短裤小子 送觉醒力量*/
+Name: Wuhealthy
+Class: Youngster
+Pic: Youngster
 Gender: Male
-Music: Aqua
-Items: 
-Double Battle: No
-AI: Check Bad Move
+Music: Male
+Items: Mega Ring
+Double Battle: Yes
+AI: Check Bad Move / Check Good Move / Semi Smart
 
-Ekans
-Level: 5
+Crawdaunt @ Sitrus Berry
+Level: 15
+IVs: 31 HP / 31 Atk / 31 Def / 30 SpA / 30 SpD / 31 Spe
+- Hidden Power
+- Knock Off
+- Razor Shell
+- Avalanche
+
+Garchomp @ Garchompzite
+Level: 15
+- Power Gem
+- Dragon Breath
+- Sleep Talk
+- Rest
 
 === TRAINER_AQUA_GRUNT_M ===
 Name: 
@@ -1456,7 +1468,7 @@ Pic: Bug Catcher
 Gender: Male
 Music: Male
 Items: 
-Double Battle: No
+Double Battle: Yes
 AI: Check Bad Move / Check Good Move / Semi Smart
 
 Vivillon @ Focus Sash
