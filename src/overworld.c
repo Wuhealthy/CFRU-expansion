@@ -3140,10 +3140,21 @@ const union AnimCmd gEventObjectImageAnim_RunEast[] =
 #endif
 
 #define ReturnFieldOpenedMenu ((bool8 (*)(void)) (0x0807E3BD))
+#define sReturnToNewStartMenu (*(bool8 *)0x0203E057)
 
 static bool8 ReturnFieldOpenedMenuWithFollowerPalette(void)
 {
-    bool8 result = ReturnFieldOpenedMenu();
+    bool8 result;
+
+    if (sReturnToNewStartMenu)
+    {
+        // 从新菜单来的，走新菜单返回
+        sReturnToNewStartMenu = FALSE;
+        ShowNewStartMenu();   // 或 SetUpReturnToNewStartMenu() + CB2_ReturnToFieldFromDiploma()
+        return TRUE;
+    }
+
+    result = ReturnFieldOpenedMenu();
 
     // The field reload restores the normal object palette after the follower
     // has already been recreated. Reapply the lead Pokemon's palette only
