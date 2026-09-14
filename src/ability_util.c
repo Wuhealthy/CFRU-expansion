@@ -318,6 +318,8 @@ bool8 SpeciesHasHiddenPowerPhysicality(unusedArg u16 species)
 		case SPECIES_CLOYSTER_MEGA:
 		case SPECIES_MR_MIME_MEGA:
 		case SPECIES_CARBINK_MEGA:
+		case SPECIES_CRYOGONAL_J:
+		case SPECIES_AMOONGUSS_J:
 		case SPECIES_SHIFTRY_MEGA:
 		case SPECIES_CRAWDAUNT_MEGA:
 		case SPECIES_WYRDEER_MEGA:

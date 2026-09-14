@@ -1317,6 +1317,56 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
         		}
     		break;
 
+		case ABILITY_ICECRYSTALPURGE:
+    	// 冰晶净化：出场时清除我方场上所有场地伤害类效果
+    	{
+        	u8 side = SIDE(bank);
+        	bool8 cleared = FALSE;
+
+        	// 撒菱
+        	if (gSideTimers[side].spikesAmount > 0)
+        	{
+            	gSideTimers[side].spikesAmount = 0;
+            	cleared = TRUE;
+        	}
+
+        	// 毒菱
+        	if (gSideTimers[side].tspikesAmount > 0)
+        	{
+            	gSideTimers[side].tspikesAmount = 0;
+            	cleared = TRUE;
+        	}
+
+        	// 隐形岩
+        	if (gSideTimers[side].srAmount > 0)
+        	{
+            	gSideTimers[side].srAmount = 0;
+            	cleared = TRUE;
+        	}
+
+        	// 黏黏网
+        	if (gSideTimers[side].stickyWeb)
+        	{
+            	gSideTimers[side].stickyWeb = 0;
+            	gSideTimers[side].stickyWebBank = 0;
+            	cleared = TRUE;
+        	}
+
+        	// 钢刺
+        	if (gSideTimers[side].steelsurge)
+        	{
+            	gSideTimers[side].steelsurge = 0;
+            	cleared = TRUE;
+        	}
+
+        	if (cleared)
+        	{
+            	BattleScriptPushCursorAndCallback(BattleScript_IceCrystalPurgeActivates);
+            	effect++;
+        	}
+    	}
+    		break;
+
 		case ABILITY_DOWNLOAD:
 			{
 				u8 statId;

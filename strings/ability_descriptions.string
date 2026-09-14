@@ -1036,3 +1036,6 @@ HP首次低于1/3时回满HP并提升攻击
 
 #org @DESC_TRICKROOMENTRY
 出场时，制造出戏法空间
+
+#org @DESC_ICECRYSTALPURGE
+出场时，清除我方场上撒菱等状态

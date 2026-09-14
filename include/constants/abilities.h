@@ -357,5 +357,6 @@
 #define ABILITY_PHANTOMWALL                          351    //幻墙
 #define ABILITY_VAMPIRE                              352    //吸血鬼
 #define ABILITY_TRICKROOMENTRY                       353    //空间扭曲者
+#define ABILITY_ICECRYSTALPURGE                      354    //冰晶净化
 
-#define ABILITIES_COUNT                              354
+#define ABILITIES_COUNT                              355

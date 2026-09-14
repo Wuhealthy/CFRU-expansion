@@ -362,3 +362,4 @@ gAbilityDescriptions:
 .word DESC_PHANTOMWALL                           @ 351 ABILITY_PHANTOMWALL
 .word DESC_VAMPIRE                               @ 352 ABILITY_VAMPIRE
 .word DESC_TRICKROOMENTRY                        @ 352 ABILITY_TRICKROOMENTRY
+.word DESC_ICECRYSTALPURGE                       @ 352 ABILITY_ICECRYSTALPURGE

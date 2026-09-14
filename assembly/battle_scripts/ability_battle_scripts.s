@@ -118,6 +118,7 @@ ability_battle_scripts.s
 .global BattleScript_CudChew
 .global BattleScript_ElectromorphosisActivates
 .global BattleScript_ElectromorphosisActivatess
+.global BattleScript_IceCrystalPurgeActivates
 .global BattleScript_LingeringAromaActivates
 .global BattleScript_QuarkDriveActivates
 .global BattleScript_QuarkDriveActivates2
@@ -1652,6 +1653,15 @@ BattleScript_ElectromorphosisActivatess:
 	waitmessage DELAY_1SECOND
 	call BattleScript_AbilityPopUpRevert
 	end3
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+BattleScript_IceCrystalPurgeActivates:
+    call BattleScript_AbilityPopUp
+    setword BATTLE_STRING_LOADER gText_IceCrystalPurge
+    printstring 0x184
+    waitmessage DELAY_1SECOND
+    call BattleScript_AbilityPopUpRevert
+    end3
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 BattleScript_QuarkDriveActivates:
