@@ -1076,8 +1076,11 @@ CheckPlayerPressedStartButton:
 	bl IsDexNavHudActive
 	cmp r0, #0x0
 	bne CheckSelectButtonReturn @No opening Start Menu while HUD is active
-	ldr r2, =0x0806CCD6 | 1
-	bx r2
+	mov r0, r5
+    bl OpenNewStartMenuFromFieldInput
+    cmp r0, #0x0
+    beq CheckSelectButtonReturn
+    b DiveChosen
 
 CheckSelectButtonReturn:
 	ldr r2, =0x0806CCFC | 1

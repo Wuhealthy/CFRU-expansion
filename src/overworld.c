@@ -59,6 +59,7 @@
 #include "../include/new/read_keys.h"
 #include "../include/new/wild_encounter.h"
 #include "../include/save.h"
+#include "../include/new_start_menu.h"
 
 /*
 overworld.c
@@ -101,6 +102,7 @@ static bool8 SafariZoneTakeStep(void);
 static bool8 IsRunningDisabledByFlag(void);
 static bool8 IsPlayerFacingSea(void);
 static bool8 UseRegisteredKeyItemOnField(void);
+static bool8 CanOpenNewStartMenuFromField(void);
 extern void ChangeFollowerPalette(void);
 
 #if (defined VAR_DEFAULT_WALKING_SCRIPT && !defined UNBOUND)
@@ -2860,8 +2862,35 @@ void FieldCheckIfPlayerPressedLButton(struct FieldInput* input, u16 newKeys)
 		input->pressedLButton = TRUE;
 }
 
+bool8 OpenNewStartMenuFromFieldInput(struct FieldInput* input)
+{
+	if (!CanOpenNewStartMenuFromField())
+		return FALSE;
+
+	input->pressedStartButton = FALSE;
+	gInputToStoreInQuestLogMaybe.pressedStartButton = TRUE;
+	FlagSet(FLAG_OPENED_START_MENU);
+	PlaySE(SE_WIN_OPEN);
+	ShowNewStartMenu();
+	return TRUE;
+}
+
 bool8 ProcessNewFieldPlayerInput(struct FieldInput* input)
 {
+	if (input->pressedStartButton)
+	{
+		input->pressedStartButton = FALSE;
+		if (IsDexNavHudActive())
+			return FALSE; //Can't force close this
+		if (!CanOpenNewStartMenuFromField())
+			return FALSE;
+
+		FlagSet(FLAG_OPENED_START_MENU);
+		PlaySE(SE_WIN_OPEN);
+		ShowNewStartMenu();
+		return TRUE;
+	}
+	
 	UpdateAutomaticFollowerMon();
 
 	if (IsDexNavHudActive())
@@ -2898,6 +2927,11 @@ bool8 ProcessNewFieldPlayerInput(struct FieldInput* input)
 	}
 
 	return FALSE;
+}
+
+static bool8 CanOpenNewStartMenuFromField(void)
+{
+	return !ScriptContext2_IsEnabled() && !ScriptContext1_IsScriptSetUp();
 }
 
 void UseRegisteredItem(u16 registeredItem)
