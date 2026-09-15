@@ -1509,7 +1509,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			{
 				switch(SPECIES(bank)) {
 					case SPECIES_CHERRIM:
-						if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY) && AffectedBySun(bank))
+						if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY) && AffectedBySun(bank) && !MoveInMoveset(MOVE_HIDDENPOWER, bank))
 						{
 							DoFormChange(bank, SPECIES_CHERRIM_SUN, FALSE, FALSE, FALSE);
 							BattleScriptPushCursorAndCallback(BattleScript_TransformedEnd3);
@@ -3056,6 +3056,23 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					effect++;
 				}
 				break;
+
+			case ABILITY_SUNNYDISPOSITION:
+    			if (MOVE_HAD_EFFECT
+    			&& TOOK_DAMAGE(bank)
+    			&& gBankAttacker != bank
+    			&& !(gBattleWeather & (WEATHER_SUN_ANY | WEATHER_PRIMAL_ANY | WEATHER_CIRCUS)))
+    			{
+        			effect = ActivateWeatherAbility(WEATHER_SUN_PERMANENT | WEATHER_SUN_TEMPORARY,
+                                        			ITEM_EFFECT_HEAT_ROCK, bank, B_ANIM_SUN_CONTINUES, 2, TRUE);
+    			}
+    			else if (gBattleWeather & WEATHER_PRIMAL_ANY && !(gBattleWeather & WEATHER_SUN_ANY))
+    			{
+        			BattleScriptPushCursor();
+        			gBattlescriptCurrInstr = BattleScript_WeatherAbilityBlockedByPrimalWeatherRet;
+        			effect++;
+    			}
+    			break;
 
 			case ABILITY_PERISHBODY:
 				if (MOVE_HAD_EFFECT

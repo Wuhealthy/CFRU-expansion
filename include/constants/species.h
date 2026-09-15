@@ -1563,7 +1563,10 @@ enum
     SPECIES_TATSUGIRI_YELLOW_MEGA,  // 0x617
     SPECIES_CRYOGONAL_J,            // 0x618
     SPECIES_AMOONGUSS_J,            // 0x619
-    SPECIES_CARBINK_MEGA,           // 0x61A
+    SPECIES_CRUSTLE_J,              // 0x61A
+    SPECIES_SUNFLORA_J,             // 0x61B
+    SPECIES_CHERRIM_J,              // 0x61C
+    SPECIES_CARBINK_MEGA,           // 0x61D
 };
 
 #define NUM_SPECIES_GEN_7 (SPECIES_XERNEAS_NATURAL + 1)
