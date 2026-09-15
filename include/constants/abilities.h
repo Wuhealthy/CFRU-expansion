@@ -317,46 +317,49 @@
 #define ABILITY_PIERCINGDRILL                        311
 #define ABILITY_DRAGONIZE                            312
 #define ABILITY_EELEVATE                             313
-#define ABILITY_NEEDLEGRUDGE                         314    //针怨
-#define ABILITY_MEGASOL                              315
-#define ABILITY_FIREMANE                             316
-#define ABILITY_SILENTGRUDGE                         317    //缄默怨
-#define ABILITY_SPICYSPRAY                           318
-#define ABILITY_FUJIN                                319    //串联
-#define ABILITY_SONILATE                             320    //音浪皮肤
-#define ABILITY_IMPROVISE                            321    //随机应变
-#define ABILITY_WAVEFIST                             322    //浪花之拳
-#define ABILITY_DESPERATESTRIKE                      323    //殊死一搏
-#define ABILITY_PSYGRAVITY                           324    //意念控制
-#define ABILITY_VOLATILEEXPLOSION                    325    //一触即爆
-#define ABILITY_STICKSTICKPASS                       326    //棒棒相传
-#define ABILITY_HEAVYARMOR                           327    //重甲
-#define ABILITY_VENOMFORTE                           328    //强注毒液
-#define ABILITY_SPIDERSENSE                          329    //抢占先机
-#define ABILITY_UNICORNPEGASUS                       330    //疾驰
-#define ABILITY_AQUAREGEN                            331    //水之再生
-#define ABILITY_QUICKCHARGE                          332    //雷厉风行
-#define ABILITY_ICEDEITY                             333    //冰之神
-#define ABILITY_THUNDERDEITY                         334    //雷之神
-#define ABILITY_FIREDEITY                            335    //火之神
-#define ABILITY_GRASSDASH                            336    //燃烧之魂
-#define ABILITY_MUTANTADAPT                          337    //转守为攻
-#define ABILITY_PSYCHOREBOUND                        338    //精神棱镜
-#define ABILITY_SHADOWHEAL                           339    //暗影治愈
-#define ABILITY_EEVEEHERO                            340    //全知全能
-#define ABILITY_FLOWERBLADE                          341    //花刃
-#define ABILITY_GRIDBIND                             342    //不稳定的电流（暂无人使用）
-#define ABILITY_BIOSHELL                             343    //先拔头筹
-#define ABILITY_HEAVYHAMMER                          344    //重锤
-#define ABILITY_BROKENCLAW                           345    //断钳
-#define ABILITY_STELLARENERGY                        346    //星光能量
-#define ABILITY_SPEEDDIVE                            347    //俯冲
-#define ABILITY_SPIKECLAW                            348    //斗志
-#define ABILITY_AURAGUARD                            349    //波导防护
-#define ABILITY_BRUTALFORCE                          350    //威压
-#define ABILITY_PHANTOMWALL                          351    //幻墙
-#define ABILITY_VAMPIRE                              352    //吸血鬼
-#define ABILITY_TRICKROOMENTRY                       353    //空间扭曲者
-#define ABILITY_ICECRYSTALPURGE                      354    //冰晶净化
+enum
+{
+    ABILITY_NEEDLEGRUDGE = 314,   // 针怨
+    ABILITY_MEGASOL,              // 315
+    ABILITY_FIREMANE,             // 316
+    ABILITY_SILENTGRUDGE,         // 317 缄默怨
+    ABILITY_SPICYSPRAY,           // 318
+    ABILITY_FUJIN,                // 319 串联
+    ABILITY_SONILATE,             // 320 音浪皮肤
+    ABILITY_IMPROVISE,            // 321 随机应变
+    ABILITY_WAVEFIST,             // 322 浪花之拳
+    ABILITY_DESPERATESTRIKE,      // 323 殊死一搏
+    ABILITY_PSYGRAVITY,           // 324 意念控制
+    ABILITY_VOLATILEEXPLOSION,    // 325 一触即爆
+    ABILITY_STICKSTICKPASS,       // 326 棒棒相传
+    ABILITY_HEAVYARMOR,           // 327 重甲
+    ABILITY_VENOMFORTE,           // 328 强注毒液
+    ABILITY_SPIDERSENSE,          // 329 抢占先机
+    ABILITY_UNICORNPEGASUS,       // 330 疾驰
+    ABILITY_AQUAREGEN,            // 331 水之再生
+    ABILITY_QUICKCHARGE,          // 332 雷厉风行
+    ABILITY_ICEDEITY,             // 333 冰之神
+    ABILITY_THUNDERDEITY,         // 334 雷之神
+    ABILITY_FIREDEITY,            // 335 火之神
+    ABILITY_GRASSDASH,            // 336 燃烧之魂
+    ABILITY_MUTANTADAPT,          // 337 转守为攻
+    ABILITY_PSYCHOREBOUND,        // 338 精神棱镜
+    ABILITY_SHADOWHEAL,           // 339 暗影治愈
+    ABILITY_EEVEEHERO,            // 340 全知全能
+    ABILITY_FLOWERBLADE,          // 341 花刃
+    ABILITY_GRIDBIND,             // 342 不稳定的电流
+    ABILITY_BIOSHELL,             // 343 先拔头筹
+    ABILITY_HEAVYHAMMER,          // 344 重锤
+    ABILITY_BROKENCLAW,           // 345 断钳
+    ABILITY_STELLARENERGY,        // 346 星光能量
+    ABILITY_SPEEDDIVE,            // 347 俯冲
+    ABILITY_SPIKECLAW,            // 348 斗志
+    ABILITY_AURAGUARD,            // 349 波导防护
+    ABILITY_BRUTALFORCE,          // 350 威压
+    ABILITY_PHANTOMWALL,          // 351 幻墙
+    ABILITY_VAMPIRE,              // 352 吸血鬼
+    ABILITY_TRICKROOMENTRY,       // 353 空间扭曲者
+    ABILITY_ICECRYSTALPURGE,      // 354 冰晶净化
+};
 
-#define ABILITIES_COUNT                              355
+#define ABILITIES_COUNT (ABILITY_ICECRYSTALPURGE + 1)
