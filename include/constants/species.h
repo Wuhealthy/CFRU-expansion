@@ -1566,7 +1566,9 @@ enum
     SPECIES_CRUSTLE_J,              // 0x61A
     SPECIES_SUNFLORA_J,             // 0x61B
     SPECIES_CHERRIM_J,              // 0x61C
-    SPECIES_CARBINK_MEGA,           // 0x61D
+    SPECIES_PALOSSAND_J,            // 0x61D
+    SPECIES_SWELLOW_J,              // 0x61E
+    SPECIES_CARBINK_MEGA,           // 0x61F
 };
 
 #define NUM_SPECIES_GEN_7 (SPECIES_XERNEAS_NATURAL + 1)

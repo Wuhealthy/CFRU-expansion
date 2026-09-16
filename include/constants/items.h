@@ -904,7 +904,6 @@ enum
     ITEM_SCRAFTYITE,            // 0x356
     ITEM_EELEKTROSSITE,         // 0x357
     ITEM_CHANDELUREITE,         // 0x358
-    ITEM_HAXORUSITE,            // 0x359
     ITEM_GOLURKITE,             // 0x35A
     ITEM_CHESNAUGHTITE,         // 0x35B
     ITEM_DELPHOXITE,            // 0x35C

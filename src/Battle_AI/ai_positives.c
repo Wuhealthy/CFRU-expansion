@@ -1286,7 +1286,7 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 
 				default:
 				PROTECT_CHECKS: ;
-					u8 shouldProtect = ShouldProtect(bankAtk, bankDef, move);
+					enum ProtectQueries shouldProtect = ShouldProtect(bankAtk, bankDef, move);
 
 					if (shouldProtect == USE_PROTECT || shouldProtect == PROTECT_FROM_FOES)
 					{

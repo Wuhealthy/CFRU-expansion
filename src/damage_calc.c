@@ -2810,6 +2810,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			break;
 
 		case ABILITY_GUTS:
+		case ABILITY_SELFMOTIVATION:
 		//1.5x Boost
 			if (data->atkStatus1 & STATUS_ANY)
 				attack = (attack * 15) / 10;
@@ -2947,6 +2948,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 //Target Ability Checks
 	switch (data->defAbility) {
 		case ABILITY_MARVELSCALE:
+		case ABILITY_SELFMOTIVATION:
 		//1.5x Boost
 			if (data->defStatus1 & STATUS_ANY)
 				defense = (defense * 15) / 10;
@@ -3583,6 +3585,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 	if (data->moveSplit == SPLIT_PHYSICAL
 	&& (data->atkStatus1 & STATUS_BURN)
 	&& data->atkAbility != ABILITY_GUTS
+	&& data->atkAbility != ABILITY_SELFMOTIVATION
 	&& move != MOVE_FACADE)
 		damage /= 2;
 	#ifdef FROSTBITE

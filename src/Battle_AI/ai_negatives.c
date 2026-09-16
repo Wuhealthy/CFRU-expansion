@@ -2026,7 +2026,7 @@ SKIP_CHECK_TARGET:
 			if (AI_THINKING_STRUCT->aiFlags == AI_SCRIPT_CHECK_BAD_MOVE //Only basic AI
 			&& IS_DOUBLE_BATTLE) //Make the regular AI know how to use Protect minimally in Doubles
 			{
-				u8 shouldProtect = ShouldProtect(bankAtk, bankDef, move);
+				enum ProtectQueries shouldProtect = ShouldProtect(bankAtk, bankDef, move);
 				if (shouldProtect == USE_PROTECT || shouldProtect == PROTECT_FROM_FOES)
 					IncreaseFoeProtectionViability(&viability, 0xFF, bankAtk, bankDef);
 				else if (shouldProtect == PROTECT_FROM_ALLIES)

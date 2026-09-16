@@ -1081,6 +1081,7 @@ static bool8 BankHoldingUsefulItemToProtectFor(u8 bank)
 	&& (ability == ABILITY_GUTS
 	 || ability == ABILITY_FLAREBOOST
 	 || ability == ABILITY_MAGICGUARD
+	 || ability == ABILITY_SELFMOTIVATION
 	 || MoveInMoveset(MOVE_FACADE, bank)))
 		return TRUE;
 

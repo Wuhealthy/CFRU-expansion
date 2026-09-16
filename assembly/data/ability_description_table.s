@@ -363,4 +363,5 @@ gAbilityDescriptions:
 .word DESC_VAMPIRE                               @ 352 ABILITY_VAMPIRE
 .word DESC_TRICKROOMENTRY                        @ 353 ABILITY_TRICKROOMENTRY
 .word DESC_SUNNYDISPOSITION                      @ 354 ABILITY_SUNNYDISPOSITION
-.word DESC_ICECRYSTALPURGE                       @ 355 ABILITY_ICECRYSTALPURGE
+.word DESC_SELFMOTIVATION                        @ 355 ABILITY_SELFMOTIVATION
+.word DESC_ICECRYSTALPURGE                       @ 356 ABILITY_ICECRYSTALPURGE

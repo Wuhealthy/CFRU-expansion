@@ -42,7 +42,7 @@ bool8 ShouldPrioritizeMostDamageDoubles(u8 bank);
 bool8 ShouldPrioritizeDangerousTarget(u8 bank);
 bool8 ShouldTrap(u8 bankAtk, u8 bankDef, u16 move, u8 class);
 bool8 ShouldRecover(u8 bankAtk, u8 bankDef, u16 move);
-u8 ShouldProtect(u8 bankAtk, u8 bankDef, u16 move);
+enum ProtectQueries ShouldProtect(u8 bankAtk, u8 bankDef, u16 move);
 bool8 ShouldPhaze(u8 bankAtk, u8 bankDef, u16 move, u8 class);
 bool8 ShouldUseWishAromatherapy(u8 bankAtk, u8 bankDef, u16 move, u8 class);
 bool8 ShouldSetUpScreens(u8 bankAtk, u8 bankDef, u16 move);

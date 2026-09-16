@@ -1040,5 +1040,8 @@ HP首次低于1/3时回满HP并提升攻击
 #org @DESC_SUNNYDISPOSITION
 受到伤害时，会将天气变为大晴天
 
+#org @DESC_SELFMOTIVATION
+变为异常状态时，攻击和防御提高
+
 #org @DESC_ICECRYSTALPURGE
 出场时，清除我方场上撒菱等状态
