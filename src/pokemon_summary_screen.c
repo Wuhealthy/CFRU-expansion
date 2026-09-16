@@ -336,15 +336,15 @@ static const u8 * const sIVRankings_Images[] =
 
 #define HP_TEXT_X_POS 40
 #define STATS_TEXT_POS 52
-#define EXP_TEXT_X_POS1 15
-#define EXP_TEXT_X_POS2 16
+#define EXP_TEXT_X_POS1 0
+#define EXP_TEXT_X_POS2 36
 #define HP_TEXT_Y_POS 0
 #define ATK_TEXT_Y_POS 20
 #define DEF_TEXT_Y_POS 32
 #define SPATK_TEXT_Y_POS 44
 #define SPDEF_TEXT_Y_POS 56
 #define SPD_TEXT_Y_POS 68
-#define EXP1_TEXT_Y_POS 80
+#define EXP1_TEXT_Y_POS 92
 #define EXP2_TEXT_Y_POS 92
 #define STATS_IV_POS_X 40
 #define HP_IV_POS_Y 2
