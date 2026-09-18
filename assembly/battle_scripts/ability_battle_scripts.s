@@ -119,6 +119,7 @@ ability_battle_scripts.s
 .global BattleScript_ElectromorphosisActivates
 .global BattleScript_ElectromorphosisActivatess
 .global BattleScript_IceCrystalPurgeActivates
+.global BattleScript_TeaPartyActivates
 .global BattleScript_LingeringAromaActivates
 .global BattleScript_QuarkDriveActivates
 .global BattleScript_QuarkDriveActivates2
@@ -1662,6 +1663,23 @@ BattleScript_IceCrystalPurgeActivates:
     waitmessage DELAY_1SECOND
     call BattleScript_AbilityPopUpRevert
     end3
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+BattleScript_TeaPartyActivates:
+	call BattleScript_AbilityPopUp
+	setword BATTLE_STRING_LOADER gText_TeaPartyActivate
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
+	setbyte gBattleCommunication + 0, 0        @ 重置循环下标
+TeaParty_Loop:
+	callasm TeaPartyPickNextTarget
+	jumpifbyte EQUALS gBattleCommunication + 0, 0xFF, TeaParty_End
+	callasm TeaPartyLoadStatusEffect
+	seteffectprimary
+	goto TeaParty_Loop
+TeaParty_End:
+	end3
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 BattleScript_QuarkDriveActivates:

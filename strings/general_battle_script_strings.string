@@ -544,6 +544,9 @@
 #org @gText_IceCrystalPurge
 [SCRIPTING_BANK]\n场地上的撒菱等效果消失了。
 
+#org @gText_TeaPartyActivate
+[SCRIPTING_BANK]的\n茶话会开始了！
+
 #org @gText_AquaRegenHeal
 [SCRIPTING_BANK]\n因攻击回复少量HP。
 

@@ -861,15 +861,15 @@ enum
     ITEM_UMBREONITE,            // 0x32B
     ITEM_GRENINJAITE,           // 0x32C
     ITEM_SKARMORYITE,           // 0x32D
-    ITEM_KINGDRAITE,            // 0x32E
-    ITEM_DONPHANITE,            // 0x32F
+    ITEM_GRENINJAZITE,          // 0x32E
+    ITEM_PALAFINITE,            // 0x32F
     ITEM_RAIKOUITE,             // 0x330
     ITEM_ENTEIITE,              // 0x331
     ITEM_SUICUNEITE,            // 0x332
     ITEM_LUGIAITE,              // 0x333
     ITEM_HOOHITE,               // 0x334
     ITEM_SLAKINGITE,            // 0x335
-    ITEM_TORKOALITE,            // 0x336
+    ITEM_POLTEAGEISTITE,        // 0x336
     ITEM_FLYGONITE,             // 0x337
     ITEM_KINGDRAYITE,           // 0x338
     ITEM_MILOTICITE,            // 0x339

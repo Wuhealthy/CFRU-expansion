@@ -1367,6 +1367,33 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
     	}
     		break;
 
+		case ABILITY_TEAPARTY:
+		{
+			u8 side = SIDE(bank);
+			u8 partyId = gBattlerPartyIndexes[bank];
+
+			if (!gNewBS->oncePerBattleAbilityFlags[side][partyId])
+			{
+				bool8 hasTarget = FALSE;
+				for (i = 0; i < gBattlersCount; ++i)
+				{
+					if (i != bank && BATTLER_ALIVE(i))
+					{
+						hasTarget = TRUE;
+						break;
+					}
+				}
+
+				if (hasTarget)
+				{
+					gNewBS->oncePerBattleAbilityFlags[side][partyId] = TRUE;
+					BattleScriptPushCursorAndCallback(BattleScript_TeaPartyActivates);
+					effect++;
+				}
+			}
+			break;
+		}
+
 		case ABILITY_DOWNLOAD:
 			{
 				u8 statId;
@@ -4064,6 +4091,55 @@ void RemoveIntimidateActive(void)
 void RemoveCottonDownActive(void)
 {
 	gNewBS->cottonDownActive = 0;
+}
+
+// Tea Party: 逐个挑选目标，并把要施加的状态存到 gBattleCommunication
+void TeaPartyPickNextTarget(void)
+{
+	u8 teaPartyBank = gBattleScripting.bank;
+	u8 start = gBattleCommunication[0];
+
+	for (u8 i = start; i < gBattlersCount; ++i)
+	{
+		if (i == teaPartyBank || !BATTLER_ALIVE(i))
+			continue;
+
+		if (gBattleMons[i].status1 & STATUS1_ANY)
+			continue;
+
+		// 1. 收集这个目标能中的状态
+		u8 candidates[4];
+		u8 candidateCount = 0;
+
+		if (CanBeBurned(i, teaPartyBank, TRUE))
+			candidates[candidateCount++] = MOVE_EFFECT_BURN;
+		if (CanBePoisoned(i, teaPartyBank, TRUE))
+			candidates[candidateCount++] = MOVE_EFFECT_POISON;
+		if (CanBeParalyzed(i, teaPartyBank, TRUE))
+			candidates[candidateCount++] = MOVE_EFFECT_PARALYSIS;
+		if (CanBeFrozen(i, teaPartyBank, TRUE))
+			candidates[candidateCount++] = MOVE_EFFECT_FREEZE;
+
+		// 2. 四种都上不了 → 跳过这个目标
+		if (candidateCount == 0)
+			continue;
+
+		// 3. 从能中的状态里随机挑一个
+		u8 moveEffect = candidates[Random() % candidateCount];
+
+		gBattleCommunication[0] = i + 1;   // 下次从下一个 bank 开始
+		gBattleCommunication[1] = moveEffect;
+		gBankTarget = i;
+		return;
+	}
+
+	gBattleCommunication[0] = 0xFF;         // 结束
+}
+
+// 把选中的状态写入 seteffectprimary 读取的字节
+void TeaPartyLoadStatusEffect(void)
+{
+	gBattleCommunication[MOVE_EFFECT_BYTE] = gBattleCommunication[1];
 }
 
 void TryReactiveIntimidatePopUp(void)
