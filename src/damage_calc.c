@@ -120,7 +120,7 @@ void atk04_critcalc(void)
 		else if (IsLaserFocused(gBankAttacker)
 		|| (atkAbility == ABILITY_MERCILESS && (gBattleMons[bankDef].status1 & STATUS_PSN_ANY))
 		|| (atkAbility == ABILITY_FLOWERBLADE && moveType == TYPE_GRASS)
-		//|| (atkAbility == ABILITY_FUJIN && gSpecialMoveFlags[gCurrentMove].gBitingMoves) //Biting Moves always crit
+		|| (gCurrentMove == MOVE_AQUABLADE && IsOfType(bankDef, TYPE_WATER))
 		|| gSpecialMoveFlags[gCurrentMove].gAlwaysCriticalMoves)
 		{
 			confirmedCrit = TRUE;
@@ -224,7 +224,7 @@ static u8 CalcPossibleCritChance(u8 bankAtk, u8 bankDef, u16 move, struct Pokemo
 	else if ((IsLaserFocused(bankAtk) && monAtk == NULL)
 	|| (atkAbility == ABILITY_MERCILESS && (defStatus1 & STATUS_PSN_ANY))
 	|| (atkAbility == ABILITY_FLOWERBLADE && moveType == TYPE_GRASS)
-	//|| (atkAbility == ABILITY_FUJIN && gSpecialMoveFlags[move].gBitingMoves) //Biting Moves always crit
+	|| (move == MOVE_AQUABLADE && IsOfType(bankDef, TYPE_WATER))
 	|| gSpecialMoveFlags[move].gAlwaysCriticalMoves)
 	{
 		return TRUE;

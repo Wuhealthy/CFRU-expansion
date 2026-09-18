@@ -1038,6 +1038,7 @@ gMoveAnimations:
 .word ANIM_TEMPERFLARE
 .word ANIM_SUPERCELLSLAM
 .word ANIM_LIGHTNINGBALL
+.word ANIM_AQUABLADE
 .word ANIM_PSYCHICNOISE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -31143,6 +31144,98 @@ SPARKS_PLAYER:
 	launchtask AnimTask_pal_fade_complex 0x2 0x6 0x1 | 0x2 0xFFE1 0x1 0x0 0x0 0x5BFF @;ElectricYellow
 	return
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+ANIM_AQUABLADE:
+	@ ---------- 第一幕：凝聚 ----------
+	loadparticle ANIM_TAG_WATER_IMPACT
+	loadparticle ANIM_TAG_SMALL_BUBBLES
+	pokespritetoBG bank_target
+	leftbankBG_over_partnerBG bank_target
+	setblends 0x80c
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0x8 0x5da0
+	waitanimation
+	playsound2 0x87 SOUND_PAN_ATTACKER
+	call AQUABLADE_GATHER_BUBBLES
+	call AQUABLADE_GATHER_BUBBLES
+	call AQUABLADE_GATHER_BUBBLES
+	waitanimation
+	unloadparticle ANIM_TAG_SMALL_BUBBLES
+	@ ---------- 第二幕：水刃斩击 ----------
+	loadparticle ANIM_TAG_SLASH
+	loadparticle ANIM_TAG_CUT
+	playsound2 0x9d SOUND_PAN_ATTACKER
+	launchtask AnimTask_move_bank 0x5 0x5 bank_attacker 0x0 0x3 0x1E 0x1
+	call AQUABLADE_SLASH_LEFT
+	call AQUABLADE_SLASH_RIGHT
+	call AQUABLADE_SLASH_LEFT
+	call AQUABLADE_SLASH_RIGHT
+	waitanimation
+	@ ---------- 第三幕：命中水花 ----------
+	launchtask AnimTask_move_bank 0x5 0x5 bank_target 0x0 0x4 0xA 0x1
+	playsound2 0x81 SOUND_PAN_TARGET
+	call AQUABLADE_IMPACT
+	waitanimation
+	unloadparticle ANIM_TAG_SLASH
+	unloadparticle ANIM_TAG_CUT
+	@ ---------- 收尾 ----------
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x8 0x0 0x5da0
+	waitanimation
+	pokespritefromBG bank_target
+	resetblends
+	endanimation
+
+@ ===== 凝聚：攻击者周围水珠 =====
+AQUABLADE_GATHER_BUBBLES:
+	launchtemplate Template_SmallBubblePair TEMPLATE_ATTACKER | 2, 0x4, 0xa 0xa 0x19 0x0
+	pause 0x3
+	launchtemplate Template_SmallBubblePair TEMPLATE_ATTACKER | 2, 0x4, 0xfff1 0x0 0x19 0x0
+	pause 0x3
+	launchtemplate Template_SmallBubblePair TEMPLATE_ATTACKER | 2, 0x4, 0x14 0xa 0x19 0x0
+	pause 0x3
+	launchtemplate Template_SmallBubblePair TEMPLATE_ATTACKER | 2, 0x4, 0x0 0xfff6 0x19 0x0
+	pause 0x3
+	launchtemplate Template_SmallBubblePair TEMPLATE_ATTACKER | 2, 0x4, 0xfff6 0xf 0x19 0x0
+	pause 0x3
+	launchtemplate Template_SmallBubblePair TEMPLATE_ATTACKER | 2, 0x4, 0x19 0x14 0x19 0x0
+	pause 0x3
+	launchtemplate Template_SmallBubblePair TEMPLATE_ATTACKER | 2, 0x4, 0xffec 0x14 0x19 0x0
+	pause 0x3
+	launchtemplate Template_SmallBubblePair TEMPLATE_ATTACKER | 2, 0x4, 0xc 0x0 0x19 0x0
+	return
+
+@ ===== 斩击：左右两道水刃 =====
+AQUABLADE_SLASH_LEFT:
+	playsound2 0x79 SOUND_PAN_TARGET
+	launchtemplate Template_SlashSlice TEMPLATE_TARGET | 2, 0x3, bank_target 0xfff0 0x0
+	pause 0x4
+	return
+
+AQUABLADE_SLASH_RIGHT:
+	playsound2 0x79 SOUND_PAN_TARGET
+	launchtemplate Template_CuttingSlice TEMPLATE_TARGET | 2, 0x3, 0x28 0xffe0 0x0
+	pause 0x4
+	return
+
+@ ===== 命中：水花 + 残留水光 =====
+AQUABLADE_IMPACT:
+	launchtemplate Template_Hit TEMPLATE_TARGET | 3, 0x4 0x0 0x0 0x1 0x1
+	playsound2 0x84 SOUND_PAN_TARGET
+	pause 0x2
+	launchtemplate Template_WaterHit TEMPLATE_TARGET | 3, 0x4 0x0 0x0 0x1 0x0
+	pause 0x2
+	launchtemplate Template_Hit TEMPLATE_TARGET | 3, 0x4 0x8 0xfff8 0x1 0x1
+	playsound2 0x84 SOUND_PAN_TARGET
+	pause 0x2
+	launchtemplate Template_WaterHit TEMPLATE_TARGET | 3, 0x4 0xfff8 0x8 0x1 0x0
+	pause 0x2
+	launchtemplate Template_Hit TEMPLATE_TARGET | 3, 0x4 0xfff8 0xfff8 0x1 0x1
+	playsound2 0x84 SOUND_PAN_TARGET
+	pause 0x2
+	launchtemplate Template_WaterHit TEMPLATE_TARGET | 3, 0x4 0x8 0x8 0x1 0x0
+	return
+	
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
 @Credits to WUHEALTHY
