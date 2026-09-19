@@ -16050,7 +16050,7 @@ const struct BattleMove gBattleMoves[] =
 
 	[MOVE_LULLABY] =
 	{
-		.effect = EFFECT_HIT,
+		.effect = EFFECT_RELIC_SONG,
 		.power = 80,
 		.type = TYPE_NORMAL,
 		.accuracy = 100,

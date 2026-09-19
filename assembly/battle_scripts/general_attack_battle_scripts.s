@@ -5683,6 +5683,7 @@ BS_222_DamageResetTargetStatChanges:
 
 .global BS_223_RelicSong
 BS_223_RelicSong:
+	jumpifmove MOVE_LULLABY BattleScript_Lullaby
 	setmoveeffect MOVE_EFFECT_SLEEP
 	attackcanceler
 	accuracycheck BS_MOVE_MISSED 0x0
@@ -5697,6 +5698,29 @@ BS_223_RelicSong:
 	jumpifspecies BANK_ATTACKER SPECIES_MELOETTA TransformToPirouetteBS
 	jumpifspecies BANK_ATTACKER SPECIES_MELOETTA_PIROUETTE TransformToAriaBS
 	goto BS_MOVE_END
+
+BattleScript_Lullaby:
+    attackcanceler
+    accuracycheck BS_MOVE_MISSED 0x0
+    attackstring
+    ppreduce
+    call STANDARD_DAMAGE
+    seteffectwithchancetarget
+    prefaintmoveendeffects 0x0
+    faintpokemonaftermove
+    callasm GotoMoveEndIfMoveDidntDamageAtLeastOnce
+    jumpifability BANK_ATTACKER ABILITY_SHEERFORCE BS_MOVE_END
+
+    @; === 攻击后：全场睡眠（包括自己） ===
+    setbyte BATTLE_COMMUNICATION + 0, 0        @;重置循环下标
+Lullaby_Loop:
+    callasm LullabyPickNextTarget
+    jumpifbyte EQUALS BATTLE_COMMUNICATION + 0, 0xFF, Lullaby_End
+    callasm LullabyLoadStatusEffect
+    seteffectprimary
+    goto Lullaby_Loop
+Lullaby_End:
+    goto BS_MOVE_END
 	
 TransformToPirouetteBS:
 	setbyte CMD49_STATE 0x0

@@ -1649,6 +1649,39 @@ void SetBrokenClawSubstitute(void)
 	gBattleSpritesDataPtr->bankData[bank].behindSubstitute = 1;
 }
 
+// Lullaby：遍历所有 bank（包括使用者自己），挑下一个能睡眠的目标
+void LullabyPickNextTarget(void)
+{
+    u8 start = gBattleCommunication[0];
+
+    for (u8 i = start; i < gBattlersCount; ++i)
+    {
+        if (!BATTLER_ALIVE(i))
+            continue;
+
+        // 已有异常状态（包括睡眠）跳过
+        if (gBattleMons[i].status1 & STATUS1_ANY)
+            continue;
+
+        // 使用完整检查（含睡眠条款、吵闹、电气场地、甜幕等）
+        if (!CanBePutToSleep(i, gBankAttacker, FALSE))
+            continue;
+
+        // 记录：下一个 bank、施加的状态、目标 bank
+        gBattleCommunication[0] = i + 1;
+        gBattleCommunication[1] = MOVE_EFFECT_SLEEP;
+        gBankTarget = i;
+        return;
+    }
+
+    gBattleCommunication[0] = 0xFF;         // 结束
+}
+
+void LullabyLoadStatusEffect(void)
+{
+    gBattleCommunication[MOVE_EFFECT_BYTE] = gBattleCommunication[1];
+}
+
 void SeedRoomServiceLooper(void)
 {
 	for (; *gSeedHelper < gBattlersCount; ++*gSeedHelper)
