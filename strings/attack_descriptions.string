@@ -2702,5 +2702,8 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 #org @DESC_AQUABLADE
 将水凝聚成锋刃斩向\n对手进行攻击。对水\n属性宝可梦必定击中\n要害。
 
+#org @DESC_LULLABY
+唱出令人舒适的歌曲\n进行攻击。攻击后，\n场上所有宝可梦会陷\n入睡眠状态。
+
 #org @DESC_PSYCHICNOISE
 用令对手不舒服的音\n波进行攻击。让对手\n在2回合内无法通过\n招式、特性或携带的\n道具回复HP。

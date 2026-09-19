@@ -16048,6 +16048,22 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_effect = 0
 	},
 
+	[MOVE_LULLABY] =
+	{
+		.effect = EFFECT_HIT,
+		.power = 80,
+		.type = TYPE_NORMAL,
+		.accuracy = 100,
+		.pp = 5,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 175,
+		.split = SPLIT_SPECIAL,
+		.z_move_effect = 0
+	},
+
 	[MOVE_PSYCHICNOISE] =
 	{
 		.effect = EFFECT_ATTACK_BLOCKERS,
@@ -16654,6 +16670,7 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
     [MOVE_SUPERCELLSLAM] = 140,
 	[MOVE_LIGHTNINGBALL] = 150,
     [MOVE_AQUABLADE] = 120,
+	[MOVE_LULLABY] = 120,
 	[MOVE_PSYCHICNOISE] = 120,
 };
 #endif
