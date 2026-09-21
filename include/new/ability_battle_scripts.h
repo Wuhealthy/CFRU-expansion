@@ -63,6 +63,7 @@ extern const u8 BattleScript_AbilityChangedTypeContact[];
 extern const u8 BattleScript_RoughSkinActivates[];
 extern const u8 BattleScript_NeedleGrudgeActivates[];
 extern const u8 BattleScript_VolatileExplosionActivates[];
+extern const u8 BattleScript_FallingCoconutActivates[];
 extern const u8 BattleScript_VolatileExplosion_SetTerrain[];
 extern const u8 BattleScript_PsychoReboundSetTerrain[];
 extern const u8 BattleScript_CuteCharmActivates[];

@@ -120,6 +120,7 @@ ability_battle_scripts.s
 .global BattleScript_ElectromorphosisActivatess
 .global BattleScript_IceCrystalPurgeActivates
 .global BattleScript_TeaPartyActivates
+.global BattleScript_FallingCoconutActivates
 .global BattleScript_LingeringAromaActivates
 .global BattleScript_QuarkDriveActivates
 .global BattleScript_QuarkDriveActivates2
@@ -1643,6 +1644,19 @@ BattleScript_ElectromorphosisActivates:
 	playanimation BANK_SCRIPTING ANIM_CHARGE2 0x0
 	waitmessage DELAY_1SECOND
 	call BattleScript_AbilityPopUpRevert
+	return
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+BattleScript_FallingCoconutActivates:
+	call BattleScript_RoughSkinActivates
+	jumpiffainted BANK_ATTACKER FallingCoconutReturn
+
+	@; 降低攻击者 1 级防御
+	swapattackerwithtarget @;让 target 指向攻击者，便于复用降能力脚本
+	call BattleScript_TargetAbilityStatRaise
+	swapattackerwithtarget
+
+FallingCoconutReturn:
 	return
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

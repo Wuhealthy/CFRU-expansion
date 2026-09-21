@@ -2912,6 +2912,21 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				}
 				break;
 
+			case ABILITY_FALLINGCOCONUT:
+				if (MOVE_HAD_EFFECT
+				&& TOOK_DAMAGE(bank)
+				&& BATTLER_ALIVE(gBankAttacker)
+				&& gBankAttacker != bank
+				&& ABILITY(gBankAttacker) != ABILITY_MAGICGUARD)
+				{
+					gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankAttacker) / 12);
+					gBattleScripting.statChanger = STAT_DEF | DECREASE_1;
+					BattleScriptPushCursor();
+					gBattlescriptCurrInstr = BattleScript_FallingCoconutActivates;
+					effect++;
+				}
+				break;
+
 			case ABILITY_QUICKCHARGE:
 			case ABILITY_WINDPOWER:
 				if (MOVE_HAD_EFFECT

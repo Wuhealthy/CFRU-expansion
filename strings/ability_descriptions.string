@@ -1046,5 +1046,8 @@ HP首次低于1/3时回满HP并提升攻击
 #org @DESC_TEAPARTY
 首次出场会让其他宝可梦陷入异常
 
+#org @DESC_FALLINGCOCONUT
+受到攻击时会砸伤对手并降其防御
+
 #org @DESC_ICECRYSTALPURGE
 出场时，清除我方场上撒菱等状态
