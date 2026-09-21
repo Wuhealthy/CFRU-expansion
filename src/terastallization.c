@@ -405,6 +405,7 @@ bool8 ShouldAIDelayTerastallization(u8 bankAtk, u8 bankDef, u16 move, bool8 opti
 bool8 CanTerastallize(u8 bank)
 {
     #ifndef TERASTAL_FEATURE
+		(void)bank;
 		return FALSE;
 	#else
 
