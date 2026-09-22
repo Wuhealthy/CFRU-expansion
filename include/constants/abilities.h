@@ -363,7 +363,8 @@ enum
     ABILITY_SELFMOTIVATION,       // 355 自尊心
     ABILITY_TEAPARTY,             // 356 茶话会
     ABILITY_FALLINGCOCONUT,       // 357 落椰
-    ABILITY_ICECRYSTALPURGE,      // 358 冰晶净化
+    ABILITY_EVILSPIRIT,           // 358 邪祟
+    ABILITY_ICECRYSTALPURGE,      // 359 冰晶净化
 };
 
 #define ABILITIES_COUNT (ABILITY_ICECRYSTALPURGE + 1)

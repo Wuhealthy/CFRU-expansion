@@ -236,6 +236,7 @@ BS_008_DreamEater:
 	attackcanceler
 	jumpifstatus BANK_TARGET STATUS_SLEEP EatTheDreams
 	jumpifability BANK_TARGET ABILITY_COMATOSE EatTheDreams
+	jumpifability BANK_ATTACKER ABILITY_EVILSPIRIT EatTheDreams
 	attackstring
 	ppreduce
 	waitmessage DELAY_1SECOND

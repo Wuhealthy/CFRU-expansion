@@ -366,4 +366,5 @@ gAbilityDescriptions:
 .word DESC_SELFMOTIVATION                        @ 355 ABILITY_SELFMOTIVATION
 .word DESC_TEAPARTY                              @ 356 ABILITY_TEAPARTY
 .word DESC_FALLINGCOCONUT                        @ 357 ABILITY_FALLINGCOCONUT
-.word DESC_ICECRYSTALPURGE                       @ 358 ABILITY_ICECRYSTALPURGE
+.word DESC_EVILSPIRIT                            @ 358 ABILITY_EVILSPIRIT
+.word DESC_ICECRYSTALPURGE                       @ 359 ABILITY_ICECRYSTALPURGE

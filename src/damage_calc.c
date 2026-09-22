@@ -3758,7 +3758,8 @@ static u16 GetBasePower(struct DamageCalc* data)
 
 		case MOVE_HEX:
 			if (!(data->specialFlags & FLAG_IGNORE_TARGET)
-			&& data->defStatus1 & STATUS_ANY)
+			&& (data->defStatus1 & STATUS_ANY
+			|| data->atkAbility == ABILITY_EVILSPIRIT))
 				power *= 2;
 			break;
 
@@ -3836,7 +3837,8 @@ static u16 GetBasePower(struct DamageCalc* data)
 
 		case MOVE_SMELLINGSALTS:
 			if (!(data->specialFlags & FLAG_IGNORE_TARGET)
-			&& data->defStatus1 & STATUS_PARALYSIS)
+			&& (data->defStatus1 & STATUS_PARALYSIS
+        	|| data->atkAbility == ABILITY_EVILSPIRIT))
 				power *= 2;
 			break;
 
@@ -3849,19 +3851,22 @@ static u16 GetBasePower(struct DamageCalc* data)
 		case MOVE_VENOSHOCK:
 		case MOVE_BARBBARRAGE:
 			if (!(data->specialFlags & FLAG_IGNORE_TARGET)
-			&& data->defStatus1 & STATUS_PSN_ANY)
+			&& (data->defStatus1 & STATUS_PSN_ANY
+        	|| data->atkAbility == ABILITY_EVILSPIRIT))
 				power *= 2;
 			break;
 
 		case MOVE_WAKEUPSLAP:
 			if (!(data->specialFlags & FLAG_IGNORE_TARGET)
-			&& data->defStatus1 & STATUS_SLEEP)
+			&& (data->defStatus1 & STATUS_SLEEP
+        	|| data->atkAbility == ABILITY_EVILSPIRIT))
 				power *= 2;
 			break;
 
 		case MOVE_INFERNALPARADE:
 			if (!(data->specialFlags & FLAG_IGNORE_TARGET)
-			&& data->defStatus1 & STATUS1_ANY)
+			&& (data->defStatus1 & STATUS1_ANY
+        	|| data->atkAbility == ABILITY_EVILSPIRIT))
 				power *= 2;
 			break;
 

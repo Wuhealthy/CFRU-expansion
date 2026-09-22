@@ -2107,6 +2107,9 @@ static bool8 CanBeGeneralStatused(u8 bankDef, ability_t defAbility, ability_t at
 	if (gBattleMons[bankDef].status1 != STATUS1_NONE)
 		return FALSE;
 
+	if (atkAbility == ABILITY_EVILSPIRIT)
+    	return FALSE;
+
 	if (checkFlowerVeil && BankSideHasSafeguard(bankDef) && !BypassesScreens(atkAbility) && !(gHitMarker & HITMARKER_IGNORE_SAFEGUARD))
 		return FALSE;
 
