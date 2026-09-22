@@ -23800,7 +23800,6 @@ const struct LevelUpMove* const gLevelUpLearnsets[] =
 	[SPECIES_URSALUNA_BLOODMOON] = sUrsalunaBloodmoonLevelUpLearnset,
 	[SPECIES_DIPPLIN] = sDipplinLevelUpLearnset,
 	[SPECIES_POLTCHAGEIST] = sPoltchageistLevelUpLearnset,
-	[SPECIES_POLTCHAGEIST_ARTISAN] = sPoltchageistLevelUpLearnset,
 	[SPECIES_SINISTCHA] = sSinistchaLevelUpLearnset,
 	[SPECIES_SINISTCHA_MASTERPIECE] = sSinistchaLevelUpLearnset,
 	[SPECIES_OKIDOGI] = sOkidogiLevelUpLearnset,
