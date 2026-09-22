@@ -1508,7 +1508,7 @@ void atkFF29_trysetsleep(void)
 		gBattleStringLoader = gText_TargetAlreadyAsleep;
 		fail = TRUE;
 	}
-	else if (gBattleMons[bank].status1 != STATUS1_NONE)
+	else if (gBattleMons[bank].status1 != STATUS1_NONE || ABILITY(gBankAttacker) == ABILITY_EVILSPIRIT)
 	{
 		gBattleStringLoader = gText_TargetAlreadyHasStatusCondition; //String not in official games; officially "But it failed!"
 		fail = TRUE;
@@ -1617,7 +1617,7 @@ void atkD7_setyawn(void)
 		gBattleStringLoader = gText_TargetAlreadyAsleep;
 		fail = TRUE;
 	}
-	else if (gBattleMons[bank].status1 != STATUS1_NONE)
+	else if (gBattleMons[bank].status1 != STATUS1_NONE || ABILITY(gBankAttacker) == ABILITY_EVILSPIRIT)
 	{
 		gBattleStringLoader = gText_TargetAlreadyHasStatusCondition; //String not in official games; officially "But it failed!"
 		fail = TRUE;
@@ -1755,7 +1755,7 @@ void atkFF2A_trysetparalysis(void)
 		gBattleStringLoader = gText_TargetAlreadyParalyzed;
 		fail = TRUE;
 	}
-	else if (gBattleMons[bank].status1 != STATUS1_NONE)
+	else if (gBattleMons[bank].status1 != STATUS1_NONE || ABILITY(gBankAttacker) == ABILITY_EVILSPIRIT)
 	{
 		gBattleStringLoader = gText_TargetAlreadyHasStatusCondition; //String not in official games; officially "But it failed!"
 		fail = TRUE;
@@ -1843,7 +1843,7 @@ void atkFF2B_trysetburn(void)
 		gBattleStringLoader = gText_TargetAlreadyBurned;
 		fail = TRUE;
 	}
-	else if (gBattleMons[bank].status1 != STATUS1_NONE)
+	else if (gBattleMons[bank].status1 != STATUS1_NONE || ABILITY(gBankAttacker) == ABILITY_EVILSPIRIT)
 	{
 		gBattleStringLoader = gText_TargetAlreadyHasStatusCondition; //String not in official games; officially "But it failed!"
 		fail = TRUE;
@@ -1941,7 +1941,7 @@ void atkFF2C_trysetpoison(void)
 		gBattleStringLoader = gText_TargetAlreadyPoisoned;
 		fail = TRUE;
 	}
-	else if (gBattleMons[bank].status1 != STATUS1_NONE)
+	else if (gBattleMons[bank].status1 != STATUS1_NONE || ABILITY(gBankAttacker) == ABILITY_EVILSPIRIT)
 	{
 		gBattleStringLoader = gText_TargetAlreadyHasStatusCondition; //String not in official games; officially "But it failed!"
 		fail = TRUE;
