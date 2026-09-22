@@ -1653,7 +1653,12 @@ BattleScript_FallingCoconutActivates:
 
 	@; 降低攻击者 1 级防御
 	swapattackerwithtarget @;让 target 指向攻击者，便于复用降能力脚本
-	call BattleScript_TargetAbilityStatRaise
+	statbuffchange BANK_TARGET BattleScript_TargetAbilityStatRaiseReturn
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BattleScript_TargetAbilityStatRaiseReturn
+	setgraphicalstatchangevalues
+	playanimation BANK_TARGET ANIM_STAT_BUFF ANIM_ARG_1
+	printstring 0xD8 @;STRINGID_PKMNSSTATCHANGED4
+	waitmessage DELAY_1SECOND
 	swapattackerwithtarget
 
 FallingCoconutReturn:
