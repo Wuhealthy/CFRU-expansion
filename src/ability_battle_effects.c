@@ -1387,6 +1387,9 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				if (hasTarget)
 				{
 					gNewBS->oncePerBattleAbilityFlags[side][partyId] = TRUE;
+					gBankAttacker = bank;
+					gBattleCommunication[2] = bank;
+					gBattleScripting.bank = bank;
 					BattleScriptPushCursorAndCallback(BattleScript_TeaPartyActivates);
 					effect++;
 				}
@@ -4111,8 +4114,9 @@ void RemoveCottonDownActive(void)
 // Tea Party: 逐个挑选目标，并把要施加的状态存到 gBattleCommunication
 void TeaPartyPickNextTarget(void)
 {
-	u8 teaPartyBank = gBattleScripting.bank;
+	u8 teaPartyBank = gBattleCommunication[2];
 	u8 start = gBattleCommunication[0];
+	gBankAttacker = teaPartyBank;
 
 	for (u8 i = start; i < gBattlersCount; ++i)
 	{
@@ -4145,6 +4149,7 @@ void TeaPartyPickNextTarget(void)
 		gBattleCommunication[0] = i + 1;   // 下次从下一个 bank 开始
 		gBattleCommunication[1] = moveEffect;
 		gBankTarget = i;
+		gEffectBank = i;
 		return;
 	}
 
