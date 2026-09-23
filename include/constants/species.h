@@ -1571,7 +1571,9 @@ enum
     SPECIES_GRENINJA_MEGA_Z,        // 0x61F
     SPECIES_PALAFIN_MEGA,           // 0x620
     SPECIES_POLTEAGEIST_MEGA,       // 0x621
-    SPECIES_CARBINK_MEGA,           // 0x622
+    SPECIES_LOKIX_J,                // 0x622
+    SPECIES_WEAVILE_J,              // 0x623
+    SPECIES_CARBINK_MEGA,           // 0x624
 };
 
 #define NUM_SPECIES_GEN_7 (SPECIES_XERNEAS_NATURAL + 1)
