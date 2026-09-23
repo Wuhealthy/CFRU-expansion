@@ -326,6 +326,7 @@ bool8 SpeciesHasHiddenPowerPhysicality(unusedArg u16 species)
 		case SPECIES_PALOSSAND_J:
 		case SPECIES_SWELLOW_J:
 		case SPECIES_SINISTCHA_J:
+		case SPECIES_PANGORO_J:
 		case SPECIES_EXEGGUTOR_J:
 		case SPECIES_SPIRITOMB_J:
 		case SPECIES_HAXORUS_MEGA:
