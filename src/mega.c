@@ -268,6 +268,9 @@ const u8* DoPrimalInstinct(u8 bank, u8 caseId)
         case SPECIES_BANETTE:
             targetSpecies = (gender == MON_MALE) ? SPECIES_BANETTE_M : SPECIES_BANETTE_F;
             break;
+		case SPECIES_KINGDRA:
+            targetSpecies = (gender == MON_MALE) ? SPECIES_KINGDRA_MEGA : SPECIES_KINGDRAY_MEGA;
+            break;
             
         case SPECIES_EEVEE:			targetSpecies = SPECIES_EEVEE_HERO;			break;
 		case SPECIES_GALVANTULA:	targetSpecies = SPECIES_GALVANTULA_A;		break;
@@ -301,6 +304,9 @@ const u8* DoPrimalInstinct(u8 bank, u8 caseId)
 		case SPECIES_TAUROS:		targetSpecies = SPECIES_TAUROS_MEGA;		break;
 		case SPECIES_CROBAT:		targetSpecies = SPECIES_CROBAT_MEGA;		break;
 		case SPECIES_JUMPLUFF:		targetSpecies = SPECIES_JUMPLUFF_MEGA;		break;
+		case SPECIES_DONPHAN:		targetSpecies = SPECIES_DONPHAN_MEGA;		break;
+		case SPECIES_TORKOAL:		targetSpecies = SPECIES_TORKOAL_MEGA;		break;
+		case SPECIES_FLYGON:		targetSpecies = SPECIES_FLYGON_MEGA;		break;
 		case SPECIES_GRANBULL:		targetSpecies = SPECIES_GRANBULL_MEGA;		break;
 		case SPECIES_TYRANTRUM:		targetSpecies = SPECIES_TYRANTRUM_MEGA;		break;
 		case SPECIES_AURORUS:		targetSpecies = SPECIES_AURORUS_MEGA;		break;

@@ -870,8 +870,8 @@ enum
     ITEM_HOOHITE,               // 0x334
     ITEM_SLAKINGITE,            // 0x335
     ITEM_POLTEAGEISTITE,        // 0x336
-    ITEM_FLYGONITE,             // 0x337
-    ITEM_KINGDRAYITE,           // 0x338
+    ITEM_CHESNAUGHTITE,         // 0x337
+    ITEM_DELPHOXITE,            // 0x338
     ITEM_MILOTICITE,            // 0x339
     ITEM_TROPIUSITE,            // 0x33A
     ITEM_CHIMECHOITE,           // 0x33B
@@ -905,8 +905,6 @@ enum
     ITEM_EELEKTROSSITE,         // 0x357
     ITEM_CHANDELUREITE,         // 0x358
     ITEM_GOLURKITE,             // 0x35A
-    ITEM_CHESNAUGHTITE,         // 0x35B
-    ITEM_DELPHOXITE,            // 0x35C
 
     // Unused Items
     ITEM_MIRROR_HERB,           // 0x35D

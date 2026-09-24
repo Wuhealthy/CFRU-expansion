@@ -466,8 +466,8 @@ const struct FlingStruct gFlingTable[ITEMS_COUNT] =
 	[ITEM_HOOHITE] = {80, 0},
 	[ITEM_SLAKINGITE] = {80, 0},
 	[ITEM_POLTEAGEISTITE] = {80, 0},
-	[ITEM_FLYGONITE] = {80, 0},
-	[ITEM_KINGDRAYITE] = {80, 0},
+	[ITEM_CHESNAUGHTITE] = {80, 0},
+	[ITEM_DELPHOXITE] = {80, 0},
 	[ITEM_MILOTICITE] = {80, 0},
 	[ITEM_TROPIUSITE] = {80, 0},
 	[ITEM_CHIMECHOITE] = {80, 0},
@@ -1000,8 +1000,8 @@ const u16 gItemsByType[ITEMS_COUNT] =
 	[ITEM_HOOHITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_SLAKINGITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_POLTEAGEISTITE] = ITEM_TYPE_MEGA_STONE,
-	[ITEM_FLYGONITE] = ITEM_TYPE_MEGA_STONE,
-	[ITEM_KINGDRAYITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_CHESNAUGHTITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_DELPHOXITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_MILOTICITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_TROPIUSITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_CHIMECHOITE] = ITEM_TYPE_MEGA_STONE,
@@ -15162,8 +15162,8 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0B, 0x91, 0x09, 0xA4, 0x1C, 0x56, 0x1C, 0x48, 0x0B, 0xEB, 0xFF},
-		.itemId = ITEM_FLYGONITE,				//道具编号
+		.name = { 0x01, 0xD7, 0x08, 0x64, 0x07, 0xB6, 0x08, 0xD2, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_CHESNAUGHTITE,				//道具编号
 		.price = 0,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
@@ -15178,8 +15178,8 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x02, 0xAC, 0x08, 0xCD, 0x0D, 0x5D, 0x0B, 0xEB, 0xD3, 0xFF},
-		.itemId = ITEM_KINGDRAYITE,				//道具编号
+		.name = { 0x0E, 0xE6, 0x05, 0x7D, 0x05, 0x1B, 0x05, 0x2B, 0x0B, 0xEB, 0xFF},
+		.itemId = ITEM_DELPHOXITE,				//道具编号
 		.price = 0,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数

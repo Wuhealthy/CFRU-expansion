@@ -713,7 +713,7 @@ HP全满时，受到的伤害会变少
 受水或火攻击时，速度会巨幅提高
 
 #org @DESC_PUNKROCK
-声音招式的威力会提高
+声音类招式的威力会提高
 
 #org @DESC_SANDSPIT
 受到攻击时，会刮起沙暴
@@ -1051,6 +1051,9 @@ HP首次低于1/3时回满HP并提升攻击
 
 #org @DESC_EVILSPIRIT
 将对手视为拥有任意一种异常状态
+
+#org @DESC_DESERTSONG
+声音类招式的威力会提高
 
 #org @DESC_ICECRYSTALPURGE
 出场时，清除我方场上撒菱等状态

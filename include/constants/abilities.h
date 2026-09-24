@@ -364,7 +364,8 @@ enum
     ABILITY_TEAPARTY,             // 356 茶话会
     ABILITY_FALLINGCOCONUT,       // 357 落椰
     ABILITY_EVILSPIRIT,           // 358 邪祟
-    ABILITY_ICECRYSTALPURGE,      // 359 冰晶净化
+    ABILITY_DESERTSONG,           // 359 沙漠之歌
+    ABILITY_ICECRYSTALPURGE,      // 360 冰晶净化
 };
 
 #define ABILITIES_COUNT (ABILITY_ICECRYSTALPURGE + 1)

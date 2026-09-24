@@ -4523,6 +4523,12 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 				power = (power * 13) / 10;
 			break;
 
+		case ABILITY_DESERTSONG:
+		//1.5x Boost
+    		if (CheckSoundMove(move))
+        		power = (power * 15) / 10;
+    		break;
+
 		case ABILITY_SONILATE:
     		power = (power * 12) / 10;
     		break;
