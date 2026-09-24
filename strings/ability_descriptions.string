@@ -953,8 +953,8 @@ HP全满时受到的伤害变为效果不好
 #org @DESC_VOLATILEEXPLOSION
 首次被接触会炸伤对手并布下电场
 
-#org @DESC_STICKSTICKPASS
-连续攻击两次的招式威力会翻倍
+#org @DESC_PHOENIXGUARD
+我方使用的本系招式威力会提高
 
 #org @DESC_HEAVYARMOR
 自身防御比对手攻击高时威力提高

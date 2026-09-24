@@ -4319,12 +4319,12 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
     		}
 			break;
 
-		case ABILITY_STICKSTICKPASS:
+		/*case ABILITY_STICKSTICKPASS:
 			if (gSpecialMoveFlags[move].gMultihitmoves)
     		{
         		power *= 2;  // 棒棒相传效果：二段攻击威力翻倍
     		}
-			break;
+			break;*/
 
 		case ABILITY_HEAVYHAMMER:
 			if (gSpecialMoveFlags[move].gHammerMoves)
@@ -4494,6 +4494,12 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
         		power = (power * 15) / 10;
     		break;
 
+		case ABILITY_PHOENIXGUARD:
+		//1.5x Boost
+    		if (IsOfType(bankAtk, data->moveType))
+        		power = (power * 15) / 10;
+    		break;
+
 		case ABILITY_ROCKYPAYLOAD:
     		if (data->moveType == TYPE_ROCK)
         		power = (power * 15) / 10;
@@ -4568,6 +4574,12 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 			if (data->moveType == TYPE_STEEL)
 				power = (power * 15) / 10;
 			break;
+
+		case ABILITY_PHOENIXGUARD:
+		//1.5x Boost
+    		if (IsOfType(bankAtk, data->moveType))
+        		power = (power * 15) / 10;
+    		break;
 
 		case ABILITY_POWERSPOT:
 		//1.3x Boost

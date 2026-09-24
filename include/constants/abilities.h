@@ -331,7 +331,7 @@ enum
     ABILITY_DESPERATESTRIKE,      // 323 殊死一搏
     ABILITY_PSYGRAVITY,           // 324 意念控制
     ABILITY_VOLATILEEXPLOSION,    // 325 一触即爆
-    ABILITY_STICKSTICKPASS,       // 326 棒棒相传
+    ABILITY_PHOENIXGUARD,         // 326 凤王卫队
     ABILITY_HEAVYARMOR,           // 327 重甲
     ABILITY_VENOMFORTE,           // 328 强注毒液
     ABILITY_SPIDERSENSE,          // 329 抢占先机
