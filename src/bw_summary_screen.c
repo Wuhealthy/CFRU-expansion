@@ -1256,9 +1256,9 @@ static void PrintMonLevelNickOnWindow2(unusedArg const u8 * str)
 		}
 		else
 		{
-			BlitMoveInfoIcon(sMonSummaryScreen->windowIds[2], sMonSummaryScreen->monTypes[0] + 1, 6, 16);
+			BlitMenuInfoIcon(sMonSummaryScreen->windowIds[2], sMonSummaryScreen->monTypes[0] + 1, 6, 16);
 			if (sMonSummaryScreen->monTypes[0] != sMonSummaryScreen->monTypes[1])
-				BlitMoveInfoIcon(sMonSummaryScreen->windowIds[2], sMonSummaryScreen->monTypes[1] + 1, 38, 16);
+				BlitMenuInfoIcon(sMonSummaryScreen->windowIds[2], sMonSummaryScreen->monTypes[1] + 1, 38, 16);
 		}
         AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[2], 2, 0, 2, sPSSTextColours[DARK], 0xff, sMonSummaryScreen->summary.nicknameStrBuf);
 			
@@ -1271,10 +1271,10 @@ static void PrintMonLevelNickOnWindow2(unusedArg const u8 * str)
     PutWindowTilemap(sMonSummaryScreen->windowIds[2]);
 }
 
-static void BlitMoveInfoIcon(u8 windowId, u8 iconId, u16 x, u16 y)
+/*static void BlitMoveInfoIcon(u8 windowId, u8 iconId, u16 x, u16 y)
 {
     BlitBitmapRectToWindow(windowId, gFireRedMenuElements_Gfx + gMoveMenuInfoIcons[iconId].offset * 32, 0, 0, 128, 128, x, y, gMoveMenuInfoIcons[iconId].width, gMoveMenuInfoIcons[iconId].height);
-}
+}*/
 
 void PokeSum_CopyNewBgTilemapBeforePageFlip(void)
 {
@@ -2802,11 +2802,19 @@ static void PokeSum_FlipPages_HandleBgHofs(void)
     }
 }
 
+static void PokeSum_ScrollBgDiagonal(void)
+{
+    ChangeBgX(2, 0x100, 1);
+    ChangeBgY(2, 0x100, 1);
+}
+
 static void VBlankCB_PokemonSummaryScreen(void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
+
+    PokeSum_ScrollBgDiagonal();
 
     if (sMonSummaryScreen->flippingPages == FALSE)
         return;
