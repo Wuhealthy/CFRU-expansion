@@ -49,7 +49,7 @@ static void PokeSum_InitBgCoordsBeforePageFlips(void);
 static void PokeSum_HideSpritesBeforePageFlip(void);
 static u8 PokeSum_IsPageFlipFinished(u8 a0);
 extern const struct MoveMenuInfoIcon gMoveMenuInfoIcons[];
-static void BlitMoveInfoIcon(u8 windowId, u8 iconId, u16 x, u16 y);
+//static void BlitMoveInfoIcon(u8 windowId, u8 iconId, u16 x, u16 y);
 void PokeSum_CopyNewBgTilemapBeforePageFlip(void);
 static void PokeSum_ShowSpritesBeforePageFlip(void);
 static void PrintMonLevelNickOnWindow2(const u8 * str);
