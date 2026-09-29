@@ -1809,12 +1809,17 @@ u8 GetExceptionMoveType(u8 bankAtk, u16 move)
 			if (moveType >= TYPE_MYSTERY)
 				moveType++;
 
-			// 如果玩家用 NPC 选了觉醒力量属性，覆盖原结果
-			{
-				u16 chosenType = VarGet(0x408C);
-				if (chosenType != 0)
-					moveType = chosenType - 1;
-			}
+			// 如果这只宝可梦用 NPC 选了觉醒力量属性，覆盖原结果
+    		{
+        		struct Pokemon *mon;
+        		if (GetBattlerSide(bankAtk) == B_SIDE_PLAYER)
+            		mon = &gPlayerParty[gBattlerPartyIndexes[bankAtk]];
+        		else
+            		mon = &gEnemyParty[gBattlerPartyIndexes[bankAtk]];
+
+        		if (mon->teraType != 0)
+            		moveType = mon->teraType - 1;
+    		}
 			break;
 
 		case MOVE_WEATHERBALL:
@@ -2093,10 +2098,11 @@ u8 CalcMonHiddenPowerType(struct Pokemon* mon)
 {
 	u8 moveType;
 
-	// 如果玩家用 NPC 选了觉醒力量属性，直接返回
-	u16 chosenType = VarGet(VAR_0x408C);
-	if (chosenType != 0)
-		return chosenType - 1;   // 存储时 +1，这里还原
+	// 如果这只宝可梦用 NPC 选了属性，直接返回
+    if (mon->teraType != 0)
+	{
+    	return mon->teraType - 1;
+	}
 
 	moveType = ((mon->hpIV & 1)) |
 			   ((mon->attackIV & 1) << 1) |

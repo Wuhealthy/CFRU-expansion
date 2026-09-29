@@ -230,7 +230,15 @@ void DirectClockUpdate(void)
 
 void ChangeHiddenPowerTypeInOW(void)
 {
-    VarSet(VAR_0x408C, VarGet(Var8001) + 1);
+    u8 partySlot = VarGet(Var8002);
+    u8 newType = VarGet(Var8001);
+
+    if (partySlot >= PARTY_SIZE)
+        return;
+    if (newType >= NUMBER_OF_MON_TYPES)
+        return;
+
+    gPlayerParty[partySlot].teraType = newType + 1;  // +1，0 表示没选过
 }
 
 void PlayTimeCounter_Update(void)
