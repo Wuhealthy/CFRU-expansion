@@ -3,6 +3,7 @@
 #include "../include/rtc.h"
 #include "../include/script.h"
 #include "../include/new/ram_locs.h"
+#include "../include/event_data.h"
 
 extern u16 sRTCErrorStatus;
 extern u8 sRTCProbeResult;
@@ -225,6 +226,11 @@ void DirectClockUpdate(void)
 {
 	sRTCFrameCount = 0;
 	RtcCalcLocalTime();
+}
+
+void ChangeHiddenPowerTypeInOW(void)
+{
+    VarSet(VAR_0x408C, VarGet(Var8001) + 1);
 }
 
 void PlayTimeCounter_Update(void)

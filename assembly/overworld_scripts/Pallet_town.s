@@ -7,6 +7,7 @@
 
 .global EventScript_ChangeTeraTypeNPC
 .global EventScript_Pallet_AideGuy
+.global EventScript_ChangeHiddenPowerTypeNPC
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 EventScript_ChangeTeraTypeNPC:
@@ -231,6 +232,194 @@ EventScript_ChangeTeraTypeNPC_SetStellar:
     msgbox gText_ChangeTeraTypeNPCFetchTeraStellar MSG_NORMAL
     release
     end
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+EventScript_ChangeHiddenPowerTypeNPC:
+	lock
+	faceplayer
+	msgbox gText_ChangeHiddenPowerTypeNPCAsk MSG_YESNO
+	compare LASTRESULT FALSE
+	if TRUE _goto EventScript_ChangeHiddenPowerTypeNPCNo
+
+	msgbox gText_ChangeHiddenPowerTypeNPCOpenMenu MSG_NORMAL
+	special 0x9F  @ Opens Pokemon selection menu
+	waitstate
+
+	@ Use vars 0x8002 and 0x8003 instead of 0x8004 and 0x800D
+	copyvar 0x8002 0x8004
+	copyvar 0x8003 0x800D
+
+	compare 0x8002 0x7
+	if TRUE _goto EventScript_ChangeHiddenPowerTypeNPCNo
+	goto EventScript_ChangeHiddenPowerTypeNPCSelected
+
+EventScript_ChangeHiddenPowerTypeNPCNo:
+	msgbox gText_ChangeHiddenPowerTypeNPCNo MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPCSelected:
+	special2 0x8003 0x147
+	bufferpokemon 0x0 0x8003
+	msgbox gText_ChangeHiddenPowerTypeNPCSelected MSG_NORMAL
+
+	@ Reset 0x8004 and 0x800D (Required for Scrolling Multichoice)
+	resetvar 0x8004
+	resetvar 0x800D
+
+	@ Scrolling Multichoice
+	setvar 0x8000 1 @ Multichoice Index
+	setvar 0x8001 6 @ Number of options to display at once
+	special 0x158   @ Scrolling Multichoice
+	waitstate
+
+	@ Based on Hidden Power Type
+	switch LASTRESULT
+		case 0, EventScript_ChangeHiddenPowerTypeNPC_SetNormal
+		case 1, EventScript_ChangeHiddenPowerTypeNPC_SetFighting
+		case 2, EventScript_ChangeHiddenPowerTypeNPC_SetFlying
+		case 3, EventScript_ChangeHiddenPowerTypeNPC_SetPoison
+		case 4, EventScript_ChangeHiddenPowerTypeNPC_SetGround
+		case 5, EventScript_ChangeHiddenPowerTypeNPC_SetRock
+		case 6, EventScript_ChangeHiddenPowerTypeNPC_SetBug
+		case 7, EventScript_ChangeHiddenPowerTypeNPC_SetGhost
+		case 8, EventScript_ChangeHiddenPowerTypeNPC_SetSteel
+		case 9, EventScript_ChangeHiddenPowerTypeNPC_SetFire
+		case 10, EventScript_ChangeHiddenPowerTypeNPC_SetWater
+		case 11, EventScript_ChangeHiddenPowerTypeNPC_SetGrass
+		case 12, EventScript_ChangeHiddenPowerTypeNPC_SetElectric
+		case 13, EventScript_ChangeHiddenPowerTypeNPC_SetPsychic
+		case 14, EventScript_ChangeHiddenPowerTypeNPC_SetIce
+		case 15, EventScript_ChangeHiddenPowerTypeNPC_SetDragon
+		case 16, EventScript_ChangeHiddenPowerTypeNPC_SetDark
+		case 17, EventScript_ChangeHiddenPowerTypeNPC_SetFairy
+		case 0x7F, EventScript_ChangeHiddenPowerTypeNPCNo
+
+EventScript_ChangeHiddenPowerTypeNPC_SetNormal:
+	setvar 0x8001 TYPE_NORMAL
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchNormal MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPC_SetFighting:
+	setvar 0x8001 TYPE_FIGHTING
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchFighting MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPC_SetFlying:
+	setvar 0x8001 TYPE_FLYING
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchFlying MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPC_SetPoison:
+	setvar 0x8001 TYPE_POISON
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchPoison MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPC_SetGround:
+	setvar 0x8001 TYPE_GROUND
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchGround MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPC_SetRock:
+	setvar 0x8001 TYPE_ROCK
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchRock MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPC_SetBug:
+	setvar 0x8001 TYPE_BUG
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchBug MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPC_SetGhost:
+	setvar 0x8001 TYPE_GHOST
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchGhost MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPC_SetSteel:
+	setvar 0x8001 TYPE_STEEL
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchSteel MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPC_SetFire:
+	setvar 0x8001 TYPE_FIRE
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchFire MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPC_SetWater:
+	setvar 0x8001 TYPE_WATER
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchWater MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPC_SetGrass:
+	setvar 0x8001 TYPE_GRASS
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchGrass MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPC_SetElectric:
+	setvar 0x8001 TYPE_ELECTRIC
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchElectric MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPC_SetPsychic:
+	setvar 0x8001 TYPE_PSYCHIC
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchPsychic MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPC_SetIce:
+	setvar 0x8001 TYPE_ICE
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchIce MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPC_SetDragon:
+	setvar 0x8001 TYPE_DRAGON
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchDragon MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPC_SetDark:
+	setvar 0x8001 TYPE_DARK
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchDark MSG_NORMAL
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPC_SetFairy:
+	setvar 0x8001 TYPE_FAIRY
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchFairy MSG_NORMAL
+	release
+	end
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 EventScript_Pallet_AideGuy:

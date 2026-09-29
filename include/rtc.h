@@ -31,5 +31,6 @@ void RtcReset(void);
 void RtcCalcLocalTime(void);
 void ForceClockUpdate(void);
 void DirectClockUpdate(void);
+void ChangeHiddenPowerTypeInOW(void);
 
 #endif // GUARD_RTC_UTIL_H

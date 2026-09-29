@@ -2998,10 +2998,34 @@ static const u8* sMultichoiceSet1[] =
 	sText_Stellar,
 };
 
+//觉醒力量滚动表
+static const u8* sMultichoiceSet2[] =
+{
+    sText_Normal,
+    sText_Fighting,
+    sText_Flying,
+    sText_Poison,
+    sText_Ground,
+    sText_Rock,
+    sText_Bug,
+    sText_Ghost,
+    sText_Steel,
+    sText_Fire,
+    sText_Water,
+    sText_Grass,
+    sText_Electric,
+    sText_Psychic,
+    sText_Ice,
+    sText_Dragon,
+    sText_Dark,
+    sText_Fairy,
+};
+
 // Multichoice Lists
 const struct ScrollingMulti gScrollingSets[] =
 {
-	{sMultichoiceSet1, ARRAY_COUNT(sMultichoiceSet1)},
+	{sMultichoiceSet1, ARRAY_COUNT(sMultichoiceSet1)},   // 0x8000 = 0
+    {sMultichoiceSet2, ARRAY_COUNT(sMultichoiceSet2)},   // 0x8000 = 1
 };
 
 //Link number of opts shown at once to the box height
