@@ -181,7 +181,6 @@ struct NewStartMenuState
     bool8 (*callback)(void);
 };
 
-extern const u8 gText_NewStartMenuMoneyLabel[];
 extern const u8 gText_NewStartMenuPokedexName[];
 extern const u8 gText_NewStartMenuPokemonName[];
 extern const u8 gText_NewStartMenuBagName[];
@@ -1426,11 +1425,6 @@ static void DrawNewStartMenuInfo(struct NewStartMenuState *state)
     }
     else
     {
-        //原来显示金钱
-        //ConvertIntToDecimalStringN(gStringVar1, VarGet(VAR_0x40E0), STR_CONV_MODE_LEFT_ALIGN, NEW_START_MENU_MONEY_DIGITS);
-        //StringCopy(gStringVar4, gText_NewStartMenuMoneyLabel);
-        //StringAppend(gStringVar4, gStringVar1);
-        //PrintNewStartMenuInfoText(state, 4, gStringVar4);
         // 显示当前时间（替代金钱）
         const u8* amPMString = (gClock.hour >= 12) ? gText_StartMenu_PM : gText_StartMenu_AM;
 

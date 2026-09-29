@@ -1,11 +1,11 @@
 #org @gText_ChangeSaveType
-存档类型错误！\n请改为Flash 128k。\p如果你正在使用VBA，建议改用\n更优秀的[GREEN]mGBA[BLACK]。\p如果你不想换，请按照以下\n说明修正存档类型。\p[RED]VBA 说明[BLACK]：\p首先，点击顶部菜单栏的[GREEN]Options[BLACK]。\p接着，在[GREEN]Emulator[BLACK]下选择\n[GREEN]Save Type[BLACK]选项。\p然后，点击[GREEN]Flash 128K[BLACK]。\p最后，完全关闭并重新启动\n模拟器。\p[RED]3DS 说明[BLACK]：\p使用[GREEN]New Super Ultimate VC Injector\nfor 3DS[BLACK]制作CIA文件。\p打开后，确认[GREEN]ROM Save Type[BLACK]\n设置为以下内容：\p[GREEN]Flash 1Mbit (Macronix, ID: 0x09C2)\n+ RTC[BLACK]。\p[GREEN]注入方式[BLACK]也必须\n设置为[GREEN]GBA Virtual Console[BLACK]。\p如果你的模拟器没有提到，\n请更换模拟器。
+存档类型错误！\n请改为Flash 128k。\p如果你正在使用VBA，建议改用\n更优秀的[GREEN]mGBA[BLACK]。\p如果你不想换，请按照以下\n说明修正存档类型。\p[RED]VBA 说明[BLACK]：\p首先，点击顶部菜单栏的[GREEN]Options[BLACK]。\p接着，在[GREEN]Emulator[BLACK]下选择\n[GREEN]Save Type[BLACK]选项。\p然后，点击[GREEN]Flash 128K[BLACK]。\p最后，完全关闭并重新启动\n模拟器。\p[RED]3DS 说明[BLACK]：\p使用[GREEN]New Super Ultimate VC Injector\nfor 3DS[BLACK]制作CIA文件。\p打开后，确认[GREEN]ROM Save Type[BLACK]\n设置为以下内容：\p[GREEN]Flash 1Mbit（Macronix, ID: 0x09C2）\n+ RTC[BLACK]。\p[GREEN]注入方式[BLACK]也必须\n设置为[GREEN]GBA Virtual Console[BLACK]。\p如果你的模拟器没有提到，\n请更换模拟器。
 
 #org @gText_MainMenuEnableRTC
 警告！\p无法读取正确的系统时间。\p请启用实时时钟（RTC），\n并确保时间正确。
 
 #org @gText_MainMenuEnableRTCNoSave
-警告！\p无法读取正确的系统时间。\p请启用实时时钟（RTC），\n并确保时间正确。\p如果你正在使用VBA，建议改用\n更优秀的[GREEN]mGBA[BLACK]。\p如果你不想换，请按照以下\n说明启用RTC。\p[RED]VBA 说明[BLACK]：\p首先，点击顶部菜单栏的[GREEN]Options[BLACK]。\p接着，在[GREEN]Emulator[BLACK]下选择\n[GREEN]Real Time Clock[BLACK]选项。\p最后，完全关闭并重新启动\n模拟器。\p[RED]3DS 说明[BLACK]：\p使用[GREEN]New Super Ultimate VC Injector\nfor 3DS[BLACK]制作CIA文件。\p打开后，确认[GREEN]ROM Save Type[BLACK]\n设置为以下内容：\p[GREEN]Flash 1Mbit (Macronix, ID: 0x09C2)\n+ RTC[BLACK]。\p[GREEN]注入方式[BLACK]也必须\n设置为[GREEN]GBA Virtual Console[BLACK]。\p[RED]Delta 说明[BLACK]：\p请使用Delta的高级版，\n或改用[GREEN]GBA4iOS[BLACK]。
+警告！\p无法读取正确的系统时间。\p请启用实时时钟（RTC），\n并确保时间正确。\p如果你正在使用VBA，建议改用\n更优秀的[GREEN]mGBA[BLACK]。\p如果你不想换，请按照以下\n说明启用RTC。\p[RED]VBA 说明[BLACK]：\p首先，点击顶部菜单栏的[GREEN]Options[BLACK]。\p接着，在[GREEN]Emulator[BLACK]下选择\n[GREEN]Real Time Clock[BLACK]选项。\p最后，完全关闭并重新启动\n模拟器。\p[RED]3DS 说明[BLACK]：\p使用[GREEN]New Super Ultimate VC Injector\nfor 3DS[BLACK]制作CIA文件。\p打开后，确认[GREEN]ROM Save Type[BLACK]\n设置为以下内容：\p[GREEN]Flash 1Mbit（Macronix, ID: 0x09C2）\n+ RTC[BLACK]。\p[GREEN]注入方式[BLACK]也必须\n设置为[GREEN]GBA Virtual Console[BLACK]。\p[RED]Delta 说明[BLACK]：\p请使用Delta的高级版，\n或改用[GREEN]GBA4iOS[BLACK]。
 
 #org @gText_MainMenuTimeSetInFuture
 警告！\p在你的存档中检测到\nRTC被篡改！\p当前游戏内日期设置为\n[BUFFER1]/[BUFFER2]/[BUFFER3]。\p所有每日事件，例如礼物\n和团体战，可能会在次日之前\l无法正常运作。\p请不要再篡改RTC。
