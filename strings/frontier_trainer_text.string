@@ -1,13 +1,13 @@
 #include "src/config.h"
 
 #org @sFrontierText_Youngster_PreBattle_1
-Surprised to see someone my age?\nI promise you, I'm not weak.
+看到我这个年纪的人很惊讶吗？\n我保证，我可不弱。
 
 #org @sFrontierText_Youngster_PlayerWin_1
-I guess dropping out of school\nwasn't so smart[.]
+看来退学\n确实不太明智[.]
 
 #org @sFrontierText_Youngster_PlayerLose_1
-Heh, I told you I wasn't a\npushover!
+嘿，我说过我可不是\n好对付的！
 
 #ifdef UNBOUND
 

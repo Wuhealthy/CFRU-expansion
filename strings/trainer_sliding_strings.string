@@ -3,31 +3,31 @@
 //Notice the extra whitespace character after the "\p"s. Without it, the message won't disappear from the screen when the player presses A.
 
 #org @gText_DefaultTrainerDynamaxMsg
-Time to Dynamax!\p 
+是时候极巨化了！\p
 
 #org @gText_TestTrainerDynamaxMsg
-I now shall unleash the power\nof Dynamax!\p 
+现在，我将释放\n极巨化的力量！\p
 
 #org @gText_RedDynamaxMsg
 [.]!\p 
 
 #org @sText_RivalFirstMonHurt
-Yeah[.] We ain't letting this\none slide, buddy!\p
+好[.]我们可不会\n就这么算了，伙计！\p
 
 //For Pokemon Unbound - Feel free to remove, and do not place strings below
 #ifdef UNBOUND
 
 #org @sText_MirskleFirstMonDown
-Whoaaaaa[.]\nThat was intense[.]\p 
+哇哦哦哦[.]\n真是激烈[.]\p
 
 #org @sText_VegaLastSwitchIn
-So[.] you ARE everything I had\nanticipated[.]\p 
+果然[.]你确实\n如我所料[.]\p
 
 #org @sText_AliceLastSwitchIn
-The truly talented make their\nown luck!\p 
+真正有实力的人，\n会自己创造运气！\p
 
 #org @sText_MelLastSwitchIn
-Alrighty! Time to fight as good\nas we look, I reckon!\p 
+好嘞！是时候打得\n和长相一样漂亮了，我想！\p
 
 #org @sText_GalavanLastSwitchIn
 #org @sText_GalavanLastLowHP

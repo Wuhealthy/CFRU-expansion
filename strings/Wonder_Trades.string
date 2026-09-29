@@ -1,20 +1,20 @@
 #org @gText_String1
-Wanna wonder trade?
+要不要试试奇迹交换？
 
 #org @gText_String2
-Come back anytime.
+随时欢迎再来。
 
 #org @gText_String3
-Select the Pokémon you wanna trade.
+请选择你想交换的宝可梦。
 
 #org @gText_String5
-[PLAYER] got a [BUFFER1]!
+[PLAYER]获得了[BUFFER1]！
 
 #org @gText_String6
-Wanna give it a nickname?
+要给它起个昵称吗？
 
 #org @gText_String7
-Sorry, you need two Pokémon\nto use the Wonder Trade.\pCome back anytime.
+抱歉，你需要至少两只宝可梦\n才能使用奇迹交换。\p随时欢迎再来。
 
 #org @gText_String8
-I'm sorry, you cannot trade\na Pokémon Egg using the\lWonder Trade System.\pCome back anytime. 
+抱歉，无法通过奇迹交换系统\n交换宝可梦蛋。\p随时欢迎再来。

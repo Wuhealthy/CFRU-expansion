@@ -1,59 +1,59 @@
 #org @gText_SingleBattleRecord
-Single Battle Record
+单打对战记录
 
 #org @gText_DoubleBattleRecord
-Double Battle Record
+双打对战记录
 
 #org @gText_MultiBattleRecord
-Multi Battle Record
+多人对战记录
 
 #org @gText_LinkMultiBattleRecord
-Link Multi Battle Record
+联机多人对战记录
 
 #org @gText_SingleRandomBattleRecord
-Rand Single Btl Record
+随机单打对战记录
 
 #org @gText_DoubleRandomBattleRecord
-Rand Double Btl Record
+随机双打对战记录
 
 #org @gText_MultiRandomBattleRecord
-Rand Multi Btl Record
+随机多人对战记录
 
 #org @gText_SingleBattle
-Single Battle
+单打对战
 
 #org @gText_DoubleBattle
 双打对战
 
 #org @gText_MultiBattle
-Multi Battle
+多人对战
 
 #org @gText_LinkMultiBattle
-Link Multi Battle
+联机多人对战
 
 #org @gText_RandomSingleBattle
-Random Single Battle
+随机单打对战
 
 #org @gText_RandomDoubleBattle
-Random Double Battle
+随机双打对战
 
 #org @gText_RandomMultiBattle
-Random Multi Battle
+随机多人对战
 
 #org @gText_FrontierRecordLevel5
-Level 5
+等级 5
 
 #org @gText_FrontierRecordLevel50
-Level 50
+等级 50
 
 #org @gText_FrontierRecordLevel100
-Level 100
+等级 100
 
 #org @gText_CurrentStreak
-Current Streak:\nRecord Streak:
+当前连胜：\n最高连胜：
 
 #org @gText_MaxStreak
-Record Streak:
+最高连胜：
 
 #org @gText_3v3
 3 v 3
@@ -65,31 +65,31 @@ Record Streak:
 6 v 6
 
 #org @gText_BattleTowerStandard
-Standard
+标准
 
 #org @gText_NoRestrictions
-No Restrictions
+无限制
 
 #org @gText_SmogonGen7OU
 Smogon OU
 
 #org @gText_SmogonOUDoubles
-Smogon Doubles OU
+Smogon 双打 OU
 
 #org @gText_SmogonGen7Uber
 Smogon Ubers
 
 #org @gText_SmogonLittleCup
-Smogon Little Cup
+Smogon 小杯
 
 #org @gText_MiddleCup
-Middle Cup
+中杯
 
 #org @gText_SmogonMonotype
-Smogon Monotype
+Smogon 单属性
 
 #org @gText_GSCup
-GS Cup
+GS 杯
 
 #org @gText_SmogonCamomons
 Smogon Camomons
@@ -98,19 +98,19 @@ Smogon Camomons
 Uber Camomons
 
 #org @gText_LittleCupCamomons
-Little Cup Camomons
+小杯 Camomons
 
 #org @gText_MiddleCupCamomons
-Middle Cup Camomons
+中杯 Camomons
 
 #org @gText_GSCupCamomons
-GS Cup Camomons
+GS 杯 Camomons
 
 #org @gText_SmogonScalemons
 Smogon Scalemons
 
 #org @gText_Smogon350Cup
-Smogon 350 Cup
+Smogon 350 杯
 
 #org @gText_SmogonAveragemons
 Smogon Averagemons
@@ -119,16 +119,16 @@ Smogon Averagemons
 Smogon Benjamin Butterfree
 
 #org @gText_MegaBrawl
-Mega Brawl
+超级混战
 
 #org @gText_DynamaxStandard
-Dynamax Standard
+极巨化标准
 
 #org @gText_NationalDexOU
-Smogon National Dex OU
+Smogon 全国图鉴 OU
 
 #org @gText_SmogonMetronome
-Smogon Metronome
+Smogon 挥指
 
 #org @gText_SmogonGen7UU
 Smogon Gen 7 UU
@@ -140,135 +140,135 @@ Smogon Gen 7 RU
 Smogon Gen 7 NU
 
 #org @gText_BattleMineFormat1
-Cave Format
+洞穴规则
 
 #org @gText_BattleMineFormat2
-Mountain Format
+山岳规则
 
 #org @gText_BattleMineFormat3
-Pebble Format
+碎石规则
 
 #org @gText_BattleMineFormat4
-Cordillera Format
+山脉规则
 
 #org @gText_On
-on
+开启
 
 #org @gText_Off
-off
+关闭
 
 #org @gText_BeAble
-be able
+能够
 
 #org @gText_NotBeAble
-not be able
+不能
 
 #org @gText_Previous
-Previous
+上一次
 
 #org @gText_Current
-Current
+当前
 
 #org @gText_Max
-Max
+最高
 
 #org @gText_None
-None
+无
 
 //Preceded by "The next battle will take place"
 
 #org @gText_BattleCircusDescriptionElectricTerrain
-with the battlefield electrified!\pGrounded Pok\emon can't fall asleep\nand have stronger Electric-moves!
+战场被电气化了！\p地面上的宝可梦不会陷入睡眠，\n电属性招式也会变强！
 
 #org @gText_BattleCircusDescriptionGrassyTerrain
-with the battlefield grassy!\pGrounded Pok\emon have stronger\nGrass-moves and heal every turn!
+战场长满了青草！\p地面上的宝可梦草属性招式会变强，\n并且每回合回复体力！
 
 #org @gText_BattleCircusDescriptionMistyTerrain
-with the battlefield misty!\pGrounded Pok\emon have stronger\nFairy-moves and can't be afflicted\lwith status conditions!
+战场被薄雾笼罩！\p地面上的宝可梦妖精属性招式会变强，\n并且不会陷入异常状态！
 
 #org @gText_BattleCircusDescriptionPsychicTerrain
-with the battlefield weird!\pGrounded Pok\emon have stronger\nPsychic-moves and can't be hit\lby priority moves!
+战场变得诡异！\p地面上的宝可梦超能力属性招式会变强，\n并且不会被先制招式命中！
 
 #org @gText_BattleCircusDescriptionRain
-in the rain!
+在下雨！
 
 #org @gText_BattleCircusDescriptionSun
-in the sun!
+在晴天！
 
 #org @gText_BattleCircusDescriptionSandstorm
-in a sandstorm!
+在沙暴中！
 
 #org @gText_BattleCircusDescriptionHail
-in a hailstorm!
+在冰雹中！
 
 #org @gText_BattleCircusDescriptionDeltaStream
-with strong winds blowing!\pFlying-type Pok\emon take less\ndamage from super effective moves!
+刮起了强风！\p飞行属性宝可梦受到的\n效果绝佳招式伤害会减少！
 
 #org @gText_BattleCircusDescriptionTrickRoom
-in a Trick Room!\pSlower Pok\emon get to move first!
+在戏法空间里！\p速度慢的宝可梦会先行动！
 
 #org @gText_BattleCircusDescriptionMagicRoom
-in a Magic Room!\pMost held items have no effect!
+在魔法空间里！\p大部分持有道具会失效！
 
 #org @gText_BattleCircusDescriptionWonderRoom
-in a Wonder Room!\pDefense and Sp. Def stats are\nswapped!
+在奇妙空间里！\p防御和特防会互换！
 
 #org @gText_BattleCircusDescriptionGravity
-with intense gravity!\pNo Pok\emon will remain airborne!
+重力很强！\p所有宝可梦都无法浮空！
 
 #org @gText_BattleCircusDescriptionMagnetRise
-with electromagnetism on the field!\pElectric- and Steel-type Pok\emon\ncan't be hit by Ground-type moves!
+战场上充满电磁力！\p电属性和钢属性宝可梦\n不会被地面属性招式命中！
 
 #org @gText_BattleCircusDescriptionFairyLock
-with the battlefield locked down!\pNo Pok\emon will be able to switch\nout!
+战场被封锁了！\p所有宝可梦都无法替换下场！
 
 #org @gText_BattleCircusDescriptionPixies
-with pixies in the air!\pFairy-type Pok\emon will have their\nlowest defensive stat boosted!
+空气中飘着妖精！\p妖精属性宝可梦较低的\n防御或特防会提升！
 
 #org @gText_BattleCircusDescriptionBadThoughts
-with negative emotions in the air!\pPok\emon that aren't part Dark-\ntype, Ghost-type, Psychic-type,\lor have one of the Abilities\lUnaware, Oblivious, or Magic Guard\lwill be hurt each turn!
+空气中弥漫着负面情绪！\p不是恶属性、幽灵属性、超能力属性，\n或没有纯朴、迟钝、魔法守护特性\l的宝可梦每回合都会受到伤害！
 
 #org @gText_BattleCircusDescriptionInverseBattle
-in an Inverse Battle!\pAll type matchups are reversed!
+在反转对战中！\p所有属性相性都会反转！
 
 #org @gText_BattleCircusDescriptionDynamax
-with a Power Spot active!\pAll Pok\emon will be able to\nDynamax!\pHowever, no Pok\emon may Mega\nEvolve, undergo Primal Reversion,\lUltra Burst, or use Z-Moves!
+能量点启动了！\p所有宝可梦都可以\n极巨化！\p但是，所有宝可梦都不能\n超级进化、原始回归、\l究极爆发或使用Z招式！
 
 #org @gText_BattleCircusDescriptionTradeMon
-with Pok\emon swapped!\pEach side will use one of the\nopposing side's Pok\emon at random!
+宝可梦被交换了！\p双方会随机使用对方的一只宝可梦！
 
 #org @gText_BattleCircusDescriptionSafeguard
-with a veil protecting both sides\lof the battlefield!\pNo Pok\emon may inflict status\nconditions on another!
+战场双方都被幕保护着！\p所有宝可梦都无法对\n对方造成异常状态！
 
 #org @gText_BattleCircusDescriptionMist
-with Mist surrounding both sides\lof the battlefield!\pNo Pok\emon may have their stats\nlowered by another!
+战场双方都被白雾包围！\p所有宝可梦的能力\n都不会被对方降低！
 
 #org @gText_BattleCircusDescriptionSeaOfFire
-with a Sea of Fire engulfing both\lsides of the battlefield!\pAll non-Fire-type Pok\emon will be\ndamaged each turn!
+战场双方都被火海吞没！\p所有非火属性宝可梦\n每回合都会受到伤害！
 
 #org @gText_BattleCircusDescriptionRainbow
-with a Rainbow present on both\lsides of the battlefield!\pAll moves have their secondary\neffect chance doubled!
+战场双方都出现了彩虹！\p所有招式的追加效果\n触发率翻倍！
 
 #org @gText_BattleCircusDescriptionConfused
-with all Pok\emon confused!
+所有宝可梦都混乱了！
 
 #org @gText_BattleCircusDescriptionTaunt
-with all Pok\emon taunted!\pNo status moves can be used!
+所有宝可梦都被挑衅了！\p无法使用变化招式！
 
 #org @gText_BattleCircusDescriptionTorment
-with all Pok\emon tormented!\pNo move can be used twice in a row.
+所有宝可梦都被无理取闹了！\p不能连续使用同一个招式。
 
 #org @gText_BattleCircusDescriptionHealBlock
-with all Pok\emon Heal Blocked!\pNo Pok\emon will be able to heal!
+所有宝可梦都被回复封锁了！\p所有宝可梦都无法回复！
 
 #org @gText_BattleCircusDescriptionThroatChop
-with all Pok\emon Throat Chopped!\pNo sound-based moves can be used!
+所有宝可梦都被深渊突刺了！\p无法使用声音类招式！
 
 #org @gText_BattleCircusDescriptionAlwaysCrit
-with all Pok\emon Laser Focused!\pMoves will always score critical\nhits!
+所有宝可梦都进入了聚气状态！\p招式必定击中要害！
 
 #org @gText_BattleCircusDescriptionNoCrits
-with no Pok\emon being able to\lscore a critical hit!
+所有宝可梦都无法击中要害！
 
 #org @gText_BattleCircusDescriptionAbilitySuppression
-with all Pok\emon having their\labilities suppressed!
+所有宝可梦的特性都被压制了！

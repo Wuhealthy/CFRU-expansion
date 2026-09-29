@@ -3,58 +3,58 @@ FILL_FF=True
 
 #org @gTypeNames
 #org @NAME_NORMAL
-Normal
+一般
 
 #org @NAME_FIGHTING
-Fight
+格斗
 
 #org @NAME_FLYING
-Flying
+飞行
 
 #org @NAME_POISON
-Poison
+毒
 
 #org @NAME_GROUND
-Ground
+地面
 
 #org @NAME_ROCK
-Rock
+岩石
 
 #org @NAME_BUG
-Bug
+虫
 
 #org @NAME_GHOST
-Ghost
+幽灵
 
 #org @NAME_STEEL
-Steel
+钢
 
 #org @NAME_TYPELESS
 ???
 
 #org @NAME_FIRE
-Fire
+火
 
 #org @NAME_WATER
-Water
+水
 
 #org @NAME_GRASS
-Grass
+草
 
 #org @NAME_ELECTRIC
-Electr
+电
 
 #org @NAME_PSYCHC
-Psychc
+超能力
 
 #org @NAME_ICE
-Ice
+冰
 
 #org @NAME_DRAGON
-Dragon
+龙
 
 #org @NAME_DARK
-Dark
+恶
 
 #org @FAIRY_TYPE_ALIGNMENT_1
 -
@@ -72,7 +72,7 @@ Dark
 -
 
 #org @NAME_FAIRY
-Fairy
+妖精
 
 #org @NAME_STELLAR
-Stellr
+星晶

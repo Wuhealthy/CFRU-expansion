@@ -1,68 +1,68 @@
 #org @gText_ChangeSaveType
-WRONG SAVE TYPE!\nPlease change to Flash 128k.\pIf you are using VBA, consider\nswitching to the superior [GREEN]mGBA[BLACK].\pIf you do not wish to, then follow\nthese instructions to fix the Save Type.\p[RED]VBA Instructions[BLACK]:\pFirst, click [GREEN]Options[BLACK] on the top bar.\pNext, under [GREEN]Emulator[BLACK], select the\n[GREEN]Save Type[BLACK] option.\pAnd then, click [GREEN]Flash 128K[BLACK].\pFinally, completely close and restart\nthe emulator.\p[RED]3DS Instructions[BLACK]:\pUse the [GREEN]New Super Ultimate VC Injector\nfor 3DS[BLACK] to create the CIA file.\pOnce open, confirm the [GREEN]ROM Save Type[BLACK]\nis set to the following:\p[GREEN]Flash 1Mbit (Macronix, ID: 0x09C2)\n+ RTC[BLACK].\pThe [GREEN]injection method[BLACK] must also be\nset to [GREEN]GBA Virtual Console[BLACK].\pIf your emulator was not mentioned,\nplease change emulators.
+存档类型错误！\n请改为Flash 128k。\p如果你正在使用VBA，建议改用\n更优秀的[GREEN]mGBA[BLACK]。\p如果你不想换，请按照以下\n说明修正存档类型。\p[RED]VBA 说明[BLACK]：\p首先，点击顶部菜单栏的[GREEN]Options[BLACK]。\p接着，在[GREEN]Emulator[BLACK]下选择\n[GREEN]Save Type[BLACK]选项。\p然后，点击[GREEN]Flash 128K[BLACK]。\p最后，完全关闭并重新启动\n模拟器。\p[RED]3DS 说明[BLACK]：\p使用[GREEN]New Super Ultimate VC Injector\nfor 3DS[BLACK]制作CIA文件。\p打开后，确认[GREEN]ROM Save Type[BLACK]\n设置为以下内容：\p[GREEN]Flash 1Mbit (Macronix, ID: 0x09C2)\n+ RTC[BLACK]。\p[GREEN]注入方式[BLACK]也必须\n设置为[GREEN]GBA Virtual Console[BLACK]。\p如果你的模拟器没有提到，\n请更换模拟器。
 
 #org @gText_MainMenuEnableRTC
-WARNING!\pThe correct system time could\nnot be read.\pEnable the Real Time Clock (RTC),\nand make sure the time is correct.
+警告！\p无法读取正确的系统时间。\p请启用实时时钟（RTC），\n并确保时间正确。
 
 #org @gText_MainMenuEnableRTCNoSave
-WARNING!\pThe correct system time could\nnot be read.\pEnable the Real Time Clock (RTC),\nand make sure the time is correct.\pIf you are using VBA, consider\nswitching to the superior [GREEN]mGBA[BLACK].\pIf you do not wish to, then follow\nthese instructions to enable the RTC.\p[RED]VBA Instructions[BLACK]:\pFirst, click [GREEN]Options[BLACK] on the top bar.\pNext, under [GREEN]Emulator[BLACK], select the\n[GREEN]Real Time Clock[BLACK] option.\pFinally, completely close and restart\nthe emulator.\p[RED]3DS Instructions[BLACK]:\pUse the [GREEN]New Super Ultimate VC Injector\nfor 3DS[BLACK] to create the CIA file.\pOnce open, confirm the [GREEN]ROM Save Type[BLACK]\nis set to the following:\p[GREEN]Flash 1Mbit (Macronix, ID: 0x09C2)\n+ RTC[BLACK].\pThe [GREEN]injection method[BLACK] must also be\nset to [GREEN]GBA Virtual Console[BLACK].\p[RED]Delta Instructions[BLACK]:\pUse the premium version of Delta\nor switch to [GREEN]GBA4iOS[BLACK].
+警告！\p无法读取正确的系统时间。\p请启用实时时钟（RTC），\n并确保时间正确。\p如果你正在使用VBA，建议改用\n更优秀的[GREEN]mGBA[BLACK]。\p如果你不想换，请按照以下\n说明启用RTC。\p[RED]VBA 说明[BLACK]：\p首先，点击顶部菜单栏的[GREEN]Options[BLACK]。\p接着，在[GREEN]Emulator[BLACK]下选择\n[GREEN]Real Time Clock[BLACK]选项。\p最后，完全关闭并重新启动\n模拟器。\p[RED]3DS 说明[BLACK]：\p使用[GREEN]New Super Ultimate VC Injector\nfor 3DS[BLACK]制作CIA文件。\p打开后，确认[GREEN]ROM Save Type[BLACK]\n设置为以下内容：\p[GREEN]Flash 1Mbit (Macronix, ID: 0x09C2)\n+ RTC[BLACK]。\p[GREEN]注入方式[BLACK]也必须\n设置为[GREEN]GBA Virtual Console[BLACK]。\p[RED]Delta 说明[BLACK]：\p请使用Delta的高级版，\n或改用[GREEN]GBA4iOS[BLACK]。
 
 #org @gText_MainMenuTimeSetInFuture
-WARNING!\pRTC tampering has been detected\nin your save file!\pThe current ingame date is set to\n[BUFFER1]/[BUFFER2]/[BUFFER3].\pAll daily events such as gifts\nand Raids may cease to function\lproperly until the day after.\pPlease refrain from tampering\nwith the RTC again.
+警告！\p在你的存档中检测到\nRTC被篡改！\p当前游戏内日期设置为\n[BUFFER1]/[BUFFER2]/[BUFFER3]。\p所有每日事件，例如礼物\n和团体战，可能会在次日之前\l无法正常运作。\p请不要再篡改RTC。
 
 #org @gText_UsedVar2WildStronger
-[BUFFER][01] used the\n[BUFFER][03].\pThe chance of encountering strong\nwild Pok\emon in this area increased.[FC][09]
+[BUFFER][01]使用了\n[BUFFER][03]。\p该区域遇到强大野生\n宝可梦的几率增加了。[FC][09]
 
 #org @gText_UsedVar2WildWeaker
-[BUFFER][01] used the\n[BUFFER][03].\pThe chance of encountering weak\nwild Pok\emon in this area increased.[FC][09]
+[BUFFER][01]使用了\n[BUFFER][03]。\p该区域遇到弱小野生\n宝可梦的几率增加了。[FC][09]
 
 #org @gText_SecondBagItemCanBeRegisteredToL
-A second item in the Cube can be\nregistered to [L_BUTTON] for easy use.
+魔方中的第二个道具可以\n注册到[L_BUTTON]，方便使用。
 
 #org @gText_AutoRunEnable
-Auto-run has been [GREEN]enabled[BLACK].
+自动奔跑已[GREEN]启用[BLACK]。
 
 #org @gText_AutoRunDisable
-Auto-run has been [GREEN]disabled[BLACK].
+自动奔跑已[GREEN]禁用[BLACK]。
 
 #org @gText_BikeTurboBoostEnable
-Turbo boost has been [GREEN]activated[BLACK].
+涡轮加速已[GREEN]激活[BLACK]。
 
 #org @gText_BikeTurboBoostDisable
-Turbo boost has been [GREEN]deactivated[BLACK].
+涡轮加速已[GREEN]取消[BLACK]。
 
 #org @gText_SurfTurboBoostEnable
-Turbo Surf has been [GREEN]activated[BLACK].
+涡轮冲浪已[GREEN]激活[BLACK]。
 
 #org @gText_SurfTurboBoostDisable
-Turbo Surf has been [GREEN]deactivated[BLACK].
+涡轮冲浪已[GREEN]取消[BLACK]。
 
 #org @gText_PoisonSurvial
-[BUFFER][02] survived the Poison.\nThe Poison faded away!
+[BUFFER][02]挺过了中毒。\n中毒状态消失了！
 
 #org @gText_ThrowInOnePremierBall
-You also get a [BUFFER][03] as\nan added bonus.[FC][09]
+你还额外获得了\n一个[BUFFER][03]作为奖励。[FC][09]
 
 #org @gText_ThrowInPremierBalls
-You also get [BUFFER][02] [BUFFER][03]s as\nan added bonus.[FC][09]
+你还额外获得了[BUFFER][02]个\n[BUFFER][03]作为奖励。[FC][09]
 
 #org @gText_AskUseAnotherRepel
-The repellent's effect wore off!\nWould you like to use another one?
+喷雾的效果消失了！\n要再使用一个吗？
 
 #org @gText_UsedAnotherRepel
-[BUFFER][01] used a [BUFFER][04].
+[BUFFER][01]使用了[BUFFER][04]。
 
 #org @gText_RepelWoreOff
-The repellent's effect wore off!
+喷雾的效果消失了！
 
 #org @gText_FoundMultipleItems
-[PLAYER] found [BUFFER1] [BUFFER2]!
+[PLAYER]找到了[BUFFER1]个[BUFFER2]！
 
 #org @gText_ObtainedMultipleItems
-Obtained [BUFFER1] [BUFFER2]!
+获得了[BUFFER1]个[BUFFER2]！
 
 #org @gText_ObtainedTMHM
-Obtained a [BUFFER][03]!\nIt contains [BUFFER][02].
+获得了[BUFFER][03]！\n里面是[BUFFER][02]。
 
 #org @gText_RegisteredItemSelectButton
 [SELECT_BUTTON] [ALIGN][1E]
@@ -83,249 +83,249 @@ Obtained a [BUFFER][03]!\nIt contains [BUFFER][02].
 [DPAD_RIGHT] [ALIGN][1E]
 
 #org @gText_UseWhichRegisteredItem
-Use which item?
+使用哪个道具？
 
 #org @gText_ScurriedToNearestHealer
-[PLAYER] scurried to the nearest healer,\nprotecting the exhausted and fainted\nPok\emon from further harm[.]\p
+[PLAYER]急忙赶往最近的治疗点，\n保护了疲惫和倒下的\n宝可梦免受进一步伤害[.]\p
 
 #org @gText_WantToScaleCliff
-The wall is very rocky[.]\nWould you like to use [BUFFER2]?
+这面墙非常陡峭[.]\n要使用[BUFFER2]吗？
 
 #org @gText_WantToScaleCliffWithADM
-The wall is very rocky[.]\nWould you like to use the ADM?
+这面墙非常陡峭[.]\n要使用 ADM 吗？
 
 #org @gText_WantToScaleCliffSandbox
-The wall is very rocky[.]\nWould you like to scale it?
+这面墙非常陡峭[.]\n要攀爬吗？
 
 #org @gText_RockIsRocky
-The wall is very rocky[.]\nWill a Pok\emon's move scale it?
+这面墙非常陡峭[.]\n宝可梦的招式能攀爬它吗？
 
 #org @gText_DefogBlewAwayFog
-[BUFFER1] blew away the fog!
+[BUFFER1]吹散了雾气！
 
 #org @gText_OfferADMWaterfall
-It's a large waterfall.\nWould you like to use the ADM?
+这是一道大瀑布。\n要使用 ADM 吗？
 
 #org @gText_OfferSandboxWaterfall
-It's a large waterfall.\nWould you like to climb it?
+这是一道大瀑布。\n要攀爬吗？
 
 #org @gText_WaterDyed
-The water is dyed a deep blue[.]
+水呈现出深蓝色[.]
 
 #org @gText_WaterMurkyBrown
-The water is a murky brown[.]
+水呈现出浑浊的棕色[.]
 
 #org @gText_WaterMurkyBrownUseSurf
-The water is a murky brown[.]\nWould you like to Surf?
+水呈现出浑浊的棕色[.]\n要冲浪吗？
 
 #org @gText_OfferSurfWithADM
-The water is dyed a deep blue[.]\nWould you like to use the ADM?
+水呈现出深蓝色[.]\n要使用 ADM 吗？
 
 #org @gText_WaterMurkyBrownUseADMSurf
-The water is a murky brown[.]\nWould you like to use the ADM?
+水呈现出浑浊的棕色[.]\n要使用 ADM 吗？
 
 #org @gText_ADMBlewUpInflatablePokemon
-The ADM attached to [BUFFER1]\nas a floating device!
+ADM附着在[BUFFER1]上\n作为浮游装置！
 
 #org @gText_SandboxSurfStarted
-A floating device attached to\n[BUFFER1]!
+一个浮游装置附着在\n[BUFFER1]上！
 
 #org @gText_LikeToLavaSurf
-The magma glistens a crimson red[.]\nWould you like to surf on it?
+岩浆闪烁着深红色[.]\n要在上面冲浪吗？
 
 #org @gText_LavaSurfedWith
-[BUFFER1] started surfing on\nthe magma!
+[BUFFER1]开始在\n岩浆上冲浪！
 
 #org @gText_LavaDyed
-The magma glistens a crimson red[.]
+岩浆闪烁着深红色[.]
 
 #org @gText_WantToDive
-The sea is deep here.\nWould you like to use [BUFFER2]?
+这里的海很深。\n要使用[BUFFER2]吗？
 
 #org @gText_WantToADMDive
-The sea is deep here.\nWould you like to use the ADM?
+这里的海很深。\n要使用 ADM 吗？
 
 #org @gText_UsedADMDive
-The ADM allowed you to go\nunderwater!
+ADM 让你得以\n潜入水下！
 
 #org @gText_WantToSurface
-Light is filtering down from above.\nWould you like to use [BUFFER2]?
+光线从上方透下来。\n要使用[BUFFER2]吗？
 
 #org @gText_WantToADMSurface
-Light is filtering down from above.\nWould you like to use the ADM?
+光线从上方透下来。\n要使用 ADM 吗？
 
 #org @gText_UsedADMDiveResurface
-The ADM allowed you to resurface!
+ADM 让你得以重新浮出水面！
 
 #org @gText_CantDive
-The sea is deep here. A Pok\emon\nmay be able to go underwater.
+这里的海很深。宝可梦\n也许能够潜入水下。
 
 #org @gText_CantSurface
-Light is filtering down from above.\nA Pok\emon may be able to surface.
+光线从上方透下来。\n宝可梦也许能够浮出水面。
 
 #org @gText_TVSwarm
-Calling all Trainers!\pA swarm of [GREEN][BUFFER2][BLACK] have appeared\naround [GREEN][BUFFER1][BLACK]!\pThis is a rare opportunity to get\nyour hands on a [BUFFER2], so\ldon't pass this chance up!\p[.]\pThis message is sponsored by\nCube Corp.
+呼叫所有训练家！\p一群[GREEN][BUFFER2][BLACK]出现在\n[GREEN][BUFFER1][BLACK]附近！\p这是获得[BUFFER2]的\n难得机会，\l千万别错过！\p[.]\p本消息由\n魔方公司赞助。
 
 #org @gText_DoorIsLocked
-The door is locked.
+门锁着。
 
 #org @gText_PsychicBarrier
-There appears to be some sort of\nPsychic barrier in the way.
+似乎有某种\n超能力屏障挡在路上。
 
 #org @gText_CantReachLadder
-You can't reach the ladder from\nhere!
+你无法从这里\n够到梯子！
 
 #org @gText_FollowNarrowPath
-Look!\nYou've found a narrow path.\pWill you follow it?
+看！\n你发现了一条狭窄的小路。\p要沿着它走吗？
 
 #org @gText_FollowNarrowPathNowhere
-The narrow path went nowhere.
+这条狭窄的小路通向了死路。
 
 #org @gText_WantToUseHeadbutt
-It's a moderately sized tree.\nWould you like to use Headbutt?
+这是一棵中等大小的树。\n要使用头锤吗？
 
 #org @gText_TreeCanBeHeadbutted
-There's a formidable tree that\nlooks like it can be headbutted!
+有一棵看起来很结实、\n似乎可以用头锤撞的树！
 
 #org @gText_StartMining
-The wall is bulging slightly.\nTry digging into it?
+墙面微微凸起。\n要试着挖开它吗？
 
 //Mart Strings
 
 #org @gText_SingleTmBuy
-[BUFFER][02] [BUFFER][04],\nThat will be \$[BUFFER][03]. Okay?
+[BUFFER][02]个[BUFFER][04]，\n一共\$[BUFFER][03]。可以吗？
 
 #org @gText_AlreadyOwnTM
-You already own that TM.[FC][09]
+你已经拥有那个TM了。[FC][09]
 
 //Bag Strings
 
 #org @gText_WantToSortItems
-Sort this pocket's\nitems how?
+如何整理这个口袋的\n道具？
 
 #org @gMenuText_ByType
-Type
+按类型
 
 #org @gMenuText_ByName
-Name
+按名称
 
 #org @gMenuText_ByMost
-Most
+按最多
 
 #org @gMenuText_ByLeast
-Least
+按最少
 
 #org @gMenuText_ByAmount
-Amount
+按数量
 
 #org @gText_name
-name
+名称
 
 #org @gText_type
-type
+类型
 
 #org @gText_most
-most
+最多
 
 #org @gText_least
-least
+最少
 
 #org @gText_amount
-amount
+数量
 
 #org @gText_SortItemsBy
-Sort items by\n[BUFFER1]?
+按[BUFFER1]\n整理道具？
 
 #org @gText_ItemsSortedBy
-Items sorted by\n[BUFFER1]!
+道具已按[BUFFER1]\n整理完毕！
 
 //Battle Tower Pokemon Select
 
 #org @gOtherText_NoMoreOnePoke
-No more than one Pok\emon\nmay enter.[FC][09]
+最多只能有\n一只宝可梦参加。[FC][09]
 
 #org @gOtherText_NoMoreFourPoke
-No more than four Pok\emon\nmay enter.[FC][09]
+最多只能有\n四只宝可梦参加。[FC][09]
 
 #org @gOtherText_NoMoreFivePoke
-No more than five Pok\emon\nmay enter.[FC][09]
+最多只能有\n五只宝可梦参加。[FC][09]
 
 #org @gText_First
-FIRST
+第一
 
 #org @gText_Second
-SECOND
+第二
 
 #org @gText_Third
-THIRD
+第三
 
 #org @gText_Fourth
-FOURTH
+第四
 
 #org @gText_Fifth
-FIFTH
+第五
 
 #org @gText_Sixth
-SIXTH
+第六
 
 #org @gText_PokemonAreNeeded
-[BUFFER][02] Pok\emon are needed.
+需要[BUFFER][02]只宝可梦。
 
 #org @gText_EnterNumber
-Enter a Number
+输入数字
 
 #org @gText_EnterPhrase
-Enter a Phrase
+输入短语
 
 #org @gText_EnterPassword
-Enter Password
+输入密码
 
 #org @gText_EnterSpeciesName
-Enter a Species
+输入物种名
 
 #org @gText_Purchased
-Purchased
+已购买
 
 #org @gText_StopZooming
-Stop zooming!
+停止缩放！
 
 //Wild Pokemon Encounter Scripts
 
 #org @EncounterScript_option1
-Ignore
+无视
 
 #org @EncounterScript_option2
-Engage
+迎战
 
 #org @EncounterScript_msg
-What will you do?
+你要怎么做？
 
 #org @gText_Exp_Share_Ask_On
-Do you want to turn On\nExp. Share?
+要开启学习装置吗？
 
 #org @gText_Exp_Share_Ask_Off
-Do you want to turn Off\nExp. Share?
+要关闭学习装置吗？
 
 #org @gText_Exp_Share_On
-Exp. Share turned on.
+学习装置已开启。
 
 #org @gText_Exp_Share_Off
-Exp. Share turned off.
+学习装置已关闭。
 
 #org @gText_PortablePCPrompt
-What do you want to do?
+你想做什么？
 
 #org @gText_OpenPCBox
-Access Pokémon Box
+访问宝可梦盒子
 
 #org @gText_HealPokemon
-Heal your Pokémon
+治疗你的宝可梦
 
 #org @gText_HealedPCParty
-Your Pokémon's health has been\nfully restored.
+你的宝可梦已\n完全恢复。
 
 #org @gText_PCUnavailable
-You can't access the Portable PC\nright now.
+现在无法访问便携式电脑。
 
 #org @gText_WelcomeToHOF
-Welcome to the HALL OF FAME!\n Game Mode:
+欢迎来到名人堂！\n 游戏模式：

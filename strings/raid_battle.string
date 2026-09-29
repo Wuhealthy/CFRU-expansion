@@ -1,11 +1,11 @@
 #org @gText_RecommendedLevel
-Recommended Lvl: 
+推荐等级：
 
 #org @gText_RaidIntroSelection
-[DPAD_UP_DOWN]Pick [A_BUTTON]Choose [START_BUTTON]Random [B_BUTTON]Cancel
+[DPAD_UP_DOWN]选择 [A_BUTTON]确定 [START_BUTTON]随机 [B_BUTTON]取消
 
 #org @gText_RaidBattleRules
-Battle ends if:\n4 Pok\emon faint\n10 turns pass
+战斗结束条件：\n4只宝可梦倒下\n或经过10回合
 
 #org @gText_RaidBattleChoosePartner
-Available Partners
+可选择的伙伴
