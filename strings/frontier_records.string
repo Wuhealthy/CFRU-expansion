@@ -50,10 +50,10 @@
 等级 100
 
 #org @gText_CurrentStreak
-当前连胜：\n最高连胜：
+当前连胜: \n最高连胜: 
 
 #org @gText_MaxStreak
-最高连胜：
+最高连胜: 
 
 #org @gText_3v3
 3 v 3
