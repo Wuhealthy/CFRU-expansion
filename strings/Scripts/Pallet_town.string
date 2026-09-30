@@ -145,42 +145,6 @@
 #org @gText_ChangeHiddenPowerTypeNPCFetchFairy
 觉醒力量变成了妖精属性！
 
-#org @Text_BattleTower_Welcome
-欢迎来到对战塔！\p塔里有2种对战间可供挑战，\n分别是单打对战\l和双打对战的对战间。
-
-#org @Text_BattleTower_Challenge
-挑战
-
-#org @Text_BattleTower_Info
-听说明
-
-#org @Text_BattleTower_Exit
-退出
-
-#org @Text_BattleTower_Single50
-单打对战（50级）
-
-#org @Text_BattleTower_Double50
-双打对战（50级）
-
-#org @Text_BattleTower_Single100
-单打对战（100级）
-
-#org @Text_BattleTower_Double100
-双打对战（100级）
-
-#org @Text_BattleTower_SelectMons
-请选择参加对战的宝可梦。
-
-#org @Text_BattleTower_Rules
-在这个对战塔，\n在单人战里可以用3只宝可梦，\p在双打里可以用4只宝可梦，\n看您的挑战能坚持到什么程度。\p对战塔里有很多战斗房间\n是专为对战而设的。\p每个战斗房间里都有10个训练家\n在等着您前去挑战。\p只要战胜这些训练家\n就将获送BP值！\p另外，如果希望中断挑战。\n如果不保存好进度\l是不能接上次中断点\l继续进行挑战的！\l请一定要注意这一点！
-
-#org @Text_BattleTower_Farewell
-期待您的再次挑战！
-
-#org @Text_BattleTower_FollowMe
-请跟我来对战间！
-
 #org @gText_GiveMons_Special_Give
 这个给你！
 
