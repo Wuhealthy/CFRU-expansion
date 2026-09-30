@@ -79,6 +79,7 @@ static void CreateHpBarObjs(u16 tileTag, u16 palTag);
 static void CreateShinyStarObj(u16 tileTag, u16 palTag);
 static void PokeSum_Setup_SetVBlankCallback(void);
 static bool8 HasOnlyOneMon(void);
+extern void Call_EvIv(void);
 
 extern const u8 *const sEggHatchTimeTexts[];
 extern const struct OamData sMoveSelectionCursorOamData;
@@ -1520,6 +1521,17 @@ static void Task_InputHandler_Info(u8 taskId)
                 {
                     PlaySE(SE_SELECT);
                     sMonSummaryScreen->state3270 = PSS_STATE3270_ATEXIT_FADEOUT;
+                }
+                else if (sMonSummaryScreen->curPageIndex == PSS_PAGE_SKILLS)
+                {
+                    if (gMain.inBattle)
+                    {
+                        PlaySE(SE_ERROR);
+                        return;
+                    }
+                    PlaySE(SE_SELECT);
+                    Call_EvIv();
+                    return;
                 }
                 else if (sMonSummaryScreen->curPageIndex == PSS_PAGE_MOVES)
                 {
