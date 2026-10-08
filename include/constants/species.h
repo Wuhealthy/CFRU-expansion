@@ -1573,7 +1573,9 @@ enum
     SPECIES_POLTEAGEIST_MEGA,       // 0x621
     SPECIES_LOKIX_J,                // 0x622
     SPECIES_WEAVILE_J,              // 0x623
-    SPECIES_CARBINK_MEGA,           // 0x624
+    SPECIES_MEOWSTIC_F_MEGA,        // 0x624
+    SPECIES_PYROAR_F_MEGA,          // 0x625
+    SPECIES_CARBINK_MEGA,           // 0x626
 };
 
 #define NUM_SPECIES_GEN_7 (SPECIES_XERNEAS_NATURAL + 1)
