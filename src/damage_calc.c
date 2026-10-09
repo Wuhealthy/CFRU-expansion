@@ -1532,6 +1532,10 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 
 		if (moveType == TYPE_PSYCHIC && defType == TYPE_DARK && (gStatuses3[bankDef] & STATUS3_MIRACLE_EYED))
 			return; //Miracle Eye causes normal damage hits
+
+		// 归无之光：龙属性招式无视妖精属性的免疫
+    	if (move == MOVE_NIHILLIGHT && defType == TYPE_FAIRY)
+        	return;
 	}
 	else if (checkMonDef)
 	{
@@ -1539,6 +1543,9 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 		|| (atkAbility == ABILITY_MINDSEYE))
 		&& (defType == TYPE_GHOST && (moveType == TYPE_NORMAL || moveType == TYPE_FIGHTING)))
 			return; //Scrappy breaks Ghost immunity
+
+		if (move == MOVE_NIHILLIGHT && defType == TYPE_FAIRY)
+        	return;
 	}
 
 	if (move == MOVE_FREEZEDRY && defType == TYPE_WATER) //Always Super-Effective, even in Inverse Battles

@@ -1040,6 +1040,7 @@ gMoveAnimations:
 .word ANIM_LIGHTNINGBALL
 .word ANIM_AQUABLADE
 .word ANIM_LULLABY
+.word ANIM_NIHILLIGHT
 .word ANIM_PSYCHICNOISE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -31371,6 +31372,135 @@ LOR_YELLOWPARTICLES: objtemplate ANIM_TAG_ORBS ANIM_TAG_SPARK_2 OAM_OFF_8x8 0x83
 LOR_YELLOWAFTERMATH: objtemplate ANIM_TAG_SMALL_BUBBLES ANIM_TAG_SPARK_2 OAM_NORMAL_BLEND_16x16 0x83E5A78 0x0 0x83E6AB4 0x80B1839
 LOR_YELLOWDISCHARGE: objtemplate ANIM_TAG_ELECTRICITY ANIM_TAG_SPARK_2 OAM_OFF_32x32 0x83E6200 0x0 gDummySpriteAffineAnimTable 0x80AE775
 LOR_YELLOWEXPLOSION: objtemplate ANIM_TAG_EXPLOSION ANIM_TAG_SPARK_2 OAM_OFF_32x32 0x83E3F90 0x0 gDummySpriteAffineAnimTable SpriteCB_AnimSpriteOnMonPos
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+ANIM_NIHILLIGHT:
+	loadparticle ANIM_TAG_SHADOW_BALL
+	loadparticle ANIM_TAG_HANDS_AND_FEET
+	loadparticle ANIM_TAG_POISON_BUBBLE
+	loadparticle ANIM_TAG_CIRCLE_OF_LIGHT
+	loadparticle ANIM_TAG_ORBS
+	loadparticle ANIM_TAG_UNUSED_EXPLOSION_2
+	loadparticle ANIM_TAG_THIN_RING
+
+	@;Black / dark purple fade on the whole screen
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0x10 0x0000
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x2 0x0 0x10 0x3006 @;Purple
+	waitanimation
+
+	@;The void sphere forms above the attacker
+	pokespritetobg bank_attacker
+	launchtemplate NIHILLIGHT_VOID_BALL TEMPLATE_ATTACKER | 2, 0x1 0x0
+	playsound2 0x85 SOUND_PAN_ATTACKER
+	pause 0x18
+
+	@;Dark rings converge on the sphere
+	launchtemplate NIHILLIGHT_DARK_RING 0x28 0x4 0x0 0x0 0x0 0x0
+	playsound2 0x5F SOUND_PAN_ATTACKER
+	pause 0x8
+	launchtemplate NIHILLIGHT_DARK_RING 0x28 0x4 0x0 0x0 0x0 0x0
+	pause 0x8
+	launchtemplate NIHILLIGHT_DARK_RING 0x28 0x4 0x0 0x0 0x0 0x0
+	pause 0x8
+	launchtemplate NIHILLIGHT_DARK_RING 0x28 0x4 0x0 0x0 0x0 0x0
+	waitanimation
+
+	@;Purple/black particles spiral inward
+	soundcomplex 0xC1 SOUND_PAN_ATTACKER 0xE 0xA
+	call NIHILLIGHT_VOID_SWIRL
+	call NIHILLIGHT_VOID_SWIRL
+	call NIHILLIGHT_VOID_SWIRL
+	call NIHILLIGHT_VOID_SWIRL
+	waitanimation
+
+	@;Sphere flashes and the target is engulfed
+	loadBG1 BG_DARK
+	waitbgfadeout
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x4 0x48 0x1
+	playsound2 0xCE SOUND_PAN_ATTACKER
+	pokespritetoBG bank_target
+	leftbankBG_over_partnerBG bank_target
+	waitbgfadein
+
+	launchtemplate NIHILLIGHT_BEAM TEMPLATE_TARGET | 3, 0x3 0x0 0x0 0x20
+	playsoundpanchange 0xC2 SOUND_PAN_ATTACKER SOUND_PAN_TARGET 0x2 0x0
+	call NIHILLIGHT_BEAM_PARTICLES
+	call NIHILLIGHT_BEAM_PARTICLES
+	call NIHILLIGHT_BEAM_PARTICLES
+	call NIHILLIGHT_BEAM_PARTICLES
+	call NIHILLIGHT_BEAM_PARTICLES
+	call NIHILLIGHT_BEAM_PARTICLES
+	waitanimation
+	pause 0x10
+
+	@;Black explosion on the target
+	launchtask AnimTask_ShakeTargetBasedOnMovePowerOrDmg 0x2 0x5 0x0 0x1 0x20 0x1 0x0
+	call NIHILLIGHT_TARGET_EXPLOSION
+	call NIHILLIGHT_TARGET_EXPLOSION
+
+	@;Whole screen flashes white, then fades back
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ALL_BANKS | PAL_BG 0x1 0x0 0x10 0x7FFF
+	call NIHILLIGHT_TARGET_EXPLOSION
+	waitanimation
+	pause 0x14
+
+	loaddefaultBG
+	waitbgfadeout
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ALL_BANKS 0x2 0x0 0x0 0x7FFF
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x10 0x0 0x0
+	waitbgfadein
+	pokespritefromBG bank_target
+	resetblends
+	endanimation
+
+NIHILLIGHT_VOID_SWIRL:
+	launchtemplate NIHILLIGHT_VOID_PARTICLE TEMPLATE_ATTACKER | 2, 0x7 0x0 0x1C 0x180 0x32 0x8 0x32 bank_attacker
+	pause 0x2
+	launchtemplate NIHILLIGHT_VOID_PARTICLE TEMPLATE_ATTACKER | 2, 0x7 0x0 0x20 0xF0 0x28 0xB 0xFFD2 bank_attacker
+	pause 0x2
+	launchtemplate NIHILLIGHT_VOID_PARTICLE TEMPLATE_ATTACKER | 2, 0x7 0x0 0x21 0x1A0 0x28 0x4 0x2A bank_attacker
+	pause 0x2
+	launchtemplate NIHILLIGHT_VOID_PARTICLE TEMPLATE_ATTACKER | 2, 0x7 0x0 0x1F 0x120 0x2D 0x6 0xFFD6 bank_attacker
+	pause 0x2
+	launchtemplate NIHILLIGHT_VOID_PARTICLE TEMPLATE_ATTACKER | 2, 0x7 0x0 0x1C 0x1C0 0x2D 0xB 0x2E bank_attacker
+	pause 0x2
+	launchtemplate NIHILLIGHT_VOID_PARTICLE TEMPLATE_ATTACKER | 2, 0x7 0x0 0x21 0x1D0 0x32 0xA 0xFFCE bank_attacker
+	pause 0x2
+	return
+
+NIHILLIGHT_BEAM_PARTICLES:
+	launchtemplate NIHILLIGHT_BEAM_BALL TEMPLATE_TARGET | 2, 0x0
+	launchtemplate NIHILLIGHT_BEAM_BALL TEMPLATE_TARGET | 2, 0x0
+	pause 0x1
+	return
+
+NIHILLIGHT_TARGET_EXPLOSION:
+	playsound2 0xAB SOUND_PAN_TARGET
+	launchtemplate NIHILLIGHT_EXPLODE TEMPLATE_TARGET | 3, 0x4 0x0 0x0 bank_target 0x1
+	pause 0x6
+	playsound2 0xAB SOUND_PAN_TARGET
+	launchtemplate NIHILLIGHT_EXPLODE TEMPLATE_TARGET | 3, 0x4 0x18 0xFFE8 bank_target 0x1
+	pause 0x6
+	playsound2 0xAB SOUND_PAN_TARGET
+	launchtemplate NIHILLIGHT_EXPLODE TEMPLATE_TARGET | 3, 0x4 0xFFF0 0x10 bank_target 0x1
+	pause 0x6
+	playsound2 0xAB SOUND_PAN_TARGET
+	launchtemplate NIHILLIGHT_EXPLODE TEMPLATE_TARGET | 3, 0x4 0xFFE8 0xFFF4 bank_target 0x1
+	pause 0x6
+	playsound2 0xAB SOUND_PAN_TARGET
+	launchtemplate NIHILLIGHT_EXPLODE TEMPLATE_TARGET | 3, 0x4 0x10 0x10 bank_target 0x1
+	pause 0x6
+	return
+
+.align 2
+NIHILLIGHT_VOID_BALL: objtemplate ANIM_TAG_CIRCLE_OF_LIGHT ANIM_TAG_HANDS_AND_FEET OAM_NORMAL_BLEND_64x64 gDummySpriteAnimTable 0x0 0x83E61C8 0x80AE71D
+NIHILLIGHT_DARK_RING: objtemplate ANIM_TAG_THIN_RING ANIM_TAG_POISON_BUBBLE OAM_DOUBLE_BLEND_64x64 gDummySpriteAnimTable 0x0 0x83E40C4 SpriteCB_AnimSpriteOnMonPos
+NIHILLIGHT_VOID_PARTICLE: objtemplate ANIM_TAG_ORBS ANIM_TAG_HANDS_AND_FEET OAM_OFF_16x16 0x83E2A20 0x0 gDummySpriteAffineAnimTable 0x80B477D
+NIHILLIGHT_BEAM: objtemplate ANIM_TAG_SHADOW_BALL ANIM_TAG_POISON_BUBBLE OAM_DOUBLE_BLEND_32x32 gAnimCmdTable_SnipeShot 0x0 gSpriteAffineAnimTable_SnipeShot 0x80B563D
+NIHILLIGHT_BEAM_BALL: objtemplate ANIM_TAG_ORBS ANIM_TAG_POISON_BUBBLE OAM_OFF_8x8 0x83E2A20 0x0 gDummySpriteAffineAnimTable 0x80A25ED
+NIHILLIGHT_EXPLODE: objtemplate ANIM_TAG_UNUSED_EXPLOSION_2 ANIM_TAG_HANDS_AND_FEET OAM_OFF_32x32 0x83E3F90 0x0 gDummySpriteAffineAnimTable SpriteCB_AnimSpriteOnMonPos
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

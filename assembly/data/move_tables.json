@@ -854,6 +854,7 @@
 	"gIgnoreStatChangesMoves": [
 		"MOVE_SACREDSWORD",
 		"MOVE_CHIPAWAY",
+		"MOVE_NIHILLIGHT",
 		"MOVE_DARKESTLARIAT"
 	],
 
