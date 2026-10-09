@@ -1751,6 +1751,58 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
         		}
 			}
 			break;
+
+		case ABILITY_BOUNTIFULFRUIT:
+    		if (IS_DOUBLE_BATTLE)
+    		{
+        		u8 partner = PARTNER(bank);
+        		if (BATTLER_ALIVE(partner))
+        		{
+            		if (!BATTLER_MAX_HP(partner) && !IsHealBlocked(partner))
+            		{
+                		u8 divisor = 4;
+                		// 青草场地或大晴天 → 1/3
+                		if (gTerrainType == GRASSY_TERRAIN
+                		|| (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)))
+                    		divisor = 3;
+
+                		gBattleMoveDamage = MathMax(1, GetBaseMaxHP(partner) / divisor);
+                		gBattleMoveDamage *= -1;
+                		gBankTarget = partner;
+                		gBattleStringLoader = gText_BountifulFruitActivate;
+                		BattleScriptPushCursorAndCallback(BattleScript_HospitalityActivates);
+                		effect++;
+            		}
+        		}
+    		}
+    		break;
+
+		case ABILITY_SOOTHELINGSCALE:
+    		if (IS_DOUBLE_BATTLE)
+    		{
+        		u8 partner = PARTNER(bank);
+        		if (BATTLER_ALIVE(partner))
+        		{
+            		// 回复 HP
+            		if (!BATTLER_MAX_HP(partner) && !IsHealBlocked(partner))
+            		{
+                		gBattleMoveDamage = MathMax(1, GetBaseMaxHP(partner) / 4);
+                		gBattleMoveDamage *= -1;
+                		gBankTarget = partner;
+                		BattleScriptPushCursorAndCallback(BattleScript_SootheLingScaleActivates);
+                		effect++;
+            		}
+            		// 解除异常
+            		else if (gBattleMons[partner].status1 & STATUS1_ANY)
+            		{
+						gEffectBank = partner;
+						ClearBankStatus(gEffectBank);
+						BattleScriptPushCursorAndCallback(BattleScript_Healer);
+                		effect++;
+            		}
+        		}
+    		}
+    		break;
 		
 		case ABILITY_CURIOUSMEDICINE:
     		if (IS_DOUBLE_BATTLE)

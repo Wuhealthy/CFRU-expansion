@@ -27,6 +27,7 @@ ability_battle_scripts.s
 .global BattleScript_AttackerAbilityStatRaiseEnd3
 .global BattleScript_NeutralizingGas
 .global BattleScript_HospitalityActivates
+.global BattleScript_SootheLingScaleActivates
 .global BattleScript_SwitchInAbilityMsg
 .global BattleScript_TeraformZeroClear
 .global BattleScript_End3
@@ -467,6 +468,25 @@ BattleScript_HospitalityActivates:
 	waitmessage DELAY_1SECOND
 	call BattleScript_AbilityPopUpRevert
 	end3	
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+BattleScript_SootheLingScaleActivates:
+	call BattleScript_AbilityPopUp
+	playanimation BANK_TARGET ANIM_HEALING_SPARKLES 0x0
+	orword HIT_MARKER HITMARKER_IGNORE_SUBSTITUTE
+	graphicalhpupdate BANK_TARGET
+    datahpupdate BANK_TARGET
+	setword BATTLE_STRING_LOADER gText_SootheLingScaleActivate
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
+	cureprimarystatus BANK_TARGET SootheLingScale_End
+	printstring 0x164 @;STRINGID_PKMNSXCUREDITSYPROBLEM
+	waitmessage DELAY_1SECOND
+	refreshhpbar BANK_TARGET
+SootheLingScale_End:
+	end3
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

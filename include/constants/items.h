@@ -872,8 +872,8 @@ enum
     ITEM_POLTEAGEISTITE,        // 0x336
     ITEM_CHESNAUGHTITE,         // 0x337
     ITEM_DELPHOXITE,            // 0x338
-    ITEM_MILOTICITE,            // 0x339
-    ITEM_TROPIUSITE,            // 0x33A
+    ITEM_GOLURKITE,             // 0x339
+    ITEM_CHANDELUREITE,         // 0x33A
     ITEM_CHIMECHOITE,           // 0x33B
     ITEM_ABSOLZITE,             // 0x33C
     ITEM_DEOXYSITE,             // 0x33D
@@ -903,13 +903,11 @@ enum
     ITEM_SCOLIPEDEITE,          // 0x355
     ITEM_SCRAFTYITE,            // 0x356
     ITEM_EELEKTROSSITE,         // 0x357
-    ITEM_CHANDELUREITE,         // 0x358
-    ITEM_GOLURKITE,             // 0x35A
 
     // Unused Items
-    ITEM_MIRROR_HERB,           // 0x35D
-    ITEM_FREE_SPACE2,           // 0x35E
-    ITEM_FREE_SPACE3,           // 0x35F
+    ITEM_MIRROR_HERB,           // 0x358
+    ITEM_FREE_SPACE2,           // 0x359
+    ITEM_FREE_SPACE3,           // 0x35A
 };
 
 #define ITEMS_COUNT (ITEM_FREE_SPACE3 + 1)

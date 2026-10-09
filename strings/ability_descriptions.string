@@ -1055,5 +1055,11 @@ HP首次低于1/3时回满HP并提升攻击
 #org @DESC_DESERTSONG
 声音类招式的威力会提高
 
+#org @DESC_SOOTHELINGSCALE
+出场时同伴回复少量HP并解除异常
+
+#org @DESC_BOUNTIFULFRUIT
+出场时同伴根据天气和场地回复HP
+
 #org @DESC_ICECRYSTALPURGE
 出场时，清除我方场上撒菱等状态

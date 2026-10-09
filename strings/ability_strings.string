@@ -178,6 +178,12 @@
 #org @gText_HospitalityActivate
 [TARGET]喝光了\n[SCRIPTING_BANK]泡的茶！
 
+#org @gText_BountifulFruitActivate
+[TARGET]吃下了\n[SCRIPTING_BANK]的果实！
+
+#org @gText_SootheLingScaleActivate
+[TARGET]受到了\n[SCRIPTING_BANK]的安抚！
+
 #org @sText_ElectricTerrainActivatedAbility
 [SCRIPTING_BANK]通过\n电气场地发动了[LAST_ABILITY]！
 
