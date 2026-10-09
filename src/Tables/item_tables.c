@@ -1961,6 +1961,7 @@ const u32 *const gItemGraphicsTable[ITEMS_COUNT + 1][2] =
 	{gBag_CharizarditeXTiles, gBag_CharizarditeXPal},
 	{gBag_CharizarditeYTiles, gBag_CharizarditeYPal},
 	{gBag_BlastoiseniteTiles, gBag_BlastoisenitePal},
+	{gBag_BeedrilliteTiles, gBag_BeedrillitePal},
 	{gBag_InterrogationTiles, gBag_InterrogationPal}, //Free space 1
 	{gBag_InterrogationTiles, gBag_InterrogationPal},
 	{gBag_InterrogationTiles, gBag_InterrogationPal},
