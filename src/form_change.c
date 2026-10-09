@@ -227,6 +227,19 @@ bool8 TryFormRevert(struct Pokemon* mon)
 	u16 species = mon->species;
 	u16 oldHP;
 
+	if (species == SPECIES_ZYGARDE_MEGA)
+	{
+		for (i = 0; i < MAX_MON_MOVES; ++i)
+		{
+			if (mon->moves[i] == MOVE_NIHILLIGHT)
+			{
+				u16 oldMove = MOVE_COREENFORCER;
+				SetMonData(mon, MON_DATA_MOVE1 + i, &oldMove);
+				break;
+			}
+		}
+	}
+
 	#if (defined SPECIES_TERAPAGOS && defined SPECIES_TERAPAGOS_TERASTAL && defined SPECIES_TERAPAGOS_STELLAR)
 	if (species == SPECIES_TERAPAGOS_TERASTAL || species == SPECIES_TERAPAGOS_STELLAR
 	 || mon->backupSpecies == SPECIES_TERAPAGOS_TERASTAL || mon->backupSpecies == SPECIES_TERAPAGOS_STELLAR)
