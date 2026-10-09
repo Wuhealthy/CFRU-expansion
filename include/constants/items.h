@@ -881,9 +881,9 @@ enum
     ITEM_INFERNAPEITE,          // 0x33F
     ITEM_EMPOLEONITE,           // 0x340
     ITEM_STARAPTORITE,          // 0x341
-    ITEM_LUXRAYITE,             // 0x342
-    ITEM_ROSERADEITE,           // 0x343
-    ITEM_MISMAGIUSITE,          // 0x344
+    ITEM_SCOLIPEDEITE,          // 0x342
+    ITEM_SCRAFTYITE,            // 0x343
+    ITEM_EELEKTROSSITE,         // 0x344
     ITEM_GARCHOMPZITE,          // 0x345
     ITEM_LUCARIOZITE,           // 0x346
     ITEM_MAGNEZONEITE,          // 0x347
@@ -900,9 +900,6 @@ enum
     ITEM_EMBOARITE,             // 0x352
     ITEM_SAMUROTTITE,           // 0x353
     ITEM_EXCADRILLITE,          // 0x354
-    ITEM_SCOLIPEDEITE,          // 0x355
-    ITEM_SCRAFTYITE,            // 0x356
-    ITEM_EELEKTROSSITE,         // 0x357
 
     // Unused Items
     ITEM_MIRROR_HERB,           // 0x358

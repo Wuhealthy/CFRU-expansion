@@ -347,7 +347,7 @@ enum
     ABILITY_SHADOWHEAL,           // 339 暗影治愈
     ABILITY_EEVEEHERO,            // 340 全知全能
     ABILITY_FLOWERBLADE,          // 341 花刃
-    ABILITY_GRIDBIND,             // 342 不稳定的电流
+    ABILITY_FOGGYVEIL,            // 342 雾幕
     ABILITY_BIOSHELL,             // 343 先拔头筹
     ABILITY_HEAVYHAMMER,          // 344 重锤
     ABILITY_BROKENCLAW,           // 345 断钳

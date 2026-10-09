@@ -692,6 +692,20 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			}
 			break;
 
+		case ABILITY_FOGGYVEIL:
+    		if (!(gBattleWeather & (WEATHER_FOG_ANY | WEATHER_PRIMAL_ANY | WEATHER_CIRCUS)))
+    		{
+        		gBattleStringLoader = gText_FogIsDeep;
+        		effect = ActivateWeatherAbility(WEATHER_FOG_PERMANENT | WEATHER_FOG_TEMPORARY,
+                                        		0xFFFF, bank, B_ANIM_FOG_CONTINUES, 4, FALSE);
+    		}
+    		else if (gBattleWeather & WEATHER_PRIMAL_ANY && !(gBattleWeather & WEATHER_FOG_ANY))
+    		{
+        		BattleScriptPushCursorAndCallback(BattleScript_WeatherAbilityBlockedByPrimalWeather);
+        		effect++;
+    		}
+    		break;
+
 		case ABILITY_SANDSTREAM:
 			if (!(gBattleWeather & (WEATHER_SANDSTORM_ANY | WEATHER_PRIMAL_ANY | WEATHER_CIRCUS)))
 			{
@@ -2582,23 +2596,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				&& BATTLER_ALIVE(gBankAttacker)
 				&& gBankAttacker != bank
 				&& CheckContact(move, gBankAttacker, bank)
-				&& CanBeParalyzed(gBankAttacker, bank, TRUE)
-				&& umodsi(Random(), 3) == 0)
-				{
-					gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_PARALYSIS;
-					BattleScriptPushCursor();
-					gBattlescriptCurrInstr = BattleScript_AbilityApplySecondaryEffect;
-					gHitMarker |= HITMARKER_IGNORE_SAFEGUARD; //Safeguard checked earlier
-					effect++;
-				}
-				break;
-
-			case ABILITY_GRIDBIND:
-				if (MOVE_HAD_EFFECT
-				&& TOOK_DAMAGE(bank)
-				&& BATTLER_ALIVE(gBankAttacker)
-				&& gBankAttacker != bank
-				&& SPLIT(move) == SPLIT_PHYSICAL
 				&& CanBeParalyzed(gBankAttacker, bank, TRUE)
 				&& umodsi(Random(), 3) == 0)
 				{
