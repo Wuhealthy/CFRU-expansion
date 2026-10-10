@@ -31507,210 +31507,29 @@ NIHILLIGHT_EXPLODE: objtemplate ANIM_TAG_UNUSED_EXPLOSION_2 ANIM_TAG_HANDS_AND_F
 .pool
 @Credits to WUHEALTHY
 ANIM_UNIVERSALRADIANCE:
-	loadparticle ANIM_TAG_WATER_ORB @;Whirl motion
-	loadparticle ANIM_TAG_SPARK_2 @;Yellow colour
-	loadparticle ANIM_TAG_UNUSED_EXPLOSION_2 @;For the geyser
-	loadparticle ANIM_TAG_NEEDLE @;For the geyser
-	loadparticle ANIM_TAG_CIRCLE_OF_LIGHT @;Golden charge orb
-	loadparticle ANIM_TAG_ORBS @;Beam particles
-	loadparticle ANIM_TAG_THIN_RING @;Light rings
-	loadparticle ANIM_TAG_ICE_CHUNK @;Blue colour
-	loadparticle ANIM_TAG_ELECTRIC_ORBS @;Golden colour for orbs
-
-	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_NEEDLE 0x0 0xA 0xA 0x7E60 @;Bright gold
-	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_ORBS 0x0 0xA 0xA 0x7FFF @;White
-	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_THIN_RING 0x0 0xC 0xC 0x7E60 @;Gold
-	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_CIRCLE_OF_LIGHT 0x0 0xC 0xC 0x7E60 @;Gold
-
+	loadparticle ANIM_TAG_WATER_ORB @whirl motion
+	loadparticle ANIM_TAG_SPARK_2 @yellow color
+	loadparticle ANIM_TAG_UNUSED_EXPLOSION_2 @For the geyser
+	loadparticle ANIM_TAG_NEEDLE @For the geyser
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_NEEDLE 0x0 0xA 0xA 0x7FFF
 	pokespritetoBG bank_attacker
-
-	@;Darken the world first
-	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0xE 0x0000
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0xE 0x0
 	waitanimation
-
-	@;--- Charge phase: golden orb forms above the attacker ---
 	launchtask AnimTask_screen_shake 0x5 0x3 0x5 0x18 0x5
 	launchtask AnimTask_screen_shake 0x5 0x3 0x4 0x18 0x5
-	launchtemplate UR_GOLD_CHARGE TEMPLATE_ATTACKER | 2, 0x1 0x0
-	playsound2 0x85 SOUND_PAN_ATTACKER
-	call UR_WHIRL
-	call UR_WHIRL
-	call UR_WHIRL
-	call UR_WHIRL
-	waitanimation
-
-	@;--- Golden rings converge inward ---
-	launchtemplate UR_GOLD_RING 0x28 0x4 0x0 0x0 0x0 0x0
-	playsound2 0x5F SOUND_PAN_ATTACKER
-	pause 0x8
-	launchtemplate UR_GOLD_RING 0x28 0x4 0x0 0x0 0x0 0x0
-	pause 0x8
-	launchtemplate UR_GOLD_RING 0x28 0x4 0x0 0x0 0x0 0x0
-	pause 0x8
-	launchtemplate UR_GOLD_RING 0x28 0x4 0x0 0x0 0x0 0x0
-	waitanimation
-
-	@;--- Sky darkens to deep purple, attacker glows ---
-	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0xE 0x3006 @;Deep purple
-	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x2 0x0 0xE 0x7E60 @;Gold
-	waitanimation
-
-	@;--- Charge swell ---
-	soundcomplex 0x85 SOUND_PAN_ATTACKER 0xD 0x3
-	call UR_GOLD_SWIRL
-	call UR_GOLD_SWIRL
-	call UR_GOLD_SWIRL
-	call UR_GOLD_SWIRL
-	call UR_GOLD_SWIRL
+	call WHIRL
+	call WHIRL
+	call WHIRL
+	call WHIRL
 	launchtask AnimTask_move_bank 0x5 0x5 bank_target 0x0 0x4 0x38 0x1
 	launchtask AnimTask_move_bank 0x5 0x5 target_partner 0x0 0x4 0x38 0x1
+	call LANDS_WRATH_GEYSER
+	call LANDS_WRATH_GEYSER
+	call LANDS_WRATH_GEYSER
 	waitanimation
-
-	@;--- Heavens answer: sky beam falls on both targets ---
-	pokespritetoBG bank_target
-	leftbankBG_over_partnerBG bank_target
-	launchtemplate UR_SKY_BEAM TEMPLATE_TARGET | 3, 0x6 0x0 0x0 bank_target 0x28
-	launchtemplate UR_SKY_BEAM TEMPLATE_TARGET | 3, 0x6 0x0 0x0 target_partner 0x28
-	playsoundpanchange 0xC2 SOUND_PAN_ATTACKER SOUND_PAN_TARGET 0x2 0x0
-	pause 0x8
-	call UR_BEAM_PARTICLES
-	call UR_BEAM_PARTICLES
-	call UR_BEAM_PARTICLES
-	call UR_BEAM_PARTICLES
-	call UR_BEAM_PARTICLES
-	call UR_BEAM_PARTICLES
-	waitanimation
-	pause 0x10
-
-	@;--- Earth answers: radiant pillars erupt beneath both targets ---
-	launchtask AnimTask_IsTargetPartner 0x5 0x0
-	jumpifargmatches 0x0 0x1 UR_SKIP_PARTNER_PILLAR
-	call UR_RADIANT_PILLAR
-UR_SKIP_PARTNER_PILLAR:
-	call UR_RADIANT_PILLAR
-
-	@;--- Grand finale: triple flash + white-out ---
-	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ALL_BANKS | PAL_BG 0x1 0x0 0x8 0x7FFF
-	call UR_HEAVEN_EXPLODE
-	waitanimation
-	pause 0x6
-	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ALL_BANKS | PAL_BG 0x3 0x8 0x8 0x7E60 @;Gold blink
-	call UR_HEAVEN_EXPLODE
-	waitanimation
-	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ALL_BANKS | PAL_BG 0x1 0x8 0x0 0x7FFF @;From white
-	call UR_HEAVEN_EXPLODE
-	waitanimation
-	pause 0x14
-
-	@;--- Fade back to normal ---
-	loaddefaultBG
-	waitbgfadeout
-	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ALL_BANKS 0x2 0x0 0x0 0x7FFF
-	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x10 0x0 0x0
-	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x2 0x10 0x0 0x7E60
-	waitbgfadein
-	pokespritefromBG bank_target
-	resetblends
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0xE 0x0 0x0
+	pokespritefromBG bank_attacker
 	endanimation
-
-@;==================== Helpers ====================
-
-UR_WHIRL:
-	playsound2 0x8F SOUND_PAN_TARGET
-	launchtemplate UR_WHIRL_PARTICLE TEMPLATE_TARGET | 2, 0x7 0x0 0x1C 0x180 0x32 0x8 0x32 0x0
-	pause 0x2
-	launchtemplate UR_WHIRL_PARTICLE TEMPLATE_TARGET | 2, 0x7 0x0 0x20 0xF0 0x28 0xB 0xFFD2 0x0
-	pause 0x2
-	launchtemplate UR_WHIRL_PARTICLE TEMPLATE_TARGET | 2, 0x7 0x0 0x21 0x1A0 0x28 0x4 0x2A 0x0
-	pause 0x2
-	launchtemplate UR_WHIRL_PARTICLE TEMPLATE_TARGET | 2, 0x7 0x0 0x1F 0x120 0x2D 0x6 0xFFD6 0x0
-	pause 0x2
-	launchtemplate UR_WHIRL_PARTICLE TEMPLATE_TARGET | 2, 0x7 0x0 0x1C 0x1C0 0x2D 0xB 0x2E 0x0
-	pause 0x2
-	launchtemplate UR_WHIRL_PARTICLE TEMPLATE_TARGET | 2, 0x7 0x0 0x21 0x1D0 0x32 0xA 0xFFCE 0x0
-	pause 0x2
-	return
-
-UR_GOLD_SWIRL:
-	launchtemplate UR_GOLD_PARTICLE TEMPLATE_ATTACKER | 2, 0x7 0x0 0x1C 0x210 0x1E 0xD 0x32 bank_attacker
-	pause 0x2
-	launchtemplate UR_GOLD_PARTICLE TEMPLATE_ATTACKER | 2, 0x7 0x0 0x20 0x1E0 0x14 0x10 0xFFD2 bank_attacker
-	pause 0x2
-	launchtemplate UR_GOLD_PARTICLE TEMPLATE_ATTACKER | 2, 0x7 0x0 0x21 0x240 0x14 0x8 0x2A bank_attacker
-	pause 0x2
-	launchtemplate UR_GOLD_PARTICLE TEMPLATE_ATTACKER | 2, 0x7 0x0 0x1F 0x190 0x19 0xB 0xFFD6 bank_attacker
-	pause 0x2
-	launchtemplate UR_GOLD_PARTICLE TEMPLATE_ATTACKER | 2, 0x7 0x0 0x1C 0x200 0x19 0x10 0x2E bank_attacker
-	pause 0x2
-	launchtemplate UR_GOLD_PARTICLE TEMPLATE_ATTACKER | 2, 0x7 0x0 0x21 0x1D0 0x1E 0xF 0xFFCE bank_attacker
-	pause 0x2
-	return
-
-UR_BEAM_PARTICLES:
-	launchtemplate UR_BEAM_BALL TEMPLATE_TARGET | 2, 0x0
-	launchtemplate UR_BEAM_BALL TEMPLATE_TARGET | 2, 0x0
-	pause 0x1
-	return
-
-UR_RADIANT_PILLAR:
-	playsound2 0x8A SOUND_PAN_TARGET
-	launchtemplate UR_PILLAR TEMPLATE_TARGET | 4, 0x3 bank_target 0xFFFC 0x10
-	launchtemplate UR_PILLAR TEMPLATE_TARGET | 4, 0x3 target_partner 0xFFFC 0x10
-	pause 0x0
-	launchtemplate UR_PILLAR TEMPLATE_TARGET | 4, 0x3 bank_target 0x100D 0x10
-	launchtemplate UR_PILLAR TEMPLATE_TARGET | 4, 0x3 target_partner 0x100D 0x10
-	pause 0x0
-	launchtemplate UR_PILLAR TEMPLATE_TARGET | 4, 0x3 bank_target 0x4 0x10
-	launchtemplate UR_PILLAR TEMPLATE_TARGET | 4, 0x3 target_partner 0x4 0x10
-	pause 0x0
-	launchtemplate UR_PILLAR TEMPLATE_TARGET | 4, 0x3 bank_target 0xFFF0 0x10
-	launchtemplate UR_PILLAR TEMPLATE_TARGET | 4, 0x3 target_partner 0xFFF0 0x10
-	pause 0x0
-	launchtemplate UR_PILLAR TEMPLATE_TARGET | 4, 0x3 bank_target 0xFFFC 0x10
-	launchtemplate UR_PILLAR TEMPLATE_TARGET | 4, 0x3 target_partner 0xFFFC 0x10
-	launchtemplate UR_PILLAR TEMPLATE_TARGET | 4, 0x3 bank_target 0x100D 0x10
-	launchtemplate UR_PILLAR TEMPLATE_TARGET | 4, 0x3 target_partner 0x100D 0x10
-	pause 0x0
-	launchtemplate UR_PILLAR TEMPLATE_TARGET | 4, 0x3 bank_target 0x4 0x10
-	launchtemplate UR_PILLAR TEMPLATE_TARGET | 4, 0x3 target_partner 0x4 0x10
-	pause 0x0
-	launchtemplate UR_PILLAR TEMPLATE_TARGET | 4, 0x3 bank_target 0xFFF0 0x10
-	launchtemplate UR_PILLAR TEMPLATE_TARGET | 4, 0x3 target_partner 0xFFF0 0x10
-	pause 0x0
-	return
-
-UR_HEAVEN_EXPLODE:
-	playsound2 0xAB SOUND_PAN_TARGET
-	launchtemplate UR_EXPLODE TEMPLATE_TARGET | 3, 0x4 0x0 0x0 bank_target 0x1
-	launchtemplate UR_EXPLODE TEMPLATE_TARGET | 3, 0x4 0x0 0x0 target_partner 0x1
-	pause 0x6
-	playsound2 0xAB SOUND_PAN_TARGET
-	launchtemplate UR_EXPLODE TEMPLATE_TARGET | 3, 0x4 0x18 0xFFE8 bank_target 0x1
-	launchtemplate UR_EXPLODE TEMPLATE_TARGET | 3, 0x4 0x18 0xFFE8 target_partner 0x1
-	pause 0x6
-	playsound2 0xAB SOUND_PAN_TARGET
-	launchtemplate UR_EXPLODE TEMPLATE_TARGET | 3, 0x4 0xFFF0 0x10 bank_target 0x1
-	launchtemplate UR_EXPLODE TEMPLATE_TARGET | 3, 0x4 0xFFF0 0x10 target_partner 0x1
-	pause 0x6
-	playsound2 0xAB SOUND_PAN_TARGET
-	launchtemplate UR_EXPLODE TEMPLATE_TARGET | 3, 0x4 0xFFE8 0xFFF4 bank_target 0x1
-	launchtemplate UR_EXPLODE TEMPLATE_TARGET | 3, 0x4 0xFFE8 0xFFF4 target_partner 0x1
-	pause 0x6
-	playsound2 0xAB SOUND_PAN_TARGET
-	launchtemplate UR_EXPLODE TEMPLATE_TARGET | 3, 0x4 0x10 0x10 bank_target 0x1
-	launchtemplate UR_EXPLODE TEMPLATE_TARGET | 3, 0x4 0x10 0x10 target_partner 0x1
-	pause 0x6
-	return
-
-.align 2
-UR_WHIRL_PARTICLE: objtemplate ANIM_TAG_WATER_ORB ANIM_TAG_SPARK_2 OAM_NORMAL_BLEND_16x16 0x83E5958 0x0 0x83E741C 0x80B477D
-UR_GOLD_PARTICLE: objtemplate ANIM_TAG_ELECTRIC_ORBS ANIM_TAG_CIRCLE_OF_LIGHT OAM_NORMAL_BLEND_8x8 0x83E6118 0x0 gDummySpriteAffineAnimTable 0x80B477D
-UR_GOLD_CHARGE: objtemplate ANIM_TAG_CIRCLE_OF_LIGHT ANIM_TAG_ELECTRIC_ORBS OAM_NORMAL_BLEND_64x64 gDummySpriteAnimTable 0x0 0x83E61C8 0x80AE71D
-UR_GOLD_RING: objtemplate ANIM_TAG_THIN_RING ANIM_TAG_ELECTRIC_ORBS OAM_DOUBLE_BLEND_64x64 gDummySpriteAnimTable 0x0 0x83E40C4 SpriteCB_AnimSpriteOnMonPos
-UR_SKY_BEAM: objtemplate ANIM_TAG_NEEDLE ANIM_TAG_ELECTRIC_ORBS OAM_NORMAL_32x32 gDummySpriteAnimTable 0x0 gSpriteAffineAnimTable_IcicleCrash SpriteCB_FallingObjectOnTargetCentre
-UR_BEAM_BALL: objtemplate ANIM_TAG_ORBS ANIM_TAG_ICE_CHUNK OAM_OFF_8x8 0x83E2A20 0x0 gDummySpriteAffineAnimTable 0x80A25ED
-UR_PILLAR: objtemplate ANIM_TAG_NEEDLE ANIM_TAG_ELECTRIC_ORBS OAM_OFF_32x32 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable SpriteCB_Geyser
-UR_EXPLODE: objtemplate ANIM_TAG_UNUSED_EXPLOSION_2 ANIM_TAG_ELECTRIC_ORBS OAM_OFF_32x32 0x83E3F90 0x0 gDummySpriteAffineAnimTable SpriteCB_AnimSpriteOnMonPos
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
