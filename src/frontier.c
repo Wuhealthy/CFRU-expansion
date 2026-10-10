@@ -269,6 +269,7 @@ const u8* const sBattleCircusEffectDescriptions[] =
 //This file's functions:
 static u8 AdjustLevelForTier(u8 level, u8 tier);
 static void LoadProperStreakData(u8* facilityNum, u8* currentOrMax, u8* battleStyle, u8* tier, u8* partySize, u8* level);
+static void UpdatePlayerPartyCount(void);
 
 u8 GetFrontierTrainerClassId(u16 trainerId, u8 battlerNum)
 {
@@ -1628,6 +1629,27 @@ void sp055_UpdateBattleFacilityStreak(void)
 	}
 }
 
+void ResetBattleTowerPartySelection(void)
+{
+	Memset(gSelectedOrderFromParty, 0, PARTY_SIZE);
+	UpdatePlayerPartyCount();
+}
+
+bool8 BattleTowerHasSelectedTeam(void)
+{
+	UpdatePlayerPartyCount();
+
+	if (gSelectedOrderFromParty[2] == 0)
+	{
+		ResetBattleTowerPartySelection();
+		gSpecialVar_LastResult = FALSE;
+		return FALSE;
+	}
+
+	gSpecialVar_LastResult = TRUE;
+	return TRUE;
+}
+
 //@Details: Determines the number of battle points to give for
 //			the current Battle Tower format.
 //@Returns: The number of battle points to give.
@@ -2279,6 +2301,17 @@ void sp073_ModifyTeamForBattleTower(void)
 
 	Memcpy(gPlayerParty, enteredMons, sizeof(struct Pokemon) * PARTY_SIZE); //Overwrite old team
 	Free(enteredMons);
+	UpdatePlayerPartyCount();
+}
+
+static void UpdatePlayerPartyCount(void)
+{
+	gPlayerPartyCount = 0;
+	for (u8 i = 0; i < PARTY_SIZE; ++i)
+	{
+		if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL) != SPECIES_NONE)
+			++gPlayerPartyCount;
+	}
 }
 
 //@Details: Buffers details of the opposing team for the Ring Challenge.

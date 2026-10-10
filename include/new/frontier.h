@@ -59,6 +59,8 @@ void sp053_LoadFrontierIntroBattleMessage(void);
 u16 sp054_GetBattleFacilityStreak(void);
 void sp055_UpdateBattleFacilityStreak(void);
 u16 sp056_DetermineBattlePointsToGive(void);
+void ResetBattleTowerPartySelection(void);
+bool8 BattleTowerHasSelectedTeam(void);
 void sp06C_SpliceFrontierTeamWithPlayerTeam(void);
 u16 sp06D_LoadFrontierMultiTrainerById(void);
 void sp06E_BufferBattleSandsRecords(void);

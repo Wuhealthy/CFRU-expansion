@@ -241,6 +241,21 @@ ADM 让你得以重新浮出水面！
 
 //Battle Tower Pokemon Select
 
+#org @gText_BattleTowerChallengeAsk
+战斗塔采用单打标准规则，等级为50级。\n要开始挑战吗？
+
+#org @gText_BattleTowerSelectTeam
+请从队伍中选择3只宝可梦参加挑战。
+
+#org @gText_BattleTowerTrainerDefeated
+没想到我会输！下一位对手就拜托你了！
+
+#org @gText_BattleTowerChallengeComplete
+你连续击败了7名训练家！\n本轮挑战结束。
+
+#org @gText_BattleTowerChallengeFailed
+挑战失败！本轮连胜记录已清零。
+
 #org @gOtherText_NoMoreOnePoke
 最多只能有\n一只宝可梦参加。[FC][09]
 
