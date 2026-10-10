@@ -1575,7 +1575,8 @@ enum
     SPECIES_WEAVILE_J,              // 0x623
     SPECIES_MEOWSTIC_F_MEGA,        // 0x624
     SPECIES_PYROAR_F_MEGA,          // 0x625
-    SPECIES_CARBINK_MEGA,           // 0x626
+    SPECIES_ZYGARDE50_MEGA,         // 0x626
+    SPECIES_CARBINK_MEGA,           // 0x627
 };
 
 #define NUM_SPECIES_GEN_7 (SPECIES_XERNEAS_NATURAL + 1)
