@@ -217,6 +217,19 @@ const u8* DoMegaEvolution(u8 bank)
 			}
 		}
 
+		if (evolutions->targetSpecies == SPECIES_ZYGARDE50_MEGA)
+		{
+			for (u8 i = 0; i < MAX_MON_MOVES; ++i)
+			{
+				if (mon->moves[i] == MOVE_LANDSWRATH)
+				{
+					u16 newMove = MOVE_UNIVERSALRADIANCE;
+					SetMonData(mon, MON_DATA_MOVE1 + i, &newMove);
+					gBattleMons[bank].moves[i] = newMove;
+				}
+			}
+		}
+
 		gBattleScripting.bank = bank;
 		gLastUsedItem = mon->item;
 
