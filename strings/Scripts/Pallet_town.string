@@ -13,6 +13,7 @@
 #org @gText_ChangeTeraTypeNPCLocked
 [BUFFER1]的太晶属性\n是固定的，无法更改。
 
+
 #org @gText_ChangeTeraTypeNPCFetchTeraNormal
 [BUFFER1]的太晶属性\n现在变为一般属性了！
 
@@ -71,7 +72,7 @@
 [BUFFER1]的太晶属性\n现在变为星晶属性了！
 
 #org @gText_TestScript2
-太晶标志已设定！
+支线任务菜单已开启！
 
 #org @gText_ChangeHiddenPowerTypeNPCAsk
 我可以帮你设定宝可梦的\n觉醒力量属性。\p要试试吗？
