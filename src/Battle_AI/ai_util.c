@@ -2751,6 +2751,11 @@ u16 CalcSecondaryEffectChance(u8 bank, u16 move, ability_t ability)
 
 	u16 chance = gBattleMoves[move].secondaryEffectChance;
 
+	if (ability == ABILITY_TOXICCHAIN
+	&& SPLIT(move) != SPLIT_STATUS
+	&& chance < 30)
+		chance = 30;
+
 	if (gSpecialMoveFlags[move].gFlinchChanceMoves)
 	{
 		if (ability == ABILITY_SERENEGRACE || BankHasRainbow(bank)) //DOES NOT STACK
@@ -3062,6 +3067,11 @@ bool8 BadIdeaToMakeContactWith(u8 bankAtk, u8 bankDef)
 		case ABILITY_CUTECHARM:
 			badIdea = CanBeInfatuated(bankAtk, bankDef);
 			break;
+		case ABILITY_VOLATILEEXPLOSION:
+			badIdea = atkAbility != ABILITY_MAGICGUARD
+				&& !ABILITY_ON_FIELD(ABILITY_DAMP)
+				&& !gNewBS->oncePerBattleAbilityFlags[SIDE(bankDef)][gBattlerPartyIndexes[bankDef]];
+			break;
 		case ABILITY_AFTERMATH:
 			badIdea = !ABILITY_ON_FIELD(ABILITY_DAMP) && atkAbility != ABILITY_MAGICGUARD;
 			break;
@@ -3100,7 +3110,8 @@ bool8 BadIdeaToRaiseStatAgainst(u8 bankAtk, u8 bankDef, bool8 checkDefAbility)
 	return IsMovePredictionPhazingMove(bankDef, bankAtk)
 		|| (IsMovePredictionHighAccSleepingMove(bankDef, bankAtk) && SpeedCalc(bankDef) < SpeedCalc(bankAtk)) //Will put AI to sleep after it sets up
 		|| HasUsedPhazingMoveThatAffects(bankDef, bankAtk)
-		|| (checkDefAbility && ABILITY(bankDef) == ABILITY_UNAWARE && !WillFaintFromSecondaryDamage(bankDef)); //Don't set up if the boosts will just be ignored
+		|| (checkDefAbility && ABILITY(bankDef) == ABILITY_UNAWARE && !WillFaintFromSecondaryDamage(bankDef)) //Don't set up if the boosts will just be ignored
+		|| (checkDefAbility && ABILITY(bankDef) == ABILITY_OPPORTUNIST); //Don't give the opponent free stat boosts
 }
 
 bool8 BadIdeaToRaiseAttackAgainst(u8 bankAtk, u8 bankDef, u8 amount, bool8 checkPartner)

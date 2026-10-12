@@ -68,7 +68,19 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 
 	switch (moveEffect) {
 		case EFFECT_HIT:
-			// to do
+			if (atkAbility == ABILITY_TOXICCHAIN
+			&& CalcSecondaryEffectChance(bankAtk, move, atkAbility) >= 30
+			&& CanBePoisoned(bankDef, bankAtk, TRUE)
+			&& !MoveBlockedBySubstitute(move, bankAtk, bankDef))
+			{
+				if (defAbility != ABILITY_POISONHEAL
+				&& defAbility != ABILITY_MAGICGUARD
+				&& defAbility != ABILITY_TOXICBOOST
+				&& defAbility != ABILITY_GUTS
+				&& defAbility != ABILITY_QUICKFEET
+				&& !MoveInMoveset(MOVE_FACADE, bankDef))
+					INCREASE_STATUS_VIABILITY(1);
+			}
 			break;
 
 		case EFFECT_SLEEP:
@@ -677,7 +689,8 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				if (MoveInMoveset(MOVE_VENOSHOCK, bankAtk)
 				||  MoveInMoveset(MOVE_BARBBARRAGE, bankAtk)
 				||  MoveEffectInMoveset(EFFECT_VENOM_DRENCH, bankAtk)
-				|| atkAbility == ABILITY_MERCILESS)
+				|| atkAbility == ABILITY_MERCILESS
+				|| atkAbility == ABILITY_POISONPUPPETEER)
 					INCREASE_STATUS_VIABILITY(2);
 				else if ((DoubleDamageWithStatusMoveInMovesetThatAffects(bankAtk, bankDef) || (IS_DOUBLE_BATTLE && DoubleDamageWithStatusMoveInMovesetThatAffects(data->bankAtkPartner, bankDef)))
 					&& MoveEffectInMoveset(EFFECT_WILL_O_WISP, bankAtk) //Can either poison or burn
@@ -1670,6 +1683,8 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			 || atkAbility == ABILITY_LEAFGUARD
 			 || atkAbility == ABILITY_SOLARPOWER
 			 || atkAbility == ABILITY_HARVEST
+			 || atkAbility == ABILITY_ORICHALCUMPULSE
+			 || atkAbility == ABILITY_PROTOSYNTHESIS
 			 || MoveEffectInMoveset(EFFECT_SOLARBEAM, bankAtk)
 			 || MoveEffectInMoveset(EFFECT_MORNING_SUN, bankAtk)
 			 || MoveEffectInMoveset(EFFECT_THUNDER, bankDef)
@@ -2386,6 +2401,19 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			break;
 
 		case EFFECT_SET_TERRAIN:
+			if ((move == MOVE_ELECTRICTERRAIN
+			  || move == MOVE_MAX_LIGHTNING_P
+			  || move == MOVE_MAX_LIGHTNING_S)
+			&& (atkAbility == ABILITY_HADRONENGINE
+			 || atkAbility == ABILITY_QUARKDRIVE))
+			{
+				if (IsClassDoublesTeamSupport(class))
+					INCREASE_VIABILITY(17);
+				else
+					INCREASE_STATUS_VIABILITY(3);
+				break;
+			}
+
 			if (data->atkStatus3 & STATUS3_YAWN && CheckGrounding(bankAtk))
 			{
 				switch (move) {

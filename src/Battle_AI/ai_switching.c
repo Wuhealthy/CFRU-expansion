@@ -503,11 +503,17 @@ static bool8 FindMonThatAbsorbsOpponentsMove(struct Pokemon* party, u8 firstId, 
 	if (IS_MOLD_BREAKER(ABILITY(foe1), predictedMove1))
 		return FALSE; //Can't absorb move if the Ability is ignored
 
-	switch (moveType) {
+	if (gSpecialMoveFlags[predictedMove1].gWindMoves)
+	{
+		absorbingTypeAbility1 = ABILITY_WINDRIDER;
+		absorbingTypeAbility2 = ABILITY_WINDPOWER;
+		absorbingTypeAbility3 = ABILITY_QUICKCHARGE;
+	}
+	else switch (moveType) {
 		case TYPE_FIRE:
 			absorbingTypeAbility1 = ABILITY_FLASHFIRE;
-			absorbingTypeAbility2 = ABILITY_FLASHFIRE;
-			absorbingTypeAbility3 = ABILITY_FLASHFIRE;
+			absorbingTypeAbility2 = ABILITY_WELLBAKEDBODY;
+			absorbingTypeAbility3 = ABILITY_THERMALEXCHANGE;
 			break;
 		case TYPE_ELECTRIC:
 			absorbingTypeAbility1 = ABILITY_VOLTABSORB;

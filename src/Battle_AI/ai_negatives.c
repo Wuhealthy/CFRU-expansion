@@ -132,6 +132,86 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 	const struct SpecialMoveFlags* specialMoveFlags = &gSpecialMoveFlags[move];
 	bool8 decreased;
 
+	if (moveSplit != SPLIT_STATUS
+	&& !TARGETING_PARTNER
+	&& !(AI_SpecialTypeCalc(move, bankAtk, bankDef) & MOVE_RESULT_NO_EFFECT))
+	{
+		switch (data->defAbility)
+		{
+			case ABILITY_TOXICDEBRIS:
+				if (moveSplit == SPLIT_PHYSICAL
+				&& gSideTimers[SIDE(bankAtk)].tspikesAmount < 2)
+					DECREASE_VIABILITY(1);
+				break;
+
+			case ABILITY_FALLINGCOCONUT:
+				if (data->atkAbility != ABILITY_MAGICGUARD)
+					DECREASE_VIABILITY(1);
+				break;
+
+			case ABILITY_SPICYSPRAY:
+				if (CanBeBurned(bankAtk, bankDef, TRUE))
+					DECREASE_VIABILITY(1);
+				break;
+
+			case ABILITY_NEEDLEGRUDGE:
+				if (!gNewBS->oncePerBattleAbilityFlags[SIDE(bankDef)][gBattlerPartyIndexes[bankDef]]
+				&& !(gBattleMons[bankAtk].status2 & STATUS2_CURSED))
+					DECREASE_VIABILITY(2);
+				break;
+
+			case ABILITY_ELECTROMORPHOSIS:
+				if (!(gStatuses3[bankDef] & STATUS3_CHARGED_UP)
+				&& DamagingMoveTypeInMoveset(bankDef, TYPE_ELECTRIC))
+					DECREASE_VIABILITY(1);
+				break;
+
+			case ABILITY_QUICKCHARGE:
+			case ABILITY_WINDPOWER:
+				if (specialMoveFlags->gWindMoves
+				&& !(gStatuses3[bankDef] & STATUS3_CHARGED_UP)
+				&& DamagingMoveTypeInMoveset(bankDef, TYPE_ELECTRIC))
+					DECREASE_VIABILITY(1);
+				break;
+
+			case ABILITY_ANGERSHELL:
+			case ABILITY_BROKENCLAW:
+			case ABILITY_SPIKECLAW:
+			{
+				u32 predictedDamage = GetFinalAIMoveDamage(move, bankAtk, bankDef, 1, NULL);
+				u32 currentHp = gBattleMons[bankDef].hp;
+				u32 maxHp = gBattleMons[bankDef].maxHP;
+				bool8 abilityUsed = gNewBS->oncePerBattleAbilityFlags[SIDE(bankDef)][gBattlerPartyIndexes[bankDef]];
+
+				if (predictedDamage < currentHp)
+				{
+					if (data->defAbility == ABILITY_ANGERSHELL
+					&& currentHp > maxHp / 2
+					&& currentHp - predictedDamage <= maxHp / 2)
+						DECREASE_VIABILITY(2);
+					else if (data->defAbility == ABILITY_BROKENCLAW
+					&& !abilityUsed
+					&& !(gBattleMons[bankDef].status2 & STATUS2_SUBSTITUTE)
+					&& currentHp > maxHp / 2
+					&& currentHp - predictedDamage <= maxHp / 2)
+						DECREASE_VIABILITY(1);
+					else if (data->defAbility == ABILITY_SPIKECLAW
+					&& !abilityUsed
+					&& currentHp > maxHp / 3
+					&& currentHp - predictedDamage < maxHp / 3)
+						DECREASE_VIABILITY(3);
+				}
+				break;
+			}
+
+			case ABILITY_AQUAREGEN:
+				if (gBattleMons[bankDef].hp < gBattleMons[bankDef].maxHP
+				&& !IsHealBlocked(bankDef))
+					DECREASE_VIABILITY(1);
+				break;
+		}
+	}
+
 	//Affects User Check
 	if (moveTarget & MOVE_TARGET_USER)
 		goto SKIP_CHECK_TARGET;
