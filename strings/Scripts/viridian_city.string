@@ -17,13 +17,37 @@
 你好呀。
 
 #org @gText_ViridianCity_OldMan_IVChangeAsk
-你好呀！要不要我帮你\n改变宝可梦的个体值？
+你好呀！我可以帮你逐项设定\n队伍宝可梦的个体值，范围是0到31。\p要修改吗？
 
 #org @gText_ViridianCity_OldMan_No
 这样啊。\p欢迎下次再来！
 
 #org @gText_ViridianCity_OldMan_OpenMenu
-你想改变哪只宝可梦的个体值？
+请选择要修改个体值的宝可梦。
 
 #org @gText_ViridianCity_OldMan_Done
-个体值已全部设为最高！
+六项个体值已更新！
+
+#org @gText_ViridianCity_OldMan_NoPokemon
+你现在没有可以修改的宝可梦。
+
+#org @gText_ViridianCity_OldMan_EnterHPIV
+请输入HP个体值，范围是0到31。
+
+#org @gText_ViridianCity_OldMan_EnterAttackIV
+请输入攻击个体值，范围是0到31。
+
+#org @gText_ViridianCity_OldMan_EnterDefenseIV
+请输入防御个体值，范围是0到31。
+
+#org @gText_ViridianCity_OldMan_EnterSpeedIV
+请输入速度个体值，范围是0到31。
+
+#org @gText_ViridianCity_OldMan_EnterSpAttackIV
+请输入特攻个体值，范围是0到31。
+
+#org @gText_ViridianCity_OldMan_EnterSpDefenseIV
+请输入特防个体值，范围是0到31。
+
+#org @gText_ViridianCity_OldMan_InvalidIV
+个体值必须在0到31之间，请重新输入。
