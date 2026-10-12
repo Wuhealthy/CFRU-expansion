@@ -241,6 +241,15 @@ ADM 让你得以重新浮出水面！
 
 //Battle Tower Pokemon Select
 
+#org @gText_BattleTowerReceptionSelect
+请选择要进行的内容。
+
+#org @gText_BattleTowerChoiceBattleTower
+对战塔
+
+#org @gText_BattleTowerChoiceLinkBattle
+联机
+
 #org @gText_BattleTowerChallengeAsk
 战斗塔采用单打标准规则，等级为50级。\n要开始挑战吗？
 

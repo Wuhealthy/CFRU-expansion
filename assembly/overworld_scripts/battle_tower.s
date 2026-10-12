@@ -5,7 +5,23 @@
 .include "../xse_defines.s"
 .include "../asm_defines.s"
 
+.global EventScript_BattleTowerReceptionMenu
 .global EventScript_BattleTowerReception
+
+EventScript_BattleTowerReceptionMenu:
+	lock
+	faceplayer
+	setflag 0x829
+	msgbox gText_BattleTowerReceptionSelect MSG_NORMAL
+	multichoiceoption gText_BattleTowerChoiceBattleTower 0
+	multichoiceoption gText_BattleTowerChoiceLinkBattle 1
+	multichoice 0, 0, TWO_MULTICHOICE_OPTIONS, 0
+	compare LASTRESULT, 0
+	if equal _goto EventScript_BattleTowerReception
+	compare LASTRESULT, 1
+	if equal _goto 0x081A8D02
+	release
+	end
 
 EventScript_BattleTowerReception:
 	lock
