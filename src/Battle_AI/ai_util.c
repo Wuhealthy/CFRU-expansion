@@ -5217,6 +5217,23 @@ bool8 TeamFullyHealedMinusBank(u8 bank)
 	return TRUE;
 }
 
+u8 CountFaintedPartyMons(u8 bank)
+{
+	u8 firstId, lastId;
+	u8 faintedCount = 0;
+	struct Pokemon* party = LoadPartyRange(bank, &firstId, &lastId);
+
+	for (u32 i = firstId; i < lastId; ++i)
+	{
+		if (party[i].species != SPECIES_NONE
+		&& !GetMonData(&party[i], MON_DATA_IS_EGG, NULL)
+		&& party[i].hp == 0)
+			++faintedCount;
+	}
+
+	return faintedCount;
+}
+
 bool8 AnyStatIsRaised(u8 bank)
 {
 	for (u8 statId = STAT_STAGE_ATK; statId < BATTLE_STATS_NO; ++statId)

@@ -152,6 +152,14 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			}
 			break;
 
+		case EFFECT_REVIVAL_BLESSING:
+		{
+			u8 faintedCount = CountFaintedPartyMons(bankAtk);
+			if (faintedCount != 0)
+				INCREASE_VIABILITY(MathMin(8, 4 + (faintedCount - 1) * 2));
+			break;
+		}
+
 		case EFFECT_PARALYZE_HIT:
 			if (CalcSecondaryEffectChance(bankAtk, move, atkAbility) >= 75 && !MoveBlockedBySubstitute(move, bankAtk, bankDef))
 				goto AI_PARALYZE_CHECKS;
@@ -1773,6 +1781,34 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				else if (CalcSecondaryEffectChance(bankAtk, move, atkAbility) >= 75 && GoodIdeaToRaiseAttackAgainst(bankAtk, bankDef, 1))
 					goto AI_ATTACK_PLUS;
 			}
+			break;
+
+		case EFFECT_SPECIAL_ATTACK_UP_HIT:
+			if (atkAbility != ABILITY_CONTRARY
+			&& CalcSecondaryEffectChance(bankAtk, move, atkAbility) >= 50
+			&& GoodIdeaToRaiseSpAttackAgainst(bankAtk, bankDef, 1))
+				INCREASE_STAT_VIABILITY(STAT_STAGE_SPATK, 8, 1);
+			break;
+
+		case EFFECT_DEFENSE_UP_HIT:
+			if (atkAbility != ABILITY_CONTRARY
+			&& CalcSecondaryEffectChance(bankAtk, move, atkAbility) >= 50
+			&& GoodIdeaToRaiseDefenseAgainst(bankAtk, bankDef, 1))
+				INCREASE_STAT_VIABILITY(STAT_STAGE_DEF, 8, 1);
+			break;
+
+		case EFFECT_DEFENSE_UP_2_HIT:
+			if (atkAbility != ABILITY_CONTRARY
+			&& CalcSecondaryEffectChance(bankAtk, move, atkAbility) >= 50
+			&& GoodIdeaToRaiseDefenseAgainst(bankAtk, bankDef, 2))
+				INCREASE_STAT_VIABILITY(STAT_STAGE_DEF, STAT_STAGE_MAX, 2);
+			break;
+
+		case EFFECT_ALL_STATS_UP_HIT:
+			if (atkAbility != ABILITY_CONTRARY
+			&& CalcSecondaryEffectChance(bankAtk, move, atkAbility) >= 50
+			&& !BadIdeaToRaiseStatAgainst(bankAtk, bankDef, TRUE))
+				INCREASE_STAT_VIABILITY(0xFE, STAT_STAGE_MAX, 2);
 			break;
 
 		case EFFECT_HIGHER_OFFENSES_DEFENSES_UP_HIT:

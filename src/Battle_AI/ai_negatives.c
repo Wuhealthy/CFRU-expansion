@@ -887,6 +887,27 @@ SKIP_CHECK_TARGET:
 		case EFFECT_HIT:
 			goto AI_STANDARD_DAMAGE;
 
+		case EFFECT_REVIVAL_BLESSING:
+			if (CountFaintedPartyMons(bankAtk) == 0)
+				return 0; //The move fails if there is no fainted party member.
+			break;
+
+		case EFFECT_GLAIVE_RUSH:
+			if (MoveWouldHitFirst(move, bankAtk, bankDef)
+			&& predictedMove != MOVE_NONE
+			&& SPLIT(predictedMove) != SPLIT_STATUS
+			&& !IsBankIncapacitated(bankDef)
+			&& !MoveKnocksOutXHits(move, bankAtk, bankDef, 1)
+			&& MoveWillHit(predictedMove, bankDef, bankAtk))
+			{
+				u32 predictedDamage = GetFinalAIMoveDamage(predictedMove, bankDef, bankAtk, 1, NULL);
+				if (predictedDamage * 2 >= gBattleMons[bankAtk].hp)
+					DECREASE_VIABILITY(5);
+				else
+					DECREASE_VIABILITY(3);
+			}
+			goto AI_STANDARD_DAMAGE;
+
 		case EFFECT_SLEEP:
 			if (AI_SpecialTypeCalc(move, bankAtk, bankDef) & MOVE_RESULT_NO_EFFECT)
 			{

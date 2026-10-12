@@ -191,6 +191,7 @@ u8 GetAIMoveEffectForMaxMove(u16 move, u8 bankAtk, u8 bankDef);
 
 bool8 GetHealthPercentage(u8 bank);
 bool8 TeamFullyHealedMinusBank(u8 bank);
+u8 CountFaintedPartyMons(u8 bank);
 u8 CountUsefulBoosts(u8 bank);
 u8 CountUsefulDebuffs(u8 bank);
 u8 CountUsefulBoostsOfBankForBank(u8 bankWithBuffs, u8 bankToGetBuffs);
