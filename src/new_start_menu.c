@@ -35,6 +35,9 @@ u8* __attribute__((long_call)) GetMapName(u8* dest, u16 regionMapId, u16 padLeng
 
 #define NEW_START_MENU_VISIBLE_ICONS 7
 #define NEW_START_MENU_ACTION_COUNT 9
+#define NEW_START_MENU_CENTER_SLOT (NEW_START_MENU_VISIBLE_ICONS / 2)
+#define NEW_START_MENU_SCROLL_FRAMES 6
+#define NEW_START_MENU_ICON_SPACING 33
 #define NEW_START_MENU_INFO_BASE_BLOCK 0x210
 #define NEW_START_MENU_WINDOW_NONE 0xFF
 #define NEW_START_MENU_SPRITE_NONE 0xFF
@@ -144,6 +147,8 @@ struct NewStartMenuState
     u8 infoBgSpriteIds[NEW_START_MENU_BG_SPRITES];
     u8 iconSpriteIds[NEW_START_MENU_VISIBLE_ICONS];
     u8 iconObjWindowSpriteIds[NEW_START_MENU_VISIBLE_ICONS];
+    u8 scrollIconSpriteId;
+    u8 scrollIconObjWindowSpriteId;
     u8 infoTextSpriteIds[NEW_START_MENU_INFO_TEXT_SPRITES];
     u8 infoTextObjWindowSpriteIds[NEW_START_MENU_INFO_TEXT_SPRITES];
     u8 actions[NEW_START_MENU_ACTION_COUNT];
@@ -151,7 +156,8 @@ struct NewStartMenuState
     u8 arrowSpriteId;
     u8 arrowObjWindowSpriteId;
     u8 cursorPos;
-    u8 scrollOffset;
+    u8 scrollFrame;
+    s8 scrollDirection;
     u8 selectedAction;
     u8 saveResult;
     u16 delay;
@@ -737,11 +743,6 @@ static void BuildNewStartMenuActions(struct NewStartMenuState *state)
         }
     }
 
-    if (state->actionCount > NEW_START_MENU_VISIBLE_ICONS && state->cursorPos == state->actionCount - 1)
-        state->scrollOffset = state->cursorPos;
-    else
-        state->scrollOffset = 0;
-
     state->selectedAction = state->actions[state->cursorPos];
 }
 
@@ -755,7 +756,10 @@ static void InitNewStartMenuState(struct NewStartMenuState *state)
     state->arrowSpriteId = NEW_START_MENU_SPRITE_NONE;
     state->arrowObjWindowSpriteId = NEW_START_MENU_SPRITE_NONE;
     state->cursorPos = 0;
-    state->scrollOffset = 0;
+    state->scrollIconSpriteId = NEW_START_MENU_SPRITE_NONE;
+    state->scrollIconObjWindowSpriteId = NEW_START_MENU_SPRITE_NONE;
+    state->scrollFrame = 0;
+    state->scrollDirection = 0;
     state->selectedAction = NEW_MENU_ACTION_OPTION;
     state->actionCount = 0;
     state->saveResult = SAVE_STATUS_ERROR;
@@ -805,26 +809,20 @@ static void InitNewStartMenuState(struct NewStartMenuState *state)
 
 static u8 GetVisibleIconCount(const struct NewStartMenuState *state)
 {
-    u8 remaining = state->actionCount - state->scrollOffset;
-
-    if (remaining > NEW_START_MENU_VISIBLE_ICONS)
+    if (state->actionCount > NEW_START_MENU_VISIBLE_ICONS)
         return NEW_START_MENU_VISIBLE_ICONS;
     else
-        return remaining;
+        return state->actionCount;
 }
 
-static void UpdateNewStartMenuScroll(struct NewStartMenuState *state)
+static u8 GetNewStartMenuActionIndex(u8 index, s8 offset, u8 actionCount)
 {
-    if (state->actionCount <= NEW_START_MENU_VISIBLE_ICONS)
-    {
-        state->scrollOffset = 0;
-        return;
-    }
+    s16 wrappedIndex = index + offset;
 
-    if (state->cursorPos == state->actionCount - 1)
-        state->scrollOffset = state->cursorPos;
-    else
-        state->scrollOffset = 0;
+    while (wrappedIndex < 0)
+        wrappedIndex += actionCount;
+
+    return wrappedIndex % actionCount;
 }
 
 static bool8 IsNewStartMenuInDarkCave(void)
@@ -870,6 +868,20 @@ static void DisableNewStartMenuObjWindow(struct NewStartMenuState *state)
 static void DestroyNewStartMenuIconSprites(struct NewStartMenuState *state)
 {
     u32 i;
+
+    if (state->scrollIconObjWindowSpriteId < MAX_SPRITES)
+    {
+        FreeSpriteTiles(&gSprites[state->scrollIconObjWindowSpriteId]);
+        DestroySprite(&gSprites[state->scrollIconObjWindowSpriteId]);
+        state->scrollIconObjWindowSpriteId = NEW_START_MENU_SPRITE_NONE;
+    }
+
+    if (state->scrollIconSpriteId < MAX_SPRITES)
+    {
+        FreeSpriteTiles(&gSprites[state->scrollIconSpriteId]);
+        DestroySprite(&gSprites[state->scrollIconSpriteId]);
+        state->scrollIconSpriteId = NEW_START_MENU_SPRITE_NONE;
+    }
 
     for (i = 0; i < NEW_START_MENU_VISIBLE_ICONS; i++)
     {
@@ -1473,20 +1485,21 @@ static void RedrawNewStartMenu(struct NewStartMenuState *state)
 {
     u32 slot;
     u8 visibleCount;
-    u8 selectedSlot = NEW_START_MENU_SPRITE_NONE;
-    bool8 isSingleIconPage;
+    s8 firstOffset;
 
     DestroyNewStartMenuIconSprites(state);
     DestroyNewStartMenuArrowSprite(state);
 
     visibleCount = GetVisibleIconCount(state);
-    isSingleIconPage = (visibleCount == 1 && state->scrollOffset != 0);
+    firstOffset = -(s8)(visibleCount / 2);
 
     for (slot = 0; slot < visibleCount; slot++)
     {
-        u8 actionIndex = state->scrollOffset + slot;
+        s8 offset = firstOffset + slot;
+        u8 actionIndex = GetNewStartMenuActionIndex(state->cursorPos, offset, state->actionCount);
         u8 action = state->actions[actionIndex];
-        s16 x = isSingleIconPage ? sNewStartMenuIconX[NEW_START_MENU_VISIBLE_ICONS / 2] : sNewStartMenuIconX[slot];
+        u8 visualSlot = NEW_START_MENU_CENTER_SLOT + offset;
+        s16 x = sNewStartMenuIconX[visualSlot];
         u8 spriteId = CreateSprite(&sNewStartMenuIconTemplates[action], x, NEW_START_MENU_ICON_Y, 1);
         u8 objWindowSpriteId;
 
@@ -1509,13 +1522,11 @@ static void RedrawNewStartMenu(struct NewStartMenuState *state)
             }
         }
 
-        if (actionIndex == state->cursorPos)
-            selectedSlot = slot;
     }
 
-    if (selectedSlot != NEW_START_MENU_SPRITE_NONE)
+    if (visibleCount != 0)
     {
-        s16 x = isSingleIconPage ? sNewStartMenuIconX[NEW_START_MENU_VISIBLE_ICONS / 2] : sNewStartMenuIconX[selectedSlot];
+        s16 x = sNewStartMenuIconX[NEW_START_MENU_CENTER_SLOT];
         u8 spriteId = CreateSprite(&sNewStartMenuArrowTemplate, x, NEW_START_MENU_ARROW_Y, 0);
         u8 objWindowSpriteId;
 
@@ -1539,6 +1550,115 @@ static void RedrawNewStartMenu(struct NewStartMenuState *state)
                 }
             }
         }
+    }
+}
+
+static bool8 CreateNewStartMenuScrollIcon(struct NewStartMenuState *state, u8 action, s16 x)
+{
+    u8 spriteId = CreateSprite(&sNewStartMenuIconTemplates[action], x, NEW_START_MENU_ICON_Y, 1);
+
+    if (spriteId == MAX_SPRITES)
+        return FALSE;
+
+    state->scrollIconSpriteId = spriteId;
+    SetNewStartMenuSpritePalette(&gSprites[spriteId], NEW_START_MENU_ICON_OBJ_PAL_SLOT);
+    StartSpriteAnim(&gSprites[spriteId], 0);
+
+    if (IsNewStartMenuInDarkCave())
+    {
+        u8 objWindowSpriteId = CreateSprite(&sNewStartMenuIconTemplates[action], x, NEW_START_MENU_ICON_Y, 1);
+
+        if (objWindowSpriteId == MAX_SPRITES)
+        {
+            FreeSpriteTiles(&gSprites[state->scrollIconSpriteId]);
+            DestroySprite(&gSprites[state->scrollIconSpriteId]);
+            state->scrollIconSpriteId = NEW_START_MENU_SPRITE_NONE;
+            return FALSE;
+        }
+
+        state->scrollIconObjWindowSpriteId = objWindowSpriteId;
+        SetNewStartMenuSpritePalette(&gSprites[objWindowSpriteId], NEW_START_MENU_ICON_OBJ_PAL_SLOT);
+        gSprites[objWindowSpriteId].oam.objMode = ST_OAM_OBJ_WINDOW;
+        StartSpriteAnim(&gSprites[objWindowSpriteId], 0);
+    }
+
+    return TRUE;
+}
+
+static bool8 BeginNewStartMenuScroll(struct NewStartMenuState *state, s8 direction)
+{
+    u32 i;
+    u8 visibleCount = GetVisibleIconCount(state);
+    s8 firstOffset = -(s8)(visibleCount / 2);
+    s8 lastOffset = firstOffset + visibleCount - 1;
+    u8 nextCursor = GetNewStartMenuActionIndex(state->cursorPos, direction, state->actionCount);
+    s8 incomingOffset = direction > 0 ? lastOffset : firstOffset;
+    u8 incomingAction = GetNewStartMenuActionIndex(nextCursor, incomingOffset, state->actionCount);
+    u8 targetSlot = NEW_START_MENU_CENTER_SLOT + incomingOffset;
+    s16 targetX = sNewStartMenuIconX[targetSlot];
+    s16 startX = targetX + direction * NEW_START_MENU_ICON_SPACING;
+
+    if (!CreateNewStartMenuScrollIcon(state, state->actions[incomingAction], startX))
+        return FALSE;
+
+    if (state->scrollIconSpriteId < MAX_SPRITES)
+        StartSpriteAnim(&gSprites[state->scrollIconSpriteId], incomingAction == nextCursor);
+    if (state->scrollIconObjWindowSpriteId < MAX_SPRITES)
+        StartSpriteAnim(&gSprites[state->scrollIconObjWindowSpriteId], incomingAction == nextCursor);
+
+    for (i = 0; i < visibleCount; i++)
+    {
+        s8 offset = firstOffset + i;
+        u8 actionIndex = GetNewStartMenuActionIndex(state->cursorPos, offset, state->actionCount);
+        bool8 selected = actionIndex == nextCursor;
+
+        if (state->iconSpriteIds[i] < MAX_SPRITES)
+            StartSpriteAnim(&gSprites[state->iconSpriteIds[i]], selected);
+        if (state->iconObjWindowSpriteIds[i] < MAX_SPRITES)
+            StartSpriteAnim(&gSprites[state->iconObjWindowSpriteIds[i]], selected);
+    }
+
+    state->scrollDirection = direction;
+    state->scrollFrame = 1;
+    return TRUE;
+}
+
+static void UpdateNewStartMenuScrollAnimation(struct NewStartMenuState *state)
+{
+    u32 i;
+    s16 previousOffset = (NEW_START_MENU_ICON_SPACING * (state->scrollFrame - 1)) / NEW_START_MENU_SCROLL_FRAMES;
+    s16 currentOffset = (NEW_START_MENU_ICON_SPACING * state->scrollFrame) / NEW_START_MENU_SCROLL_FRAMES;
+    s16 frameDelta = currentOffset - previousOffset;
+    s16 xDelta = -state->scrollDirection * frameDelta;
+
+    for (i = 0; i < NEW_START_MENU_VISIBLE_ICONS; i++)
+    {
+        if (state->iconSpriteIds[i] < MAX_SPRITES)
+            gSprites[state->iconSpriteIds[i]].pos2.x += xDelta;
+
+        if (state->iconObjWindowSpriteIds[i] < MAX_SPRITES)
+            gSprites[state->iconObjWindowSpriteIds[i]].pos2.x += xDelta;
+    }
+
+    if (state->scrollIconSpriteId < MAX_SPRITES)
+        gSprites[state->scrollIconSpriteId].pos2.x += xDelta;
+
+    if (state->scrollIconObjWindowSpriteId < MAX_SPRITES)
+        gSprites[state->scrollIconObjWindowSpriteId].pos2.x += xDelta;
+
+    if (state->scrollFrame >= NEW_START_MENU_SCROLL_FRAMES)
+    {
+        state->cursorPos = GetNewStartMenuActionIndex(state->cursorPos, state->scrollDirection, state->actionCount);
+        state->selectedAction = state->actions[state->cursorPos];
+        sLastNewStartMenuAction = NEW_START_MENU_LAST_ACTION_VALID | state->selectedAction;
+        state->scrollFrame = 0;
+        state->scrollDirection = 0;
+        RedrawNewStartMenu(state);
+        DrawNewStartMenuInfo(state);
+    }
+    else
+    {
+        state->scrollFrame++;
     }
 }
 
@@ -1633,26 +1753,22 @@ static void HandleNewStartMenuInput(u8 taskId, struct NewStartMenuState *state)
 
     if (JOY_NEW(DPAD_LEFT))
     {
-        PlaySE(SE_SELECT);
-        if (state->cursorPos > 0)
+        if (state->actionCount > 1)
         {
-            state->cursorPos--;
-            sLastNewStartMenuAction = NEW_START_MENU_LAST_ACTION_VALID | state->actions[state->cursorPos];
-            UpdateNewStartMenuScroll(state);
-            RedrawNewStartMenu(state);
-            DrawNewStartMenuInfo(state);
+            if (!BeginNewStartMenuScroll(state, -1))
+                PlaySE(SE_ERROR);
+            else
+                PlaySE(SE_SELECT);
         }
     }
     else if (JOY_NEW(DPAD_RIGHT))
     {
-        PlaySE(SE_SELECT);
-        if (state->cursorPos < state->actionCount - 1)
+        if (state->actionCount > 1)
         {
-            state->cursorPos++;
-            sLastNewStartMenuAction = NEW_START_MENU_LAST_ACTION_VALID | state->actions[state->cursorPos];
-            UpdateNewStartMenuScroll(state);
-            RedrawNewStartMenu(state);
-            DrawNewStartMenuInfo(state);
+            if (!BeginNewStartMenuScroll(state, 1))
+                PlaySE(SE_ERROR);
+            else
+                PlaySE(SE_SELECT);
         }
     }
     else if (JOY_NEW(A_BUTTON))
@@ -1781,6 +1897,12 @@ static void Task_NewStartMenu(u8 taskId)
     if (state == NULL)
     {
         DestroyTask(taskId);
+        return;
+    }
+
+    if (state->scrollFrame != 0)
+    {
+        UpdateNewStartMenuScrollAnimation(state);
         return;
     }
 
