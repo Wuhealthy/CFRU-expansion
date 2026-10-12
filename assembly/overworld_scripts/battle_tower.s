@@ -39,8 +39,8 @@ EventScript_BattleTowerNext:
 	special 0x52
 	setvar 0x8003, 0x399
 	trainerbattle3 0x3, 0x8003, 0xF00, gText_BattleTowerTrainerDefeated
-	compare LASTRESULT, 1
-	if equal _goto EventScript_BattleTowerLost
+	compare 0x403C, 0
+	if notequal _goto EventScript_BattleTowerLost
 
 	setvar 0x8000, 0
 	special 0x55

@@ -3238,13 +3238,19 @@ void CB2_EndTrainerBattle(void)
     }
     else
     {
+        if (FlagGet(FLAG_BATTLE_FACILITY) && BATTLE_FACILITY_NUM == IN_BATTLE_TOWER)
+            VarSet(VAR_BATTLE_TOWER_LOST, IsPlayerDefeated(gBattleOutcome));
+
         if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
         {
             SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
         }
         else if (IsPlayerDefeated(gBattleOutcome) == TRUE)
         {
-            SetMainCallback2(CB2_WhiteOut);
+            if (FlagGet(FLAG_BATTLE_FACILITY) && BATTLE_FACILITY_NUM == IN_BATTLE_TOWER)
+                SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
+            else
+                SetMainCallback2(CB2_WhiteOut);
         }
         else
         {

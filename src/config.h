@@ -91,6 +91,7 @@
 #define VAR_BATTLE_FACILITY_TRAINER1_NAME 0x5019 //Empty var. Will be set to 0xFFFF after every battle.
 #define VAR_BATTLE_FACILITY_TRAINER2_NAME 0x501A //Empty var. Will be set to 0xFFFF after every battle.
 #define VAR_BATTLE_FACILITY_SONG_OVERRIDE 0x501B //Set this var to the song id to be played during Link Battles and in the Battle Tower.
+#define VAR_BATTLE_TOWER_LOST 0x403C //Battle result used by the Battle Tower event script.
 
 enum //These vars need to be one after the other (hence the enum)
 {
