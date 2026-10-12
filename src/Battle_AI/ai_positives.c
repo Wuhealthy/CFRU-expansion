@@ -58,6 +58,7 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 	u8 moveEffect = gBattleMoves[move].effect;
 	u8 moveType = GetMoveTypeSpecial(bankAtk, move);
 	u8 moveSplit = CalcMoveSplit(move, bankAtk, bankDef);
+	u8 maxStatusChance = 100;
 
 	//Begin
 	if (IS_DOUBLE_BATTLE && TARGETING_PARTNER)
@@ -65,6 +66,52 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 
 	if (IsAnyMaxMove(move))
 		moveEffect = GetAIMoveEffectForMaxMove(move, bankAtk, bankDef);
+
+	s16 viabilityBeforeMaxStatus = viability;
+	if (IsAnyMaxMove(move))
+	{
+		u8 residualType = TYPE_NORMAL;
+		bool8 residualEffectCanStart = FALSE;
+		bool8 ignoresTypeImmunity = FALSE;
+
+		switch (gBattleMoves[move].z_move_effect) {
+			case MAX_EFFECT_EFFECT_SPORE_FOES:
+				maxStatusChance = 33;
+				break;
+			case MAX_EFFECT_POISON_PARALYZE_FOES:
+				maxStatusChance = 50;
+				break;
+			case MAX_EFFECT_VINE_LASH:
+				residualType = TYPE_GRASS;
+				residualEffectCanStart = gNewBS->maxVineLashTimers[SIDE(bankDef)] == 0;
+				break;
+			case MAX_EFFECT_WILDFIRE:
+				residualType = TYPE_FIRE;
+				residualEffectCanStart = gNewBS->maxWildfireTimers[SIDE(bankDef)] == 0;
+				break;
+			case MAX_EFFECT_CANNONADE:
+				residualType = TYPE_WATER;
+				residualEffectCanStart = gNewBS->maxCannonadeTimers[SIDE(bankDef)] == 0;
+				break;
+			case MAX_EFFECT_VOLCAITH_FOES:
+				ignoresTypeImmunity = TRUE;
+				residualEffectCanStart = gNewBS->maxVolcalithTimers[SIDE(bankDef)] == 0;
+				break;
+		}
+
+		if (residualEffectCanStart)
+		{
+			for (i = 0; i < gBattlersCount; ++i)
+			{
+				if (BATTLER_ALIVE(i)
+				&& SIDE(i) == SIDE(bankDef)
+				&& SIDE(i) != SIDE(bankAtk)
+				&& (ignoresTypeImmunity || !IsOfType(i, residualType))
+				&& ABILITY(i) != ABILITY_MAGICGUARD)
+					INCREASE_VIABILITY(2);
+			}
+		}
+	}
 
 	switch (moveEffect) {
 		case EFFECT_HIT:
@@ -2758,6 +2805,10 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			}
 			break;
 	}
+
+	if (maxStatusChance < 100 && viability > viabilityBeforeMaxStatus)
+		viability = viabilityBeforeMaxStatus
+			+ (viability - viabilityBeforeMaxStatus) * maxStatusChance / 100;
 
 	if (moveSplit != SPLIT_STATUS)
 		viability = DamageMoveViabilityIncrease(bankAtk, bankDef, move, viability, class, predictedMove, atkAbility, defAbility, data);

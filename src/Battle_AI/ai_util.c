@@ -2422,13 +2422,14 @@ bool8 IsDamagingMoveUnusableByMon(u16 move, struct Pokemon* monAtk, u8 bankDef)
 	if (IsDynamaxed(bankDef) && gSpecialMoveFlags[move].gDynamaxBannedMoves)
 		return TRUE;
 
-	//Primal Weather Check
-	if ((gBattleWeather & WEATHER_SUN_PRIMAL && GetMonMoveTypeSpecial(monAtk, move) == TYPE_WATER)
-	|| (gBattleWeather & WEATHER_RAIN_PRIMAL && GetMonMoveTypeSpecial(monAtk, move) == TYPE_FIRE))
-	{
-		//TODO: if (WEATHER_HAS_EFFECT) but include monAtk instead of AI mons
-			return TRUE;
-	}
+	//Primal weather only blocks moves while weather is active. Hydro Steam
+	//still works in harsh sunlight.
+	if (WEATHER_HAS_EFFECT
+	&& ((gBattleWeather & WEATHER_SUN_PRIMAL
+	  && GetMonMoveTypeSpecial(monAtk, move) == TYPE_WATER)
+	 || (gBattleWeather & WEATHER_RAIN_PRIMAL
+	  && GetMonMoveTypeSpecial(monAtk, move) == TYPE_FIRE)))
+		return TRUE;
 
 	//Terrain Check
 	switch (gTerrainType) {
@@ -5054,22 +5055,33 @@ u8 GetAIMoveEffectForMaxMove(u16 move, u8 bankAtk, u8 bankDef)
 			break;
 
 		case MAX_EFFECT_VINE_LASH:
-			//TODO AI
-			break;
-
 		case MAX_EFFECT_WILDFIRE:
-			//TODO AI
-			break;
-
 		case MAX_EFFECT_CANNONADE:
-			//TODO AI
+			//These effects damage the target's side at the end of each turn.
+			//The positive scoring pass evaluates how many active foes can be
+			//damaged by the residual effect.
 			break;
 
 		case MAX_EFFECT_EFFECT_SPORE_FOES:
-			//TODO AI
+			if (!MoveBlockedBySubstitute(move, bankAtk, bankDef))
+			{
+				if (CanBePutToSleep(bankDef, bankAtk, TRUE))
+					moveEffect = EFFECT_SLEEP;
+				else if (CanBeParalyzed(bankDef, bankAtk, TRUE))
+					moveEffect = EFFECT_PARALYZE;
+				else if (CanBePoisoned(bankDef, bankAtk, TRUE))
+					moveEffect = EFFECT_POISON;
+			}
 			break;
+
 		case MAX_EFFECT_POISON_PARALYZE_FOES:
-			//TODO AI
+			if (!MoveBlockedBySubstitute(move, bankAtk, bankDef))
+			{
+				if (CanBeParalyzed(bankDef, bankAtk, TRUE))
+					moveEffect = EFFECT_PARALYZE;
+				else if (CanBePoisoned(bankDef, bankAtk, TRUE))
+					moveEffect = EFFECT_POISON;
+			}
 			break;
 		case MAX_EFFECT_PARALYZE_FOES:
 			if (CanBeParalyzed(bankDef, bankAtk, TRUE))
@@ -5143,6 +5155,7 @@ u8 GetAIMoveEffectForMaxMove(u16 move, u8 bankAtk, u8 bankDef)
 			break;
 
 		case MAX_EFFECT_VOLCAITH_FOES:
+			//The side-wide residual damage is scored in AIScript_Positives.
 			break;
 
 		case MAX_EFFECT_SANDBLAST_FOES:

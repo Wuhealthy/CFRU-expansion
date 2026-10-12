@@ -2103,6 +2103,7 @@ u8 CalcMostSuitableMonToSwitchInto(void)
 					}
 
 					//Check Offensive Capabilities
+					s8 priorityKOPriority = -8;
 					if (CanKnockOutFromParty(consideredMon, foe, &damageData))
 					{
 						scores[i] += SWITCHING_INCREASE_KO_FOE;
@@ -2180,6 +2181,7 @@ u8 CalcMostSuitableMonToSwitchInto(void)
 								{
 									scores[i] += SWITCHING_INCREASE_REVENGE_KILL;
 									flags[i] |= SWITCHING_FLAG_REVENGE_KILL;
+									priorityKOPriority = PriorityCalcMon(consideredMon, move);
 
 									if (!(flags[i] & SWITCHING_FLAG_OUTSPEEDS)) //Doesn't already get the boost for outspeeding
 									{
@@ -2334,9 +2336,17 @@ u8 CalcMostSuitableMonToSwitchInto(void)
 								if (flags[i] & SWITCHING_FLAG_OUTSPEEDS //This mon would normally go first
 								&& isPriority[k] > 0 //But the foe has a move that KOs and has priority
 								&& (gTerrainType != PSYCHIC_TERRAIN || !CheckMonGrounding(consideredMon))) //And the mon can be hit by priority
-									flags[i] &= ~SWITCHING_FLAG_OUTSPEEDS; //Then remove the outspeed flag so the AI doesn't think it can outspeed
-									//Potential UB: AI mon outspeed BECAUSE of a priority move it has. If it also outspeeds normally, this shouldn't matter since its priority move will still go first.
-									//TODO fix this
+								{
+									s8 foePriority = PriorityCalc(foe, ACTION_USE_MOVE, move);
+									bool8 candidateActsFirst = priorityKOPriority > foePriority
+										|| (priorityKOPriority == foePriority
+										 && (IsTrickRoomActive()
+										   ? speed <= SpeedCalc(foe)
+										   : speed >= SpeedCalc(foe)));
+
+									if (!candidateActsFirst)
+										flags[i] &= ~SWITCHING_FLAG_OUTSPEEDS;
+								}
 
 								break; //Only need 1 check for this to pass - priority moves are sorted first so a break here won't cause problems
 							}
