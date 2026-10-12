@@ -57,6 +57,7 @@ MON_FIELDS = [
     "CFRU IV",
     "Nature",
     "Tera Type",
+    "Hidden Power Type",
 ]
 
 STAT_FIELDS = ["HP", "Atk", "Def", "SpA", "SpD", "Spe"]
@@ -762,7 +763,7 @@ class PartyTab(ttk.Frame):
         self.held_item_var.trace_add("write", self.on_mon_form_change)
         ttk.Combobox(mon_right, textvariable=self.held_item_var, values=self.item_choices, width=16).grid(row=1, column=1, sticky="ew", padx=6, pady=3)
 
-        left_fields = ["Ability", "Level", "CFRU IV", "Nature"]
+        left_fields = ["Ability", "Level", "CFRU IV", "Nature", "Hidden Power Type"]
         for index, key in enumerate(left_fields):
             var = tk.StringVar()
             var.trace_add("write", self.on_mon_form_change)
@@ -774,6 +775,8 @@ class PartyTab(ttk.Frame):
                 self.ability_combo.grid(row=row, column=1, sticky="ew", padx=6, pady=3)
             elif key == "Nature":
                 ttk.Combobox(mon_right, textvariable=var, values=self.nature_choices, width=16).grid(row=row, column=1, sticky="ew", padx=6, pady=3)
+            elif key == "Hidden Power Type":
+                ttk.Combobox(mon_right, textvariable=var, values=self.type_choices, width=16).grid(row=row, column=1, sticky="ew", padx=6, pady=3)
             else:
                 ttk.Entry(mon_right, textvariable=var, width=16).grid(row=row, column=1, sticky="ew", padx=6, pady=3)
 

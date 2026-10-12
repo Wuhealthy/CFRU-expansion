@@ -616,15 +616,15 @@ u8 GiveMonToPlayer(struct Pokemon* mon) //Hook in
 
 	// 2% chance to get a random teraType
 	if (randomValue < 2)
-		mon->teraType = GetRandomTeraType();
+		SET_MON_TERA_TYPE(mon, GetRandomTeraType());
 
 	// Otherwise, get a random one from the original typing
 	else
 	{
 		if (type1 == type2 || type2 == TYPE_MYSTERY || type2 == TYPE_BLANK)
-			mon->teraType = type1;
+			SET_MON_TERA_TYPE(mon, type1);
 		else
-			mon->teraType = (Random() & 1) ? type1 : type2;				
+			SET_MON_TERA_TYPE(mon, (Random() & 1) ? type1 : type2);
 	}
 
 	u8 freeSlot = GetFreeSlotInPartyForMon();

@@ -21,6 +21,7 @@ Nature: Jolly
 IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
 EVs: 0 HP / 252 Atk / 0 Def / 0 SpA / 4 SpD / 252 Spe
 Tera Type: Normal
+Hidden Power Type: Ice
 - Tackle
 - Quick Attack
 ```
@@ -28,6 +29,10 @@ Tera Type: Normal
 Only trainers present in this file are overridden. Their original definitions
 remain in `trainer_data.c` and `trainer_parties.h`. Removing a block restores
 the original battle after the generated headers are rebuilt.
+
+For C-defined parties, set `.hiddenPowerType = HIDDEN_POWER_TYPE(TYPE_ICE)` on
+the trainer's Pokemon entry. Leave the field unset (zero) to calculate the
+type from IVs. This field is supported by all trainer party formats.
 
 Run the graphical editor with:
 
@@ -50,5 +55,7 @@ an ability constant. Accepted values are `Hidden`, `Ability 1`, `Ability 2`,
 `Random 1 2`, and `Random All`.
 
 Ability, Nature, per-stat IV/EV spreads, and Tera Type require explicit moves
-for every Pokemon in that trainer's party. `Ball`, `Shiny`, and `Happiness`
-are rejected because they are not fields in this project's trainer structure.
+for every Pokemon in that trainer's party. Hidden Power Type can be set without
+custom moves; when omitted, its type is calculated from the Pokemon's IVs.
+`Ball`, `Shiny`, and `Happiness` are rejected because they are not fields in
+this project's trainer structure.

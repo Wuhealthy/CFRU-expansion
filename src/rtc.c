@@ -233,12 +233,10 @@ void ChangeHiddenPowerTypeInOW(void)
     u8 partySlot = VarGet(Var8002);
     u8 newType = VarGet(Var8001);
 
-    if (partySlot >= PARTY_SIZE)
-        return;
-    if (newType >= NUMBER_OF_MON_TYPES)
+    if (partySlot >= PARTY_SIZE || newType >= NUMBER_OF_MON_TYPES)
         return;
 
-    gPlayerParty[partySlot].teraType = newType + 1;  // +1，0 表示没选过
+    SET_MON_HIDDEN_POWER_TYPE(&gPlayerParty[partySlot], HIDDEN_POWER_TYPE(newType));
 }
 
 void PlayTimeCounter_Update(void)

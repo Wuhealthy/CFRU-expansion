@@ -927,6 +927,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 		{
 			u32 personalityValue;
 			u8 genderOffset = 0x80;
+			u8 hiddenPowerType = 0;
 			struct Pokemon* mon = &party[i];
 
 			if (setMonGender == 1)
@@ -982,12 +983,14 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 				switch (trainer->partyFlags) {
 					case 0:
 						MAKE_POKEMON(trainer->party.NoItemDefaultMoves);
+						hiddenPowerType = trainer->party.NoItemDefaultMoves[i].hiddenPowerType;
 						break;
 
 					case PARTY_FLAG_CUSTOM_MOVES:
 						MAKE_POKEMON(trainer->party.NoItemCustomMoves);
 						if (setCustomMoves)
 							SET_MOVES(trainer->party.NoItemCustomMoves);
+						hiddenPowerType = trainer->party.NoItemCustomMoves[i].hiddenPowerType;
 						break;
 
 					case PARTY_FLAG_HAS_ITEM: ;
@@ -1002,6 +1005,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 						MAKE_POKEMON(trainer->party.ItemDefaultMoves);
 						#endif
 						SetMonData(mon, MON_DATA_HELD_ITEM, &trainer->party.ItemDefaultMoves[i].heldItem);
+						hiddenPowerType = trainer->party.ItemDefaultMoves[i].hiddenPowerType;
 						break;
 
 					case PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM:
@@ -1037,8 +1041,9 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 							trainer->party.ItemCustomMoves[i].ivSpread[5]
 						);
 						if (trainer->partyFlags & PARTY_FLAG_CUSTOM_MOVES) {
-    						mon->teraType = trainer->party.ItemCustomMoves[i].teraType;
+							SET_MON_TERA_TYPE(mon, trainer->party.ItemCustomMoves[i].teraType);
 						}
+						hiddenPowerType = trainer->party.ItemCustomMoves[i].hiddenPowerType;
 						break;
 				}
 
@@ -1050,16 +1055,17 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 
 				// 2% chance to get a random teraType
 				if (randomValue < 2)
-					mon->teraType = GetRandomTeraType();
+					SET_MON_TERA_TYPE(mon, GetRandomTeraType());
 
 				// Otherwise, get a random one from the original typing
 				else
 				{
 					if (type1 == type2 || type2 == TYPE_MYSTERY || type2 == TYPE_BLANK)
-						mon->teraType = type1;
+						SET_MON_TERA_TYPE(mon, type1);
 					else
-						mon->teraType = (Random() & 1) ? type1 : type2;				
+						SET_MON_TERA_TYPE(mon, (Random() & 1) ? type1 : type2);
 				}
+				SET_MON_HIDDEN_POWER_TYPE(mon, hiddenPowerType);
 			}
 
 			//Assign Trainer information to mon
@@ -1179,9 +1185,9 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 
 				// Try assigning teraType
 				if (spread->teraType == TERA_TYPE_RANDOM_ALL)
-					mon->teraType = GetRandomTeraType();
+					SET_MON_TERA_TYPE(mon, GetRandomTeraType());
 				else if (spread->teraType != TERA_TYPE_RANDOM) // We skip 0xFF because it has already been assigned prior
-					mon->teraType = spread->teraType; // Set teraType to designated value
+					SET_MON_TERA_TYPE(mon, spread->teraType); // Set teraType to designated value
 			}
 			#endif
 

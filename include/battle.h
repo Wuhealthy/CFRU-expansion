@@ -252,7 +252,7 @@ struct TrainerMonNoItemDefaultMoves
     u16 iv;
     u16 lvl;
     u16 species;
-	u16 _;
+	u16 hiddenPowerType;
 };
 
 struct TrainerMonItemDefaultMoves
@@ -261,6 +261,7 @@ struct TrainerMonItemDefaultMoves
     u16 lvl;
     u16 species;
     u16 heldItem;
+    u8 hiddenPowerType;
 };
 
 struct TrainerMonNoItemCustomMoves
@@ -269,7 +270,7 @@ struct TrainerMonNoItemCustomMoves
     u16 lvl;
     u16 species;
     u16 moves[4];
-	u16 _; // 0x0000
+	u16 hiddenPowerType;
 };
 
 struct TrainerMonItemCustomMoves
@@ -283,7 +284,8 @@ struct TrainerMonItemCustomMoves
 		u8 	evSpread[6];
     u16 heldItem;
     u16 moves[4];
-	u16 teraType;
+		u8 teraType;
+		u8 hiddenPowerType;
 };
 
 union TrainerMonPtr

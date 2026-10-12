@@ -164,7 +164,8 @@ u8 GetMonTeraType(const struct Pokemon *mon)
     if (fixedType != TYPE_BLANK)
         return fixedType;
 
-    return mon->teraType < NUMBER_OF_MON_TYPES ? mon->teraType : TYPE_BLANK;
+    u16 teraType = MON_TERA_TYPE(mon);
+    return teraType < NUMBER_OF_MON_TYPES ? teraType : TYPE_BLANK;
 }
 
 bool8 CanChangeMonTeraType(const struct Pokemon *mon)
@@ -227,7 +228,7 @@ void ChangeTeraTypeInOW(void)
     if (!CanChangeMonTeraType(&gPlayerParty[partySlot]))
         return;
 
-    gPlayerParty[partySlot].teraType = newTeraType;
+    SET_MON_TERA_TYPE(&gPlayerParty[partySlot], newTeraType);
 }
 
 // Fades palette according to teraType
@@ -589,7 +590,7 @@ void SetGiftMonTeraType(void)
 
     if (fixedType != TYPE_BLANK)
     {
-        mon->teraType = fixedType;
+        SET_MON_TERA_TYPE(mon, fixedType);
         return;
     }
 
@@ -597,9 +598,9 @@ void SetGiftMonTeraType(void)
     u8 type2 = gBaseStats[species].type2;
 
     if (type1 == type2 || type2 == TYPE_MYSTERY)
-        mon->teraType = type1;
+        SET_MON_TERA_TYPE(mon, type1);
     else
-        mon->teraType = (Random() & 1 ) ? type1 : type2;
+        SET_MON_TERA_TYPE(mon, (Random() & 1 ) ? type1 : type2);
 }
 
 #ifdef SHOW_TERA_TYPE_ICON_ON_SUMMARY_SCREEN

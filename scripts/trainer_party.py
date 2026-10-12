@@ -16,7 +16,7 @@ PARTIES_OUT = ROOT / "src" / "Tables" / "trainer_showdown_parties.h"
 TRAINERS_OUT = ROOT / "src" / "Tables" / "trainer_showdown_overrides.h"
 
 TRAINER_FIELDS = ("Name", "Class", "Pic", "Gender", "Music", "Items", "Double Battle", "AI")
-MON_FIELDS = ("Level", "Ability", "IVs", "EVs", "CFRU IV", "Ball", "Happiness", "Nature", "Shiny", "Tera Type")
+MON_FIELDS = ("Level", "Ability", "IVs", "EVs", "CFRU IV", "Ball", "Happiness", "Nature", "Shiny", "Tera Type", "Hidden Power Type")
 STATS = ("HP", "Atk", "Def", "SpA", "SpD", "Spe")
 STAT_ALIASES = {"hp": 0, "atk": 1, "attack": 1, "def": 2, "defense": 2,
                 "spa": 3, "spatk": 3, "spattack": 3, "spd": 4,
@@ -194,6 +194,12 @@ def generate_mon(mon: Pokemon, symbols: Symbols) -> tuple[str, bool, bool]:
     custom = bool(mon.moves) or advanced
     if advanced and not mon.moves:
         raise PartyError(f"{mon.title}: custom stats require explicit moves in this CFRU")
+    hidden_power_type = None
+    if "Hidden Power Type" in mon.fields:
+        hidden_power_type = (
+            f"        .hiddenPowerType = HIDDEN_POWER_TYPE("
+            f"{symbols.get('type', mon.fields['Hidden Power Type'])}),"
+        )
     lines = ["    {", f"        .lvl = {level},", f"        .species = {species},"]
     if custom:
         ability_value = mon.fields.get("Ability", "Random All")
@@ -215,11 +221,17 @@ def generate_mon(mon: Pokemon, symbols: Symbols) -> tuple[str, bool, bool]:
                   "        .evSpread = {" + ", ".join(map(str, evs)) + "},",
                   f"        .heldItem = {item},", "        .moves = {" + ", ".join(moves) + "},",
                   f"        .teraType = {tera},"]
+        if hidden_power_type is not None:
+            lines.append(hidden_power_type)
     elif has_item:
         lines.insert(1, f"        .iv = {raw_iv or ivs[0]},")
         lines.append(f"        .heldItem = {item},")
+        if hidden_power_type is not None:
+            lines.append(hidden_power_type)
     else:
         lines.insert(1, f"        .iv = {raw_iv or ivs[0]},")
+        if hidden_power_type is not None:
+            lines.append(hidden_power_type)
     lines += ["    },"]
     return "\n".join(lines), has_item, custom
 

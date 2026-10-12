@@ -93,6 +93,12 @@
 #define MON_DATA_SPDEF2            88
 #define MON_DATA_TERA_TYPE MON_DATA_ENCRYPT_SEPARATOR
 
+#define HIDDEN_POWER_TYPE(type) ((type) + 1) // 0 leaves Hidden Power derived from IVs
+#define MON_TERA_TYPE(mon) ((mon)->teraType & 0x00FF)
+#define MON_HIDDEN_POWER_TYPE(mon) (((mon)->teraType >> 8) & 0x00FF)
+#define SET_MON_TERA_TYPE(mon, type) ((mon)->teraType = ((mon)->teraType & 0xFF00) | (type))
+#define SET_MON_HIDDEN_POWER_TYPE(mon, type) ((mon)->teraType = ((mon)->teraType & 0x00FF) | ((u16)(type) << 8))
+
 #define OT_ID_RANDOM_NO_SHINY 2
 #define OT_ID_PRESET 1
 #define OT_ID_PLAYER_ID 0
@@ -311,7 +317,7 @@ typedef struct Pokemon
 	u8 otname[7];
 	u8 markings;
 	u16 backupSpecies;
-	u16 teraType;       // For Terastallization
+	u16 teraType;       // Low byte: Tera Type; high byte: encoded Hidden Power Type override
 
 //Substructure Growth
     u16 species;

@@ -80,7 +80,7 @@
 太晶标志已设定！
 
 #org @gText_ChangeHiddenPowerTypeNPCAsk
-我可以帮你改变觉醒力量的属性。\p要试试吗？
+我可以帮你设定宝可梦的\n觉醒力量属性。\p要试试吗？
 
 #org @gText_ChangeHiddenPowerTypeNPCNo
 好吧，下次再来。
@@ -89,61 +89,61 @@
 请选择要改变的宝可梦。
 
 #org @gText_ChangeHiddenPowerTypeNPCSelected
-你想让它变成哪种属性？
+你想让[BUFFER1]的觉醒力量\n变成哪种属性？
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchNormal
-觉醒力量变成了一般属性！
+[BUFFER1]的觉醒力量变成\n一般属性了！
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchFighting
-觉醒力量变成了格斗属性！
+[BUFFER1]的觉醒力量变成\n格斗属性了！
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchFlying
-觉醒力量变成了飞行属性！
+[BUFFER1]的觉醒力量变成\n飞行属性了！
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchPoison
-觉醒力量变成了毒属性！
+[BUFFER1]的觉醒力量变成\n毒属性了！
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchGround
-觉醒力量变成了地面属性！
+[BUFFER1]的觉醒力量变成\n地面属性了！
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchRock
-觉醒力量变成了岩石属性！
+[BUFFER1]的觉醒力量变成\n岩石属性了！
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchBug
-觉醒力量变成了虫属性！
+[BUFFER1]的觉醒力量变成\n虫属性了！
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchGhost
-觉醒力量变成了幽灵属性！
+[BUFFER1]的觉醒力量变成\n幽灵属性了！
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchSteel
-觉醒力量变成了钢属性！
+[BUFFER1]的觉醒力量变成\n钢属性了！
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchFire
-觉醒力量变成了火属性！
+[BUFFER1]的觉醒力量变成\n火属性了！
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchWater
-觉醒力量变成了水属性！
+[BUFFER1]的觉醒力量变成\n水属性了！
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchGrass
-觉醒力量变成了草属性！
+[BUFFER1]的觉醒力量变成\n草属性了！
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchElectric
-觉醒力量变成了电属性！
+[BUFFER1]的觉醒力量变成\n电属性了！
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchPsychic
-觉醒力量变成了超能力属性！
+[BUFFER1]的觉醒力量变成\n超能力属性了！
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchIce
-觉醒力量变成了冰属性！
+[BUFFER1]的觉醒力量变成\n冰属性了！
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchDragon
-觉醒力量变成了龙属性！
+[BUFFER1]的觉醒力量变成\n龙属性了！
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchDark
-觉醒力量变成了恶属性！
+[BUFFER1]的觉醒力量变成\n恶属性了！
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchFairy
-觉醒力量变成了妖精属性！
+[BUFFER1]的觉醒力量变成\n妖精属性了！
 
 #org @gText_GiveMons_Special_Give
 这个给你！
