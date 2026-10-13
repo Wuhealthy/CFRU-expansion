@@ -57,8 +57,10 @@ void CloseAndSaveOptionMenu(u8 taskId);
 u8 OptionMenu_ProcessInput(void);
 void BufferOptionMenuString(u8 selection);
 void OptionMenu_PickSwitchCancel(void);
+static void OptionMenu_DrawVisibleList(void);
+static void OptionMenu_ScrollCursor(void);
 
-// Menu items
+// Value-storage indices (kept separate from the unified list below)
 enum
 {
     MENUITEM_TEXTSPEED = 0,
@@ -85,11 +87,34 @@ enum
 
 enum
 {
-    MENUITEM_DOUBLE_BATTLE = 0,      // 双打对战
-    MENUITEM_NO_RANDOM_WILD_ENCOUNTERS,      // 禁止随机野生遭遇
-    MENUITEM_CANCEL_PAGE_3,          // 取消（第三页）
-    MENUITEM_PAGE3_COUNT,            // 第三页菜单项总数
+    MENUITEM_DOUBLE_BATTLE = 0,
+    MENUITEM_NO_RANDOM_WILD_ENCOUNTERS,
+    MENUITEM_CANCEL_PAGE_3,
+    MENUITEM_PAGE3_COUNT,
 };
+
+// Unified single-page list: all settings from the former 3 pages, plus cancel
+enum
+{
+    OPT_TEXTSPEED = 0,
+    OPT_BATTLESCENE,
+    OPT_BATTLESTYLE,
+    OPT_SOUND,
+    OPT_BUTTONMODE,
+    OPT_FRAMETYPE,
+    OPT_RBUTTONMODE,
+    OPT_BATTLEMUSIC,
+    OPT_WILDLEVELSCALING,
+    OPT_AUTOSORTBAG,
+    OPT_GAME_DIFFICULTY,
+    OPT_INVERSE_BATTLE,
+    OPT_DOUBLE_BATTLE,
+    OPT_NO_RANDOM_WILD_ENCOUNTERS,
+    OPT_CANCEL,
+    OPT_COUNT,
+};
+
+#define OPTION_LIST_VISIBLE 7
 
 // Window Ids
 enum
@@ -102,12 +127,12 @@ struct OptionMenu
 {
     /*0x00*/ u16 option[MENUITEM_COUNT];
     /*0x??*/ u16 cursorPos;
+    /*0x??*/ u16 scrollTop;   // first visible row of the unified list
     /*0x??*/ u8 loadState;
     /*0x??*/ u8 state;
     /*0x??*/ u8 loadPaletteState;
-    /*0x??*/ u8 page;
     /*0x??*/ u16 option_secondPage[MENUITEM_PAGE2_COUNT];
-    /*0x??*/ u16 option_thirdPage[MENUITEM_PAGE3_COUNT];   // 新增：第三页选项值
+    /*0x??*/ u16 option_thirdPage[MENUITEM_PAGE3_COUNT];
 };
 
 extern struct OptionMenu *sOptionMenuPtr;
@@ -127,33 +152,6 @@ extern const u8 gText_InverseBattle[];
 extern const u8 gText_DoubleBattle[];
 extern const u8 gText_NoRandomWildEncounters[];
 
-static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
-{
-    [MENUITEM_TEXTSPEED]   = gText_TextSpeed,
-    [MENUITEM_BATTLESCENE] = gText_BattleScene,
-    [MENUITEM_BATTLESTYLE] = gText_BattleStyle,
-    [MENUITEM_SOUND]       = gText_Sound,
-    [MENUITEM_BUTTONMODE]  = gText_ButtonMode,
-    [MENUITEM_FRAMETYPE]   = gText_Frame,
-    [MENUITEM_CANCEL]      = gText_OptionMenuCancel,
-};
-static const u8 *const sOptionMenuItemsNames_SecondPage[MENUITEM_PAGE2_COUNT] =
-{
-    [MENUITEM_RBUTTONMODE] = gText_RButtonMode,
-    [MENUITEM_BATTLEMUSIC] = gText_BattleMusic,
-    [MENUITEM_WILDLEVELSCALING] = gText_WildLevelScaling,
-    [MENUITEM_AUTOSORTBAG] = gText_AutoSortBag,
-	[MENUITEM_GAME_DIFFICULTY] = gText_GameDifficulty,
-    [MENUITEM_INVERSE_BATTLE] = gText_InverseBattle,
-    [MENUITEM_CANCEL_PAGE_2] = gText_OptionMenuCancel,
-};
-static const u8 *const sOptionMenuItemsNames_ThirdPage[MENUITEM_PAGE3_COUNT] =
-{
-    [MENUITEM_DOUBLE_BATTLE] = gText_DoubleBattle,
-    [MENUITEM_NO_RANDOM_WILD_ENCOUNTERS] = gText_NoRandomWildEncounters,
-    [MENUITEM_CANCEL_PAGE_3] = gText_OptionMenuCancel,
-};
-
 extern const u8 gText_TextSpeedSlow[];
 extern const u8 gText_TextSpeedMid[];
 extern const u8 gText_TextSpeedFast[];
@@ -166,7 +164,6 @@ extern const u8 gText_SoundStereo[];
 extern const u8 gText_ButtonTypeHelp[];
 extern const u8 gText_ButtonTypeLR[];
 extern const u8 gText_ButtonTypeLEqualsA[];
-extern const u8 gText_MenuOption[];
 extern const u8 gText_FrameType[];
 extern const u8 gText_RButtonDexNav[];
 extern const u8 gText_RButtonPokemon[];
@@ -185,13 +182,13 @@ extern const u8 gText_Expert[];
 
 static const u8 *const sTextSpeedOptions[] =
 {
-    gText_TextSpeedSlow, 
-    gText_TextSpeedMid, 
+    gText_TextSpeedSlow,
+    gText_TextSpeedMid,
     gText_TextSpeedFast
 };
 static const u8 *const sBattleSceneOptions[] =
 {
-    gText_BattleSceneOn, 
+    gText_BattleSceneOn,
     gText_BattleSceneOff
 };
 static const u8 *const sBattleStyleOptions[] =
@@ -201,7 +198,7 @@ static const u8 *const sBattleStyleOptions[] =
 };
 static const u8 *const sSoundOptions[] =
 {
-    gText_SoundMono, 
+    gText_SoundMono,
     gText_SoundStereo
 };
 static const u8 *const sButtonTypeOptions[] =
@@ -232,7 +229,7 @@ static const u8 *const sWildScalingOptions[] =
 static const u8 *const sAutoSortBagOptions[] =
 {
     gText_OffOption,
-	gText_ByName,
+    gText_ByName,
     gText_ByType,
     gText_ByAmount,
 };
@@ -245,27 +242,124 @@ static const u8 *const sGameDifficultyOptions[] =
 };
 static const u8 *const sInverseBattleOptions[] =
 {
-    gText_OffOption,
-    gText_OnOption
+	gText_OffOption,
+	gText_OnOption
 };
 static const u8 *const sDoubleBattleOptions[] =
 {
-    gText_OffOption,
-    gText_OnOption
+	gText_OffOption,
+	gText_OnOption
 };
 static const u8 *const sNoRandomWildEncountersOptions[] =
 {
-    gText_OffOption,        // 关
-    gText_OnOption          // 开
+	gText_OffOption,
+    gText_OnOption
 };
 static const u16 sOptionMenuItemCounts[MENUITEM_COUNT] = {3, 2, 2, 2, 3, 10, 0};
 static const u16 sOptionMenuItemCounts_SecondPage[MENUITEM_PAGE2_COUNT] = {3, 2, 2, 4, 4, 2, 0};
 static const u16 sOptionMenuItemCounts_ThirdPage[MENUITEM_PAGE3_COUNT] = {2, 2, 0};
 
+static const u8 * GetOptionItemName(u16 item)
+{
+    switch (item)
+    {
+    case OPT_TEXTSPEED:                   return gText_TextSpeed;
+    case OPT_BATTLESCENE:                 return gText_BattleScene;
+    case OPT_BATTLESTYLE:                 return gText_BattleStyle;
+    case OPT_SOUND:                       return gText_Sound;
+    case OPT_BUTTONMODE:                  return gText_ButtonMode;
+    case OPT_FRAMETYPE:                   return gText_Frame;
+    case OPT_RBUTTONMODE:                 return gText_RButtonMode;
+    case OPT_BATTLEMUSIC:                 return gText_BattleMusic;
+    case OPT_WILDLEVELSCALING:            return gText_WildLevelScaling;
+    case OPT_AUTOSORTBAG:                 return gText_AutoSortBag;
+    case OPT_GAME_DIFFICULTY:             return gText_GameDifficulty;
+    case OPT_INVERSE_BATTLE:              return gText_InverseBattle;
+    case OPT_DOUBLE_BATTLE:               return gText_DoubleBattle;
+    case OPT_NO_RANDOM_WILD_ENCOUNTERS:   return gText_NoRandomWildEncounters;
+    default:                              return gText_OptionMenuCancel;
+    }
+}
+
+// Pointer to the stored value of a unified list item (NULL for cancel)
+static u16 * GetOptionItemValuePtr(u16 item)
+{
+    switch (item)
+    {
+    case OPT_TEXTSPEED:                   return &sOptionMenuPtr->option[MENUITEM_TEXTSPEED];
+    case OPT_BATTLESCENE:                 return &sOptionMenuPtr->option[MENUITEM_BATTLESCENE];
+    case OPT_BATTLESTYLE:                 return &sOptionMenuPtr->option[MENUITEM_BATTLESTYLE];
+    case OPT_SOUND:                       return &sOptionMenuPtr->option[MENUITEM_SOUND];
+    case OPT_BUTTONMODE:                  return &sOptionMenuPtr->option[MENUITEM_BUTTONMODE];
+    case OPT_FRAMETYPE:                   return &sOptionMenuPtr->option[MENUITEM_FRAMETYPE];
+    case OPT_RBUTTONMODE:                 return &sOptionMenuPtr->option_secondPage[MENUITEM_RBUTTONMODE];
+    case OPT_BATTLEMUSIC:                 return &sOptionMenuPtr->option_secondPage[MENUITEM_BATTLEMUSIC];
+    case OPT_WILDLEVELSCALING:            return &sOptionMenuPtr->option_secondPage[MENUITEM_WILDLEVELSCALING];
+    case OPT_AUTOSORTBAG:                 return &sOptionMenuPtr->option_secondPage[MENUITEM_AUTOSORTBAG];
+    case OPT_GAME_DIFFICULTY:             return &sOptionMenuPtr->option_secondPage[MENUITEM_GAME_DIFFICULTY];
+    case OPT_INVERSE_BATTLE:              return &sOptionMenuPtr->option_secondPage[MENUITEM_INVERSE_BATTLE];
+    case OPT_DOUBLE_BATTLE:               return &sOptionMenuPtr->option_thirdPage[MENUITEM_DOUBLE_BATTLE];
+    case OPT_NO_RANDOM_WILD_ENCOUNTERS:   return &sOptionMenuPtr->option_thirdPage[MENUITEM_NO_RANDOM_WILD_ENCOUNTERS];
+    default:                              return NULL;
+    }
+}
+
+static u16 GetOptionItemCount(u16 item)
+{
+    switch (item)
+    {
+    case OPT_TEXTSPEED:                   return sOptionMenuItemCounts[MENUITEM_TEXTSPEED];
+    case OPT_BATTLESCENE:                 return sOptionMenuItemCounts[MENUITEM_BATTLESCENE];
+    case OPT_BATTLESTYLE:                 return sOptionMenuItemCounts[MENUITEM_BATTLESTYLE];
+    case OPT_SOUND:                       return sOptionMenuItemCounts[MENUITEM_SOUND];
+    case OPT_BUTTONMODE:                  return sOptionMenuItemCounts[MENUITEM_BUTTONMODE];
+    case OPT_FRAMETYPE:                   return sOptionMenuItemCounts[MENUITEM_FRAMETYPE];
+    case OPT_RBUTTONMODE:                 return sOptionMenuItemCounts_SecondPage[MENUITEM_RBUTTONMODE];
+    case OPT_BATTLEMUSIC:                 return sOptionMenuItemCounts_SecondPage[MENUITEM_BATTLEMUSIC];
+    case OPT_WILDLEVELSCALING:            return sOptionMenuItemCounts_SecondPage[MENUITEM_WILDLEVELSCALING];
+    case OPT_AUTOSORTBAG:                 return sOptionMenuItemCounts_SecondPage[MENUITEM_AUTOSORTBAG];
+    case OPT_GAME_DIFFICULTY:             return sOptionMenuItemCounts_SecondPage[MENUITEM_GAME_DIFFICULTY];
+    case OPT_INVERSE_BATTLE:              return sOptionMenuItemCounts_SecondPage[MENUITEM_INVERSE_BATTLE];
+    case OPT_DOUBLE_BATTLE:               return sOptionMenuItemCounts_ThirdPage[MENUITEM_DOUBLE_BATTLE];
+    case OPT_NO_RANDOM_WILD_ENCOUNTERS:   return sOptionMenuItemCounts_ThirdPage[MENUITEM_NO_RANDOM_WILD_ENCOUNTERS];
+    default:                              return 0;
+    }
+}
+
+static const u8 * GetOptionItemValueString(u16 item)
+{
+    u16 *value = GetOptionItemValuePtr(item);
+    static u8 str[20];
+
+    if (value == NULL)
+        return NULL;
+
+    switch (item)
+    {
+    case OPT_TEXTSPEED:                   return sTextSpeedOptions[*value];
+    case OPT_BATTLESCENE:                 return sBattleSceneOptions[*value];
+    case OPT_BATTLESTYLE:                 return sBattleStyleOptions[*value];
+    case OPT_SOUND:                       return sSoundOptions[*value];
+    case OPT_BUTTONMODE:                  return sButtonTypeOptions[*value];
+    case OPT_FRAMETYPE:
+        ConvertIntToDecimalStringN(str, *value + 1, STR_CONV_MODE_RIGHT_ALIGN, 2);
+        return str;
+    case OPT_RBUTTONMODE:                 return sRButtonModeOptions[*value];
+    case OPT_BATTLEMUSIC:                 return sBattleMusicOptions[*value];
+    case OPT_WILDLEVELSCALING:            return sWildScalingOptions[*value];
+    case OPT_AUTOSORTBAG:                 return sAutoSortBagOptions[*value];
+    case OPT_GAME_DIFFICULTY:             return sGameDifficultyOptions[*value];
+    case OPT_INVERSE_BATTLE:              return sInverseBattleOptions[*value];
+    case OPT_DOUBLE_BATTLE:               return sDoubleBattleOptions[*value];
+    case OPT_NO_RANDOM_WILD_ENCOUNTERS:   return sNoRandomWildEncountersOptions[*value];
+    default:                              return NULL;
+    }
+}
+
 void CB2_OptionsMenuFromStartMenu(void)
 {
     u8 i;
-    
+
     if (gMain.savedCallback == NULL)
         gMain.savedCallback = CB2_ReturnToFieldWithOpenMenu;
     sOptionMenuPtr = AllocZeroed(sizeof(struct OptionMenu));
@@ -273,6 +367,7 @@ void CB2_OptionsMenuFromStartMenu(void)
     sOptionMenuPtr->loadPaletteState = 0;
     sOptionMenuPtr->state = 0;
     sOptionMenuPtr->cursorPos = 0;
+    sOptionMenuPtr->scrollTop = 0;
     sOptionMenuPtr->option[MENUITEM_TEXTSPEED] = gSaveBlock2->optionsTextSpeed;
     sOptionMenuPtr->option[MENUITEM_BATTLESCENE] = gSaveBlock2->optionsBattleSceneOff;
     sOptionMenuPtr->option[MENUITEM_BATTLESTYLE] = gSaveBlock2->optionsBattleStyle;
@@ -306,7 +401,6 @@ void CB2_OptionsMenuFromMainMenu(void)
 
 void Task_OptionMenu(u8 taskId)
 {
-    u8 i;
     switch (sOptionMenuPtr->loadState)
     {
     case 0:
@@ -326,55 +420,19 @@ void Task_OptionMenu(u8 taskId)
         {
         case 0:
             break;
-        case 1:
+        case 1: // exit
             sOptionMenuPtr->loadState++;
             break;
-        case 2:
+        case 2: // frame type changed: reload border graphics
             LoadBgTiles(1, GetUserFrameGraphicsInfo(sOptionMenuPtr->option[MENUITEM_FRAMETYPE])->tiles, 0x120, 0x1AA);
             LoadPalette(GetUserFrameGraphicsInfo(sOptionMenuPtr->option[MENUITEM_FRAMETYPE])->palette, 0x20, 0x20);
-            BufferOptionMenuString(sOptionMenuPtr->cursorPos);
+            BufferOptionMenuString(sOptionMenuPtr->cursorPos - sOptionMenuPtr->scrollTop);
             break;
-        case 3:
-            UpdateSettingSelectionDisplay(sOptionMenuPtr->cursorPos);
+        case 3: // cursor moved (list may have scrolled)
+            OptionMenu_ScrollCursor();
             break;
-        case 4:
-            BufferOptionMenuString(sOptionMenuPtr->cursorPos);
-            break;
-        case 5:
-            sOptionMenuPtr->page = 1;
-            LoadOptionMenuItemNames();
-            for(i = 0; i < MENUITEM_PAGE2_COUNT; i++)
-            BufferOptionMenuString(i);
-            sOptionMenuPtr->cursorPos = 0;
-            UpdateSettingSelectionDisplay(sOptionMenuPtr->cursorPos);
-            OptionMenu_PickSwitchCancel();
-            break;
-        case 6:
-            sOptionMenuPtr->page = 0;
-            LoadOptionMenuItemNames();
-            for(i = 0; i < MENUITEM_COUNT; i++)
-            BufferOptionMenuString(i);
-            sOptionMenuPtr->cursorPos = 0;
-            UpdateSettingSelectionDisplay(sOptionMenuPtr->cursorPos);
-            OptionMenu_PickSwitchCancel();
-            break;
-        case 7:  // 新增：切换到第三页（按R键从第二页）
-            sOptionMenuPtr->page = 2;
-            LoadOptionMenuItemNames();
-            for(i = 0; i < MENUITEM_PAGE3_COUNT; i++)
-            BufferOptionMenuString(i);
-            sOptionMenuPtr->cursorPos = 0;
-            UpdateSettingSelectionDisplay(sOptionMenuPtr->cursorPos);
-            OptionMenu_PickSwitchCancel();
-            break;
-        case 8:  // 新增：切换到第二页（按L键从第三页）
-            sOptionMenuPtr->page = 1;
-            LoadOptionMenuItemNames();
-            for(i = 0; i < MENUITEM_PAGE2_COUNT; i++)
-            BufferOptionMenuString(i);
-            sOptionMenuPtr->cursorPos = 0;
-            UpdateSettingSelectionDisplay(sOptionMenuPtr->cursorPos);
-            OptionMenu_PickSwitchCancel();
+        case 4: // value changed
+            BufferOptionMenuString(sOptionMenuPtr->cursorPos - sOptionMenuPtr->scrollTop);
             break;
         }
         break;
@@ -445,11 +503,11 @@ void CB2_OptionMenu(void)
         LoadOptionMenuItemNames();
         break;
     case 7:
-        for (i = 0; i < MENUITEM_COUNT; i++)
+        for (i = 0; i < OPTION_LIST_VISIBLE; i++)
             BufferOptionMenuString(i);
         break;
     case 8:
-        UpdateSettingSelectionDisplay(sOptionMenuPtr->cursorPos);
+        UpdateSettingSelectionDisplay(sOptionMenuPtr->cursorPos - sOptionMenuPtr->scrollTop);
         break;
     case 9:
         OptionMenu_PickSwitchCancel();
@@ -464,244 +522,115 @@ void CB2_OptionMenu(void)
 static const u8 sOptionMenuPickSwitchCancelTextColor[] = {TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GREY};
 static const u8 sOptionMenuTextColor[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_RED, TEXT_COLOR_RED};
 
+// Prints the current value of the list item shown at visible row `selection`
 void BufferOptionMenuString(u8 selection)
 {
     u8 str[20];
     u8 buf[12];
     u8 dst[3];
     u8 x, y;
-    
+    u16 item;
+    const u8 * valueString;
+
+    if (selection >= OPTION_LIST_VISIBLE)
+        return;
+
     memcpy(dst, sOptionMenuTextColor, 3);
     x = 0x82;
     y = ((GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT) - 1) * (selection)) + 2;
     FillWindowPixelRect(1, 1, x, y, 0x46, GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT));
-    if(sOptionMenuPtr->page == 0)
+
+    item = sOptionMenuPtr->scrollTop + selection;
+    if (item == OPT_FRAMETYPE)
     {
-        switch (selection)
-        {
-        case MENUITEM_TEXTSPEED:
-            AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sTextSpeedOptions[sOptionMenuPtr->option[selection]]);
-            break;
-        case MENUITEM_BATTLESCENE:
-            AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sBattleSceneOptions[sOptionMenuPtr->option[selection]]);
-            break;
-        case MENUITEM_BATTLESTYLE:
-            AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sBattleStyleOptions[sOptionMenuPtr->option[selection]]);
-            break;
-        case MENUITEM_SOUND:
-            AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sSoundOptions[sOptionMenuPtr->option[selection]]);
-            break;
-        case MENUITEM_BUTTONMODE:
-            AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sButtonTypeOptions[sOptionMenuPtr->option[selection]]);
-            break;
-        case MENUITEM_FRAMETYPE:
-            StringCopy(str, gText_FrameType);
-            ConvertIntToDecimalStringN(buf, sOptionMenuPtr->option[selection] + 1, 1, 2);
-            StringAppendN(str, buf, 3);
-            AddTextPrinterParameterized3(1, 2, x, y, dst, -1, str);
-            break;
-        
-        default:
-            break;
-        }
+        StringCopy(str, gText_FrameType);
+        ConvertIntToDecimalStringN(buf, sOptionMenuPtr->option[MENUITEM_FRAMETYPE] + 1, 1, 2);
+        StringAppendN(str, buf, 3);
+        AddTextPrinterParameterized3(1, 2, x, y, dst, -1, str);
     }
-    else if(sOptionMenuPtr->page == 1)  // 第二页
+    else
     {
-        switch (selection)
-        {
-            case MENUITEM_RBUTTONMODE:
-                AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sRButtonModeOptions[sOptionMenuPtr->option_secondPage[selection]]);
-                break;
-            case MENUITEM_BATTLEMUSIC:
-                AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sBattleMusicOptions[sOptionMenuPtr->option_secondPage[selection]]);
-                break;
-            case MENUITEM_WILDLEVELSCALING:
-                AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sWildScalingOptions[sOptionMenuPtr->option_secondPage[selection]]);
-                break;
-            case MENUITEM_AUTOSORTBAG:
-                AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sAutoSortBagOptions[sOptionMenuPtr->option_secondPage[selection]]);
-                break;
-            case MENUITEM_GAME_DIFFICULTY:
-                AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sGameDifficultyOptions[sOptionMenuPtr->option_secondPage[selection]]);
-                break;
-            case MENUITEM_INVERSE_BATTLE:
-                AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sInverseBattleOptions[sOptionMenuPtr->option_secondPage[selection]]);
-                break;
-            default:
-                break;
-        }
+        valueString = GetOptionItemValueString(item);
+        if (valueString != NULL)
+            AddTextPrinterParameterized3(1, 2, x, y, dst, -1, valueString);
     }
-    else  // 第三页
-    {
-        switch (selection)
-        {
-            case MENUITEM_DOUBLE_BATTLE:
-                AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sDoubleBattleOptions[sOptionMenuPtr->option_thirdPage[selection]]);
-                break;
-            case MENUITEM_NO_RANDOM_WILD_ENCOUNTERS:  // 新增
-                AddTextPrinterParameterized3(1, 2, x, y, dst, -1, sNoRandomWildEncountersOptions[sOptionMenuPtr->option_thirdPage[selection]]);
-                break;
-            default:
-                break;
-        }
-    }
+
     PutWindowTilemap(1);
     CopyWindowToVram(1, COPYWIN_BOTH);
 }
 
+// Keeps the cursor inside the visible window, scrolling the list if needed,
+// then redraws names + values and moves the selection cursor.
+static void OptionMenu_ScrollCursor(void)
+{
+    if (sOptionMenuPtr->cursorPos < sOptionMenuPtr->scrollTop)
+        sOptionMenuPtr->scrollTop = sOptionMenuPtr->cursorPos;
+    else if (sOptionMenuPtr->cursorPos >= sOptionMenuPtr->scrollTop + OPTION_LIST_VISIBLE)
+        sOptionMenuPtr->scrollTop = sOptionMenuPtr->cursorPos - OPTION_LIST_VISIBLE + 1;
+
+    OptionMenu_DrawVisibleList();
+    UpdateSettingSelectionDisplay(sOptionMenuPtr->cursorPos - sOptionMenuPtr->scrollTop);
+}
+
+static void OptionMenu_DrawVisibleList(void)
+{
+    LoadOptionMenuItemNames();
+    {
+        u8 i;
+        for (i = 0; i < OPTION_LIST_VISIBLE; i++)
+            BufferOptionMenuString(i);
+    }
+}
+
 u8 OptionMenu_ProcessInput(void)
-{ 
+{
+    u16 *curr;
     u16 current;
-    u16* curr;
+
     if (JOY_REPT(DPAD_RIGHT))
     {
-        if(sOptionMenuPtr->page == 0)
-        {
-            current = sOptionMenuPtr->option[(sOptionMenuPtr->cursorPos)];
-            if (current == (sOptionMenuItemCounts[sOptionMenuPtr->cursorPos] - 1))
-                sOptionMenuPtr->option[sOptionMenuPtr->cursorPos] = 0;
-            else
-                sOptionMenuPtr->option[sOptionMenuPtr->cursorPos] = current + 1;
-            if (sOptionMenuPtr->cursorPos == MENUITEM_FRAMETYPE)
-                return 2;
-            else
-                return 4;
-        }
-        else if(sOptionMenuPtr->page == 1)  // 第二页
-        {
-            current = sOptionMenuPtr->option_secondPage[(sOptionMenuPtr->cursorPos)];
-            if (current == (sOptionMenuItemCounts_SecondPage[sOptionMenuPtr->cursorPos] - 1))
-                sOptionMenuPtr->option_secondPage[sOptionMenuPtr->cursorPos] = 0;
-            else
-                sOptionMenuPtr->option_secondPage[sOptionMenuPtr->cursorPos] = current + 1;
-            return 4;
-        }
-        else  // 第三页
-        {
-            current = sOptionMenuPtr->option_thirdPage[(sOptionMenuPtr->cursorPos)];
-            if (current == (sOptionMenuItemCounts_ThirdPage[sOptionMenuPtr->cursorPos] - 1))
-                sOptionMenuPtr->option_thirdPage[sOptionMenuPtr->cursorPos] = 0;
-            else
-                sOptionMenuPtr->option_thirdPage[sOptionMenuPtr->cursorPos] = current + 1;
-            return 4;
-        }
+        curr = GetOptionItemValuePtr(sOptionMenuPtr->cursorPos);
+        if (curr == NULL)
+            return 0;
+        current = *curr;
+        if (current == GetOptionItemCount(sOptionMenuPtr->cursorPos) - 1)
+            *curr = 0;
+        else
+            *curr = current + 1;
+        if (sOptionMenuPtr->cursorPos == OPT_FRAMETYPE)
+            return 2;
+        return 4;
     }
     else if (JOY_REPT(DPAD_LEFT))
     {
-        if(sOptionMenuPtr->page == 0)
-        {
-            curr = &sOptionMenuPtr->option[sOptionMenuPtr->cursorPos];
-            if (*curr == 0)
-                *curr = sOptionMenuItemCounts[sOptionMenuPtr->cursorPos] - 1;
-            else
-                --*curr;
-            
-            if (sOptionMenuPtr->cursorPos == MENUITEM_FRAMETYPE)
-                return 2;
-            else
-                return 4;
-        }
-        else if(sOptionMenuPtr->page == 1)  // 第二页
-        {
-            curr = &sOptionMenuPtr->option_secondPage[sOptionMenuPtr->cursorPos];
-            if (*curr == 0)
-                *curr = sOptionMenuItemCounts_SecondPage[sOptionMenuPtr->cursorPos] - 1;
-            else
-                --*curr;
-
-            return 4;
-        }
-        else  // 第三页
-        {
-            curr = &sOptionMenuPtr->option_thirdPage[sOptionMenuPtr->cursorPos];
-            if (*curr == 0)
-                *curr = sOptionMenuItemCounts_ThirdPage[sOptionMenuPtr->cursorPos] - 1;
-            else
-                --*curr;
-            return 4;
-        }
+        curr = GetOptionItemValuePtr(sOptionMenuPtr->cursorPos);
+        if (curr == NULL)
+            return 0;
+        if (*curr == 0)
+            *curr = GetOptionItemCount(sOptionMenuPtr->cursorPos) - 1;
+        else
+            --*curr;
+        if (sOptionMenuPtr->cursorPos == OPT_FRAMETYPE)
+            return 2;
+        return 4;
     }
     else if (JOY_REPT(DPAD_UP))
     {
-        if(sOptionMenuPtr->page == 0)
-        {
-            if (sOptionMenuPtr->cursorPos == MENUITEM_TEXTSPEED)
-                sOptionMenuPtr->cursorPos = MENUITEM_CANCEL;
-            else
-                sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos - 1;
-        }
-        else if(sOptionMenuPtr->page == 1)  // 第二页
-        {
-            if (sOptionMenuPtr->cursorPos == MENUITEM_RBUTTONMODE)
-                sOptionMenuPtr->cursorPos = MENUITEM_CANCEL_PAGE_2;
-            else
-                sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos - 1;
-        }
-        else  // 第三页
-        {
-            if (sOptionMenuPtr->cursorPos == MENUITEM_DOUBLE_BATTLE)
-                sOptionMenuPtr->cursorPos = MENUITEM_CANCEL_PAGE_3;
-            else
-                sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos - 1;
-        }
-        return 3;        
+        if (sOptionMenuPtr->cursorPos == OPT_TEXTSPEED)
+            sOptionMenuPtr->cursorPos = OPT_CANCEL;
+        else
+            sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos - 1;
+        PlaySE(SE_SELECT);
+        return 3;
     }
     else if (JOY_REPT(DPAD_DOWN))
     {
-        if(sOptionMenuPtr->page == 0)
-        {
-            if (sOptionMenuPtr->cursorPos == MENUITEM_CANCEL)
-                sOptionMenuPtr->cursorPos = MENUITEM_TEXTSPEED;
-            else
-                sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos + 1;
-        }
-        else if(sOptionMenuPtr->page == 1)  // 第二页
-        {
-            if (sOptionMenuPtr->cursorPos == MENUITEM_CANCEL_PAGE_2)
-                sOptionMenuPtr->cursorPos = MENUITEM_RBUTTONMODE;
-            else
-                sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos + 1;
-        }
-        else  // 第三页
-        {
-            if (sOptionMenuPtr->cursorPos == MENUITEM_CANCEL_PAGE_3)
-                sOptionMenuPtr->cursorPos = MENUITEM_DOUBLE_BATTLE;
-            else
-                sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos + 1;
-        }
+        if (sOptionMenuPtr->cursorPos == OPT_CANCEL)
+            sOptionMenuPtr->cursorPos = OPT_TEXTSPEED;
+        else
+            sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos + 1;
+        PlaySE(SE_SELECT);
         return 3;
-    }
-    else if (JOY_NEW(R_BUTTON))
-    {
-        if(sOptionMenuPtr->page == 0)  // 从第一页到第二页
-        {
-            sOptionMenuPtr->page = 1;
-            PlaySE(SE_SELECT);
-            return 5;
-        }
-        else if(sOptionMenuPtr->page == 1)  // 从第二页到第三页
-        {
-            sOptionMenuPtr->page = 2;
-            PlaySE(SE_SELECT);
-            return 7;
-        }
-        return 0;
-    }
-    else if (JOY_NEW(L_BUTTON))
-    {
-        if(sOptionMenuPtr->page == 2)  // 从第三页到第二页
-        {
-            sOptionMenuPtr->page = 1;
-            PlaySE(SE_SELECT);
-            return 8;
-        }
-        else if(sOptionMenuPtr->page == 1)  // 从第二页到第一页
-        {
-            sOptionMenuPtr->page = 0;
-            PlaySE(SE_SELECT);
-            return 6;
-        }
-        return 0;
     }
     else if (JOY_NEW(B_BUTTON) || JOY_NEW(A_BUTTON))
     {
@@ -736,63 +665,32 @@ bool8 LoadOptionMenuPalette(void)
     sOptionMenuPtr->loadPaletteState++;
     return FALSE;
 }
+
+// Draws the names of the currently visible slice of the unified list
 void LoadOptionMenuItemNames(void)
 {
     u8 i;
-    
+
     FillWindowPixelBuffer(1, PIXEL_FILL(1));
-    if(sOptionMenuPtr->page == 0)
+    for (i = 0; i < OPTION_LIST_VISIBLE; i++)
     {
-        for (i = 0; i < MENUITEM_COUNT; i++)
-        {
-            AddTextPrinterParameterized(WIN_OPTIONS, 2, sOptionMenuItemsNames[i], 8, (u8)((i * (GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT))) + 2) - i, TEXT_SPEED_FF, NULL);    
-        }
+        u16 item = sOptionMenuPtr->scrollTop + i;
+        if (item >= OPT_COUNT)
+            break;
+        AddTextPrinterParameterized(WIN_OPTIONS, 2, GetOptionItemName(item), 8, (u8)((i * (GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT))) + 2) - i, TEXT_SPEED_FF, NULL);
     }
-    else if(sOptionMenuPtr->page == 1)  // 第二页
-    {
-        for (i = 0; i < MENUITEM_PAGE2_COUNT; i++)
-        {
-            AddTextPrinterParameterized(WIN_OPTIONS, 2, sOptionMenuItemsNames_SecondPage[i], 8, (u8)((i * (GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT))) + 2) - i, TEXT_SPEED_FF, NULL);       
-        } 
-    }
-    else  // 第三页
-    {
-        for (i = 0; i < MENUITEM_PAGE3_COUNT; i++)
-        {
-            AddTextPrinterParameterized(WIN_OPTIONS, 2, sOptionMenuItemsNames_ThirdPage[i], 8, (u8)((i * (GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT))) + 2) - i, TEXT_SPEED_FF, NULL);       
-        } 
-    }
+    PutWindowTilemap(1);
+    CopyWindowToVram(1, COPYWIN_BOTH);
 }
 
-extern const u8 gText_PickSwitchCancel_Page1[];
-extern const u8 gText_PickSwitchCancel_Page2[];
-extern const u8 gText_PickSwitchCancel_Page3[];   // 新增：第三页顶部提示
+extern const u8 gText_PickSwitchCancel[];
 
 void OptionMenu_PickSwitchCancel(void)
 {
     s32 x;
-    if(sOptionMenuPtr->page == 0)
-    {
-        x = 0xE4 - GetStringWidth(0, gText_PickSwitchCancel_Page1, 0);
-        FillWindowPixelBuffer(2, PIXEL_FILL(15)); 
-        AddTextPrinterParameterized3(2, 0, x, 0, sOptionMenuPickSwitchCancelTextColor, 0, gText_PickSwitchCancel_Page1);
-        PutWindowTilemap(2);
-        CopyWindowToVram(2, COPYWIN_BOTH);   
-    }
-    else if(sOptionMenuPtr->page == 1)  // 第二页
-    {
-        x = 0xE4 - GetStringWidth(0, gText_PickSwitchCancel_Page2, 0);
-        FillWindowPixelBuffer(2, PIXEL_FILL(15)); 
-        AddTextPrinterParameterized3(2, 0, x, 0, sOptionMenuPickSwitchCancelTextColor, 0, gText_PickSwitchCancel_Page2);
-        PutWindowTilemap(2);
-        CopyWindowToVram(2, COPYWIN_BOTH);
-    }
-    else  // 第三页
-    {
-        x = 0xE4 - GetStringWidth(0, gText_PickSwitchCancel_Page3, 0);
-        FillWindowPixelBuffer(2, PIXEL_FILL(15)); 
-        AddTextPrinterParameterized3(2, 0, x, 0, sOptionMenuPickSwitchCancelTextColor, 0, gText_PickSwitchCancel_Page3);
-        PutWindowTilemap(2);
-        CopyWindowToVram(2, COPYWIN_BOTH);
-    }
+    x = 0xE4 - GetStringWidth(0, gText_PickSwitchCancel, 0);
+    FillWindowPixelBuffer(2, PIXEL_FILL(15));
+    AddTextPrinterParameterized3(2, 0, x, 0, sOptionMenuPickSwitchCancelTextColor, 0, gText_PickSwitchCancel);
+    PutWindowTilemap(2);
+    CopyWindowToVram(2, COPYWIN_BOTH);
 }
