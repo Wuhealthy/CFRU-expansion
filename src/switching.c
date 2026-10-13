@@ -1345,6 +1345,7 @@ void ClearSwitchBytes(u8 bank)
 	gNewBS->DestinyBondCounters[bank] = 0;
 	gNewBS->SlowStartTimers[bank] = 0;
 	gNewBS->IncinerateCounters[bank] = 0;
+	gNewBS->CudChewCounter[bank] = 0; //A mon that switched out can't re-eat its berry
 	gNewBS->EmbargoTimers[bank] = 0;
 	gNewBS->DisabledMoldBreakerAbilities[bank] = 0;
 	gNewBS->SuppressedAbilities[bank] = 0;

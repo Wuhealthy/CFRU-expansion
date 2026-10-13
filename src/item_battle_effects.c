@@ -1039,7 +1039,7 @@ static u8 ConfusionBerries(u8 bank, u8 flavour, bool8 moveTurn, bool8 doPluck) {
 
 	#ifdef OLD_CONFUSION_HEAL_BERRIES
 	if ((gBattleMons[bank].hp <= gBattleMons[bank].maxHP / 2 && !moveTurn)
-	|| (doPluck && !BATTLER_MAX_HP(bank)))
+	|| (doPluck && (!BATTLER_MAX_HP(bank) || gNewBS->doingCudChewEffect))) //Cud Chew eats them even at full HP for the confusion
 	{
 		gBattleTextBuff1[0] = 0xFD;
 		gBattleTextBuff1[1] = 8;
@@ -1075,7 +1075,7 @@ static u8 ConfusionBerries(u8 bank, u8 flavour, bool8 moveTurn, bool8 doPluck) {
 		effect = ITEM_HP_CHANGE;
 	}
 	#else
-	if (PINCH_BERRY_CHECK(bank) || (doPluck && !BATTLER_MAX_HP(bank)))
+	if (PINCH_BERRY_CHECK(bank) || (doPluck && (!BATTLER_MAX_HP(bank) || gNewBS->doingCudChewEffect))) //Cud Chew eats them even at full HP for the confusion
 	{
 		gBattleTextBuff1[0] = 0xFD;
 		gBattleTextBuff1[1] = 8;

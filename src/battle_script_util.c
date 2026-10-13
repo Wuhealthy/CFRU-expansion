@@ -1610,6 +1610,7 @@ void PluckBerryEat(void)
 void ClearDoingPluckItemEffect(void)
 {
 	gNewBS->doingPluckItemEffect = FALSE;
+	gNewBS->doingCudChewEffect = FALSE;
 }
 
 void BurnUpFunc(void)
@@ -2014,10 +2015,17 @@ void TrySetAlternateFlingEffect(void)
 	if (effect == ITEM_EFFECT_CURE_ATTRACT || effect == ITEM_EFFECT_RESTORE_STATS
 	|| IsBerry(ITEM(gBankAttacker)))
 	{
-		if (ItemBattleEffects(ItemEffects_EndTurn, gBankTarget, TRUE, TRUE))
+		u8 flungEffect = ItemBattleEffects(ItemEffects_EndTurn, gBankTarget, TRUE, TRUE);
+		if (flungEffect)
 			gNewBS->doingPluckItemEffect = TRUE;
 		else if (ItemBattleEffects(ItemEffects_ContactTarget, gBankTarget, TRUE, TRUE))
 			gNewBS->doingPluckItemEffect = TRUE;
+
+		if (flungEffect && ABILITY(gBankTarget) == ABILITY_CUDCHEW)
+		{
+			SAVED_CONSUMED_ITEMS(gBankTarget) = ITEM(gBankAttacker); //The flung berry was eaten
+			gNewBS->CudChewCounter[gBankTarget] = 2; //Eat the berry again at the end of the next turn
+		}
 	}
 
 	gBattlescriptCurrInstr -= 5;
@@ -2829,6 +2837,7 @@ void ChooseMoveEffectForSpringtideStorm(void)
 void CudChewBerryEat(void)
 {
 	gBattlescriptCurrInstr += 5;
+	gNewBS->doingCudChewEffect = TRUE;
 
 	if (ItemBattleEffects(ItemEffects_EndTurn, gBattleScripting.bank, TRUE, TRUE))
 		gNewBS->doingPluckItemEffect = TRUE;

@@ -2290,6 +2290,11 @@ void atk6A_removeitem(void)
 			CONSUMED_ITEMS(bank) = gLastUsedItem;
 			SAVED_CONSUMED_ITEMS(bank) = gLastUsedItem;
 			AddBankToPickupStack(bank);
+
+			if (!gNewBS->doingCudChewEffect //The Cud Chew re-eat consuming the berry again shouldn't re-arm the counter
+			&& ABILITY(bank) == ABILITY_CUDCHEW
+			&& gItems[gLastUsedItem].pocket == POCKET_BERRY_POUCH)
+				gNewBS->CudChewCounter[bank] = 2; //Eat the berry again at the end of the next turn
 		}
 
 		gBattleMons[bank].item = ITEM_NONE;

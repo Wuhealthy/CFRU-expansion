@@ -2200,17 +2200,17 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					break;
 
 				case ABILITY_CUDCHEW:
-					if (gNewBS->CudChewCounter[bank] == 1)
+					if (gNewBS->CudChewCounter[bank] > 0
+					&&  gItems[(SAVED_CONSUMED_ITEMS(bank))].pocket == POCKET_BERRY_POUCH)
 					{
-						BattleScriptPushCursorAndCallback(BattleScript_CudChew);
-						gNewBS->CudChewCounter[bank] = 0;
-						++effect;
+						if (--gNewBS->CudChewCounter[bank] == 0) //Re-eat the berry at the end of the next turn
+						{
+							BattleScriptPushCursorAndCallback(BattleScript_CudChew);
+							++effect;
+						}
 					}
-
-					else if (gItems[(SAVED_CONSUMED_ITEMS(bank))].pocket == POCKET_BERRY_POUCH)
-					{
-						gNewBS->CudChewCounter[bank] = 1;
-					}
+					else
+						gNewBS->CudChewCounter[bank] = 0; //Last consumed item is no longer a berry - cancel the re-eat
 					break;
 
 				case ABILITY_PICKUP: ;

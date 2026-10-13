@@ -726,8 +726,8 @@ BattleScript_CudChew:
 	call BattleScript_AbilityPopUp
 	call BattleScript_AbilityPopUpRevert
 	callasm CudChewBerryEat
-	callasm ClearDoingPluckItemEffect
 	removeitem BANK_SCRIPTING
+	callasm ClearDoingPluckItemEffect
 	end3
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

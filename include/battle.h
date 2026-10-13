@@ -939,6 +939,7 @@ struct NewBattleStruct
 	bool8 breakDisguiseSpecialDmg : 1;
 	bool8 handlingFaintSwitching : 1;
 	bool8 doingPluckItemEffect : 1;
+	bool8 doingCudChewEffect : 1; //The Cud Chew re-eat is in progress - don't re-arm it or block it with Unnerve
 	bool8 usedXSpDef : 1; //Needed because it's hooked into the X Sp. Atk
 	bool8 lessThanHalfHPBeforeShellBell : 1; //For Emergency Exit
 	bool8 statBuffEffectNotProtectAffected : 1; //For Max Moves
