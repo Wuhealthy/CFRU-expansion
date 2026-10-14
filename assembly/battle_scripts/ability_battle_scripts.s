@@ -94,6 +94,7 @@ ability_battle_scripts.s
 .global BattleScript_Symbiosis
 .global BattleScript_DefiantCompetitive
 .global BattleScript_DefiantCompetitiveCall
+.global BattleScript_OpportunistActivates
 .global BattleScript_SoulHeart
 .global BattleScript_AbilityNoStatLoss
 .global BattleScript_PartnerAbilityNoStatLoss
@@ -1288,7 +1289,7 @@ BattleScript_Symbiosis:
 
 BattleScript_DefiantCompetitive:
 	statbuffchange STAT_TARGET | STAT_BS_PTR DefiantReturn
-	
+
 BattleScript_DefiantCompetitiveCall:
 	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 DefiantReturn
 	pause DELAY_HALFSECOND
@@ -1304,6 +1305,20 @@ BattleScript_DefiantCompetitiveCall:
 	call BattleScript_AbilityPopUpRevert
 
 DefiantReturn:
+	return
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+@;Opportunist: copied a stat increase from an opposing Pokémon. gBattleScripting.bank is
+@;the Opportunist mon and gBattleScripting.statChanger holds the copied stat and stages.
+BattleScript_OpportunistActivates:
+	call BattleScript_AbilityPopUp
+	setgraphicalstatchangevalues
+	playanimation BANK_SCRIPTING ANIM_STAT_BUFF ANIM_ARG_1
+	setword BATTLE_STRING_LOADER gText_RaidBattleStatBoost
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
 	return
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

@@ -9,6 +9,7 @@
 #include "../include/new/attackcanceler.h"
 #include "../include/new/battle_indicators.h"
 #include "../include/new/battle_start_turn_start.h"
+#include "../include/new/battle_script_util.h"
 #include "../include/new/battle_util.h"
 #include "../include/new/cmd49.h"
 #include "../include/new/cmd49_battle_scripts.h"
@@ -80,6 +81,7 @@ enum
 	ATK49_EJECT_BUTTON,
 	ATK49_RED_CARD,
 	ATK49_MIRROR_HERB,
+	ATK49_OPPORTUNIST,
 	ATK49_EJECT_PACK,
 	ATK49_SHELL_BELL_LIFE_ORB_RECOIL,
 	ATK49_SWITCH_OUT_ABILITIES,
@@ -1388,6 +1390,15 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 			gBattleScripting.atk49_state++;
 			break;
 
+		case ATK49_OPPORTUNIST:
+			for (i = 0; i < gBattlersCount; ++i)
+			{
+				if (TryConsumeOpportunistBoosts(i))
+					return;
+			}
+			gBattleScripting.atk49_state++;
+			break;
+
 		case ATK49_EJECT_PACK:
 			gBankAttacker = gNewBS->originalAttackerBackup;
 			if (CanDoMoveEndSwitchout(arg1))
@@ -1665,24 +1676,6 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 			u8 bank = gNewBS->DancerTurnOrder[gNewBS->DancerBankCount];
 
 			if (!gNewBS->DancerInProgress
-			&& arg1 != ARG_IN_PURSUIT
-			&& ABILITY_ON_FIELD(ABILITY_OPPORTUNIST)
-			&& gNewBS->attackAnimationPlayed
-			&& !gNewBS->moveWasBouncedThisTurn
-			&& gSpecialMoveFlags[gCurrentMove].gBuffMoves)
-			{
-				gNewBS->DancerInProgress = TRUE;
-				gNewBS->CurrentTurnAttacker = gBankAttacker;
-				gNewBS->CurrentTurnTarget = gBankTarget;
-				gNewBS->DancerBankCount = 0;
-
-				for (i = 0; i < gBattlersCount; ++i)
-					gNewBS->DancerTurnOrder[i] = i;
-
-				SortBanksBySpeed(gNewBS->DancerTurnOrder, TRUE);
-			}
-
-			else if (!gNewBS->DancerInProgress
 			&& arg1 != ARG_IN_PURSUIT
 			&& ABILITY_ON_FIELD(ABILITY_DANCER)
 			&& gNewBS->attackAnimationPlayed

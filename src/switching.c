@@ -396,6 +396,8 @@ void atk4D_switchindataupdate(void)
 	ClearSwitchBits(gActiveBattler);
 	Memset(gNewBS->mirrorHerbStatBoosts[gActiveBattler], 0,
 	       sizeof(gNewBS->mirrorHerbStatBoosts[gActiveBattler]));
+	Memset(gNewBS->opportunistStatBoosts[gActiveBattler], 0,
+	       sizeof(gNewBS->opportunistStatBoosts[gActiveBattler]));
 	gNewBS->AttackerDidDamageAtLeastOnce = FALSE; //Helps with Throat Spray
 
 	//gNewBS->LastUsedMoves[gActiveBattler] = 0;
@@ -1099,6 +1101,9 @@ void atk52_switchineffects(void)
 
 			for (i = 0; i < gBattlersCount; ++i)
 			{
+				if (TryConsumeOpportunistBoosts(i)) //Try to trigger Opportunist after switch-in ability boosts (eg. the foe's Competitive after Intimidate)
+					return;
+
 				if ((ITEM_EFFECT(i) == ITEM_EFFECT_EJECT_PACK || ITEM_EFFECT(i) == ITEM_EFFECT_RESTORE_STATS || ITEM_EFFECT(i) == ITEM_EFFECT_MIRROR_HERB)
 				&& ItemBattleEffects(ItemEffects_SwitchIn, i, TRUE, FALSE))  //Try to trigger White Herbs or Eject Packs after Intimidate
 					return;

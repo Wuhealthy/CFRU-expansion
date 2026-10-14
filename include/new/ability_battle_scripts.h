@@ -26,6 +26,7 @@ extern const u8 BattleScript_TeraformZeroClear[];
 extern const u8 BattleScript_HospitalityActivates[];
 extern const u8 BattleScript_SootheLingScaleActivates[];
 extern const u8 BattleScript_End3[];
+extern const u8 BattleScript_OpportunistActivates[];
 extern const u8 BattleScript_AbilityCuredStatus[];
 extern const u8 BattleScript_AbilityCuredStatusEnd3[];
 extern const u8 BattleScript_StartedSchoolingEnd3[];

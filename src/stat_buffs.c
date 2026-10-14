@@ -547,6 +547,30 @@ u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8* BS_ptr)
 				gNewBS->mirrorHerbStatBoosts[bank][statId - 1] += increase;
 			}
 		}
+
+		//Opportunist: opposing Pokémon queue this increase and copy every queued boost
+		//together at the move end (see TryConsumeOpportunistBoosts), matching the
+		//reference implementation's batched activation. A raiser with Contrary never
+		//gets here (its "raises" fall through to the drop branch), and the copies are
+		//applied directly at the move end without re-entering this function, so they
+		//don't trigger other Opportunist mons. Suppressed abilities read as ABILITY_NONE.
+		u8 opportunistGain = statValue;
+		if (opportunistGain > STAT_STAGE_MAX - STAT_STAGE(gActiveBattler, statId))
+			opportunistGain = STAT_STAGE_MAX - STAT_STAGE(gActiveBattler, statId);
+
+		if (opportunistGain > 0)
+		{
+			for (bank = 0; bank < gBattlersCount; ++bank)
+			{
+				if (SIDE(bank) == SIDE(gActiveBattler)
+				||  ABILITY(bank) != ABILITY_OPPORTUNIST
+				||  !BATTLER_ALIVE(bank)
+				||  (gAbsentBattlerFlags & gBitTable[bank]))
+					continue;
+
+				gNewBS->opportunistStatBoosts[bank][statId - 1] += opportunistGain;
+			}
+		}
 	}
 
 	gBattleMons[gActiveBattler].statStages[statId - 1] += statValue;

@@ -2990,12 +2990,39 @@ void TryActivateProtosynthesis(void)
 void TryUpperHand(void)
 {
 	u32 status = gBattleMons[gBankTarget].status1;
-	
+
 	if (ABILITY(gBankAttacker) == ABILITY_POISONPUPPETEER && (status & STATUS_POISON) && !(gBattleMons[gBankTarget].status2 & STATUS2_CONFUSION))
 	{
 		gBattleMons[gBankTarget].status2 |= STATUS2_CONFUSION;
 		gBattlescriptCurrInstr = BattleScript_SetPuppetConfusion - 5;
 	}
+}
+
+bool8 TryConsumeOpportunistBoosts(u8 bank)
+{
+	if (!BATTLER_ALIVE(bank) || ABILITY(bank) != ABILITY_OPPORTUNIST)
+		return FALSE;
+
+	for (u8 stat = 0; stat < BATTLE_STATS_NO - 1; ++stat)
+	{
+		u8 increase = gNewBS->opportunistStatBoosts[bank][stat];
+		if (!increase)
+			continue;
+
+		//Apply and display one queued stat at a time - the cmd49/switch-in loops
+		//re-enter after the display script finishes, covering the remaining
+		//queued stats and any further Opportunist mons.
+		gNewBS->opportunistStatBoosts[bank][stat] = 0;
+		gBattleMons[bank].statStages[stat] = MathMin(STAT_STAGE_MAX, gBattleMons[bank].statStages[stat] + increase);
+		gBattleScripting.statChanger = (stat + 1) | SET_STAT_BUFF_VALUE(increase);
+		gLastUsedAbility = ABILITY_OPPORTUNIST;
+		gActiveBattler = gBattleScripting.bank = bank;
+		BattleScriptPushCursor();
+		gBattlescriptCurrInstr = BattleScript_OpportunistActivates;
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 void TryRevivalBlessing(void)

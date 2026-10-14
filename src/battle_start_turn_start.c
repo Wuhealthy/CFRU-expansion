@@ -18,6 +18,7 @@
 #include "../include/new/ai_util.h"
 #include "../include/new/battle_start_turn_start.h"
 #include "../include/new/battle_start_turn_start_battle_scripts.h"
+#include "../include/new/battle_script_util.h"
 #include "../include/new/battle_transition.h"
 #include "../include/new/battle_util.h"
 #include "../include/new/cmd49.h"
@@ -661,6 +662,12 @@ void BattleBeginFirstTurn(void)
 			case BTSTART_SWITCH_IN_ITEMS:
 				for (; *bank < gBattlersCount; ++*bank)
 				{
+					if (TryConsumeOpportunistBoosts(gBanksByTurnOrder[*bank])) //Copies queued from switch-in ability boosts (eg. Intrepid Sword)
+					{
+						++*bank;
+						return;
+					}
+
 					if (ItemBattleEffects(ItemEffects_SwitchIn, gBanksByTurnOrder[*bank], FALSE, FALSE))
 					{
 						++*bank;
