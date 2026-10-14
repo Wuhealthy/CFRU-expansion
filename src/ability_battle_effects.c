@@ -9,6 +9,7 @@
 #include "../include/constants/items.h"
 
 #include "../include/new/ability_battle_effects.h"
+#include "../include/new/stat_buffs.h"
 #include "../include/new/ability_battle_scripts.h"
 #include "../include/new/ability_tables.h"
 #include "../include/new/battle_start_turn_start.h"
@@ -1807,6 +1808,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
         	{
             	gBankAttacker = bank;
             	STAT_STAGE(bank, statToRaise)++;
+            	QueueOpportunistCopies(bank, statToRaise, 1);
             	gBattleScripting.statChanger = statToRaise | INCREASE_1;
             	PREPARE_STAT_BUFFER(gBattleTextBuff1, statToRaise);
             	PREPARE_STAT_ROSE(gBattleTextBuff2);
@@ -2162,6 +2164,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					if (STAT_STAGE(bank, STAT_SPEED) < STAT_STAGE_MAX && gDisableStructs[bank].isFirstTurn != 2)
 					{
 						gBattleMons[bank].statStages[STAT_SPEED - 1]++;
+						QueueOpportunistCopies(bank, STAT_SPEED, 1);
 						gBattleScripting.statChanger = STAT_SPEED | INCREASE_1;
 						gBattleScripting.animArg1 = 0x11;
 						gBattleScripting.animArg2 = 0;

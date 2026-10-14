@@ -2998,7 +2998,7 @@ void TryUpperHand(void)
 	}
 }
 
-bool8 TryConsumeOpportunistBoosts(u8 bank)
+bool8 TryConsumeOpportunistBoosts(u8 bank, bool8 execute)
 {
 	if (!BATTLER_ALIVE(bank) || ABILITY(bank) != ABILITY_OPPORTUNIST)
 		return FALSE;
@@ -3017,8 +3017,13 @@ bool8 TryConsumeOpportunistBoosts(u8 bank)
 		gBattleScripting.statChanger = (stat + 1) | SET_STAT_BUFF_VALUE(increase);
 		gLastUsedAbility = ABILITY_OPPORTUNIST;
 		gActiveBattler = gBattleScripting.bank = bank;
-		BattleScriptPushCursor();
-		gBattlescriptCurrInstr = BattleScript_OpportunistActivates;
+		if (execute) //End turn / battle start contexts hand control to BattleScriptExecute
+			BattleScriptExecute(BattleScript_OpportunistActivatesEnd2);
+		else //Move script contexts resume via the pushed cursor
+		{
+			BattleScriptPushCursor();
+			gBattlescriptCurrInstr = BattleScript_OpportunistActivates;
+		}
 		return TRUE;
 	}
 

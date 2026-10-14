@@ -662,7 +662,7 @@ void BattleBeginFirstTurn(void)
 			case BTSTART_SWITCH_IN_ITEMS:
 				for (; *bank < gBattlersCount; ++*bank)
 				{
-					if (TryConsumeOpportunistBoosts(gBanksByTurnOrder[*bank])) //Copies queued from switch-in ability boosts (eg. Intrepid Sword)
+					if (TryConsumeOpportunistBoosts(gBanksByTurnOrder[*bank], TRUE)) //Copies queued from switch-in ability boosts (eg. Intrepid Sword)
 					{
 						++*bank;
 						return;

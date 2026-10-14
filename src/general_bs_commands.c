@@ -1492,6 +1492,7 @@ void atk1B_cleareffectsonfaint(void) {
 					&&  ViableMonCountFromBank(FOE(bank)) > 0) //Foe still has mons
 					{
 						++gBattleMons[bank].statStages[STAT_SPATK - 1];
+						QueueOpportunistCopies(bank, STAT_SPATK, 1);
 						gBattleScripting.bank = gEffectBank = bank;
 
 						PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_STAGE_SPATK);

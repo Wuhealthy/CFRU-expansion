@@ -95,6 +95,7 @@ ability_battle_scripts.s
 .global BattleScript_DefiantCompetitive
 .global BattleScript_DefiantCompetitiveCall
 .global BattleScript_OpportunistActivates
+.global BattleScript_OpportunistActivatesEnd2
 .global BattleScript_SoulHeart
 .global BattleScript_AbilityNoStatLoss
 .global BattleScript_PartnerAbilityNoStatLoss
@@ -1465,6 +1466,17 @@ BattleScript_MirrorArmorAttackerStatCantGoLower:
 BattleScript_CastformChange:
 	call BattleScript_CastformChangeRet
 	end3
+
+@;Same as above but for BattleScriptExecute contexts (end turn / battle start).
+BattleScript_OpportunistActivatesEnd2:
+	call BattleScript_AbilityPopUp
+	setgraphicalstatchangevalues
+	playanimation BANK_SCRIPTING ANIM_STAT_BUFF ANIM_ARG_1
+	setword BATTLE_STRING_LOADER gText_RaidBattleStatBoost
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
+	end2
 
 BattleScript_CastformChangeRet:
 	jumpifability BANK_SCRIPTING ABILITY_FORECAST DoCastformTransform

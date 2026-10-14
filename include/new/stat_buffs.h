@@ -23,6 +23,7 @@ enum
 //Exported Functions
 u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8* BS_ptr);
 bool8 DefiantActivation(void);
+void QueueOpportunistCopies(u8 raiser, u8 statId, u8 stages);
 u8 CanStatNotBeLowered(u8 statId, u8 bankDef, u8 bankAtk, ability_t defAbility);
 bool8 CanStatBeLowered(u8 statId, u8 bankDef, u8 bankAtk, ability_t defAbility);
 

@@ -1393,7 +1393,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 		case ATK49_OPPORTUNIST:
 			for (i = 0; i < gBattlersCount; ++i)
 			{
-				if (TryConsumeOpportunistBoosts(i))
+				if (TryConsumeOpportunistBoosts(i, FALSE))
 					return;
 			}
 			gBattleScripting.atk49_state++;

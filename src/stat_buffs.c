@@ -548,29 +548,9 @@ u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8* BS_ptr)
 			}
 		}
 
-		//Opportunist: opposing Pokémon queue this increase and copy every queued boost
-		//together at the move end (see TryConsumeOpportunistBoosts), matching the
-		//reference implementation's batched activation. A raiser with Contrary never
-		//gets here (its "raises" fall through to the drop branch), and the copies are
-		//applied directly at the move end without re-entering this function, so they
-		//don't trigger other Opportunist mons. Suppressed abilities read as ABILITY_NONE.
-		u8 opportunistGain = statValue;
-		if (opportunistGain > STAT_STAGE_MAX - STAT_STAGE(gActiveBattler, statId))
-			opportunistGain = STAT_STAGE_MAX - STAT_STAGE(gActiveBattler, statId);
-
-		if (opportunistGain > 0)
-		{
-			for (bank = 0; bank < gBattlersCount; ++bank)
-			{
-				if (SIDE(bank) == SIDE(gActiveBattler)
-				||  ABILITY(bank) != ABILITY_OPPORTUNIST
-				||  !BATTLER_ALIVE(bank)
-				||  (gAbsentBattlerFlags & gBitTable[bank]))
-					continue;
-
-				gNewBS->opportunistStatBoosts[bank][statId - 1] += opportunistGain;
-			}
-		}
+		//Opportunist queues every opposing stat increase, copying them stage for stage at
+		//the next consume checkpoint (see TryConsumeOpportunistBoosts).
+		QueueOpportunistCopies(gActiveBattler, statId, statValue);
 	}
 
 	gBattleMons[gActiveBattler].statStages[statId - 1] += statValue;
@@ -586,6 +566,32 @@ u8 ChangeStatBuffs(s8 statValue, u8 statId, u8 flags, const u8* BS_ptr)
 		return STAT_CHANGE_DIDNT_WORK;
 
 	return STAT_CHANGE_WORKED;
+}
+
+//Queues a stat increase for opposing Opportunist mons to copy at the next consume
+//checkpoint. Used by ChangeStatBuffs and by abilities that raise stats directly.
+void QueueOpportunistCopies(u8 raiser, u8 statId, u8 stages)
+{
+	u8 bank;
+
+	if (stages == 0)
+		return;
+
+	u8 gain = stages;
+	if (gain > STAT_STAGE_MAX - STAT_STAGE(raiser, statId))
+		gain = STAT_STAGE_MAX - STAT_STAGE(raiser, statId);
+	if (gain == 0) //Nothing actually rose
+		return;
+
+	for (bank = 0; bank < gBattlersCount; ++bank)
+	{
+		if (SIDE(bank) != SIDE(raiser)
+		&&  ABILITY(bank) == ABILITY_OPPORTUNIST
+		&&  BATTLER_ALIVE(bank)
+		&&  !(gAbsentBattlerFlags & gBitTable[bank])
+		&&  STAT_STAGE(bank, statId) < STAT_STAGE_MAX)
+			gNewBS->opportunistStatBoosts[bank][statId - 1] += gain;
+	}
 }
 
 u8 CanStatNotBeLowered(u8 statId, u8 bankDef, u8 bankAtk, ability_t defAbility)

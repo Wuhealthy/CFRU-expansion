@@ -1101,7 +1101,7 @@ void atk52_switchineffects(void)
 
 			for (i = 0; i < gBattlersCount; ++i)
 			{
-				if (TryConsumeOpportunistBoosts(i)) //Try to trigger Opportunist after switch-in ability boosts (eg. the foe's Competitive after Intimidate)
+				if (TryConsumeOpportunistBoosts(i, FALSE)) //Try to trigger Opportunist after switch-in ability boosts (eg. the foe's Competitive after Intimidate)
 					return;
 
 				if ((ITEM_EFFECT(i) == ITEM_EFFECT_EJECT_PACK || ITEM_EFFECT(i) == ITEM_EFFECT_RESTORE_STATS || ITEM_EFFECT(i) == ITEM_EFFECT_MIRROR_HERB)
