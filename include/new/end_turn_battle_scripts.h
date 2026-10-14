@@ -93,6 +93,7 @@ extern const u8 BattleScript_OctolockTurnDmg[];
 extern const u8 BattleScript_DynamaxEnd[];
 extern const u8 BattleScript_LoseRaidBattle[];
 extern const u8 BattleScript_SaltCureExtraDamage[];
+extern const u8 BattleScript_SyrupBombSpeedDrop[];
 
 //Strings
 extern const u8 gText_SideStatusWoreOff[];

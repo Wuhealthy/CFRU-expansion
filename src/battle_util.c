@@ -2743,3 +2743,13 @@ void BS_ApplySaltCure(void)
         gNewBS->statuses4[battler] |= STATUS4_SALTCURE;
     gBattlescriptCurrInstr++;
 }
+
+void BS_ApplySyrupBomb(void)
+{
+    //Records who applied the Syrupy status, so Mirror Armor can reflect
+    //each end-of-turn Speed drop back onto the user.
+    //Called via callasm, which advances the script cursor by itself.
+    u8 battler = gBankTarget;
+    if (gNewBS != NULL && battler < gBattlersCount && gBankAttacker < gBattlersCount)
+        gNewBS->syrupBombAttackers[battler] = gBankAttacker;
+}

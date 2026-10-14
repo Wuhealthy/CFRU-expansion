@@ -15778,12 +15778,12 @@ const struct BattleMove gBattleMoves[] =
 
 	[MOVE_SYRUPBOMB] =
 	{
-		.effect = EFFECT_SPEED_DOWN_HIT,
+		.effect = EFFECT_SPEED_DOWN,
 		.power = 60,
 		.type = TYPE_GRASS,
 		.accuracy = 90,
 		.pp = 15,
-		.secondaryEffectChance = 100,
+		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
 		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_TRIAGE_AFFECTED,

@@ -469,6 +469,9 @@ void atkFF09_jumpifcounter(void)
 		case Counters_TarShot:
 			counter = gNewBS->tarShotBits & gBitTable[bank];
 			break;
+		case Counters_SyrupBomb:
+			counter = gNewBS->syrupBombTimers[bank];
+			break;
 		default:
 			counter = 0; //Shouldn't happen...
 	}
@@ -585,6 +588,9 @@ void atkFF0E_setcounter(void)
 			break;
 		case Counters_TarShot:
 			gNewBS->tarShotBits |= gBitTable[bank];
+			break;
+		case Counters_SyrupBomb:
+			gNewBS->syrupBombTimers[bank] = amount;
 			break;
 	}
 

@@ -506,9 +506,28 @@ BS_019_LowerTargetDef1:
 
 .global BS_020_LowerTargetSpd1
 BS_020_LowerTargetSpd1:
+	jumpifmove MOVE_SYRUPBOMB SyrupBombBS
 	setstatchanger STAT_SPD | DECREASE_1
 	jumpifmove MOVE_TARSHOT TarShotBS
 	goto 0x81D6C13
+
+@;Syrup Bomb: drenches the target with Syrupy status instead of lowering Speed right
+@;away - the target's Speed drops one stage at the end of each of the next three turns.
+SyrupBombBS:
+	attackcanceler
+	accuracycheck BS_MOVE_MISSED 0x0
+	call STANDARD_DAMAGE
+	faintpokemon BANK_TARGET FALSE NULL
+	jumpiffaintedmon BANK_TARGET, TRUE, SyrupBombBS_End
+	jumpifbehindsubstitute BANK_TARGET SyrupBombBS_End
+	jumpifcounter BANK_TARGET SYRUP_BOMB_TIMERS NOTEQUALS 0 SyrupBombBS_End @;Already drenched
+	setcounter BANK_TARGET SYRUP_BOMB_TIMERS 3 @;Speed drops at the end of this and the next two turns
+	callasm BS_ApplySyrupBomb @;Record the user, for Mirror Armor
+	setword BATTLE_STRING_LOADER sText_SyrupBombApplied
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+SyrupBombBS_End:
+	goto BS_MOVE_END
 
 TarShotBS:
 	jumpifcounter BANK_TARGET TAR_SHOT_TIMERS NOTEQUALS 0 0x81D6C13 @;Already set
@@ -1054,6 +1073,21 @@ BattleScript_SaltCureExtraDamage:
 	setword BATTLE_STRING_LOADER sText_TargetIsHurtBySaltCure
 	printstring 0x184
 	waitmessage DELAY_1SECOND
+	end2
+
+@;Syrupy status: the target's Speed drops one stage at the end of each turn.
+@;gBankTarget is the drenched mon, gBankAttacker the one who applied it (Mirror Armor).
+.global BattleScript_SyrupBombSpeedDrop
+BattleScript_SyrupBombSpeedDrop:
+	setbyte STAT_ANIM_PLAYED 0x0
+	setstatchanger STAT_SPD | DECREASE_1
+	statbuffchange STAT_TARGET | STAT_NOT_PROTECT_AFFECTED | STAT_BS_PTR SyrupBombDropEnd
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 SyrupBombDropEnd @;Speed already at minimum
+	setgraphicalstatchangevalues
+	playanimation BANK_TARGET ANIM_STAT_BUFF ANIM_ARG_1
+	printfromtable gStatDownStringIds
+	waitmessage DELAY_1SECOND
+SyrupBombDropEnd:
 	end2
 
 BattleScript_HurtTarget_NoString:

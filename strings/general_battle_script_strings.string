@@ -556,5 +556,8 @@
 #org @sText_TargetIsHurtBySaltCure
 [TARGET]受到了\n[FD][00]的伤害！
 
+#org @sText_SyrupBombApplied
+[TARGET]被黏糊糊的\n糖浆包裹住了！
+
 #org @MirrorHerbString
 [SCRIPTING_BANK]使用模仿香草\n模仿了对手的能力变化！

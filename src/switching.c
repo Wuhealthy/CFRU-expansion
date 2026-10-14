@@ -1403,6 +1403,8 @@ void ClearSwitchBits(u8 bank)
 	gNewBS->trappedByNoRetreat &= ~(gBitTable[bank]);
 	gNewBS->inCommanderMouth &= ~(gBitTable[bank]);
 	gNewBS->commanderTrapped &= ~(gBitTable[bank]);
+	gNewBS->syrupBombTimers[bank] = 0; //Syrupy status is lost when the drenched mon leaves the field
+	gNewBS->syrupBombAttackers[bank] = 0;
 	gNewBS->UnburdenBoosts &= ~(gBitTable[bank]);
 	gNewBS->IllusionBroken &= ~(gBitTable[bank]);
 	gNewBS->brokeFreeMessage &= ~(gBitTable[bank]);

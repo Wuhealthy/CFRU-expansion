@@ -822,6 +822,8 @@ struct NewBattleStruct
 	u16 backupMoves[MAX_BATTLERS_COUNT][MAX_MON_MOVES];
 	u8 rageFistCounter[MAX_BATTLERS_COUNT];
 	u8 CudChewCounter[MAX_BATTLERS_COUNT];
+	u8 syrupBombTimers[MAX_BATTLERS_COUNT]; //Turns of Syrupy status remaining (speed dropped at each end of turn)
+	u8 syrupBombAttackers[MAX_BATTLERS_COUNT]; //Who applied Syrupy, for Mirror Armor
 	u8 teatimeBank;
 	bool8 ElectroCounter[MAX_BATTLERS_COUNT];
 	bool8 windRiderTailwindBoosted[MAX_BATTLERS_COUNT];

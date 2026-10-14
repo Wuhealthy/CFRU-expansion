@@ -103,6 +103,7 @@ enum EndTurnEffects
 	ET_Reactivate_Overworld_Terrain,
 	ET_SOS,
 	ET_Saltcure,
+	ET_SyrupBomb,
 	ET_End
 };
 
@@ -1762,6 +1763,20 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 					effect++;
 				}
 				gNewBS->turnDamageTaken[gActiveBattler] = gBattleMoveDamage; //For Emergency Exit
+				break;
+
+			case ET_SyrupBomb: //Syrupy status - Speed drops one stage at the end of each turn
+				if (gNewBS->syrupBombTimers[gActiveBattler] > 0
+				&&  BATTLER_ALIVE(gActiveBattler))
+				{
+					gBankTarget = gActiveBattler; //statbuffchange acts on gBankTarget
+					gBattleScripting.bank = gActiveBattler;
+					gBankAttacker = gNewBS->syrupBombAttackers[gActiveBattler]; //For Mirror Armor's reflection
+					gBattleScripting.statChanger = STAT_SPD | DECREASE_1;
+					BattleScriptExecute(BattleScript_SyrupBombSpeedDrop);
+					--gNewBS->syrupBombTimers[gActiveBattler];
+					effect++;
+				}
 				break;
 
 			case ET_End:
