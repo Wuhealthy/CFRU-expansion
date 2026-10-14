@@ -15,7 +15,7 @@
 },
 
 [TRAINER_AQUA_GRUNT_M] = {
-    .partyFlags = 0,
+    .partyFlags = PARTY_FLAG_CUSTOM_MOVES | PARTY_FLAG_HAS_ITEM,
     .trainerClass = CLASS_TEAM_AQUA,
     .encounterMusic = TRAINER_ENCOUNTER_MUSIC_AQUA,
     .gender = GENDER_MALE,
@@ -25,7 +25,7 @@
     .doubleBattle = FALSE,
     .aiFlags = AI_SCRIPT_CHECK_BAD_MOVE,
     .partySize = NELEMS(sShowdownParty_AquaGruntM),
-    .party = {.NoItemDefaultMoves = sShowdownParty_AquaGruntM}
+    .party = {.ItemCustomMoves = sShowdownParty_AquaGruntM}
 },
 
 [TRAINER_AQUA_GRUNT_F] = {

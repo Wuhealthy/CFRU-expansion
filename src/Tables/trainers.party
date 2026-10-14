@@ -67,8 +67,13 @@ Items:
 Double Battle: No
 AI: Check Bad Move
 
-Ekans
+Espathra
+Ability: Ability 1
 Level: 5
+- Power Gem
+- Dragon Breath
+- Sleep Talk
+- Rest
 
 === TRAINER_AQUA_GRUNT_F ===
 Name: 

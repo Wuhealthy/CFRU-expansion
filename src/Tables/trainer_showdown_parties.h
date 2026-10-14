@@ -28,12 +28,19 @@ static const struct TrainerMonItemCustomMoves sShowdownParty_AquaLeader[] =
     },
 };
 
-static const struct TrainerMonNoItemDefaultMoves sShowdownParty_AquaGruntM[] =
+static const struct TrainerMonItemCustomMoves sShowdownParty_AquaGruntM[] =
 {
     {
-        .iv = 0,
         .lvl = 5,
-        .species = SPECIES_EKANS,
+        .species = SPECIES_ESPATHRA,
+        .iv = 0,
+        .ability = Ability_1,
+        .nature = NATURE_HARDY,
+        .ivSpread = {31, 31, 31, 31, 31, 31},
+        .evSpread = {0, 0, 0, 0, 0, 0},
+        .heldItem = ITEM_NONE,
+        .moves = {MOVE_POWERGEM, MOVE_DRAGONBREATH, MOVE_SLEEPTALK, MOVE_REST},
+        .teraType = TYPE_NORMAL,
     },
 };
 
