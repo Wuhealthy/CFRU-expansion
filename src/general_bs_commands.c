@@ -1448,6 +1448,28 @@ void atk1B_cleareffectsonfaint(void) {
 					TryReactivateCentifernoSandblast(backupStatus2);
 				}
 
+				//Commander clean-up (must happen before ClearSwitchBits wipes the flags)
+				if (gNewBS->inCommanderMouth & gBitTable[gActiveBattler])
+				{
+					//The Tatsugiri fainted inside Dondozo's mouth, so Commander can't activate again this battle
+					gNewBS->inCommanderMouth &= ~gBitTable[gActiveBattler];
+					gNewBS->commanderFaintedSides |= gBitTable[SIDE(gActiveBattler)];
+					gNewBS->commanderHost[SIDE(gActiveBattler)] = 0xFF;
+				}
+
+				if (gNewBS->commanderTrapped & gBitTable[gActiveBattler])
+				{
+					//The Dondozo that had eaten a Tatsugiri fainted, so the Tatsugiri comes back out
+					gNewBS->commanderTrapped &= ~gBitTable[gActiveBattler];
+					gNewBS->commanderHost[SIDE(gActiveBattler)] = 0xFF;
+
+					if (BATTLER_ALIVE(partner) && (gNewBS->inCommanderMouth & gBitTable[partner]))
+					{
+						gNewBS->inCommanderMouth &= ~gBitTable[partner];
+						FreeTatsugiriFromMouth(partner); //Also clears its underwater state and absent flag
+					}
+				}
+
 				ClearSwitchBytes(gActiveBattler);
 				ClearSwitchBits(gActiveBattler);
 				gNewBS->ai.switchesInARow[gActiveBattler] = 0; //Will become 1 when player sends in new mon, proccing cheese counter if they try switching out again twice

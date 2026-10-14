@@ -21,6 +21,7 @@ extern const u8 BattleScript_Frisk[];
 extern const u8 BattleScript_FriskEnd[];
 extern const u8 BattleScript_PastelVeil[];
 extern const u8 BattleScript_SwitchInAbilityMsg[];
+extern const u8 BattleScript_CommanderActivates[];
 extern const u8 BattleScript_TeraformZeroClear[];
 extern const u8 BattleScript_HospitalityActivates[];
 extern const u8 BattleScript_SootheLingScaleActivates[];

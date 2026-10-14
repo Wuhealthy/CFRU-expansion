@@ -822,6 +822,7 @@ struct NewBattleStruct
 	u16 backupMoves[MAX_BATTLERS_COUNT][MAX_MON_MOVES];
 	u8 rageFistCounter[MAX_BATTLERS_COUNT];
 	u8 CudChewCounter[MAX_BATTLERS_COUNT];
+	u8 teatimeBank;
 	bool8 ElectroCounter[MAX_BATTLERS_COUNT];
 	bool8 windRiderTailwindBoosted[MAX_BATTLERS_COUNT];
 	bool8 oncePerBattleAbilityFlags[NUM_BATTLE_SIDES][PARTY_SIZE];
@@ -849,6 +850,10 @@ struct NewBattleStruct
 	u8 tarShotBits;
 	u8 trappedByOctolock;
 	u8 trappedByNoRetreat;
+	u8 inCommanderMouth; //Bit per bank: Tatsugiri is currently inside its ally Dondozo's mouth
+	u8 commanderTrapped; //Bit per bank: Dondozo has eaten a Tatsugiri via Commander and can't switch out
+	u8 commanderFaintedSides; //Bit per side: a Tatsugiri fainted inside a Dondozo's mouth, so Commander can't activate again this battle
+	u8 commanderHost[NUM_BATTLE_SIDES]; //Party index of the Dondozo hosting a Tatsugiri, or 0xFF for none
 	u8 AbsentBattlerHelper;
 	u8 activeAbilityPopUps;
 	u8 NoMoreMovingThisTurn;

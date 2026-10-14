@@ -29,6 +29,7 @@ ability_battle_scripts.s
 .global BattleScript_HospitalityActivates
 .global BattleScript_SootheLingScaleActivates
 .global BattleScript_SwitchInAbilityMsg
+.global BattleScript_CommanderActivates
 .global BattleScript_TeraformZeroClear
 .global BattleScript_End3
 .global BattleScript_AbilityCuredStatus
@@ -445,6 +446,61 @@ BattleScript_SwitchInAbilityMsg:
 	call BattleScript_AbilityPopUpRevert
 BattleScript_End3:
 	end3	
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+@;Tatsugiri entered Dondozo's mouth with Commander. gBankTarget is the Dondozo.
+@;Raises the Dondozo's Attack, Defense, Sp. Atk, Sp. Def and Speed by two stages each.
+BattleScript_CommanderActivates:
+	call BattleScript_AbilityPopUp
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
+	jumpifstat BANK_TARGET, LESSTHAN, STAT_ATK, STAT_MAX, BattleScript_CommanderStatUp
+	jumpifstat BANK_TARGET, LESSTHAN, STAT_DEF, STAT_MAX, BattleScript_CommanderStatUp
+	jumpifstat BANK_TARGET, LESSTHAN, STAT_SPATK, STAT_MAX, BattleScript_CommanderStatUp
+	jumpifstat BANK_TARGET, LESSTHAN, STAT_SPDEF, STAT_MAX, BattleScript_CommanderStatUp
+	jumpifstat BANK_TARGET, EQUALS, STAT_SPD, STAT_MAX, BattleScript_CommanderEnd
+
+BattleScript_CommanderStatUp:
+	setbyte STAT_ANIM_PLAYED 0x0
+	playstatchangeanimation BANK_TARGET, STAT_ANIM_ATK | STAT_ANIM_DEF | STAT_ANIM_SPD | STAT_ANIM_SPATK | STAT_ANIM_SPDEF, STAT_ANIM_UP | STAT_ANIM_BY_TWO
+	setstatchanger STAT_ATK | INCREASE_2
+	statbuffchange BANK_TARGET | STAT_BS_PTR, BattleScript_CommanderDef
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BattleScript_CommanderDef
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+
+BattleScript_CommanderDef:
+	setstatchanger STAT_DEF | INCREASE_2
+	statbuffchange BANK_TARGET | STAT_BS_PTR, BattleScript_CommanderSpAtk
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BattleScript_CommanderSpAtk
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+
+BattleScript_CommanderSpAtk:
+	setstatchanger STAT_SPATK | INCREASE_2
+	statbuffchange BANK_TARGET | STAT_BS_PTR, BattleScript_CommanderSpDef
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BattleScript_CommanderSpDef
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+
+BattleScript_CommanderSpDef:
+	setstatchanger STAT_SPDEF | INCREASE_2
+	statbuffchange BANK_TARGET | STAT_BS_PTR, BattleScript_CommanderSpd
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BattleScript_CommanderSpd
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+
+BattleScript_CommanderSpd:
+	setstatchanger STAT_SPD | INCREASE_2
+	statbuffchange BANK_TARGET | STAT_BS_PTR, BattleScript_CommanderEnd
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BattleScript_CommanderEnd
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+
+BattleScript_CommanderEnd:
+	end3
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

@@ -544,6 +544,76 @@ u8 GetParadoxBoostedStat(u8 bank)
 		: GetHighestStat(bank);
 }
 
+void FreeTatsugiriFromMouth(u8 tatsugiri)
+{
+	//The Tatsugiri can choose actions again
+	gAbsentBattlerFlags &= ~gBitTable[tatsugiri];
+	gStatuses3[tatsugiri] &= ~STATUS3_UNDERWATER;
+}
+
+//Tatsugiri with Commander enters an ally Dondozo's mouth: Dondozo gains two stages to
+//Attack, Defense, Sp. Atk, Sp. Def and Speed and can't leave the field (not even by
+//forced switches), while Tatsugiri can't act or be targeted anymore.
+//The pairing is tracked with the host's party index so it survives a battler's own
+//switch-in data wipe (which can happen during a simultaneous double switch).
+static bool8 ActivateCommanderInner(u8 tatsugiri, bool8 reactivating)
+{
+	u8 dondozo;
+	u8 side;
+	u8 host;
+
+	if (!IS_DOUBLE_BATTLE
+	||  (gBattleTypeFlags & BATTLE_TYPE_MULTI) //Commander doesn't activate in Multi Battles
+	||  ABILITY(tatsugiri) != ABILITY_COMMANDER
+	||  (gNewBS->commanderFaintedSides & gBitTable[SIDE(tatsugiri)]) //A Tatsugiri already fainted in a mouth, so Commander can't activate again
+	||  (!reactivating && (gNewBS->inCommanderMouth & gBitTable[tatsugiri])))
+		return FALSE;
+
+	dondozo = PARTNER(tatsugiri);
+	if (!BATTLER_ALIVE(dondozo) || SPECIES(dondozo) != SPECIES_DONDOZO)
+		return FALSE;
+
+	side = SIDE(tatsugiri);
+	host = gNewBS->commanderHost[side];
+
+	if (host == gBattlerPartyIndexes[dondozo] && (gNewBS->commanderTrapped & gBitTable[dondozo]))
+	{
+		//This exact pairing already exists (bank flags may have just been wiped by this
+		//Tatsugiri's own switch-in during a double switch) - just re-apply the in-mouth state.
+		gNewBS->inCommanderMouth |= gBitTable[tatsugiri];
+		gStatuses3[tatsugiri] |= STATUS3_UNDERWATER;
+		gAbsentBattlerFlags |= gBitTable[tatsugiri];
+		return FALSE;
+	}
+
+	gNewBS->inCommanderMouth |= gBitTable[tatsugiri];
+	gNewBS->commanderTrapped |= gBitTable[dondozo];
+	gNewBS->commanderHost[side] = gBattlerPartyIndexes[dondozo];
+	gBattleMons[dondozo].status2 |= STATUS2_ESCAPE_PREVENTION; //Dondozo can't voluntarily switch out even if the Tatsugiri faints
+	gStatuses3[tatsugiri] |= STATUS3_UNDERWATER; //The Tatsugiri enters a permanent underwater state
+	gAbsentBattlerFlags |= gBitTable[tatsugiri]; //Vanilla skips "absent" battlers during action selection, so no moves can ever be chosen for the Tatsugiri
+
+	gBattleScripting.bank = tatsugiri;
+	gBankTarget = dondozo;
+	gBattleStringLoader = gText_CommanderActivate;
+	BattleScriptPushCursorAndCallback(BattleScript_CommanderActivates);
+	return TRUE;
+}
+
+bool8 TryActivateCommander(u8 tatsugiri)
+{
+	return ActivateCommanderInner(tatsugiri, FALSE);
+}
+
+//Called when a Dondozo switches in: a Tatsugiri with Commander already on the field
+//jumps into its mouth and Commander activates again. During a simultaneous double
+//switch the Tatsugiri may still hold a stale mouth mark from the Dondozo that's
+//leaving - re-activating here re-links it to the fresh one.
+bool8 TryReactivateCommanderForDondozo(u8 dondozo)
+{
+	return ActivateCommanderInner(PARTNER(dondozo), TRUE);
+}
+
 u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special, u16 moveArg)
 {
 	int i;
@@ -1551,22 +1621,9 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			break;
 
 		case ABILITY_COMMANDER:
-    		if (IS_DOUBLE_BATTLE && SPECIES(PARTNER(bank)) == SPECIES_DONDOZO)
-    		{
-        		gStatuses3[bank] |= STATUS3_DISAPPEARED;
-        
-        		u8 spriteId = gBattlerSpriteIds[bank];
-    			if (spriteId != 0xFF)
-            		gSprites[spriteId].pos1.x = -512;
-            		gSprites[spriteId].pos1.y = -512;
-            		gSprites[spriteId].invisible = TRUE;
-        
-        		gBankTarget = PARTNER(bank);
-				gBattleStringLoader = gText_CommanderActivate;
-        		BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
-        		effect++;
-    		}
-    		break;
+			if (TryActivateCommander(bank))
+				effect++;
+			break;
 
 		case ABILITY_IMPOSTER:
 			if (ImposterWorks(bank, FALSE))
@@ -2840,6 +2897,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 						case ABILITY_MUMMY:
 						case ABILITY_BATTLEBOND:
 						case ABILITY_COMATOSE:
+						case ABILITY_COMMANDER:
 						case ABILITY_DISGUISE:
 						case ABILITY_MULTITYPE:
 						case ABILITY_POWERCONSTRUCT:

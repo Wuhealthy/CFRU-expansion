@@ -59,7 +59,8 @@ void atk00_attackcanceler(void)
 
 	if ((gBattleMons[gBankAttacker].hp == 0
 	|| (gStatuses3[gBankAttacker] & STATUS3_SKY_DROP_TARGET)
-	|| (gNewBS->NoMoreMovingThisTurn & gBitTable[gBankAttacker])) //From Smack Down/Gravity
+	|| (gNewBS->NoMoreMovingThisTurn & gBitTable[gBankAttacker]) //From Smack Down/Gravity
+	|| (gNewBS->inCommanderMouth & gBitTable[gBankAttacker])) //Tatsugiri inside Dondozo's mouth can't act
 		&& !(gHitMarker & HITMARKER_NO_ATTACKSTRING))
 	{
 		gHitMarker |= HITMARKER_UNABLE_TO_USE_MOVE;

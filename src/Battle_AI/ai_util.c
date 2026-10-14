@@ -2603,6 +2603,8 @@ bool8 IsTrapped(u8 bank, bool8 switching)
 	{
 		if (gBattleMons[bank].status2 & (STATUS2_ESCAPE_PREVENTION | STATUS2_WRAPPED)
 		|| (gStatuses3[bank] & STATUS3_ROOTED)
+		|| (gNewBS->inCommanderMouth & gBitTable[bank]) //Tatsugiri inside Dondozo's mouth can't switch out
+		|| (gNewBS->commanderTrapped & gBitTable[bank]) //Dondozo that ate a Tatsugiri can't switch out
 		|| (ABILITY_ON_OPPOSING_FIELD(bank, ABILITY_SHADOWTAG) && IsTrappedByAbility(bank, ABILITY_SHADOWTAG))
 		|| (ABILITY_ON_OPPOSING_FIELD(bank, ABILITY_ARENATRAP) && IsTrappedByAbility(bank, ABILITY_ARENATRAP))
 		|| (ABILITY_ON_OPPOSING_FIELD(bank, ABILITY_MAGNETPULL) && IsTrappedByAbility(bank, ABILITY_MAGNETPULL))

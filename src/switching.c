@@ -5,6 +5,7 @@
 #include "../include/constants/songs.h"
 #include "../include/constants/trainer_classes.h"
 
+#include "../include/new/ability_battle_effects.h"
 #include "../include/new/ability_battle_scripts.h"
 #include "../include/new/ability_tables.h"
 #include "../include/new/ai_master.h"
@@ -482,7 +483,11 @@ void atk4F_jumpifcantswitch(void)
 {
 	gActiveBattler = GetBankForBattleScript(T2_READ_8(gBattlescriptCurrInstr + 1) & ~(ATK4F_DONT_CHECK_STATUSES));
 
-	if (!(T2_READ_8(gBattlescriptCurrInstr + 1) & ATK4F_DONT_CHECK_STATUSES)
+	if (gNewBS->commanderTrapped & gBitTable[gActiveBattler]) //Commander won't let the Dondozo leave the field, not even by forced switches
+	{
+		gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 2);
+	}
+	else if (!(T2_READ_8(gBattlescriptCurrInstr + 1) & ATK4F_DONT_CHECK_STATUSES)
 	&& CanBeTrapped(gActiveBattler)
 	&& ((gBattleMons[gActiveBattler].status2 & (STATUS2_WRAPPED | STATUS2_ESCAPE_PREVENTION)) || (gStatuses3[gActiveBattler] & STATUS3_ROOTED) || IsFairyLockActive()))
 	{
@@ -934,6 +939,10 @@ void atk52_switchineffects(void)
 				&& AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, i, 0, 0, 0))
 					return;
 			}
+
+			//A Tatsugiri with Commander already on the field enters the mouth of an incoming Dondozo
+			if (TryReactivateCommanderForDondozo(gActiveBattler))
+				return;
 
 			if (AbilityBattleEffects(ABILITYEFFECT_ON_SWITCHIN, gActiveBattler, 0, 0, 0))
 				return;
@@ -1392,6 +1401,8 @@ void ClearSwitchBits(u8 bank)
 	gNewBS->tarShotBits &= ~(gBitTable[bank]);
 	gNewBS->trappedByOctolock &= ~(gBitTable[bank]);
 	gNewBS->trappedByNoRetreat &= ~(gBitTable[bank]);
+	gNewBS->inCommanderMouth &= ~(gBitTable[bank]);
+	gNewBS->commanderTrapped &= ~(gBitTable[bank]);
 	gNewBS->UnburdenBoosts &= ~(gBitTable[bank]);
 	gNewBS->IllusionBroken &= ~(gBitTable[bank]);
 	gNewBS->brokeFreeMessage &= ~(gBitTable[bank]);
@@ -1407,6 +1418,8 @@ void PartyMenuSwitchingUpdate(void)
 	gBattleStruct->switchoutPartyIndex[gActiveBattler] = gBattlerPartyIndexes[gActiveBattler];
 
 	if (gStatuses3[gActiveBattler] & STATUS3_SKY_DROP_TARGET) //Being Ghost doesn't get you out of this
+		goto TRAPPED;
+	else if (gNewBS->inCommanderMouth & gBitTable[gActiveBattler]) //Tatsugiri inside Dondozo's mouth can't be switched out
 		goto TRAPPED;
 	else if (!CanBeTrapped(gActiveBattler))
 		goto SKIP_SWITCH_BLOCKING_CHECK;

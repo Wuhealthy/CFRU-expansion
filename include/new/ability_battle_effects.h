@@ -21,6 +21,9 @@ u16 GetHighestStat(u8 bankAtk);
 u16 GetHighestStatMon(struct Pokemon* mon);
 bool8 IsParadoxBoostActive(u8 bank);
 u8 GetParadoxBoostedStat(u8 bank);
+bool8 TryActivateCommander(u8 tatsugiri);
+bool8 TryReactivateCommanderForDondozo(u8 dondozo);
+void FreeTatsugiriFromMouth(u8 tatsugiri);
 
 //Functions Hooked In
 pokemon_t* UpdateNickForIllusion(pokemon_t* mon);

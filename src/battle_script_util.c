@@ -32,6 +32,7 @@
 #include "../include/new/switching.h"
 #include "../include/new/util.h"
 
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Warray-bounds"
 
@@ -2373,6 +2374,38 @@ void FailIfTrappedByNoRetreat(void)
 		gBattlescriptCurrInstr = BattleScript_ButItFailedAttackstring - 5;
 }
 
+//Order Up (used by Dondozo): if a Tatsugiri is inside the user's mouth via Commander, the
+//stat it boosts depends on the Tatsugiri's form (Curly: Attack, Droopy: Defense, Stretchy:
+//Speed). Otherwise no stat is boosted.
+void TryOrderUpBoost(void)
+{
+	u8 moveEffect = 0;
+	u8 tatsugiri = PARTNER(gBankAttacker);
+
+	if (IS_DOUBLE_BATTLE
+	&&  BATTLER_ALIVE(tatsugiri)
+	&&  (gNewBS->inCommanderMouth & gBitTable[tatsugiri]))
+	{
+		switch (SPECIES(tatsugiri)) {
+			case SPECIES_TATSUGIRI:
+				moveEffect = MOVE_EFFECT_ATK_PLUS_1;
+				break;
+
+			case SPECIES_TATSUGIRI_RED:
+				moveEffect = MOVE_EFFECT_DEF_PLUS_1;
+				break;
+
+			case SPECIES_TATSUGIRI_YELLOW:
+				moveEffect = MOVE_EFFECT_SPD_PLUS_1;
+				break;
+		}
+
+		moveEffect |= MOVE_EFFECT_AFFECTS_USER;
+	}
+
+	gBattleCommunication[MOVE_EFFECT_BYTE] = moveEffect;
+}
+
 void FinishTurn(void)
 {
 	gCurrentActionFuncId = ACTION_FINISHED;
@@ -2832,6 +2865,70 @@ void ChooseMoveEffectForSpringtideStorm(void)
 		moveEffect = EFFECT_ALL_STATS_UP_HIT;
 
 	gBattlescriptCurrInstr = gBattleScriptsForMoveEffects[moveEffect] - 5;
+}
+
+extern const u8 BattleScript_TeatimeEnd[]; //Defined in general_attack_battle_scripts.s
+
+static bool8 CanEatTeatimeBerry(u8 bank)
+{
+	if (!BATTLER_ALIVE(bank))
+		return FALSE;
+
+	if (gStatuses3[bank] & STATUS3_SEMI_INVULNERABLE) //Airborne, underwater, underground or hidden
+		return FALSE;
+
+	if (!IsBerry(ITEM(bank)))
+		return FALSE;
+
+	if (gNewBS->IncinerateCounters[bank]) //The berry was incinerated - can't be used
+		return FALSE;
+
+	if (gNewBS->corrodedItems[SIDE(bank)] & gBitTable[gBattlerPartyIndexes[bank]]) //The berry was corroded
+		return FALSE;
+
+	if (IsIonDelugeActive() //Teatime becomes Electric-type, so Electric-immune mons are unaffected
+	&& ABILITY(bank) == ABILITY_VOLTABSORB)
+		return FALSE;
+
+	return TRUE;
+}
+
+void StartTeatime(void)
+{
+	for (gNewBS->teatimeBank = 0; gNewBS->teatimeBank < gBattlersCount; ++gNewBS->teatimeBank)
+	{
+		if (CanEatTeatimeBerry(gNewBS->teatimeBank))
+			return;
+	}
+
+	gBattlescriptCurrInstr = BattleScript_ButItFailed - 5; //No mon on the field can eat a berry
+}
+
+void TeatimeProcessNextBank(void)
+{
+	gBattlescriptCurrInstr += 5;
+
+	while (gNewBS->teatimeBank < gBattlersCount)
+	{
+		u8 bank = gNewBS->teatimeBank++;
+
+		if (!CanEatTeatimeBerry(bank))
+			continue;
+
+		gBattleScripting.bank = bank;
+		gLastUsedItem = ITEM(bank);
+
+		//Berries are eaten even when their use conditions aren't met - an effect that
+		//doesn't fire here just gets consumed by the removeitem after this call
+		if (ItemBattleEffects(ItemEffects_EndTurn, bank, TRUE, TRUE))
+			gNewBS->doingPluckItemEffect = TRUE; //The berry script's own removeitem should skip
+
+		gBattleScripting.bank = bank;
+		gBattlescriptCurrInstr -= 5;
+		return;
+	}
+
+	gBattlescriptCurrInstr = BattleScript_TeatimeEnd - 5; //All berry holders have eaten
 }
 
 void CudChewBerryEat(void)

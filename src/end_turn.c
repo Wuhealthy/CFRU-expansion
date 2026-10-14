@@ -2131,7 +2131,10 @@ bool8 HandleFaintedMonActions(void)
 				gBattleStruct->faintedActionsState++;
 				for (i = 0; i < gBattlersCount; i++)
 				{
-					if (gAbsentBattlerFlags & gBitTable[i] && !HasNoMonsToSwitch(i))
+					//Tatsugiri inside Dondozo's mouth isn't really absent - it must stay
+					//"absent" so no moves can be chosen for it, and no replacement is sent
+					if (gAbsentBattlerFlags & gBitTable[i] && !HasNoMonsToSwitch(i)
+					&& !(gNewBS->inCommanderMouth & gBitTable[i]))
 						gAbsentBattlerFlags &= ~(gBitTable[i]);
 				}
 				__attribute__ ((fallthrough));

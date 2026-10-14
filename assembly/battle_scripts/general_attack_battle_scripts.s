@@ -3129,9 +3129,7 @@ BS_138_AttackerRaiseDef1Chance:
 .global BS_139_AttackerRaiseAtk1Chance
 BS_139_AttackerRaiseAtk1Chance:
 	jumpifmove MOVE_FELLSTINGER FellStingerBS
-	jumpifspecies BANK_ATTACKER SPECIES_TATSUGIRI OrderUpAtk_BS
-	jumpifspecies BANK_ATTACKER SPECIES_TATSUGIRI_RED OrderUpDef_BS
-	jumpifspecies BANK_ATTACKER SPECIES_TATSUGIRI_YELLOW OrderUpSpd_BS
+	jumpifmove MOVE_ORDERUP OrderUpBS
 	setmoveeffect MOVE_EFFECT_ATK_PLUS_1 | MOVE_EFFECT_AFFECTS_USER
 	goto BS_STANDARD_HIT
 
@@ -3157,16 +3155,10 @@ FellStingerKill:
 	waitmessage DELAY_1SECOND
 	goto BS_MOVE_END
 
-OrderUpAtk_BS:
-	setmoveeffect MOVE_EFFECT_ATK_PLUS_1 | MOVE_EFFECT_AFFECTS_USER
-	goto BS_STANDARD_HIT
-
-OrderUpDef_BS:
-	setmoveeffect MOVE_EFFECT_DEF_PLUS_1 | MOVE_EFFECT_AFFECTS_USER
-	goto BS_STANDARD_HIT
-
-OrderUpSpd_BS:
-	setmoveeffect MOVE_EFFECT_SPD_PLUS_1 | MOVE_EFFECT_AFFECTS_USER
+@;Order Up: boosts a stat of the user depending on the form of the Tatsugiri inside its
+@;mouth (Curly: Attack, Droopy: Defense, Stretchy: Speed). No boost without Commander.
+OrderUpBS:
+	callasm TryOrderUpBoost
 	goto BS_STANDARD_HIT
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -6279,7 +6271,23 @@ BattleScript_SetTerrainReturn:
 
 .global BS_244_Teatime
 BS_244_Teatime:
-	goto BS_STANDARD_HIT
+	attackcanceler
+	attackstring
+	ppreduce
+	pause DELAY_HALFSECOND
+	callasm StartTeatime @;Fails if no mon on the field can eat its berry
+	attackanimation
+    waitanimation
+
+TeatimeLoopBS:
+	callasm TeatimeProcessNextBank @;Next berry holder eats its berry (effect fires if conditions allow)
+	removeitem BANK_SCRIPTING @;The berry is always consumed, even when its effect didn't fire
+	callasm ClearDoingPluckItemEffect
+	goto TeatimeLoopBS
+
+.global BattleScript_TeatimeEnd
+BattleScript_TeatimeEnd:
+	goto BS_MOVE_END
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
