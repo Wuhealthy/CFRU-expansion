@@ -1,6 +1,8 @@
 #include "defines.h"
 #include "defines_battle.h"
 #include "../include/battle_anim.h"
+#include "../include/battle_message.h"
+#include "../include/battle_string_ids.h"
 #include "../include/pokeball.h"
 #include "../include/random.h"
 #include "../include/constants/pokedex.h"
@@ -3015,6 +3017,28 @@ bool8 TryConsumeOpportunistBoosts(u8 bank, bool8 execute)
 		gNewBS->opportunistStatBoosts[bank][stat] = 0;
 		gBattleMons[bank].statStages[stat] = MathMin(STAT_STAGE_MAX, gBattleMons[bank].statStages[stat] + increase);
 		gBattleScripting.statChanger = (stat + 1) | SET_STAT_BUFF_VALUE(increase);
+		//Rebuild the stat name and "rose" text for THIS stat - the shared buffers still
+		//hold the last stat change of the move that queued the boost (eg. Dragon Dance).
+		PREPARE_STAT_BUFFER(gBattleTextBuff1, stat + 1);
+		gBattleTextBuff2[0] = B_BUFF_PLACEHOLDER_BEGIN;
+		u8 textIndex = 1;
+		if (increase == 2)
+		{
+			gBattleTextBuff2[textIndex++] = B_BUFF_STRING;
+			gBattleTextBuff2[textIndex++] = STRINGID_STATSHARPLY;
+			gBattleTextBuff2[textIndex++] = STRINGID_STATSHARPLY >> 8;
+		}
+		else if (increase >= 3)
+		{
+			gBattleTextBuff2[textIndex++] = B_BUFF_STRING;
+			gBattleTextBuff2[textIndex++] = 0x86;
+			gBattleTextBuff2[textIndex++] = 0x1;
+		}
+		gBattleTextBuff2[textIndex++] = B_BUFF_STRING;
+		gBattleTextBuff2[textIndex++] = STRINGID_STATROSE;
+		gBattleTextBuff2[textIndex++] = STRINGID_STATROSE >> 8;
+		gBattleTextBuff2[textIndex] = B_BUFF_EOS;
+		gBattleCommunication[MULTISTRING_CHOOSER] = 1; //Self-raise phrasing, same as self-targeted boosts
 		gLastUsedAbility = ABILITY_OPPORTUNIST;
 		gActiveBattler = gBattleScripting.bank = bank;
 		if (execute) //End turn / battle start contexts hand control to BattleScriptExecute
