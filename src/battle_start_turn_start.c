@@ -2554,6 +2554,15 @@ static u32 BoostSpeedInWeather(ability_t ability, u8 itemEffect, u32 speed, u8 b
 					speed = (speed * 15) / 10;
 			break;
 		}
+
+		// 大晴天：草属性宝可梦速度 ×4/3
+		if (gBattleWeather & WEATHER_SUN_ANY
+		&& !ItemEffectIgnoresSunAndRain(itemEffect)
+		&& bank < gBattlersCount
+		&& (gBattleMons[bank].type1 == TYPE_GRASS
+		 || gBattleMons[bank].type2 == TYPE_GRASS
+		 || gBattleMons[bank].type3 == TYPE_GRASS))
+			speed = (speed * 4) / 3;
 	}
 
 	return speed;
