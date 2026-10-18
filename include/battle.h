@@ -836,6 +836,8 @@ struct NewBattleStruct
 	u8 StellarEnergyCounter[MAX_BATTLERS_COUNT];
 	u8 speedDiveRecoilBank[MAX_BATTLERS_COUNT];
 	u32 statuses4[MAX_BATTLERS_COUNT]; //Volatile Gen 9 effects (currently Salt Cure)
+	bool8 fallenPokemonFlags[NUM_BATTLE_SIDES][PARTY_SIZE]; //Mon that fainted at any point this battle (survives revival)
+	u8 supremeOverlordFallenCount[NUM_BATTLE_SIDES][PARTY_SIZE]; //Fallen count snapshotted when Supreme Overlord entered
 
 	//Bit Fields for Banks
 	u8 MicleBerryBits;

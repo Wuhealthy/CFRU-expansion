@@ -9,6 +9,7 @@
 
 #include "../include/new/accuracy_calc.h"
 #include "../include/new/ai_util.h"
+#include "../include/new/ability_util.h"
 #include "../include/new/battle_start_turn_start.h"
 #include "../include/new/battle_util.h"
 #include "../include/new/damage_calc.h"
@@ -2771,43 +2772,15 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 
 		case ABILITY_SUPREMEOVERLORD:
 		{
-    		u8 fallenCount = 0;
-    		u8 partyCount;
-    		struct Pokemon* party;
-    		u8 side = SIDE(bankAtk);
-    
-    		// 根据使用者 side 选择正确的队伍
-    		if (side == B_SIDE_PLAYER)
-    		{
-        		party = gPlayerParty;
-        		partyCount = gPlayerPartyCount;
-    		}
-    		else
-    		{
-        		party = gEnemyParty;
-        		partyCount = gEnemyPartyCount;
-    		}
-    
-    		// 统计使用者方队伍中倒下的宝可梦数量
-    		for (u8 i = 0; i < partyCount; i++)
-    		{
-        		struct Pokemon* mon = &party[i];
-        		if (GetMonData(mon, MON_DATA_HP, NULL) == 0)
-        		{
-            		fallenCount++;
-        		}
-    		}
-    
-    		// 上限 5 只
-    		if (fallenCount > 5)
-        		fallenCount = 5;
-    
-    		// 每只倒下 +10% 威力
-    		if (fallenCount > 0)
-    		{
-        		u32 boostPercent = 100 + (fallenCount * 10);
-        		power = (power * boostPercent) / 100;
-    		}
+			//Boost was snapshotted on entry: mons fainting later don't raise it,
+			//and reviving doesn't lower it (capped at 50%)
+			u8 fallenCount = gNewBS->supremeOverlordFallenCount[SIDE(bankAtk)][gBattlerPartyIndexes[bankAtk]];
+
+			if (fallenCount > 0)
+			{
+				u32 boostPercent = 100 + (fallenCount * 10); //+10% per fallen mon
+				power = (power * boostPercent) / 100;
+			}
 			break;
 		}
 

@@ -13,6 +13,7 @@
 #include "../include/new/ability_battle_effects.h"
 #include "../include/new/ability_battle_scripts.h"
 #include "../include/new/ability_tables.h"
+#include "../include/new/ability_util.h"
 #include "../include/new/accuracy_calc.h"
 #include "../include/new/attackcanceler.h"
 #include "../include/new/battle_start_turn_start.h"
@@ -1339,6 +1340,7 @@ void atk19_tryfaintmon(void)
 		{
 			gNewBS->lastFainted = gActiveBattler;
 			gHitMarker |= HITMARKER_FAINTED(gActiveBattler);
+			MarkFallenMon(gActiveBattler); //Supreme Overlord: record which party mon fainted this battle
 			BattleScriptPush(gBattlescriptCurrInstr + 7);
 			gBattlescriptCurrInstr = BS_ptr;
 			if (SIDE(gActiveBattler) == B_SIDE_PLAYER

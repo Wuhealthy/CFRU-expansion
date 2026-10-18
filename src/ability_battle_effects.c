@@ -1739,13 +1739,21 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 		}
 
 		case ABILITY_SUPREMEOVERLORD:
-			if (IsFaintedPokemonInParty(bank))
+		{
+			u8 fallenCount = CountFallenPokemonInParty(bank); //Only mons that fainted during this battle count
+
+			//Snapshot the boost on entry - mons that faint later don't increase it,
+			//and reviving doesn't lower it
+			gNewBS->supremeOverlordFallenCount[SIDE(bank)][gBattlerPartyIndexes[bank]] = fallenCount;
+
+			if (fallenCount > 0) //Doesn't activate if no party mon has fainted
 			{
 				gBattleStringLoader = gText_SupremeOverlordActivate;
 				BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
 				effect++;
 			}
 			break;
+		}
 
 		case ABILITY_ICEFACE:
 			#if (defined SPECIES_EISCUE && defined SPECIES_EISCUE_NOICE)

@@ -5,6 +5,7 @@
 #include "../include/constants/items.h"
 
 #include "../include/new/ability_battle_scripts.h"
+#include "../include/new/ability_util.h"
 #include "../include/new/attackcanceler_battle_scripts.h"
 #include "../include/new/battle_strings.h"
 #include "../include/new/battle_util.h"
@@ -1267,6 +1268,7 @@ void atkFF23_faintpokemonaftermove(void)
 
 		gNewBS->lastFainted = gActiveBattler;
 		gHitMarker |= HITMARKER_FAINTED(gActiveBattler);
+		MarkFallenMon(gActiveBattler); //Supreme Overlord: record which party mon fainted this battle
 		BattleScriptPush(gBattlescriptCurrInstr + 3);
 
 		if (IsCatchableRaidBattle() && gActiveBattler == BANK_RAID_BOSS)

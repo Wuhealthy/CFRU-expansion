@@ -491,30 +491,37 @@ bool8 CheckStatusAny(u8 bank)
 
 bool8 IsFaintedPokemonInParty(u8 bank)
 {
-    u8 i;
-    u8 partyCount;
-    struct Pokemon* party;
-    u8 side = SIDE(bank);
-    
-    // 根据 bank 的 side 选择正确的队伍
-    if (side == B_SIDE_PLAYER)
-    {
-        party = gPlayerParty;
-        partyCount = gPlayerPartyCount;
-    }
-    else
-    {
-        party = gEnemyParty;
-        partyCount = gEnemyPartyCount;
-    }
+    return CountFallenPokemonInParty(bank) > 0;
+}
 
+u8 CountFallenPokemonInParty(u8 bank)
+{
+    u8 i;
+    u8 count = 0;
+    u8 partyCount;
+    u8 side = SIDE(bank);
+
+    //Only count mons that fainted during this battle; mons brought into the
+    //battle already fainted don't count (per official Supreme Overlord behaviour)
+    partyCount = (side == B_SIDE_PLAYER) ? gPlayerPartyCount : gEnemyPartyCount;
     for (i = 0; i < partyCount; i++)
     {
-        if (GetMonData(&party[i], MON_DATA_HP, NULL) == 0)
-            return TRUE;
+        if (gNewBS->fallenPokemonFlags[side][i])
+            ++count;
     }
 
-    return FALSE;
+    if (count > 5)
+        count = 5; //Boost caps at 50%
+
+    return count;
+}
+
+void MarkFallenMon(u8 bank)
+{
+    u8 side = SIDE(bank);
+    u8 partyId = gBattlerPartyIndexes[bank];
+
+    gNewBS->fallenPokemonFlags[side][partyId] = TRUE; //Kept even after revival
 }
 
 bool8 AngerShellStatsCheck(u8 bank)
