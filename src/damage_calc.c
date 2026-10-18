@@ -3778,39 +3778,18 @@ static u16 GetBasePower(struct DamageCalc* data)
 			break;
 
 		case MOVE_LASTRESPECTS:
-    		if (!(data->specialFlags & FLAG_IGNORE_TARGET))
-    		{
-        		u8 fallenCount = 0;
-        		u8 partyCount;
-        		struct Pokemon* party;
-        		u8 side = SIDE(bankAtk);
-        
-        		// 根据使用者 side 选择正确的队伍
-        		if (side == B_SIDE_PLAYER)
-        		{
-            		party = gPlayerParty;
-            		partyCount = gPlayerPartyCount;
-        		}
-        		else
-        		{
-            		party = gEnemyParty;
-            		partyCount = gEnemyPartyCount;
-        		}
-        
-        		// 统计使用者方队伍中倒下的宝可梦数量
-        		for (u8 i = 0; i < partyCount; i++)
-        		{
-            		struct Pokemon* mon = &party[i];
-            		if (GetMonData(mon, MON_DATA_HP, NULL) == 0)
-            		{
-                		fallenCount++;
-            		}
-        		}
-        
-        		// 每只倒下 +50 威力（基础 50 + 倒下数 × 50）
-        		power = 50 + (fallenCount * 50);
-    		}
-    		break;
+			if (!(data->specialFlags & FLAG_IGNORE_TARGET))
+			{
+				//+50 power per party mon that fainted during this battle; mons
+				//brought into battle already fainted don't count, revival doesn't
+				//lower it, and the user's own fainting counts too (max 5050)
+				u8 fallenCount = CountFallenPokemonInParty(bankAtk);
+
+				power = 50 + (fallenCount * 50);
+				if (power > 5050)
+					power = 5050;
+			}
+			break;
 
 		case MOVE_PSYBLADE:
 			if (gTerrainType == ELECTRIC_TERRAIN)

@@ -1741,6 +1741,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 		case ABILITY_SUPREMEOVERLORD:
 		{
 			u8 fallenCount = CountFallenPokemonInParty(bank); //Only mons that fainted during this battle count
+			if (fallenCount > 5)
+				fallenCount = 5; //Boost caps at 50%
 
 			//Snapshot the boost on entry - mons that faint later don't increase it,
 			//and reviving doesn't lower it

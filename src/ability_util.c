@@ -489,11 +489,6 @@ bool8 CheckStatusAny(u8 bank)
     return (gBattleMons[bank].status1 & STATUS1_ANY);
 }
 
-bool8 IsFaintedPokemonInParty(u8 bank)
-{
-    return CountFallenPokemonInParty(bank) > 0;
-}
-
 u8 CountFallenPokemonInParty(u8 bank)
 {
     u8 i;
@@ -502,16 +497,14 @@ u8 CountFallenPokemonInParty(u8 bank)
     u8 side = SIDE(bank);
 
     //Only count mons that fainted during this battle; mons brought into the
-    //battle already fainted don't count (per official Supreme Overlord behaviour)
+    //battle already fainted don't count (per official Supreme Overlord /
+    //Last Respects behaviour). Cap is applied by the caller.
     partyCount = (side == B_SIDE_PLAYER) ? gPlayerPartyCount : gEnemyPartyCount;
     for (i = 0; i < partyCount; i++)
     {
         if (gNewBS->fallenPokemonFlags[side][i])
             ++count;
     }
-
-    if (count > 5)
-        count = 5; //Boost caps at 50%
 
     return count;
 }
