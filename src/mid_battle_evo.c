@@ -25,6 +25,7 @@
 #include "../include/new/battle_terrain.h"
 #include "../include/new/build_pokemon.h"
 #include "../include/new/evolution.h"
+#include "../include/new/front_pic_table.h"
 #include "../include/new/learn_move.h"
 #include "../include/new/mid_battle_evo.h"
 #include "../include/new/Vanilla_functions.h"
@@ -53,7 +54,6 @@ bool8 gPlayerDoesNotWantToEvolveRight = FALSE;
 extern struct EvoInfo *sEvoStructPtr;
 extern const struct ScanlineEffectParams sIntroScanlineParams16Bit;
 
-#define gMonFrontPicTable ((const struct CompressedSpriteSheet*) *((u32*) 0x8000128))
 #define tState              data[0]
 #define tPreEvoSpecies      data[1]
 #define tPostEvoSpecies     data[2]
@@ -156,7 +156,11 @@ static void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canSto
     u16 currSpecies;
     u32 trainerId, personality;
     const struct CompressedSpritePalette* pokePal;
+    const struct CompressedSpriteSheet* frontPicTable = GetMonFrontPicTableCompat();
     u8 id;
+
+    if (frontPicTable == NULL)
+        return;
 
     SetHBlankCallback(NULL);
     SetVBlankCallback(NULL);
@@ -207,7 +211,7 @@ static void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canSto
 
     currSpecies = TryGetFemaleGenderedSpecies(currSpecies, personality);
 
-    DecompressPicFromTable(&gMonFrontPicTable[currSpecies],
+    DecompressPicFromTable(&frontPicTable[currSpecies],
                              gMonSpritesGfxPtr->sprites[B_POSITION_OPPONENT_LEFT],
                              currSpecies);
     pokePal = GetMonSpritePalStructFromOtIdPersonality(currSpecies, trainerId, personality);
@@ -224,7 +228,7 @@ static void EvolutionScene(struct Pokemon* mon, u16 postEvoSpecies, bool8 canSto
     postEvoSpecies = TryGetFemaleGenderedSpecies(postEvoSpecies, personality);
 
     // postEvo sprite
-    DecompressPicFromTable(&gMonFrontPicTable[postEvoSpecies],
+    DecompressPicFromTable(&frontPicTable[postEvoSpecies],
                              gMonSpritesGfxPtr->sprites[B_POSITION_OPPONENT_RIGHT],
                              postEvoSpecies);
     pokePal = GetMonSpritePalStructFromOtIdPersonality(postEvoSpecies, trainerId, personality);

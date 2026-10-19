@@ -20,6 +20,7 @@
 #include "../include/new/dns.h"
 #include "../include/new/dynamax.h"
 #include "../include/new/end_turn.h"
+#include "../include/new/front_pic_table.h"
 #include "../include/new/mega.h"
 #include "../include/new/terastallization.h"
 
@@ -32,7 +33,6 @@ battle_anims.c
 
 #define ITEM_TAG ANIM_TAG_ITEM_BAG
 
-#define gMonFrontPicTable ((const struct CompressedSpriteSheet*) *((u32*) 0x8000128))
 #define gMonBackPicTable ((const struct CompressedSpriteSheet*) *((u32*) 0x800012C))
 #define gMonFrontPicCoords ((const struct MonCoords*) *((u32*) 0x8011F4C))
 #define gMonBackPicCoords ((const struct MonCoords*) *((u32*) 0x8074634))
@@ -6618,6 +6618,7 @@ void HandleSpeciesGfxDataChange(u8 bankAtk, u8 bankDef, u8 transformType)
 	{
 		const void* src;
 		void* dst;
+		const struct CompressedSpriteSheet* frontPicTable = GetMonFrontPicTableCompat();
 
 		struct Pokemon* monAtk;
 		position = GetBattlerPosition(bankAtk);
@@ -6626,7 +6627,10 @@ void HandleSpeciesGfxDataChange(u8 bankAtk, u8 bankDef, u8 transformType)
 		personality = GetMonData(monAtk, MON_DATA_PERSONALITY, NULL);
 		otId = GetMonData(monAtk, MON_DATA_OT_ID, NULL);
 
-		HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[targetSpecies], gMonSpritesGfxPtr->sprites[position], targetSpecies, personality);
+		if (frontPicTable == NULL)
+			return;
+
+		HandleLoadSpecialPokePic_DontHandleDeoxys(&frontPicTable[targetSpecies], gMonSpritesGfxPtr->sprites[position], targetSpecies, personality);
         src = gMonSpritesGfxPtr->sprites[position];
         dst = (void *)(VRAM + 0x10000 + gSprites[gBattlerSpriteIds[bankAtk]].oam.tileNum * 32);
         DmaCopy32(3, src, dst, GetMonPicSpriteSize(targetSpecies, FALSE));
@@ -6647,6 +6651,7 @@ void HandleSpeciesGfxDataChange(u8 bankAtk, u8 bankDef, u8 transformType)
 		void* dst;
 		struct Pokemon* monAtk;
 		const struct CompressedSpriteSheet* spriteSheet;
+		const struct CompressedSpriteSheet* frontPicTable = GetMonFrontPicTableCompat();
 
 		position = GetBattlerPosition(bankAtk);
 		monAtk = GetIllusionPartyData(bankAtk);
@@ -6657,7 +6662,11 @@ void HandleSpeciesGfxDataChange(u8 bankAtk, u8 bankDef, u8 transformType)
 		if (SIDE(bankAtk) == B_SIDE_PLAYER)
 			spriteSheet = &gMonBackPicTable[targetSpecies];
 		else
-			spriteSheet = &gMonFrontPicTable[targetSpecies];
+		{
+			if (frontPicTable == NULL)
+				return;
+			spriteSheet = &frontPicTable[targetSpecies];
+		}
 
 		HandleLoadSpecialPokePic_DontHandleDeoxys(spriteSheet, gMonSpritesGfxPtr->sprites[position], targetSpecies, personality);
         src = gMonSpritesGfxPtr->sprites[position];
@@ -6695,6 +6704,7 @@ void HandleSpeciesGfxDataChange(u8 bankAtk, u8 bankDef, u8 transformType)
 		void* dst;
 		struct Pokemon* monDef;
 		const struct CompressedSpriteSheet* spriteSheet;
+		const struct CompressedSpriteSheet* frontPicTable = GetMonFrontPicTableCompat();
 
 		position = GetBattlerPosition(bankAtk);
 		monDef = GetBankPartyData(bankDef);
@@ -6709,7 +6719,11 @@ void HandleSpeciesGfxDataChange(u8 bankAtk, u8 bankDef, u8 transformType)
 		if (SIDE(bankAtk) == B_SIDE_PLAYER)
 			spriteSheet = &gMonBackPicTable[targetSpecies];
 		else
-			spriteSheet = &gMonFrontPicTable[targetSpecies];
+		{
+			if (frontPicTable == NULL)
+				return;
+			spriteSheet = &frontPicTable[targetSpecies];
+		}
 
 		HandleLoadSpecialPokePic_DontHandleDeoxys(spriteSheet, gMonSpritesGfxPtr->sprites[position], targetSpecies, gTransformedPersonalities[bankAtk]);
         src = gMonSpritesGfxPtr->sprites[position];

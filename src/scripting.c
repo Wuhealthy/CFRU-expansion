@@ -46,6 +46,7 @@
 #include "../include/new/catching.h"
 #include "../include/new/damage_calc.h"
 #include "../include/new/dns.h"
+#include "../include/new/front_pic_table.h"
 #include "../include/new/util.h"
 #include "../include/new/item.h"
 #include "../include/new/learn_move.h"
@@ -3272,14 +3273,17 @@ struct OakSpeechResources
     u8 bg1TilemapBuffer[0x800];
 };
 
-#define gMonFrontPicTable ((const struct CompressedSpriteSheet*) *((u32*) 0x8000128))
 #define tNidoranFSpriteId           data[4]
 
 void CreateOakIntroPokemonSprite(u8 taskId)
 {
     u8 spriteId;
+    const struct CompressedSpriteSheet* frontPicTable = GetMonFrontPicTableCompat();
 
-    DecompressPicFromTable(&gMonFrontPicTable[OAK_INTRO_SPECIES], MonSpritesGfxManager_GetSpritePtr(0), OAK_INTRO_SPECIES);
+    if (frontPicTable == NULL)
+        return;
+
+    DecompressPicFromTable(&frontPicTable[OAK_INTRO_SPECIES], MonSpritesGfxManager_GetSpritePtr(0), OAK_INTRO_SPECIES);
     LoadCompressedSpritePaletteUsingHeap(&gMonPaletteTable[OAK_INTRO_SPECIES]);
     SetMultiuseSpriteTemplateToPokemon(OAK_INTRO_SPECIES, 0);
     spriteId = CreateSprite(gMultiuseSpriteTemplate, 96, 96, 1);
