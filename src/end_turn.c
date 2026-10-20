@@ -1648,7 +1648,8 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 									if (WEATHER_HAS_EFFECT
 									&& (gBattleWeather & WEATHER_SUN_ANY)
 									&& AffectedBySun(gActiveBattler)
-									&& !MoveInMoveset(MOVE_HIDDENPOWER, gActiveBattler))
+									&& !MoveInMoveset(MOVE_HIDDENPOWER, gActiveBattler)
+									&& ITEM(gActiveBattler) != ITEM_AWAKEN_CHARM)
 									{
 										newSpecies = SPECIES_CHERRIM_SUN;
 										changedForm = TRUE;

@@ -1962,6 +1962,8 @@ const u32 *const gItemGraphicsTable[ITEMS_COUNT + 1][2] =
 	{gBag_CharizarditeYTiles, gBag_CharizarditeYPal},
 	{gBag_BlastoiseniteTiles, gBag_BlastoisenitePal},
 	{gBag_BeedrilliteTiles, gBag_BeedrillitePal},
+	//{gBagItem_Mirror_HerbTiles, gBagItem_Mirror_HerbPal},
+	{gBagItem_Booster_EnergyTiles, gBag_BeedrillitePal},
 	{gBag_InterrogationTiles, gBag_InterrogationPal}, //Free space 1
 	{gBag_InterrogationTiles, gBag_InterrogationPal},
 	{gBag_InterrogationTiles, gBag_InterrogationPal},
@@ -15389,12 +15391,12 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-        .name = {_F, _r, _e, _e, _SPACE, _S, _p, _a, _c, _e, _SPACE, _2, _END},
-        .itemId = ITEM_FREE_SPACE2,
-        .price = 0,
+        .name = {_A, _W, _A, _K, _E, _N, _SPACE, _C, _H, _A, _R, _M, _END},
+        .itemId = ITEM_AWAKEN_CHARM,
+        .price = 3000,
         .holdEffect = 0,
         .holdEffectParam = 0,
-        .description = gText_ItemNone,
+        .description = DESC_AWAKEN_CHARM,
         .importance = 0,
         .unk19 = 0,
         .pocket = POCKET_ITEMS,

@@ -1702,7 +1702,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			{
 				switch(SPECIES(bank)) {
 					case SPECIES_CHERRIM:
-						if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY) && AffectedBySun(bank) && !MoveInMoveset(MOVE_HIDDENPOWER, bank))
+						if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY) && AffectedBySun(bank) && !MoveInMoveset(MOVE_HIDDENPOWER, bank) && ITEM(bank) != ITEM_AWAKEN_CHARM)
 						{
 							DoFormChange(bank, SPECIES_CHERRIM_SUN, FALSE, FALSE, FALSE);
 							BattleScriptPushCursorAndCallback(BattleScript_TransformedEnd3);

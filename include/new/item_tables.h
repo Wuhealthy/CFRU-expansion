@@ -2161,6 +2161,7 @@ extern const u8 DESC_COVERT_CLOAK[];
 extern const u8 DESC_LOADED_DICE[];
 extern const u8 DESC_PUNCHING_GLOVE[];
 extern const u8 DESC_REINS_OF_UNITY[];
+extern const u8 DESC_AWAKEN_CHARM[];
 extern const u8 DESC_BOOSTER_ENERGY[];
 extern const u8 DESC_WELLSPRING_MASK[];
 extern const u8 DESC_HEARTHFLAME_MASK[];

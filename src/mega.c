@@ -284,8 +284,8 @@ const u8* DoPrimalInstinct(u8 bank, u8 caseId)
     u8 gender = GetMonGender(mon);
     u16 targetSpecies = SPECIES_NONE;
     
-    // 检查是否拥有觉醒力量
-    if (!MoveInMoveset(MOVE_HIDDENPOWER, bank))
+    // 检查是否拥有觉醒力量，或携带觉醒徽章
+    if (!MoveInMoveset(MOVE_HIDDENPOWER, bank) && mon->item != ITEM_AWAKEN_CHARM)
         return NULL;
     
     // === 按物种和性别选择目标形态 ===

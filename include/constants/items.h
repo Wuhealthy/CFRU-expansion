@@ -903,7 +903,7 @@ enum
 
     // Unused Items
     ITEM_MIRROR_HERB,           // 0x358
-    ITEM_FREE_SPACE2,           // 0x359
+    ITEM_AWAKEN_CHARM,          // 0x359
     ITEM_FREE_SPACE3,           // 0x35A
 };
 

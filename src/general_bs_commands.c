@@ -5508,7 +5508,8 @@ void atkE7_trycastformdatachange(void)
 				if (ABILITY(bank) == ABILITY_FLOWERGIFT && !IS_TRANSFORMED(bank)
 				&& WEATHER_HAS_EFFECT && gBattleWeather & WEATHER_SUN_ANY
 				&& AffectedBySun(bank)
-				&& !MoveInMoveset(MOVE_HIDDENPOWER, bank))
+				&& !MoveInMoveset(MOVE_HIDDENPOWER, bank)
+				&& ITEM(bank) != ITEM_AWAKEN_CHARM)
 				{
 					DoFormChange(bank, SPECIES_CHERRIM_SUN, FALSE, FALSE, FALSE);
 					BattleScriptPushCursorAndCallback(BattleScript_FlowerGift);
