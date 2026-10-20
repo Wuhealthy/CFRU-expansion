@@ -396,6 +396,30 @@ enum //These vars need to be one after the other (hence the enum)
 #define OW_SHADOWS // if defined, overworld sprites will have shadows.
 #define OW_SHADOW_OPACITY 8 // Shadow opacity: 0 (invisible) to 16 (opaque).
 #define NEW_BAG_UI_EXPANSION //If defined, will use the new bag UI made by us. It also adds new pockets to bag increasing overall capacity. Highly recommended!
+/* New Battle Textbox */
+#define NEW_BATTLE_TEXTBOX //Dark UI for the battle message box, action menu (FIGHT/BAG/POKEMON/RUN), move menu and Yes/No box. Comment out to use the vanilla look.
+
+/* SideQuest Menu */
+
+#define SIDEQUEST_MENU //Uncomment this to enable the SideQuest Menu. Usage by callasm ShowQuestMenu in script/item or so
+
+#ifdef SIDEQUEST_MENU
+#define FLAG_QUEST_1_UNLOCKED   0xA0E
+#define FLAG_QUEST_1_COMPLETED  0xA0F
+#define FLAG_QUEST_1_REWARDED   0xA10
+
+#define FLAG_QUEST_2_UNLOCKED   0xA11
+#define FLAG_QUEST_2_COMPLETED  0xA12
+#define FLAG_QUEST_2_REWARDED   0xA13
+
+#define FLAG_QUEST_3_UNLOCKED   0xA14
+#define FLAG_QUEST_3_COMPLETED  0xA15
+#define FLAG_QUEST_3_REWARDED   0xA16
+
+#define FLAG_QUEST_4_UNLOCKED   0xA17
+#define FLAG_QUEST_4_COMPLETED  0xA18
+#define FLAG_QUEST_4_REWARDED   0xA19
+#endif
 
 /* DexNav Options */
 //See "include/new/dexnav_config.h"
