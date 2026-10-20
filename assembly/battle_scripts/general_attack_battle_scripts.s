@@ -2723,9 +2723,10 @@ SuperBurnAfterBurn:
 BurnUpEnd:
 	end
 
-@;超级燃烧：100%使对手灼伤
+@;超级燃烧：100%使对手灼伤（参考 Inferno 的 setmoveeffect MOVE_EFFECT_BURN）
 SuperBurnSetBurn:
-	trysetburn BANK_TARGET SuperBurnAfterBurn
+	setmoveeffect MOVE_EFFECT_BURN
+	seteffectwithchancetarget
 	goto SuperBurnAfterBurn
 
 DoDoubleShock:
