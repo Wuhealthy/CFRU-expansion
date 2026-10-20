@@ -190,6 +190,14 @@ ability_t GetBankMegaFormAbility(u8 megaBank, u8 foe)
 	return ability;
 }
 
+//Mega进化时招式替换表：{Mega形态, 原招式, 替换后招式}
+const struct MegaMoveChange gMegaMoveChanges[] =
+{
+	{SPECIES_ZYGARDE_MEGA, MOVE_COREENFORCER, MOVE_NIHILLIGHT},
+	{SPECIES_ZYGARDE50_MEGA, MOVE_LANDSWRATH, MOVE_UNIVERSALRADIANCE},
+	{SPECIES_BLAZIKEN_MEGA, MOVE_BLAZEKICK, MOVE_SUPERBURN},
+};
+
 const u8* DoMegaEvolution(u8 bank)
 {
 	struct Pokemon* mon = GetBankPartyData(bank);
@@ -203,32 +211,8 @@ const u8* DoMegaEvolution(u8 bank)
 		gNewBS->backupAbility = ABILITY(bank); //So Abilities like Delta Stream & Neutralizing Gas are removed properly
 
 		DoFormChange(bank, evolutions->targetSpecies, TRUE, TRUE, TRUE);
-		
-		if (evolutions->targetSpecies == SPECIES_ZYGARDE_MEGA)
-		{
-			for (u8 i = 0; i < MAX_MON_MOVES; ++i)
-			{
-				if (mon->moves[i] == MOVE_COREENFORCER)
-				{
-					u16 newMove = MOVE_NIHILLIGHT;
-					SetMonData(mon, MON_DATA_MOVE1 + i, &newMove);
-					gBattleMons[bank].moves[i] = newMove;
-				}
-			}
-		}
 
-		if (evolutions->targetSpecies == SPECIES_ZYGARDE50_MEGA)
-		{
-			for (u8 i = 0; i < MAX_MON_MOVES; ++i)
-			{
-				if (mon->moves[i] == MOVE_LANDSWRATH)
-				{
-					u16 newMove = MOVE_UNIVERSALRADIANCE;
-					SetMonData(mon, MON_DATA_MOVE1 + i, &newMove);
-					gBattleMons[bank].moves[i] = newMove;
-				}
-			}
-		}
+		TryMegaMoveChange(mon, evolutions->targetSpecies, bank);
 
 		gBattleScripting.bank = bank;
 		gLastUsedItem = mon->item;
@@ -247,6 +231,42 @@ const u8* DoMegaEvolution(u8 bank)
 	}
 	else
 		return NULL;
+}
+
+//Mega进化成功后，按 gMegaMoveChanges 表替换对应招式（队伍数据 + 战斗内数据）
+void TryMegaMoveChange(struct Pokemon* mon, u16 species, u8 bank)
+{
+	for (u8 i = 0; i < MAX_MON_MOVES; ++i)
+	{
+		for (u8 j = 0; j < NELEMS(gMegaMoveChanges); ++j)
+		{
+			if (species == gMegaMoveChanges[j].species && mon->moves[i] == gMegaMoveChanges[j].oldMove)
+			{
+				u16 newMove = gMegaMoveChanges[j].newMove;
+				SetMonData(mon, MON_DATA_MOVE1 + i, &newMove);
+				if (bank < MAX_BATTLERS_COUNT && gBattleMons[bank].moves[i] == gMegaMoveChanges[j].oldMove)
+					gBattleMons[bank].moves[i] = newMove;
+				break;
+			}
+		}
+	}
+}
+
+//战斗结束还原形态时，把替换过的招式还原回去
+void RevertMegaMoveChange(struct Pokemon* mon)
+{
+	for (u8 i = 0; i < MAX_MON_MOVES; ++i)
+	{
+		for (u8 j = 0; j < NELEMS(gMegaMoveChanges); ++j)
+		{
+			if (mon->species == gMegaMoveChanges[j].species && mon->moves[i] == gMegaMoveChanges[j].newMove)
+			{
+				u16 oldMove = gMegaMoveChanges[j].oldMove;
+				SetMonData(mon, MON_DATA_MOVE1 + i, &oldMove);
+				break;
+			}
+		}
+	}
 }
 
 

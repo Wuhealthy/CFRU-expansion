@@ -11,6 +11,7 @@
 #include "../include/new/form_change.h"
 #include "../include/new/frontier.h"
 #include "../include/new/learn_move.h"
+#include "../include/new/mega.h"
 #include "../include/new/set_z_effect.h"
 #include "../include/new/util.h"
 
@@ -227,31 +228,7 @@ bool8 TryFormRevert(struct Pokemon* mon)
 	u16 species = mon->species;
 	u16 oldHP;
 
-	if (species == SPECIES_ZYGARDE_MEGA)
-	{
-		for (i = 0; i < MAX_MON_MOVES; ++i)
-		{
-			if (mon->moves[i] == MOVE_NIHILLIGHT)
-			{
-				u16 oldMove = MOVE_COREENFORCER;
-				SetMonData(mon, MON_DATA_MOVE1 + i, &oldMove);
-				break;
-			}
-		}
-	}
-
-	if (species == SPECIES_ZYGARDE50_MEGA)
-	{
-		for (i = 0; i < MAX_MON_MOVES; ++i)
-		{
-			if (mon->moves[i] == MOVE_UNIVERSALRADIANCE)
-			{
-				u16 oldMove = MOVE_LANDSWRATH;
-				SetMonData(mon, MON_DATA_MOVE1 + i, &oldMove);
-				break;
-			}
-		}
-	}
+	RevertMegaMoveChange(mon); //还原Mega进化时替换过的招式（Zygarde/火焰鸡等，见 gMegaMoveChanges 表）
 
 	#if (defined SPECIES_TERAPAGOS && defined SPECIES_TERAPAGOS_TERASTAL && defined SPECIES_TERAPAGOS_STELLAR)
 	if (species == SPECIES_TERAPAGOS_TERASTAL || species == SPECIES_TERAPAGOS_STELLAR

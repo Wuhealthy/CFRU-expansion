@@ -2706,13 +2706,15 @@ BS_125_BurnUp:
 DoBurnUp:
 	accuracycheck BS_MOVE_MISSED 0x0
 	call STANDARD_DAMAGE
+	jumpifmove MOVE_SUPERBURN SuperBurnSetBurn
+SuperBurnAfterBurn:
 	seteffectwithchancetarget
 	prefaintmoveendeffects 0x0
 	faintpokemonaftermove
 	jumpifmovehadnoeffect BS_MOVE_END
 	setbyte CMD49_STATE 0x0
 	cmd49 0x0 0x0
-	jumpiffainted BANK_ATTACKER BurnUpEnd	
+	jumpiffainted BANK_ATTACKER BurnUpEnd
 	callasm BurnUpFunc
 	setword BATTLE_STRING_LOADER BurnUpString
 	printstring 0x184
@@ -2720,6 +2722,11 @@ DoBurnUp:
 
 BurnUpEnd:
 	end
+
+@;超级燃烧：100%使对手灼伤
+SuperBurnSetBurn:
+	trysetburn BANK_TARGET SuperBurnAfterBurn
+	goto SuperBurnAfterBurn
 
 DoDoubleShock:
 	accuracycheck BS_MOVE_MISSED 0x0

@@ -1043,6 +1043,7 @@ gMoveAnimations:
 .word ANIM_NIHILLIGHT
 .word ANIM_UNIVERSALRADIANCE
 .word ANIM_PSYCHICNOISE
+.word ANIM_BURNUP
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

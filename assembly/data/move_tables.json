@@ -975,7 +975,8 @@
 		"MOVE_FUSIONFLARE",
 		"MOVE_STEAMERUPTION",
 		"MOVE_BURNUP",
-		"MOVE_PYROBALL"
+		"MOVE_PYROBALL",
+		"MOVE_SUPERBURN"
 	],
 
 	"gMovesCanUnfreezeTarget": [

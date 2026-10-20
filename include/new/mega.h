@@ -11,6 +11,8 @@
 
 //Exported Functions
 const struct Evolution* CanMegaEvolve(u8 bank, bool8 CheckUBInstead);
+void TryMegaMoveChange(struct Pokemon* mon, u16 species, u8 bank);
+void RevertMegaMoveChange(struct Pokemon* mon);
 species_t GetMegaSpecies(u16 species, u16 item, const u16* moves);
 species_t GetPrimalSpecies(u16 species, u16 item);
 ability_t GetBankMegaFormAbility(u8 megaBank, u8 foe);
@@ -32,6 +34,15 @@ bool8 IsUltraNecrozma(u8 bank);
 bool8 IsUltraNecrozmaSpecies(u16 species);
 const u8* GetTrainerName(u8 bank);
 u8* TryGetRivalNameByTrainerClass(u8 class);
+
+//Mega进化时招式替换表：{Mega形态, 原招式, 替换后招式}
+struct MegaMoveChange
+{
+	u16 species;
+	u16 oldMove;
+	u16 newMove;
+};
+extern const struct MegaMoveChange gMegaMoveChanges[];
 
 //Functions Hooked In
 bool8 HasMegaSymbol(u8 bank);
