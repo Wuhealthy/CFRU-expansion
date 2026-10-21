@@ -541,6 +541,9 @@
 #org @gText_ElectromorphosisActivatess
 [SCRIPTING_BANK]\n充电了。
 
+#org @gText_NirvanaRevive
+[SCRIPTING_BANK]浴火重生！\n全能力提升了！
+
 #org @gText_IceCrystalPurge
 [SCRIPTING_BANK]\n场地上的撒菱等效果消失了。
 

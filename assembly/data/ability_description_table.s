@@ -371,3 +371,5 @@ gAbilityDescriptions:
 .word DESC_SOOTHELINGSCALE                       @ 360 ABILITY_SOOTHELINGSCALE
 .word DESC_BOUNTIFULFRUIT                        @ 361 ABILITY_BOUNTIFULFRUIT
 .word DESC_ICECRYSTALPURGE                       @ 362 ABILITY_ICECRYSTALPURGE
+.word DESC_REVIVAL                               @ 363 ABILITY_REVIVAL
+.word DESC_NIRVANA                               @ 364 ABILITY_NIRVANA

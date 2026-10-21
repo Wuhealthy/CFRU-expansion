@@ -442,6 +442,8 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_SOOTHELINGSCALE] = 6,
 	[ABILITY_BOUNTIFULFRUIT] = 6,
 	[ABILITY_ICECRYSTALPURGE] = 6,
+	[ABILITY_REVIVAL] = 9,
+	[ABILITY_NIRVANA] = 10,
 };
 
 const u16 gWeatherContinuesStringIds[] =
@@ -852,6 +854,52 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				BattleScriptPushCursorAndCallback(BattleScript_WeatherAbilityBlockedByPrimalWeather);
 				effect++;
 			}
+			break;
+
+		case ABILITY_REVIVAL:
+		{
+			// 复苏：出场时，将天气变为下雨，并回复最大HP的1/3
+			bool8 setRain = FALSE;
+			bool8 canHeal = (!BATTLER_MAX_HP(bank) && !IsHealBlocked(bank));
+
+			if (!(gBattleWeather & (WEATHER_RAIN_ANY | WEATHER_PRIMAL_ANY | WEATHER_CIRCUS)))
+			{
+				gBattleWeather = (WEATHER_RAIN_PERMANENT | WEATHER_RAIN_TEMPORARY) & ~(WEATHER_PERMANENT_ANY);
+				#ifdef INFINITE_WEATHER
+					gWishFutureKnock.weatherDuration = 0;
+				#else
+					if (ITEM_EFFECT(bank) == ITEM_EFFECT_DAMP_ROCK)
+						gWishFutureKnock.weatherDuration = 8;
+					else
+						gWishFutureKnock.weatherDuration = 5;
+				#endif
+				gBattleCommunication[MULTISTRING_CHOOSER] = 0; //rain string in gWeatherAbilityStrings
+				gBattleScripting.animArg1 = B_ANIM_RAIN_CONTINUES;
+				setRain = TRUE;
+			}
+			else if (gBattleWeather & WEATHER_PRIMAL_ANY && !(gBattleWeather & WEATHER_RAIN_ANY))
+			{
+				BattleScriptPushCursorAndCallback(BattleScript_WeatherAbilityBlockedByPrimalWeather);
+				effect++;
+				break;
+			}
+
+			if (canHeal)
+			{
+				gBattleMoveDamage = MathMax(1, GetBaseMaxHP(bank) / 3);
+				gBattleMoveDamage *= -1; //负值表示回复
+				gBankAttacker = bank;
+				gBattleScripting.bank = bank;
+				BattleScriptPushCursorAndCallback(setRain ? BattleScript_RevivalActivates : BattleScript_RevivalHealActivates);
+				effect++;
+			}
+			else if (setRain)
+			{
+				gBattleScripting.bank = bank;
+				BattleScriptPushCursorAndCallback(BattleScript_NewWeatherAbilityActivates);
+				effect++;
+			}
+		}
 			break;
 
 		case ABILITY_FOGGYVEIL:
@@ -2043,8 +2091,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
                 		break;  // 先处理意念移物结束，不继续执行其他能力
             		}
         		}
-				switch (gLastUsedAbility)
-				{
+			switch (gLastUsedAbility)
+			{
 				case ABILITY_PROTOSYNTHESIS:
 				case ABILITY_QUARKDRIVE:
 					if (!gNewBS->boosterEnergyActivated[bank]
@@ -3012,6 +3060,52 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
         			effect++;
     			}
     			break;
+
+			case ABILITY_NIRVANA:
+				// 浴火重生（参考Aftermath）：受到攻击HP归0时立即重生
+				if (MOVE_HAD_EFFECT
+				&& TOOK_DAMAGE(bank)
+				&& gBattleMons[bank].hp == 0
+				&& !gNewBS->oncePerBattleAbilityFlags[SIDE(bank)][gBattlerPartyIndexes[bank]])
+				{
+					u8 i;
+					bool8 setSun = FALSE;
+
+					RecordAbilityBattle(bank, gLastUsedAbility);
+					gNewBS->oncePerBattleAbilityFlags[SIDE(bank)][gBattlerPartyIndexes[bank]] = TRUE;
+
+					// 解除异常、能力重置并全+1、天气变晴
+					ClearBankStatus(bank);
+					for (i = 0; i < BATTLE_STATS_NO - 1; ++i)
+						gBattleMons[bank].statStages[i] = 6; //重置清零
+					for (i = STAT_ATK; i <= STAT_SPDEF; ++i)
+						gBattleMons[bank].statStages[i - 1] = 7; //全能力+1
+
+					if (!(gBattleWeather & (WEATHER_SUN_ANY | WEATHER_PRIMAL_ANY | WEATHER_CIRCUS)))
+					{
+						gBattleWeather = (WEATHER_SUN_PERMANENT | WEATHER_SUN_TEMPORARY) & ~(WEATHER_PERMANENT_ANY);
+						#ifdef INFINITE_WEATHER
+							gWishFutureKnock.weatherDuration = 0;
+						#else
+							if (ITEM_EFFECT(bank) == ITEM_EFFECT_HEAT_ROCK)
+								gWishFutureKnock.weatherDuration = 8;
+							else
+								gWishFutureKnock.weatherDuration = 5;
+						#endif
+						gBattleCommunication[MULTISTRING_CHOOSER] = 2; //sun string in gWeatherAbilityStrings
+						gBattleScripting.animArg1 = B_ANIM_SUN_CONTINUES;
+						setSun = TRUE;
+					}
+
+					// 回满HP（从0回复到最大）
+					gBattleMoveDamage = -(gBattleMons[bank].maxHP - gBattleMons[bank].hp);
+					gBattleScripting.bank = bank;
+					BattleScriptPushCursor();
+					gBattlescriptCurrInstr = setSun ? BattleScript_NirvanaRevive : BattleScript_NirvanaReviveNoWeather;
+					effect++;
+					break;
+				}
+				break;
 
 			case ABILITY_PHANTOMWALL:
     			if (MOVE_HAD_EFFECT

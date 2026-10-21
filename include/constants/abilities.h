@@ -368,6 +368,8 @@ enum
     ABILITY_SOOTHELINGSCALE,      // 360 抚心鳞
     ABILITY_BOUNTIFULFRUIT,       // 361 丰饶果实
     ABILITY_ICECRYSTALPURGE,      // 362 冰晶净化
+    ABILITY_REVIVAL,              // 363 复苏
+    ABILITY_NIRVANA,              // 364 浴火重生
 };
 
-#define ABILITIES_COUNT (ABILITY_ICECRYSTALPURGE + 1)
+#define ABILITIES_COUNT (ABILITY_NIRVANA + 1)

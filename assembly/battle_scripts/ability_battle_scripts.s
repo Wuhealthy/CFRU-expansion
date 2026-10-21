@@ -123,6 +123,10 @@ ability_battle_scripts.s
 .global BattleScript_ElectromorphosisActivates
 .global BattleScript_ElectromorphosisActivatess
 .global BattleScript_IceCrystalPurgeActivates
+.global BattleScript_RevivalActivates
+.global BattleScript_NirvanaRevive
+.global BattleScript_NirvanaReviveNoWeather
+.global BattleScript_RevivalHealActivates
 .global BattleScript_TeaPartyActivates
 .global BattleScript_FallingCoconutActivates
 .global BattleScript_LingeringAromaActivates
@@ -1778,6 +1782,64 @@ BattleScript_ElectromorphosisActivatess:
 	end3
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+BattleScript_NirvanaRevive:
+	call BattleScript_AbilityPopUp
+	playanimation BANK_TARGET ANIM_HEALING_SPARKLES 0x0
+	orword HIT_MARKER, HITMARKER_IGNORE_SUBSTITUTE
+	graphicalhpupdate BANK_TARGET
+	datahpupdate BANK_TARGET
+	printstring 0x4B
+	waitmessage DELAY_1SECOND
+	printfromtable gWeatherAbilityStrings
+	waitstateatk
+	playanimation2 BANK_SCRIPTING ANIM_ARG_1 0x0
+	setword BATTLE_STRING_LOADER gText_NirvanaRevive
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
+	call 0x81D92DC @;BattleScript_WeatherFormChanges
+	return
+
+BattleScript_NirvanaReviveNoWeather:
+	call BattleScript_AbilityPopUp
+	playanimation BANK_TARGET ANIM_HEALING_SPARKLES 0x0
+	orword HIT_MARKER, HITMARKER_IGNORE_SUBSTITUTE
+	graphicalhpupdate BANK_TARGET
+	datahpupdate BANK_TARGET
+	printstring 0x4B
+	waitmessage DELAY_1SECOND
+	setword BATTLE_STRING_LOADER gText_NirvanaRevive
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
+	return
+
+BattleScript_RevivalActivates:
+	call BattleScript_AbilityPopUp
+	printfromtable gWeatherAbilityStrings
+	waitstateatk
+	playanimation2 BANK_SCRIPTING ANIM_ARG_1 0x0
+	playanimation BANK_ATTACKER ANIM_HEALING_SPARKLES 0x0
+	orword HIT_MARKER, HITMARKER_IGNORE_SUBSTITUTE
+	graphicalhpupdate BANK_ATTACKER
+	datahpupdate BANK_ATTACKER
+	printstring 0x4B
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
+	call 0x81D92DC @;BattleScript_WeatherFormChanges
+	end3
+
+BattleScript_RevivalHealActivates:
+	call BattleScript_AbilityPopUp
+	playanimation BANK_ATTACKER ANIM_HEALING_SPARKLES 0x0
+	orword HIT_MARKER, HITMARKER_IGNORE_SUBSTITUTE
+	graphicalhpupdate BANK_ATTACKER
+	datahpupdate BANK_ATTACKER
+	printstring 0x4B
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
+	end3
+
 BattleScript_IceCrystalPurgeActivates:
     call BattleScript_AbilityPopUp
     setword BATTLE_STRING_LOADER gText_IceCrystalPurge

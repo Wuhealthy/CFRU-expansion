@@ -1063,3 +1063,9 @@ HP首次低于1/3时回满HP并提升攻击
 
 #org @DESC_ICECRYSTALPURGE
 出场时，清除我方场上撒菱等状态
+
+#org @DESC_REVIVAL
+出场时，将天气变为下雨并回复HP
+
+#org @DESC_NIRVANA
+首次濒死时，会复活并全能力提升
