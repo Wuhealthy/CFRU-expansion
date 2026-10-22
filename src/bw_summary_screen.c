@@ -1082,7 +1082,7 @@ static void PokeSum_PrintAbilityNameAndDesc(void)
     FillWindowPixelBuffer(sMonSummaryScreen->windowIds[5], 0);
 	AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[5], 2, 11,  4, sPSSTextColours[WHITE], TEXT_SPEED_FF, gText_PSS_Ability);
     AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[5], 2, 60,  4, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.abilityNameStrBuf);
-    AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[5], 2, 20, 23, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.abilityDescStrBuf);
+    AddTextPrinterParameterized4(sMonSummaryScreen->windowIds[5], FONT_SMALL, 20, 17, 0, -2, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.abilityDescStrBuf);
 }
 
 static void PokeSum_DrawMoveTypeIcons(void)
