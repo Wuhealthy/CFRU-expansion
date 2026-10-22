@@ -2645,7 +2645,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 						gBattleScripting.animArg1 = 0xE + STAT_STAGE_ATK;
 						gBattleScripting.animArg2 = 0;
 						BattleScriptPushCursor();
-						gBattlescriptCurrInstr = BattleScript_Moxie;
+						gBattlescriptCurrInstr = BattleScript_DefiantCompetitive;
 					}
 					effect++;
 				}
