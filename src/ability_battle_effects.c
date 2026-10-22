@@ -444,6 +444,7 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_ICECRYSTALPURGE] = 6,
 	[ABILITY_REVIVAL] = 9,
 	[ABILITY_NIRVANA] = 10,
+	[ABILITY_SNOOZE] = 3,
 };
 
 const u16 gWeatherContinuesStringIds[] =

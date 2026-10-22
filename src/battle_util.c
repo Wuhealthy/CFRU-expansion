@@ -2282,6 +2282,7 @@ bool8 CanBePoisoned(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 			case ABILITY_IMMUNITY:
 			case ABILITY_PURIFYINGSALT:
 			case ABILITY_PASTELVEIL:
+			case ABILITY_SNOOZE: //贪睡：不会陷入睡眠以外的异常状态
 				return FALSE;
 		}
 	}
@@ -2313,6 +2314,7 @@ bool8 CanBeParalyzed(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 	{
 		switch (defAbility) {
 			case ABILITY_LIMBER:
+			case ABILITY_SNOOZE: //贪睡：不会陷入睡眠以外的异常状态
 				return FALSE;
 		}
 	}
@@ -2337,6 +2339,7 @@ bool8 CanBeBurned(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 			case ABILITY_WATERVEIL:
 			case ABILITY_WATERBUBBLE:
 			case ABILITY_THERMALEXCHANGE:
+			case ABILITY_SNOOZE: //贪睡：不会陷入睡眠以外的异常状态
 				return FALSE;
 		}
 	}
@@ -2359,6 +2362,7 @@ bool8 CanBeFrozen(u8 bankDef, u8 bankAtk, bool8 checkFlowerVeil)
 	{
 		switch (defAbility) {
 			case ABILITY_MAGMAARMOR:
+			case ABILITY_SNOOZE: //贪睡：不会陷入睡眠以外的异常状态
 				return FALSE;
 		}
 	}

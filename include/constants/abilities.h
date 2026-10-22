@@ -370,6 +370,7 @@ enum
     ABILITY_ICECRYSTALPURGE,      // 362 冰晶净化
     ABILITY_REVIVAL,              // 363 复苏
     ABILITY_NIRVANA,              // 364 浴火重生
+    ABILITY_SNOOZE,               // 365 贪睡
 };
 
-#define ABILITIES_COUNT (ABILITY_NIRVANA + 1)
+#define ABILITIES_COUNT (ABILITY_SNOOZE + 1)

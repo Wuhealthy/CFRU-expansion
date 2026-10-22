@@ -1,4 +1,5 @@
 #include "defines.h"
+extern const u8 BattleScript_YawnMakesAsleep[]; //贪睡特性复用打哈欠入睡脚本
 #include "defines_battle.h"
 #include "../include/battle_anim.h"
 #include "../include/random.h"
@@ -942,6 +943,29 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 						gBattleScripting.bank = gBankAttacker;
 						BattleScriptPushCursor();
 						gBattlescriptCurrInstr = BattleScript_Magician;
+						effect = 1;
+					}
+					break;
+
+				case ABILITY_SNOOZE:
+					//贪睡：击败对手时，或使用变化招式后，陷入睡眠
+					if (arg1 != ARG_IN_FUTURE_ATTACK
+					&& BATTLER_ALIVE(gBankAttacker)
+					&& !(gBattleMons[gBankAttacker].status1 & STATUS1_ANY)
+					&& ((TOOK_DAMAGE(bankDef)
+						&& MOVE_HAD_EFFECT
+						&& gBattleMons[bankDef].hp == 0
+						&& ViableMonCountFromBank(FOE(gBankAttacker)) > 0)
+						|| SPLIT(originallyUsedMove) == SPLIT_STATUS))
+					{
+						gActiveBattler = gBankAttacker;
+						CancelMultiTurnMoves(gBankAttacker);
+						gBattleMons[gBankAttacker].status1 |= (Random() % 3) + 2; //入睡回合数与打哈欠一致
+						EmitSetMonData(0, REQUEST_STATUS_BATTLE, 0, 4, &gBattleMons[gBankAttacker].status1);
+						MarkBufferBankForExecution(gActiveBattler);
+						gEffectBank = gBankAttacker;
+						BattleScriptPushCursor();
+						gBattlescriptCurrInstr = BattleScript_YawnMakesAsleep;
 						effect = 1;
 					}
 					break;
