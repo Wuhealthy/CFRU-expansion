@@ -4,6 +4,7 @@
 #include "../include/field_weather.h"
 #include "../include/gpu_regs.h"
 #include "../include/sprite.h"
+#include "../include/palette.h"
 #include "../include/constants/rgb.h"
 #include "../include/metatile_behavior.h"
 #include "../include/constants/event_objects.h"
@@ -287,6 +288,42 @@ struct WeatherCallbacks
 #define sWeatherFuncs ((const struct WeatherCallbacks*) 0x83C2BC0)
 #define gWeatherPalStateFuncs ((void (* const *)(void)) 0x83C2CB0)
 
+#define gPlttBufferUnfaded2 ((u16*) 0x20373F8)
+#define gPlttBufferFaded2   ((u16*) 0x20377F8)
+
+/*
+影子调色板属于 PalTypeOther，DNS/天气每帧调色时会跳过它。
+新菜单等界面退出后会污染它占用的 OBJ 调色板槽位（表现为影子变深黑），
+且没有机制自动恢复。这里每帧把影子调色板和混合系数重写一遍。
+所有影子共用一个调色板槽，找到任一影子精灵即可修复。
+*/
+static void OwShadows_RefreshPalette(void)
+{
+	u8 i, j;
+
+	for (i = MAX_SPRITES; i > 0; --i)
+	{
+		struct Sprite *sprite = &gSprites[i - 1];
+
+		if (!sprite->inUse)
+			continue;
+
+		for (j = FLDEFFOBJ_SHADOW_S; j <= FLDEFFOBJ_SHADOW_XL; ++j)
+		{
+			if (sprite->template == gFieldEffectObjectTemplatePointers[j])
+			{
+				u8 pal = sprite->oam.paletteNum;
+				CpuCopy16(sShadowPalette, &gPlttBufferUnfaded2[PLTT_ID(pal)], sizeof(sShadowPalette));
+				CpuCopy16(sShadowPalette, &gPlttBufferFaded2[PLTT_ID(pal)], sizeof(sShadowPalette));
+				CpuCopy16(sShadowPalette, ((u16*) PLTT) + OBJ_PLTT_ID(pal), sizeof(sShadowPalette));
+				if (IsShadowAllowedInWeather())
+					SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(OW_SHADOW_OPACITY, 16 - OW_SHADOW_OPACITY));
+				return;
+			}
+		}
+	}
+}
+
 void Task_WeatherMainHook(u8 taskId)
 {
 	u8 i;
@@ -315,6 +352,7 @@ void Task_WeatherMainHook(u8 taskId)
 	}
 
 	gWeatherPalStateFuncs[gWeatherPtr->palProcessingState]();
+	OwShadows_RefreshPalette();
 }
 
 #endif
