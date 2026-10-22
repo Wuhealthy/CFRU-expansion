@@ -997,6 +997,32 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 					}
 					break;
 
+			case ABILITY_VALIANT:
+				//勇猛：首次击败对手时，攻击、特攻和速度提升1级
+				if ((arg1 != ARG_IN_FUTURE_ATTACK || gWishFutureKnock.futureSightPartyIndex[bankDef] == gBattlerPartyIndexes[gBankAttacker])
+				&& gBattleMons[bankDef].hp == 0
+				&& BATTLER_ALIVE(gBankAttacker)
+				&& TOOK_DAMAGE(bankDef)
+				&& MOVE_HAD_EFFECT
+				&& ViableMonCountFromBank(FOE(gBankAttacker)) > 0 //Use FOE so as to not get boost when KOing partner last after enemy has no mons left
+				&& !gNewBS->oncePerBattleAbilityFlags[SIDE(gBankAttacker)][gBattlerPartyIndexes[gBankAttacker]]
+				&& (STAT_CAN_RISE(gBankAttacker, STAT_STAGE_ATK)
+				 || STAT_CAN_RISE(gBankAttacker, STAT_STAGE_SPATK)
+				 || STAT_CAN_RISE(gBankAttacker, STAT_STAGE_SPEED)))
+				{
+					gNewBS->oncePerBattleAbilityFlags[SIDE(gBankAttacker)][gBattlerPartyIndexes[gBankAttacker]] = TRUE;
+					gEffectBank = gBankAttacker;
+					gBattleScripting.bank = gBankAttacker;
+					gBattleScripting.statChanger = INCREASE_1 | STAT_STAGE_ATK;
+					gBattleScripting.animArg1 = 0xE + STAT_STAGE_ATK;
+					gBattleScripting.animArg2 = 0;
+
+					BattleScriptPushCursor();
+					gBattlescriptCurrInstr = BattleScript_ValiantActivates;
+					effect = 1;
+				}
+				break;
+
 				#if (defined ABILITY_GRIMNEIGH || defined ABILITY_ASONESHADOWRIDER)
 				#ifdef ABILITY_GRIMNEIGH
 				case ABILITY_GRIMNEIGH:

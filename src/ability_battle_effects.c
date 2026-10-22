@@ -447,6 +447,7 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_NIRVANA] = 10,
 	[ABILITY_SNOOZE] = 3,
 	[ABILITY_RAGECROWN] = 6,
+	[ABILITY_VALIANT] = 7,
 };
 
 const u16 gWeatherContinuesStringIds[] =

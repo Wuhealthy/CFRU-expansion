@@ -372,6 +372,7 @@ enum
     ABILITY_NIRVANA,              // 364 浴火重生
     ABILITY_SNOOZE,               // 365 贪睡
     ABILITY_RAGECROWN,            // 366 怒发冲冠
+    ABILITY_VALIANT,              // 367 勇猛
 };
 
-#define ABILITIES_COUNT (ABILITY_RAGECROWN + 1)
+#define ABILITIES_COUNT (ABILITY_VALIANT + 1)

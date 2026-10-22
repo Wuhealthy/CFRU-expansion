@@ -98,6 +98,7 @@ extern const u8 BattleScript_PrimalWeatherEnd[];
 extern const u8 BattleScript_Symbiosis[];
 extern const u8 BattleScript_FlowerGift[];
 extern const u8 BattleScript_SoulHeart[];
+extern const u8 BattleScript_ValiantActivates[];
 extern const u8 BattleScript_IllusionBrokenFaint[];
 extern const u8 BattleScript_TeamProtectedByFlowerVeil[];
 extern const u8 BattleScript_TeamProtectedBySweetVeil[];

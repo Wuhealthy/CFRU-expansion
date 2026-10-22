@@ -94,6 +94,7 @@ ability_battle_scripts.s
 .global BattleScript_Symbiosis
 .global BattleScript_DefiantCompetitive
 .global BattleScript_DefiantCompetitiveCall
+.global BattleScript_ValiantActivates
 .global BattleScript_OpportunistActivates
 .global BattleScript_OpportunistActivatesEnd2
 .global BattleScript_SoulHeart
@@ -1287,6 +1288,40 @@ BattleScript_Symbiosis:
 	setword BATTLE_STRING_LOADER gText_SymbiosisTransfer
 	printstring 0x184
 	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
+	return
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+BattleScript_ValiantActivates:
+	call BattleScript_AbilityPopUp
+	setstatchanger STAT_ATK | INCREASE_1
+	statbuffchange STAT_ATTACKER | STAT_CERTAIN ValiantSpAtk
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 ValiantSpAtk
+	setgraphicalstatchangevalues
+	playanimation BANK_ATTACKER ANIM_STAT_BUFF ANIM_ARG_1
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+
+ValiantSpAtk:
+	setstatchanger STAT_SPATK | INCREASE_1
+	statbuffchange STAT_ATTACKER | STAT_CERTAIN ValiantSpd
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 ValiantSpd
+	setgraphicalstatchangevalues
+	playanimation BANK_ATTACKER ANIM_STAT_BUFF ANIM_ARG_1
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+
+ValiantSpd:
+	setstatchanger STAT_SPD | INCREASE_1
+	statbuffchange STAT_ATTACKER | STAT_CERTAIN ValiantEnd
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 ValiantEnd
+	setgraphicalstatchangevalues
+	playanimation BANK_ATTACKER ANIM_STAT_BUFF ANIM_ARG_1
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+
+ValiantEnd:
 	call BattleScript_AbilityPopUpRevert
 	return
 

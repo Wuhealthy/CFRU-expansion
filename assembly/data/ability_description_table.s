@@ -375,3 +375,4 @@ gAbilityDescriptions:
 .word DESC_NIRVANA                               @ 364 ABILITY_NIRVANA
 .word DESC_SNOOZE                               @ 365 ABILITY_SNOOZE
 .word DESC_RAGECROWN                             @ 366 ABILITY_RAGECROWN
+.word DESC_VALIANT                               @ 367 ABILITY_VALIANT
