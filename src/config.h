@@ -352,6 +352,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define VAR_INVERSE_BATTLE 0x515A
 #define VAR_DOUBLE_BATTLE 0x515B
 #define VAR_NO_RANDOM_WILD_ENCOUNTERS 0x515C
+#define VAR_DAMAGE_TEXT_DISPLAY 0x515D //对战伤害文本显示开关
 
 /*Expansion specials!*/
 #define SIDEWAY_STAIRS_IMPLEMENTED //Uncomment if you're using Sideway Stairs patch.

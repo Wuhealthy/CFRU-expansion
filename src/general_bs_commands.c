@@ -881,6 +881,18 @@ void atk0C_datahpupdate(void)
             EmitSetMonData(0, REQUEST_HP_BATTLE, 0, 2, &gBattleMons[gActiveBattler].hp);
             MarkBufferBankForExecution(gActiveBattler);
 
+            //伤害数值显示：设置开启时，攻击命中目标后显示造成的伤害文本
+            if (VarGet(VAR_DAMAGE_TEXT_DISPLAY) == 1
+            && gBattlescriptCurrInstr[1] == BS_GET_TARGET
+            && gHpDealt > 0)
+            {
+                PREPARE_WORD_NUMBER_BUFFER(gBattleTextBuff1, 4, gHpDealt);
+                gBattleStringLoader = DamageDealtString;
+                BattleScriptPushCursor();
+                gBattlescriptCurrInstr = BattleScript_PrintCustomString;
+                return;
+            }
+
             if (SIDE(gActiveBattler) == B_SIDE_OPPONENT && gBattleMoveDamage > 0)
             {
                 u8 pos = GetBattlerPosition(gActiveBattler);

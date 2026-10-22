@@ -114,6 +114,9 @@
 #org @RoastedBerryString
 [TARGET]的[FD][16]\n被烧掉了！
 
+#org @DamageDealtString
+[TARGET]受到了\n[FD][00]点伤害！
+
 #org @gText_TargetWasInfested
 [TARGET]正在\n遭受侵扰！
 

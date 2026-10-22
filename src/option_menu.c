@@ -89,6 +89,7 @@ enum
 {
     MENUITEM_DOUBLE_BATTLE = 0,
     MENUITEM_NO_RANDOM_WILD_ENCOUNTERS,
+    MENUITEM_DAMAGE_DISPLAY,
     MENUITEM_CANCEL_PAGE_3,
     MENUITEM_PAGE3_COUNT,
 };
@@ -110,6 +111,7 @@ enum
     OPT_INVERSE_BATTLE,
     OPT_DOUBLE_BATTLE,
     OPT_NO_RANDOM_WILD_ENCOUNTERS,
+    OPT_DAMAGE_DISPLAY,
     OPT_CANCEL,
     OPT_COUNT,
 };
@@ -151,6 +153,7 @@ extern const u8 gText_GameDifficulty[];
 extern const u8 gText_InverseBattle[];
 extern const u8 gText_DoubleBattle[];
 extern const u8 gText_NoRandomWildEncounters[];
+extern const u8 gText_DamageDisplay[];
 
 extern const u8 gText_TextSpeedSlow[];
 extern const u8 gText_TextSpeedMid[];
@@ -255,9 +258,14 @@ static const u8 *const sNoRandomWildEncountersOptions[] =
 	gText_OffOption,
     gText_OnOption
 };
+static const u8 *const sDamageDisplayOptions[] =
+{
+	gText_OffOption,
+	gText_OnOption
+};
 static const u16 sOptionMenuItemCounts[MENUITEM_COUNT] = {3, 2, 2, 2, 3, 10, 0};
 static const u16 sOptionMenuItemCounts_SecondPage[MENUITEM_PAGE2_COUNT] = {3, 2, 2, 4, 4, 2, 0};
-static const u16 sOptionMenuItemCounts_ThirdPage[MENUITEM_PAGE3_COUNT] = {2, 2, 0};
+static const u16 sOptionMenuItemCounts_ThirdPage[MENUITEM_PAGE3_COUNT] = {2, 2, 2, 0};
 
 static const u8 * GetOptionItemName(u16 item)
 {
@@ -277,6 +285,7 @@ static const u8 * GetOptionItemName(u16 item)
     case OPT_INVERSE_BATTLE:              return gText_InverseBattle;
     case OPT_DOUBLE_BATTLE:               return gText_DoubleBattle;
     case OPT_NO_RANDOM_WILD_ENCOUNTERS:   return gText_NoRandomWildEncounters;
+    case OPT_DAMAGE_DISPLAY:              return gText_DamageDisplay;
     default:                              return gText_OptionMenuCancel;
     }
 }
@@ -300,6 +309,7 @@ static u16 * GetOptionItemValuePtr(u16 item)
     case OPT_INVERSE_BATTLE:              return &sOptionMenuPtr->option_secondPage[MENUITEM_INVERSE_BATTLE];
     case OPT_DOUBLE_BATTLE:               return &sOptionMenuPtr->option_thirdPage[MENUITEM_DOUBLE_BATTLE];
     case OPT_NO_RANDOM_WILD_ENCOUNTERS:   return &sOptionMenuPtr->option_thirdPage[MENUITEM_NO_RANDOM_WILD_ENCOUNTERS];
+    case OPT_DAMAGE_DISPLAY:              return &sOptionMenuPtr->option_thirdPage[MENUITEM_DAMAGE_DISPLAY];
     default:                              return NULL;
     }
 }
@@ -322,6 +332,7 @@ static u16 GetOptionItemCount(u16 item)
     case OPT_INVERSE_BATTLE:              return sOptionMenuItemCounts_SecondPage[MENUITEM_INVERSE_BATTLE];
     case OPT_DOUBLE_BATTLE:               return sOptionMenuItemCounts_ThirdPage[MENUITEM_DOUBLE_BATTLE];
     case OPT_NO_RANDOM_WILD_ENCOUNTERS:   return sOptionMenuItemCounts_ThirdPage[MENUITEM_NO_RANDOM_WILD_ENCOUNTERS];
+    case OPT_DAMAGE_DISPLAY:              return sOptionMenuItemCounts_ThirdPage[MENUITEM_DAMAGE_DISPLAY];
     default:                              return 0;
     }
 }
@@ -352,6 +363,7 @@ static const u8 * GetOptionItemValueString(u16 item)
     case OPT_INVERSE_BATTLE:              return sInverseBattleOptions[*value];
     case OPT_DOUBLE_BATTLE:               return sDoubleBattleOptions[*value];
     case OPT_NO_RANDOM_WILD_ENCOUNTERS:   return sNoRandomWildEncountersOptions[*value];
+    case OPT_DAMAGE_DISPLAY:              return sDamageDisplayOptions[*value];
     default:                              return NULL;
     }
 }
@@ -382,6 +394,7 @@ void CB2_OptionsMenuFromStartMenu(void)
     sOptionMenuPtr->option_secondPage[MENUITEM_INVERSE_BATTLE] = VarGet(VAR_INVERSE_BATTLE);
     sOptionMenuPtr->option_thirdPage[MENUITEM_DOUBLE_BATTLE] = VarGet(VAR_DOUBLE_BATTLE);
     sOptionMenuPtr->option_thirdPage[MENUITEM_NO_RANDOM_WILD_ENCOUNTERS] = VarGet(VAR_NO_RANDOM_WILD_ENCOUNTERS);
+    sOptionMenuPtr->option_thirdPage[MENUITEM_DAMAGE_DISPLAY] = VarGet(VAR_DAMAGE_TEXT_DISPLAY);
 
     for (i = 0; i < MENUITEM_COUNT - 1; i++)
     {
@@ -469,6 +482,7 @@ void CloseAndSaveOptionMenu(u8 taskId)
     VarSet(VAR_INVERSE_BATTLE, sOptionMenuPtr->option_secondPage[MENUITEM_INVERSE_BATTLE]);
     VarSet(VAR_DOUBLE_BATTLE, sOptionMenuPtr->option_thirdPage[MENUITEM_DOUBLE_BATTLE]);
     VarSet(VAR_NO_RANDOM_WILD_ENCOUNTERS, sOptionMenuPtr->option_thirdPage[MENUITEM_NO_RANDOM_WILD_ENCOUNTERS]);
+    VarSet(VAR_DAMAGE_TEXT_DISPLAY, sOptionMenuPtr->option_thirdPage[MENUITEM_DAMAGE_DISPLAY]);
     SetPokemonCryStereo(gSaveBlock2->optionsSound);
     FREE_AND_SET_NULL(sOptionMenuPtr);
     DestroyTask(taskId);

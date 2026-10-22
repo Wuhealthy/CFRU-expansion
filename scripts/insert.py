@@ -216,7 +216,7 @@ def TryProcessFileInclusion(line: str, definesDict: dict) -> bool:
     if line.startswith('#include "'):
         try:
             path = line.split('"')[1].strip()
-            with open(path, 'r') as file:
+            with open(path, 'r', encoding='utf-8', errors='replace') as file:
                 for line in file:
                     if line.startswith('#define '):
                         try:

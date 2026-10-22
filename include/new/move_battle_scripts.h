@@ -206,6 +206,7 @@ extern const u8 gText_CourtChange[];
 extern const u8 TargetStatsResetString[];
 extern const u8 TerrainEndString[];
 extern const u8 RoastedBerryString[];
+extern const u8 DamageDealtString[];
 extern const u8 gText_TargetWasInfested[];
 extern const u8 gText_TargetWasCaughtInSnapTrap[];
 extern const u8 gText_TargetWasTrappedByAttacker[];
