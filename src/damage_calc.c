@@ -4466,6 +4466,11 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
     		if (data->moveType == TYPE_STEEL)
         		power = (power * 15) / 10;
     		break;
+		case ABILITY_RAGECROWN:
+		//怒发冲冠：每层招式威力+10%，最多3层（+30%）
+			if (gNewBS->rageCrownStacks[bankAtk])
+				power = (power * (10 + gNewBS->rageCrownStacks[bankAtk])) / 10;
+			break;
 
 		case ABILITY_PHOENIXGUARD:
 		//1.5x Boost

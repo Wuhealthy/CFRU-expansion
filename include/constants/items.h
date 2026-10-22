@@ -876,7 +876,7 @@ enum
     ITEM_CHANDELUREITE,         // 0x33A
     ITEM_CHIMECHOITE,           // 0x33B
     ITEM_ABSOLZITE,             // 0x33C
-    ITEM_DEOXYSITE,             // 0x33D
+    ITEM_ANNIHILAPEITE,         // 0x33D
     ITEM_TORTERRAITE,           // 0x33E
     ITEM_INFERNAPEITE,          // 0x33F
     ITEM_EMPOLEONITE,           // 0x340

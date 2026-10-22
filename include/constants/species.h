@@ -1494,7 +1494,7 @@ enum
     SPECIES_TROPIUS_MEGA,           // 0x5D2
     SPECIES_CHIMECHO_MEGA,          // 0x5D3
     SPECIES_ABSOL_MEGA_Z,           // 0x5D4
-    SPECIES_DEOXYS_MEGA,            // 0x5D5
+    SPECIES_ANNIHILAPE_MEGA,        // 0x5D5
     SPECIES_TORTERRA_MEGA,          // 0x5D6
     SPECIES_INFERNAPE_MEGA,         // 0x5D7
     SPECIES_EMPOLEON_MEGA,          // 0x5D8

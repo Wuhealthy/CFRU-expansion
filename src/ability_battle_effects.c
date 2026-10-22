@@ -11,6 +11,7 @@
 #include "../include/new/ability_battle_effects.h"
 #include "../include/new/stat_buffs.h"
 #include "../include/new/ability_battle_scripts.h"
+extern const u8 BattleScript_Moxie[]; //怒发冲冠满层时复用攻击提升脚本
 #include "../include/new/ability_tables.h"
 #include "../include/new/battle_start_turn_start.h"
 #include "../include/new/battle_strings.h"
@@ -445,6 +446,7 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_REVIVAL] = 9,
 	[ABILITY_NIRVANA] = 10,
 	[ABILITY_SNOOZE] = 3,
+	[ABILITY_RAGECROWN] = 6,
 };
 
 const u16 gWeatherContinuesStringIds[] =
@@ -2621,23 +2623,34 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 		case ABILITYEFFECT_CONTACT: //After being hit by a move. Not necessarilly contact.
 			gBattleScripting.bank = bank;
 
-			if(MoveInMoveset(MOVE_RAGEFIST, bank))
+			switch (gLastUsedAbility)
 			{
+			case ABILITY_RAGECROWN:
+				//怒发冲冠：受到攻击时叠层（最多3层，每层招式威力+10%）；叠满3层时攻击提升1级
 				if (MOVE_HAD_EFFECT
 				&& TOOK_DAMAGE(bank)
 				&& BATTLER_ALIVE(bank)
 				&& gBankAttacker != bank
-				&& (SPLIT(move) == SPLIT_PHYSICAL || SPLIT_SPECIAL)
-				&& gNewBS->rageFistCounter[bank] < 6)
+				&& (SPLIT(move) == SPLIT_PHYSICAL || SPLIT(move) == SPLIT_SPECIAL)
+				&& gNewBS->rageCrownStacks[bank] < 3)
 				{
-					gNewBS->rageFistCounter[bank]++;
+					gNewBS->rageCrownStacks[bank]++;
+					if (gNewBS->rageCrownStacks[bank] == 3
+					&& STAT_CAN_RISE(bank, STAT_STAGE_ATK))
+					{
+						PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_STAGE_ATK);
+						gEffectBank = bank;
+						gBattleScripting.bank = bank;
+						gBattleScripting.statChanger = INCREASE_1 | STAT_STAGE_ATK;
+						gBattleScripting.animArg1 = 0xE + STAT_STAGE_ATK;
+						gBattleScripting.animArg2 = 0;
+						BattleScriptPushCursor();
+						gBattlescriptCurrInstr = BattleScript_Moxie;
+					}
 					effect++;
 				}
 				break;
-			}
 
-			switch (gLastUsedAbility)
-			{
 			case ABILITY_COLORCHANGE:
     			if (MOVE_HAD_EFFECT
     			&& TOOK_DAMAGE(bank)
@@ -3465,6 +3478,21 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					}
 				}
 			#endif
+			}
+
+			//怒拳计数：与特性无关，放这里保证任何宝可梦都会结算
+			if(MoveInMoveset(MOVE_RAGEFIST, bank))
+			{
+				if (MOVE_HAD_EFFECT
+				&& TOOK_DAMAGE(bank)
+				&& BATTLER_ALIVE(bank)
+				&& gBankAttacker != bank
+				&& (SPLIT(move) == SPLIT_PHYSICAL || SPLIT_SPECIAL)
+				&& gNewBS->rageFistCounter[bank] < 6)
+				{
+					gNewBS->rageFistCounter[bank]++;
+					effect++;
+				}
 			}
 			break;
 

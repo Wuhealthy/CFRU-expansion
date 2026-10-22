@@ -1072,3 +1072,6 @@ HP首次低于1/3时回满HP并提升攻击
 
 #org @DESC_SNOOZE
 击败对手或使用变化招式便会入睡
+
+#org @DESC_RAGECROWN
+受击时提升威力，第3次会提升攻击

@@ -371,6 +371,7 @@ enum
     ABILITY_REVIVAL,              // 363 复苏
     ABILITY_NIRVANA,              // 364 浴火重生
     ABILITY_SNOOZE,               // 365 贪睡
+    ABILITY_RAGECROWN,            // 366 怒发冲冠
 };
 
-#define ABILITIES_COUNT (ABILITY_SNOOZE + 1)
+#define ABILITIES_COUNT (ABILITY_RAGECROWN + 1)
