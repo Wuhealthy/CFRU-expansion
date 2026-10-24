@@ -888,7 +888,7 @@ void atk0C_datahpupdate(void)
             {
                 PREPARE_WORD_NUMBER_BUFFER(gBattleTextBuff1, 4, gHpDealt);
                 gBattleStringLoader = DamageDealtString;
-                BattleScriptPushCursor();
+                BattleScriptPush(gBattlescriptCurrInstr + 2); //跳过当前扣血指令，否则return会重跑本指令导致反复扣血
                 gBattlescriptCurrInstr = BattleScript_PrintCustomString;
                 return;
             }
