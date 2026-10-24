@@ -1,146 +1,146 @@
 #org @gText_NB_TabLabel0
-POTIONS
+药品
 
 #org @gText_NB_TabLabel1
-BALLS
+精灵球
 
 #org @gText_NB_TabLabel2
-ITEMS
+道具
 
 #org @gText_NB_TabLabel3
-KEY
+重要物品
 
 #org @gText_NB_TabLabel4
-MEGA
+超级石
 
 #org @gText_NB_TabLabel5
-EVO.
+进化道具
 
 #org @gText_NB_Close
-Close the BAG and return to the menu.
+关闭背包，返回菜单。
 
 #org @gText_NB_Use
-USE
+使用
 
 #org @gText_NB_Give
-GIVE
+携带
 
 #org @gText_NB_Toss
-TOSS
+扔掉
 
 #org @gText_NB_Register
-REGISTER
+登记
 
 #org @gText_NB_Unregister
-UNREGISTER
+取消登记
 
 #org @gText_NB_Cancel
-CANCEL
+取消
 
 #org @gText_NB_Yes
-YES
+是
 
 #org @gText_NB_No
-NO
+否
 
 #org @gText_NB_TossHowMany
-Throw away how many?
+要扔掉几个？
 
 #org @gText_NB_ThrowAway
-Throw away
+扔掉
 
 #org @gText_NB_ThrewAway
-Threw away
+扔掉了
 
 #org @gText_NB_NoPokemon
-You have no POKéMON.
+没有宝可梦。
 
 #org @gText_NB_CantHold
-This item cannot be held.
+这个道具无法携带。
 
 #org @gText_NB_CantWriteMail
-MAIL cannot be written here.
+这里无法用邮件写信。
 
 #org @gText_NB_Reg
-REG
+登记
 
 #org @gText_NB_FooterSelect
-Select
+选择
 
 #org @gText_NB_FooterConfirm
-Confirm
+确定
 
 #org @gText_NB_FooterCancel
-Cancel
+取消
 
 #org @gText_NB_FooterTab
-Switch
+切换
 
 #org @gText_NB_CatHP
-HP Restorer
+HP回复药
 
 #org @gText_NB_CatStatus
-Status Healer
+状态回复药
 
 #org @gText_NB_CatPP
-PP Restorer
+PP回复药
 
 #org @gText_NB_CatBattle
-Battle Item
+战斗道具
 
 #org @gText_NB_CatBoost
-Stat Booster
+能力强化道具
 
 #org @gText_NB_CatRepel
-Repel
+除虫喷雾
 
 #org @gText_NB_CatHeld
-Held Item
+携带道具
 
 #org @gText_NB_CatMega
-Mega Stone
+超级石
 
 #org @gText_NB_CatEvo
-Evolution Item
+进化道具
 
 #org @gText_NB_CatTM
-TM/HM
+招式学习器
 
 #org @gText_NB_CatKey
-Key Item
+重要道具
 
 #org @gText_NB_CatBall
-POKé BALL
+精灵球
 
 #org @gText_NB_CatBerry
-Berry
+树果
 
 #org @gText_NB_CatItem
-Item
+道具
 
 #org @gText_NB_SellHowMany
-Sell how many?
+要卖掉几个？
 
 #org @gText_NB_CantBuy
-I can't buy that.
+那个我不能买。
 
 #org @gText_NB_ICanPay
-I can pay
+我可以出
 
 #org @gText_NB_WouldThatBeOK
-Would that be OK?
+可以吗？
 
 #org @gText_NB_Sold
-Sold
+卖掉了
 
 #org @gText_NB_For
-for
+得
 
 #org @gText_NB_DepositHowMany
-Deposit how many?
+要存入几个？
 
 #org @gText_NB_Deposited
-Deposited
+存入了
 
 #org @gText_NB_NoRoomPC
-There is no room to store items.
+没有空间存放道具了。
