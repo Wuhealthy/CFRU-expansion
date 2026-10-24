@@ -734,46 +734,51 @@ static const u8* NB_ColorPtr(u8 id)
 }
 
 //Queue a string, split into short chunks so that no single print takes longer than ~1/2 frame
+//Chunks are only ever cut between glyphs: Chinese glyphs are 2 bytes (lead byte 0x01-0x1E / 0xF9),
+//so cutting on raw byte counts used to split a character in half and garble the text
+static u32 NB_CharLen(u8 b)
+{
+	if ((b >= 0x01 && b <= 0x1E) || b == 0xF9)
+		return 2; //2-byte glyph lead byte (Chinese)
+	if (b == 0xFD) //Buffer marker + buffer id byte
+		return 2;
+	if (b == 0xFC) //Color control + two argument bytes
+		return 3;
+	return 1;
+}
+
 static void NB_QueueText(u8 kind, u8 idx, u8 win, u8 font, u16 x, u16 y, u8 color, const u8* str)
 {
 	struct NewBag* bag = gNB;
-	bool8 splittable = TRUE;
 	u32 len = StringLength(str);
 	u32 pos = 0;
 	u32 i;
 
-	for (i = 0; i < len; ++i)
-		if (str[i] >= 0xF7 && str[i] != 0xFF) //Control codes can't be cut in the middle
-			splittable = FALSE;
-
 	while (pos < len && bag->qCount < NB_QUEUE_SIZE)
 	{
 		struct NBChunk* ch = &bag->queue[(bag->qHead + bag->qCount) % NB_QUEUE_SIZE];
-		u32 n = splittable ? len - pos : (len - pos > NB_CHUNK_GLYPHS ? NB_CHUNK_GLYPHS : len - pos);
 		u8 tmp[40];
 		u32 w = 0;
+		u32 n = 0;
 
-		if (splittable)
+		//Take as many whole glyphs as fit in one chunk
+		while (pos + n < len)
 		{
-			n = (len - pos > NB_CHUNK_GLYPHS) ? NB_CHUNK_GLYPHS : len - pos;
-			//Don't leave a single glyph alone in the last chunk
-			if (len - pos - n == 1)
-				n += 1;
-			if (pos > 0)
-			{
-				for (i = 0; i < pos && i < sizeof(tmp) - 1; ++i)
-					tmp[i] = str[i];
-				tmp[i] = EOS;
-				w = GetStringWidth(font, tmp, 0);
-			}
+			u32 cl = NB_CharLen(str[pos + n]);
+			if (n + cl > NB_CHUNK_GLYPHS || pos + n + cl > len)
+				break;
+			n += cl;
 		}
-		else
-			n = len; //Whole string in one chunk (only possible for short strings)
+		if (n == 0)
+			n = NB_CharLen(str[pos]);
 
-		if (n > NB_CHUNK_GLYPHS + 1 && splittable)
-			n = NB_CHUNK_GLYPHS + 1;
-		if (n > sizeof(ch->text) - 1)
-			n = sizeof(ch->text) - 1;
+		if (pos > 0)
+		{
+			for (i = 0; i < pos && i < sizeof(tmp) - 1; ++i)
+				tmp[i] = str[i];
+			tmp[i] = EOS;
+			w = GetStringWidth(font, tmp, 0);
+		}
 
 		ch->kind = kind;
 		ch->idx = idx;
@@ -787,8 +792,6 @@ static void NB_QueueText(u8 kind, u8 idx, u8 win, u8 font, u16 x, u16 y, u8 colo
 		ch->text[n] = EOS;
 		pos += n;
 		++bag->qCount;
-		if (!splittable)
-			break;
 	}
 }
 
