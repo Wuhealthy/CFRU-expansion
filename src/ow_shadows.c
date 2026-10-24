@@ -12,6 +12,7 @@
 #include "../include/constants/field_weather.h"
 
 #include "../include/new/character_customization.h"
+#include "../include/new/dynamic_ow_pals.h"
 
 #ifdef OW_SHADOWS
 
@@ -168,6 +169,17 @@ static bool8 IsShadowAllowedOnMetatile(struct EventObject *eventObject)
 		&& !MetatileBehavior_IsLongGrass(eventObject->currentMetatileBehavior);
 }
 
+/*
+影子精灵靠 objMode=ST_OAM_OBJ_BLEND 直接使用 BLDALPHA，无需 BLDCNT。
+过场图片等全屏效果会配置 BLDCNT 以 BG 层/背景为混合目标并自己设置
+BLDALPHA——这时绝不能强写 BLDALPHA（8/8 会把整个画面变成半透明）。
+*/
+static bool8 ShadowsMayWriteBldAlpha(void)
+{
+	return !(REG_BLDCNT & BLDCNT_EFFECT_BLEND
+		&& REG_BLDCNT & (BLDCNT_TGT1_BG0 | BLDCNT_TGT1_BG1 | BLDCNT_TGT1_BG2 | BLDCNT_TGT1_BG3 | BLDCNT_TGT1_BD));
+}
+
 void SetEventObjectShadowVisibility(struct EventObject *eventObject, bool8 invisible)
 {
 	u8 i, j;
@@ -257,7 +269,8 @@ static void ApplyShadowColor(struct EventObject *eventObject)
 					//ST_OAM_OBJ_BLEND 是精灵级半透明模式，只需 BLDALPHA 提供透明度，
 					//不能动 BLDCNT：全局开 OBJ 混合会泄漏进 PC 仓库等界面，
 					//把整个精灵层染成半透明。
-					SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(OW_SHADOW_OPACITY, 16 - OW_SHADOW_OPACITY));
+					if (ShadowsMayWriteBldAlpha())
+						SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(OW_SHADOW_OPACITY, 16 - OW_SHADOW_OPACITY));
 				}
 				return;
 			}
@@ -296,10 +309,36 @@ struct WeatherCallbacks
 新菜单等界面退出后会污染它占用的 OBJ 调色板槽位（表现为影子变深黑），
 且没有机制自动恢复。这里每帧把影子调色板和混合系数重写一遍。
 所有影子共用一个调色板槽，找到任一影子精灵即可修复。
+如果影子调色板的槽位分配异常（调色板加载失败、槽位被挤掉），
+精灵残留的 paletteNum 可能指向别的精灵（如 NPC）的槽——
+这时绝不能重写，否则会把黑色影子调色板每帧涂到那个槽上，
+表现为某个 NPC 整个变黑且无法自愈。所以先核对 pal ref 的 tag。
 */
 static void OwShadows_RefreshPalette(void)
 {
 	u8 i, j;
+	u8 shadowSlot = FindPalRef(PalTypeOther, OW_SHADOW_PAL_TAG);
+
+	if (shadowSlot == 0xFF)
+	{
+		//影子调色板丢了：有影子精灵在场时重新加载一次，恢复失败则不动任何槽位
+		for (i = MAX_SPRITES; i > 0; --i)
+		{
+			struct Sprite *sprite = &gSprites[i - 1];
+			for (j = FLDEFFOBJ_SHADOW_S; j <= FLDEFFOBJ_SHADOW_XL; ++j)
+			{
+				if (sprite->inUse && sprite->template == gFieldEffectObjectTemplatePointers[j])
+				{
+					shadowSlot = LoadSpritePalette(&sShadowSpritePalette);
+					break;
+				}
+			}
+			if (shadowSlot != 0xFF)
+				break;
+		}
+		if (shadowSlot == 0xFF)
+			return;
+	}
 
 	for (i = MAX_SPRITES; i > 0; --i)
 	{
@@ -313,10 +352,15 @@ static void OwShadows_RefreshPalette(void)
 			if (sprite->template == gFieldEffectObjectTemplatePointers[j])
 			{
 				u8 pal = sprite->oam.paletteNum;
+				if (pal != shadowSlot)
+				{
+					sprite->oam.paletteNum = shadowSlot; //槽位丢失后重新指回影子自己的槽
+					pal = shadowSlot;
+				}
 				CpuCopy16(sShadowPalette, &gPlttBufferUnfaded2[PLTT_ID(pal)], sizeof(sShadowPalette));
 				CpuCopy16(sShadowPalette, &gPlttBufferFaded2[PLTT_ID(pal)], sizeof(sShadowPalette));
 				CpuCopy16(sShadowPalette, ((u16*) PLTT) + OBJ_PLTT_ID(pal), sizeof(sShadowPalette));
-				if (IsShadowAllowedInWeather())
+				if (IsShadowAllowedInWeather() && ShadowsMayWriteBldAlpha())
 					SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(OW_SHADOW_OPACITY, 16 - OW_SHADOW_OPACITY));
 				return;
 			}

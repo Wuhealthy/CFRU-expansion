@@ -49,6 +49,7 @@ static u8 FindPalTag(u16 PalTag);
 static void BrightenReflection(u8 palSlot);
 static u8 AddPalTag(u16 palTag);
 static void MaskPaletteIfFadingIn(u8 palSlot);
+static u8 EvictPalRef(u8 type, u16 palTag);
 
 u8 AddPalRef(u8 type, u16 palTag)
 {
@@ -206,6 +207,37 @@ u8 PalRefIncreaseCount(u8 palSlot)
 {
 	sPalRefs[palSlot].Count++;
 	return palSlot;
+}
+
+/*
+16 个 OBJ 调色板槽打满时的兜底：挤掉一个同类型的旧槽给新 tag 用，
+而不是像以前那样回退到槽 0（槽 0 未加载时 NPC 整个变黑，还会污染
+槽 0 的引用计数）。选择 Count 最小的槽，受影响的 NPC 最少。
+被挤掉的旧 tag 持有者在离场前会显示错误颜色，但不会变黑。
+旧持有者离场时 PalRefDecreaseCount 会按原计数递减，所以这里把
+原 Count 保留并只为新持有者 +1，正好让旧持有者的递减"还债"，
+不会提前释放槽位。
+*/
+static u8 EvictPalRef(u8 type, u16 palTag)
+{
+	u8 victim = 0xFF;
+	u8 lowestCount = 0xFF;
+
+	for (int i = 0; i < 16; i++)
+	{
+		if (sPalRefs[i].Type == type && sPalRefs[i].Count < lowestCount)
+		{
+			lowestCount = sPalRefs[i].Count;
+			victim = i;
+		}
+	}
+
+	if (victim == 0xFF)
+		return 0xFF; //没有同类型槽可挤
+
+	sPalRefs[victim].Count++; //原持有者的递减会抵消这笔"债"
+	sPalRefs[victim].PalTag = palTag;
+	return victim;
 }
 
 u8 GetPalRefType(u8 palSlot)
@@ -418,7 +450,9 @@ u8 FindOrLoadNPCPalette(u16 palTag)
 
 	palSlot = AddPalRef(PalTypeNPC, palTag);
 	if (palSlot == 0xFF)
-		return PalRefIncreaseCount(0);
+		palSlot = EvictPalRef(PalTypeNPC, palTag);
+	if (palSlot == 0xFF)
+		return 0xFF;
 
 	#ifdef PALETTE_SWAPPER
 	PatchObjectPalette(palTag, palSlot);
@@ -443,7 +477,9 @@ u8 FindOrCreateReflectionPalette(u8 palSlotNPC)
 
 	palSlot = AddPalRef(PalTypeReflection, palTag);
 	if (palSlot == 0xFF)
-		return PalRefIncreaseCount(0);
+		palSlot = EvictPalRef(PalTypeReflection, palTag);
+	if (palSlot == 0xFF)
+		return 0xFF;
 
 	#ifdef PALETTE_SWAPPER
 	PatchObjectPalette(palTag, palSlot);
