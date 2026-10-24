@@ -824,7 +824,7 @@ static void NB_QueueLabel(u8 i)
 	NB_DropChunks(NB_KIND_LABEL, i);
 	FillWindowPixelRect(NB_WIN_TABS, PIXEL_FILL(0), x, 0, 34, 16);
 	NB_MarkDirty(NB_WIN_TABS);
-	NB_QueueText(NB_KIND_LABEL, i, NB_WIN_TABS, 0, x + (34 - w) / 2, 0, i == gNB->tab ? NB_COL_WHITE : NB_COL_DIM, sTabLabels[i]);
+	NB_QueueText(NB_KIND_LABEL, i, NB_WIN_TABS, 0, x + (34 - w) / 2, 2, i == gNB->tab ? NB_COL_WHITE : NB_COL_DIM, sTabLabels[i]);
 }
 
 static void NB_UpdateTabVisuals(void)
@@ -878,14 +878,15 @@ static const u8* NB_CategoryName(u16 item, u8 kind)
 }
 
 //Draw (or redraw) one visible row. Returns a glyph-count cost estimate
-//(Re)draw one visible row: clears it now and queues its text
+//(Re)draw one visible row: clears it and prints its text right away.
+//Queued chunked printing would recompute the x offset per chunk with GetStringWidth, whose
+//width for 2-byte glyphs does not match the renderer's advance (Chinese names visibly drift)
 static void NB_QueueRow(u8 r)
 {
 	struct NewBag* bag = gNB;
 	u16 idx = bag->top + r;
 	u16 y = r * 16;
 
-	NB_DropChunks(NB_KIND_ROW, r);
 	FillWindowPixelRect(NB_WIN_ROWS, PIXEL_FILL(0), 0, y, 168, 16);
 	NB_MarkDirty(NB_WIN_ROWS);
 
@@ -897,22 +898,22 @@ static void NB_QueueRow(u8 r)
 		u16 item = bag->ids[idx];
 		u8 buf[12];
 
-		NB_QueueText(NB_KIND_ROW, r, NB_WIN_ROWS, 2, 8, y, NB_COL_WHITE, ItemId_GetName(item));
+		AddTextPrinterParameterized3(NB_WIN_ROWS, 2, 8, y, NB_ColorPtr(NB_COL_WHITE), 0, ItemId_GetName(item));
 
 		if (bag->tab == 3)
 		{
 			if (IsItemRegistered(item))
-				NB_QueueText(NB_KIND_ROW, r, NB_WIN_ROWS, 0, 134, y + 1, NB_COL_RED, gText_NB_Reg);
+				AddTextPrinterParameterized3(NB_WIN_ROWS, 0, 134, y + 1, NB_ColorPtr(NB_COL_RED), 0, gText_NB_Reg);
 		}
 		else
 		{
 			buf[0] = 0xB9; //x
 			ConvertIntToDecimalStringN(buf + 1, bag->qtys[idx], STR_CONV_MODE_RIGHT_ALIGN, 3);
-			NB_QueueText(NB_KIND_ROW, r, NB_WIN_ROWS, 2, 154 - GetStringWidth(2, buf, 0), y, NB_COL_GREY, buf);
+			AddTextPrinterParameterized3(NB_WIN_ROWS, 2, 154 - GetStringWidth(2, buf, 0), y, NB_ColorPtr(NB_COL_GREY), 0, buf);
 		}
 	}
 	else
-		NB_QueueText(NB_KIND_ROW, r, NB_WIN_ROWS, 2, 8, y, NB_COL_WHITE, gText_NB_Cancel);
+		AddTextPrinterParameterized3(NB_WIN_ROWS, 2, 8, y, NB_ColorPtr(NB_COL_WHITE), 0, gText_NB_Cancel);
 }
 
 static void NB_QueueRows(u8 mask)
