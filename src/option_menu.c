@@ -56,6 +56,7 @@ void Task_OptionMenu(u8 taskId);
 void CloseAndSaveOptionMenu(u8 taskId);
 u8 OptionMenu_ProcessInput(void);
 void BufferOptionMenuString(u8 selection);
+void PrintOptionDescription(void);
 void OptionMenu_PickSwitchCancel(void);
 static void OptionMenu_DrawVisibleList(void);
 static void OptionMenu_ScrollCursor(void);
@@ -154,6 +155,23 @@ extern const u8 gText_InverseBattle[];
 extern const u8 gText_DoubleBattle[];
 extern const u8 gText_NoRandomWildEncounters[];
 extern const u8 gText_DamageDisplay[];
+
+extern const u8 gText_OptionDesc_TextSpeed[];
+extern const u8 gText_OptionDesc_BattleScene[];
+extern const u8 gText_OptionDesc_BattleStyle[];
+extern const u8 gText_OptionDesc_Sound[];
+extern const u8 gText_OptionDesc_ButtonMode[];
+extern const u8 gText_OptionDesc_Frame[];
+extern const u8 gText_OptionDesc_RButtonMode[];
+extern const u8 gText_OptionDesc_BattleMusic[];
+extern const u8 gText_OptionDesc_WildLevelScaling[];
+extern const u8 gText_OptionDesc_AutoSortBag[];
+extern const u8 gText_OptionDesc_GameDifficulty[];
+extern const u8 gText_OptionDesc_InverseBattle[];
+extern const u8 gText_OptionDesc_DoubleBattle[];
+extern const u8 gText_OptionDesc_NoRandomWildEncounters[];
+extern const u8 gText_OptionDesc_DamageDisplay[];
+extern const u8 gText_OptionDesc_Cancel[];
 
 extern const u8 gText_TextSpeedSlow[];
 extern const u8 gText_TextSpeedMid[];
@@ -263,6 +281,27 @@ static const u8 *const sDamageDisplayOptions[] =
 	gText_OffOption,
 	gText_OnOption
 };
+// Description shown in the top text box for each unified list item
+static const u8 *const sOptionDescriptions[OPT_COUNT] =
+{
+    [OPT_TEXTSPEED]                 = gText_OptionDesc_TextSpeed,
+    [OPT_BATTLESCENE]               = gText_OptionDesc_BattleScene,
+    [OPT_BATTLESTYLE]               = gText_OptionDesc_BattleStyle,
+    [OPT_SOUND]                     = gText_OptionDesc_Sound,
+    [OPT_BUTTONMODE]                = gText_OptionDesc_ButtonMode,
+    [OPT_FRAMETYPE]                 = gText_OptionDesc_Frame,
+    [OPT_RBUTTONMODE]               = gText_OptionDesc_RButtonMode,
+    [OPT_BATTLEMUSIC]               = gText_OptionDesc_BattleMusic,
+    [OPT_WILDLEVELSCALING]          = gText_OptionDesc_WildLevelScaling,
+    [OPT_AUTOSORTBAG]               = gText_OptionDesc_AutoSortBag,
+    [OPT_GAME_DIFFICULTY]           = gText_OptionDesc_GameDifficulty,
+    [OPT_INVERSE_BATTLE]            = gText_OptionDesc_InverseBattle,
+    [OPT_DOUBLE_BATTLE]             = gText_OptionDesc_DoubleBattle,
+    [OPT_NO_RANDOM_WILD_ENCOUNTERS] = gText_OptionDesc_NoRandomWildEncounters,
+    [OPT_DAMAGE_DISPLAY]            = gText_OptionDesc_DamageDisplay,
+    [OPT_CANCEL]                    = gText_OptionDesc_Cancel,
+};
+
 static const u16 sOptionMenuItemCounts[MENUITEM_COUNT] = {3, 2, 2, 2, 3, 10, 0};
 static const u16 sOptionMenuItemCounts_SecondPage[MENUITEM_PAGE2_COUNT] = {3, 2, 2, 4, 4, 2, 0};
 static const u16 sOptionMenuItemCounts_ThirdPage[MENUITEM_PAGE3_COUNT] = {2, 2, 2, 0};
@@ -443,6 +482,7 @@ void Task_OptionMenu(u8 taskId)
             break;
         case 3: // cursor moved (list may have scrolled)
             OptionMenu_ScrollCursor();
+            PrintOptionDescription();
             break;
         case 4: // value changed
             BufferOptionMenuString(sOptionMenuPtr->cursorPos - sOptionMenuPtr->scrollTop);
@@ -522,6 +562,7 @@ void CB2_OptionMenu(void)
         break;
     case 8:
         UpdateSettingSelectionDisplay(sOptionMenuPtr->cursorPos - sOptionMenuPtr->scrollTop);
+        PrintOptionDescription();
         break;
     case 9:
         OptionMenu_PickSwitchCancel();
@@ -656,6 +697,27 @@ u8 OptionMenu_ProcessInput(void)
     }
 }
 extern const u16 sOptionMenuPalette[];
+static const u8 sOptionDescriptionTextColor[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GREY, TEXT_COLOR_LIGHT_GREY};
+
+// Replaces the fixed header text with a description of the option under the cursor
+void PrintOptionDescription(void)
+{
+    u16 item = sOptionMenuPtr->cursorPos;
+    const u8 *desc = (item < OPT_COUNT) ? sOptionDescriptions[item] : NULL;
+
+    FillWindowPixelBuffer(WIN_TEXT_OPTION, PIXEL_FILL(1));
+    if (desc != NULL)
+    {
+        s32 width = GetStringWidth(2, desc, 0);
+        s32 x = (GetWindowAttribute(WIN_TEXT_OPTION, WINDOW_WIDTH) * 8 - width) / 2;
+        if (x < 0)
+            x = 0;
+        AddTextPrinterParameterized3(WIN_TEXT_OPTION, 2, x, 2, sOptionDescriptionTextColor, 0, desc);
+    }
+    PutWindowTilemap(WIN_TEXT_OPTION);
+    CopyWindowToVram(WIN_TEXT_OPTION, COPYWIN_BOTH);
+}
+
 bool8 LoadOptionMenuPalette(void)
 {
     switch (sOptionMenuPtr->loadPaletteState)

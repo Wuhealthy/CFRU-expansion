@@ -66,3 +66,51 @@ R键模式
 
 #org @gText_DamageDisplay
 伤害数值显示
+
+#org @gText_OptionDesc_TextSpeed
+设置文字显示的速度。
+
+#org @gText_OptionDesc_BattleScene
+开关战斗中的动画演出。
+
+#org @gText_OptionDesc_BattleStyle
+设置战斗中濒死宝可梦的替换方式。
+
+#org @gText_OptionDesc_Sound
+设置声音为单声道或立体声。
+
+#org @gText_OptionDesc_ButtonMode
+设置L键和R键的辅助功能。
+
+#org @gText_OptionDesc_Frame
+更改界面的边框样式。
+
+#org @gText_OptionDesc_RButtonMode
+设置R键的快捷功能。
+
+#org @gText_OptionDesc_BattleMusic
+更改对战音乐的曲风。
+
+#org @gText_OptionDesc_WildLevelScaling
+野生宝可梦等级跟随队伍平均等级。
+
+#org @gText_OptionDesc_AutoSortBag
+自动整理包包中的道具摆放。
+
+#org @gText_OptionDesc_GameDifficulty
+更改游戏的整体难度。
+
+#org @gText_OptionDesc_InverseBattle
+反转全部属性相克的关系。
+
+#org @gText_OptionDesc_DoubleBattle
+开启后对战变为双打。
+
+#org @gText_OptionDesc_NoRandomWildEncounters
+开启后不会遇到野生宝可梦。
+
+#org @gText_OptionDesc_DamageDisplay
+开关战斗中的伤害数值显示。
+
+#org @gText_OptionDesc_Cancel
+保存设置并退出。
