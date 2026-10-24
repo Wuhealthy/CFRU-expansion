@@ -1044,7 +1044,6 @@ static void NB_QueueDetail(void)
 	FillWindowPixelBuffer(NB_WIN_DETAIL, PIXEL_FILL(0));
 	NB_MarkDirty(NB_WIN_DETAIL);
 	NB_UpdateItemIcon(item);
-	NB_QueueText(NB_KIND_DETAIL, 0, NB_WIN_DETAIL, 2, 4, 2, NB_COL_WHITE, item == ITEM_NONE ? gText_NB_Cancel : ItemId_GetName(item));
 
 	//Wrapping + category are queued afterwards (they are not cheap either)
 	if (bag->qCount < NB_QUEUE_SIZE)
@@ -1099,33 +1098,22 @@ static void NB_DrawMoney(void)
 //---------------------------------------------------------------------------------------------------
 // Selection / navigation
 //---------------------------------------------------------------------------------------------------
-//Prepares the description: category next to the name, then the wrapped description lines
+//Prepares the description: only the vanilla description lines, split on their own \n (0xFE), no re-wrapping
 static u32 NB_RunPrep(void)
 {
 	struct NewBag* bag = gNB;
 	u16 item = (bag->sel < bag->count) ? bag->ids[bag->sel] : ITEM_NONE;
 	const u8* desc;
-	u8 wrapped[256];
 	const u8* p;
 	u32 n = 0;
 
 	if (item != ITEM_NONE)
-	{
-		u8 buf[24];
-		s32 nameW = GetStringWidth(2, ItemId_GetName(item), 0);
-		buf[0] = 0x5C; //(
-		buf[1] = EOS;
-		StringAppend(buf, NB_CategoryName(item, bag->isBerry[bag->sel]));
-		StringAppend(buf, (const u8[]) {0x5D, 0xFF}); //)
-		NB_QueueText(NB_KIND_DETAIL, 0, NB_WIN_DETAIL, 0, 4 + nameW + 6, 5, NB_COL_DIM, buf);
 		desc = ItemId_GetDescription(item);
-	}
 	else
 		desc = gText_NB_Close;
 
-	NB_WrapText(wrapped, desc, 0, 188, sizeof(wrapped));
-	p = wrapped;
-	while (*p != EOS && n < 3)
+	p = desc;
+	while (*p != EOS && n < 4)
 	{
 		u8 line[96];
 		u32 i = 0;
@@ -1134,7 +1122,7 @@ static u32 NB_RunPrep(void)
 		line[i] = EOS;
 		if (*p == 0xFE)
 			++p;
-		NB_QueueText(NB_KIND_DETAIL, 0, NB_WIN_DETAIL, 0, 4, 14 + n * 9, NB_COL_GREY, line);
+		NB_QueueText(NB_KIND_DETAIL, 0, NB_WIN_DETAIL, 0, 4, 5 + n * 11, NB_COL_GREY, line);
 		++n;
 	}
 	return 8;
