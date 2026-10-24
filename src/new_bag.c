@@ -1125,7 +1125,9 @@ static u32 NB_RunPrep(void)
 		line[i] = EOS;
 		if (*p == 0xFE)
 			++p;
-		NB_QueueText(NB_KIND_DETAIL, 0, NB_WIN_DETAIL, 0, 4, 5 + n * 11, NB_COL_GREY, line);
+		//Print the whole line in one go: chunking it would recompute the x offset with GetStringWidth,
+		//whose width for 2-byte glyphs does not match the renderer's 9px advance (text visibly drifts)
+		AddTextPrinterParameterized3(NB_WIN_DETAIL, 0, 4, 5 + n * 11, NB_ColorPtr(NB_COL_GREY), 0, line);
 		++n;
 	}
 	return 8;
