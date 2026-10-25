@@ -302,20 +302,6 @@ extern const u8 gText_NB_DepositHowMany[];
 extern const u8 gText_NB_Deposited[];
 extern const u8 gText_NB_Ge[];
 extern const u8 gText_NB_NoRoomPC[];
-extern const u8 gText_NB_CatHP[];
-extern const u8 gText_NB_CatStatus[];
-extern const u8 gText_NB_CatPP[];
-extern const u8 gText_NB_CatBattle[];
-extern const u8 gText_NB_CatBoost[];
-extern const u8 gText_NB_CatRepel[];
-extern const u8 gText_NB_CatHeld[];
-extern const u8 gText_NB_CatMega[];
-extern const u8 gText_NB_CatEvo[];
-extern const u8 gText_NB_CatTM[];
-extern const u8 gText_NB_CatKey[];
-extern const u8 gText_NB_CatBall[];
-extern const u8 gText_NB_CatBerry[];
-extern const u8 gText_NB_CatItem[];
 
 static const u8 sText_Space[] = {0x00, 0xFF};
 static const u8 sText_QuestionMark[] = {0xAC, 0xFF};
@@ -847,40 +833,6 @@ static void NB_UpdateTabVisuals(void)
 		StartSpriteAnim(&gSprites[bag->bagSprite], bag->tab);
 		gSprites[bag->bagSprite].data[0] = 6; //Start the hop
 	}
-}
-
-static const u8* NB_CategoryName(u16 item, u8 kind)
-{
-	u16 t = gItemsByType[item];
-
-	switch (gNB->tab) {
-		case 1: return gText_NB_CatBall;
-		case 3: return gText_NB_CatKey;
-		case 4: return gText_NB_CatMega;
-		case 5: return gText_NB_CatEvo;
-	}
-
-	if (kind == 1)
-		return gText_NB_CatBerry;
-	if (kind == 2)
-		return gText_NB_CatTM;
-	if (t == 0 && item != ITEM_MAX_REPEL) //Not listed in gItemsByType
-		return gText_NB_CatItem;
-	if (t <= ITEM_TYPE_REPEL)
-		return gText_NB_CatRepel;
-	if (t >= ITEM_TYPE_FULL_RESTORE && t <= ITEM_TYPE_HERB_HEAL)
-		return gText_NB_CatHP;
-	if (t >= ITEM_TYPE_FULL_HEAL && t <= ITEM_TYPE_STATUS_RECOVERY)
-		return gText_NB_CatStatus;
-	if (t == ITEM_TYPE_PP_RECOVERY)
-		return gText_NB_CatPP;
-	if (t >= ITEM_TYPE_X_ATTACK && t <= ITEM_TYPE_OTHER_BATTLE_ITEM)
-		return gText_NB_CatBattle;
-	if (t >= ITEM_TYPE_ABILITY_GIGANTAMAX_MODIFIER && t <= ITEM_TYPE_SPEED_WING)
-		return gText_NB_CatBoost;
-	if (t >= ITEM_TYPE_FLUTE && t <= ITEM_TYPE_PLATE)
-		return gText_NB_CatHeld;
-	return gText_NB_CatItem;
 }
 
 //Draw (or redraw) one visible row. Returns a glyph-count cost estimate

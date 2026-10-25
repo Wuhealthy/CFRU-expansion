@@ -64,60 +64,6 @@
 #org @gText_NB_Reg
 登记
 
-#org @gText_NB_FooterSelect
-选择
-
-#org @gText_NB_FooterConfirm
-确定
-
-#org @gText_NB_FooterCancel
-取消
-
-#org @gText_NB_FooterTab
-切换
-
-#org @gText_NB_CatHP
-HP回复药
-
-#org @gText_NB_CatStatus
-状态回复药
-
-#org @gText_NB_CatPP
-PP回复药
-
-#org @gText_NB_CatBattle
-战斗道具
-
-#org @gText_NB_CatBoost
-能力强化道具
-
-#org @gText_NB_CatRepel
-除虫喷雾
-
-#org @gText_NB_CatHeld
-携带道具
-
-#org @gText_NB_CatMega
-超级石
-
-#org @gText_NB_CatEvo
-进化道具
-
-#org @gText_NB_CatTM
-招式学习器
-
-#org @gText_NB_CatKey
-重要道具
-
-#org @gText_NB_CatBall
-精灵球
-
-#org @gText_NB_CatBerry
-树果
-
-#org @gText_NB_CatItem
-道具
-
 #org @gText_NB_SellHowMany
 要卖掉几个？
 
