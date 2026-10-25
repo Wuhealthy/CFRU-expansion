@@ -300,6 +300,7 @@ extern const u8 gText_NB_Sold[];
 extern const u8 gText_NB_For[];
 extern const u8 gText_NB_DepositHowMany[];
 extern const u8 gText_NB_Deposited[];
+extern const u8 gText_NB_Ge[];
 extern const u8 gText_NB_NoRoomPC[];
 extern const u8 gText_NB_CatHP[];
 extern const u8 gText_NB_CatStatus[];
@@ -669,7 +670,7 @@ static void NB_WrapText(u8* dst, const u8* src, u8 font, u16 maxWidth, u32 dstSi
 	while (src[i] != EOS && i < dstSize - 1)
 	{
 		u8 ch = src[i];
-		dst[i] = (ch == 0xFE || ch == 0xFA || ch == 0xFB) ? 0x00 : ch; //Newline / scroll / paragraph -> space
+		dst[i] = (ch == 0xFA || ch == 0xFB) ? 0x00 : ch; //Scroll / paragraph -> space; 0xFE stays as a forced newline
 		++i;
 	}
 	dst[i] = EOS;
@@ -679,7 +680,12 @@ static void NB_WrapText(u8* dst, const u8* src, u8 font, u16 maxWidth, u32 dstSi
 	while (TRUE)
 	{
 		u8 ch = *p;
-		if (ch == 0x00 || ch == EOS)
+		if (ch == 0xFE) //Forced newline: start a new line, never re-wrapped
+		{
+			lineStart = p + 1;
+			lastSpace = NULL;
+		}
+		else if (ch == 0x00 || ch == EOS)
 		{
 			s32 w;
 			*p = EOS;
@@ -824,7 +830,7 @@ static void NB_QueueLabel(u8 i)
 	NB_DropChunks(NB_KIND_LABEL, i);
 	FillWindowPixelRect(NB_WIN_TABS, PIXEL_FILL(0), x, 0, 34, 16);
 	NB_MarkDirty(NB_WIN_TABS);
-	NB_QueueText(NB_KIND_LABEL, i, NB_WIN_TABS, 0, x + (34 - w) / 2, 2, i == gNB->tab ? NB_COL_WHITE : NB_COL_DIM, sTabLabels[i]);
+	NB_QueueText(NB_KIND_LABEL, i, NB_WIN_TABS, 0, x + (34 - w) / 2, 3, i == gNB->tab ? NB_COL_WHITE : NB_COL_DIM, sTabLabels[i]);
 }
 
 static void NB_UpdateTabVisuals(void)
@@ -898,7 +904,7 @@ static void NB_QueueRow(u8 r)
 		u16 item = bag->ids[idx];
 		u8 buf[12];
 
-		AddTextPrinterParameterized3(NB_WIN_ROWS, 2, 8, y, NB_ColorPtr(NB_COL_WHITE), 0, ItemId_GetName(item));
+		AddTextPrinterParameterized3(NB_WIN_ROWS, 2, 8, y + 1, NB_ColorPtr(NB_COL_WHITE), 0, ItemId_GetName(item));
 
 		if (bag->tab == 3)
 		{
@@ -909,11 +915,11 @@ static void NB_QueueRow(u8 r)
 		{
 			buf[0] = 0xB9; //x
 			ConvertIntToDecimalStringN(buf + 1, bag->qtys[idx], STR_CONV_MODE_RIGHT_ALIGN, 3);
-			AddTextPrinterParameterized3(NB_WIN_ROWS, 2, 154 - GetStringWidth(2, buf, 0), y, NB_ColorPtr(NB_COL_GREY), 0, buf);
+			AddTextPrinterParameterized3(NB_WIN_ROWS, 2, 154 - GetStringWidth(2, buf, 0), y + 1, NB_ColorPtr(NB_COL_GREY), 0, buf);
 		}
 	}
 	else
-		AddTextPrinterParameterized3(NB_WIN_ROWS, 2, 8, y, NB_ColorPtr(NB_COL_WHITE), 0, gText_NB_Cancel);
+		AddTextPrinterParameterized3(NB_WIN_ROWS, 2, 8, y + 1, NB_ColorPtr(NB_COL_WHITE), 0, gText_NB_Cancel);
 }
 
 static void NB_QueueRows(u8 mask)
@@ -1073,7 +1079,7 @@ static void NB_PrintText(const u8* str)
 	NB_DropChunks(NB_KIND_DETAIL, 0xFF); //Cancel any pending description
 	NB_DropChunks(NB_KIND_PREP, 0xFF);
 	gNB->detailTimer = 0;
-	NB_PrintWrapped(NB_WIN_DETAIL, 2, 4, 3, 14, 3, sColWhite, str, 188);
+	NB_PrintWrapped(NB_WIN_DETAIL, 2, 4, 4, 14, 3, sColWhite, str, 188);
 	NB_MarkDirty(NB_WIN_DETAIL);
 }
 
@@ -1089,7 +1095,7 @@ static void NB_DrawMoney(void)
 	NB_Box(NB_WIN_MONEY, 0, 0, 70, 16, C_CARD_BORDER, C_PANEL);
 	buf[0] = 0xB7; //Pokedollar
 	ConvertIntToDecimalStringN(buf + 1, GetMoney(&gSaveBlock1->money), STR_CONV_MODE_LEFT_ALIGN, 7);
-	AddTextPrinterParameterized3(NB_WIN_MONEY, 2, 68 - GetStringWidth(2, buf, 0), 0, sColGold, 0, buf);
+	AddTextPrinterParameterized3(NB_WIN_MONEY, 2, 68 - GetStringWidth(2, buf, 0), 1, sColGold, 0, buf);
 	if (!bag->moneyShown)
 	{
 		bag->moneyShown = TRUE;
@@ -1270,7 +1276,7 @@ static void NB_DrawMenuRow(u8 i)
 	bool8 sel = (i == bag->menuCursor);
 
 	NB_Box(NB_WIN_POPUP, 2, 2 + i * 16, 76, 16, sel ? C_RED : C_PANEL, sel ? C_SEL_FILL : C_PANEL);
-	AddTextPrinterParameterized3(NB_WIN_POPUP, 2, 12, 2 + i * 16, sel ? sColPopupSel : sColPopup, 0, NB_ActionName(bag->menuActions[i]));
+	AddTextPrinterParameterized3(NB_WIN_POPUP, 2, 12, 3 + i * 16, sel ? sColPopupSel : sColPopup, 0, NB_ActionName(bag->menuActions[i]));
 	NB_MarkDirty(NB_WIN_POPUP);
 }
 
@@ -1462,9 +1468,8 @@ static void NB_AfterQty(u8 taskId)
 			ConvertIntToDecimalStringN(gStringVar1, bag->qty, STR_CONV_MODE_LEFT_ALIGN, 3);
 			CopyItemName(gSpecialVar_ItemId, gStringVar2);
 			StringCopy(gStringVar4, gText_NB_ThrowAway);
-			StringAppend(gStringVar4, sText_Space);
 			StringAppend(gStringVar4, gStringVar1);
-			StringAppend(gStringVar4, sText_Space);
+			StringAppend(gStringVar4, gText_NB_Ge);
 			StringAppend(gStringVar4, gStringVar2);
 			StringAppend(gStringVar4, sText_QuestionMark);
 			NB_PrintText(gStringVar4);
@@ -1476,10 +1481,9 @@ static void NB_AfterQty(u8 taskId)
 			yen[0] = 0xB7;
 			ConvertIntToDecimalStringN(yen + 1, ItemId_GetPrice(gSpecialVar_ItemId) / 2 * bag->qty, STR_CONV_MODE_LEFT_ALIGN, 7);
 			StringCopy(gStringVar4, gText_NB_ICanPay);
-			StringAppend(gStringVar4, sText_Space);
 			StringAppend(gStringVar4, yen);
 			StringAppend(gStringVar4, sText_Period);
-			StringAppend(gStringVar4, sText_Space);
+			StringAppend(gStringVar4, (const u8[]) {0xFE, 0xFF}); //Forced newline
 			StringAppend(gStringVar4, gText_NB_WouldThatBeOK);
 			NB_PrintText(gStringVar4);
 			NB_StartYesNo(taskId);
@@ -1594,9 +1598,8 @@ static void NB_TossDo(u8 taskId)
 	ConvertIntToDecimalStringN(gStringVar1, bag->qty, STR_CONV_MODE_LEFT_ALIGN, 3);
 	CopyItemName(gSpecialVar_ItemId, gStringVar2);
 	StringCopy(gStringVar4, gText_NB_ThrewAway);
-	StringAppend(gStringVar4, sText_Space);
 	StringAppend(gStringVar4, gStringVar1);
-	StringAppend(gStringVar4, sText_Space);
+	StringAppend(gStringVar4, gText_NB_Ge);
 	StringAppend(gStringVar4, gStringVar2);
 	StringAppend(gStringVar4, sText_Period);
 	NB_ShowMessage(taskId, gStringVar4, Task_NB_ReturnToList);
@@ -1618,13 +1621,11 @@ static void NB_SellDo(u8 taskId)
 	ConvertIntToDecimalStringN(gStringVar1, bag->qty, STR_CONV_MODE_LEFT_ALIGN, 3);
 	CopyItemName(gSpecialVar_ItemId, gStringVar2);
 	StringCopy(gStringVar4, gText_NB_Sold);
-	StringAppend(gStringVar4, sText_Space);
 	StringAppend(gStringVar4, gStringVar1);
-	StringAppend(gStringVar4, sText_Space);
-	StringAppend(gStringVar4, gStringVar2);
-	StringAppend(gStringVar4, sText_Space);
-	StringAppend(gStringVar4, gText_NB_For);
-	StringAppend(gStringVar4, sText_Space);
+	StringAppend(gStringVar4, gText_NB_Ge);
+			StringAppend(gStringVar4, gStringVar2);
+			StringAppend(gStringVar4, (const u8[]) {0xFE, 0xFF}); //Forced newline
+			StringAppend(gStringVar4, gText_NB_For);
 	StringAppend(gStringVar4, yen);
 	StringAppend(gStringVar4, sText_Period);
 	NB_ShowMessage(taskId, gStringVar4, Task_NB_ReturnToList);
@@ -1660,9 +1661,8 @@ static void NB_DepositDo(u8 taskId)
 		ConvertIntToDecimalStringN(gStringVar1, bag->qty, STR_CONV_MODE_LEFT_ALIGN, 3);
 		CopyItemName(gSpecialVar_ItemId, gStringVar2);
 		StringCopy(gStringVar4, gText_NB_Deposited);
-		StringAppend(gStringVar4, sText_Space);
 		StringAppend(gStringVar4, gStringVar1);
-		StringAppend(gStringVar4, sText_Space);
+		StringAppend(gStringVar4, gText_NB_Ge);
 		StringAppend(gStringVar4, gStringVar2);
 		StringAppend(gStringVar4, sText_Period);
 		NB_CloseMenu();

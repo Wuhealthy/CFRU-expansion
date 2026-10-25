@@ -125,7 +125,7 @@ PP回复药
 那个我不能买。
 
 #org @gText_NB_ICanPay
-我可以出
+我可以出价
 
 #org @gText_NB_WouldThatBeOK
 可以吗？
@@ -134,13 +134,16 @@ PP回复药
 卖掉了
 
 #org @gText_NB_For
-得
+得到
 
 #org @gText_NB_DepositHowMany
 要存入几个？
 
 #org @gText_NB_Deposited
 存入了
+
+#org @gText_NB_Ge
+个
 
 #org @gText_NB_NoRoomPC
 没有空间存放道具了。
