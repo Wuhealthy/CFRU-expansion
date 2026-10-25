@@ -69,6 +69,7 @@ static void PokeSum_FinishSetup(void);
 static void Task_InputHandler_SelectOrForgetMove(u8 taskId);
 static void PokeSum_PrintBottomPaneText(void);
 static void PokeSum_PrintTrainerMemo(void);
+static void PokeSum_PrintHiddenPowerType(void);
 static void PokeSum_PrintTrainerMemo_Mon(void);
 static void PokeSum_PrintTrainerMemo_Egg(void);
 static u8 PokeSum_HandleCreateSprites(void);
@@ -184,6 +185,8 @@ extern const u8 gText_PSS_Speed[];
 extern const u8 gText_PSS_ExpPoints[];
 extern const u8 gText_PSS_ToNextLv[];
 extern const u8 gText_PSS_Ability[];
+extern const u8 gText_Sum_HiddenPowerLabel[];
+extern u8 __attribute__((long_call)) CalcMonHiddenPowerType(struct Pokemon * mon);
 extern const u8 gText_PSS_Category[];
 extern const u8 gText_PSS_Power[];
 extern const u8 gText_PSS_Accuracy[];
@@ -2441,6 +2444,7 @@ static void PokeSum_PrintBottomPaneText(void)
     {
     case PSS_PAGE_INFO:
         PokeSum_PrintTrainerMemo();
+        PokeSum_PrintHiddenPowerType();
         break;
     case PSS_PAGE_SKILLS:
         PokeSum_PrintExpPoints_NextLv();
@@ -2453,6 +2457,26 @@ static void PokeSum_PrintBottomPaneText(void)
     }
 
     PutWindowTilemap(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO]);
+}
+
+//Info page, bottom right: "觉醒力量：" + the type icon of the current mon's Hidden Power
+static void PokeSum_PrintHiddenPowerType(void)
+{
+    u8 win = sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO];
+    u8 hpType;
+    s32 labelW;
+    s32 x;
+
+    if (sMonSummaryScreen->isEgg)
+        return;
+
+    hpType = CalcMonHiddenPowerType(&sMonSummaryScreen->currentMon);
+    labelW = GetStringWidth(2, gText_Sum_HiddenPowerLabel, 0);
+    x = 224 - 28 - 2 - labelW - 2; //Type icon is 28px wide, right edge at x=222
+
+    AddTextPrinterParameterized3(win, 2, x, 48, sPSSTextColours[WHITE], TEXT_SPEED_FF, gText_Sum_HiddenPowerLabel);
+    BlitMenuInfoIcon(win, hpType + 1, 192, 50);
+    PutWindowTilemap(win);
 }
 
 static void PokeSum_PrintTrainerMemo(void)
