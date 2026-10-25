@@ -187,6 +187,7 @@ extern const u8 gText_PSS_ToNextLv[];
 extern const u8 gText_PSS_Ability[];
 extern const u8 gText_Sum_HiddenPowerLabel[];
 extern u8 __attribute__((long_call)) CalcMonHiddenPowerType(struct Pokemon * mon);
+extern bool8 __attribute__((long_call)) SpeciesHasHiddenPowerPhysicality(u16 species);
 extern const u8 gText_PSS_Category[];
 extern const u8 gText_PSS_Power[];
 extern const u8 gText_PSS_Accuracy[];
@@ -762,9 +763,17 @@ static void PokeSum_PrintMonTypeIcons(void)
     case PSS_PAGE_INFO:
         if (!sMonSummaryScreen->isEgg)
         {
-            BlitMenuInfoIcon(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], sMonSummaryScreen->monTypes[0] + 1, 78, 33);
+            //Species whose type1 is their Hidden Power (awakened forms): show the HP type icon,
+            //matching the type1 override applied at battle start
+            u8 type0 = sMonSummaryScreen->monTypes[0];
+            u16 species = GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPECIES2, NULL);
 
-            if (sMonSummaryScreen->monTypes[0] != sMonSummaryScreen->monTypes[1])
+            if (SpeciesHasHiddenPowerPhysicality(species))
+                type0 = CalcMonHiddenPowerType(&sMonSummaryScreen->currentMon);
+
+            BlitMenuInfoIcon(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], type0 + 1, 78, 33);
+
+            if (type0 != sMonSummaryScreen->monTypes[1])
                 BlitMenuInfoIcon(sMonSummaryScreen->windowIds[POKESUM_WIN_RIGHT_PANE], sMonSummaryScreen->monTypes[1] + 1, 110, 33);
         }
         break;
