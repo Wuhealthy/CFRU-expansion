@@ -275,10 +275,14 @@ void BTB_BlitMoveInfoIcon(u8 windowId, u8 iconId, u16 x, u16 y)
 	const u8* gfx = (const u8*) *(vu32*) 0x8107DB0;
 	const u8* entry = table + (iconId << 2);
 	u16 offset = entry[2] | (entry[3] << 8);
-	BlitBitmapRectToWindow(windowId, gfx + offset * 32, 0, 0, 128, 128, x, y, entry[0], entry[1]);
 
+	//Paint the dark plate BEFORE blitting: the plate flood-fill recolours every white pixel connected to the
+	//window border, and the icons contain white outline/background pixels that connect to it -- painting after
+	//the blit used to eat into the icon art (striped/corrupted type icons)
 	if (windowId == 8 && BTB_GMAIN_CB2 == BTB_BATTLE_CB2)
 		BTB_PaintStripPlate(windowId);
+
+	BlitBitmapRectToWindow(windowId, gfx + offset * 32, 0, 0, 128, 128, x, y, entry[0], entry[1]);
 }
 
 //---------------------------------------------------------------------------------------------------------------------

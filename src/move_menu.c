@@ -719,7 +719,7 @@ void MoveSelectionDisplayMoveEffectiveness(void)
 		if (moveResult & MOVE_RESULT_NO_EFFECT) //Comes first because overrides all others
 		{
 			gPlttBufferUnfaded[palIndex + 0] = palPtr[NO_EFFECT_COLOURS + 0]; //No STAB for moves with no effect
-			gPlttBufferUnfaded[palIndex + 1] = palPtr[NO_EFFECT_COLOURS + 1];
+			gPlttBufferUnfaded[palIndex + 1] = RGB(31, 31, 31); //Pure white shadow, like the STAB "+"
 			string = gText_BattleUI_NoEffect;
 			resultTracker = TRUE;
 			stab = FALSE; //No STAB on a move that does no damage
@@ -759,7 +759,7 @@ void MoveSelectionDisplayMoveEffectiveness(void)
 	if (stab)
 	{
 		gPlttBufferUnfaded[stabPalIndex + 0] = RGB(27, 27, 27); //Copy over PP colours so it's unaffected by low PP
-		gPlttBufferUnfaded[stabPalIndex + 1] = RGB(4, 4, 4);
+		gPlttBufferUnfaded[stabPalIndex + 1] = RGB(31, 31, 31); //Pure white shadow
 
 		if (doubleTeraStab && !resultTracker)
 			StringCopy(txtPtr, gText_BattleUI_DoubleTeraSTAB);
