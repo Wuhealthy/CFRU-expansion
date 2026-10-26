@@ -1919,9 +1919,6 @@ bool8 WeatherHasEffect(void)
 		ability_t ability = ABILITY(i);
 
 		if ((ability == ABILITY_CLOUDNINE
-		|| ability == ABILITY_ICEDEITY
-		|| ability == ABILITY_THUNDERDEITY
-		|| ability == ABILITY_FIREDEITY
 		|| ability == ABILITY_AIRLOCK)
 		&& BATTLER_ALIVE(i))
 			return FALSE;

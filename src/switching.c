@@ -297,9 +297,6 @@ static bool8 TryActivateFlowerGift(u8 leavingBank)
 	u32 i = 0;
 
 	if (ABILITY(leavingBank) == ABILITY_CLOUDNINE
-	|| ABILITY(leavingBank) == ABILITY_ICEDEITY
-	|| ABILITY(leavingBank) == ABILITY_THUNDERDEITY
-	|| ABILITY(leavingBank) == ABILITY_FIREDEITY
 	|| ABILITY(leavingBank) == ABILITY_AIRLOCK)
 		ABILITY(leavingBank) = ABILITY_NONE; //Remove ability because we can't have these anymore
 
