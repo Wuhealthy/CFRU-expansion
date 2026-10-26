@@ -1986,10 +1986,10 @@ SpikeClaw_AttackBoostEnd:
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 BattleScript_BrokenClawSubstitute:
 	call BattleScript_AbilityPopUp
-	jumpifstat BANK_TARGET EQUALS STAT_ATK STAT_MIN BrokenClaw_CheckSubstitute
+	jumpifstat BANK_TARGET EQUALS STAT_DEF STAT_MIN BrokenClaw_CheckSubstitute
 	setbyte STAT_ANIM_PLAYED 0x0
-	playstatchangeanimation BANK_TARGET, STAT_ANIM_ATK, STAT_ANIM_DOWN | STAT_ANIM_IGNORE_ABILITIES
-	setstatchanger STAT_ATK | DECREASE_1
+	playstatchangeanimation BANK_TARGET, STAT_ANIM_DEF, STAT_ANIM_DOWN | STAT_ANIM_IGNORE_ABILITIES
+	setstatchanger STAT_DEF | DECREASE_1
 	statbuffchange BANK_TARGET | STAT_BS_PTR | STAT_CERTAIN BrokenClaw_End
 	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BrokenClaw_End
 	printfromtable gStatUpStringIds
