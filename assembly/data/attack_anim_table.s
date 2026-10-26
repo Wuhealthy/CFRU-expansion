@@ -1044,6 +1044,7 @@ gMoveAnimations:
 .word ANIM_UNIVERSALRADIANCE
 .word ANIM_PSYCHICNOISE
 .word ANIM_BURNUP
+.word ANIM_CHAKRAFIST
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -31495,6 +31496,24 @@ PSYCHIC_NOISE_WAVE:
 	launchtemplate 0x83E3CD0 TEMPLATE_TARGET | 2, 0x6 0x10 0x0 0x0 0x0 0x1e 0x0
 	pause 0x2
 	return
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+ANIM_CHAKRAFIST:
+	loadparticle ANIM_TAG_AURA_SPHERE
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_HANDS_AND_FEET
+	loadparticle ANIM_TAG_VERTICAL_HEX
+	playsound2 0x85 SOUND_PAN_ATTACKER
+	launchtemplate AURA_SPHERE_BALL 0x2 0x5 bank_attacker 0x0 0x10 0x28 0x0
+	pause 0x20
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x3 0x0 0x2A 0x1
+	call BeatDown_closecombat
+	waitanimation
+	launchtask AnimTask_ShakeTargetBasedOnMovePowerOrDmg 0x2 0x5 0x0 0x1 0x10 0x1 0x0
+	waitanimation
+	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

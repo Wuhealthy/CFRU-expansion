@@ -628,6 +628,7 @@
 	],
 
 	"gPunchingMoves": [
+		"MOVE_CHAKRAFIST",
 		"MOVE_COMETPUNCH",
 		"MOVE_MEGAPUNCH",
 		"MOVE_FIREPUNCH",
@@ -853,6 +854,7 @@
 	],
 
 	"gIgnoreStatChangesMoves": [
+		"MOVE_CHAKRAFIST",
 		"MOVE_SACREDSWORD",
 		"MOVE_CHIPAWAY",
 		"MOVE_NIHILLIGHT",
@@ -916,6 +918,7 @@
 	],
 
 	"gMoldBreakerMoves": [
+		"MOVE_CHAKRAFIST",
 		"MOVE_MOONGEISTBEAM",
 		"MOVE_UNIVERSALRADIANCE",
 		"MOVE_PHOTONGEYSER",

@@ -3800,6 +3800,26 @@ static u16 GetBasePower(struct DamageCalc* data)
 			if (gNewBS->rageFistCounter[bankAtk])
 				power = 50 + (50 * gNewBS->rageFistCounter[bankAtk]);
 			break;
+			
+		case MOVE_CHAKRAFIST:
+			//脉轮拳：场上有与恰雷姆相同属性的宝可梦时，威力+40
+			{
+				const struct BaseStats *base = &gBaseStats[SPECIES_MEDICHAM];
+				for (u8 i = 0; i < gBattlersCount; ++i)
+				{
+					if (i == bankAtk) //不含使用者本人
+						continue;
+					if (!BATTLER_ALIVE(i))
+						continue;
+					if (gBattleMons[i].type1 == base->type1 || gBattleMons[i].type1 == base->type2
+					 || gBattleMons[i].type2 == base->type1 || gBattleMons[i].type2 == base->type2)
+					{
+						power += 40;
+						break;
+					}
+				}
+			}
+			break;
 
 		case MOVE_ROUND:
 			if (!(data->specialFlags & (FLAG_CHECKING_FROM_MENU | FLAG_AI_CALC))
