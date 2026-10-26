@@ -4429,17 +4429,6 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
         		power = (power * 15) / 10;
     		break;
 
-		case ABILITY_VENOMFORTE:
-    		if (!(gBattleMons[bankDef].status1 & STATUS1_PSN_ANY))
-    		{
-        		power = (power * 15) / 10;
-    		}
-			else if (gBattleMons[bankDef].status1 & STATUS1_POISON)
-			{
-        		power = (power * 12) / 10;
-    		}
-    		break;
-
 		case ABILITY_TOUGHCLAWS:
 		//1.3x Boost
 			if (((!useMonAtk && IsContactMove(move, bankAtk, bankDef))
