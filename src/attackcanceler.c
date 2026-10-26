@@ -42,6 +42,7 @@ typedef bool8 (*IsIngameTradeMon_T) (struct Pokemon* mon);
 static u8 AtkCanceller_UnableToUseMove(void);
 static bool8 TryActivateMagicCoat(u8 bankDef, u8 bankAtk, u16 currentMove);
 static bool8 TryActivateMagicBounce(u8 bankDef);
+static u8 OpposingPsychoRebound(u8 bankAtk);
 static u8 IsMonDisobedient(void);
 static bool8 IsTargetUnaffectedByPrankster(u8 bankAtk, u8 bankDef, u16 currentMove, u16 chosenMove);
 
@@ -56,6 +57,21 @@ void atk00_attackcanceler(void)
 	}
 
 	ResetBestMonToSwitchInto(gBankAttacker); //So the AI recalculates the Pokemon to switch into for moves like U-Turn
+
+	//精神棱镜：记录对手即将使用的变化招式，招式结束后由 moveend 结算布下精神场地
+	gNewBS->psychoReboundBank = 0xFF;
+	if (SPLIT(gCurrentMove) == SPLIT_STATUS)
+	{
+		u8 foe = SIDE(gBankAttacker) ^ BIT_SIDE;
+		if (ABILITY(foe) == ABILITY_PSYCHOREBOUND && BATTLER_ALIVE(foe))
+			gNewBS->psychoReboundBank = foe;
+		else if (IS_DOUBLE_BATTLE)
+		{
+			foe = PARTNER(foe);
+			if (ABILITY(foe) == ABILITY_PSYCHOREBOUND && BATTLER_ALIVE(foe))
+				gNewBS->psychoReboundBank = foe;
+		}
+	}
 
 	if ((gBattleMons[gBankAttacker].hp == 0
 	|| (gStatuses3[gBankAttacker] & STATUS3_SKY_DROP_TARGET)
@@ -331,6 +347,18 @@ static u8 AtkCanceller_UnableToUseMove(void)
 				gProtectStructs[gBankAttacker].flinchImmobility = 1;
 				CancelMultiTurnMoves(gBankAttacker);
 				gBattlescriptCurrInstr = BattleScript_MoveUsedFlinched;
+				gHitMarker |= HITMARKER_UNABLE_TO_USE_MOVE;
+				effect = 1;
+			}
+			else if (CanFlinch(gBankAttacker, ABILITY(gBankAttacker)) //精神力等免畏缩特性正常生效
+			&& SPLIT(gCurrentMove) == SPLIT_STATUS
+			&& gTerrainType == PSYCHIC_TERRAIN
+			&& OpposingPsychoRebound(gBankAttacker) != 0xFF) //精神棱镜：精神场地下对手的变化招式行动前畏缩
+			{
+				gProtectStructs[gBankAttacker].flinchImmobility = 1;
+				CancelMultiTurnMoves(gBankAttacker);
+				gBattleScripting.bank = OpposingPsychoRebound(gBankAttacker);
+				gBattlescriptCurrInstr = BattleScript_PsychoReboundFlinch;
 				gHitMarker |= HITMARKER_UNABLE_TO_USE_MOVE;
 				effect = 1;
 			}
@@ -1152,17 +1180,24 @@ static bool8 TryActivateMagicBounce(u8 bankDef)
 		gBattlescriptCurrInstr = BattleScript_MagicBounce;
 		return TRUE;
 	}
-	if (ABILITY(bankDef) == ABILITY_PSYCHOREBOUND && !BATTLER_SEMI_INVULNERABLE(bankDef))
+	return FALSE;
+}
+
+//返回 bankAtk 对面的、存活的精神棱镜携带者位置，0xFF=无
+static u8 OpposingPsychoRebound(u8 bankAtk)
+{
+	u8 foe = SIDE(bankAtk) ^ BIT_SIDE;
+
+	if (ABILITY(foe) == ABILITY_PSYCHOREBOUND && BATTLER_ALIVE(foe))
+		return foe;
+	if (IS_DOUBLE_BATTLE)
 	{
-		gNewBS->MoveBounceInProgress = TRUE;
-        gNewBS->moveWasBouncedThisTurn = TRUE;
-        gBattleScripting.bank = bankDef;
-        BattleScriptPushCursor();
-        gBattlescriptCurrInstr = BattleScript_PsychoRebound;
-        return TRUE;
+		foe = PARTNER(foe);
+		if (ABILITY(foe) == ABILITY_PSYCHOREBOUND && BATTLER_ALIVE(foe))
+			return foe;
 	}
 
-	return FALSE;
+	return 0xFF;
 }
 
 static u8 IsMonDisobedient(void)

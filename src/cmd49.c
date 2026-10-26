@@ -104,6 +104,7 @@ u32 GetPoisonDamage(u8 bank, bool8 aiCalc);
 
 void atk49_moveend(void) //All the effects that happen after a move is used
 {
+	TryPsychoReboundTerrain(); //精神棱镜：对手使用变化招式后布下精神场地
 	int i;
 	u32 effect = FALSE;
 	u8 moveType = 0;

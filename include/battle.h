@@ -823,6 +823,8 @@ struct NewBattleStruct
 	u16 backupMoves[MAX_BATTLERS_COUNT][MAX_MON_MOVES];
 	u8 rageFistCounter[MAX_BATTLERS_COUNT];
 	u8 rageCrownStacks[MAX_BATTLERS_COUNT]; //怒发冲冠：受击叠层
+	u8 psychoReboundBank; //精神棱镜：待结算的携带者位置，0xFF=无
+	u8 psychoReboundAnimBank; //精神棱镜：脚本执行时弹窗/动画所在的携带者
 	u8 CudChewCounter[MAX_BATTLERS_COUNT];
 	u8 syrupBombTimers[MAX_BATTLERS_COUNT]; //Turns of Syrupy status remaining (speed dropped at each end of turn)
 	u8 syrupBombAttackers[MAX_BATTLERS_COUNT]; //Who applied Syrupy, for Mirror Armor

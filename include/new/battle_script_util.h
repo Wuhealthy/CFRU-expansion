@@ -79,6 +79,8 @@ bool8 CanUseLastResort(u8 bank);
 void SynchronoiseFunc(void);
 void MakeScriptingBankInvisible(void);
 void TransferTerrainData(void);
+void TryPsychoReboundTerrain(void);
+void SetPsychoReboundScriptBank(void);
 void TransferIllusionBroken(void);
 void SetAndTransferDontRemoveTransformSpecies(void);
 void ClearAndTransferDontRemoveTransformSpecies(void);

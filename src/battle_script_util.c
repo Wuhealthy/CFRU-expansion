@@ -1729,16 +1729,33 @@ void CheckTerrainAndSetVolatileExplosion(void)
     }
 }
 
-void CheckTerrainAndSetPsychicTerrain(void)
+//精神棱镜：moveend 时结算，携带者在对手使用变化招式后立刻布下精神场地
+void TryPsychoReboundTerrain(void)
 {
-    if (gTerrainType != PSYCHIC_TERRAIN)
-    {
-        gTerrainType = PSYCHIC_TERRAIN;
-        gNewBS->TerrainTimer = 5;
-        gBattleStringLoader = PsychicTerrainSetString;
-        gBattleScripting.animArg1 = B_ANIM_PSYCHIC_SURGE;
-        gBattlescriptCurrInstr = BattleScript_PsychoReboundSetTerrain;
-    }
+	u8 holder = gNewBS->psychoReboundBank;
+
+	gNewBS->psychoReboundBank = 0xFF;
+
+	if (holder >= MAX_BATTLERS_COUNT
+	|| !BATTLER_ALIVE(holder)
+	|| (gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)) //招式未能使用则不触发
+		return;
+
+	if (gTerrainType != PSYCHIC_TERRAIN)
+	{
+		gTerrainType = PSYCHIC_TERRAIN;
+		gNewBS->TerrainTimer = 5;
+		gNewBS->psychoReboundAnimBank = holder; //脚本执行时 state machine 可能已改写 scripting bank，需在脚本内重设
+		gBattleScripting.animArg1 = B_ANIM_PSYCHIC_SURGE;
+		BattleScriptPushCursor();
+		gBattlescriptCurrInstr = BattleScript_PsychoReboundSetTerrain;
+	}
+}
+
+//精神棱镜铺场脚本内调用：把弹窗/动画的 bank 设为特性持有者
+void SetPsychoReboundScriptBank(void)
+{
+	gBattleScripting.bank = gNewBS->psychoReboundAnimBank;
 }
 
 void LastResortFunc(void)

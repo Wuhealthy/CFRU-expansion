@@ -12,8 +12,8 @@ attackcanceler_battle_scripts.s
 .global BattleScript_PrintCustomString
 .global BattleScript_QuickClaw
 .global BattleScript_MagicBounce
-.global BattleScript_PsychoRebound
 .global BattleScript_PsychoReboundSetTerrain
+.global BattleScript_PsychoReboundFlinch
 .global BattleScript_MoveUsedFlinched
 .global BattleScript_MoveUsedDevolvedForgot
 .global BattleScript_MoveUsedIsConfused
@@ -64,6 +64,8 @@ BattleScript_MagicBounceCommon:
 	return
 
 BattleScript_PsychoReboundSetTerrain:
+    callasm SetPsychoReboundScriptBank
+    call BattleScript_AbilityPopUp
     callasm TransferTerrainData
     waitstateatk
     playanimation2 BANK_SCRIPTING ANIM_ARG_1 0x0
@@ -73,16 +75,21 @@ BattleScript_PsychoReboundSetTerrain:
     setbyte SEED_HELPER 0
     callasm SeedRoomServiceLooper
     callasm TryActivateMimicry
+    call BattleScript_AbilityPopUpRevert
     return
+
+BattleScript_PsychoReboundFlinch:
+    call BattleScript_AbilityPopUp
+    printstring 0x4A
+    waitmessage DELAY_1SECOND
+    call BattleScript_AbilityPopUpRevert
+    jumpifability BANK_ATTACKER ABILITY_STEADFAST SteadfastBoost
+    goto BS_MOVE_END
 
 BattleScript_MagicBounce:
     call BattleScript_MagicBounceCommon
     return
 
-BattleScript_PsychoRebound:
-    call BattleScript_MagicBounceCommon
-    callasm CheckTerrainAndSetPsychicTerrain
-    return
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
