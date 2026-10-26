@@ -132,6 +132,15 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 	const struct SpecialMoveFlags* specialMoveFlags = &gSpecialMoveFlags[move];
 	bool8 decreased;
 
+	//殊死一搏：AI持有者无法使用变化招式
+	if (data->atkAbility == ABILITY_DESPERATESTRIKE
+	&& moveSplit == SPLIT_STATUS
+	&& !TARGETING_PARTNER)
+	{
+		DECREASE_VIABILITY(10);
+		return viability;
+	}
+
 	//贪睡：AI持有者使用变化招式会让自己入睡；
 	//但有梦话/打鼾时入睡后仍可行动，只轻微扣分
 	if (data->atkAbility == ABILITY_SNOOZE
@@ -214,7 +223,11 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 					&& currentHp > maxHp / 2
 					&& currentHp - predictedDamage <= maxHp / 2)
 						DECREASE_VIABILITY(1);
-					else if (data->defAbility == ABILITY_SPIKECLAW
+					else if (data->defAbility == ABILITY_NIRVANA
+				&& !abilityUsed
+				&& currentHp - predictedDamage <= 0) //会被打死反而触发复活
+					DECREASE_VIABILITY(2);
+				else if (data->defAbility == ABILITY_SPIKECLAW
 					&& !abilityUsed
 					&& currentHp > maxHp / 3
 					&& currentHp - predictedDamage < maxHp / 3)
@@ -316,6 +329,18 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				{
 					DECREASE_VIABILITY(8);
 					return viability;
+				}
+				break;
+
+			case ABILITY_SILENTGRUDGE:
+				//声音招式被吸收，还给对手提升特攻
+				if (CheckSoundMove(move))
+				{
+					if (!TARGETING_PARTNER) //Good idea to attack partner
+					{
+						DECREASE_VIABILITY(20);
+						return viability;
+					}
 				}
 				break;
 
@@ -2452,6 +2477,8 @@ SKIP_CHECK_TARGET:
 		case EFFECT_SKULL_BASH:
 		case EFFECT_SKY_ATTACK:
 		TWO_TURN_ATTACK_CHECK:
+			if (data->atkAbility == ABILITY_UNICORNPEGASUS) //疾驰：蓄力招式无需蓄力，按普通招式评估
+				goto AI_STANDARD_DAMAGE;
 			if (data->atkItemEffect == ITEM_EFFECT_POWER_HERB)
 				goto AI_STANDARD_DAMAGE;
 
