@@ -912,169 +912,169 @@ HP全满时受到的伤害变为效果不好
 对手陷入中毒状态的同时也会混乱
 
 #org @DESC_DRAGONIZE
-一般属性的招式会变为龙属性
+一般属性的招式会变为龙属性，\n威力会变为1.2倍。
 
 #org @DESC_EELEVATE
-同时拥有飘浮和异兽提升
+变为飘浮，且打倒对手时，\n自己最高的那项能力会提高1阶。
 
 #org @DESC_MEGASOL
-使用招式时，视为在大晴天下使用
+即使天气不是大晴天状态，\n也能以大晴天状态使用招式。
 
 #org @DESC_NEEDLEGRUDGE
-首次受到攻击时，使对手陷入诅咒
+首次受到攻击时，\n会使对手陷入诅咒状态。
 
 #org @DESC_SILENTGRUDGE
-受到声音类招式时免伤并提升特攻
+不受声音类招式的影响，\n当被声音击中时，提升1级特攻。
 
 #org @DESC_FIREMANE
-火属性的招式威力会提高
+火属性招式的威力会变为1.5倍。
 
 #org @DESC_SPICYSPRAY
-受到伤害时，会让对手灼伤
+受到招式伤害时，\n会使对手陷入灼伤状态。
 
 #org @DESC_FUJIN
-根据队伍的电宝可梦数量提升威力
+队伍里每有1只电属性宝可梦，\n招式的威力提高10%。
 
 #org @DESC_SONILATE
-全部招式都会变为声音的招式
+全部招式都会变为声音类招式，\n威力会变为1.2倍。
 
 #org @DESC_IMPROVISE
-用能力值最高的一项进行计算伤害
+以五项能力中最高的一项计算伤害。
 
 #org @DESC_WAVEFIST
-格斗属性对火和地面属性效果绝佳
+格斗属性招式对火和地面属性\n的属性相性改为效果绝佳。
 
 #org @DESC_DESPERATESTRIKE
-只能进攻，有威力的招式获得效果
+禁用变化招式。低威力先制+1，\n中威力易要害，高威力必中。
 
 #org @DESC_PSYGRAVITY
-出场时，让对手进入意念移物状态
+出场时，让对手3回合内\n进入意念移物状态。
 
 #org @DESC_VOLATILEEXPLOSION
-首次被接触会炸伤对手并布下电场
+会炸伤首次接触到自己的对手，\n然后布下电气场地。
 
 #org @DESC_PHOENIXGUARD
-我方使用的本系招式威力会提高
+我方使出与自身属性相同的招式时，\n威力会变为1.5倍。
 
 #org @DESC_HEAVYARMOR
-自身防御比对手攻击高时威力提高
+自身防御高于对手攻击时，\n招式的威力会变为1.5倍。
 
 #org @DESC_VENOMFORTE
-根据对手中毒情况有不同的效果
+攻击时会使对手中毒，\n已中毒则转剧毒，否则加1层并结算。
 
 #org @DESC_SPIDERSENSE
-同时攻击且同优先度下必定先出招
+双方同时使出攻击招式且优先度相同时，\n自身必定先出招。
 
 #org @DESC_UNICORNPEGASUS
-蓄力的招式威力会提高且无需蓄力
+使出蓄力的招式时，\n威力变为1.2倍，且无需蓄力。
 
 #org @DESC_AQUAREGEN
-攻击或受到攻击后，会回复少量HP
+使出攻击招式或受到攻击后，\n会回复最大HP的1/16。
 
 #org @DESC_QUICKCHARGE
-出场或受到风的招式时，会充电
+出场或受到风类招式攻击时，\n会进入充电状态。
 
 #org @DESC_ICEDEITY
-全体的冰属性招式变强，火变弱
+全体的冰属性招式的威力变为1.5倍，\n火属性变为0.5倍。
 
 #org @DESC_THUNDERDEITY
-全体的电属性招式变强，地面变弱
+全体的电属性招式的威力变为1.5倍，\n地面属性变为0.5倍。
 
 #org @DESC_FIREDEITY
-全体的火属性招式变强，水变弱
+全体的火属性招式的威力变为1.5倍，\n水属性变为0.5倍。
 
 #org @DESC_GRASSDASH
-满HP可以率先使出火属性的招式
+在HP全满时，对战中使用的\n火属性招式优先度+1。
 
 #org @DESC_MUTANTADAPT
-将部分变化招式转换为攻击招式
+自身的部分变化招式会转换为\n拳类攻击招式。
 
 #org @DESC_PSYCHOREBOUND
-触发魔法镜的同时布下精神场地
+会在对手使用变化招式后\n布下精神场地。
 
 #org @DESC_SHADOWHEAL
-每回合根据场上异常数量回复HP
+每回合结束时，场上每个异常状态\n回复最大HP的1/16。
 
 #org @DESC_EEVEEHERO
-一般属性招式的效果一般变为绝佳
+使出的一般属性招式，\n若效果一般，则威力会变为2倍。
 
 #org @DESC_FLOWERBLADE
-草招式会击中要害且无视道具效果
+草属性招式必定击中要害，\n并无视对手的道具。
 
 #org @DESC_FOGGYVEIL
-出场时，会将天气变为起雾
+出场时，天气转为起雾并持续5回合。
 
 #org @DESC_BIOSHELL
-在最先使出招式，招式威力会提高
+自身先于对手使出招式时，\n威力会变为1.3倍。
 
 #org @DESC_HEAVYHAMMER
-攻击不会降低且锤类招式威力提高
+不会被对手降低攻击。\n锤类招式威力变为1.2倍。
 
 #org @DESC_BROKENCLAW
-HP低于一半会降低攻击制造出替身
+受到攻击导致HP低于一半时，\n防御降低1级并制造替身。
 
 #org @DESC_STELLARENERGY
-拳类招式会逐渐提高物理招式威力
+拳类招式命中时，物理招式威力\n提升10%，最多提升50%。
 
 #org @DESC_SPEEDDIVE
-根据对手的重量相应提高招式威力
+根据对手体重大小，招式的威力\n最多变为1.5倍。
 
 #org @DESC_SPIKECLAW
-HP首次低于1/3时回满HP并提升攻击
+受到攻击导致HP首次低于1/3时，\n回满HP并提升1级攻击。
 
 #org @DESC_AURAGUARD
-受到接触类招式的伤害减半
+因接触类招式而受到的伤害会减半。
 
 #org @DESC_BRUTALFORCE
-出场时，降低对手的防御
+出场时，所有对手的防御下降1级。
 
 #org @DESC_PHANTOMWALL
-出场时，制造出光墙和反射壁
+出场时，布下5回合光墙与反射壁。\n下场或濒死时墙壁消失。
 
 #org @DESC_VAMPIRE
-攻击能回复造成伤害的一半HP
+使用攻击招式造成伤害时，\n会回复造成伤害一半的HP。
 
 #org @DESC_TRICKROOMENTRY
-出场时，制造出戏法空间
+出场时，布下持续5回合的戏法空间。
 
 #org @DESC_SUNNYDISPOSITION
-受到伤害时，会将天气变为大晴天
+受到攻击时，\n天气转为大晴天并持续5回合。
 
 #org @DESC_SELFMOTIVATION
-变为异常状态时，攻击和防御提高
+异常状态时，\n攻击和防御上升为原来1.5倍。
 
 #org @DESC_TEAPARTY
-首次出场会让其他宝可梦陷入异常
+首次出场时，使场上其他宝可梦\n陷入随机一种异常状态。
 
 #org @DESC_FALLINGCOCONUT
-受到攻击时会砸伤对手并降其防御
+受到攻击时，使对手损失最大HP的1/12，\n并降低其1级防御。
 
 #org @DESC_EVILSPIRIT
-将对手视为拥有任意一种异常状态
+使出招式时，\n对手视为处于任意一种异常状态。
 
 #org @DESC_DESERTSONG
-声音类招式的威力会提高
+使出的声音类招式，威力会变为1.5倍。
 
 #org @DESC_SOOTHELINGSCALE
-出场时同伴回复少量HP并解除异常
+出场时，同伴回复最大HP的1/4\n并解除异常状态。
 
 #org @DESC_BOUNTIFULFRUIT
-出场时同伴根据天气和场地回复HP
+出场时，同伴回复最大HP的1/4\n晴天或青草场地下改为1/3。
 
 #org @DESC_ICECRYSTALPURGE
-出场时，清除我方场上撒菱等状态
+出场时，清除我方场上的撒菱、\n隐形岩、毒菱和黏黏网。
 
 #org @DESC_REVIVAL
-出场时，将天气变为下雨并回复HP
+出场时，将天气变为下雨，\n并回复最大HP的1/3。
 
 #org @DESC_NIRVANA
-首次濒死时，会复活并全能力提升
+首次因受到攻击陷入濒死时，\n回满HP并全能力提升1级。
 
 #org @DESC_SNOOZE
-击败对手或使用变化招式便会入睡
+击败对手或使出变化招式后，\n会陷入睡眠状态。
 
 #org @DESC_RAGECROWN
-受击时提升威力，第3次会提升攻击
+受击后招式威力提升10%，最多30%。\n叠满时，攻击提升1级。
 
 #org @DESC_VALIANT
-首次击败对手时，提升双攻和速度
+首次击败对手时，\n攻击、特攻和速度提升1级。
