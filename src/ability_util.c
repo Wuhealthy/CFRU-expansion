@@ -384,7 +384,7 @@ u16 GetDefensiveToOffensiveMove(u16 move)
         case MOVE_COUNTER:
             return MOVE_POWERUPPUNCH;
         case MOVE_RECOVER:
-            return MOVE_DIZZYPUNCH;
+            return MOVE_DRAINPUNCH;
         case MOVE_CURSE:
             return MOVE_RAGEFIST;
         case MOVE_WATERSPORT:
