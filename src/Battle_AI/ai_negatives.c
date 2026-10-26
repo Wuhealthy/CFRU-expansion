@@ -132,6 +132,20 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 	const struct SpecialMoveFlags* specialMoveFlags = &gSpecialMoveFlags[move];
 	bool8 decreased;
 
+	//贪睡：AI持有者使用变化招式会让自己入睡；
+	//但有梦话/打鼾时入睡后仍可行动，只轻微扣分
+	if (data->atkAbility == ABILITY_SNOOZE
+	&& moveSplit == SPLIT_STATUS
+	&& !TARGETING_PARTNER
+	&& BATTLER_ALIVE(bankAtk)
+	&& !(gBattleMons[bankAtk].status1 & STATUS1_ANY))
+	{
+		if (MoveInMoveset(MOVE_SLEEPTALK, bankAtk) || MoveInMoveset(MOVE_SNORE, bankAtk))
+			DECREASE_VIABILITY(1);
+		else
+			DECREASE_VIABILITY(5);
+	}
+
 	if (moveSplit != SPLIT_STATUS
 	&& !TARGETING_PARTNER
 	&& !(AI_SpecialTypeCalc(move, bankAtk, bankDef) & MOVE_RESULT_NO_EFFECT))
@@ -146,6 +160,11 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 
 			case ABILITY_FALLINGCOCONUT:
 				if (data->atkAbility != ABILITY_MAGICGUARD)
+					DECREASE_VIABILITY(1);
+				break;
+			case ABILITY_RAGECROWN:
+				//攻击会给怒发冲冠叠层（威力提升，满层还提升攻击）
+				if (gNewBS->rageCrownStacks[bankDef] < 3)
 					DECREASE_VIABILITY(1);
 				break;
 
@@ -291,6 +310,15 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 	{
 		switch (data->defAbility) //Type-specific ability checks - Primordial weather handled separately
 		{
+			case ABILITY_PSYCHOREBOUND:
+				//变化招式会给对手铺精神场地；已有精神场地时自己还会被畏缩
+				if (moveSplit == SPLIT_STATUS && !TARGETING_PARTNER && BATTLER_ALIVE(bankDef))
+				{
+					DECREASE_VIABILITY(8);
+					return viability;
+				}
+				break;
+
 			//Electric
 			case ABILITY_VOLTABSORB:
 			case ABILITY_MOTORDRIVE:
