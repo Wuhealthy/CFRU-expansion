@@ -2722,3 +2722,9 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 
 #org @DESC_DESPERATEBLOOM
 用尽全部生命力量绽\n放出惊人数量的花瓣，\n攻击全体对手。自己\n的防御和特防会降低。
+
+#org @DESC_FRENZYBLAZE
+狂龙之火将连续2至3\n回合袭击随机的对手。\n攻击结束后，自己会\n陷入混乱状态。
+
+#org @DESC_CRIMSONSKY
+红莲之火随烈风卷向\n对手。有时会让对手\n陷入灼伤状态。

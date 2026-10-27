@@ -16112,6 +16112,38 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_effect = 0
 	},
 
+	[MOVE_CRIMSONSKY] =
+	{
+		.effect = EFFECT_BURN_HIT,
+		.power = 120,
+		.type = TYPE_FLYING,
+		.accuracy = 100,
+		.pp = 15,
+		.secondaryEffectChance = 50,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_KINGS_ROCK_AFFECTED,
+		.z_move_power = 190,
+		.split = SPLIT_SPECIAL,
+		.z_move_effect = 0
+	},
+
+	[MOVE_FRENZYBLAZE] =
+	{
+		.effect = EFFECT_RAMPAGE,
+		.power = 140,
+		.type = TYPE_FIRE,
+		.accuracy = 100,
+		.pp = 15,
+		.secondaryEffectChance = 100,
+		.target = MOVE_TARGET_RANDOM,
+		.priority = 0,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 200,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
+	},
+
 	[MOVE_DESPERATEBLOOM] =
 	{
 		.effect = EFFECT_SUPERPOWER, //-Def, -Sp. Def
@@ -16757,5 +16789,7 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_SUPERBURN] = 150,
 	[MOVE_CHAKRAFIST] = 130,
 	[MOVE_DESPERATEBLOOM] = 140,
+	[MOVE_FRENZYBLAZE] = 140,
+	[MOVE_CRIMSONSKY] = 130,
 };
 #endif

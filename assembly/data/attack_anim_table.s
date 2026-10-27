@@ -1046,6 +1046,8 @@ gMoveAnimations:
 .word ANIM_BURNUP
 .word ANIM_CHAKRAFIST
 .word ANIM_DESPERATEBLOOM
+.word ANIM_FRENZYBLAZE
+.word ANIM_CRIMSONSKY
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -31554,6 +31556,76 @@ ANIM_DESPERATEBLOOM:
 	waitanimation
 	pokespritefromBG 0x3
 	resetblends
+	endanimation
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+ANIM_FRENZYBLAZE:
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_SMALL_EMBER
+	pokespritetoBG bank_target
+	setblends 0x80C
+	playsound2 0xA4 SOUND_PAN_ATTACKER
+	call FLAME_BUFF
+	pause 0x4
+	call FLAME_BUFF
+	loadbg1 BG_FIRE
+	waitbgfadeout
+	launchtask AnimTask_scroll_background 0x5 0x4 0x1000 0x0 0x0 0xFFFF
+	waitbgfadein
+	playsound2 0x91 SOUND_PAN_ATTACKER
+	launchtemplate Template_VerticalDip 0x2 0x3 0x6 0x1 bank_attacker
+	pause 0x19
+	launchtemplate Template_SlideMonToOffset 0x2 0x5 bank_attacker 0x2a 0x0 0x0 0x5
+	pause 0x2
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0x20 0x1
+	call FLARE_BLITZ_HITS
+	playsound2 0x8C SOUND_PAN_TARGET
+	call FLAME_BURST_SPREAD
+	call FLARE_BLITZ_HITS
+	playsound2 0x8C SOUND_PAN_TARGET
+	call FLAME_BURST_SPREAD
+	waitanimation
+	launchtemplate Template_SlideMonToOriginalPos 0x2 0x3 bank_attacker 0x0 0x5
+	waitanimation
+	resetblends
+	pokespritefromBG bank_target
+	call UNSET_SCROLLING_BG
+	endanimation
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+ANIM_CRIMSONSKY:
+	loadparticle ANIM_TAG_TORNADO
+	loadparticle ANIM_TAG_GUST
+	loadparticle ANIM_TAG_SMALL_EMBER
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_TORNADO 0x0 0xA 0xA 0x1D @Red
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_GUST 0x0 0x8 0x8 0x1F @Red
+	pokespritetoBG side_target
+	leftbankBG_over_partnerBG bank_target
+	setblends 0x80c
+	loadBG1 BG_HIGH_SPEED
+	waitbgfadeout
+	launchtask AnimTask_scroll_background 0x5 0x4 0x1000 0x0 0x1 0xffff
+	waitbgfadein
+	playsound2 0x7d SOUND_PAN_TARGET
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0x40 0x1
+	call HURRICANE_GUST
+	pause 0xA
+	call HURRICANE_GUST
+	pause 0xA
+	call HURRICANE_GUST
+	pause 0xA
+	call HURRICANE_GUST
+	waitanimation
+	call FLAME_BURST_SPREAD
+	playsound2 0x8C SOUND_PAN_TARGET
+	launchtask AnimTask_ShakeTargetBasedOnMovePowerOrDmg 0x2 0x5 0x0 0x1 0x10 0x1 0x0
+	waitanimation
+	pokespritefromBG side_target
+	call UNSET_SCROLLING_BG
 	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
