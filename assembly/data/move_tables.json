@@ -854,7 +854,6 @@
 	],
 
 	"gIgnoreStatChangesMoves": [
-		"MOVE_CHAKRAFIST",
 		"MOVE_SACREDSWORD",
 		"MOVE_CHIPAWAY",
 		"MOVE_NIHILLIGHT",
@@ -918,7 +917,6 @@
 	],
 
 	"gMoldBreakerMoves": [
-		"MOVE_CHAKRAFIST",
 		"MOVE_MOONGEISTBEAM",
 		"MOVE_UNIVERSALRADIANCE",
 		"MOVE_PHOTONGEYSER",

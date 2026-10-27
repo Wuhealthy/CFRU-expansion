@@ -16114,16 +16114,16 @@ const struct BattleMove gBattleMoves[] =
 
 	[MOVE_CHAKRAFIST] =
 	{
-		.effect = EFFECT_HIT,
-		.power = 100,
-		.type = TYPE_FIGHTING,
+		.effect = EFFECT_SPEED_UP_1_HIT,
+		.power = 60,
+		.type = TYPE_PSYCHIC,
 		.accuracy = 100,
 		.pp = 10,
-		.secondaryEffectChance = 0,
+		.secondaryEffectChance = 100,
 		.target = MOVE_TARGET_SELECTED,
-		.priority = 0,
+		.priority = 1,
 		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
-		.z_move_power = 190,
+		.z_move_power = 120,
 		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
 	},
