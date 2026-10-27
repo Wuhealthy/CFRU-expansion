@@ -16130,7 +16130,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_SUPERBURN] =
 	{
 		.effect = EFFECT_BURN_UP,
-		.power = 130,
+		.power = 150,
 		.type = TYPE_FIRE,
 		.accuracy = 100,
 		.pp = 10,
@@ -16737,7 +16737,7 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_NIHILLIGHT] = 250,
 	[MOVE_UNIVERSALRADIANCE] = 200,
 	[MOVE_PSYCHICNOISE] = 120,
-	[MOVE_SUPERBURN] = 130,
+	[MOVE_SUPERBURN] = 150,
 	[MOVE_CHAKRAFIST] = 130,
 };
 #endif
