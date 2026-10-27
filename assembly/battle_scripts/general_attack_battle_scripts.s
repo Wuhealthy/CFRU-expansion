@@ -4197,6 +4197,7 @@ BS_182_Superpower:
 	jumpifmove MOVE_ARMORCANNON CloseCombatBS
 	jumpifmove MOVE_HAMMERARM HammerArmBS
 	jumpifmove MOVE_ICEHAMMER HammerArmBS
+	jumpifmove MOVE_DESPERATEBLOOM CloseCombatBS
 	jumpifmove MOVE_CLANGINGSCALES ClangingScalesBS
 	jumpifmove MOVE_VCREATE VCreateBS
 	jumpifmove MOVE_HYPERSPACEFURY HyperspaceFuryBS

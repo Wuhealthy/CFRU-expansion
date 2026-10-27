@@ -1045,6 +1045,7 @@ gMoveAnimations:
 .word ANIM_PSYCHICNOISE
 .word ANIM_BURNUP
 .word ANIM_CHAKRAFIST
+.word ANIM_DESPERATEBLOOM
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -31513,6 +31514,46 @@ ANIM_CHAKRAFIST:
 	waitanimation
 	launchtask AnimTask_ShakeTargetBasedOnMovePowerOrDmg 0x2 0x5 0x0 0x1 0x10 0x1 0x0
 	waitanimation
+	endanimation
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+ANIM_DESPERATEBLOOM:
+	loadparticle ANIM_TAG_FLOWER
+	loadparticle ANIM_TAG_LEAF
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_BLUE_STAR
+	playsound2 0xCA SOUND_PAN_ATTACKER
+	launchtemplate Template_SweetScentPetal 0x2 0x3 0x46 0x1 0x40
+	launchtemplate Template_SweetScentPetal 0x2 0x3 0x30 0x0 0x40
+	pokespritetoBG 0x3
+	leftbankBG_over_partnerBG 0x1
+	playsound2 0xe4 SOUND_PAN_TARGET
+	launchtemplate 0x83e2c20 TEMPLATE_TARGET | 2, 0x5 0x78 0x46 0x5 0x46 0x1e
+	pause 0x1
+	launchtemplate PETALBLIZZARD_OBJ TEMPLATE_TARGET | 2, 0x5 0x73 0x37 0xA 0x3c 0x1e
+	launchtemplate PETALBLIZZARD_OBJ_2 TEMPLATE_TARGET | 2, 0x5 0x69 0x19 0x8 0x3c 0x14
+	pause 0x3
+	launchtemplate PETALBLIZZARD_OBJ TEMPLATE_TARGET | 2, 0x5 0x64 0x32 0x4 0x32 0x1A
+	launchtemplate PETALBLIZZARD_OBJ_2 TEMPLATE_TARGET | 2, 0x5 0x73 0x28 0xA 0x30 0x1E
+	pause 0x3
+	launchtemplate 0x83e2c20 TEMPLATE_TARGET | 2, 0x5 0x14 0xff 0xf 0x20 0x0
+	launchtemplate PETALBLIZZARD_OBJ TEMPLATE_TARGET | 2, 0x5 0x73 0x1E 0x6 0x2d 0x19
+	waitanimation
+	launchtemplate Template_Hit 0x83 0x4 0xffe0 0xfff0 0x1 0x3
+	playsound2 0x84 SOUND_PAN_TARGET
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 bank_target 0x3 0x0 0xC 0x1
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 target_partner 0x3 0x0 0xC 0x1
+	pause 0x4
+	launchtemplate Template_LusterPurgeHits 0x83 0x2 0x1 0x3
+	playsound2 0x84 SOUND_PAN_TARGET
+	pause 0x4
+	launchtemplate Template_Hit 0x83 0x4 0x20 0x14 0x1 0x3
+	playsound2 0x84 SOUND_PAN_TARGET
+	waitanimation
+	pokespritefromBG 0x3
+	resetblends
 	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
