@@ -1513,7 +1513,7 @@ enum
     SPECIES_FROSLASS_MEGA,          // 0x5E5
     SPECIES_HEATRAN_MEGA,           // 0x5E6
     SPECIES_DARKRAI_MEGA,           // 0x5E7
-    SPECIES_ARCEUS_MEGA,            // 0x5E8
+    SPECIES_CRESSELIA_MEGA,            // 0x5E8
     SPECIES_SERPERIOR_MEGA,         // 0x5E9
     SPECIES_EMBOAR_MEGA,            // 0x5EA
     SPECIES_SAMUROTT_MEGA,          // 0x5EB

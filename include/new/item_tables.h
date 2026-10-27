@@ -1353,6 +1353,8 @@ extern const u32 gBagItem_Reins_of_UnityTiles[];
 extern const u32 gBagItem_Reins_of_UnityPal[];
 extern const u32 gBagItem_Booster_EnergyTiles[];
 extern const u32 gBagItem_Booster_EnergyPal[];
+extern const u32 gBagItem_Booster_Energy1Tiles[];
+extern const u32 gBagItem_Booster_Energy1Pal[];
 extern const u32 gBagItem_Wellspring_MaskTiles[];
 extern const u32 gBagItem_Wellspring_MaskPal[];
 extern const u32 gBagItem_Hearthflame_MaskTiles[];

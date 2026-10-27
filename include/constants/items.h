@@ -886,25 +886,19 @@ enum
     ITEM_EELEKTROSSITE,         // 0x344
     ITEM_GARCHOMPZITE,          // 0x345
     ITEM_LUCARIOZITE,           // 0x346
-    ITEM_MAGNEZONEITE,          // 0x347
-    ITEM_RHYPERIORITE,          // 0x348
-    ITEM_ELECTIVIREITE,         // 0x349
-    ITEM_MAGMORTARITE,          // 0x34A
-    ITEM_PORYGONZITE,           // 0x34B
-    ITEM_DUSKNOIRITE,           // 0x34C
-    ITEM_FROSLASSITE,           // 0x34D
-    ITEM_HEATRANITE,            // 0x34E
-    ITEM_DARKRAIITE,            // 0x34F
-    ITEM_ARCEUSITE,             // 0x350
-    ITEM_SERPERIORITE,          // 0x351
-    ITEM_EMBOARITE,             // 0x352
-    ITEM_SAMUROTTITE,           // 0x353
-    ITEM_EXCADRILLITE,          // 0x354
+    ITEM_FROSLASSITE,           // 0x347
+    ITEM_HEATRANITE,            // 0x348
+    ITEM_DARKRAIITE,            // 0x349
+    ITEM_CRESSELIAITE,             // 0x34A
+    ITEM_SERPERIORITE,          // 0x34B
+    ITEM_EMBOARITE,             // 0x34C
+    ITEM_SAMUROTTITE,           // 0x34D
+    ITEM_EXCADRILLITE,          // 0x34E
 
     // Unused Items
-    ITEM_MIRROR_HERB,           // 0x358
-    ITEM_AWAKEN_CHARM,          // 0x359
-    ITEM_FREE_SPACE3,           // 0x35A
+    ITEM_MIRROR_HERB,           // 0x34F
+    ITEM_AWAKEN_CHARM,          // 0x350
+    ITEM_FREE_SPACE3,           // 0x351
 };
 
 #define ITEMS_COUNT (ITEM_FREE_SPACE3 + 1)
