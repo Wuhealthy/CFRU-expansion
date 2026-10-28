@@ -394,6 +394,9 @@ void CreateWildMon(u16 species, u8 level, u8 monHeaderIndex, bool8 purgeParty)
 	}
 	#endif
 
+	//Try Shiny Charm / fishing chain / settings-menu shiny odds
+	TryApplyShinyRollBonuses(&gEnemyParty[enemyMonIndex]);
+
 	//Prevent Uncatchable Shinies (they're mean)
 	if (CantCatchBecauseFlag())
 	{
@@ -406,9 +409,6 @@ void CreateWildMon(u16 species, u8 level, u8 monHeaderIndex, bool8 purgeParty)
 
 	//Status Inducers
 	TryStatusInducer(&gEnemyParty[enemyMonIndex]);
-
-	//Apply the Shiny Odds option from the settings menu
-	TryApplyShinyOddsOption(&gEnemyParty[enemyMonIndex]);
 }
 
 void sp117_CreateRaidMon(void)

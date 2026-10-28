@@ -200,6 +200,7 @@ static u8 GetPartyIdFromPartyData(struct Pokemon* mon);
 static u8 GetHighestMonLevel(const struct Pokemon* const party);
 static u8 GetDynamicLevelRange(const struct Pokemon* const party, s8 minOffset, s8 maxOffset);
 static void CheckShinyMon(struct Pokemon* mon);
+static bool8 TryShinyRollBonuses(struct Pokemon* mon);
 #ifdef UNBOUND
 extern u8 GetEVSpreadNumForUnboundRivalChallenge(struct Pokemon* mon, u32 aiFlags, u8 trainerClass);
 extern void TryGiveSpecialTrainerHiddenPower(u16 trainerId, struct Pokemon* mon);
@@ -4235,8 +4236,8 @@ u8 ScriptGiveMon(u16 species, u8 level, u16 item, unusedArg u32 unused1, unusedA
 	CreateMon(&mon, species, level, 32, 0, 0, 0, 0);
 	SetMonData(&mon, MON_DATA_HELD_ITEM, &item);
 
-	//Apply the Shiny Odds option from the settings menu
-	TryApplyShinyOddsOption(&mon);
+	//Try Shiny Charm / fishing chain / settings-menu shiny odds
+	TryApplyShinyRollBonuses(&mon);
 
 	#ifdef GIVEPOKEMON_BALL_HACK
 	if (ballType != 0)
@@ -4318,6 +4319,13 @@ u8 ScriptGiveMon(u16 species, u8 level, u16 item, unusedArg u32 unused1, unusedA
 
 static void CheckShinyMon(struct Pokemon* mon)
 {
+	if (TryShinyRollBonuses(mon))
+		ForceMonShiny(mon);
+}
+
+//闪光符、钓鱼连锁与FLAG_SHINY_CREATION(图鉴导航强制闪光)的额外闪光判定
+static bool8 TryShinyRollBonuses(struct Pokemon* mon)
+{
 	bool8 forceShiny = FALSE;
 	u32 otId = GetMonData(mon, MON_DATA_OT_ID, NULL);
 
@@ -4354,8 +4362,7 @@ static void CheckShinyMon(struct Pokemon* mon)
 		}
 	}
 
-	if (forceShiny)
-		ForceMonShiny(mon);
+	return forceShiny;
 }
 
 void ForceMonShiny(struct Pokemon* mon)
@@ -4403,18 +4410,32 @@ static const u16 sShinyOddsDenominators[] = {2048, 1024, 512, 256, 128, 64, 32, 
 #define SHINY_ODDS_OPTION_COUNT    (ARRAY_COUNT(sShinyOddsDenominators) + 2) //0为原版1/8192,最后一档为必闪
 #define SHINY_ODDS_ALWAYS_OPTION   (ARRAY_COUNT(sShinyOddsDenominators) + 1)
 
-//按设置菜单选中的闪光概率重掷个性值,只影响可以成为闪光的宝可梦
-void TryApplyShinyOddsOption(struct Pokemon* mon)
+//按闪光符、钓鱼连锁与设置菜单选中的闪光概率重掷个性值,只影响可以成为闪光的宝可梦
+void TryApplyShinyRollBonuses(struct Pokemon* mon)
 {
+	bool8 forceShiny;
 #ifdef VAR_SHINY_ODDS
-	u16 option = VarGet(VAR_SHINY_ODDS);
+	u16 option;
+#endif
 
-	if (option == 0 || option >= SHINY_ODDS_OPTION_COUNT || IsMonShiny(mon))
+	if (IsMonShiny(mon))
 		return;
 
-	if (option >= SHINY_ODDS_ALWAYS_OPTION || (Random() % sShinyOddsDenominators[option - 1]) == 0)
-		ForceMonShiny(mon);
+	forceShiny = TryShinyRollBonuses(mon); //FLAG_SHINY_CREATION / Shiny Charm / fishing chain
+
+#ifdef VAR_SHINY_ODDS
+	option = VarGet(VAR_SHINY_ODDS);
+	if (option != 0 && option < SHINY_ODDS_OPTION_COUNT)
+	{
+		if (option >= SHINY_ODDS_ALWAYS_OPTION)
+			forceShiny = TRUE;
+		else if (!forceShiny)
+			forceShiny = (Random() % sShinyOddsDenominators[option - 1]) == 0;
+	}
 #endif
+
+	if (forceShiny)
+		ForceMonShiny(mon);
 }
 
 void TryRandomizeSpecies(unusedArg u16* species)

@@ -127,8 +127,8 @@ static void CreateInitialRoamerMon(u16 species, u8 level, bool8 allowedOnLand, b
 
 	CreateMon(&gEnemyParty[0], species, level, 0x20, 0, 0, 0, 0);
 
-	//Apply the Shiny Odds option from the settings menu
-	TryApplyShinyOddsOption(&gEnemyParty[0]);
+	//Try Shiny Charm / fishing chain / settings-menu shiny odds
+	TryApplyShinyRollBonuses(&gEnemyParty[0]);
 
 	#ifdef CREATE_ROAMER_WITH_X_PERFECT_IVS
 	{
