@@ -3122,6 +3122,16 @@ void StartRevivalSelection(void)
 
 	gNewBS->revivalSelectCount = count;
 	gNewBS->revivalSelectCursor = 0;
+
+	if (!IsPlayerInControl(gBankAttacker)) //AI: revive a random fainted mon automatically
+	{
+		u8 pick = Random() % count;
+		gNewBS->revivalSelectCursor = pick;
+		gBattleStruct->monToSwitchIntoId[gBankAttacker] = gNewBS->revivalSelectPartyIndexes[pick];
+		gNewBS->revivalSelectState = REVIVAL_CHOSEN;
+		return;
+	}
+
 	gNewBS->revivalSelectState = REVIVAL_WAIT;
 	PrintRevivalSelectionList(); //Show the list right after the move text
 	CreateTask(Task_RevivalSelectionInput, 0);
