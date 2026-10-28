@@ -216,10 +216,11 @@ u32 GetAIFlags(void)
 			if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
 			{
 				if (!(flags & AI_SCRIPT_CHECK_GOOD_MOVE)) //Not Trainers who are already smart
-					flags |= AI_SCRIPT_SEMI_SMART; //Regular Trainers are always semi smart in expert mode
+					flags |= AI_SCRIPT_CHECK_GOOD_MOVE; //Every Trainer runs the full positive scoring in expert mode
+				flags |= AI_SCRIPT_SEMI_SMART;
 			}
 			else
-				flags = AI_SCRIPT_CHECK_BAD_MOVE | WildMonIsSmart(gActiveBattler); //Even Wild Pokemon are moderately smart in expert mode
+				flags = AI_SCRIPT_CHECK_BAD_MOVE | WildMonIsSmart(gActiveBattler) | AI_SCRIPT_SEMI_SMART; //Even Wild Pokemon are moderately smart in expert mode
 		}
 		#endif
 
