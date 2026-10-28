@@ -797,3 +797,15 @@
 ##Battle prompt ("What will X do?") text starts 2 pixels further left so the last letter of long names fits in the window
 083FEB72 00
 #endif
+##Chinese Font (extracted from external CHT font patch on test - 副本1.gba)
+##Code+glyph blob lives at graphics/ChineseFont/chinese_font.bin; insert.py places it
+##dynamically right after the follower-mon sprites and writes the 6 code hooks itself
+##(their bytes embed the font blob's runtime address, so they cannot be static entries here).
+##String converter: write terminator 0x00 instead of 0x0A after converted text
+080F80D0 00
+##Intro/title data table: palette slot 0 -> 1 (shipped with the font patch)
+083FEB89 01
+083FEB95 01
+083FEBA1 01
+083FEBAD 01
+083FEBC5 01

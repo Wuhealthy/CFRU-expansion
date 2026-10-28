@@ -11,6 +11,23 @@ OFFSET_TO_PUT = 0x1350000
 MON_OW_OFFSET = 0xF00000  # ROM file offset for follower-mon overworld graphics
 SOURCE_ROM = "BPRE0.gba"
 ROM_NAME = "test.gba"
+# CJK font blob (constants must stay BELOW line 12: make.py rewrites lines 10/12 by
+# line number). insert.py places the blob right after the follower-mon sprites and
+# relocates its absolute addresses at insert time, so it survives layout changes.
+CHINESE_FONT_BLOB_BASE = 0x0929B404  # address the blob was extracted at (for assertions)
+# Blob offset of the two absolute font-base pointers in its literal pool -> delta from blob base
+# (full-width glyph table, half-width glyph table).
+CHINESE_FONT_POINTERS = {0x2DB64: 0x0, 0x2DB68: 0x1B0D0}
+# Hook sites: (ROM address, displaced instruction bytes, blob-relative jump target).
+# The final 4 bytes of each patch are the runtime target address, written dynamically.
+CHINESE_FONT_HOOKS = [
+    (0x08005842, bytes([0x01, 0x4B, 0x9F, 0x46, 0xC0, 0x46]), 0x2DA60),  # text engine: 2-byte CJK handling
+    (0x0813C10A, bytes([0x01, 0x4A, 0x97, 0x46, 0x00, 0x00]), 0x2DCC4),  # glyph draw: CJK occupies one cell
+    (0x0813C164, bytes([0x00, 0x4A, 0x97, 0x46]), 0x2DCE4),
+    (0x0813C18E, bytes([0x01, 0x4A, 0x97, 0x46, 0x00, 0x00]), 0x2DD04),
+    (0x0813C36A, bytes([0x01, 0x4A, 0x97, 0x46, 0x00, 0x00]), 0x2DD24),
+    (0x0813C3DA, bytes([0x01, 0x4A, 0x97, 0x46, 0x00, 0x00]), 0x2DD48),  # code >= 0x1000 renders from CJK font
+]
 
 if sys.platform.startswith('win'):
     PathVar = os.environ.get('Path')
@@ -40,6 +57,7 @@ else:  # Linux, OSX, etc.
 OUTPUT = 'build/output.bin'
 FOLLOWER_MON_SPRITES = 'build/follower_mon_sprites.bin'
 FOLLOWER_MON_SPRITES_OFFSET = 'build/follower_mon_sprites.offset'
+CHINESE_FONT = 'graphics/ChineseFont/chinese_font.bin'
 BYTE_REPLACEMENT = 'bytereplacement'
 HOOKS = 'hooks'
 REPOINTS = 'repoints'
@@ -303,7 +321,7 @@ def main():
 
     with open(ROM_NAME, 'rb+') as rom:
         print("Inserting code.")
-        with open(FOLLOWER_MON_SPRITES_OFFSET, 'r') as offsetFile:
+        with open(FOLLOWER_MON_SPRITES_OFFSET, 'r', encoding='utf-8', errors='replace') as offsetFile:
             builtMonOwOffset = int(offsetFile.read().strip(), 0)
         if builtMonOwOffset != MON_OW_OFFSET:
             raise ValueError(
@@ -319,6 +337,16 @@ def main():
                 f"{MON_OW_OFFSET:#x}-{monOwEndOffset:#x} and "
                 f"{OFFSET_TO_PUT:#x}-{endInsertOffset:#x}"
             )
+        # Chinese font: laid out right after the follower-mon sprites. Its internal
+        # font-base pointers and the hook literals are relocated to the runtime
+        # address, so the font moves safely if the follower-mon data grows.
+        chineseFontOffset = (monOwEndOffset + 3) & ~3
+        chineseFontEndOffset = chineseFontOffset + os.path.getsize(CHINESE_FONT)
+        if chineseFontEndOffset > OFFSET_TO_PUT:
+            raise ValueError(
+                "Chinese font does not fit between the follower-mon sprites "
+                f"(ending at {monOwEndOffset:#x}) and the engine at {OFFSET_TO_PUT:#x}"
+            )
 
         rom.seek(OFFSET_TO_PUT)
         with open(OUTPUT, 'rb') as binary:
@@ -330,6 +358,25 @@ def main():
         with open(FOLLOWER_MON_SPRITES, 'rb') as binary:
             rom.write(binary.read())
 
+        fontBaseAddr = 0x08000000 + chineseFontOffset
+        with open(CHINESE_FONT, 'rb') as binary:
+            fontData = bytearray(binary.read())
+        for wordOffset, delta in CHINESE_FONT_POINTERS.items():
+            old = int.from_bytes(fontData[wordOffset:wordOffset + 4], 'little')
+            if old != CHINESE_FONT_BLOB_BASE + delta:
+                raise ValueError(
+                    f"Unexpected word in Chinese font blob at +{wordOffset:#x}: "
+                    f"{old:#010x} (expected {CHINESE_FONT_BLOB_BASE + delta:#010x}); "
+                    "the blob and CHINESE_FONT_POINTERS are out of sync"
+                )
+            fontData[wordOffset:wordOffset + 4] = (fontBaseAddr + delta).to_bytes(4, 'little')
+        print(f"Inserting Chinese font at {chineseFontOffset:#x} (base {fontBaseAddr:#x}).")
+        rom.seek(chineseFontOffset)
+        rom.write(fontData)
+        for hookAddr, instrBytes, stubDelta in CHINESE_FONT_HOOKS:
+            rom.seek(hookAddr - 0x08000000)
+            rom.write(instrBytes + (fontBaseAddr + stubDelta).to_bytes(4, 'little'))
+
         # Adjust symbol table
         for entry in table:
             table[entry] += OFFSET_TO_PUT
@@ -337,7 +384,7 @@ def main():
         # Deal with en masse repoints
         symbolsRepointed = set()
         if os.path.isfile(GENERATED_REPOINTS):
-            with open(GENERATED_REPOINTS, 'r') as repointList:
+            with open(GENERATED_REPOINTS, 'r', encoding='utf-8', errors='replace') as repointList:
                 for line in repointList:
                     if line.strip().startswith('#') or line.strip() == '':
                         continue
@@ -359,7 +406,7 @@ def main():
 
         if os.path.isfile(REPOINT_ALL):
             offsetsToRepointTogether = []
-            with open(REPOINT_ALL, 'r') as repointList:
+            with open(REPOINT_ALL, 'r', encoding='utf-8', errors='replace') as repointList:
                 definesDict = {}
                 conditionals = []
                 for line in repointList:
@@ -394,7 +441,7 @@ def main():
 
         # Do Special Inserts - Before bytereplacement!
         if os.path.isfile(SPECIAL_INSERTS) and os.path.isfile(SPECIAL_INSERTS_OUT):
-            with open(SPECIAL_INSERTS, 'r') as file:
+            with open(SPECIAL_INSERTS, 'r', encoding='utf-8', errors='replace') as file:
                 offsetList = []
                 for line in file:
                     if line.strip().startswith('.org '):
@@ -457,7 +504,7 @@ def main():
                         free_count = 0
                 raise Exception(f"No free space found for {length} bytes.")
 
-            with open('free_bytereplacements', 'r') as file:
+            with open('free_bytereplacements', 'r', encoding='utf-8', errors='replace') as file:
                 for line in file:
                     if line.strip().startswith('#') or line.strip() == '':
                         continue
@@ -475,7 +522,7 @@ def main():
 
         # Insert byte changes
         if os.path.isfile(BYTE_REPLACEMENT):
-            with open(BYTE_REPLACEMENT, 'r') as replacelist:
+            with open(BYTE_REPLACEMENT, 'r', encoding='utf-8', errors='replace') as replacelist:
                 definesDict = {}
                 conditionals = []
                 for line in replacelist:
@@ -502,7 +549,7 @@ def main():
 
         # Read hooks from a file
         if os.path.isfile(HOOKS):
-            with open(HOOKS, 'r') as hookList:
+            with open(HOOKS, 'r', encoding='utf-8', errors='replace') as hookList:
                 definesDict = {}
                 conditionals = []
                 for line in hookList:
@@ -525,7 +572,7 @@ def main():
 
         # Read repoints from a file
         if os.path.isfile(REPOINTS):
-            with open(REPOINTS, 'r') as repointList:
+            with open(REPOINTS, 'r', encoding='utf-8', errors='replace') as repointList:
                 definesDict = {}
                 conditionals = []
                 for line in repointList:
@@ -560,7 +607,7 @@ def main():
 
         # Read routine repoints from a file
         if os.path.isfile(ROUTINE_POINTERS):
-            with open(ROUTINE_POINTERS, 'r') as pointerlist:
+            with open(ROUTINE_POINTERS, 'r', encoding='utf-8', errors='replace') as pointerlist:
                 definesDict = {}
                 conditionals = []
                 for line in pointerlist:
@@ -583,7 +630,7 @@ def main():
 
         # Read routine rewrite wrapper from a file
         if os.path.isfile(FUNCTION_REWRITES):
-            with open(FUNCTION_REWRITES, 'r') as frwlist:
+            with open(FUNCTION_REWRITES, 'r', encoding='utf-8', errors='replace') as frwlist:
                 definesDict = {}
                 conditionals = []
                 for line in frwlist:
@@ -621,7 +668,7 @@ def main():
             rom.seek(0x5524C)
             mapBanksHeader = ExtractPointer(rom.read(4)) - 0x08000000
 
-            with open(EVENT_SCRIPTS, 'r') as file:
+            with open(EVENT_SCRIPTS, 'r', encoding='utf-8', errors='replace') as file:
                 for i, line in enumerate(file):
                     if TryProcessFileInclusion(line, definesDict):
                         continue
@@ -742,7 +789,7 @@ def main():
             rom.seek(0x1DD11C)  # m4aSongNumStart
             songTable = ExtractPointer(rom.read(4)) - 0x08000000
 
-            with open(SONGS, "r") as file:
+            with open(SONGS, "r", encoding='utf-8', errors='replace') as file:
                 for i, line in enumerate(file):
                     if TryProcessFileInclusion(line, definesDict):
                         continue
