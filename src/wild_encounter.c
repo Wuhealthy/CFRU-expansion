@@ -406,6 +406,9 @@ void CreateWildMon(u16 species, u8 level, u8 monHeaderIndex, bool8 purgeParty)
 
 	//Status Inducers
 	TryStatusInducer(&gEnemyParty[enemyMonIndex]);
+
+	//Apply the Shiny Odds option from the settings menu
+	TryApplyShinyOddsOption(&gEnemyParty[enemyMonIndex]);
 }
 
 void sp117_CreateRaidMon(void)

@@ -4235,6 +4235,9 @@ u8 ScriptGiveMon(u16 species, u8 level, u16 item, unusedArg u32 unused1, unusedA
 	CreateMon(&mon, species, level, 32, 0, 0, 0, 0);
 	SetMonData(&mon, MON_DATA_HELD_ITEM, &item);
 
+	//Apply the Shiny Odds option from the settings menu
+	TryApplyShinyOddsOption(&mon);
+
 	#ifdef GIVEPOKEMON_BALL_HACK
 	if (ballType != 0)
 		mon.pokeball = ballType;
@@ -4393,6 +4396,25 @@ void ForceMonShiny(struct Pokemon* mon)
 
 	SetMonData(mon, MON_DATA_PERSONALITY, &personality);
 	CalculateMonStats(mon);
+}
+
+//设置菜单闪光概率选项的分母表,VAR_SHINY_ODDS为1时对应1/2048,以此类推
+static const u16 sShinyOddsDenominators[] = {2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2};
+#define SHINY_ODDS_OPTION_COUNT    (ARRAY_COUNT(sShinyOddsDenominators) + 2) //0为原版1/8192,最后一档为必闪
+#define SHINY_ODDS_ALWAYS_OPTION   (ARRAY_COUNT(sShinyOddsDenominators) + 1)
+
+//按设置菜单选中的闪光概率重掷个性值,只影响可以成为闪光的宝可梦
+void TryApplyShinyOddsOption(struct Pokemon* mon)
+{
+#ifdef VAR_SHINY_ODDS
+	u16 option = VarGet(VAR_SHINY_ODDS);
+
+	if (option == 0 || option >= SHINY_ODDS_OPTION_COUNT || IsMonShiny(mon))
+		return;
+
+	if (option >= SHINY_ODDS_ALWAYS_OPTION || (Random() % sShinyOddsDenominators[option - 1]) == 0)
+		ForceMonShiny(mon);
+#endif
 }
 
 void TryRandomizeSpecies(unusedArg u16* species)

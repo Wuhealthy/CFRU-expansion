@@ -22,6 +22,7 @@ void CreateFrontierRaidMon(const u16 species);
 bool8 IsMonAllowedInBattleTower(struct Pokemon* mon);
 void TryStatusInducer(struct Pokemon* mon);
 void ForceMonShiny(struct Pokemon* mon);
+void TryApplyShinyOddsOption(struct Pokemon* mon);
 void CalculateMonStatsNew(struct Pokemon *mon);
 u8 GetOpenWorldBadgeCount(void);
 u8 GetScaledWildBossLevel(u8 level);

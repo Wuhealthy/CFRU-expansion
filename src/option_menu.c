@@ -113,6 +113,7 @@ enum
     OPT_DOUBLE_BATTLE,
     OPT_NO_RANDOM_WILD_ENCOUNTERS,
     OPT_DAMAGE_DISPLAY,
+    OPT_SHINY_ODDS,
     OPT_CANCEL,
     OPT_COUNT,
 };
@@ -136,6 +137,7 @@ struct OptionMenu
     /*0x??*/ u8 loadPaletteState;
     /*0x??*/ u16 option_secondPage[MENUITEM_PAGE2_COUNT];
     /*0x??*/ u16 option_thirdPage[MENUITEM_PAGE3_COUNT];
+    /*0x??*/ u16 shinyOdds;   //闪光概率选项,存于VAR_SHINY_ODDS
 };
 
 extern struct OptionMenu *sOptionMenuPtr;
@@ -155,6 +157,7 @@ extern const u8 gText_InverseBattle[];
 extern const u8 gText_DoubleBattle[];
 extern const u8 gText_NoRandomWildEncounters[];
 extern const u8 gText_DamageDisplay[];
+extern const u8 gText_ShinyOdds[];
 
 extern const u8 gText_OptionDesc_TextSpeed[];
 extern const u8 gText_OptionDesc_BattleScene[];
@@ -172,6 +175,7 @@ extern const u8 gText_OptionDesc_DoubleBattle[];
 extern const u8 gText_OptionDesc_NoRandomWildEncounters[];
 extern const u8 gText_OptionDesc_DamageDisplay[];
 extern const u8 gText_OptionDesc_Cancel[];
+extern const u8 gText_OptionDesc_ShinyOdds[];
 
 extern const u8 gText_TextSpeedSlow[];
 extern const u8 gText_TextSpeedMid[];
@@ -200,6 +204,19 @@ extern const u8 gText_Normal[];
 extern const u8 gText_Easy[];
 extern const u8 gText_Hard[];
 extern const u8 gText_Expert[];
+extern const u8 gText_Odds1_8192[];
+extern const u8 gText_Odds1_2048[];
+extern const u8 gText_Odds1_1024[];
+extern const u8 gText_Odds1_512[];
+extern const u8 gText_Odds1_256[];
+extern const u8 gText_Odds1_128[];
+extern const u8 gText_Odds1_64[];
+extern const u8 gText_Odds1_32[];
+extern const u8 gText_Odds1_16[];
+extern const u8 gText_Odds1_8[];
+extern const u8 gText_Odds1_4[];
+extern const u8 gText_Odds1_2[];
+extern const u8 gText_OddsAlways[];
 
 static const u8 *const sTextSpeedOptions[] =
 {
@@ -281,6 +298,24 @@ static const u8 *const sDamageDisplayOptions[] =
 	gText_OffOption,
 	gText_OnOption
 };
+//与build_pokemon.c中sShinyOddsDenominators保持一致:档位0为原版1/8192,1~11依次对应分母表,12为必闪
+#define SHINY_ODDS_MENU_OPTION_COUNT 13
+static const u8 *const sShinyOddsOptions[] =
+{
+	gText_Odds1_8192,
+	gText_Odds1_2048,
+	gText_Odds1_1024,
+	gText_Odds1_512,
+	gText_Odds1_256,
+	gText_Odds1_128,
+	gText_Odds1_64,
+	gText_Odds1_32,
+	gText_Odds1_16,
+	gText_Odds1_8,
+	gText_Odds1_4,
+	gText_Odds1_2,
+	gText_OddsAlways,
+};
 // Description shown in the top text box for each unified list item
 static const u8 *const sOptionDescriptions[OPT_COUNT] =
 {
@@ -299,6 +334,7 @@ static const u8 *const sOptionDescriptions[OPT_COUNT] =
     [OPT_DOUBLE_BATTLE]             = gText_OptionDesc_DoubleBattle,
     [OPT_NO_RANDOM_WILD_ENCOUNTERS] = gText_OptionDesc_NoRandomWildEncounters,
     [OPT_DAMAGE_DISPLAY]            = gText_OptionDesc_DamageDisplay,
+    [OPT_SHINY_ODDS]                = gText_OptionDesc_ShinyOdds,
     [OPT_CANCEL]                    = gText_OptionDesc_Cancel,
 };
 
@@ -325,6 +361,7 @@ static const u8 * GetOptionItemName(u16 item)
     case OPT_DOUBLE_BATTLE:               return gText_DoubleBattle;
     case OPT_NO_RANDOM_WILD_ENCOUNTERS:   return gText_NoRandomWildEncounters;
     case OPT_DAMAGE_DISPLAY:              return gText_DamageDisplay;
+    case OPT_SHINY_ODDS:                  return gText_ShinyOdds;
     default:                              return gText_OptionMenuCancel;
     }
 }
@@ -349,6 +386,7 @@ static u16 * GetOptionItemValuePtr(u16 item)
     case OPT_DOUBLE_BATTLE:               return &sOptionMenuPtr->option_thirdPage[MENUITEM_DOUBLE_BATTLE];
     case OPT_NO_RANDOM_WILD_ENCOUNTERS:   return &sOptionMenuPtr->option_thirdPage[MENUITEM_NO_RANDOM_WILD_ENCOUNTERS];
     case OPT_DAMAGE_DISPLAY:              return &sOptionMenuPtr->option_thirdPage[MENUITEM_DAMAGE_DISPLAY];
+    case OPT_SHINY_ODDS:                  return &sOptionMenuPtr->shinyOdds;
     default:                              return NULL;
     }
 }
@@ -372,6 +410,7 @@ static u16 GetOptionItemCount(u16 item)
     case OPT_DOUBLE_BATTLE:               return sOptionMenuItemCounts_ThirdPage[MENUITEM_DOUBLE_BATTLE];
     case OPT_NO_RANDOM_WILD_ENCOUNTERS:   return sOptionMenuItemCounts_ThirdPage[MENUITEM_NO_RANDOM_WILD_ENCOUNTERS];
     case OPT_DAMAGE_DISPLAY:              return sOptionMenuItemCounts_ThirdPage[MENUITEM_DAMAGE_DISPLAY];
+    case OPT_SHINY_ODDS:                  return SHINY_ODDS_MENU_OPTION_COUNT;
     default:                              return 0;
     }
 }
@@ -403,6 +442,7 @@ static const u8 * GetOptionItemValueString(u16 item)
     case OPT_DOUBLE_BATTLE:               return sDoubleBattleOptions[*value];
     case OPT_NO_RANDOM_WILD_ENCOUNTERS:   return sNoRandomWildEncountersOptions[*value];
     case OPT_DAMAGE_DISPLAY:              return sDamageDisplayOptions[*value];
+    case OPT_SHINY_ODDS:                  return sShinyOddsOptions[*value];
     default:                              return NULL;
     }
 }
@@ -434,6 +474,9 @@ void CB2_OptionsMenuFromStartMenu(void)
     sOptionMenuPtr->option_thirdPage[MENUITEM_DOUBLE_BATTLE] = VarGet(VAR_DOUBLE_BATTLE);
     sOptionMenuPtr->option_thirdPage[MENUITEM_NO_RANDOM_WILD_ENCOUNTERS] = VarGet(VAR_NO_RANDOM_WILD_ENCOUNTERS);
     sOptionMenuPtr->option_thirdPage[MENUITEM_DAMAGE_DISPLAY] = VarGet(VAR_DAMAGE_TEXT_DISPLAY);
+    sOptionMenuPtr->shinyOdds = VarGet(VAR_SHINY_ODDS);
+    if (sOptionMenuPtr->shinyOdds >= SHINY_ODDS_MENU_OPTION_COUNT) //旧存档该VAR可能是残留数据,视为原版概率
+        sOptionMenuPtr->shinyOdds = 0;
 
     for (i = 0; i < MENUITEM_COUNT - 1; i++)
     {
@@ -523,6 +566,7 @@ void CloseAndSaveOptionMenu(u8 taskId)
     VarSet(VAR_DOUBLE_BATTLE, sOptionMenuPtr->option_thirdPage[MENUITEM_DOUBLE_BATTLE]);
     VarSet(VAR_NO_RANDOM_WILD_ENCOUNTERS, sOptionMenuPtr->option_thirdPage[MENUITEM_NO_RANDOM_WILD_ENCOUNTERS]);
     VarSet(VAR_DAMAGE_TEXT_DISPLAY, sOptionMenuPtr->option_thirdPage[MENUITEM_DAMAGE_DISPLAY]);
+    VarSet(VAR_SHINY_ODDS, sOptionMenuPtr->shinyOdds);
     SetPokemonCryStereo(gSaveBlock2->optionsSound);
     FREE_AND_SET_NULL(sOptionMenuPtr);
     DestroyTask(taskId);

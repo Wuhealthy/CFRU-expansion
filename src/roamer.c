@@ -13,6 +13,7 @@
 #include "../include/constants/species.h"
 
 #include "../include/new/battle_start_turn_start.h"
+#include "../include/new/build_pokemon.h"
 #include "../include/new/util.h"
 #include "../include/new/roamer.h"
 #include "../include/new/wild_encounter.h"
@@ -125,6 +126,9 @@ static void CreateInitialRoamerMon(u16 species, u8 level, bool8 allowedOnLand, b
 	}
 
 	CreateMon(&gEnemyParty[0], species, level, 0x20, 0, 0, 0, 0);
+
+	//Apply the Shiny Odds option from the settings menu
+	TryApplyShinyOddsOption(&gEnemyParty[0]);
 
 	#ifdef CREATE_ROAMER_WITH_X_PERFECT_IVS
 	{

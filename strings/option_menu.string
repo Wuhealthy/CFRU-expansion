@@ -114,3 +114,48 @@ R键模式
 
 #org @gText_OptionDesc_Cancel
 保存设置并退出。
+
+#org @gText_ShinyOdds
+闪光概率
+
+#org @gText_OptionDesc_ShinyOdds
+调整宝可梦遭遇时的闪光概率。
+
+#org @gText_Odds1_8192
+1/8192
+
+#org @gText_Odds1_2048
+1/2048
+
+#org @gText_Odds1_1024
+1/1024
+
+#org @gText_Odds1_512
+1/512
+
+#org @gText_Odds1_256
+1/256
+
+#org @gText_Odds1_128
+1/128
+
+#org @gText_Odds1_64
+1/64
+
+#org @gText_Odds1_32
+1/32
+
+#org @gText_Odds1_16
+1/16
+
+#org @gText_Odds1_8
+1/8
+
+#org @gText_Odds1_4
+1/4
+
+#org @gText_Odds1_2
+1/2
+
+#org @gText_OddsAlways
+必闪
