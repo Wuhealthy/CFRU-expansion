@@ -401,6 +401,9 @@
 #org @gText_HoopaRespawnedAlly
 [TARGET]召唤了\n另一只[BUFFER][00]！
 
+#org @gText_RevivalBlessingRevived
+[BUFFER][00]复活\n并能够继续战斗了！
+
 //Other Battle Features
 
 #org @gText_TotemOmniboostStatsRose

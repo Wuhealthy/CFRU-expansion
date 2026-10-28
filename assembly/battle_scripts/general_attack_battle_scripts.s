@@ -6405,10 +6405,18 @@ BS_247_Glaive_Rush:
 BS_248_RevivalBlessing:
 	attackcanceler
 	attackstring
-	callasm TryRevivalBlessing
+	callasm StartRevivalSelection
+	callasm PollRevivalSelection
 	ppreduce
 	attackanimation
 	waitanimation
+	callasm ReviveChosenPartyMon
+	setword BATTLE_STRING_LOADER gText_RevivalBlessingRevived
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	goto BS_MOVE_END
+
+RevivalBlessingCancel:
 	goto BS_MOVE_END
 	
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

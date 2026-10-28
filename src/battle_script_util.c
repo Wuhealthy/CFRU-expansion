@@ -1,4 +1,8 @@
 #include "defines.h"
+
+extern const u8 gText_EmptyString[];
+u8* StringAppend(u8* dst, const u8* src);
+void __attribute__((long_call)) BattlePutTextOnWindow(const u8* text, u8 windowId);
 #include "defines_battle.h"
 #include "../include/battle_anim.h"
 #include "../include/battle_message.h"
@@ -3071,31 +3075,193 @@ bool8 TryConsumeOpportunistBoosts(u8 bank, bool8 execute)
 	return FALSE;
 }
 
-void TryRevivalBlessing(void)
-{
-	struct Pokemon *party = SIDE(gBankAttacker) == B_SIDE_PLAYER ? gPlayerParty : gEnemyParty;
-	u8 chosen = PARTY_SIZE;
+//Revival Blessing selection states
+#define REVIVAL_WAIT 1
+#define REVIVAL_CHOSEN 2
+#define REVIVAL_FAILED 3
 
-	for (u8 i = 0; i < PARTY_SIZE; ++i)
+static void Task_RevivalSelectionInput(u8 taskId);
+static void PrintRevivalSelectionList(void);
+
+//Revival Blessing: fails if the user has no fainted party mon; otherwise opens
+//the text-box selection listing the fainted mons.
+void StartRevivalSelection(void)
+{
+	struct Pokemon* party = SIDE(gBankAttacker) == B_SIDE_PLAYER ? gPlayerParty : gEnemyParty;
+	u8 i, count = 0;
+
+	for (i = 0; i < PARTY_SIZE; ++i)
 	{
 		u16 species = GetMonData(&party[i], MON_DATA_SPECIES, NULL);
-		if (species != SPECIES_NONE && species != SPECIES_EGG
-		&& GetMonData(&party[i], MON_DATA_HP, NULL) == 0)
+		if (species == SPECIES_NONE || species == SPECIES_EGG)
+			continue;
+		if (GetMonData(&party[i], MON_DATA_HP, NULL) != 0)
+			continue;
+
+		//Exclude mons that fainted on the field this turn - their replacement
+		//is already queued for the end of the turn, reviving them here softlocks
+		u8 b;
+		for (b = 0; b < gBattlersCount; ++b)
 		{
-			chosen = i;
-			break;
+			if (SIDE(b) == SIDE(gBankAttacker)
+			&& gBattleMons[b].hp == 0
+			&& gBattlerPartyIndexes[b] == i)
+				break;
 		}
+		if (b < gBattlersCount)
+			continue;
+
+		gNewBS->revivalSelectPartyIndexes[count++] = i;
 	}
 
-	if (chosen == PARTY_SIZE)
+	if (count == 0)
 	{
-		gBattlescriptCurrInstr = BattleScript_ButItFailed - 5;
+		gNewBS->revivalSelectState = REVIVAL_FAILED; //No fainted mon - the move fails
 		return;
 	}
 
-	u16 hp = MathMax(1, GetMonData(&party[chosen], MON_DATA_MAX_HP, NULL) / 2);
-	SetMonData(&party[chosen], MON_DATA_HP, &hp);
-	PREPARE_MON_NICK_BUFFER(gBattleTextBuff1, gBankAttacker, chosen);
+	gNewBS->revivalSelectCount = count;
+	gNewBS->revivalSelectCursor = 0;
+	gNewBS->revivalSelectState = REVIVAL_WAIT;
+	PrintRevivalSelectionList(); //Show the list right after the move text
+	CreateTask(Task_RevivalSelectionInput, 0);
+}
+
+//Poll: keeps the battle script waiting while the player chooses.
+void PollRevivalSelection(void)
+{
+	if (gNewBS->revivalSelectState == REVIVAL_WAIT)
+		gBattlescriptCurrInstr -= 5; //Stay on this callasm
+	else if (gNewBS->revivalSelectState == REVIVAL_FAILED)
+		gBattlescriptCurrInstr = BattleScript_ButItFailed - 5;
+}
+
+//Selection list: 2 rows x 3 columns grid in the text box (up to 6 fainted mons).
+//Names are padded to 6 tiles per column so the three columns line up.
+static void PrintRevivalSelectionList(void)
+{
+	struct Pokemon* party = SIDE(gBankAttacker) == B_SIDE_PLAYER ? gPlayerParty : gEnemyParty;
+	u8* dst = gDisplayedStringBattle;
+	u8 row, col, printed;
+
+	for (row = 0; row < 2; ++row)
+	{
+		printed = 0;
+		for (col = 0; col < 3; ++col)
+		{
+			u8 index = row * 3 + col;
+			if (index >= gNewBS->revivalSelectCount)
+				break;
+
+			if (printed++)
+				*dst++ = 0x00; //Space between columns
+
+			if (index == gNewBS->revivalSelectCursor)
+			{
+				*dst++ = 0xFC;
+				*dst++ = 0x01;
+				*dst++ = 0x05; //Light red - clearly visible selection
+			}
+			else
+			{
+				*dst++ = 0xFC;
+				*dst++ = 0x01;
+				*dst++ = 0x01; //White
+			}
+
+			GetMonData(&party[gNewBS->revivalSelectPartyIndexes[index]], MON_DATA_NICKNAME, dst);
+			while (*dst != EOS)
+				++dst;
+		}
+		if (row == 0 && gNewBS->revivalSelectCount > 3)
+			*dst++ = CHAR_NEWLINE; //Second row
+	}
+	*dst = EOS;
+	BattlePutTextOnWindow(gDisplayedStringBattle, 0);
+}
+
+static void Task_RevivalSelectionInput(u8 taskId)
+{
+	u8 cur;
+
+	if (gNewBS->revivalSelectState != REVIVAL_WAIT)
+	{
+		DestroyTask(taskId);
+		return;
+	}
+
+	cur = gNewBS->revivalSelectCursor;
+
+	//Grid navigation: left/right move one column, up/down move one row
+	if (gMain.newKeys & DPAD_RIGHT)
+	{
+		if ((cur % 3) < 2 && cur + 1 < gNewBS->revivalSelectCount)
+			++cur;
+		gMain.newKeys &= ~DPAD_RIGHT;
+	}
+	if (gMain.newKeys & DPAD_LEFT)
+	{
+		if (cur % 3 > 0)
+			--cur;
+		gMain.newKeys &= ~DPAD_LEFT;
+	}
+	if (gMain.newKeys & DPAD_DOWN)
+	{
+		if (cur + 3 < gNewBS->revivalSelectCount)
+			cur += 3;
+		gMain.newKeys &= ~DPAD_DOWN;
+	}
+	if (gMain.newKeys & DPAD_UP)
+	{
+		if (cur >= 3)
+			cur -= 3;
+		gMain.newKeys &= ~DPAD_UP;
+	}
+
+	if (cur != gNewBS->revivalSelectCursor)
+	{
+		gNewBS->revivalSelectCursor = cur;
+		PlaySE(SE_SELECT);
+		PrintRevivalSelectionList();
+	}
+
+	if (gMain.newKeys & A_BUTTON)
+	{
+		PlaySE(SE_SELECT);
+		gBattleStruct->monToSwitchIntoId[gBankAttacker] = gNewBS->revivalSelectPartyIndexes[gNewBS->revivalSelectCursor];
+		gNewBS->revivalSelectState = REVIVAL_CHOSEN;
+		BattlePutTextOnWindow(gText_EmptyString, 0);
+
+		DestroyTask(taskId);
+		return;
+	}
+
+	if (gMain.newKeys & B_BUTTON)
+	{
+		PlaySE(SE_SELECT);
+		gNewBS->revivalSelectState = REVIVAL_FAILED;
+		BattlePutTextOnWindow(gText_EmptyString, 0);
+
+		DestroyTask(taskId);
+	}
+}
+
+//Revival Blessing: revives the chosen party mon with half of its max HP.
+void ReviveChosenPartyMon(void)
+{
+	struct Pokemon* party = SIDE(gBankAttacker) == B_SIDE_PLAYER ? gPlayerParty : gEnemyParty;
+	u8 partyIndex = gBattleStruct->monToSwitchIntoId[gBankAttacker];
+	u16 maxHP, hp;
+	u32 status = 0;
+
+	if (partyIndex >= PARTY_SIZE)
+		return;
+
+	maxHP = GetMonData(&party[partyIndex], MON_DATA_MAX_HP, NULL);
+	hp = MathMax(1, maxHP / 2); //Half max HP, minimum 1
+	SetMonData(&party[partyIndex], MON_DATA_HP, &hp);
+	SetMonData(&party[partyIndex], MON_DATA_STATUS, &status); //Revives cure status too
+	PREPARE_MON_NICK_BUFFER(gBattleTextBuff1, gBankAttacker, partyIndex);
 }
 
 void TripleArrowsFlinchCheck(void)

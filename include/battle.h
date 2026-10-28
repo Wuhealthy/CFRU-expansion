@@ -810,6 +810,10 @@ struct NewBattleStruct
 	u8 statRoseThisRound[MAX_BATTLERS_COUNT];
 	u8 mirrorHerbStatBoosts[MAX_BATTLERS_COUNT][BATTLE_STATS_NO - 1];
 	u8 opportunistStatBoosts[MAX_BATTLERS_COUNT][BATTLE_STATS_NO - 1];
+	u8 revivalSelectState; //0 idle, 1 waiting for choice, 2 chosen, 3 cancelled/no target
+	u8 revivalSelectCount;
+	u8 revivalSelectCursor;
+	u8 revivalSelectPartyIndexes[PARTY_SIZE];
 	u8 statFellThisTurn[MAX_BATTLERS_COUNT];
 	u8 statFellThisRound[MAX_BATTLERS_COUNT];
 	u8 recalculatedBestDoublesKillingScores[MAX_BATTLERS_COUNT];

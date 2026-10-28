@@ -178,6 +178,7 @@ void TeatimeProcessNextBank(void);
 void TryActivateQuarkDrive(void);
 void TryActivateProtosynthesis(void);
 void TryUpperHand(void);
-void TryRevivalBlessing(void);
+void TryFailRevivalBlessing(void);
+void ReviveFirstFaintedPartyMon(void);
 bool8 TryConsumeOpportunistBoosts(u8 bank, bool8 execute);
 void TripleArrowsFlinchCheck(void);
