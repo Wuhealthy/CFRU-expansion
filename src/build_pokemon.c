@@ -4496,6 +4496,159 @@ u16 GetRandomizedSpecies(u16 species)
 	return species;
 }
 
+//随机野生遭遇时排除的"需要道具转换的特殊形态"物种(Mega/原始回归/极巨化形态从进化表自动识别,觉醒形态见mega.c的gAwakeningFormTable)
+static const u16 sItemTransformFormSpecies[] =
+{
+	SPECIES_GIRATINA_ORIGIN,
+	SPECIES_DIALGA_ORIGIN,
+	SPECIES_PALKIA_ORIGIN,
+	SPECIES_OGERPON_WELLSPRING_MASK,
+	SPECIES_OGERPON_HEARTHFLAME_MASK,
+	SPECIES_OGERPON_CORNERSTONE_MASK,
+	SPECIES_GENESECT_BURN,
+	SPECIES_GENESECT_CHILL,
+	SPECIES_GENESECT_DOUSE,
+	SPECIES_GENESECT_SHOCK,
+	SPECIES_ZACIAN_CROWNED,
+	SPECIES_ZAMAZENTA_CROWNED,
+	SPECIES_ROTOM_HEAT,
+	SPECIES_ROTOM_WASH,
+	SPECIES_ROTOM_FROST,
+	SPECIES_ROTOM_FAN,
+	SPECIES_ROTOM_MOW,
+	SPECIES_ARCEUS_FIGHT,
+	SPECIES_ARCEUS_FLYING,
+	SPECIES_ARCEUS_POISON,
+	SPECIES_ARCEUS_GROUND,
+	SPECIES_ARCEUS_ROCK,
+	SPECIES_ARCEUS_BUG,
+	SPECIES_ARCEUS_GHOST,
+	SPECIES_ARCEUS_STEEL,
+	SPECIES_ARCEUS_FIRE,
+	SPECIES_ARCEUS_WATER,
+	SPECIES_ARCEUS_GRASS,
+	SPECIES_ARCEUS_ELECTRIC,
+	SPECIES_ARCEUS_PSYCHIC,
+	SPECIES_ARCEUS_ICE,
+	SPECIES_ARCEUS_DRAGON,
+	SPECIES_ARCEUS_DARK,
+	SPECIES_ARCEUS_FAIRY,
+	SPECIES_SILVALLY_FIGHT,
+	SPECIES_SILVALLY_FLYING,
+	SPECIES_SILVALLY_POISON,
+	SPECIES_SILVALLY_GROUND,
+	SPECIES_SILVALLY_ROCK,
+	SPECIES_SILVALLY_BUG,
+	SPECIES_SILVALLY_GHOST,
+	SPECIES_SILVALLY_STEEL,
+	SPECIES_SILVALLY_FIRE,
+	SPECIES_SILVALLY_WATER,
+	SPECIES_SILVALLY_GRASS,
+	SPECIES_SILVALLY_ELECTRIC,
+	SPECIES_SILVALLY_PSYCHIC,
+	SPECIES_SILVALLY_ICE,
+	SPECIES_SILVALLY_DRAGON,
+	SPECIES_SILVALLY_DARK,
+	SPECIES_SILVALLY_FAIRY,
+	SPECIES_TABLES_TERMIN
+};
+
+//进化表中没有EVO_MEGA/EVO_GIGANTAMAX表项的形态物种(尚未接入变身机制的Mega与无表项的极巨化形态),手动列出
+static const u16 sExtraFormSpecies[] =
+{
+	SPECIES_ETERNATUS_ETERNAMAX,
+	SPECIES_MAGNEZONE_MEGA,
+	SPECIES_RHYPERIOR_MEGA,
+	SPECIES_ELECTIVIRE_MEGA,
+	SPECIES_MAGMORTAR_MEGA,
+	SPECIES_PORYGONZ_MEGA,
+	SPECIES_DUSKNOIR_MEGA,
+	SPECIES_TABLES_TERMIN
+};
+
+//随机野生遭遇需排除的形态物种位图(首次使用时构建,存.bss)
+static bool8 sWildSpeciesBansBuilt = FALSE;
+static u8 sFormSpeciesBans[(NUM_SPECIES + 7) / 8];
+
+static void MarkFormSpeciesBan(u16 species)
+{
+	if (species < NUM_SPECIES)
+		sFormSpeciesBans[species >> 3] |= 1 << (species & 7);
+}
+
+static void BuildWildSpeciesBans(void)
+{
+	u16 i;
+	u8 k;
+
+	//觉醒形态
+	for (i = 0; gAwakeningFormTable[i].baseSpecies != SPECIES_NONE; ++i)
+	{
+		MarkFormSpeciesBan(gAwakeningFormTable[i].maleSpecies);
+		MarkFormSpeciesBan(gAwakeningFormTable[i].femaleSpecies);
+	}
+
+	//需要道具转换的特殊形态
+	for (i = 0; sItemTransformFormSpecies[i] != SPECIES_TABLES_TERMIN; ++i)
+		MarkFormSpeciesBan(sItemTransformFormSpecies[i]);
+
+	//进化表未收录表项的Mega/极巨化形态
+	for (i = 0; sExtraFormSpecies[i] != SPECIES_TABLES_TERMIN; ++i)
+		MarkFormSpeciesBan(sExtraFormSpecies[i]);
+
+	//Mega/原始回归/极巨化形态:进化表中由道具或Gigantamax能量触发的EVO_MEGA/EVO_GIGANTAMAX目标形态
+	for (i = 1; i < NUM_SPECIES; ++i)
+	{
+		const struct Evolution* evolutions = gEvolutionTable[i];
+
+		for (k = 0; k < EVOS_PER_MON; ++k)
+		{
+			if (evolutions[k].method == EVO_NONE) //Most likely end of entries
+				break;
+			if (evolutions[k].method == EVO_MEGA && evolutions[k].param != ITEM_NONE) //param==0为还原信息
+				MarkFormSpeciesBan(evolutions[k].targetSpecies);
+			else if (evolutions[k].method == EVO_GIGANTAMAX && evolutions[k].param != 0) //param==0为还原信息
+				MarkFormSpeciesBan(evolutions[k].targetSpecies);
+		}
+	}
+
+	sWildSpeciesBansBuilt = TRUE;
+}
+
+//随机野生遭遇(设置菜单VAR_RANDOM_WILD_SPECIES):从全图鉴随机取一只,排除Mega/极巨化/觉醒/道具变身等形态物种
+u16 TryRandomizeWildSpecies(u16 species)
+{
+	#ifdef VAR_RANDOM_WILD_SPECIES
+	u16 newSpecies;
+	u32 numAttempts;
+
+	if (VarGet(VAR_RANDOM_WILD_SPECIES) != 1)
+		return species;
+
+	if (FlagGet(FLAG_POKEMON_RANDOMIZER)) //FLAG_POKEMON_RANDOMIZER全局随机化已开启时,CreateBoxMon会统一随机,不再叠加
+		return species;
+
+	if (species == SPECIES_NONE || species >= NUM_SPECIES || species == SPECIES_EGG)
+		return species;
+
+	if (!sWildSpeciesBansBuilt)
+		BuildWildSpeciesBans();
+
+	for (numAttempts = 0; numAttempts < 100; ++numAttempts)
+	{
+		newSpecies = 1 + (Random() % (NUM_SPECIES - 1));
+
+		if (newSpecies != SPECIES_EGG && newSpecies != SPECIES_ZYGARDE_CELL
+		&& (sFormSpeciesBans[newSpecies >> 3] & (1 << (newSpecies & 7))) == 0)
+			return newSpecies;
+	}
+
+	//重掷100次未命中普通物种则维持原样(几乎不可能发生)
+	#endif
+
+	return species;
+}
+
 void CreateBoxMon(struct BoxPokemon* boxMon, u16 species, u8 level, u8 fixedIV, bool8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId)
 {
 	u32 i, personality, value;

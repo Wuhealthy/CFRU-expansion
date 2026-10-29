@@ -354,6 +354,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define VAR_NO_RANDOM_WILD_ENCOUNTERS 0x515C
 #define VAR_DAMAGE_TEXT_DISPLAY 0x515D //对战伤害文本显示开关
 #define VAR_SHINY_ODDS 0x515E //设置菜单闪光概率选项。0=原版1/8192,1~11依次为1/2048~1/2,12=必闪
+#define VAR_RANDOM_WILD_SPECIES 0x515F //设置菜单随机野生遭遇开关。1=开启,野外自然遭遇的宝可梦随机化(排除Mega/极巨化/觉醒/道具变身等形态)
 
 /*Expansion specials!*/
 #define SIDEWAY_STAIRS_IMPLEMENTED //Uncomment if you're using Sideway Stairs patch.

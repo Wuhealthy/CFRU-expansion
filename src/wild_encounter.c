@@ -645,7 +645,7 @@ static bool8 TryGenerateSwarmMon(u8 level, u8 wildMonIndex, bool8 purgeParty)
 		if (mapName == GetCurrentRegionMapSectionId()
 		&& Random() % 100 < SWARM_CHANCE)
 		{
-			CreateWildMon(species, level, wildMonIndex, purgeParty);
+			CreateWildMon(TryRandomizeWildSpecies(species), level, wildMonIndex, purgeParty);
 			return TRUE;
 		}
 	}
@@ -705,10 +705,10 @@ SKIP_INDEX_SEARCH:
 	#ifdef IgnoreWildPokemon
 	else if (area != WILD_AREA_LAND || !TryGenerateSwarmMon(level, wildMonIndex, TRUE))
 	{
-		CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, wildMonIndex, TRUE);
+		CreateWildMon(TryRandomizeWildSpecies(wildMonInfo->wildPokemon[wildMonIndex].species), level, wildMonIndex, TRUE);
 		if (FlagGet(FLAG_ENABLE_WILD_PMN_PREBATTLE_SCREEN))
 		{
-			Var8001 = wildMonInfo->wildPokemon[wildMonIndex].species;
+			Var8001 = TryRandomizeWildSpecies(wildMonInfo->wildPokemon[wildMonIndex].species);
 			Var8000 = 0x7500;
 			Var8002 = 0x030A;
 			Var8003 = 0xFF03;
@@ -718,14 +718,14 @@ SKIP_INDEX_SEARCH:
 			return FALSE;
 		} 
 		else
-  	{
-		   CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, wildMonIndex, TRUE);
-  	}
+	  {
+		   CreateWildMon(TryRandomizeWildSpecies(wildMonInfo->wildPokemon[wildMonIndex].species), level, wildMonIndex, TRUE);
+	  }
 	}
 	#else
 	else if (!TryGenerateSwarmMon(level, wildMonIndex, TRUE))
 	{
-		CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, wildMonIndex, TRUE);
+		CreateWildMon(TryRandomizeWildSpecies(wildMonInfo->wildPokemon[wildMonIndex].species), level, wildMonIndex, TRUE);
 	}
 	#endif
 
@@ -766,7 +766,7 @@ SKIP_INDEX_SEARCH:
 		SKIP_INDEX_SEARCH_2:
 		level = ChooseWildMonLevel(&wildMonInfo->wildPokemon[wildMonIndex]);
 		if (area != WILD_AREA_LAND || !TryGenerateSwarmMon(level, wildMonIndex, FALSE))
-			CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, wildMonIndex, FALSE);
+			CreateWildMon(TryRandomizeWildSpecies(wildMonInfo->wildPokemon[wildMonIndex].species), level, wildMonIndex, FALSE);
 	}
 	#endif
 
@@ -777,19 +777,20 @@ static species_t GenerateFishingWildMon(const struct WildPokemonInfo* wildMonInf
 {
 	u8 wildMonIndex = ChooseWildMonIndex_Fishing(rod);
 	u8 level = ChooseWildMonLevel(&wildMonInfo->wildPokemon[wildMonIndex]);
+	u16 species = TryRandomizeWildSpecies(wildMonInfo->wildPokemon[wildMonIndex].species);
 
-	CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, wildMonIndex, TRUE);
+	CreateWildMon(species, level, wildMonIndex, TRUE);
 
 	#ifdef FLAG_DOUBLE_WILD_BATTLE
 	if (FlagGet(FLAG_DOUBLE_WILD_BATTLE) || VarGet(VAR_DOUBLE_BATTLE) == 1)
 	{
 		u8 wildMonIndex = ChooseWildMonIndex_Fishing(rod);
 		u8 level = ChooseWildMonLevel(&wildMonInfo->wildPokemon[wildMonIndex]);
-		CreateWildMon(wildMonInfo->wildPokemon[wildMonIndex].species, level, wildMonIndex, FALSE);
+		CreateWildMon(TryRandomizeWildSpecies(wildMonInfo->wildPokemon[wildMonIndex].species), level, wildMonIndex, FALSE);
 	}
 	#endif
 
-	return wildMonInfo->wildPokemon[wildMonIndex].species;
+	return species; //返回实际生成的物种,保证钓鱼连锁按同一物种累计
 }
 
 void FishingWildEncounter(u8 rod)

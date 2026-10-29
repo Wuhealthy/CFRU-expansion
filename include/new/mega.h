@@ -44,6 +44,16 @@ struct MegaMoveChange
 };
 extern const struct MegaMoveChange gMegaMoveChanges[];
 
+//觉醒(Primal Instinct)形态表：{基础形态, 觉醒后形态(公), 觉醒后形态(母)}；公母同形时两项一致，以baseSpecies==SPECIES_NONE结束
+struct AwakeningForm
+{
+	u16 baseSpecies;
+	u16 maleSpecies;
+	u16 femaleSpecies;
+};
+extern const struct AwakeningForm gAwakeningFormTable[];
+bool8 IsAwakeningFormSpecies(u16 species);
+
 //Functions Hooked In
 bool8 HasMegaSymbol(u8 bank);
 void MegaRetrieveData(void);
