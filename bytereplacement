@@ -786,6 +786,11 @@
 
 ##New Bag: safe hook for GoToBagMenu (push r4; ldr r4,=fn; mov ip,r4; pop r4; bx ip)
 08107DB4 10 B4 02 4C A4 46 10 BC 60 47 00 00
+
+##New Bag: TMs are reusable. The vanilla learn-move task (Task_LearnedMove, LEARN_VIA_TMHM) calls
+##RemoveBagItem(item, 1) after a TM is taught; NOP the call so using a TM from the TM tab keeps it.
+##(HMs already skip it; level-up / tutor learning never enters this branch.)
+08125C80 C0 46 C0 46
 #endif
 ##New Battle Textbox (enabled by "#define NEW_BATTLE_TEXTBOX" in src/config.h)
 #ifdef NEW_BATTLE_TEXTBOX
