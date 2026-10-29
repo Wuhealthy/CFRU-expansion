@@ -8,13 +8,19 @@
 道具
 
 #org @gText_NB_TabLabel3
-重要物品
+重要
 
 #org @gText_NB_TabLabel4
 超级石
 
 #org @gText_NB_TabLabel5
-进化道具
+进化
+
+#org @gText_NB_TabLabel6
+招式器
+
+#org @gText_NB_TabLabel7
+树果
 
 #org @gText_NB_Close
 关闭背包，返回菜单。
@@ -93,3 +99,25 @@
 
 #org @gText_NB_NoRoomPC
 没有空间存放道具了。
+
+
+#org @gText_NB_Power
+威力:
+
+#org @gText_NB_Accuracy
+命中:
+
+#org @gText_NB_Phys
+物理
+
+#org @gText_NB_Spec
+特殊
+
+#org @gText_NB_Stat
+变化
+
+#org @gText_NB_Type
+属性:
+
+#org @gText_NB_Category
+分类:
