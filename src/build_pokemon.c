@@ -4482,7 +4482,9 @@ void TryRandomizeSpecies(unusedArg u16* species)
 		newSpecies ^= xorVal;
 		newSpecies %= (u32) speciesCount; //Prevent overflow
 		
-		while (gSpecialSpeciesFlags[newSpecies].randomizerBan && numAttempts < 100)
+		while ((gSpecialSpeciesFlags[newSpecies].randomizerBan
+		|| (newSpecies >= SPECIES_CELEBI + 1 && newSpecies < SPECIES_TREECKO)) //基础ROM预留的"?"占位物种
+		&& numAttempts < 100)
 		{
 			newSpecies *= xorVal;
 			newSpecies %= (u32) speciesCount;
