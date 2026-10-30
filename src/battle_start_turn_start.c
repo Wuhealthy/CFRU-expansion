@@ -2216,11 +2216,12 @@ u8 GetWhoStrikesFirst(u8 bank1, u8 bank2, bool8 ignoreMovePriorities)
 
 		// ========== 抢占先机：先制度相同时，对面只要有 1 只使用攻击招式且自己也用攻击招式，必定先出 ==========
 		// 双方都触发时不在此处定序，落入后续速度判定（快者先手），保证两两比较结果一致
+		// 只有挣扎可用时实际使出的是挣扎（攻击招式），与 PriorityCalc 的处理保持一致
 		bool8 bank1QuickDraw = (ABILITY(bank1) == ABILITY_SPIDERSENSE
-			&& SPLIT(move1) != SPLIT_STATUS
+			&& SPLIT(gProtectStructs[bank1].onlyStruggle ? MOVE_STRUGGLE : move1) != SPLIT_STATUS
 			&& HasOpponentUsingAttack(bank1));
 		bool8 bank2QuickDraw = (ABILITY(bank2) == ABILITY_SPIDERSENSE
-			&& SPLIT(move2) != SPLIT_STATUS
+			&& SPLIT(gProtectStructs[bank2].onlyStruggle ? MOVE_STRUGGLE : move2) != SPLIT_STATUS
 			&& HasOpponentUsingAttack(bank2));
 		if (bank1QuickDraw && !bank2QuickDraw)
 			return FirstMon;
@@ -2296,11 +2297,12 @@ static u8 GetWhoStrikesFirstUseLastBracketCalc(u8 bank1, u8 bank2)
 
 	// 抢占先机：先制度相同时，对面只要有 1 只使用攻击招式且自己也用攻击招式，必定先出
 	// 双方都触发时不在此处定序，落入后续速度判定（快者先手）
+	// 只有挣扎可用时实际使出的是挣扎（攻击招式），与 PriorityCalc 的处理保持一致
 	bool8 bank1QuickDraw = (ABILITY(bank1) == ABILITY_SPIDERSENSE
-		&& SPLIT(move1) != SPLIT_STATUS
+		&& SPLIT(gProtectStructs[bank1].onlyStruggle ? MOVE_STRUGGLE : move1) != SPLIT_STATUS
 		&& HasOpponentUsingAttack(bank1));
 	bool8 bank2QuickDraw = (ABILITY(bank2) == ABILITY_SPIDERSENSE
-		&& SPLIT(move2) != SPLIT_STATUS
+		&& SPLIT(gProtectStructs[bank2].onlyStruggle ? MOVE_STRUGGLE : move2) != SPLIT_STATUS
 		&& HasOpponentUsingAttack(bank2));
 	if (bank1QuickDraw && !bank2QuickDraw)
 		return FirstMon;
@@ -2349,8 +2351,9 @@ bool8 HasOpponentUsingAttack(u8 bank)
         if (gChosenActionByBank[i] != ACTION_USE_MOVE)
             continue;
 
-        // 检查对方是否使用攻击招式（MOVE_NONE 的 split 是 SPLIT_PHYSICAL，必须排除）
-        u16 move = gChosenMovesByBanks[i];
+        // 检查对方是否使用攻击招式（MOVE_NONE 的 split 是 SPLIT_PHYSICAL，必须排除；
+        // 只有挣扎可用时实际使出的是挣扎）
+        u16 move = gProtectStructs[i].onlyStruggle ? MOVE_STRUGGLE : gChosenMovesByBanks[i];
         if (move != MOVE_NONE && SPLIT(move) != SPLIT_STATUS)
             return TRUE;  // 对面只要有 1 只用攻击招式就触发
     }
