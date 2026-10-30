@@ -3898,6 +3898,16 @@ static bool8 CanBeAffectedByPsyGravity(u8 bank)
             && !(gStatuses3[bank] & (STATUS3_ROOTED | STATUS3_SMACKED_DOWN)));
 }
 
+// 意念控制逐目标复检：双打下"或"闸门只保证至少一只有效，
+// 脚本对每个目标施加前需单独跳过免疫者（结果写入 MULTISTRING_CHOOSER 供 jumpifbyte 判断）
+void CheckPsyGravityTargetCanBeAffected(void)
+{
+	if (CanBeAffectedByPsyGravity(gBankTarget))
+		gBattleCommunication[MULTISTRING_CHOOSER] = 1;
+	else
+		gBattleCommunication[MULTISTRING_CHOOSER] = 0;
+}
+
 static bool8 AllMainStatsButOneAreMinned(bank_t bank)
 {
 	for (u8 i = STAT_ATK, counter = 0; i <= STAT_SPDEF; ++i) //No Acc of Evsn

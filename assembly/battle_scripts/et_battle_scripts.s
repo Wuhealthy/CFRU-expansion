@@ -251,7 +251,9 @@ BattleScript_PsyGravityActivates:
 BattleScript_PsyGravityLoop:
     trygetintimidatetarget BattleScript_PsyGravityReturn
     jumpifbehindsubstitute BANK_TARGET BattleScript_PsyGravityLoopIncrement
-    
+    callasm CheckPsyGravityTargetCanBeAffected
+    jumpifbyte EQUALS MULTISTRING_CHOOSER 0x0 BattleScript_PsyGravityLoopIncrement
+
     setspecialstatusbit BANK_TARGET STATUS3_TELEKINESIS
     setcounter BANK_TARGET TELEKINESIS_TIMERS 3
 	playanimation BANK_TARGET B_ANIM_PSY_GRAVITY 0x0
