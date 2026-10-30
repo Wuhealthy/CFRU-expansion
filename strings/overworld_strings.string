@@ -67,6 +67,12 @@
 #org @gText_LButtonMenu_EvolutionItemShop_Greeting
 欢迎光临进化道具商店！\p这里出售各类进化用道具。
 
+#org @gText_LButtonMenu_TrainingShop
+养成商店
+
+#org @gText_LButtonMenu_TrainingShop_Greeting
+欢迎光临养成商店！\p这里出售养成类道具。
+
 #org @gText_BikeTurboBoostEnable
 涡轮加速已[GREEN]激活[BLACK]。
 

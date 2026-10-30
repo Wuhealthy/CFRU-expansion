@@ -102,7 +102,8 @@ SystemScript_LButtonMenu:
 	multichoiceoption gText_LButtonMenu_TmShop 3
 	multichoiceoption gText_LButtonMenu_BattleItemShop 4
 	multichoiceoption gText_LButtonMenu_EvolutionItemShop 5
-	multichoice 0x0 0x0 SIX_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_TrainingShop 6
+	multichoice 0x0 0x0 SEVEN_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleAutoRun
 	case 1, SystemScript_LButtonMenu_HiddenPower
@@ -110,6 +111,7 @@ SystemScript_LButtonMenu:
 	case 3, SystemScript_LButtonMenu_TmShop
 	case 4, SystemScript_LButtonMenu_BattleItemShop
 	case 5, SystemScript_LButtonMenu_EvolutionItemShop
+	case 6, SystemScript_LButtonMenu_TrainingShop
 	releaseall
 	end
 
@@ -126,7 +128,8 @@ SystemScript_LButtonMenu_Bike:
 	multichoiceoption gText_LButtonMenu_TmShop 3
 	multichoiceoption gText_LButtonMenu_BattleItemShop 4
 	multichoiceoption gText_LButtonMenu_EvolutionItemShop 5
-	multichoice 0x0 0x0 SIX_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_TrainingShop 6
+	multichoice 0x0 0x0 SEVEN_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleBikeTurbo
 	case 1, SystemScript_LButtonMenu_HiddenPower
@@ -134,6 +137,7 @@ SystemScript_LButtonMenu_Bike:
 	case 3, SystemScript_LButtonMenu_TmShop
 	case 4, SystemScript_LButtonMenu_BattleItemShop
 	case 5, SystemScript_LButtonMenu_EvolutionItemShop
+	case 6, SystemScript_LButtonMenu_TrainingShop
 	releaseall
 	end
 
@@ -150,7 +154,8 @@ SystemScript_LButtonMenu_Surf:
 	multichoiceoption gText_LButtonMenu_TmShop 3
 	multichoiceoption gText_LButtonMenu_BattleItemShop 4
 	multichoiceoption gText_LButtonMenu_EvolutionItemShop 5
-	multichoice 0x0 0x0 SIX_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_TrainingShop 6
+	multichoice 0x0 0x0 SEVEN_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleSurfTurbo
 	case 1, SystemScript_LButtonMenu_HiddenPower
@@ -158,6 +163,7 @@ SystemScript_LButtonMenu_Surf:
 	case 3, SystemScript_LButtonMenu_TmShop
 	case 4, SystemScript_LButtonMenu_BattleItemShop
 	case 5, SystemScript_LButtonMenu_EvolutionItemShop
+	case 6, SystemScript_LButtonMenu_TrainingShop
 	releaseall
 	end
 
@@ -189,6 +195,14 @@ SystemScript_LButtonMenu_EvolutionItemShop:
 	preparemsg gText_LButtonMenu_EvolutionItemShop_Greeting
 	waitmsg
 	pokemart EvolutionItemShopItems
+	msgbox gText_LButtonMenu_MegaShop_Farewell MSG_KEEPOPEN
+	releaseall
+	end
+
+SystemScript_LButtonMenu_TrainingShop:
+	preparemsg gText_LButtonMenu_TrainingShop_Greeting
+	waitmsg
+	pokemart TrainingShopItems
 	msgbox gText_LButtonMenu_MegaShop_Farewell MSG_KEEPOPEN
 	releaseall
 	end
@@ -836,6 +850,43 @@ EvolutionItemShopItems:
 	.hword ITEM_GIMMIGHOUL_COIN
 	.hword ITEM_UNREMARKABLE_TEACUP
 	.hword ITEM_MASTERPIECE_TEACUP
+	.hword 0x0
+
+@ 养成道具（薄荷/特性胶囊/特性膏药/增强剂）
+.align 2
+TrainingShopItems:
+@ 性格薄荷（全部 21 种）
+	.hword ITEM_LONELY_MINT
+	.hword ITEM_ADAMANT_MINT
+	.hword ITEM_NAUGHTY_MINT
+	.hword ITEM_BRAVE_MINT
+	.hword ITEM_BOLD_MINT
+	.hword ITEM_IMPISH_MINT
+	.hword ITEM_LAX_MINT
+	.hword ITEM_RELAXED_MINT
+	.hword ITEM_MODEST_MINT
+	.hword ITEM_MILD_MINT
+	.hword ITEM_RASH_MINT
+	.hword ITEM_QUIET_MINT
+	.hword ITEM_CALM_MINT
+	.hword ITEM_GENTLE_MINT
+	.hword ITEM_CAREFUL_MINT
+	.hword ITEM_SASSY_MINT
+	.hword ITEM_TIMID_MINT
+	.hword ITEM_HASTY_MINT
+	.hword ITEM_JOLLY_MINT
+	.hword ITEM_NAIVE_MINT
+	.hword ITEM_SERIOUS_MINT
+@ 特性养成
+	.hword ITEM_ABILITY_CAPSULE
+	.hword ITEM_ABILITY_PATCH
+@ 增强剂
+	.hword ITEM_HP_UP
+	.hword ITEM_PROTEIN
+	.hword ITEM_IRON
+	.hword ITEM_CARBOS
+	.hword ITEM_CALCIUM
+	.hword ITEM_ZINC
 	.hword 0x0
 
 SystemScript_LButtonMenu_ToggleAutoRun:
