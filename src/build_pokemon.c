@@ -172,6 +172,7 @@ static void GiveMon2BestBaseStatEVs(struct Pokemon* mon);
 static u16 TryReplaceNormalTrainerSpecies(u16 species, unusedArg u16 trainerId);
 #ifdef FLAG_TRAINER_RANDOMIZER
 static void RandomizeTrainerMon(struct Pokemon* mon);
+static void RandomizeTrainerTeamPostProcess(struct Pokemon* party, u8 monsCount);
 #endif
 static u8 BuildFrontierParty(struct Pokemon* const party, const u16 trainerNum, const u8 tier, const bool8 firstTrainer, const bool8 forPlayer, const u8 side);
 static void BuildFrontierMultiParty(u8 multiId);
@@ -1241,6 +1242,10 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 				SetMonData(&gPlayerParty[i + 3], MON_DATA_MET_LOCATION, &metLoc); //So they don't the current area
 			}
 		}
+
+		#ifdef FLAG_TRAINER_RANDOMIZER
+		RandomizeTrainerTeamPostProcess(party, monsCount); //随机训练家:Mega石/觉醒触发配置
+		#endif
 
 		//Set Double battle type if necessary
 		if (trainer->doubleBattle
@@ -4824,6 +4829,108 @@ static void RandomizeTrainerMon(struct Pokemon* mon)
 	//随机携带道具
 	item = sTrainerRandomItems[Random() % ARRAY_COUNT(sTrainerRandomItems)];
 	SetMonData(mon, MON_DATA_HELD_ITEM, &item);
+}
+
+//判断物种是否为觉醒(Primal Instinct)的基础形态
+static bool8 IsAwakeningBaseSpecies(u16 species)
+{
+	u32 i;
+
+	for (i = 0; gAwakeningFormTable[i].baseSpecies != SPECIES_NONE; ++i)
+	{
+		if (gAwakeningFormTable[i].baseSpecies == species)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+//查物种的Mega进化石(多个石头时等概率选一个),没有则返回ITEM_NONE
+static u16 FindMegaStoneForSpecies(u16 species)
+{
+	const struct Evolution* evolutions = gEvolutionTable[species];
+	u16 chosen = ITEM_NONE;
+	u8 count = 0;
+	u32 k;
+
+	for (k = 0; k < EVOS_PER_MON; ++k)
+	{
+		if (evolutions[k].method == EVO_NONE) //Most likely end of entries
+			break;
+		if (evolutions[k].method == EVO_MEGA
+		&& evolutions[k].param != ITEM_NONE //Ignore reversion information
+		&& evolutions[k].unknown == MEGA_VARIANT_STANDARD)
+		{
+			++count;
+			if (Random() % count == 0)
+				chosen = evolutions[k].param;
+		}
+	}
+
+	return chosen;
+}
+
+//随机训练家队伍后处理(所有宝可梦RandomizeTrainerMon完成后整队执行一次):
+//队中有可Mega进化的宝可梦则等概率选一只佩戴对应Mega石(覆盖随机道具);
+//另有50%概率从可觉醒的宝可梦中选一只,携带觉醒力量招式或觉醒徽章(各50%),Mega位优先
+static void RandomizeTrainerTeamPostProcess(struct Pokemon* party, u8 monsCount)
+{
+	u8 i, megaMon = 0xFF, awakeMon = 0xFF;
+	u16 megaStone = ITEM_NONE;
+	u8 megaCandidates = 0, awakeCandidates = 0;
+
+	for (i = 0; i < monsCount; ++i)
+	{
+		u16 stone = FindMegaStoneForSpecies(party[i].species);
+
+		if (stone != ITEM_NONE)
+		{
+			++megaCandidates;
+			if (Random() % megaCandidates == 0) //等概率选一只
+			{
+				megaMon = i;
+				megaStone = stone;
+			}
+		}
+	}
+
+	if (megaMon != 0xFF)
+	{
+		u16 stone = megaStone;
+		SetMonData(&party[megaMon], MON_DATA_HELD_ITEM, &stone);
+	}
+
+	if (Random() & 1) //50%概率给队伍配置觉醒
+	{
+		for (i = 0; i < monsCount; ++i)
+		{
+			if (i == megaMon)
+				continue; //已佩戴Mega石的宝可梦不再配置觉醒
+			if (IsAwakeningBaseSpecies(party[i].species))
+			{
+				++awakeCandidates;
+				if (Random() % awakeCandidates == 0)
+					awakeMon = i;
+			}
+		}
+
+		if (awakeMon != 0xFF)
+		{
+			if (Random() & 1) //50%携带觉醒力量招式
+			{
+				if (GiveMoveToBoxMon((void*) &party[awakeMon], MOVE_HIDDENPOWER) == 0xFFFF)
+				{
+					u16 charm = ITEM_AWAKEN_CHARM; //招式已满,改用觉醒徽章
+					SetMonData(&party[awakeMon], MON_DATA_HELD_ITEM, &charm);
+				}
+			}
+			else //50%携带觉醒徽章
+			{
+				u16 charm = ITEM_AWAKEN_CHARM;
+				SetMonData(&party[awakeMon], MON_DATA_HELD_ITEM, &charm);
+			}
+		}
+	}
 }
 #endif
 

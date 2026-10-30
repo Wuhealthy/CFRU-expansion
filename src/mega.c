@@ -492,6 +492,11 @@ static item_t FindTrainerKeystone(u16 trainerId)
 	if (gBattleTypeFlags & (BATTLE_TYPE_FRONTIER | BATTLE_TYPE_LINK) || IsFrontierTrainerId(trainerId))
 		return ITEM_MEGA_RING;
 
+	#ifdef FLAG_TRAINER_RANDOMIZER
+	if (FlagGet(FLAG_TRAINER_RANDOMIZER) && !FlagGet(FLAG_BATTLE_FACILITY))
+		return ITEM_MEGA_RING; //随机训练家默认携带超级环,允许队伍Mega进化
+	#endif
+
 	for (u8 i = 0; i < TRAINER_ITEM_COUNT; ++i)
 	{
 		if (IsItemKeystone(gTrainers[trainerId].items[i]))
