@@ -4354,7 +4354,7 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 		{
 			u8 boostCount = GetFujinBoost(bankAtk);
     		if (boostCount > 0)
-        		power = (power * (10 + boostCount)) / 10;  // 每只电属性队友提升10%
+        		power = (power * (10 + boostCount)) / 10;  // 队伍里每有1只电属性宝可梦提升10%
 		}
 			break;
 
