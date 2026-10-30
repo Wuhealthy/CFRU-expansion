@@ -169,6 +169,9 @@ R键模式
 #org @gText_RandomAbilities
 随机特性
 
+#org @gText_RandomTrainers
+随机训练家
+
 #org @gText_OptionDesc_RandomWildSpecies
 草丛等野外遭遇的宝可梦将被随机化。
 
@@ -177,6 +180,9 @@ R键模式
 
 #org @gText_OptionDesc_RandomAbilities
 特性按个体真随机。
+
+#org @gText_OptionDesc_RandomTrainers
+随机训练家的队伍。
 
 #org @gText_OptionPageGeneral
 一般设置

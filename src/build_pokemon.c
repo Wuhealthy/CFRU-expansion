@@ -170,6 +170,9 @@ static void ModifySpeciesAndLevelForBossBattle(unusedArg u16* species, unusedArg
 static void GiveMon2BestBaseStatEVs(struct Pokemon* mon);
 #endif
 static u16 TryReplaceNormalTrainerSpecies(u16 species, unusedArg u16 trainerId);
+#ifdef FLAG_TRAINER_RANDOMIZER
+static void RandomizeTrainerMon(struct Pokemon* mon);
+#endif
 static u8 BuildFrontierParty(struct Pokemon* const party, const u16 trainerNum, const u8 tier, const bool8 firstTrainer, const bool8 forPlayer, const u8 side);
 static void BuildFrontierMultiParty(u8 multiId);
 static void BuildRaidMultiParty(void);
@@ -1067,6 +1070,10 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 						SET_MON_TERA_TYPE(mon, (Random() & 1) ? type1 : type2);
 				}
 				SET_MON_HIDDEN_POWER_TYPE(mon, hiddenPowerType);
+
+				#ifdef FLAG_TRAINER_RANDOMIZER
+				RandomizeTrainerMon(mon); //随机训练家:物种/等级/道具随机,配招按新等级重建
+				#endif
 			}
 
 			//Assign Trainer information to mon
@@ -4693,6 +4700,100 @@ u16 TryRandomizeWildSpecies(u16 species)
 
 	return species;
 }
+
+#ifdef FLAG_TRAINER_RANDOMIZER
+//随机训练家:随机携带道具池(常见对战道具与树果)
+static const u16 sTrainerRandomItems[] =
+{
+	ITEM_LEFTOVERS, ITEM_CHOICE_BAND, ITEM_CHOICE_SPECS, ITEM_CHOICE_SCARF,
+	ITEM_LIFE_ORB, ITEM_EXPERT_BELT, ITEM_FOCUS_SASH, ITEM_ASSAULT_VEST,
+	ITEM_SHELL_BELL, ITEM_WEAKNESS_POLICY, ITEM_SITRUS_BERRY, ITEM_LUM_BERRY,
+};
+
+//随机训练家:判断物种是否还有普通进化(排除Mega/极巨化这类形态登记,它们不算"未完全进化")
+static bool8 SpeciesHasFurtherEvolution(u16 species)
+{
+	u32 k;
+	const struct Evolution* evolutions = gEvolutionTable[species];
+
+	for (k = 0; k < EVOS_PER_MON; ++k)
+	{
+		if (evolutions[k].method == EVO_NONE) //Most likely end of entries
+			break;
+		if (evolutions[k].method != EVO_MEGA && evolutions[k].method != EVO_GIGANTAMAX)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+//随机对战训练家(设置菜单FLAG_TRAINER_RANDOMIZER):队伍构成/等级/携带道具随机化。
+//等级先±TRAINER_RANDOM_LEVEL_VARIANCE随机;等级达到TRAINER_RANDOM_FULLY_EVOLVED_LEVEL(等级门槛)的
+//宝可梦强制使用完全进化形态;配招清空后按新等级从(可能随机的)升级招式表重建,低等级训练家天然只会弱招式
+static void RandomizeTrainerMon(struct Pokemon* mon)
+{
+	u16 newSpecies;
+	u16 item;
+	u32 numAttempts;
+	u32 exp;
+	s32 newLevel;
+	u8 zero = 0;
+
+	if (!FlagGet(FLAG_TRAINER_RANDOMIZER) || FlagGet(FLAG_BATTLE_FACILITY))
+		return;
+
+	if (!sWildSpeciesBansBuilt)
+		BuildWildSpeciesBans();
+
+	//等级随机:原等级±TRAINER_RANDOM_LEVEL_VARIANCE,下限2
+	newLevel = mon->level + (Random() % (TRAINER_RANDOM_LEVEL_VARIANCE * 2 + 1)) - TRAINER_RANDOM_LEVEL_VARIANCE;
+	if (newLevel < 2)
+		newLevel = 2;
+	else if (newLevel > MAX_LEVEL)
+		newLevel = MAX_LEVEL;
+
+	//随机物种:排除形态禁表(Mega/极巨化/觉醒/道具变身等);达到等级门槛的只取完全进化物种
+	for (numAttempts = 0; numAttempts < 100; ++numAttempts)
+	{
+		newSpecies = 1 + (Random() % (NUM_SPECIES - 1));
+
+		if (newSpecies == SPECIES_EGG || newSpecies == SPECIES_ZYGARDE_CELL)
+			continue;
+		if (sFormSpeciesBans[newSpecies >> 3] & (1 << (newSpecies & 7)))
+			continue;
+		if (newLevel >= TRAINER_RANDOM_FULLY_EVOLVED_LEVEL && SpeciesHasFurtherEvolution(newSpecies))
+			continue;
+
+		break;
+	}
+
+	if (numAttempts >= 100) //重掷100次未命中则保持原物种(几乎不可能发生)
+		newSpecies = mon->species;
+
+	//写入新物种与昵称
+	SetMonData(mon, MON_DATA_SPECIES, &newSpecies);
+	{
+		u8 speciesName[POKEMON_NAME_LENGTH + 1];
+		GetSpeciesName(speciesName, newSpecies);
+		SetMonData(mon, MON_DATA_NICKNAME, speciesName);
+	}
+
+	//按新物种成长率写入新等级对应经验,重算能力值
+	SetMonData(mon, MON_DATA_PP_BONUSES, &zero);
+	exp = gExperienceTables[gBaseStats[newSpecies].growthRate][newLevel];
+	SetMonData(mon, MON_DATA_EXP, &exp);
+	SetMonData(mon, MON_DATA_LEVEL, &newLevel);
+	CalculateMonStats(mon);
+
+	//配招按新等级重建(若随机招式表开关同时开启,这里取到的也是随机后的招式,且受等级门槛约束)
+	Memset(mon->moves, 0, sizeof(mon->moves));
+	GiveBoxMonInitialMoveset((void*) mon);
+
+	//随机携带道具
+	item = sTrainerRandomItems[Random() % ARRAY_COUNT(sTrainerRandomItems)];
+	SetMonData(mon, MON_DATA_HELD_ITEM, &item);
+}
+#endif
 
 void CreateBoxMon(struct BoxPokemon* boxMon, u16 species, u8 level, u8 fixedIV, bool8 hasFixedPersonality, u32 fixedPersonality, u8 otIdType, u32 fixedOtId)
 {
