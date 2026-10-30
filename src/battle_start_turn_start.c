@@ -2214,21 +2214,19 @@ u8 GetWhoStrikesFirst(u8 bank1, u8 bank2, bool8 ignoreMovePriorities)
 		else if (bank1Priority < bank2Priority)
 			return SecondMon;
 
-		// ========== 抢占先机：先制度相同时，双方都用攻击招式，持有者必定先出 ==========
-        if (ABILITY(bank1) == ABILITY_SPIDERSENSE
-            && SPLIT(move1) != SPLIT_STATUS
-            && HasOpponentUsingAttack(bank1))  // 检查是否有任何对手使用攻击招式
-        {
-            return FirstMon;
-        }
-        
-        if (ABILITY(bank2) == ABILITY_SPIDERSENSE
-            && SPLIT(move2) != SPLIT_STATUS
-            && HasOpponentUsingAttack(bank2))
-        {
-            return SecondMon;
-        }
-        // ========== 抢占先机结束 ==========
+		// ========== 抢占先机：先制度相同时，对面只要有 1 只使用攻击招式且自己也用攻击招式，必定先出 ==========
+		// 双方都触发时不在此处定序，落入后续速度判定（快者先手），保证两两比较结果一致
+		bool8 bank1QuickDraw = (ABILITY(bank1) == ABILITY_SPIDERSENSE
+			&& SPLIT(move1) != SPLIT_STATUS
+			&& HasOpponentUsingAttack(bank1));
+		bool8 bank2QuickDraw = (ABILITY(bank2) == ABILITY_SPIDERSENSE
+			&& SPLIT(move2) != SPLIT_STATUS
+			&& HasOpponentUsingAttack(bank2));
+		if (bank1QuickDraw && !bank2QuickDraw)
+			return FirstMon;
+		if (bank2QuickDraw && !bank1QuickDraw)
+			return SecondMon;
+		// ========== 抢占先机结束 ==========
 		if (ABILITY(bank1) == ABILITY_MYCELIUMMIGHT
             && SPLIT(move1) == SPLIT_STATUS)
         {
@@ -2296,20 +2294,18 @@ static u8 GetWhoStrikesFirstUseLastBracketCalc(u8 bank1, u8 bank2)
 	else if (bank1Priority < bank2Priority)
 		return SecondMon;
 
-	// 抢占先机
-    if (ABILITY(bank1) == ABILITY_SPIDERSENSE
-        && SPLIT(move1) != SPLIT_STATUS
-        && HasOpponentUsingAttack(bank1))  // 检查是否有任何对手使用攻击招式
-    {
-        return FirstMon;
-    }
-    
-    if (ABILITY(bank2) == ABILITY_SPIDERSENSE
-        && SPLIT(move2) != SPLIT_STATUS
-        && HasOpponentUsingAttack(bank2))
-    {
-        return SecondMon;
-    }
+	// 抢占先机：先制度相同时，对面只要有 1 只使用攻击招式且自己也用攻击招式，必定先出
+	// 双方都触发时不在此处定序，落入后续速度判定（快者先手）
+	bool8 bank1QuickDraw = (ABILITY(bank1) == ABILITY_SPIDERSENSE
+		&& SPLIT(move1) != SPLIT_STATUS
+		&& HasOpponentUsingAttack(bank1));
+	bool8 bank2QuickDraw = (ABILITY(bank2) == ABILITY_SPIDERSENSE
+		&& SPLIT(move2) != SPLIT_STATUS
+		&& HasOpponentUsingAttack(bank2));
+	if (bank1QuickDraw && !bank2QuickDraw)
+		return FirstMon;
+	if (bank2QuickDraw && !bank1QuickDraw)
+		return SecondMon;
 
 	//BracketCalc
 	bank1Bracket = gNewBS->lastBracketCalc[bank1];
@@ -2341,20 +2337,24 @@ static u8 GetWhoStrikesFirstUseLastBracketCalc(u8 bank1, u8 bank2)
 bool8 HasOpponentUsingAttack(u8 bank)
 {
     u8 i;
-    
+
     // 遍历所有宝可梦
     for (i = 0; i < gBattlersCount; i++)
     {
-        // 跳过自己、已死亡、同一侧的宝可梦（只看对手）
+        // 跳过自己、已倒下、同一侧的宝可梦（只看对手）
         if (i == bank || !BATTLER_ALIVE(i) || SIDE(i) == SIDE(bank))
             continue;
-        
-        // 检查对方是否使用攻击招式
-        u8 move = gChosenMovesByBanks[i];
-        if (SPLIT(move) != SPLIT_STATUS)
-            return TRUE;  // 有任何对手用攻击招式就触发
+
+        // 本轮必须真正选择了"使用招式"；换人/用道具的对手残留的旧招式不参与判定
+        if (gChosenActionByBank[i] != ACTION_USE_MOVE)
+            continue;
+
+        // 检查对方是否使用攻击招式（MOVE_NONE 的 split 是 SPLIT_PHYSICAL，必须排除）
+        u16 move = gChosenMovesByBanks[i];
+        if (move != MOVE_NONE && SPLIT(move) != SPLIT_STATUS)
+            return TRUE;  // 对面只要有 1 只用攻击招式就触发
     }
-    
+
     return FALSE;  // 没有对手用攻击招式
 }
 
