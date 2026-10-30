@@ -199,7 +199,7 @@ enum //These vars need to be one after the other (hence the enum)
 
 /*=====Randomizer Options=====*/
 #define FLAG_POKEMON_RANDOMIZER 0x940 //Setting randomizes Pokemon species that are created.
-#define FLAG_POKEMON_LEARNSET_RANDOMIZER 0x941 //Setting randomizes Pokemon learnsets.
+#define FLAG_POKEMON_LEARNSET_RANDOMIZER 0x941 //设置菜单随机招式表开关。开启后升级/初始/蛋招式全部按TrainerID确定性随机,招式器与教授招式不受影响
 #define FLAG_ABILITY_RANDOMIZER 0x942 //Setting randomizes Pokemon abilities.
 #define NUM_SPECIES_RANDOMIZER NUM_SPECIES //The final number of Pokemon (+ 1) of species that can appear in the randomizer. Change to NUM_SPECIES for Gen 8
 

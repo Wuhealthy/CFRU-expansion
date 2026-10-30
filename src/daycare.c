@@ -60,13 +60,39 @@ static bool8 DetermineEggHiddenAbility(struct BoxPokemon* father, struct BoxPoke
 static void SetInitialEggData(struct Pokemon* mon, u16 species, u32 personality);
 static u8 GetEggStepsToSubtract(void);
 
+//随机招式表:把蛋招式表(基础ROM预编译GetEggMoves的输出)逐个映射为随机招式并去重
+static u8 RandomizeEggMoveList(u16* moves, u32 numMoves)
+{
+	#ifdef FLAG_POKEMON_LEARNSET_RANDOMIZER
+	u32 i, j, num = 0;
+
+	if (FlagGet(FLAG_POKEMON_LEARNSET_RANDOMIZER) && !FlagGet(FLAG_BATTLE_FACILITY))
+	{
+		for (i = 0; i < numMoves; ++i)
+		{
+			u16 move = RandomizeMove(moves[i]);
+
+			for (j = 0; j < num && moves[j] != move; ++j)
+				;
+
+			if (j == num && move != MOVE_NONE)
+				moves[num++] = move;
+		}
+
+		return num;
+	}
+	#endif
+
+	return numMoves;
+}
+
 //Called from GiveEggFromDaycare
 void BuildEggMoveset(struct Pokemon* egg, struct BoxPokemon* father, struct BoxPokemon* mother)
 {
 	u32 i, j;
 	u16 eggSpecies = egg->species;
 	u32 numLevelUpMoves, numEggMoves, numSharedParentMoves;
-	
+
 	u16 levelUpMoves[MAX_LEARNABLE_MOVES] = {0};
 	u16 eggMoves[EGG_MOVES_ARRAY_COUNT] = {0};
 	u16 finalMoves[MAX_MON_MOVES] = {0};
@@ -83,6 +109,7 @@ void BuildEggMoveset(struct Pokemon* egg, struct BoxPokemon* father, struct BoxP
 	}
 
 	numEggMoves = GetEggMoves(egg, eggMoves);
+	numEggMoves = RandomizeEggMoveList(eggMoves, numEggMoves);
 
 	//Shared Moves Between Parents
 	for (i = 0; i < MAX_MON_MOVES; ++i)
@@ -1053,6 +1080,7 @@ u8 GetAllEggMoves(struct Pokemon* mon, u16* moves, bool8 ignoreAlreadyKnownMoves
 
 	SetMonData(&dummyMon, MON_DATA_SPECIES, &eggSpecies);
 	numEggMoves = GetEggMoves(&dummyMon, eggMovesBuffer);
+	numEggMoves = RandomizeEggMoveList(eggMovesBuffer, numEggMoves);
 
 	//Filter out any egg moves the Pokemon already knows
 	for (i = 0, j = 0; i < numEggMoves; ++i)
@@ -1070,6 +1098,7 @@ u8 GetAllEggMoves(struct Pokemon* mon, u16* moves, bool8 ignoreAlreadyKnownMoves
 	{
 		SetMonData(&dummyMon, MON_DATA_SPECIES, &eggSpecies2);
 		numEggMoves = GetEggMoves(&dummyMon, eggMovesBuffer);
+		numEggMoves = RandomizeEggMoveList(eggMovesBuffer, numEggMoves);
 
 		//Filter out any egg moves the Pokemon already knows
 		for (i = 0; i < numEggMoves && j < EGG_MOVES_ARRAY_COUNT; ++i)
