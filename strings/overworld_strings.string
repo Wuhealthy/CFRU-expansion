@@ -55,6 +55,12 @@
 #org @gText_LButtonMenu_TmShop_Greeting
 欢迎光临招式器商店！\p这里出售所有招式学习器。
 
+#org @gText_LButtonMenu_BattleItemShop
+对战道具商店
+
+#org @gText_LButtonMenu_BattleItemShop_Greeting
+欢迎光临对战道具商店！\p这里出售各种对战携带道具。
+
 #org @gText_BikeTurboBoostEnable
 涡轮加速已[GREEN]激活[BLACK]。
 

@@ -100,12 +100,14 @@ SystemScript_LButtonMenu:
 	multichoiceoption gText_LButtonMenu_HiddenPower 1
 	multichoiceoption gText_LButtonMenu_MegaShop 2
 	multichoiceoption gText_LButtonMenu_TmShop 3
-	multichoice 0x0 0x0 FOUR_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_BattleItemShop 4
+	multichoice 0x0 0x0 FIVE_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleAutoRun
 	case 1, SystemScript_LButtonMenu_HiddenPower
 	case 2, SystemScript_LButtonMenu_MegaShop
 	case 3, SystemScript_LButtonMenu_TmShop
+	case 4, SystemScript_LButtonMenu_BattleItemShop
 	releaseall
 	end
 
@@ -120,12 +122,14 @@ SystemScript_LButtonMenu_Bike:
 	multichoiceoption gText_LButtonMenu_HiddenPower 1
 	multichoiceoption gText_LButtonMenu_MegaShop 2
 	multichoiceoption gText_LButtonMenu_TmShop 3
-	multichoice 0x0 0x0 FOUR_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_BattleItemShop 4
+	multichoice 0x0 0x0 FIVE_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleBikeTurbo
 	case 1, SystemScript_LButtonMenu_HiddenPower
 	case 2, SystemScript_LButtonMenu_MegaShop
 	case 3, SystemScript_LButtonMenu_TmShop
+	case 4, SystemScript_LButtonMenu_BattleItemShop
 	releaseall
 	end
 
@@ -140,12 +144,14 @@ SystemScript_LButtonMenu_Surf:
 	multichoiceoption gText_LButtonMenu_HiddenPower 1
 	multichoiceoption gText_LButtonMenu_MegaShop 2
 	multichoiceoption gText_LButtonMenu_TmShop 3
-	multichoice 0x0 0x0 FOUR_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_BattleItemShop 4
+	multichoice 0x0 0x0 FIVE_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleSurfTurbo
 	case 1, SystemScript_LButtonMenu_HiddenPower
 	case 2, SystemScript_LButtonMenu_MegaShop
 	case 3, SystemScript_LButtonMenu_TmShop
+	case 4, SystemScript_LButtonMenu_BattleItemShop
 	releaseall
 	end
 
@@ -165,7 +171,17 @@ SystemScript_LButtonMenu_TmShop:
 	releaseall
 	end
 
+SystemScript_LButtonMenu_BattleItemShop:
+	preparemsg gText_LButtonMenu_BattleItemShop_Greeting
+	waitmsg
+	pokemart BattleItemShopItems
+	msgbox gText_LButtonMenu_MegaShop_Farewell MSG_KEEPOPEN
+	releaseall
+	end
+
 @ 新一代 Mega 石（include/constants/items.h 从 0x308 起，asm_defines.s 未生成 .equ）
+.equ ITEM_MIRROR_HERB, 0x34F
+.equ ITEM_AWAKEN_CHARM, 0x350
 .equ ITEM_BAXCALIBURITE, 0x308
 .equ ITEM_TATSUGIRIITE, 0x309
 .equ ITEM_RAICHUXITE, 0x30A
@@ -485,6 +501,268 @@ TmShopItems:
 	.hword ITEM_TM118
 	.hword ITEM_TM119
 	.hword ITEM_TM120
+	.hword 0x0
+
+@ 全部对战携带道具（按持有效果筛选；排除Mega石/经验共享/不变石/安抚铃/幸运蛋/净化符/EV负重/进化素材/特性胶囊/薄荷）
+.align 2
+BattleItemShopItems:
+	.hword ITEM_BERRY_JUICE
+	.hword ITEM_RAZOR_CLAW
+	.hword ITEM_RAZOR_FANG
+	.hword ITEM_CHERI_BERRY
+	.hword ITEM_CHESTO_BERRY
+	.hword ITEM_PECHA_BERRY
+	.hword ITEM_RAWST_BERRY
+	.hword ITEM_ASPEAR_BERRY
+	.hword ITEM_LEPPA_BERRY
+	.hword ITEM_ORAN_BERRY
+	.hword ITEM_PERSIM_BERRY
+	.hword ITEM_LUM_BERRY
+	.hword ITEM_SITRUS_BERRY
+	.hword ITEM_FIGY_BERRY
+	.hword ITEM_WIKI_BERRY
+	.hword ITEM_MAGO_BERRY
+	.hword ITEM_AGUAV_BERRY
+	.hword ITEM_IAPAPA_BERRY
+	.hword ITEM_LIECHI_BERRY
+	.hword ITEM_GANLON_BERRY
+	.hword ITEM_SALAC_BERRY
+	.hword ITEM_PETAYA_BERRY
+	.hword ITEM_APICOT_BERRY
+	.hword ITEM_LANSAT_BERRY
+	.hword ITEM_STARF_BERRY
+	.hword ITEM_ENIGMA_BERRY
+	.hword ITEM_BRIGHT_POWDER
+	.hword ITEM_WHITE_HERB
+	.hword ITEM_QUICK_CLAW
+	.hword ITEM_MENTAL_HERB
+	.hword ITEM_CHOICE_BAND
+	.hword ITEM_KINGS_ROCK
+	.hword ITEM_SILVER_POWDER
+	.hword ITEM_AMULET_COIN
+	.hword ITEM_SOUL_DEW
+	.hword ITEM_DEEP_SEA_TOOTH
+	.hword ITEM_DEEP_SEA_SCALE
+	.hword ITEM_SMOKE_BALL
+	.hword ITEM_FOCUS_BAND
+	.hword ITEM_SCOPE_LENS
+	.hword ITEM_METAL_COAT
+	.hword ITEM_LEFTOVERS
+	.hword ITEM_LIGHT_BALL
+	.hword ITEM_SOFT_SAND
+	.hword ITEM_HARD_STONE
+	.hword ITEM_MIRACLE_SEED
+	.hword ITEM_BLACK_GLASSES
+	.hword ITEM_BLACK_BELT
+	.hword ITEM_MAGNET
+	.hword ITEM_MYSTIC_WATER
+	.hword ITEM_SHARP_BEAK
+	.hword ITEM_POISON_BARB
+	.hword ITEM_NEVER_MELT_ICE
+	.hword ITEM_SPELL_TAG
+	.hword ITEM_TWISTED_SPOON
+	.hword ITEM_CHARCOAL
+	.hword ITEM_DRAGON_FANG
+	.hword ITEM_SILK_SCARF
+	.hword ITEM_SHELL_BELL
+	.hword ITEM_SEA_INCENSE
+	.hword ITEM_LAX_INCENSE
+	.hword ITEM_LUCKY_PUNCH
+	.hword ITEM_METAL_POWDER
+	.hword ITEM_THICK_CLUB
+	.hword ITEM_LEEK
+	.hword ITEM_RED_ORB
+	.hword ITEM_BLUE_ORB
+	.hword ITEM_OCCA_BERRY
+	.hword ITEM_PASSHO_BERRY
+	.hword ITEM_WACAN_BERRY
+	.hword ITEM_RINDO_BERRY
+	.hword ITEM_YACHE_BERRY
+	.hword ITEM_CHOPLE_BERRY
+	.hword ITEM_KEBIA_BERRY
+	.hword ITEM_SHUCA_BERRY
+	.hword ITEM_COBA_BERRY
+	.hword ITEM_PAYAPA_BERRY
+	.hword ITEM_TANGA_BERRY
+	.hword ITEM_CHARTI_BERRY
+	.hword ITEM_KASIB_BERRY
+	.hword ITEM_HABAN_BERRY
+	.hword ITEM_COLBUR_BERRY
+	.hword ITEM_BABIRI_BERRY
+	.hword ITEM_CHILAN_BERRY
+	.hword ITEM_MICLE_BERRY
+	.hword ITEM_CUSTAP_BERRY
+	.hword ITEM_JABOCA_BERRY
+	.hword ITEM_ROWAP_BERRY
+	.hword ITEM_ROSELI_BERRY
+	.hword ITEM_KEE_BERRY
+	.hword ITEM_MARANGA_BERRY
+	.hword ITEM_RUSTED_SWORD
+	.hword ITEM_RUSTED_SHIELD
+	.hword ITEM_ADAMANT_ORB
+	.hword ITEM_LUSTROUS_ORB
+	.hword ITEM_GRISEOUS_ORB
+	.hword ITEM_FIST_PLATE
+	.hword ITEM_SKY_PLATE
+	.hword ITEM_TOXIC_PLATE
+	.hword ITEM_EARTH_PLATE
+	.hword ITEM_STONE_PLATE
+	.hword ITEM_INSECT_PLATE
+	.hword ITEM_SPOOKY_PLATE
+	.hword ITEM_IRON_PLATE
+	.hword ITEM_FLAME_PLATE
+	.hword ITEM_SPLASH_PLATE
+	.hword ITEM_MEADOW_PLATE
+	.hword ITEM_ZAP_PLATE
+	.hword ITEM_MIND_PLATE
+	.hword ITEM_ICICLE_PLATE
+	.hword ITEM_DRACO_PLATE
+	.hword ITEM_DREAD_PLATE
+	.hword ITEM_PIXIE_PLATE
+	.hword ITEM_FIGHTING_MEMORY
+	.hword ITEM_FLYING_MEMORY
+	.hword ITEM_POISON_MEMORY
+	.hword ITEM_GROUND_MEMORY
+	.hword ITEM_ROCK_MEMORY
+	.hword ITEM_BUG_MEMORY
+	.hword ITEM_GHOST_MEMORY
+	.hword ITEM_STEEL_MEMORY
+	.hword ITEM_FIRE_MEMORY
+	.hword ITEM_WATER_MEMORY
+	.hword ITEM_GRASS_MEMORY
+	.hword ITEM_ELECTRIC_MEMORY
+	.hword ITEM_PSYCHIC_MEMORY
+	.hword ITEM_ICE_MEMORY
+	.hword ITEM_DRAGON_MEMORY
+	.hword ITEM_DARK_MEMORY
+	.hword ITEM_FAIRY_MEMORY
+	.hword ITEM_BURN_DRIVE
+	.hword ITEM_DOUSE_DRIVE
+	.hword ITEM_SHOCK_DRIVE
+	.hword ITEM_CHILL_DRIVE
+	.hword ITEM_NORMALIUM_Z
+	.hword ITEM_FIGHTINIUM_Z
+	.hword ITEM_FLYINIUM_Z
+	.hword ITEM_POISONIUM_Z
+	.hword ITEM_GROUNDIUM_Z
+	.hword ITEM_ROCKIUM_Z
+	.hword ITEM_BUGINIUM_Z
+	.hword ITEM_GHOSTIUM_Z
+	.hword ITEM_STEELIUM_Z
+	.hword ITEM_FIRIUM_Z
+	.hword ITEM_WATERIUM_Z
+	.hword ITEM_GRASSIUM_Z
+	.hword ITEM_ELECTRIUM_Z
+	.hword ITEM_PSYCHIUM_Z
+	.hword ITEM_ICIUM_Z
+	.hword ITEM_DRAGONIUM_Z
+	.hword ITEM_DARKINIUM_Z
+	.hword ITEM_FAIRIUM_Z
+	.hword ITEM_ALORAICHIUM_Z
+	.hword ITEM_DECIDIUM_Z
+	.hword ITEM_EEVIUM_Z
+	.hword ITEM_INCINIUM_Z
+	.hword ITEM_KOMMONIUM_Z
+	.hword ITEM_LUNALIUM_Z
+	.hword ITEM_LYCANIUM_Z
+	.hword ITEM_MARSHADIUM_Z
+	.hword ITEM_MEWNIUM_Z
+	.hword ITEM_MIMIKIUM_Z
+	.hword ITEM_PIKANIUM_Z
+	.hword ITEM_PIKASHUNIUM_Z
+	.hword ITEM_PRIMARIUM_Z
+	.hword ITEM_SNORLIUM_Z
+	.hword ITEM_SOLGANIUM_Z
+	.hword ITEM_TAPUNIUM_Z
+	.hword ITEM_LUCK_INCENSE
+	.hword ITEM_FULL_INCENSE
+	.hword ITEM_ODD_INCENSE
+	.hword ITEM_ROCK_INCENSE
+	.hword ITEM_ROSE_INCENSE
+	.hword ITEM_WAVE_INCENSE
+	.hword ITEM_NORMAL_GEM
+	.hword ITEM_FIGHTING_GEM
+	.hword ITEM_FLYING_GEM
+	.hword ITEM_POISON_GEM
+	.hword ITEM_GROUND_GEM
+	.hword ITEM_ROCK_GEM
+	.hword ITEM_BUG_GEM
+	.hword ITEM_GHOST_GEM
+	.hword ITEM_STEEL_GEM
+	.hword ITEM_FIRE_GEM
+	.hword ITEM_WATER_GEM
+	.hword ITEM_GRASS_GEM
+	.hword ITEM_ELECTRIC_GEM
+	.hword ITEM_PSYCHIC_GEM
+	.hword ITEM_ICE_GEM
+	.hword ITEM_DRAGON_GEM
+	.hword ITEM_DARK_GEM
+	.hword ITEM_FAIRY_GEM
+	.hword ITEM_WIDE_LENS
+	.hword ITEM_MUSCLE_BAND
+	.hword ITEM_WISE_GLASSES
+	.hword ITEM_EXPERT_BELT
+	.hword ITEM_LIGHT_CLAY
+	.hword ITEM_LIFE_ORB
+	.hword ITEM_POWER_HERB
+	.hword ITEM_TOXIC_ORB
+	.hword ITEM_FLAME_ORB
+	.hword ITEM_QUICK_POWDER
+	.hword ITEM_FOCUS_SASH
+	.hword ITEM_ZOOM_LENS
+	.hword ITEM_METRONOME
+	.hword ITEM_IRON_BALL
+	.hword ITEM_LAGGING_TAIL
+	.hword ITEM_DESTINY_KNOT
+	.hword ITEM_BLACK_SLUDGE
+	.hword ITEM_ICY_ROCK
+	.hword ITEM_SMOOTH_ROCK
+	.hword ITEM_HEAT_ROCK
+	.hword ITEM_DAMP_ROCK
+	.hword ITEM_GRIP_CLAW
+	.hword ITEM_CHOICE_SCARF
+	.hword ITEM_CHOICE_SPECS
+	.hword ITEM_STICKY_BARB
+	.hword ITEM_SHED_SHELL
+	.hword ITEM_BIG_ROOT
+	.hword ITEM_EVIOLITE
+	.hword ITEM_FLOAT_STONE
+	.hword ITEM_ROCKY_HELMET
+	.hword ITEM_AIR_BALLOON
+	.hword ITEM_RED_CARD
+	.hword ITEM_RING_TARGET
+	.hword ITEM_BINDING_BAND
+	.hword ITEM_ABSORB_BULB
+	.hword ITEM_CELL_BATTERY
+	.hword ITEM_EJECT_BUTTON
+	.hword ITEM_WEAKNESS_POLICY
+	.hword ITEM_ASSAULT_VEST
+	.hword ITEM_LUMINOUS_MOSS
+	.hword ITEM_SNOWBALL
+	.hword ITEM_SAFETY_GOGGLES
+	.hword ITEM_ADRENALINE_ORB
+	.hword ITEM_TERRAIN_EXTENDER
+	.hword ITEM_PROTECTIVE_PADS
+	.hword ITEM_ELECTRIC_SEED
+	.hword ITEM_GRASSY_SEED
+	.hword ITEM_MISTY_SEED
+	.hword ITEM_PSYCHIC_SEED
+	.hword ITEM_EJECT_PACK
+	.hword ITEM_ROOM_SERVICE
+	.hword ITEM_BLUNDER_POLICY
+	.hword ITEM_HEAVY_DUTY_BOOTS
+	.hword ITEM_UTILITY_UMBRELLA
+	.hword ITEM_THROAT_SPRAY
+	.hword ITEM_CLEAR_AMULET
+	.hword ITEM_COVERT_CLOAK
+	.hword ITEM_LOADED_DICE
+	.hword ITEM_PUNCHING_GLOVE
+	.hword ITEM_BOOSTER_ENERGY
+	.hword ITEM_WELLSPRING_MASK
+	.hword ITEM_HEARTHFLAME_MASK
+	.hword ITEM_CORNERSTONE_MASK
+	.hword ITEM_MIRROR_HERB
+	.hword ITEM_AWAKEN_CHARM
 	.hword 0x0
 
 SystemScript_LButtonMenu_ToggleAutoRun:
