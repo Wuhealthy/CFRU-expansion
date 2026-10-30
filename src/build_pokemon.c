@@ -4588,6 +4588,10 @@ static void BuildWildSpeciesBans(void)
 	u16 i;
 	u8 k;
 
+	//基础ROM预留的"?"占位物种(时拉比与木守宫之间,无图鉴无外观)不参与随机
+	for (i = SPECIES_CELEBI + 1; i < SPECIES_TREECKO; ++i)
+		MarkFormSpeciesBan(i);
+
 	//觉醒形态
 	for (i = 0; gAwakeningFormTable[i].baseSpecies != SPECIES_NONE; ++i)
 	{
