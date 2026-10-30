@@ -305,76 +305,12 @@ bool8 AbilityPreventsLoweringAtk(ability_t ability)
 		|| IsClearBodyAbility(ability);
 }
 
+//觉醒力量固定为物理的物种 = 觉醒(Primal Instinct)形态。
+//名单与mega.c的gAwakeningFormTable完全一致,复用觉醒表判定,新增觉醒形态时自动生效
 bool8 SpeciesHasHiddenPowerPhysicality(unusedArg u16 species)
 {
-    switch (species)
-    {
-        case SPECIES_GALVANTULA_A:
-		case SPECIES_EEVEE_HERO:
-		case SPECIES_BANETTE_M:
-		case SPECIES_BANETTE_F:
-		case SPECIES_LEDIAN_G:
-		case SPECIES_FEAROW_MEGA:
-		case SPECIES_CLOYSTER_MEGA:
-		case SPECIES_MR_MIME_MEGA:
-		case SPECIES_CARBINK_MEGA:
-		case SPECIES_CRYOGONAL_J:
-		case SPECIES_AMOONGUSS_J:
-		case SPECIES_CRUSTLE_J:
-		case SPECIES_SUNFLORA_J:
-		case SPECIES_CHERRIM_J:
-		case SPECIES_PALOSSAND_J:
-		case SPECIES_SWELLOW_J:
-		case SPECIES_LOKIX_J:
-		case SPECIES_WEAVILE_J:
-		case SPECIES_SINISTCHA_J:
-		case SPECIES_PANGORO_J:
-		case SPECIES_EXEGGUTOR_J:
-		case SPECIES_SPIRITOMB_J:
-		case SPECIES_HAXORUS_MEGA:
-		case SPECIES_SHIFTRY_MEGA:
-		case SPECIES_CRAWDAUNT_MEGA:
-		case SPECIES_WYRDEER_MEGA:
-		case SPECIES_PYUKUMUKU_MEGA:
-		case SPECIES_RATICATE_MEGA:
-		case SPECIES_ARBOK_MEGA:
-		case SPECIES_SANDSLASH_MEGA:
-		case SPECIES_NIDOQUEEN_MEGA:
-		case SPECIES_NIDOKING_MEGA:
-		case SPECIES_NINETALES_MEGA:
-		case SPECIES_WIGGLYTUFF_MEGA:
-		case SPECIES_LANTURN_MEGA:
-		case SPECIES_GOLEM_MEGA:
-		case SPECIES_RAPIDASH_MEGA:
-		case SPECIES_DODRIO_MEGA:
-		case SPECIES_HYPNO_MEGA:
-		case SPECIES_ELECTRODE_MEGA:
-		case SPECIES_MAROWAK_MEGA:
-		case SPECIES_JYNX_MEGA:
-		case SPECIES_TAUROS_MEGA:
-		case SPECIES_CROBAT_MEGA:
-		case SPECIES_JUMPLUFF_MEGA:
-		case SPECIES_KINGDRA_MEGA:
-		case SPECIES_DONPHAN_MEGA:
-		case SPECIES_TORKOAL_MEGA:
-		case SPECIES_FLYGON_MEGA:
-		case SPECIES_KINGDRAY_MEGA:
-		case SPECIES_MILOTIC_MEGA:
-		case SPECIES_TROPIUS_MEGA:
-		case SPECIES_LUXRAY_MEGA:
-		case SPECIES_ROSERADE_MEGA:
-		case SPECIES_MISMAGIUS_MEGA:
-		case SPECIES_GRANBULL_MEGA:
-		case SPECIES_TYRANTRUM_MEGA:
-		case SPECIES_AURORUS_MEGA:
-		case SPECIES_WEEZING_MEGA:
-		case SPECIES_VENOMOTH_MEGA:
-		case SPECIES_POLIWRATH_MEGA:
-		case SPECIES_TINKATON_MEGA:
-            return TRUE;
-        default:
-            return FALSE;
-    }
+    extern bool8 IsAwakeningFormSpecies(u16 species);
+    return IsAwakeningFormSpecies(species);
 }
 
 u16 GetDefensiveToOffensiveMove(u16 move)
