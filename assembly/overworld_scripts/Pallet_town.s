@@ -357,6 +357,7 @@ EventScript_CoffeeGuy_Tile_Event:
 	setflag 0x91E
 	setflag 0x829
     giveitem ITEM_ROOM_1_KEY, 1, MSG_OBTAIN     @ 图鉴导航
+	giveitem ITEM_EXP_SHARE, 1, MSG_OBTAIN      @ 学习装置
 	msgbox Text_CoffeeGuy_Tile_Gift, MSG_KEEPOPEN
 	release
 	end
