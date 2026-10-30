@@ -1723,10 +1723,25 @@ void SeedRoomServiceLooper(void)
 
 void CheckTerrainAndSetVolatileExplosion(void)
 {
-    if (gTerrainType != ELECTRIC_TERRAIN)
+    u8 holder = gNewBS->volatileExplosionBank;
+
+    gNewBS->volatileExplosionBank = 0xFF; //一次性消费
+
+    if (holder < MAX_BATTLERS_COUNT)
+        gBattleScripting.bank = holder; //重新绑定特性持有者（攻击者濒死换人后 scripting bank 可能已被改写）
+
+    if (gTerrainType != ELECTRIC_TERRAIN
+    && !(gBattleTypeFlags & BATTLE_TYPE_BATTLE_CIRCUS && gBattleCircusFlags & BATTLE_CIRCUS_TERRAIN)) //对战马戏团场地不可被替换
     {
         gTerrainType = ELECTRIC_TERRAIN;
-        gNewBS->TerrainTimer = 5;
+        #ifdef INFINITE_TERRAIN
+            gNewBS->TerrainTimer = 0;
+        #else
+            if (ITEM_EFFECT(gBattleScripting.bank) == ITEM_EFFECT_TERRAIN_EXTENDER)
+                gNewBS->TerrainTimer = 8;
+            else
+                gNewBS->TerrainTimer = 5;
+        #endif
         gBattleStringLoader = ElectricTerrainSetString;
         gBattleScripting.animArg1 = B_ANIM_ELECTRIC_SURGE;
         gBattlescriptCurrInstr = BattleScript_VolatileExplosion_SetTerrain;

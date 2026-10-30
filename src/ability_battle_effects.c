@@ -3221,6 +3221,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
             			// 设置场地动画参数（电气场地）
             			gBattleScripting.animArg1 = B_ANIM_ELECTRIC_SURGE;  // 0x27
             			gBattleScripting.bank = bank;
+            			gNewBS->volatileExplosionBank = bank; //记录持有者，铺场时重新绑定 scripting bank（攻击者濒死换人后会被改写）
             
             			// 调用合并后的脚本
             			BattleScriptPushCursor();

@@ -946,6 +946,7 @@ BattleScript_VolatileExplosionActivates:
     waitmessage DELAY_1SECOND
 	call BattleScript_AbilityPopUpRevert
     bicword HIT_MARKER, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_NON_ATTACK_DMG | HITMARKER_GRUDGE
+    faintpokemon BANK_ATTACKER 0x0 0x0
     callasm CheckTerrainAndSetVolatileExplosion
 	end3
 
