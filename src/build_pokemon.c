@@ -4615,12 +4615,50 @@ static void BuildWildSpeciesBans(void)
 	sWildSpeciesBansBuilt = TRUE;
 }
 
-//随机野生遭遇(设置菜单VAR_RANDOM_WILD_SPECIES):从全图鉴随机取一只,排除Mega/极巨化/觉醒/道具变身等形态物种
+//随机野生遭遇按徽章数限制可遭遇的最大种族值总和:0徽章300,每枚徽章+40,8徽章解除限制(可遭遇580以上的宝可梦)
+static const u16 sWildBstCapByBadges[] =
+{
+	/*0徽章*/ 300,
+	/*1徽章*/ 340,
+	/*2徽章*/ 380,
+	/*3徽章*/ 420,
+	/*4徽章*/ 460,
+	/*5徽章*/ 500,
+	/*6徽章*/ 540,
+	/*7徽章*/ 580,
+	/*8徽章*/ 9999, //无上限
+};
+
+static u8 CountPlayerBadges(void)
+{
+	u16 flagId;
+	u8 count = 0;
+
+	for (flagId = FLAG_BADGE01_GET; flagId <= FLAG_BADGE08_GET; ++flagId)
+	{
+		if (FlagGet(flagId))
+			++count;
+	}
+
+	return count;
+}
+
+static u16 GetSpeciesBst(u16 species)
+{
+	const struct BaseStats* baseStats = &gBaseStats[species];
+
+	return baseStats->baseHP + baseStats->baseAttack + baseStats->baseDefense
+	     + baseStats->baseSpeed + baseStats->baseSpAttack + baseStats->baseSpDefense;
+}
+
+//随机野生遭遇(设置菜单VAR_RANDOM_WILD_SPECIES):从全图鉴随机取一只,排除Mega/极巨化/觉醒/道具变身等形态物种,
+//并按徽章数限制种族值(sWildBstCapByBadges)
 u16 TryRandomizeWildSpecies(u16 species)
 {
 	#ifdef VAR_RANDOM_WILD_SPECIES
 	u16 newSpecies;
 	u32 numAttempts;
+	u16 bstCap;
 
 	if (VarGet(VAR_RANDOM_WILD_SPECIES) != 1)
 		return species;
@@ -4634,16 +4672,23 @@ u16 TryRandomizeWildSpecies(u16 species)
 	if (!sWildSpeciesBansBuilt)
 		BuildWildSpeciesBans();
 
+	bstCap = sWildBstCapByBadges[CountPlayerBadges()];
+
 	for (numAttempts = 0; numAttempts < 100; ++numAttempts)
 	{
 		newSpecies = 1 + (Random() % (NUM_SPECIES - 1));
 
-		if (newSpecies != SPECIES_EGG && newSpecies != SPECIES_ZYGARDE_CELL
-		&& (sFormSpeciesBans[newSpecies >> 3] & (1 << (newSpecies & 7))) == 0)
-			return newSpecies;
+		if (newSpecies == SPECIES_EGG || newSpecies == SPECIES_ZYGARDE_CELL
+		|| (sFormSpeciesBans[newSpecies >> 3] & (1 << (newSpecies & 7))) != 0)
+			continue;
+
+		if (GetSpeciesBst(newSpecies) > bstCap)
+			continue; //种族值超出当前徽章数允许的范围
+
+		return newSpecies;
 	}
 
-	//重掷100次未命中普通物种则维持原样(几乎不可能发生)
+	//重掷100次未命中符合条件(普通物种且种族值不超上限)的宝可梦则维持原样(几乎不可能发生)
 	#endif
 
 	return species;
