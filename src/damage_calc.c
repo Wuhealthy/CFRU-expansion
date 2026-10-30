@@ -4416,11 +4416,23 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 
 		case ABILITY_HEAVYARMOR:
 			{
-        		u32 userDef = gBattleMons[bankAtk].defense;
-    			APPLY_STAT_MOD(userDef, &gBattleMons[bankAtk], userDef, STAT_DEF);
-        		u32 targetAtk = gBattleMons[bankDef].attack;
-    			APPLY_STAT_MOD(targetAtk, &gBattleMons[bankDef], targetAtk, STAT_ATK);
-        
+				// AI 队伍模拟路径下 bank 槽位仍是场上宝可梦，需改读被模拟个体的面板值
+        		u32 userDef, targetAtk;
+        		if (useMonAtk)
+        		{
+            		userDef = data->monAtk->defense;
+            		targetAtk = (data->monDef != NULL)
+            		          ? data->monDef->attack
+            		          : gBattleMons[bankDef].attack;
+        		}
+        		else
+        		{
+            		userDef = gBattleMons[bankAtk].defense;
+        			APPLY_STAT_MOD(userDef, &gBattleMons[bankAtk], userDef, STAT_DEF);
+        			targetAtk = gBattleMons[bankDef].attack;
+        			APPLY_STAT_MOD(targetAtk, &gBattleMons[bankDef], targetAtk, STAT_ATK);
+        		}
+
         		if (userDef > targetAtk)
             		power = (power * 15) / 10;
     		}
