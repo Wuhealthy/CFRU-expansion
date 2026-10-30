@@ -4586,6 +4586,13 @@ static void BuildWildSpeciesBans(void)
 	for (i = SPECIES_CELEBI + 1; i < SPECIES_TREECKO; ++i)
 		MarkFormSpeciesBan(i);
 
+	//species_tables.json的randomizerBan名单(全部Mega形态物种等)不参与随机
+	for (i = 1; i < NUM_SPECIES; ++i)
+	{
+		if (gSpecialSpeciesFlags[i].randomizerBan)
+			MarkFormSpeciesBan(i);
+	}
+
 	//觉醒形态
 	for (i = 0; gAwakeningFormTable[i].baseSpecies != SPECIES_NONE; ++i)
 	{
