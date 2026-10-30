@@ -15595,9 +15595,9 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
 	{
-        .name = {_A, _W, _A, _K, _E, _N, _SPACE, _C, _H, _A, _R, _M, _END},
+        .name = { 0x07, 0xA5, 0x0E, 0x5C, 0x09, 0xD2, 0x08, 0x92, 0xFF},
         .itemId = ITEM_AWAKEN_CHARM,
-        .price = 3000,
+        .price = 30000,
         .holdEffect = 0,
         .holdEffectParam = 0,
         .description = DESC_AWAKEN_CHARM,
