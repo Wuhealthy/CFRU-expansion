@@ -4728,15 +4728,18 @@ static bool8 SpeciesHasFurtherEvolution(u16 species)
 }
 
 //随机对战训练家(设置菜单FLAG_TRAINER_RANDOMIZER):队伍构成/等级/携带道具随机化。
-//等级先±TRAINER_RANDOM_LEVEL_VARIANCE随机;等级达到TRAINER_RANDOM_FULLY_EVOLVED_LEVEL(等级门槛)的
-//宝可梦强制使用完全进化形态;配招清空后按新等级从(可能随机的)升级招式表重建,低等级训练家天然只会弱招式
+//种族值范围与随机野生遭遇一致(按徽章数查sWildBstCapByBadges);等级先±TRAINER_RANDOM_LEVEL_VARIANCE随机;
+//等级达到TRAINER_RANDOM_FULLY_EVOLVED_LEVEL(等级门槛)的宝可梦强制使用完全进化形态(池过稀时放宽);
+//配招清空后按新等级从(可能随机的)升级招式表重建,低等级训练家天然只会弱招式
 static void RandomizeTrainerMon(struct Pokemon* mon)
 {
 	u16 newSpecies;
 	u16 item;
+	u16 bstCap;
 	u32 numAttempts;
 	u32 exp;
 	s32 newLevel;
+	u8 needFullyEvolved;
 	u8 zero = 0;
 
 	if (!FlagGet(FLAG_TRAINER_RANDOMIZER) || FlagGet(FLAG_BATTLE_FACILITY))
@@ -4752,7 +4755,11 @@ static void RandomizeTrainerMon(struct Pokemon* mon)
 	else if (newLevel > MAX_LEVEL)
 		newLevel = MAX_LEVEL;
 
-	//随机物种:排除形态禁表(Mega/极巨化/觉醒/道具变身等);达到等级门槛的只取完全进化物种
+	//种族值范围与随机野生遭遇一致:按当前徽章数查sWildBstCapByBadges(队伍每次生成重掷,随徽章进度自然变强)
+	bstCap = sWildBstCapByBadges[CountPlayerBadges()];
+	needFullyEvolved = newLevel >= TRAINER_RANDOM_FULLY_EVOLVED_LEVEL;
+
+	//随机物种:排除形态禁表(Mega/极巨化/觉醒/道具变身等);种族值不超徽章上限;达到等级门槛的只取完全进化物种
 	for (numAttempts = 0; numAttempts < 100; ++numAttempts)
 	{
 		newSpecies = 1 + (Random() % (NUM_SPECIES - 1));
@@ -4761,10 +4768,30 @@ static void RandomizeTrainerMon(struct Pokemon* mon)
 			continue;
 		if (sFormSpeciesBans[newSpecies >> 3] & (1 << (newSpecies & 7)))
 			continue;
-		if (newLevel >= TRAINER_RANDOM_FULLY_EVOLVED_LEVEL && SpeciesHasFurtherEvolution(newSpecies))
+		if (GetSpeciesBst(newSpecies) > bstCap)
+			continue; //种族值超出当前徽章数允许的范围
+		if (needFullyEvolved && SpeciesHasFurtherEvolution(newSpecies))
 			continue;
 
 		break;
+	}
+
+	if (numAttempts >= 100 && needFullyEvolved)
+	{
+		//低徽章数时完全进化池在种族值范围内可能过于稀薄:放宽完全进化要求,仅保留种族值范围
+		for (numAttempts = 0; numAttempts < 100; ++numAttempts)
+		{
+			newSpecies = 1 + (Random() % (NUM_SPECIES - 1));
+
+			if (newSpecies == SPECIES_EGG || newSpecies == SPECIES_ZYGARDE_CELL)
+				continue;
+			if (sFormSpeciesBans[newSpecies >> 3] & (1 << (newSpecies & 7)))
+				continue;
+			if (GetSpeciesBst(newSpecies) > bstCap)
+				continue;
+
+			break;
+		}
 	}
 
 	if (numAttempts >= 100) //重掷100次未命中则保持原物种(几乎不可能发生)
