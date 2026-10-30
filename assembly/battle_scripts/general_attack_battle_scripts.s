@@ -5398,6 +5398,7 @@ Geomancy_Charge:
 	waitanimation
 	jumpifhelditemeffect BANK_ATTACKER ITEM_EFFECT_POWER_HERB Geomancy_PowerHerb
 	jumpifraidboss BANK_ATTACKER Geomancy_RaidBossSkipCharge
+	jumpifability BANK_ATTACKER, ABILITY_UNICORNPEGASUS, Geomancy_UnicornPegasus
 	orword HIT_MARKER HITMARKER_CHARGING
 	setmoveeffect MOVE_EFFECT_CHARGING | MOVE_EFFECT_AFFECTS_USER
 	seteffectprimary
@@ -5456,6 +5457,12 @@ Geomancy_RaidBossSkipCharge:
 	setbyte ANIM_TURN 0x1
 	callasm ClearCalculatedSpreadMoveData @;So the damage can be calculated
 	goto Geomancy_PowerHerbSkip
+
+Geomancy_UnicornPegasus:
+	call BattleScript_AbilityPopUp
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
+	goto Geomancy_RaidBossSkipCharge
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
