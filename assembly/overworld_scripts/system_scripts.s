@@ -101,13 +101,15 @@ SystemScript_LButtonMenu:
 	multichoiceoption gText_LButtonMenu_MegaShop 2
 	multichoiceoption gText_LButtonMenu_TmShop 3
 	multichoiceoption gText_LButtonMenu_BattleItemShop 4
-	multichoice 0x0 0x0 FIVE_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_EvolutionItemShop 5
+	multichoice 0x0 0x0 SIX_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleAutoRun
 	case 1, SystemScript_LButtonMenu_HiddenPower
 	case 2, SystemScript_LButtonMenu_MegaShop
 	case 3, SystemScript_LButtonMenu_TmShop
 	case 4, SystemScript_LButtonMenu_BattleItemShop
+	case 5, SystemScript_LButtonMenu_EvolutionItemShop
 	releaseall
 	end
 
@@ -123,13 +125,15 @@ SystemScript_LButtonMenu_Bike:
 	multichoiceoption gText_LButtonMenu_MegaShop 2
 	multichoiceoption gText_LButtonMenu_TmShop 3
 	multichoiceoption gText_LButtonMenu_BattleItemShop 4
-	multichoice 0x0 0x0 FIVE_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_EvolutionItemShop 5
+	multichoice 0x0 0x0 SIX_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleBikeTurbo
 	case 1, SystemScript_LButtonMenu_HiddenPower
 	case 2, SystemScript_LButtonMenu_MegaShop
 	case 3, SystemScript_LButtonMenu_TmShop
 	case 4, SystemScript_LButtonMenu_BattleItemShop
+	case 5, SystemScript_LButtonMenu_EvolutionItemShop
 	releaseall
 	end
 
@@ -145,13 +149,15 @@ SystemScript_LButtonMenu_Surf:
 	multichoiceoption gText_LButtonMenu_MegaShop 2
 	multichoiceoption gText_LButtonMenu_TmShop 3
 	multichoiceoption gText_LButtonMenu_BattleItemShop 4
-	multichoice 0x0 0x0 FIVE_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_EvolutionItemShop 5
+	multichoice 0x0 0x0 SIX_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleSurfTurbo
 	case 1, SystemScript_LButtonMenu_HiddenPower
 	case 2, SystemScript_LButtonMenu_MegaShop
 	case 3, SystemScript_LButtonMenu_TmShop
 	case 4, SystemScript_LButtonMenu_BattleItemShop
+	case 5, SystemScript_LButtonMenu_EvolutionItemShop
 	releaseall
 	end
 
@@ -175,6 +181,14 @@ SystemScript_LButtonMenu_BattleItemShop:
 	preparemsg gText_LButtonMenu_BattleItemShop_Greeting
 	waitmsg
 	pokemart BattleItemShopItems
+	msgbox gText_LButtonMenu_MegaShop_Farewell MSG_KEEPOPEN
+	releaseall
+	end
+
+SystemScript_LButtonMenu_EvolutionItemShop:
+	preparemsg gText_LButtonMenu_EvolutionItemShop_Greeting
+	waitmsg
+	pokemart EvolutionItemShopItems
 	msgbox gText_LButtonMenu_MegaShop_Farewell MSG_KEEPOPEN
 	releaseall
 	end
@@ -763,6 +777,65 @@ BattleItemShopItems:
 	.hword ITEM_CORNERSTONE_MASK
 	.hword ITEM_MIRROR_HERB
 	.hword ITEM_AWAKEN_CHARM
+	.hword 0x0
+
+@ 全部进化道具（对应 item_tables.c 中 FieldUseFunc_EvoItem 的 48 项 + 携带进化道具）
+.align 2
+EvolutionItemShopItems:
+@ 进化石
+	.hword ITEM_FIRE_STONE
+	.hword ITEM_WATER_STONE
+	.hword ITEM_THUNDER_STONE
+	.hword ITEM_LEAF_STONE
+	.hword ITEM_MOON_STONE
+	.hword ITEM_SUN_STONE
+	.hword ITEM_SHINY_STONE
+	.hword ITEM_DUSK_STONE
+	.hword ITEM_DAWN_STONE
+	.hword ITEM_ICE_STONE
+@ 通信携带进化
+	.hword ITEM_LINK_CABLE
+	.hword ITEM_METAL_COAT
+	.hword ITEM_KINGS_ROCK
+	.hword ITEM_DRAGON_SCALE
+	.hword ITEM_UP_GRADE
+	.hword ITEM_DUBIOUS_DISC
+	.hword ITEM_PROTECTOR
+	.hword ITEM_ELECTIRIZER
+	.hword ITEM_MAGMARIZER
+	.hword ITEM_REAPER_CLOTH
+	.hword ITEM_PRISM_SCALE
+	.hword ITEM_SACHET
+	.hword ITEM_WHIPPED_DREAM
+	.hword ITEM_DEEP_SEA_TOOTH
+	.hword ITEM_DEEP_SEA_SCALE
+	.hword ITEM_OVAL_STONE
+	.hword ITEM_RAZOR_CLAW
+	.hword ITEM_RAZOR_FANG
+@ 剑盾/传说阿尔宙斯/朱紫进化素材
+	.hword ITEM_SWEET_APPLE
+	.hword ITEM_TART_APPLE
+	.hword ITEM_CRACKED_POT
+	.hword ITEM_CHIPPED_POT
+	.hword ITEM_GALARICA_CUFF
+	.hword ITEM_GALARICA_WREATH
+	.hword ITEM_STRAWBERRY_SWEET
+	.hword ITEM_BERRY_SWEET
+	.hword ITEM_LOVE_SWEET
+	.hword ITEM_CLOVER_SWEET
+	.hword ITEM_FLOWER_SWEET
+	.hword ITEM_RIBBON_SWEET
+	.hword ITEM_STAR_SWEET
+	.hword ITEM_AUSPICIOUS_ARMOR
+	.hword ITEM_MALICIOUS_ARMOR
+	.hword ITEM_BLACK_AUGURITE
+	.hword ITEM_METAL_ALLOY
+	.hword ITEM_PEAT_BLOCK
+	.hword ITEM_LEADERS_CREST
+	.hword ITEM_SYRUPY_APPLE
+	.hword ITEM_GIMMIGHOUL_COIN
+	.hword ITEM_UNREMARKABLE_TEACUP
+	.hword ITEM_MASTERPIECE_TEACUP
 	.hword 0x0
 
 SystemScript_LButtonMenu_ToggleAutoRun:
