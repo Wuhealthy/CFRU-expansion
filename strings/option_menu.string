@@ -166,9 +166,15 @@ R键模式
 #org @gText_RandomLearnsets
 随机招式表
 
+#org @gText_RandomAbilities
+随机特性
+
 #org @gText_OptionDesc_RandomWildSpecies
 草丛等野外遭遇的宝可梦将被随机化。
 
 #org @gText_OptionDesc_RandomLearnsets
 随机化升级和蛋招式。
+
+#org @gText_OptionDesc_RandomAbilities
+特性按个体真随机。
 

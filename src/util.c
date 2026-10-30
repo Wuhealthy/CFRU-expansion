@@ -328,6 +328,43 @@ ability_t GetHiddenAbility(const u16 species)
 	return TryRandomizeAbility(gSpeciesAbilities[species].hiddenAbility, species);
 }
 
+//随机特性(真随机):按个体personality做稳定哈希,从允许特性池取一个。
+//同一只宝可梦(同personality)结果永远相同,同种不同个体结果不同
+ability_t GetTrueRandomAbility(u32 personality)
+{
+	u32 newAbility = 1;
+	u32 numAttempts = 0;
+
+	#ifdef FLAG_ABILITY_RANDOMIZER
+	personality ^= personality >> 16;
+	personality *= 0x45D9F3B;
+	personality ^= personality >> 16;
+	personality *= 0x45D9F3B;
+	personality ^= personality >> 16;
+
+	newAbility = (personality % (u32) (ABILITIES_COUNT - 1)) + 1; //跳过ABILITY_NONE
+
+	while (gSpecialAbilityFlags[newAbility].gRandomizerBannedNewAbilities && numAttempts < 100)
+	{
+		personality = personality * 1664525 + 1013904223; //重掷时换一个混合种子
+		newAbility = ((personality ^ (personality >> 16)) % (u32) (ABILITIES_COUNT - 1)) + 1;
+		++numAttempts;
+	}
+
+	if (!gSpecialAbilityFlags[newAbility].gRandomizerBannedNewAbilities)
+		return newAbility;
+	#endif
+
+	//重掷100次仍命中禁表则线性取第一个允许的特性兜底(禁表只占少数,几乎到不了)
+	for (newAbility = 1; newAbility < ABILITIES_COUNT; ++newAbility)
+	{
+		if (!gSpecialAbilityFlags[newAbility].gRandomizerBannedNewAbilities)
+			return newAbility;
+	}
+
+	return newAbility;
+}
+
 u8 FindMovePositionInMonMoveset(u16 move, struct Pokemon* mon)
 {
 	u8 i;

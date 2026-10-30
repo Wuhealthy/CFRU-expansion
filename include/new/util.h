@@ -32,6 +32,7 @@ u32 GetBaseStatsTotal(const u16 species);
 ability_t GetAbility1(u16 species);
 ability_t GetAbility2(u16 species);
 ability_t GetHiddenAbility(u16 species);
+ability_t GetTrueRandomAbility(u32 personality);
 u8 FindMovePositionInMonMoveset(u16 move, struct Pokemon* mon);
 bool8 MoveInMonMoveset(u16 move, struct Pokemon* mon);
 bool8 AllHittingMoveWithTypeInMonMoveset(struct Pokemon* mon, u8 moveType);

@@ -5011,6 +5011,26 @@ ability_t GetMonAbility(const struct Pokemon* mon)
 	ability_t ability;
 	u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
 
+	#ifdef FLAG_ABILITY_RANDOMIZER
+	//随机特性(设置菜单FLAG_ABILITY_RANDOMIZER):真随机——按个体personality哈希取特性,同种不同个体特性不同。
+	//原特性受保护(gRandomizerBannedOriginalAbilities,形态绑定类如阿尔宙斯多属性/达摩模式)的宝可梦不随机,走下方原逻辑保持原特性
+	if (FlagGet(FLAG_ABILITY_RANDOMIZER) && !FlagGet(FLAG_BATTLE_FACILITY))
+	{
+		u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
+		ability_t original;
+
+		if (mon->hiddenAbility && gSpeciesAbilities[species].hiddenAbility != ABILITY_NONE)
+			original = gSpeciesAbilities[species].hiddenAbility;
+		else if ((personality & 1) == 0 || gSpeciesAbilities[species].ability2 == ABILITY_NONE)
+			original = gSpeciesAbilities[species].ability1;
+		else
+			original = gSpeciesAbilities[species].ability2;
+
+		if (!gSpecialAbilityFlags[original].gRandomizerBannedOriginalAbilities)
+			return GetTrueRandomAbility(personality);
+	}
+	#endif
+
 	if (mon->hiddenAbility && GetHiddenAbility(species) != ABILITY_NONE)
 		return GetHiddenAbility(species);
 
