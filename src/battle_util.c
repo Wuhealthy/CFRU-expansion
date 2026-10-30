@@ -287,6 +287,11 @@ bool8 CanHitSemiInvulnerableTarget(u8 bankAtk, u8 bankDef, u16 move)
 	if (ABILITY(bankAtk) == ABILITY_NOGUARD || ABILITY(bankDef) == ABILITY_NOGUARD)
 		return TRUE;
 
+	// 殊死一搏：高威力（>100）攻击招式必中，可命中半无敌目标
+	if (ABILITY(bankAtk) == ABILITY_DESPERATESTRIKE
+	&& gBattleMoves[move].power > 100 && SPLIT(move) != SPLIT_STATUS)
+		return TRUE;
+
 	if (move == MOVE_TOXIC && IsOfType(bankAtk, TYPE_POISON))
 		return TRUE;
 
@@ -563,6 +568,16 @@ bool8 CheckSoundMove(move_t move)
 	return gSpecialMoveFlags[move].gSoundMoves;
 }
 
+bool8 IsSoundMoveByAbility(u16 move, ability_t atkAbility)
+{
+	return CheckSoundMove(move) || atkAbility == ABILITY_SONILATE; //音浪皮肤：全部招式都会变为声音类招式
+}
+
+bool8 IsSoundMoveByMon(u16 move, u8 bank)
+{
+	return IsSoundMoveByAbility(move, ABILITY(bank));
+}
+
 bool8 CheckRecoil(u16 move)
 {
 	return move == MOVE_STRUGGLE
@@ -791,7 +806,7 @@ bool8 IsUnusableMove(u16 move, u8 bank, u8 check, u8 pp, ability_t ability, u8 h
 		return TRUE;
 	else if (gSpecialMoveFlags[move].gGravityBannedMoves && IsGravityActive() && check & MOVE_LIMITATION_DISABLED)
 		return TRUE;
-	else if (CheckSoundMove(move) && CantUseSoundMoves(bank) && check & MOVE_LIMITATION_DISABLED)
+	else if (!isMaxMove && IsSoundMoveByMon(move, bank) && CantUseSoundMoves(bank) && check & MOVE_LIMITATION_DISABLED)
 		return TRUE;
 	else if (CheckHealingMove(move) && IsHealBlocked(bank) && check & MOVE_LIMITATION_DISABLED)
 		return TRUE;
@@ -1523,7 +1538,7 @@ bool8 IsAffectedByPowderByDetails(u8 type1, u8 type2, u8 type3, ability_t abilit
 
 bool8 MoveIgnoresSubstitutes(u16 move, ability_t atkAbility)
 {
-	return (CheckSoundMove(move) || atkAbility == ABILITY_SONILATE)
+	return IsSoundMoveByAbility(move, atkAbility)
 		|| (BypassesScreens(atkAbility) && move != MOVE_TRANSFORM && gBattleMoves[move].effect != EFFECT_SKY_DROP)
 		|| gSpecialMoveFlags[move].gSubstituteBypassMoves;
 }

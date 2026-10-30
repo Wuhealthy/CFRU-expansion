@@ -3536,7 +3536,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 
 		case ABILITY_PUNKROCK:
 		//0.5x Decrement
-			if (CheckSoundMove(move) || data->atkAbility == ABILITY_SONILATE)
+			if (IsSoundMoveByAbility(move, data->atkAbility))
 				damage /= 2; //50 % reduction
 			break;
 

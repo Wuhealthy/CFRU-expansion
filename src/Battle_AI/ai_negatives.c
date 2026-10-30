@@ -334,7 +334,7 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 
 			case ABILITY_SILENTGRUDGE:
 				//声音招式被吸收，还给对手提升特攻
-				if (CheckSoundMove(move))
+				if (IsSoundMoveByMon(move, bankAtk))
 				{
 					if (!TARGETING_PARTNER) //Good idea to attack partner
 					{
@@ -484,7 +484,7 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 
 			//Move category checks
 			case ABILITY_SOUNDPROOF:
-				if (CheckSoundMove(move))
+				if (IsSoundMoveByMon(move, bankAtk))
 				{
 					DECREASE_VIABILITY(10);
 					return viability;
@@ -881,7 +881,7 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 
 SKIP_CHECK_TARGET:
 	//Throat Chop Check
-	if (CheckSoundMove(move) && CantUseSoundMoves(bankAtk))
+	if (IsSoundMoveByMon(move, bankAtk) && CantUseSoundMoves(bankAtk))
 		return 0; //Can't select this move period
 
 	//Heal Block Check

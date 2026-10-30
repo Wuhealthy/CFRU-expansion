@@ -2412,9 +2412,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			{
 				switch (gLastUsedAbility) {
 					case ABILITY_SOUNDPROOF:
-						if (CheckSoundMove(move))
-							effect = 1;
-						if (ABILITY(gBankAttacker) == ABILITY_SONILATE)
+						if (IsSoundMoveByMon(move, gBankAttacker))
 							effect = 1;
 						break;
 
@@ -2536,7 +2534,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					break;
 
 				case ABILITY_SILENTGRUDGE:
-					if (gSpecialMoveFlags[move].gSoundMoves)
+					if (IsSoundMoveByMon(move, gBankAttacker))
 						effect = 2, statId = STAT_SPATK;
 					break;
 

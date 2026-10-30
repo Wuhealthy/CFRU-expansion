@@ -58,6 +58,8 @@ bool8 CanNeverMakeContactByAbilityItemEffect(ability_t ability, u8 itemEffect);
 bool8 CanNeverMakeContactByItemEffect(u8 itemEffect);
 bool8 CheckHealingMove(u16 move);
 bool8 CheckSoundMove(u16 move);
+bool8 IsSoundMoveByAbility(u16 move, ability_t atkAbility);
+bool8 IsSoundMoveByMon(u16 move, u8 bank);
 bool8 CheckRecoil(u16 move);
 bool8 SheerForceCheck(void);
 bool8 IsOfType(u8 bank, u8 type);

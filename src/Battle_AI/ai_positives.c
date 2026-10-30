@@ -2672,7 +2672,7 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 					break;
 
 				case MOVE_THROATCHOP:
-					if (MoveWouldHitFirst(move, bankAtk, bankDef) && CheckSoundMove(predictedMove))
+					if (MoveWouldHitFirst(move, bankAtk, bankDef) && IsSoundMoveByMon(predictedMove, bankDef))
 						INCREASE_STATUS_VIABILITY(3);
 					else if (IS_DOUBLE_BATTLE)
 						IncreaseDoublesDamageViabilityToScore(&viability, class, 5, bankAtk, bankDef);

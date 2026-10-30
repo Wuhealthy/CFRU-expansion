@@ -2252,7 +2252,7 @@ bool8 IsDamagingMoveUnusable(u16 move, u8 bankAtk, u8 bankDef)
 
 			//Move category checks
 			case ABILITY_SOUNDPROOF:
-				if (CheckSoundMove(move))
+				if (IsSoundMoveByMon(move, bankAtk))
 					return TRUE;
 				break;
 
@@ -2375,7 +2375,7 @@ bool8 IsDamagingMoveUnusableByMon(u16 move, struct Pokemon* monAtk, u8 bankDef)
 
 			//Move category checks
 			case ABILITY_SOUNDPROOF:
-				if (CheckSoundMove(move))
+				if (IsSoundMoveByAbility(move, GetMonAbility(monAtk)))
 					return TRUE;
 				break;
 
@@ -4278,7 +4278,7 @@ bool8 SoundMoveInMoveset(u8 bank)
 
 		if (!(gBitTable[i] & moveLimitations))
 		{
-			if (CheckSoundMove(move))
+			if (IsSoundMoveByMon(move, bank))
 				return TRUE;
 		}
 	}

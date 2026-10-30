@@ -992,7 +992,7 @@ u8 ItemBattleEffects(u8 caseID, u8 bank, bool8 moveTurn, bool8 doPluck)
 				if (throatSprayWork
 				&& BATTLER_ALIVE(gBankAttacker)
 				&& !(gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)
-				&& CheckSoundMove(gCurrentMove)
+				&& IsSoundMoveByMon(gCurrentMove, gBankAttacker)
 				&& !ChangeStatBuffs(SET_STAT_BUFF_VALUE(1), STAT_STAGE_SPATK, MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN, 0))
 				{
 					PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_STAGE_SPATK);

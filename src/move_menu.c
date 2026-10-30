@@ -1863,7 +1863,8 @@ u8 TrySetCantSelectMoveBattleScript(void)
 		++limitations;
 	}
 	else if (!gNewBS->zMoveData.toBeUsed[gActiveBattler] //Can still use sound Z-Moves even if Throat Chopped
-	&& CantUseSoundMoves(gActiveBattler) && CheckSoundMove(move))
+	&& CantUseSoundMoves(gActiveBattler)
+	&& (CheckSoundMove(move) || (!isAnyMaxMove && IsSoundMoveByMon(move, gActiveBattler))))
 	{
 		gSelectionBattleScripts[gActiveBattler] = BattleScript_SelectingNotAllowedThroatChop;
 		++limitations;
