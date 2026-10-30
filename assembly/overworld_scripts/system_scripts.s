@@ -99,11 +99,13 @@ SystemScript_LButtonMenu:
 	multichoiceoption gText_LButtonMenu_AutoRun 0
 	multichoiceoption gText_LButtonMenu_HiddenPower 1
 	multichoiceoption gText_LButtonMenu_MegaShop 2
-	multichoice 0x0 0x0 THREE_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_TmShop 3
+	multichoice 0x0 0x0 FOUR_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleAutoRun
 	case 1, SystemScript_LButtonMenu_HiddenPower
 	case 2, SystemScript_LButtonMenu_MegaShop
+	case 3, SystemScript_LButtonMenu_TmShop
 	releaseall
 	end
 
@@ -117,11 +119,13 @@ SystemScript_LButtonMenu_Bike:
 	multichoiceoption gText_LButtonMenu_BikeTurbo 0
 	multichoiceoption gText_LButtonMenu_HiddenPower 1
 	multichoiceoption gText_LButtonMenu_MegaShop 2
-	multichoice 0x0 0x0 THREE_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_TmShop 3
+	multichoice 0x0 0x0 FOUR_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleBikeTurbo
 	case 1, SystemScript_LButtonMenu_HiddenPower
 	case 2, SystemScript_LButtonMenu_MegaShop
+	case 3, SystemScript_LButtonMenu_TmShop
 	releaseall
 	end
 
@@ -135,11 +139,13 @@ SystemScript_LButtonMenu_Surf:
 	multichoiceoption gText_LButtonMenu_SurfTurbo 0
 	multichoiceoption gText_LButtonMenu_HiddenPower 1
 	multichoiceoption gText_LButtonMenu_MegaShop 2
-	multichoice 0x0 0x0 THREE_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_TmShop 3
+	multichoice 0x0 0x0 FOUR_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleSurfTurbo
 	case 1, SystemScript_LButtonMenu_HiddenPower
 	case 2, SystemScript_LButtonMenu_MegaShop
+	case 3, SystemScript_LButtonMenu_TmShop
 	releaseall
 	end
 
@@ -147,6 +153,14 @@ SystemScript_LButtonMenu_MegaShop:
 	preparemsg gText_LButtonMenu_MegaShop_Greeting
 	waitmsg
 	pokemart MegaStoneShopItems
+	msgbox gText_LButtonMenu_MegaShop_Farewell MSG_KEEPOPEN
+	releaseall
+	end
+
+SystemScript_LButtonMenu_TmShop:
+	preparemsg gText_LButtonMenu_TmShop_Greeting
+	waitmsg
+	pokemart TmShopItems
 	msgbox gText_LButtonMenu_MegaShop_Farewell MSG_KEEPOPEN
 	releaseall
 	end
@@ -346,6 +360,131 @@ MegaStoneShopItems:
 	.hword ITEM_EMBOARITE
 	.hword ITEM_SAMUROTTITE
 	.hword ITEM_EXCADRILLITE
+	.hword 0x0
+
+@ 所有招式学习器 TM01–TM120（不含秘传学习器 HM）
+.align 2
+TmShopItems:
+	.hword ITEM_TM01
+	.hword ITEM_TM02
+	.hword ITEM_TM03
+	.hword ITEM_TM04
+	.hword ITEM_TM05
+	.hword ITEM_TM06
+	.hword ITEM_TM07
+	.hword ITEM_TM08
+	.hword ITEM_TM09
+	.hword ITEM_TM10
+	.hword ITEM_TM11
+	.hword ITEM_TM12
+	.hword ITEM_TM13
+	.hword ITEM_TM14
+	.hword ITEM_TM15
+	.hword ITEM_TM16
+	.hword ITEM_TM17
+	.hword ITEM_TM18
+	.hword ITEM_TM19
+	.hword ITEM_TM20
+	.hword ITEM_TM21
+	.hword ITEM_TM22
+	.hword ITEM_TM23
+	.hword ITEM_TM24
+	.hword ITEM_TM25
+	.hword ITEM_TM26
+	.hword ITEM_TM27
+	.hword ITEM_TM28
+	.hword ITEM_TM29
+	.hword ITEM_TM30
+	.hword ITEM_TM31
+	.hword ITEM_TM32
+	.hword ITEM_TM33
+	.hword ITEM_TM34
+	.hword ITEM_TM35
+	.hword ITEM_TM36
+	.hword ITEM_TM37
+	.hword ITEM_TM38
+	.hword ITEM_TM39
+	.hword ITEM_TM40
+	.hword ITEM_TM41
+	.hword ITEM_TM42
+	.hword ITEM_TM43
+	.hword ITEM_TM44
+	.hword ITEM_TM45
+	.hword ITEM_TM46
+	.hword ITEM_TM47
+	.hword ITEM_TM48
+	.hword ITEM_TM49
+	.hword ITEM_TM50
+	.hword ITEM_TM51
+	.hword ITEM_TM52
+	.hword ITEM_TM53
+	.hword ITEM_TM54
+	.hword ITEM_TM55
+	.hword ITEM_TM56
+	.hword ITEM_TM57
+	.hword ITEM_TM58
+	.hword ITEM_TM59
+	.hword ITEM_TM60
+	.hword ITEM_TM61
+	.hword ITEM_TM62
+	.hword ITEM_TM63
+	.hword ITEM_TM64
+	.hword ITEM_TM65
+	.hword ITEM_TM66
+	.hword ITEM_TM67
+	.hword ITEM_TM68
+	.hword ITEM_TM69
+	.hword ITEM_TM70
+	.hword ITEM_TM71
+	.hword ITEM_TM72
+	.hword ITEM_TM73
+	.hword ITEM_TM74
+	.hword ITEM_TM75
+	.hword ITEM_TM76
+	.hword ITEM_TM77
+	.hword ITEM_TM78
+	.hword ITEM_TM79
+	.hword ITEM_TM80
+	.hword ITEM_TM81
+	.hword ITEM_TM82
+	.hword ITEM_TM83
+	.hword ITEM_TM84
+	.hword ITEM_TM85
+	.hword ITEM_TM86
+	.hword ITEM_TM87
+	.hword ITEM_TM88
+	.hword ITEM_TM89
+	.hword ITEM_TM90
+	.hword ITEM_TM91
+	.hword ITEM_TM92
+	.hword ITEM_TM93
+	.hword ITEM_TM94
+	.hword ITEM_TM95
+	.hword ITEM_TM96
+	.hword ITEM_TM97
+	.hword ITEM_TM98
+	.hword ITEM_TM99
+	.hword ITEM_TM100
+	.hword ITEM_TM101
+	.hword ITEM_TM102
+	.hword ITEM_TM103
+	.hword ITEM_TM104
+	.hword ITEM_TM105
+	.hword ITEM_TM106
+	.hword ITEM_TM107
+	.hword ITEM_TM108
+	.hword ITEM_TM109
+	.hword ITEM_TM110
+	.hword ITEM_TM111
+	.hword ITEM_TM112
+	.hword ITEM_TM113
+	.hword ITEM_TM114
+	.hword ITEM_TM115
+	.hword ITEM_TM116
+	.hword ITEM_TM117
+	.hword ITEM_TM118
+	.hword ITEM_TM119
+	.hword ITEM_TM120
 	.hword 0x0
 
 SystemScript_LButtonMenu_ToggleAutoRun:
