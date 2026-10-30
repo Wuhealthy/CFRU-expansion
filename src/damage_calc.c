@@ -3231,21 +3231,28 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 
     if (SPLIT(move) != SPLIT_STATUS && data->atkAbility == ABILITY_IMPROVISE)
     {
-        u32 highestStat = attack;
-        u32 currentStats[6];
-        
-        currentStats[STAT_ATK] = attack;
-        currentStats[STAT_DEF] = defense;
-        currentStats[STAT_SPATK] = spAttack;
-        currentStats[STAT_SPDEF] = spDefense;
-        currentStats[STAT_SPEED] = data->atkSpeed;
-        
-        for (u8 i = STAT_ATK; i <= STAT_SPEED; i++)
+        // 以自身五项能力（攻/防/特攻/特防/速）中最高的一项作为攻击能力值。
+        // 局部变量 defense/spDefense 是防守方的数值，这里必须取攻击方自己的防/特防
+        u32 atkDefense, atkSpDefense;
+        if (useMonAtk)
         {
-            if (currentStats[i] > highestStat)
-                highestStat = currentStats[i];
+            atkDefense = data->monAtk->defense;
+            atkSpDefense = data->monAtk->spDefense;
         }
-        
+        else
+        {
+            u8 defStage = STAT_STAGE(bankAtk, STAT_STAGE_DEF);
+            u8 spDefStage = STAT_STAGE(bankAtk, STAT_STAGE_SPDEF);
+            atkDefense = ((u32) gBattleMons[bankAtk].defense * gStatStageRatios[defStage][0]) / gStatStageRatios[defStage][1];
+            atkSpDefense = ((u32) gBattleMons[bankAtk].spDefense * gStatStageRatios[spDefStage][0]) / gStatStageRatios[spDefStage][1];
+        }
+
+        u32 highestStat = attack;
+        if (atkDefense > highestStat) highestStat = atkDefense;
+        if (spAttack > highestStat) highestStat = spAttack;
+        if (atkSpDefense > highestStat) highestStat = atkSpDefense;
+        if (data->atkSpeed > highestStat) highestStat = data->atkSpeed;
+
         attack = highestStat;
         spAttack = highestStat;
     }
