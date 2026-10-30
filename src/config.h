@@ -360,6 +360,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define VAR_DAMAGE_TEXT_DISPLAY 0x515D //对战伤害文本显示开关
 #define VAR_SHINY_ODDS 0x515E //设置菜单闪光概率选项。0=原版1/8192,1~11依次为1/2048~1/2,12=必闪
 #define VAR_RANDOM_WILD_SPECIES 0x515F //设置菜单随机野生遭遇开关。1=开启,野外自然遭遇的宝可梦随机化(排除Mega/极巨化/觉醒/道具变身等形态),并按徽章数限制种族值总和(0徽章300,每徽章+40,8徽章无上限,可遭遇580以上)
+#define VAR_BATTLE_MONEY_MULTIPLIER 0x5160 //设置菜单对战金钱倍率。0=正常,1/2/3/4依次为x2/x3/x5/x10,影响训练家奖金、啄钱金币等战斗所得(与幸运金币/庆祝之舞叠乘)
 
 /*Expansion specials!*/
 #define SIDEWAY_STAIRS_IMPLEMENTED //Uncomment if you're using Sideway Stairs patch.

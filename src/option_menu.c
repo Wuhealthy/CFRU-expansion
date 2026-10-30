@@ -120,25 +120,26 @@ enum
     OPT_RANDOM_ABILITIES,
     OPT_RANDOM_TRAINERS,
     OPT_EASY_CATCH,
+    OPT_BATTLE_MONEY_MULTIPLIER,
     OPT_CANCEL,
     OPT_COUNT,
 };
 
 //分页:0=一般设置 1=对战设置 2=随机设置(L/R键切换)
 #define OPT_PAGE_COUNT 3
-static const u8 sOptionPageItems[OPT_PAGE_COUNT][9] =
+static const u8 sOptionPageItems[OPT_PAGE_COUNT][10] =
 {
 	//第1页:一般设置
 	{ OPT_TEXTSPEED, OPT_SOUND, OPT_BUTTONMODE, OPT_FRAMETYPE, OPT_RBUTTONMODE,
 	  OPT_AUTOSORTBAG, OPT_BATTLEMUSIC, OPT_NO_RANDOM_WILD_ENCOUNTERS, OPT_CANCEL },
 	//第2页:对战设置
 	{ OPT_BATTLESCENE, OPT_BATTLESTYLE, OPT_INVERSE_BATTLE, OPT_DOUBLE_BATTLE,
-	  OPT_DAMAGE_DISPLAY, OPT_EXP_CATCH_UP, OPT_EASY_CATCH, OPT_GAME_DIFFICULTY, OPT_CANCEL },
+	  OPT_DAMAGE_DISPLAY, OPT_EXP_CATCH_UP, OPT_EASY_CATCH, OPT_BATTLE_MONEY_MULTIPLIER, OPT_GAME_DIFFICULTY, OPT_CANCEL },
 	//第3页:随机设置
 	{ OPT_RANDOM_WILD_SPECIES, OPT_RANDOM_LEARNSETS, OPT_RANDOM_ABILITIES,
 	  OPT_RANDOM_TRAINERS, OPT_SHINY_ODDS, OPT_WILDLEVELSCALING, OPT_CANCEL },
 };
-static const u8 sOptionPageItemCount[OPT_PAGE_COUNT] = {9, 9, 7};
+static const u8 sOptionPageItemCount[OPT_PAGE_COUNT] = {9, 10, 7};
 
 #define OPTION_LIST_VISIBLE 7
 
@@ -169,6 +170,7 @@ struct OptionMenu
     /*0x??*/ u16 randomTrainers;      //随机训练家开关,存于FLAG_TRAINER_RANDOMIZER
     /*0x??*/ u16 expCatchUp;          //经验共享升级开关,存于FLAG_EXP_SHARE_CATCH_UP
     /*0x??*/ u16 easyCatch;           //容易捕捉开关,存于FLAG_EASY_CATCH
+    /*0x??*/ u16 battleMoneyMultiplier; //对战金钱倍率,存于VAR_BATTLE_MONEY_MULTIPLIER
 };
 
 extern struct OptionMenu *sOptionMenuPtr;
@@ -195,6 +197,12 @@ extern const u8 gText_RandomAbilities[];
 extern const u8 gText_RandomTrainers[];
 extern const u8 gText_ExpCatchUp[];
 extern const u8 gText_EasyCatch[];
+extern const u8 gText_BattleMoneyMultiplier[];
+extern const u8 gText_MoneyMultNormal[];
+extern const u8 gText_MoneyMultX2[];
+extern const u8 gText_MoneyMultX3[];
+extern const u8 gText_MoneyMultX5[];
+extern const u8 gText_MoneyMultX10[];
 
 extern const u8 gText_OptionDesc_TextSpeed[];
 extern const u8 gText_OptionDesc_BattleScene[];
@@ -219,6 +227,7 @@ extern const u8 gText_OptionDesc_RandomAbilities[];
 extern const u8 gText_OptionDesc_RandomTrainers[];
 extern const u8 gText_OptionDesc_ExpCatchUp[];
 extern const u8 gText_OptionDesc_EasyCatch[];
+extern const u8 gText_OptionDesc_BattleMoneyMultiplier[];
 
 extern const u8 gText_TextSpeedSlow[];
 extern const u8 gText_TextSpeedMid[];
@@ -389,6 +398,14 @@ static const u8 *const sEasyCatchOptions[] =
 	gText_OffOption,
 	gText_OnOption
 };
+static const u8 *const sBattleMoneyMultiplierOptions[] =
+{
+	gText_MoneyMultNormal,
+	gText_MoneyMultX2,
+	gText_MoneyMultX3,
+	gText_MoneyMultX5,
+	gText_MoneyMultX10
+};
 // Description shown in the top text box for each unified list item
 static const u8 *const sOptionDescriptions[OPT_COUNT] =
 {
@@ -414,6 +431,7 @@ static const u8 *const sOptionDescriptions[OPT_COUNT] =
     [OPT_RANDOM_TRAINERS]           = gText_OptionDesc_RandomTrainers,
     [OPT_EXP_CATCH_UP]              = gText_OptionDesc_ExpCatchUp,
     [OPT_EASY_CATCH]                = gText_OptionDesc_EasyCatch,
+    [OPT_BATTLE_MONEY_MULTIPLIER]   = gText_OptionDesc_BattleMoneyMultiplier,
     [OPT_CANCEL]                    = gText_OptionDesc_Cancel,
 };
 
@@ -447,6 +465,7 @@ static const u8 * GetOptionItemName(u16 item)
     case OPT_RANDOM_TRAINERS:             return gText_RandomTrainers;
     case OPT_EXP_CATCH_UP:                return gText_ExpCatchUp;
     case OPT_EASY_CATCH:                  return gText_EasyCatch;
+    case OPT_BATTLE_MONEY_MULTIPLIER:     return gText_BattleMoneyMultiplier;
     default:                              return gText_OptionMenuCancel;
     }
 }
@@ -478,6 +497,7 @@ static u16 * GetOptionItemValuePtr(u16 item)
     case OPT_RANDOM_TRAINERS:             return &sOptionMenuPtr->randomTrainers;
     case OPT_EXP_CATCH_UP:                return &sOptionMenuPtr->expCatchUp;
     case OPT_EASY_CATCH:                  return &sOptionMenuPtr->easyCatch;
+    case OPT_BATTLE_MONEY_MULTIPLIER:     return &sOptionMenuPtr->battleMoneyMultiplier;
     default:                              return NULL;
     }
 }
@@ -508,6 +528,7 @@ static u16 GetOptionItemCount(u16 item)
     case OPT_RANDOM_TRAINERS:             return 2;
     case OPT_EXP_CATCH_UP:                return 2;
     case OPT_EASY_CATCH:                  return 2;
+    case OPT_BATTLE_MONEY_MULTIPLIER:     return 5;
     default:                              return 0;
     }
 }
@@ -546,6 +567,7 @@ static const u8 * GetOptionItemValueString(u16 item)
     case OPT_RANDOM_TRAINERS:             return sRandomTrainersOptions[*value];
     case OPT_EXP_CATCH_UP:                return sExpCatchUpOptions[*value];
     case OPT_EASY_CATCH:                  return sEasyCatchOptions[*value];
+    case OPT_BATTLE_MONEY_MULTIPLIER:     return sBattleMoneyMultiplierOptions[*value];
     default:                              return NULL;
     }
 }
@@ -588,6 +610,9 @@ void CB2_OptionsMenuFromStartMenu(void)
     sOptionMenuPtr->randomTrainers = FlagGet(FLAG_TRAINER_RANDOMIZER);
     sOptionMenuPtr->expCatchUp = FlagGet(FLAG_EXP_SHARE_CATCH_UP);
     sOptionMenuPtr->easyCatch = FlagGet(FLAG_EASY_CATCH);
+    sOptionMenuPtr->battleMoneyMultiplier = VarGet(VAR_BATTLE_MONEY_MULTIPLIER);
+    if (sOptionMenuPtr->battleMoneyMultiplier > 4)
+        sOptionMenuPtr->battleMoneyMultiplier = 0;
 
     for (i = 0; i < MENUITEM_COUNT - 1; i++)
     {
@@ -705,6 +730,7 @@ void CloseAndSaveOptionMenu(u8 taskId)
         FlagSet(FLAG_EASY_CATCH);
     else
         FlagClear(FLAG_EASY_CATCH);
+    VarSet(VAR_BATTLE_MONEY_MULTIPLIER, sOptionMenuPtr->battleMoneyMultiplier);
     SetPokemonCryStereo(gSaveBlock2->optionsSound);
     FREE_AND_SET_NULL(sOptionMenuPtr);
     DestroyTask(taskId);
