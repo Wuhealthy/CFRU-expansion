@@ -113,6 +113,7 @@ enum
     OPT_DOUBLE_BATTLE,
     OPT_NO_RANDOM_WILD_ENCOUNTERS,
     OPT_DAMAGE_DISPLAY,
+    OPT_EXP_CATCH_UP,
     OPT_SHINY_ODDS,
     OPT_RANDOM_WILD_SPECIES,
     OPT_RANDOM_LEARNSETS,
@@ -131,12 +132,12 @@ static const u8 sOptionPageItems[OPT_PAGE_COUNT][9] =
 	  OPT_AUTOSORTBAG, OPT_BATTLEMUSIC, OPT_NO_RANDOM_WILD_ENCOUNTERS, OPT_CANCEL },
 	//第2页:对战设置
 	{ OPT_BATTLESCENE, OPT_BATTLESTYLE, OPT_INVERSE_BATTLE, OPT_DOUBLE_BATTLE,
-	  OPT_DAMAGE_DISPLAY, OPT_GAME_DIFFICULTY, OPT_CANCEL },
+	  OPT_DAMAGE_DISPLAY, OPT_EXP_CATCH_UP, OPT_GAME_DIFFICULTY, OPT_CANCEL },
 	//第3页:随机设置
 	{ OPT_RANDOM_WILD_SPECIES, OPT_RANDOM_LEARNSETS, OPT_RANDOM_ABILITIES,
 	  OPT_RANDOM_TRAINERS, OPT_SHINY_ODDS, OPT_WILDLEVELSCALING, OPT_CANCEL },
 };
-static const u8 sOptionPageItemCount[OPT_PAGE_COUNT] = {9, 7, 7};
+static const u8 sOptionPageItemCount[OPT_PAGE_COUNT] = {9, 8, 7};
 
 #define OPTION_LIST_VISIBLE 7
 
@@ -165,6 +166,7 @@ struct OptionMenu
     /*0x??*/ u16 randomLearnsets;     //随机招式表开关,存于FLAG_POKEMON_LEARNSET_RANDOMIZER
     /*0x??*/ u16 randomAbilities;     //随机特性开关,存于FLAG_ABILITY_RANDOMIZER
     /*0x??*/ u16 randomTrainers;      //随机训练家开关,存于FLAG_TRAINER_RANDOMIZER
+    /*0x??*/ u16 expCatchUp;          //经验共享升级开关,存于FLAG_EXP_SHARE_CATCH_UP
 };
 
 extern struct OptionMenu *sOptionMenuPtr;
@@ -189,6 +191,7 @@ extern const u8 gText_RandomWildSpecies[];
 extern const u8 gText_RandomLearnsets[];
 extern const u8 gText_RandomAbilities[];
 extern const u8 gText_RandomTrainers[];
+extern const u8 gText_ExpCatchUp[];
 
 extern const u8 gText_OptionDesc_TextSpeed[];
 extern const u8 gText_OptionDesc_BattleScene[];
@@ -211,6 +214,7 @@ extern const u8 gText_OptionDesc_RandomWildSpecies[];
 extern const u8 gText_OptionDesc_RandomLearnsets[];
 extern const u8 gText_OptionDesc_RandomAbilities[];
 extern const u8 gText_OptionDesc_RandomTrainers[];
+extern const u8 gText_OptionDesc_ExpCatchUp[];
 
 extern const u8 gText_TextSpeedSlow[];
 extern const u8 gText_TextSpeedMid[];
@@ -371,6 +375,11 @@ static const u8 *const sRandomTrainersOptions[] =
 	gText_OffOption,
 	gText_OnOption
 };
+static const u8 *const sExpCatchUpOptions[] =
+{
+	gText_OffOption,
+	gText_OnOption
+};
 // Description shown in the top text box for each unified list item
 static const u8 *const sOptionDescriptions[OPT_COUNT] =
 {
@@ -394,6 +403,7 @@ static const u8 *const sOptionDescriptions[OPT_COUNT] =
     [OPT_RANDOM_LEARNSETS]          = gText_OptionDesc_RandomLearnsets,
     [OPT_RANDOM_ABILITIES]          = gText_OptionDesc_RandomAbilities,
     [OPT_RANDOM_TRAINERS]           = gText_OptionDesc_RandomTrainers,
+    [OPT_EXP_CATCH_UP]              = gText_OptionDesc_ExpCatchUp,
     [OPT_CANCEL]                    = gText_OptionDesc_Cancel,
 };
 
@@ -425,6 +435,7 @@ static const u8 * GetOptionItemName(u16 item)
     case OPT_RANDOM_LEARNSETS:            return gText_RandomLearnsets;
     case OPT_RANDOM_ABILITIES:            return gText_RandomAbilities;
     case OPT_RANDOM_TRAINERS:             return gText_RandomTrainers;
+    case OPT_EXP_CATCH_UP:                return gText_ExpCatchUp;
     default:                              return gText_OptionMenuCancel;
     }
 }
@@ -454,6 +465,7 @@ static u16 * GetOptionItemValuePtr(u16 item)
     case OPT_RANDOM_LEARNSETS:            return &sOptionMenuPtr->randomLearnsets;
     case OPT_RANDOM_ABILITIES:            return &sOptionMenuPtr->randomAbilities;
     case OPT_RANDOM_TRAINERS:             return &sOptionMenuPtr->randomTrainers;
+    case OPT_EXP_CATCH_UP:                return &sOptionMenuPtr->expCatchUp;
     default:                              return NULL;
     }
 }
@@ -482,6 +494,7 @@ static u16 GetOptionItemCount(u16 item)
     case OPT_RANDOM_LEARNSETS:            return 2;
     case OPT_RANDOM_ABILITIES:            return 2;
     case OPT_RANDOM_TRAINERS:             return 2;
+    case OPT_EXP_CATCH_UP:                return 2;
     default:                              return 0;
     }
 }
@@ -518,6 +531,7 @@ static const u8 * GetOptionItemValueString(u16 item)
     case OPT_RANDOM_LEARNSETS:            return sRandomLearnsetsOptions[*value];
     case OPT_RANDOM_ABILITIES:            return sRandomAbilitiesOptions[*value];
     case OPT_RANDOM_TRAINERS:             return sRandomTrainersOptions[*value];
+    case OPT_EXP_CATCH_UP:                return sExpCatchUpOptions[*value];
     default:                              return NULL;
     }
 }
@@ -558,6 +572,7 @@ void CB2_OptionsMenuFromStartMenu(void)
     sOptionMenuPtr->randomLearnsets = FlagGet(FLAG_POKEMON_LEARNSET_RANDOMIZER);
     sOptionMenuPtr->randomAbilities = FlagGet(FLAG_ABILITY_RANDOMIZER);
     sOptionMenuPtr->randomTrainers = FlagGet(FLAG_TRAINER_RANDOMIZER);
+    sOptionMenuPtr->expCatchUp = FlagGet(FLAG_EXP_SHARE_CATCH_UP);
 
     for (i = 0; i < MENUITEM_COUNT - 1; i++)
     {
@@ -667,6 +682,10 @@ void CloseAndSaveOptionMenu(u8 taskId)
         FlagSet(FLAG_TRAINER_RANDOMIZER);
     else
         FlagClear(FLAG_TRAINER_RANDOMIZER);
+    if (sOptionMenuPtr->expCatchUp)
+        FlagSet(FLAG_EXP_SHARE_CATCH_UP);
+    else
+        FlagClear(FLAG_EXP_SHARE_CATCH_UP);
     SetPokemonCryStereo(gSaveBlock2->optionsSound);
     FREE_AND_SET_NULL(sOptionMenuPtr);
     DestroyTask(taskId);

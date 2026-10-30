@@ -49,6 +49,9 @@ static bool8 WasWholeTeamSentIn(u8 bank, u8 sentIn);
 static bool8 SomeoneOnTeamGetsExpFromExpShare(u8 bank, u8 sentIn);
 static bool8 MonGetsAffectionBoost(struct Pokemon* mon);
 static bool8 IsAffectedByHardLevelCap(struct Pokemon* mon);
+#ifdef FLAG_EXP_SHARE_CATCH_UP
+static void ExpShareCatchUpToPartyMax(u8 sentIn);
+#endif
 static void EmitExpBarUpdate(u8 a, u8 b, u32 c);
 static void EmitExpTransferBack(u8 bufferId, u8 b, u8 *c);
 static void Task_GiveExpToMon(u8 taskId);
@@ -520,6 +523,12 @@ void atk23_getexp(void)
 			else
 		#endif
 			{
+				#ifdef FLAG_EXP_SHARE_CATCH_UP
+				//经验共享循环结束:开启经验追赶时,被分享经验的未参战宝可梦升至队内最高等级
+				if (FlagGet(FLAG_EXP_SHARE) && FlagGet(FLAG_EXP_SHARE_CATCH_UP)
+				&& *expGiveType == GiveExpViaExpShare)
+					ExpShareCatchUpToPartyMax(gNewBS->SentInBackup);
+				#endif
 				END_EXP_GIVE:
 				gBattleMons[gBankFainted].item = 0;
 				ABILITY(gBankFainted) = 0;
@@ -632,6 +641,53 @@ static bool8 IsAffectedByHardLevelCap(unusedArg struct Pokemon* mon)
 
 	return FALSE;
 }
+
+#ifdef FLAG_EXP_SHARE_CATCH_UP
+//经验共享追赶:被分享经验(未参战)的宝可梦升级到队内最高等级(尊重等级帽,蛋与濒死除外)
+static void ExpShareCatchUpToPartyMax(u8 sentIn)
+{
+	u8 i, maxLevel = 0;
+	u8 cap = MAX_LEVEL;
+
+	#ifdef FLAG_HARD_LEVEL_CAP
+	if (FlagGet(FLAG_HARD_LEVEL_CAP) || VarGet(VAR_GAME_DIFFICULTY) != OPTIONS_EASY_DIFFICULTY)
+		cap = GetCurrentLevelCap();
+	#endif
+
+	for (i = 0; i < PARTY_SIZE; ++i)
+	{
+		struct Pokemon* mon = &gPlayerParty[i];
+
+		if (mon->species == SPECIES_NONE || mon->hp == 0 || GetMonData(mon, MON_DATA_IS_EGG, 0))
+			continue;
+		if (GetMonData(mon, MON_DATA_LEVEL, NULL) > maxLevel)
+			maxLevel = GetMonData(mon, MON_DATA_LEVEL, NULL);
+	}
+
+	if (maxLevel > cap)
+		maxLevel = cap;
+	if (maxLevel <= 1)
+		return;
+
+	for (i = 0; i < PARTY_SIZE; ++i)
+	{
+		struct Pokemon* mon = &gPlayerParty[i];
+		u32 exp;
+
+		if (mon->species == SPECIES_NONE || mon->hp == 0 || GetMonData(mon, MON_DATA_IS_EGG, 0))
+			continue;
+		if (sentIn & gBitTable[i]) //参战宝可梦靠自己实战升级
+			continue;
+		if (GetMonData(mon, MON_DATA_LEVEL, NULL) >= maxLevel)
+			continue;
+
+		exp = gExperienceTables[gBaseStats[mon->species].growthRate][maxLevel];
+		SetMonData(mon, MON_DATA_EXP, &exp);
+		SetMonData(mon, MON_DATA_LEVEL, &maxLevel);
+		CalculateMonStats(mon);
+	}
+}
+#endif
 
 static void EmitExpBarUpdate(u8 a, u8 b, u32 c) //Changed the u16 to a u32 to allow for more exp gain
 {
