@@ -54,12 +54,9 @@ bool8 DebugMenuComboPressed(void)
 #endif
 
 extern const u8 EventScript_SecondBagItemCanBeRegisteredToL[];
-extern const u8 SystemScript_EnableAutoRun[];
-extern const u8 SystemScript_DisableAutoRun[];
-extern const u8 SystemScript_EnableBikeTurboBoost[];
-extern const u8 SystemScript_DisableBikeTurboBoost[];
-extern const u8 SystemScript_EnableSurfTurboBoost[];
-extern const u8 SystemScript_DisableSurfTurboBoost[];
+extern const u8 SystemScript_LButtonMenu[];
+extern const u8 SystemScript_LButtonMenu_Bike[];
+extern const u8 SystemScript_LButtonMenu_Surf[];
 extern const u8 SystemScript_PartyMenuFromField[];
 extern const u8 SystemScript_ItemMenuFromField[];
 extern const u8 SystemScript_MiningScan[];
@@ -208,70 +205,29 @@ bool8 StartLButtonFunc(void)
 	}
 	else if (gSaveBlock2->optionsButtonMode != OPTIONS_BUTTON_MODE_L_EQUALS_A)
 	{
+		DismissMapNamePopup();
+		ScriptContext2_Enable();
+
 		#ifdef FLAG_BIKE_TURBO_BOOST
 		if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_BIKE))
 		{
-			DismissMapNamePopup();
-
-			if (FlagGet(FLAG_BIKE_TURBO_BOOST))
-			{
-				FlagClear(FLAG_BIKE_TURBO_BOOST);
-				ScriptContext1_SetupScript(SystemScript_DisableBikeTurboBoost);
-			}
-			else
-			{
-				FlagSet(FLAG_BIKE_TURBO_BOOST);
-				ScriptContext1_SetupScript(SystemScript_EnableBikeTurboBoost);
-			}
-			
+			ScriptContext1_SetupScript(SystemScript_LButtonMenu_Bike);
 			return TRUE;
 		}
-		else
 		#endif
 		#ifdef FLAG_SURF_TURBO_BOOST
 		if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING) || gMapHeader.mapType == MAP_TYPE_UNDERWATER)
 		{
-			DismissMapNamePopup();
-
-			if (FlagGet(FLAG_SURF_TURBO_BOOST))
-			{
-				FlagClear(FLAG_SURF_TURBO_BOOST);
-				ScriptContext1_SetupScript(SystemScript_DisableSurfTurboBoost);
-			}
-			else
-			{
-				FlagSet(FLAG_SURF_TURBO_BOOST);
-				ScriptContext1_SetupScript(SystemScript_EnableSurfTurboBoost);
-			}
-			
+			ScriptContext1_SetupScript(SystemScript_LButtonMenu_Surf);
 			return TRUE;
 		}
-		else
-		#endif
-		#ifdef FLAG_RUNNING_ENABLED
-		if (FlagGet(FLAG_RUNNING_ENABLED)) //Only toggle auto-run if can run in the first place
 		#endif
 		{
-			#ifdef FLAG_AUTO_RUN
-			ScriptContext2_Enable();
-			DismissMapNamePopup();
-
-			if (FlagGet(FLAG_AUTO_RUN))
-			{
-				FlagClear(FLAG_AUTO_RUN);
-				ScriptContext1_SetupScript(SystemScript_DisableAutoRun);
-			}
-			else
-			{
-				FlagSet(FLAG_AUTO_RUN);
-				ScriptContext1_SetupScript(SystemScript_EnableAutoRun);
-			}
-
+			ScriptContext1_SetupScript(SystemScript_LButtonMenu);
 			return TRUE;
-			#endif
 		}
 	}
-	
+
 	return FALSE;
 }
 

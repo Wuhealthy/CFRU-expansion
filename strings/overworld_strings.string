@@ -25,6 +25,21 @@
 #org @gText_AutoRunDisable
 自动奔跑已[GREEN]禁用[BLACK]。
 
+#org @gText_LButtonMenu_Prompt
+请选择要使用的功能。
+
+#org @gText_LButtonMenu_AutoRun
+自动奔跑
+
+#org @gText_LButtonMenu_BikeTurbo
+涡轮加速
+
+#org @gText_LButtonMenu_SurfTurbo
+涡轮冲浪
+
+#org @gText_LButtonMenu_HiddenPower
+更改觉醒力量属性
+
 #org @gText_BikeTurboBoostEnable
 涡轮加速已[GREEN]激活[BLACK]。
 

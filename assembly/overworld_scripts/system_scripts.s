@@ -69,7 +69,7 @@ SystemScript_EnableSurfTurboBoost:
 	msgbox gText_SurfTurboBoostEnable MSG_SIGN
 	releaseall
 	end
-	
+
 .global SystemScript_DisableSurfTurboBoost
 SystemScript_DisableSurfTurboBoost:
 	lockall
@@ -79,6 +79,281 @@ SystemScript_DisableSurfTurboBoost:
 	msgbox gText_SurfTurboBoostDisable MSG_SIGN
 	releaseall
 	end
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ L 按钮：野外功能多选菜单
+@ 步行显示自动奔跑，骑车显示涡轮加速，冲浪显示涡轮冲浪；
+@ 第二项均为更改觉醒力量属性。由 read_keys.c 按玩家状态选择脚本。
+
+.equ FLAG_AUTO_RUN, 0x914
+.equ FLAG_BIKE_TURBO_BOOST, 0x91F
+.equ FLAG_SURF_TURBO_BOOST, 0x929
+
+.global SystemScript_LButtonMenu
+SystemScript_LButtonMenu:
+	lockall
+	special SPECIAL_STOP_SOUNDS
+	sound 0x5 @SE_SELECT
+	preparemsg gText_LButtonMenu_Prompt
+	waitmsg
+	multichoiceoption gText_LButtonMenu_AutoRun 0
+	multichoiceoption gText_LButtonMenu_HiddenPower 1
+	multichoice 0x0 0x0 TWO_MULTICHOICE_OPTIONS 0x0
+	switch LASTRESULT
+	case 0, SystemScript_LButtonMenu_ToggleAutoRun
+	case 1, SystemScript_LButtonMenu_HiddenPower
+	releaseall
+	end
+
+.global SystemScript_LButtonMenu_Bike
+SystemScript_LButtonMenu_Bike:
+	lockall
+	special SPECIAL_STOP_SOUNDS
+	sound 0x5 @SE_SELECT
+	preparemsg gText_LButtonMenu_Prompt
+	waitmsg
+	multichoiceoption gText_LButtonMenu_BikeTurbo 0
+	multichoiceoption gText_LButtonMenu_HiddenPower 1
+	multichoice 0x0 0x0 TWO_MULTICHOICE_OPTIONS 0x0
+	switch LASTRESULT
+	case 0, SystemScript_LButtonMenu_ToggleBikeTurbo
+	case 1, SystemScript_LButtonMenu_HiddenPower
+	releaseall
+	end
+
+.global SystemScript_LButtonMenu_Surf
+SystemScript_LButtonMenu_Surf:
+	lockall
+	special SPECIAL_STOP_SOUNDS
+	sound 0x5 @SE_SELECT
+	preparemsg gText_LButtonMenu_Prompt
+	waitmsg
+	multichoiceoption gText_LButtonMenu_SurfTurbo 0
+	multichoiceoption gText_LButtonMenu_HiddenPower 1
+	multichoice 0x0 0x0 TWO_MULTICHOICE_OPTIONS 0x0
+	switch LASTRESULT
+	case 0, SystemScript_LButtonMenu_ToggleSurfTurbo
+	case 1, SystemScript_LButtonMenu_HiddenPower
+	releaseall
+	end
+
+SystemScript_LButtonMenu_ToggleAutoRun:
+	checkflag FLAG_AUTO_RUN
+	if SET _goto SystemScript_LButtonMenu_ToggleAutoRun_Disable
+	setflag FLAG_AUTO_RUN
+	goto SystemScript_EnableAutoRun
+SystemScript_LButtonMenu_ToggleAutoRun_Disable:
+	clearflag FLAG_AUTO_RUN
+	goto SystemScript_DisableAutoRun
+
+SystemScript_LButtonMenu_ToggleBikeTurbo:
+	checkflag FLAG_BIKE_TURBO_BOOST
+	if SET _goto SystemScript_LButtonMenu_ToggleBikeTurbo_Disable
+	setflag FLAG_BIKE_TURBO_BOOST
+	goto SystemScript_EnableBikeTurboBoost
+SystemScript_LButtonMenu_ToggleBikeTurbo_Disable:
+	clearflag FLAG_BIKE_TURBO_BOOST
+	goto SystemScript_DisableBikeTurboBoost
+
+SystemScript_LButtonMenu_ToggleSurfTurbo:
+	checkflag FLAG_SURF_TURBO_BOOST
+	if SET _goto SystemScript_LButtonMenu_ToggleSurfTurbo_Disable
+	setflag FLAG_SURF_TURBO_BOOST
+	goto SystemScript_EnableSurfTurboBoost
+SystemScript_LButtonMenu_ToggleSurfTurbo_Disable:
+	clearflag FLAG_SURF_TURBO_BOOST
+	goto SystemScript_DisableSurfTurboBoost
+
+SystemScript_LButtonMenu_HiddenPower:
+	countpokemon
+	compare LASTRESULT 0x0
+	if equal _goto SystemScript_LButtonMenu_Cancelled
+	special 0x9F @ Opens Pokemon selection menu
+	waitstate
+
+	@ Use vars 0x8002 and 0x8003 instead of 0x8004 and 0x800D
+	copyvar 0x8002 0x8004
+	copyvar 0x8003 0x800D
+
+	compare 0x8002 0x7
+	if TRUE _goto SystemScript_LButtonMenu_Cancelled
+	call SystemScript_ChooseHiddenPowerType
+	releaseall
+	end
+
+SystemScript_LButtonMenu_Cancelled:
+	releaseall
+	end
+
+@ 与 EventScript_ChangeHiddenPowerTypeNPC 共用的觉醒力量属性选择例程。
+@ 前置条件：0x8002 = 已选好的队伍宝可梦。
+@ 返回：LASTRESULT = 0x7F 表示取消了属性选择，否则为 0x1。
+.global SystemScript_ChooseHiddenPowerType
+SystemScript_ChooseHiddenPowerType:
+	special2 0x8003 0x147
+	bufferpokemon 0x0 0x8003
+	msgbox gText_ChangeHiddenPowerTypeNPCSelected MSG_NORMAL
+
+	@ Reset 0x8004 and 0x800D (Required for Scrolling Multichoice)
+	resetvar 0x8004
+	resetvar 0x800D
+
+	@ Scrolling Multichoice
+	setvar 0x8000 1 @ Multichoice Index
+	setvar 0x8001 6 @ Number of options to display at once
+	special 0x158   @ Scrolling Multichoice
+	waitstate
+
+	@ Based on Hidden Power Type
+	switch LASTRESULT
+		case 0, SystemScript_ChooseHiddenPowerType_SetNormal
+		case 1, SystemScript_ChooseHiddenPowerType_SetFighting
+		case 2, SystemScript_ChooseHiddenPowerType_SetFlying
+		case 3, SystemScript_ChooseHiddenPowerType_SetPoison
+		case 4, SystemScript_ChooseHiddenPowerType_SetGround
+		case 5, SystemScript_ChooseHiddenPowerType_SetRock
+		case 6, SystemScript_ChooseHiddenPowerType_SetBug
+		case 7, SystemScript_ChooseHiddenPowerType_SetGhost
+		case 8, SystemScript_ChooseHiddenPowerType_SetSteel
+		case 9, SystemScript_ChooseHiddenPowerType_SetFire
+		case 10, SystemScript_ChooseHiddenPowerType_SetWater
+		case 11, SystemScript_ChooseHiddenPowerType_SetGrass
+		case 12, SystemScript_ChooseHiddenPowerType_SetElectric
+		case 13, SystemScript_ChooseHiddenPowerType_SetPsychic
+		case 14, SystemScript_ChooseHiddenPowerType_SetIce
+		case 15, SystemScript_ChooseHiddenPowerType_SetDragon
+		case 16, SystemScript_ChooseHiddenPowerType_SetDark
+		case 17, SystemScript_ChooseHiddenPowerType_SetFairy
+
+SystemScript_ChooseHiddenPowerType_Cancelled:
+	setvar LASTRESULT 0x7F
+	return
+
+SystemScript_ChooseHiddenPowerType_SetNormal:
+	setvar 0x8001 TYPE_NORMAL
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchNormal MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
+
+SystemScript_ChooseHiddenPowerType_SetFighting:
+	setvar 0x8001 TYPE_FIGHTING
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchFighting MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
+
+SystemScript_ChooseHiddenPowerType_SetFlying:
+	setvar 0x8001 TYPE_FLYING
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchFlying MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
+
+SystemScript_ChooseHiddenPowerType_SetPoison:
+	setvar 0x8001 TYPE_POISON
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchPoison MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
+
+SystemScript_ChooseHiddenPowerType_SetGround:
+	setvar 0x8001 TYPE_GROUND
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchGround MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
+
+SystemScript_ChooseHiddenPowerType_SetRock:
+	setvar 0x8001 TYPE_ROCK
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchRock MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
+
+SystemScript_ChooseHiddenPowerType_SetBug:
+	setvar 0x8001 TYPE_BUG
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchBug MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
+
+SystemScript_ChooseHiddenPowerType_SetGhost:
+	setvar 0x8001 TYPE_GHOST
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchGhost MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
+
+SystemScript_ChooseHiddenPowerType_SetSteel:
+	setvar 0x8001 TYPE_STEEL
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchSteel MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
+
+SystemScript_ChooseHiddenPowerType_SetFire:
+	setvar 0x8001 TYPE_FIRE
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchFire MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
+
+SystemScript_ChooseHiddenPowerType_SetWater:
+	setvar 0x8001 TYPE_WATER
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchWater MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
+
+SystemScript_ChooseHiddenPowerType_SetGrass:
+	setvar 0x8001 TYPE_GRASS
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchGrass MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
+
+SystemScript_ChooseHiddenPowerType_SetElectric:
+	setvar 0x8001 TYPE_ELECTRIC
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchElectric MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
+
+SystemScript_ChooseHiddenPowerType_SetPsychic:
+	setvar 0x8001 TYPE_PSYCHIC
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchPsychic MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
+
+SystemScript_ChooseHiddenPowerType_SetIce:
+	setvar 0x8001 TYPE_ICE
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchIce MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
+
+SystemScript_ChooseHiddenPowerType_SetDragon:
+	setvar 0x8001 TYPE_DRAGON
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchDragon MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
+
+SystemScript_ChooseHiddenPowerType_SetDark:
+	setvar 0x8001 TYPE_DARK
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchDark MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
+
+SystemScript_ChooseHiddenPowerType_SetFairy:
+	setvar 0x8001 TYPE_FAIRY
+	callasm ChangeHiddenPowerTypeInOW
+	msgbox gText_ChangeHiddenPowerTypeNPCFetchFairy MSG_NORMAL
+	setvar LASTRESULT 0x1
+	return
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
