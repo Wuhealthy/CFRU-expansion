@@ -4872,12 +4872,13 @@ static u16 FindMegaStoneForSpecies(u16 species)
 
 //随机训练家队伍后处理(所有宝可梦RandomizeTrainerMon完成后整队执行一次):
 //队中有可Mega进化的宝可梦则等概率选一只佩戴对应Mega石(覆盖随机道具);
-//另有50%概率从可觉醒的宝可梦中选一只,携带觉醒力量招式或觉醒徽章(各50%),Mega位优先
+//每只可觉醒的宝可梦独立判定50%概率觉醒:50%携带觉醒力量招式(招式满则随机顶替一个),50%携带觉醒徽章;
+//已佩戴Mega石的宝可梦除外
 static void RandomizeTrainerTeamPostProcess(struct Pokemon* party, u8 monsCount)
 {
-	u8 i, megaMon = 0xFF, awakeMon = 0xFF;
+	u8 i, megaMon = 0xFF;
 	u16 megaStone = ITEM_NONE;
-	u8 megaCandidates = 0, awakeCandidates = 0;
+	u8 megaCandidates = 0;
 
 	for (i = 0; i < monsCount; ++i)
 	{
@@ -4900,35 +4901,31 @@ static void RandomizeTrainerTeamPostProcess(struct Pokemon* party, u8 monsCount)
 		SetMonData(&party[megaMon], MON_DATA_HELD_ITEM, &stone);
 	}
 
-	if (Random() & 1) //50%概率给队伍配置觉醒
+	for (i = 0; i < monsCount; ++i)
 	{
-		for (i = 0; i < monsCount; ++i)
+		struct Pokemon* mon = &party[i];
+
+		if (i == megaMon)
+			continue; //已佩戴Mega石的宝可梦不再配置觉醒
+		if (!IsAwakeningBaseSpecies(mon->species))
+			continue;
+
+		if (Random() & 1) //50%携带觉醒力量招式
 		{
-			if (i == megaMon)
-				continue; //已佩戴Mega石的宝可梦不再配置觉醒
-			if (IsAwakeningBaseSpecies(party[i].species))
+			if (GiveMoveToBoxMon((void*) mon, MOVE_HIDDENPOWER) == 0xFFFF)
 			{
-				++awakeCandidates;
-				if (Random() % awakeCandidates == 0)
-					awakeMon = i;
+				//招式已满,随机顶替一个招式
+				u16 hiddenpower = MOVE_HIDDENPOWER;
+				u8 slot = Random() % MAX_MON_MOVES;
+				u8 pp = gBattleMoves[MOVE_HIDDENPOWER].pp;
+				SetMonData(mon, MON_DATA_MOVE1 + slot, &hiddenpower);
+				SetMonData(mon, MON_DATA_PP1 + slot, &pp);
 			}
 		}
-
-		if (awakeMon != 0xFF)
+		else //50%携带觉醒徽章
 		{
-			if (Random() & 1) //50%携带觉醒力量招式
-			{
-				if (GiveMoveToBoxMon((void*) &party[awakeMon], MOVE_HIDDENPOWER) == 0xFFFF)
-				{
-					u16 charm = ITEM_AWAKEN_CHARM; //招式已满,改用觉醒徽章
-					SetMonData(&party[awakeMon], MON_DATA_HELD_ITEM, &charm);
-				}
-			}
-			else //50%携带觉醒徽章
-			{
-				u16 charm = ITEM_AWAKEN_CHARM;
-				SetMonData(&party[awakeMon], MON_DATA_HELD_ITEM, &charm);
-			}
+			u16 charm = ITEM_AWAKEN_CHARM;
+			SetMonData(mon, MON_DATA_HELD_ITEM, &charm);
 		}
 	}
 }
