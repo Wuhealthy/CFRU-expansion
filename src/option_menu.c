@@ -121,6 +121,22 @@ enum
     OPT_COUNT,
 };
 
+//分页:0=一般设置 1=对战设置 2=随机设置(L/R键切换)
+#define OPT_PAGE_COUNT 3
+static const u8 sOptionPageItems[OPT_PAGE_COUNT][9] =
+{
+	//第1页:一般设置
+	{ OPT_TEXTSPEED, OPT_SOUND, OPT_BUTTONMODE, OPT_FRAMETYPE, OPT_RBUTTONMODE,
+	  OPT_AUTOSORTBAG, OPT_BATTLEMUSIC, OPT_NO_RANDOM_WILD_ENCOUNTERS, OPT_CANCEL },
+	//第2页:对战设置
+	{ OPT_BATTLESCENE, OPT_BATTLESTYLE, OPT_INVERSE_BATTLE, OPT_DOUBLE_BATTLE,
+	  OPT_DAMAGE_DISPLAY, OPT_GAME_DIFFICULTY, OPT_CANCEL },
+	//第3页:随机设置
+	{ OPT_RANDOM_WILD_SPECIES, OPT_RANDOM_LEARNSETS, OPT_RANDOM_ABILITIES,
+	  OPT_SHINY_ODDS, OPT_WILDLEVELSCALING, OPT_CANCEL },
+};
+static const u8 sOptionPageItemCount[OPT_PAGE_COUNT] = {9, 7, 6};
+
 #define OPTION_LIST_VISIBLE 7
 
 // Window Ids
@@ -133,8 +149,11 @@ enum
 struct OptionMenu
 {
     /*0x00*/ u16 option[MENUITEM_COUNT];
-    /*0x??*/ u16 cursorPos;
-    /*0x??*/ u16 scrollTop;   // first visible row of the unified list
+    /*0x??*/ u16 cursorPos;   //当前页内的光标行
+    /*0x??*/ u16 scrollTop;   //当前页内可见区首行
+    /*0x??*/ u8 page;         //当前页(0=一般 1=对战 2=随机)
+    /*0x??*/ u8 pageCursor[OPT_PAGE_COUNT];   //每页记住的光标
+    /*0x??*/ u8 pageScrollTop[OPT_PAGE_COUNT]; //每页记住的滚动顶
     /*0x??*/ u8 loadState;
     /*0x??*/ u8 state;
     /*0x??*/ u8 loadPaletteState;
@@ -577,6 +596,12 @@ void Task_OptionMenu(u8 taskId)
         case 4: // value changed
             BufferOptionMenuString(sOptionMenuPtr->cursorPos - sOptionMenuPtr->scrollTop);
             break;
+        case 5: // page switched (L/R): redraw the whole page
+            OptionMenu_DrawVisibleList();
+            UpdateSettingSelectionDisplay(sOptionMenuPtr->cursorPos - sOptionMenuPtr->scrollTop);
+            PrintOptionDescription();
+            OptionMenu_PickSwitchCancel();
+            break;
         }
         break;
     case 3:
@@ -689,13 +714,15 @@ void BufferOptionMenuString(u8 selection)
 
     if (selection >= OPTION_LIST_VISIBLE)
         return;
+    if (sOptionMenuPtr->scrollTop + selection >= sOptionPageItemCount[sOptionMenuPtr->page])
+        return; //越过本页最后一行(页项目数不足7)时不画值列
 
     memcpy(dst, sOptionMenuTextColor, 3);
     x = 0x82;
     y = ((GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT) - 1) * (selection)) + 2;
     FillWindowPixelRect(1, 1, x, y, 0x46, GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT));
 
-    item = sOptionMenuPtr->scrollTop + selection;
+    item = sOptionPageItems[sOptionMenuPtr->page][sOptionMenuPtr->scrollTop + selection];
     if (item == OPT_FRAMETYPE)
     {
         StringCopy(str, gText_FrameType);
@@ -737,42 +764,79 @@ static void OptionMenu_DrawVisibleList(void)
     }
 }
 
+//切换到前一页/后一页(L/R键),保存并恢复每页的光标与滚动位置;返回5表示需要整页重画
+static u8 OptionMenu_SwitchPage(s8 dir)
+{
+    s32 newPage = sOptionMenuPtr->page + dir;
+
+    if (newPage < 0)
+        newPage = OPT_PAGE_COUNT - 1;
+    else if (newPage >= OPT_PAGE_COUNT)
+        newPage = 0;
+
+    if (newPage == sOptionMenuPtr->page)
+        return 0;
+
+    sOptionMenuPtr->pageCursor[sOptionMenuPtr->page] = sOptionMenuPtr->cursorPos;
+    sOptionMenuPtr->pageScrollTop[sOptionMenuPtr->page] = sOptionMenuPtr->scrollTop;
+    sOptionMenuPtr->page = newPage;
+    sOptionMenuPtr->cursorPos = sOptionMenuPtr->pageCursor[newPage];
+    sOptionMenuPtr->scrollTop = sOptionMenuPtr->pageScrollTop[newPage];
+
+    if (sOptionMenuPtr->cursorPos >= sOptionPageItemCount[newPage])
+        sOptionMenuPtr->cursorPos = sOptionPageItemCount[newPage] - 1;
+
+    PlaySE(SE_SELECT);
+    return 5;
+}
+
 u8 OptionMenu_ProcessInput(void)
 {
     u16 *curr;
     u16 current;
+    u16 item;
 
-    if (JOY_REPT(DPAD_RIGHT))
+    if (JOY_NEW(L_BUTTON))
     {
-        curr = GetOptionItemValuePtr(sOptionMenuPtr->cursorPos);
+        return OptionMenu_SwitchPage(-1);
+    }
+    else if (JOY_NEW(R_BUTTON))
+    {
+        return OptionMenu_SwitchPage(1);
+    }
+    else if (JOY_REPT(DPAD_RIGHT))
+    {
+        item = sOptionPageItems[sOptionMenuPtr->page][sOptionMenuPtr->cursorPos];
+        curr = GetOptionItemValuePtr(item);
         if (curr == NULL)
             return 0;
         current = *curr;
-        if (current == GetOptionItemCount(sOptionMenuPtr->cursorPos) - 1)
+        if (current == GetOptionItemCount(item) - 1)
             *curr = 0;
         else
             *curr = current + 1;
-        if (sOptionMenuPtr->cursorPos == OPT_FRAMETYPE)
+        if (item == OPT_FRAMETYPE)
             return 2;
         return 4;
     }
     else if (JOY_REPT(DPAD_LEFT))
     {
-        curr = GetOptionItemValuePtr(sOptionMenuPtr->cursorPos);
+        item = sOptionPageItems[sOptionMenuPtr->page][sOptionMenuPtr->cursorPos];
+        curr = GetOptionItemValuePtr(item);
         if (curr == NULL)
             return 0;
         if (*curr == 0)
-            *curr = GetOptionItemCount(sOptionMenuPtr->cursorPos) - 1;
+            *curr = GetOptionItemCount(item) - 1;
         else
             --*curr;
-        if (sOptionMenuPtr->cursorPos == OPT_FRAMETYPE)
+        if (item == OPT_FRAMETYPE)
             return 2;
         return 4;
     }
     else if (JOY_REPT(DPAD_UP))
     {
-        if (sOptionMenuPtr->cursorPos == OPT_TEXTSPEED)
-            sOptionMenuPtr->cursorPos = OPT_CANCEL;
+        if (sOptionMenuPtr->cursorPos == 0)
+            sOptionMenuPtr->cursorPos = sOptionPageItemCount[sOptionMenuPtr->page] - 1;
         else
             sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos - 1;
         PlaySE(SE_SELECT);
@@ -780,8 +844,8 @@ u8 OptionMenu_ProcessInput(void)
     }
     else if (JOY_REPT(DPAD_DOWN))
     {
-        if (sOptionMenuPtr->cursorPos == OPT_CANCEL)
-            sOptionMenuPtr->cursorPos = OPT_TEXTSPEED;
+        if (sOptionMenuPtr->cursorPos >= sOptionPageItemCount[sOptionMenuPtr->page] - 1)
+            sOptionMenuPtr->cursorPos = 0;
         else
             sOptionMenuPtr->cursorPos = sOptionMenuPtr->cursorPos + 1;
         PlaySE(SE_SELECT);
@@ -802,7 +866,7 @@ static const u8 sOptionDescriptionTextColor[] = {TEXT_COLOR_TRANSPARENT, TEXT_CO
 // Replaces the fixed header text with a description of the option under the cursor
 void PrintOptionDescription(void)
 {
-    u16 item = sOptionMenuPtr->cursorPos;
+    u16 item = sOptionPageItems[sOptionMenuPtr->page][sOptionMenuPtr->cursorPos];
     const u8 *desc = (item < OPT_COUNT) ? sOptionDescriptions[item] : NULL;
 
     FillWindowPixelBuffer(WIN_TEXT_OPTION, PIXEL_FILL(1));
@@ -842,7 +906,7 @@ bool8 LoadOptionMenuPalette(void)
     return FALSE;
 }
 
-// Draws the names of the currently visible slice of the unified list
+// Draws the names of the currently visible slice of the active page
 void LoadOptionMenuItemNames(void)
 {
     u8 i;
@@ -850,9 +914,11 @@ void LoadOptionMenuItemNames(void)
     FillWindowPixelBuffer(1, PIXEL_FILL(1));
     for (i = 0; i < OPTION_LIST_VISIBLE; i++)
     {
-        u16 item = sOptionMenuPtr->scrollTop + i;
-        if (item >= OPT_COUNT)
+        u16 row = sOptionMenuPtr->scrollTop + i;
+        u16 item;
+        if (row >= sOptionPageItemCount[sOptionMenuPtr->page])
             break;
+        item = sOptionPageItems[sOptionMenuPtr->page][row];
         AddTextPrinterParameterized(WIN_OPTIONS, 2, GetOptionItemName(item), 8, (u8)((i * (GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT))) + 2) - i, TEXT_SPEED_FF, NULL);
     }
     PutWindowTilemap(1);
@@ -860,12 +926,24 @@ void LoadOptionMenuItemNames(void)
 }
 
 extern const u8 gText_PickSwitchCancel[];
+extern const u8 gText_OptionPageGeneral[];
+extern const u8 gText_OptionPageBattle[];
+extern const u8 gText_OptionPageRandomizer[];
+
+static const u8 *const sOptionPageNames[OPT_PAGE_COUNT] =
+{
+	gText_OptionPageGeneral,
+	gText_OptionPageBattle,
+	gText_OptionPageRandomizer,
+};
 
 void OptionMenu_PickSwitchCancel(void)
 {
     s32 x;
-    x = 0xE4 - GetStringWidth(0, gText_PickSwitchCancel, 0);
+    //左侧显示当前页名(带LR提示),右侧保留原有的按键说明
     FillWindowPixelBuffer(2, PIXEL_FILL(15));
+    AddTextPrinterParameterized3(2, 0, 4, 0, sOptionMenuPickSwitchCancelTextColor, 0, sOptionPageNames[sOptionMenuPtr->page]);
+    x = 0xE4 - GetStringWidth(0, gText_PickSwitchCancel, 0);
     AddTextPrinterParameterized3(2, 0, x, 0, sOptionMenuPickSwitchCancelTextColor, 0, gText_PickSwitchCancel);
     PutWindowTilemap(2);
     CopyWindowToVram(2, COPYWIN_BOTH);

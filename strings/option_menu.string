@@ -11,7 +11,7 @@ R键模式
 道具
 
 #org @gText_PickSwitchCancel
-[DPAD_UP_DOWN]选择 [DPAD_LEFT_RIGHT]切换 [A_BUTTON][B_BUTTON]退出
+[L_BUTTON][R_BUTTON]翻页 [DPAD_UP_DOWN]选择 [DPAD_LEFT_RIGHT]切换 [A_BUTTON][B_BUTTON]退出
 
 #org @gText_BattleMusic
 对战音乐
@@ -177,4 +177,13 @@ R键模式
 
 #org @gText_OptionDesc_RandomAbilities
 特性按个体真随机。
+
+#org @gText_OptionPageGeneral
+一般设置
+
+#org @gText_OptionPageBattle
+对战设置
+
+#org @gText_OptionPageRandomizer
+随机设置
 
