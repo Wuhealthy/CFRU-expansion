@@ -203,6 +203,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define FLAG_ABILITY_RANDOMIZER 0x942 //设置菜单随机特性开关。开启后特性按个体personality真随机(同种不同个体特性不同),交换/消除/复制类禁表特性不会随机到,原特性受形态绑定保护的宝可梦(如阿尔宙斯)不随机
 #define FLAG_TRAINER_RANDOMIZER 0x943 //设置菜单随机训练家开关。开启后训练家战斗的宝可梦随机化:物种按徽章数限制种族值范围(与随机野生遭遇同表)、等级±偏移、随机携带道具、配招按新等级从招式表重建(等级天然缩放);等级达到TRAINER_RANDOM_FULLY_EVOLVED_LEVEL的训练家宝可梦强制使用完全进化形态
 #define FLAG_EXP_SHARE_CATCH_UP 0x944 //设置菜单经验共享升级开关。开启且全队经验共享(学习装置)生效时,对战中分享到经验的未参战宝可梦会升级到队内最高等级(尊重等级帽,蛋与濒死除外)
+#define FLAG_EASY_CATCH 0x945 //设置菜单容易捕捉开关。开启后野生宝可梦必定被捕捉(强制摇满,等效大师球;仅对野生对战生效,训练家宝可梦照常不可捕捉)
 #define TRAINER_RANDOM_FULLY_EVOLVED_LEVEL 30 //随机训练家:达到该等级的宝可梦强制完全进化形态(等级门槛,避免前期过于离谱)
 #define TRAINER_RANDOM_LEVEL_VARIANCE 3 //随机训练家:每只宝可梦等级随机偏移上限(±该值)
 #define NUM_SPECIES_RANDOMIZER NUM_SPECIES //The final number of Pokemon (+ 1) of species that can appear in the randomizer. Change to NUM_SPECIES for Gen 8

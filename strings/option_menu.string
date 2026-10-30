@@ -190,6 +190,12 @@ R键模式
 #org @gText_OptionDesc_ExpCatchUp
 共享经验使后排升到队内最高等级。
 
+#org @gText_EasyCatch
+容易捕捉
+
+#org @gText_OptionDesc_EasyCatch
+开启后野生宝可梦必定被捕捉。
+
 #org @gText_OptionPageGeneral
 一般设置
 

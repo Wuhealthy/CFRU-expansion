@@ -221,6 +221,7 @@ void atkEF_handleballthrow(void)
 			#ifdef FLAG_SANDBOX_MODE
 			|| FlagGet(FLAG_SANDBOX_MODE)
 			#endif
+			|| FlagGet(FLAG_EASY_CATCH) //容易捕捉设置:必定捕捉
 			)
 				shakes = maxShakes;
 			else
