@@ -4845,6 +4845,30 @@ static bool8 IsAwakeningBaseSpecies(u16 species)
 	return FALSE;
 }
 
+//觉醒力量官方属性表(一般到妖精;基础ROM属性枚举中夹有???,???等非战斗占位属性,不能用连续区间)
+static const u8 sHiddenPowerTypeTable[] =
+{
+	TYPE_NORMAL, TYPE_FIGHTING, TYPE_FLYING, TYPE_POISON, TYPE_GROUND,
+	TYPE_ROCK, TYPE_BUG, TYPE_GHOST, TYPE_STEEL, TYPE_FIRE, TYPE_WATER,
+	TYPE_GRASS, TYPE_ELECTRIC, TYPE_PSYCHIC, TYPE_ICE, TYPE_DRAGON,
+	TYPE_DARK, TYPE_FAIRY,
+};
+
+//觉醒力量属性智能随机:从官方属性表中排除自身属性后随机(训练家个体值6V,按IV推导会固定同一个属性)
+static u8 SmartRandomHiddenPowerType(struct Pokemon* mon)
+{
+	u8 type1 = gBaseStats[mon->species].type1;
+	u8 type2 = gBaseStats[mon->species].type2;
+	u8 count = ARRAY_COUNT(sHiddenPowerTypeTable);
+	u8 type;
+
+	do {
+		type = sHiddenPowerTypeTable[Random() % count];
+	} while (type == type1 || type == type2);
+
+	return type;
+}
+
 //查物种的Mega进化石(多个石头时等概率选一个),没有则返回ITEM_NONE
 static u16 FindMegaStoneForSpecies(u16 species)
 {
@@ -4921,6 +4945,8 @@ static void RandomizeTrainerTeamPostProcess(struct Pokemon* party, u8 monsCount)
 				SetMonData(mon, MON_DATA_MOVE1 + slot, &hiddenpower);
 				SetMonData(mon, MON_DATA_PP1 + slot, &pp);
 			}
+
+			SET_MON_HIDDEN_POWER_TYPE(mon, SmartRandomHiddenPowerType(mon)); //属性智能随机,不跟随个体值
 		}
 		else //50%携带觉醒徽章
 		{
