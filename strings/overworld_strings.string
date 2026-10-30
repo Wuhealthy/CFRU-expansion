@@ -40,6 +40,15 @@
 #org @gText_LButtonMenu_HiddenPower
 更改觉醒力量属性
 
+#org @gText_LButtonMenu_MegaShop
+超级商店
+
+#org @gText_LButtonMenu_MegaShop_Greeting
+欢迎光临超级商店！\p这里出售各种Mega进化石。
+
+#org @gText_LButtonMenu_MegaShop_Farewell
+感谢惠顾，欢迎下次再来！
+
 #org @gText_BikeTurboBoostEnable
 涡轮加速已[GREEN]激活[BLACK]。
 

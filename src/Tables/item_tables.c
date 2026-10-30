@@ -7650,7 +7650,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_M, _e, _g, _a, _SPACE, _R, _i, _n, _g, _END},
 		.itemId = ITEM_MEGA_RING,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = 0,
 		.holdEffectParam = 0,
 		.description = DESC_MEGA_RING,
@@ -10530,7 +10530,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_V, _e, _n, _u, _s, _a, _u, _r, _i, _t, _e, _END},
 		.itemId = ITEM_VENUSAURITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_VENUSAURITE,
@@ -10546,7 +10546,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_C, _h, _a, _r, _z, _a, _r, _d, _i, _t, _e, _X, _END},
 		.itemId = ITEM_CHARIZARDITE_X,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_CHARIZARDITE,
@@ -10562,7 +10562,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_C, _h, _a, _r, _z, _a, _r, _d, _i, _t, _e, _Y, _END},
 		.itemId = ITEM_CHARIZARDITE_Y,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_CHARIZARDITE,
@@ -10578,7 +10578,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_B, _l, _a, _s, _t, _o, _i, _s, _n, _i, _t, _e, _END},
 		.itemId = ITEM_BLASTOISINITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_BLASTOISINITE,
@@ -10594,7 +10594,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_B, _e, _e, _d, _r, _i, _l, _l, _i, _t, _e, _END},
 		.itemId = ITEM_BEEDRILLITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_BEEDRILLITE,
@@ -10610,7 +10610,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_P, _i, _d, _g, _e, _o, _t, _i, _t, _e, _END},
 		.itemId = ITEM_PIDGEOTITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_PIDGEOTITE,
@@ -10626,7 +10626,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_A, _l, _a, _k, _a, _z, _i, _t, _e, _END},
 		.itemId = ITEM_ALAKAZITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_ALAKAZITE,
@@ -10642,7 +10642,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_S, _l, _o, _w, _b, _r, _o, _n, _i, _t, _e, _END},
 		.itemId = ITEM_SLOWBRONITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_SLOWBRONITE,
@@ -10658,7 +10658,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_G, _e, _n, _g, _a, _r, _i, _t, _e, _END},
 		.itemId = ITEM_GENGARITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_GENGARITE,
@@ -10674,7 +10674,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_K, _a, _n, _g, _a, _s, _k, _a, _n, _i, _t, _e, _END},
 		.itemId = ITEM_KANGASKHANITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_KANGASKHANITE,
@@ -10690,7 +10690,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_P, _i, _n, _s, _i, _r, _i, _t, _e, _END},
 		.itemId = ITEM_PINSIRITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_PINSIRITE,
@@ -10706,7 +10706,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_G, _y, _a, _r, _a, _d, _o, _s, _i, _t, _e, _END},
 		.itemId = ITEM_GYARADOSITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_GYARADOSITE,
@@ -10722,7 +10722,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_A, _e, _r, _o, _d, _a, _c, _t, _l, _i, _t, _e, _END},
 		.itemId = ITEM_AERODACTYLITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_AERODACTYLITE,
@@ -10738,7 +10738,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_M, _e, _w, _t, _w, _o, _n, _i, _t, _e, _X, _END},
 		.itemId = ITEM_MEWTWONITE_X,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_MEWTWONITE,
@@ -10754,7 +10754,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_M, _e, _w, _t, _w, _o, _n, _i, _t, _e, _Y, _END},
 		.itemId = ITEM_MEWTWONITE_Y,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_MEWTWONITE,
@@ -10770,7 +10770,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_A, _m, _p, _h, _a, _r, _o, _s, _i, _t, _e, _END},
 		.itemId = ITEM_AMPHAROSITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_AMPHAROSITE,
@@ -10786,7 +10786,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_S, _t, _e, _e, _l, _i, _x, _i, _t, _e, _END},
 		.itemId = ITEM_STEELIXITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_STEELIXITE,
@@ -10802,7 +10802,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_S, _c, _i, _z, _o, _r, _i, _t, _e, _END},
 		.itemId = ITEM_SCIZORITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_SCIZORITE,
@@ -10818,7 +10818,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_H, _e, _r, _a, _c, _r, _o, _n, _i, _t, _e, _END},
 		.itemId = ITEM_HERACRONITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_HERACRONITE,
@@ -10834,7 +10834,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_H, _o, _u, _n, _d, _o, _o, _m, _n, _i, _t, _e, _END},
 		.itemId = ITEM_HOUNDOOMINITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_HOUNDOOMINITE,
@@ -10850,7 +10850,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_T, _y, _r, _a, _n, _i, _t, _a, _r, _i, _t, _e, _END},
 		.itemId = ITEM_TYRANITARITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_TYRANITARITE,
@@ -10866,7 +10866,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_S, _c, _e, _p, _t, _i, _l, _i, _t, _e, _END},
 		.itemId = ITEM_SCEPTILITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_SCEPTILITE,
@@ -10882,7 +10882,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_B, _l, _a, _z, _i, _k, _e, _n, _i, _t, _e, _END},
 		.itemId = ITEM_BLAZIKENITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_BLAZIKENITE,
@@ -10898,7 +10898,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_S, _w, _a, _m, _p, _e, _r, _t, _i, _t, _e, _END},
 		.itemId = ITEM_SWAMPERTITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_SWAMPERTITE,
@@ -10914,7 +10914,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_G, _a, _r, _d, _e, _v, _o, _i, _r, _i, _t, _e, _END},
 		.itemId = ITEM_GARDEVOIRITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_GARDEVOIRITE,
@@ -10930,7 +10930,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_S, _a, _b, _l, _e, _n, _i, _t, _e, _END},
 		.itemId = ITEM_SABLENITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_SABLENITE,
@@ -10946,7 +10946,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_M, _a, _w, _i, _l, _i, _t, _e, _END},
 		.itemId = ITEM_MAWILITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_MAWILITE,
@@ -10962,7 +10962,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_A, _g, _g, _r, _o, _n, _i, _t, _e, _END},
 		.itemId = ITEM_AGGRONITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_AGGRONITE,
@@ -10978,7 +10978,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_M, _e, _d, _i, _c, _h, _a, _m, _i, _t, _e, _END},
 		.itemId = ITEM_MEDICHAMITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_MEDICHAMITE,
@@ -10994,7 +10994,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_M, _a, _n, _e, _c, _t, _i, _t, _e, _END},
 		.itemId = ITEM_MANECTITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_MANECTITE,
@@ -11010,7 +11010,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_S, _h, _a, _r, _p, _e, _d, _o, _n, _i, _t, _e, _END},
 		.itemId = ITEM_SHARPEDONITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_SHARPEDONITE,
@@ -11026,7 +11026,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_C, _a, _m, _e, _r, _u, _p, _t, _i, _t, _e, _END},
 		.itemId = ITEM_CAMERUPTITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_CAMERUPTITE,
@@ -11042,7 +11042,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_A, _l, _t, _a, _r, _i, _a, _n, _i, _t, _e, _END},
 		.itemId = ITEM_ALTARIANITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_ALTARIANITE,
@@ -11058,7 +11058,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_B, _a, _n, _e, _t, _t, _i, _t, _e, _END},
 		.itemId = ITEM_BANETTITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_BANETTITE,
@@ -11074,7 +11074,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_A, _b, _s, _o, _l, _i, _t, _e, _END},
 		.itemId = ITEM_ABSOLITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_ABSOLITE,
@@ -11090,7 +11090,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_G, _l, _a, _l, _i, _t, _i, _t, _e, _END},
 		.itemId = ITEM_GLALITITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_GLALITITE,
@@ -11106,7 +11106,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_S, _a, _l, _a, _m, _e, _n, _c, _i, _t, _e, _END},
 		.itemId = ITEM_SALAMENCITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_SALAMENCITE,
@@ -11122,7 +11122,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_M, _e, _t, _a, _g, _r, _o, _s, _s, _i, _t, _e, _END},
 		.itemId = ITEM_METAGROSSITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_METAGROSSITE,
@@ -11138,7 +11138,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_L, _a, _t, _i, _a, _s, _i, _t, _e, _END},
 		.itemId = ITEM_LATIASITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_LATIASITE,
@@ -11154,7 +11154,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_L, _a, _t, _i, _o, _s, _i, _t, _e, _END},
 		.itemId = ITEM_LATIOSITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_LATIOSITE,
@@ -11170,7 +11170,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_L, _o, _p, _u, _n, _n, _i, _t, _e, _END},
 		.itemId = ITEM_LOPUNNITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_LOPUNNITE,
@@ -11186,7 +11186,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_G, _a, _r, _c, _h, _o, _m, _p, _i, _t, _e, _END},
 		.itemId = ITEM_GARCHOMPITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_GARCHOMPITE,
@@ -11202,7 +11202,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_L, _u, _c, _a, _r, _i, _o, _n, _i, _t, _e, _END},
 		.itemId = ITEM_LUCARIONITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_LUCARIONITE,
@@ -11218,7 +11218,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_A, _b, _o, _m, _a, _s, _i, _t, _e, _END},
 		.itemId = ITEM_ABOMASITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_ABOMASITE,
@@ -11234,7 +11234,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_G, _a, _l, _l, _a, _d, _i, _t, _e, _END},
 		.itemId = ITEM_GALLADITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_GALLADITE,
@@ -11250,7 +11250,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_A, _u, _d, _i, _n, _i, _t, _e, _END},
 		.itemId = ITEM_AUDINITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_AUDINITE,
@@ -11266,7 +11266,7 @@ const struct Item gItemData[] =
 	{
 		.name = {_D, _i, _a, _n, _c, _i, _t, _e, _END},
 		.itemId = ITEM_DIANCITE,
-		.price = 0,
+		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
 		.holdEffectParam = 0,
 		.description = DESC_DIANCITE,
@@ -14445,7 +14445,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x18, 0x16, 0x05, 0xA4, 0x08, 0xCD, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_BAXCALIBURITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14461,7 +14461,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x09, 0x6F, 0x08, 0x75, 0x08, 0xCD, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_TATSUGIRIITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14477,7 +14477,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x08, 0x4C, 0x0B, 0x12, 0x0B, 0xEB, 0xD2, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
 		.itemId = ITEM_RAICHUXITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14493,7 +14493,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x08, 0x4C, 0x0B, 0x12, 0x0B, 0xEB, 0xD3, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
 		.itemId = ITEM_RAICHUYITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14509,7 +14509,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x07, 0x57, 0x04, 0xAA, 0x05, 0x35, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_GLIMMORAITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14525,7 +14525,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x05, 0x0C, 0x08, 0x26, 0x07, 0x09, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_SCOVILLAINITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14541,7 +14541,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x08, 0xA3, 0x10, 0x66, 0x01, 0xB5, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_FALINKSITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14557,7 +14557,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0A, 0x5F, 0x07, 0xD7, 0x0D, 0xBD, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
 		.itemId = ITEM_CLEFABLEITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14573,7 +14573,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x07, 0x2F, 0x08, 0x22, 0x01, 0x21, 0x08, 0x22, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_ZERAORAITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14589,7 +14589,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x09, 0x24, 0x05, 0x87, 0x0E, 0xAE, 0x09, 0xBE, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_MAGEARNAITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14605,7 +14605,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x08, 0x44, 0x0D, 0x92, 0x08, 0xCD, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_DRAMPAITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14621,7 +14621,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x07, 0x8F, 0x05, 0xC2, 0x0D, 0xAA, 0x10, 0x52, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_GOLISOPODITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14637,7 +14637,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x02, 0xD3, 0x0B, 0xEF, 0x05, 0x35, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
 		.itemId = ITEM_VICTREEBELITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14653,7 +14653,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x04, 0xE9, 0x0B, 0xE0, 0x09, 0x43, 0x0E, 0x42, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_CRABMINBLEITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14669,7 +14669,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x05, 0x86, 0x04, 0x5B, 0x03, 0xA0, 0x03, 0x09, 0x0B, 0xEB, 0xFF},	//阿柏怪石
 		.itemId = ITEM_ZYGARDEITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14685,7 +14685,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x1A, 0x56, 0x09, 0x58, 0x08, 0xCD, 0x0B, 0xEB, 0xFF},	//阿柏怪石
 		.itemId = ITEM_GOODRAITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14701,7 +14701,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0C, 0x47, 0x07, 0x19, 0x0F, 0x53, 0x0B, 0x4B, 0x0B, 0xEB, 0xFF},	//阿柏怪石
 		.itemId = ITEM_HAWLUCHAITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14717,7 +14717,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x03, 0x63, 0x0F, 0xF1, 0x08, 0xCD, 0x0B, 0xEB, 0xFF},	//阿柏怪石
 		.itemId = ITEM_DRAGALGEITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14733,7 +14733,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x04, 0xB2, 0x11, 0x1B, 0x07, 0x8E, 0x19, 0xE5, 0x0B, 0xEB, 0xFF},	//阿柏怪石
 		.itemId = ITEM_BARBARACLEITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14749,7 +14749,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x01, 0x63, 0x0B, 0xEB, 0x04, 0xC9, 0x0E, 0x52, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
 		.itemId = ITEM_STARMIEITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14765,7 +14765,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0D, 0xA0, 0x10, 0x09, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_MALAMARITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14781,7 +14781,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x02, 0x2E, 0x09, 0xD2, 0x09, 0x86, 0x14, 0x35, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_MEOWSTICITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14797,7 +14797,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0C, 0x51, 0x0F, 0x11, 0x01, 0xD7, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_VAPOREONITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14813,7 +14813,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x08, 0x4C, 0x0F, 0x11, 0x01, 0xD7, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_JOLTEONITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14829,7 +14829,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x05, 0x7D, 0x0F, 0x11, 0x01, 0xD7, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_FLAREONITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14845,7 +14845,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x05, 0x9C, 0x03, 0x58, 0x09, 0xE7, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_ARTICUNOITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14861,7 +14861,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0B, 0x9F, 0x03, 0x2E, 0x09, 0xE7, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_ZAPDOSITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14877,7 +14877,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x05, 0x7D, 0x0E, 0xCF, 0x09, 0xE7, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_MOLTRESITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14893,7 +14893,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x08, 0x03, 0x08, 0xCD, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_DRAGONITEITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14909,7 +14909,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x02, 0xD3, 0x1C, 0x98, 0x08, 0x12, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_MEGANIUMITE,					//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14925,7 +14925,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x05, 0x7D, 0x01, 0x66, 0x0C, 0x23, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_TYPHLOSIONITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14941,7 +14941,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x02, 0xD3, 0x08, 0x79, 0x1D, 0xF1, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_FERALIGATRITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14957,7 +14957,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x05, 0x35, 0x0F, 0x06, 0x03, 0x20, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_FLOETTEITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14973,7 +14973,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x05, 0x7D, 0x0E, 0xC0, 0x0B, 0xE4, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_PYROARITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -14989,7 +14989,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0C, 0xAC, 0x0E, 0xDD, 0x0F, 0x11, 0x01, 0xD7, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_ESPEONITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15005,7 +15005,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0F, 0xCE, 0x08, 0x94, 0x0F, 0x11, 0x01, 0xD7, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_UMBREONITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15021,7 +15021,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x05, 0xC2, 0x05, 0x07, 0x0B, 0x4C, 0x0D, 0x44, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_GRENINJAITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15037,7 +15037,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x08, 0x0F, 0x05, 0xC2, 0x09, 0xE7, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_SKARMORYITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15053,7 +15053,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x05, 0xC2, 0x05, 0x07, 0x0B, 0x4C, 0x0D, 0x44, 0x0B, 0xEB, 0xD4, 0xFF},
 		.itemId = ITEM_GRENINJAZITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15069,7 +15069,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x04, 0xC9, 0x18, 0xAA, 0x0D, 0xE4, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_PALAFINITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15085,7 +15085,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x08, 0x4C, 0x04, 0x73, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_RAIKOUITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15101,7 +15101,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0E, 0xC0, 0x03, 0x22, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_ENTEIITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15117,7 +15117,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0C, 0x51, 0x07, 0xAD, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_SUICUNEITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15133,7 +15133,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x09, 0x1F, 0x0A, 0xA1, 0x0E, 0xB0, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_LUGIAITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15149,7 +15149,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x03, 0xF2, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_HOOHITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15165,7 +15165,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0B, 0x0D, 0x05, 0xC4, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_SLAKINGITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15181,7 +15181,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x01, 0xDB, 0x0C, 0x5F, 0x05, 0x27, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_POLTEAGEISTITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15197,7 +15197,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x01, 0xD7, 0x08, 0x64, 0x07, 0xB6, 0x08, 0xD2, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_CHESNAUGHTITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15213,7 +15213,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0E, 0xE6, 0x05, 0x7D, 0x05, 0x1B, 0x05, 0x2B, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_DELPHOXITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15229,7 +15229,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x09, 0xD6, 0x0A, 0x19, 0x07, 0x8E, 0x0B, 0x4B, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_GOLURKITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15245,7 +15245,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0C, 0x51, 0x07, 0x57, 0x03, 0x0D, 0x05, 0x7D, 0x08, 0xBC, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_CHANDELUREITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15261,7 +15261,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x03, 0xEA, 0x08, 0xB8, 0x08, 0xB8, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_CHIMECHOITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15277,7 +15277,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x01, 0x01, 0x01, 0xC5, 0x0C, 0x96, 0x08, 0xE4, 0x0B, 0xEB, 0xD4, 0xFF},
 		.itemId = ITEM_ABSOLZITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15293,7 +15293,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0A, 0xB5, 0x0C, 0x05, 0x05, 0x1E, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_ANNIHILAPEITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15309,7 +15309,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0D, 0x29, 0x0C, 0xA9, 0x04, 0xB2, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_TORTERRAITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15325,7 +15325,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x08, 0xA5, 0x0E, 0xCF, 0x05, 0x1E, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_INFERNAPEITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15341,7 +15341,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x03, 0x22, 0x0D, 0x5D, 0x09, 0xB9, 0x01, 0xC3, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_EMPOLEONITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15357,7 +15357,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x09, 0xAD, 0x07, 0xD9, 0x0F, 0x53, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_STARAPTORITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15373,7 +15373,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x1C, 0x51, 0x1C, 0x33, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_SCOLIPEDEITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15389,7 +15389,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0D, 0x1F, 0x07, 0x3F, 0x05, 0x79, 0x05, 0x79, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_SCRAFTYITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15405,7 +15405,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x09, 0x23, 0x09, 0x23, 0x1E, 0x08, 0x0F, 0x91, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_EELEKTROSSITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15421,7 +15421,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x08, 0xA5, 0x0E, 0xEE, 0x08, 0xEE, 0x1D, 0xE0, 0x0B, 0xEB, 0xD4, 0xFF},
 		.itemId = ITEM_GARCHOMPZITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15437,7 +15437,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x08, 0xE8, 0x07, 0xB6, 0x08, 0x70, 0x0A, 0x14, 0x0B, 0xEB, 0xD4, 0xFF},
 		.itemId = ITEM_LUCARIOZITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15453,7 +15453,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0E, 0x92, 0x0E, 0xE6, 0x0A, 0x0B, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_FROSLASSITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15469,7 +15469,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0D, 0xD3, 0x03, 0x85, 0x08, 0x2B, 0x03, 0x9C, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_HEATRANITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15485,7 +15485,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x02, 0xCF, 0x07, 0xD9, 0x08, 0x28, 0x0F, 0x11, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_DARKRAIITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15501,7 +15501,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x07, 0xD9, 0x08, 0x4C, 0x0B, 0x89, 0x08, 0x70, 0x0E, 0xB0, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_CRESSELIAITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15517,7 +15517,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x07, 0xAD, 0x10, 0xC8, 0x0B, 0xBD, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_SERPERIORITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15533,7 +15533,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x0E, 0xC0, 0x0D, 0xAA, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_EMBOARITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15549,7 +15549,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x02, 0xD3, 0x05, 0xEC, 0x04, 0xB5, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_SAMUROTTITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述
@@ -15565,7 +15565,7 @@ const struct Item gItemData[] =
 	{
 		.name = { 0x08, 0xCD, 0x0D, 0x1F, 0x03, 0x1F, 0x0C, 0x38, 0x0B, 0xEB, 0xFF},
 		.itemId = ITEM_EXCADRILLITE,				//道具编号
-		.price = 0,									//价格
+		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
 		.holdEffectParam = 0,						//携带效果参数
 		.description = DESC_RATICATEITE,			//道具描述

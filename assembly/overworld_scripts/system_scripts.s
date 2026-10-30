@@ -98,10 +98,12 @@ SystemScript_LButtonMenu:
 	waitmsg
 	multichoiceoption gText_LButtonMenu_AutoRun 0
 	multichoiceoption gText_LButtonMenu_HiddenPower 1
-	multichoice 0x0 0x0 TWO_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_MegaShop 2
+	multichoice 0x0 0x0 THREE_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleAutoRun
 	case 1, SystemScript_LButtonMenu_HiddenPower
+	case 2, SystemScript_LButtonMenu_MegaShop
 	releaseall
 	end
 
@@ -114,10 +116,12 @@ SystemScript_LButtonMenu_Bike:
 	waitmsg
 	multichoiceoption gText_LButtonMenu_BikeTurbo 0
 	multichoiceoption gText_LButtonMenu_HiddenPower 1
-	multichoice 0x0 0x0 TWO_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_MegaShop 2
+	multichoice 0x0 0x0 THREE_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleBikeTurbo
 	case 1, SystemScript_LButtonMenu_HiddenPower
+	case 2, SystemScript_LButtonMenu_MegaShop
 	releaseall
 	end
 
@@ -130,12 +134,219 @@ SystemScript_LButtonMenu_Surf:
 	waitmsg
 	multichoiceoption gText_LButtonMenu_SurfTurbo 0
 	multichoiceoption gText_LButtonMenu_HiddenPower 1
-	multichoice 0x0 0x0 TWO_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_MegaShop 2
+	multichoice 0x0 0x0 THREE_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleSurfTurbo
 	case 1, SystemScript_LButtonMenu_HiddenPower
+	case 2, SystemScript_LButtonMenu_MegaShop
 	releaseall
 	end
+
+SystemScript_LButtonMenu_MegaShop:
+	preparemsg gText_LButtonMenu_MegaShop_Greeting
+	waitmsg
+	pokemart MegaStoneShopItems
+	msgbox gText_LButtonMenu_MegaShop_Farewell MSG_KEEPOPEN
+	releaseall
+	end
+
+@ 新一代 Mega 石（include/constants/items.h 从 0x308 起，asm_defines.s 未生成 .equ）
+.equ ITEM_BAXCALIBURITE, 0x308
+.equ ITEM_TATSUGIRIITE, 0x309
+.equ ITEM_RAICHUXITE, 0x30A
+.equ ITEM_RAICHUYITE, 0x30B
+.equ ITEM_GLIMMORAITE, 0x30C
+.equ ITEM_SCOVILLAINITE, 0x30D
+.equ ITEM_FALINKSITE, 0x30E
+.equ ITEM_CLEFABLEITE, 0x30F
+.equ ITEM_ZERAORAITE, 0x310
+.equ ITEM_MAGEARNAITE, 0x311
+.equ ITEM_DRAMPAITE, 0x312
+.equ ITEM_GOLISOPODITE, 0x313
+.equ ITEM_VICTREEBELITE, 0x314
+.equ ITEM_CRABMINBLEITE, 0x315
+.equ ITEM_ZYGARDEITE, 0x316
+.equ ITEM_GOODRAITE, 0x317
+.equ ITEM_HAWLUCHAITE, 0x318
+.equ ITEM_DRAGALGEITE, 0x319
+.equ ITEM_BARBARACLEITE, 0x31A
+.equ ITEM_STARMIEITE, 0x31B
+.equ ITEM_MALAMARITE, 0x31C
+.equ ITEM_MEOWSTICITE, 0x31D
+.equ ITEM_VAPOREONITE, 0x31E
+.equ ITEM_JOLTEONITE, 0x31F
+.equ ITEM_FLAREONITE, 0x320
+.equ ITEM_ARTICUNOITE, 0x321
+.equ ITEM_ZAPDOSITE, 0x322
+.equ ITEM_MOLTRESITE, 0x323
+.equ ITEM_DRAGONITEITE, 0x324
+.equ ITEM_MEGANIUMITE, 0x325
+.equ ITEM_TYPHLOSIONITE, 0x326
+.equ ITEM_FERALIGATRITE, 0x327
+.equ ITEM_FLOETTEITE, 0x328
+.equ ITEM_PYROARITE, 0x329
+.equ ITEM_ESPEONITE, 0x32A
+.equ ITEM_UMBREONITE, 0x32B
+.equ ITEM_GRENINJAITE, 0x32C
+.equ ITEM_SKARMORYITE, 0x32D
+.equ ITEM_GRENINJAZITE, 0x32E
+.equ ITEM_PALAFINITE, 0x32F
+.equ ITEM_RAIKOUITE, 0x330
+.equ ITEM_ENTEIITE, 0x331
+.equ ITEM_SUICUNEITE, 0x332
+.equ ITEM_LUGIAITE, 0x333
+.equ ITEM_HOOHITE, 0x334
+.equ ITEM_SLAKINGITE, 0x335
+.equ ITEM_POLTEAGEISTITE, 0x336
+.equ ITEM_CHESNAUGHTITE, 0x337
+.equ ITEM_DELPHOXITE, 0x338
+.equ ITEM_GOLURKITE, 0x339
+.equ ITEM_CHANDELUREITE, 0x33A
+.equ ITEM_CHIMECHOITE, 0x33B
+.equ ITEM_ABSOLZITE, 0x33C
+.equ ITEM_ANNIHILAPEITE, 0x33D
+.equ ITEM_TORTERRAITE, 0x33E
+.equ ITEM_INFERNAPEITE, 0x33F
+.equ ITEM_EMPOLEONITE, 0x340
+.equ ITEM_STARAPTORITE, 0x341
+.equ ITEM_SCOLIPEDEITE, 0x342
+.equ ITEM_SCRAFTYITE, 0x343
+.equ ITEM_EELEKTROSSITE, 0x344
+.equ ITEM_GARCHOMPZITE, 0x345
+.equ ITEM_LUCARIOZITE, 0x346
+.equ ITEM_FROSLASSITE, 0x347
+.equ ITEM_HEATRANITE, 0x348
+.equ ITEM_DARKRAIITE, 0x349
+.equ ITEM_CRESSELIAITE, 0x34A
+.equ ITEM_SERPERIORITE, 0x34B
+.equ ITEM_EMBOARITE, 0x34C
+.equ ITEM_SAMUROTTITE, 0x34D
+.equ ITEM_EXCADRILLITE, 0x34E
+
+@ 所有 Mega 进化石（不含 Ultranecrozium Z）
+.align 2
+MegaStoneShopItems:
+	.hword ITEM_MEGA_RING
+	.hword ITEM_VENUSAURITE
+	.hword ITEM_CHARIZARDITE_X
+	.hword ITEM_CHARIZARDITE_Y
+	.hword ITEM_BLASTOISINITE
+	.hword ITEM_BEEDRILLITE
+	.hword ITEM_PIDGEOTITE
+	.hword ITEM_ALAKAZITE
+	.hword ITEM_SLOWBRONITE
+	.hword ITEM_GENGARITE
+	.hword ITEM_KANGASKHANITE
+	.hword ITEM_PINSIRITE
+	.hword ITEM_GYARADOSITE
+	.hword ITEM_AERODACTYLITE
+	.hword ITEM_MEWTWONITE_X
+	.hword ITEM_MEWTWONITE_Y
+	.hword ITEM_AMPHAROSITE
+	.hword ITEM_STEELIXITE
+	.hword ITEM_SCIZORITE
+	.hword ITEM_HERACRONITE
+	.hword ITEM_HOUNDOOMINITE
+	.hword ITEM_TYRANITARITE
+	.hword ITEM_SCEPTILITE
+	.hword ITEM_BLAZIKENITE
+	.hword ITEM_SWAMPERTITE
+	.hword ITEM_GARDEVOIRITE
+	.hword ITEM_SABLENITE
+	.hword ITEM_MAWILITE
+	.hword ITEM_AGGRONITE
+	.hword ITEM_MEDICHAMITE
+	.hword ITEM_MANECTITE
+	.hword ITEM_SHARPEDONITE
+	.hword ITEM_CAMERUPTITE
+	.hword ITEM_ALTARIANITE
+	.hword ITEM_BANETTITE
+	.hword ITEM_ABSOLITE
+	.hword ITEM_GLALITITE
+	.hword ITEM_SALAMENCITE
+	.hword ITEM_METAGROSSITE
+	.hword ITEM_LATIASITE
+	.hword ITEM_LATIOSITE
+	.hword ITEM_LOPUNNITE
+	.hword ITEM_GARCHOMPITE
+	.hword ITEM_LUCARIONITE
+	.hword ITEM_ABOMASITE
+	.hword ITEM_GALLADITE
+	.hword ITEM_AUDINITE
+	.hword ITEM_DIANCITE
+	.hword ITEM_BAXCALIBURITE
+	.hword ITEM_TATSUGIRIITE
+	.hword ITEM_RAICHUXITE
+	.hword ITEM_RAICHUYITE
+	.hword ITEM_GLIMMORAITE
+	.hword ITEM_SCOVILLAINITE
+	.hword ITEM_FALINKSITE
+	.hword ITEM_CLEFABLEITE
+	.hword ITEM_ZERAORAITE
+	.hword ITEM_MAGEARNAITE
+	.hword ITEM_DRAMPAITE
+	.hword ITEM_GOLISOPODITE
+	.hword ITEM_VICTREEBELITE
+	.hword ITEM_CRABMINBLEITE
+	.hword ITEM_ZYGARDEITE
+	.hword ITEM_GOODRAITE
+	.hword ITEM_HAWLUCHAITE
+	.hword ITEM_DRAGALGEITE
+	.hword ITEM_BARBARACLEITE
+	.hword ITEM_STARMIEITE
+	.hword ITEM_MALAMARITE
+	.hword ITEM_MEOWSTICITE
+	.hword ITEM_VAPOREONITE
+	.hword ITEM_JOLTEONITE
+	.hword ITEM_FLAREONITE
+	.hword ITEM_ARTICUNOITE
+	.hword ITEM_ZAPDOSITE
+	.hword ITEM_MOLTRESITE
+	.hword ITEM_DRAGONITEITE
+	.hword ITEM_MEGANIUMITE
+	.hword ITEM_TYPHLOSIONITE
+	.hword ITEM_FERALIGATRITE
+	.hword ITEM_FLOETTEITE
+	.hword ITEM_PYROARITE
+	.hword ITEM_ESPEONITE
+	.hword ITEM_UMBREONITE
+	.hword ITEM_GRENINJAITE
+	.hword ITEM_SKARMORYITE
+	.hword ITEM_GRENINJAZITE
+	.hword ITEM_PALAFINITE
+	.hword ITEM_RAIKOUITE
+	.hword ITEM_ENTEIITE
+	.hword ITEM_SUICUNEITE
+	.hword ITEM_LUGIAITE
+	.hword ITEM_HOOHITE
+	.hword ITEM_SLAKINGITE
+	.hword ITEM_POLTEAGEISTITE
+	.hword ITEM_CHESNAUGHTITE
+	.hword ITEM_DELPHOXITE
+	.hword ITEM_GOLURKITE
+	.hword ITEM_CHANDELUREITE
+	.hword ITEM_CHIMECHOITE
+	.hword ITEM_ABSOLZITE
+	.hword ITEM_ANNIHILAPEITE
+	.hword ITEM_TORTERRAITE
+	.hword ITEM_INFERNAPEITE
+	.hword ITEM_EMPOLEONITE
+	.hword ITEM_STARAPTORITE
+	.hword ITEM_SCOLIPEDEITE
+	.hword ITEM_SCRAFTYITE
+	.hword ITEM_EELEKTROSSITE
+	.hword ITEM_GARCHOMPZITE
+	.hword ITEM_LUCARIOZITE
+	.hword ITEM_FROSLASSITE
+	.hword ITEM_HEATRANITE
+	.hword ITEM_DARKRAIITE
+	.hword ITEM_CRESSELIAITE
+	.hword ITEM_SERPERIORITE
+	.hword ITEM_EMBOARITE
+	.hword ITEM_SAMUROTTITE
+	.hword ITEM_EXCADRILLITE
+	.hword 0x0
 
 SystemScript_LButtonMenu_ToggleAutoRun:
 	checkflag FLAG_AUTO_RUN
