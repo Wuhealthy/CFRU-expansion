@@ -1517,7 +1517,12 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 		}
 	}
 
-	if (gBattleMons[bankDef].hp == gBattleMons[bankDef].maxHP && ABILITY(bankDef) == ABILITY_TERASHELL) // Check if target's HP is full
+	//太晶甲壳：HP满时受击变为效果不好（可被破格穿透，与 Levitate 站点同口径；固伤/挣扎不走类型修正天然豁免）
+	if (ABILITY(bankDef) == ABILITY_TERASHELL
+	&& NO_MOLD_BREAKERS(atkAbility, move)
+	&& (monDef != NULL
+		? (monDef->hp == monDef->maxHP)
+		: (gBattleMons[bankDef].hp == gBattleMons[bankDef].maxHP)))
 	{
 		if (multiplier != TYPE_MUL_NO_EFFECT)
 			multiplier = TYPE_MUL_NOT_EFFECTIVE; // Override the multiplier to "not very effective"
