@@ -733,7 +733,7 @@ u8 PredictFightingStyle(const u16* const moves, const ability_t ability, const u
 					class = FIGHT_CLASS_DOUBLES_TRICK_ROOM_ATTACKER;
 			}
 			else if (hasRedirection
-			|| (ability == ABILITY_INTIMIDATE && hasFakeOut)
+			|| ((ability == ABILITY_INTIMIDATE || ability == ABILITY_BRUTALFORCE) && hasFakeOut)
 			|| (hasFakeOut && hasPivot))
 			{
 				class = FIGHT_CLASS_DOUBLES_UTILITY;

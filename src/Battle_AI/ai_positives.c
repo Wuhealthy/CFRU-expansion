@@ -1626,6 +1626,14 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 							else if (IsClassDoublesAllOutAttacker(class))
 								INCREASE_VIABILITY(18);
 						}
+						else if (GetMonAbility(GetBankPartyData(bankAtk)) == ABILITY_BRUTALFORCE
+						&&  MoveSplitOnTeam(bankAtk, SPLIT_PHYSICAL)) //威压：己方偏物理时，换入降对面防御收益大
+						{
+							if (IsClassDoublesUtility(class))
+								INCREASE_VIABILITY(16);
+							else if (IsClassDoublesAllOutAttacker(class))
+								INCREASE_VIABILITY(18);
+						}
 					}
 					break;
 
