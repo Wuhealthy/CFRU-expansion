@@ -2186,7 +2186,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
         
         			if (statusedCount > 0 && !BATTLER_MAX_HP(bank) && !IsHealBlocked(bank))
         			{
-            			healAmount = (GetBaseMaxHP(bank) * statusedCount) / 16;
+            			healAmount = MathMax(1, (GetBaseMaxHP(bank) * statusedCount) / 16);
                 
             			gBattleMoveDamage = healAmount;
             			gBattleMoveDamage *= -1;

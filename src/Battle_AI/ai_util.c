@@ -2900,6 +2900,27 @@ void ClearMovePredictionsOnBank(u8 bank)
 		gNewBS->ai.movePredictions[i][bank] = MOVE_NONE;
 }
 
+//暗影治愈：给该兽或其双打队友上异常状态会喂饱它的回合末回复
+bool8 StatusFeedsShadowHeal(u8 bank)
+{
+	if (!BATTLER_ALIVE(bank))
+		return FALSE;
+
+	if (ABILITY(bank) == ABILITY_SHADOWHEAL
+	&& !BATTLER_MAX_HP(bank)
+	&& !IsHealBlocked(bank))
+		return TRUE;
+
+	if (IS_DOUBLE_BATTLE
+	&& BATTLER_ALIVE(PARTNER(bank))
+	&& ABILITY(PARTNER(bank)) == ABILITY_SHADOWHEAL
+	&& !BATTLER_MAX_HP(PARTNER(bank))
+	&& !IsHealBlocked(PARTNER(bank)))
+		return TRUE;
+
+	return FALSE;
+}
+
 bool8 BadIdeaToPutToSleep(u8 bankDef, u8 bankAtk)
 {
 	u8 defItemEffect = ITEM_EFFECT(bankDef);
@@ -2911,6 +2932,7 @@ bool8 BadIdeaToPutToSleep(u8 bankDef, u8 bankAtk)
 		|| (gBattleTypeFlags & BATTLE_TYPE_FRONTIER && defItemEffect == ITEM_EFFECT_CURE_STATUS) //Don't use this logic in general battles
 		|| defAbility == ABILITY_EARLYBIRD
 		|| defAbility == ABILITY_SHEDSKIN
+		|| StatusFeedsShadowHeal(bankDef)
 		|| (defAbility == ABILITY_SYNCHRONIZE && CanBePutToSleep(bankAtk, bankDef, TRUE))
 		|| (defAbility == ABILITY_HYDRATION && gBattleWeather & WEATHER_RAIN_ANY && gWishFutureKnock.weatherDuration != 1 && WEATHER_HAS_EFFECT)
 		|| (IS_DOUBLE_BATTLE && BATTLER_ALIVE(PARTNER(bankDef)) && ABILITY(PARTNER(bankDef)) == ABILITY_HEALER);
@@ -2929,6 +2951,7 @@ bool8 BadIdeaToPoison(u8 bankDef, u8 bankAtk)
 		||  defAbility == ABILITY_POISONHEAL
 		|| (defAbility == ABILITY_MAGICGUARD && !DoubleDamageWithStatusMoveInMovesetThatAffects(bankAtk, bankDef) && !MoveInMoveset(MOVE_VENOSHOCK, bankAtk))
 		||  defAbility == ABILITY_QUICKFEET
+		|| StatusFeedsShadowHeal(bankDef)
 		|| (defAbility == ABILITY_SYNCHRONIZE && CanBePoisoned(bankAtk, bankDef, TRUE) && !GoodIdeaToPoisonSelf(bankAtk))
 		|| (defAbility == ABILITY_MARVELSCALE && PhysicalMoveInMoveset(bankAtk))
 		|| (defAbility == ABILITY_SELFMOTIVATION && PhysicalMoveInMoveset(bankAtk))
@@ -2971,6 +2994,7 @@ bool8 BadIdeaToParalyze(u8 bankDef, u8 bankAtk)
 	   ||  defAbility == ABILITY_SHEDSKIN
 	   ||  defAbility == ABILITY_QUICKFEET
 	   || (defAbility == ABILITY_SYNCHRONIZE && CanBeParalyzed(bankAtk, bankDef, TRUE) && !GoodIdeaToParalyzeSelf(bankAtk))
+	   || StatusFeedsShadowHeal(bankDef)
 	   || (defAbility == ABILITY_MARVELSCALE && PhysicalMoveInMoveset(bankAtk))
 	   || (defAbility == ABILITY_SELFMOTIVATION && PhysicalMoveInMoveset(bankAtk))
 	   || (defAbility == ABILITY_NATURALCURE && CAN_SWITCH_OUT(bankDef))
@@ -3008,6 +3032,7 @@ bool8 BadIdeaToBurn(u8 bankDef, u8 bankAtk)
 		|| (defAbility == ABILITY_MAGICGUARD && !DoubleDamageWithStatusMoveInMovesetThatAffects(bankAtk, bankDef))
 		||  defAbility == ABILITY_QUICKFEET
 		|| (defAbility == ABILITY_SYNCHRONIZE && CanBeBurned(bankAtk, bankDef, TRUE) && !GoodIdeaToBurnSelf(bankAtk))
+		|| StatusFeedsShadowHeal(bankDef)
 		|| (defAbility == ABILITY_MARVELSCALE && PhysicalMoveInMoveset(bankAtk))
 		|| (defAbility == ABILITY_SELFMOTIVATION && PhysicalMoveInMoveset(bankAtk))
 		|| (defAbility == ABILITY_NATURALCURE && CAN_SWITCH_OUT(bankDef))
@@ -3057,7 +3082,8 @@ bool8 BadIdeaToFreeze(u8 bankDef, u8 bankAtk)
 		|| defItemEffect == ITEM_EFFECT_CURE_STATUS
 		|| (defAbility == ABILITY_SYNCHRONIZE && CanBeFrozen(bankAtk, bankDef, TRUE))
 		|| (defAbility == ABILITY_NATURALCURE && CAN_SWITCH_OUT(bankDef)) //Don't waste a one-time freeze
-		|| UnfreezingMoveInMoveset(bankDef);
+		|| UnfreezingMoveInMoveset(bankDef)
+		|| StatusFeedsShadowHeal(bankDef);
 }
 
 bool8 BadIdeaToMakeContactWith(u8 bankAtk, u8 bankDef)

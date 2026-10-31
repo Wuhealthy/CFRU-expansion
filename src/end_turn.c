@@ -562,6 +562,7 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 								case ABILITY_SHEDSKIN:
 								case ABILITY_HYDRATION:
 								case ABILITY_HEALER:
+								case ABILITY_SHADOWHEAL:
 								case ABILITY_EMERGENCYEXIT:
 								case ABILITY_WIMPOUT:
 									if (AbilityBattleEffects(ABILITYEFFECT_ENDTURN, gActiveBattler, 0, 0, 0))
