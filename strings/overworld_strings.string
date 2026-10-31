@@ -82,6 +82,27 @@
 #org @gText_LButtonMenu_BallShop_Greeting
 欢迎光临精灵球商店！\p这里出售各类精灵球。
 
+#org @gText_LButtonMenu_DayNight
+日夜更改
+
+#org @gText_LButtonMenu_DayNight_Morning
+早晨（4:00-8:00）
+
+#org @gText_LButtonMenu_DayNight_Day
+白天（8:00-17:00）
+
+#org @gText_LButtonMenu_DayNight_Evening
+傍晚（17:00-20:00）
+
+#org @gText_LButtonMenu_DayNight_Night
+夜晚（20:00-4:00）
+
+#org @gText_LButtonMenu_DayNight_Realtime
+恢复正常
+
+#org @gText_LButtonMenu_DayNight_Done
+时间已更改，野外遭遇随之改变。
+
 #org @gText_LButtonMenu_PokemonTraining
 宝可梦培养
 

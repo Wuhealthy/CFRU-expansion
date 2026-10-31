@@ -1,4 +1,5 @@
 #include "defines.h"
+#include "../include/event_data.h" //VarGet
 #include "../include/fieldmap.h"
 #include "../include/field_weather.h"
 #include "../include/overworld.h"
@@ -57,6 +58,17 @@ void TransferPlttBuffer(void)
 #ifdef TIME_ENABLED
 static u8 GetSafeClockHour(void)
 {
+	//日夜更改覆盖:0=跟随现实时间,1/2/3/4=强制早晨/白天/傍晚/夜晚
+	//所有时段判定(野外遭遇表/画面调色/对战背景等)都经此函数,一处覆盖全局生效
+	u16 override = VarGet(VAR_TIME_OVERRIDE);
+	if (override >= 1 && override <= 4)
+	{
+		static const u8 sForcedPeriodHours[4] =
+		{
+			TIME_MORNING_START, TIME_DAY_START, TIME_EVENING_START, TIME_NIGHT_START,
+		};
+		return sForcedPeriodHours[override - 1];
+	}
 	return (gClock.hour < 24) ? gClock.hour : TIME_DAY_START;
 }
 

@@ -88,6 +88,7 @@ SystemScript_DisableSurfTurboBoost:
 .equ FLAG_AUTO_RUN, 0x914
 .equ FLAG_BIKE_TURBO_BOOST, 0x91F
 .equ FLAG_SURF_TURBO_BOOST, 0x929
+.equ VAR_TIME_OVERRIDE, 0x5161 @日夜更改强制时段(0=现实时间,1/2/3/4=早晨/白天/傍晚/夜晚)
 
 .global SystemScript_LButtonMenu
 SystemScript_LButtonMenu:
@@ -97,13 +98,15 @@ SystemScript_LButtonMenu:
 	preparemsg gText_LButtonMenu_Prompt
 	waitmsg
 	multichoiceoption gText_LButtonMenu_AutoRun 0
-	multichoiceoption gText_LButtonMenu_PokemonTraining 1
-	multichoiceoption gText_LButtonMenu_OnlineShop 2
-	multichoice 0x0 0x0 THREE_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_DayNight 1
+	multichoiceoption gText_LButtonMenu_PokemonTraining 2
+	multichoiceoption gText_LButtonMenu_OnlineShop 3
+	multichoice 0x0 0x0 FOUR_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleAutoRun
-	case 1, SystemScript_LButtonMenu_Training
-	case 2, SystemScript_LButtonMenu_OnlineShop
+	case 1, SystemScript_LButtonMenu_DayNight
+	case 2, SystemScript_LButtonMenu_Training
+	case 3, SystemScript_LButtonMenu_OnlineShop
 	releaseall
 	end
 
@@ -115,13 +118,15 @@ SystemScript_LButtonMenu_Bike:
 	preparemsg gText_LButtonMenu_Prompt
 	waitmsg
 	multichoiceoption gText_LButtonMenu_BikeTurbo 0
-	multichoiceoption gText_LButtonMenu_PokemonTraining 1
-	multichoiceoption gText_LButtonMenu_OnlineShop 2
-	multichoice 0x0 0x0 THREE_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_DayNight 1
+	multichoiceoption gText_LButtonMenu_PokemonTraining 2
+	multichoiceoption gText_LButtonMenu_OnlineShop 3
+	multichoice 0x0 0x0 FOUR_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleBikeTurbo
-	case 1, SystemScript_LButtonMenu_Training
-	case 2, SystemScript_LButtonMenu_OnlineShop
+	case 1, SystemScript_LButtonMenu_DayNight
+	case 2, SystemScript_LButtonMenu_Training
+	case 3, SystemScript_LButtonMenu_OnlineShop
 	releaseall
 	end
 
@@ -133,13 +138,58 @@ SystemScript_LButtonMenu_Surf:
 	preparemsg gText_LButtonMenu_Prompt
 	waitmsg
 	multichoiceoption gText_LButtonMenu_SurfTurbo 0
-	multichoiceoption gText_LButtonMenu_PokemonTraining 1
-	multichoiceoption gText_LButtonMenu_OnlineShop 2
-	multichoice 0x0 0x0 THREE_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_DayNight 1
+	multichoiceoption gText_LButtonMenu_PokemonTraining 2
+	multichoiceoption gText_LButtonMenu_OnlineShop 3
+	multichoice 0x0 0x0 FOUR_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleSurfTurbo
-	case 1, SystemScript_LButtonMenu_Training
-	case 2, SystemScript_LButtonMenu_OnlineShop
+	case 1, SystemScript_LButtonMenu_DayNight
+	case 2, SystemScript_LButtonMenu_Training
+	case 3, SystemScript_LButtonMenu_OnlineShop
+	releaseall
+	end
+
+@ 日夜更改：强制时段(1/2/3/4=早晨/白天/傍晚/夜晚，0=恢复现实时间)，影响野外遭遇等所有时段判定
+SystemScript_LButtonMenu_DayNight:
+	multichoiceoption gText_LButtonMenu_DayNight_Morning 0
+	multichoiceoption gText_LButtonMenu_DayNight_Day 1
+	multichoiceoption gText_LButtonMenu_DayNight_Evening 2
+	multichoiceoption gText_LButtonMenu_DayNight_Night 3
+	multichoiceoption gText_LButtonMenu_DayNight_Realtime 4
+	multichoice 0x0 0x0 FIVE_MULTICHOICE_OPTIONS 0x0
+	switch LASTRESULT
+	case 0, SystemScript_LButtonMenu_DayNight_SetMorning
+	case 1, SystemScript_LButtonMenu_DayNight_SetDay
+	case 2, SystemScript_LButtonMenu_DayNight_SetEvening
+	case 3, SystemScript_LButtonMenu_DayNight_SetNight
+	case 4, SystemScript_LButtonMenu_DayNight_SetRealtime
+	releaseall
+	end
+
+SystemScript_LButtonMenu_DayNight_SetMorning:
+	setvar VAR_TIME_OVERRIDE, 0x1
+	goto SystemScript_LButtonMenu_DayNight_Done
+
+SystemScript_LButtonMenu_DayNight_SetDay:
+	setvar VAR_TIME_OVERRIDE, 0x2
+	goto SystemScript_LButtonMenu_DayNight_Done
+
+SystemScript_LButtonMenu_DayNight_SetEvening:
+	setvar VAR_TIME_OVERRIDE, 0x3
+	goto SystemScript_LButtonMenu_DayNight_Done
+
+SystemScript_LButtonMenu_DayNight_SetNight:
+	setvar VAR_TIME_OVERRIDE, 0x4
+	goto SystemScript_LButtonMenu_DayNight_Done
+
+SystemScript_LButtonMenu_DayNight_SetRealtime:
+	setvar VAR_TIME_OVERRIDE, 0x0
+	goto SystemScript_LButtonMenu_DayNight_Done
+
+SystemScript_LButtonMenu_DayNight_Done:
+	preparemsg gText_LButtonMenu_DayNight_Done
+	waitmsg
 	releaseall
 	end
 
