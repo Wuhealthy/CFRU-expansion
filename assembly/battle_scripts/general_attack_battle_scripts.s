@@ -2320,6 +2320,7 @@ BS_107_Nightmare:
 	ppreduce
 	jumpifstatus BANK_TARGET STATUS_SLEEP SetNightmareBS
 	jumpifability BANK_TARGET ABILITY_COMATOSE SetNightmareBS
+	jumpifability BANK_ATTACKER ABILITY_EVILSPIRIT SetNightmareBS @;邪祟：对手视为睡眠
 	goto NOEFFECT
 
 SetNightmareBS:
@@ -4605,6 +4606,7 @@ RefreshBS:
 PsychoShiftBS:
 	jumpifbehindsubstitute BANK_TARGET FAILED_PRE
 	jumpifstatus BANK_TARGET STATUS_ANY FAILED_PRE
+	jumpifability BANK_ATTACKER ABILITY_EVILSPIRIT FAILED_PRE @;邪祟：对手视为已异常，转移必失败
 	accuracycheck FAILED_PRE 0x0
 	attackstringnoprotean
 	ppreduce
