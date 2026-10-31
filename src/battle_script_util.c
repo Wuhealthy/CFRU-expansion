@@ -3029,7 +3029,9 @@ void TryUpperHand(void)
 {
 	u32 status = gBattleMons[gBankTarget].status1;
 
-	if (ABILITY(gBankAttacker) == ABILITY_POISONPUPPETEER && (status & STATUS_POISON) && !(gBattleMons[gBankTarget].status2 & STATUS2_CONFUSION))
+	if (ABILITY(gBankAttacker) == ABILITY_POISONPUPPETEER && (status & STATUS_POISON)
+	&& !(gBattleMons[gBankTarget].status2 & STATUS2_CONFUSION)
+	&& CanBeConfused(gBankTarget, gBankAttacker, TRUE)) //尊重混乱免疫（我行我素等），与 set_effect 主路径同口径
 	{
 		gBattleMons[gBankTarget].status2 |= STATUS2_CONFUSION;
 		gBattlescriptCurrInstr = BattleScript_SetPuppetConfusion - 5;
