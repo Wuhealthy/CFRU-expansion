@@ -2441,6 +2441,20 @@ u8 CalcMostSuitableMonToSwitchInto(void)
 				}
 			}
 
+			//款待/丰饶果实/抚心鳞：换入该宝可梦能治疗同伴（回复1/4最大HP或解除异常状态）
+			if (IS_DOUBLE_BATTLE
+			&& BATTLER_ALIVE(PARTNER(gActiveBattler))
+			&& (ability == ABILITY_HOSPITALITY
+			 || ability == ABILITY_BOUNTIFULFRUIT
+			 || ability == ABILITY_SOOTHELINGSCALE))
+			{
+				bool8 canHealPartner = !BATTLER_MAX_HP(PARTNER(gActiveBattler)) && !IsHealBlocked(PARTNER(gActiveBattler));
+				bool8 canCurePartner = ability == ABILITY_SOOTHELINGSCALE && (gBattleMons[PARTNER(gActiveBattler)].status1 & STATUS1_ANY);
+
+				if (canHealPartner || canCurePartner)
+					scores[i] += SWITCHING_INCREASE_HEAL_ALLY;
+			}
+
 			if (scores[i] >= SWITCHING_SCORE_MAX * (isOneFoeOnField ? 1 : 2) //Adjust when multiple foes are on the field
 			&& canRemoveHazards[i]) //This mon is perfect
 			{
