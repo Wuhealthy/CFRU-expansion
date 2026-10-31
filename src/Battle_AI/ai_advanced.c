@@ -580,6 +580,8 @@ u8 PredictFightingStyle(const u16* const moves, const ability_t ability, const u
 		bool8 hasTrickRoom = FALSE;
 		bool8 hasPhazing = FALSE;
 		bool8 hasRedirection = FALSE;
+		if (ability == ABILITY_TRICKROOMENTRY) //空间扭曲者：出场即开房间，按开房者分类
+			hasTrickRoom = TRUE;
 		//bool8 hasPartnerHelpingMoves = FALSE;
 		//bool8 hasSpeedControl = FALSE;
 		bool8 hasTeamSupport = FALSE;
