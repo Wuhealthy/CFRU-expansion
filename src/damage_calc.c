@@ -3817,8 +3817,21 @@ static u16 GetBasePower(struct DamageCalc* data)
 			break;
 
 		case MOVE_RAGEFIST:
-			if (gNewBS->rageFistCounter[bankAtk])
-				power = 50 + (50 * gNewBS->rageFistCounter[bankAtk]);
+		//按个体保留计数（官方语义：换下再上不清零）
+			{
+				u32 monId, side;
+
+				if (data->monAtk != NULL) //AI后备兽等预设计算：按队伍槽位取该个体的计数
+					GetMonIdAndSideByMon(data->monAtk, &monId, &side);
+				else
+				{
+					monId = gBattlerPartyIndexes[bankAtk];
+					side = SIDE(bankAtk);
+				}
+
+				if (gNewBS->rageFistCounter[side][monId])
+					power = 50 + (50 * gNewBS->rageFistCounter[side][monId]);
+			}
 			break;
 			
 		case MOVE_ROUND:

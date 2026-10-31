@@ -3455,9 +3455,9 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				&& BATTLER_ALIVE(bank)
 				&& gBankAttacker != bank
 				&& (SPLIT(move) == SPLIT_PHYSICAL || SPLIT_SPECIAL)
-				&& gNewBS->rageFistCounter[bank] < 6)
+				&& gNewBS->rageFistCounter[SIDE(bank)][gBattlerPartyIndexes[bank]] < 6)
 				{
-					gNewBS->rageFistCounter[bank]++;
+					gNewBS->rageFistCounter[SIDE(bank)][gBattlerPartyIndexes[bank]]++;
 					effect++;
 				}
 			}
