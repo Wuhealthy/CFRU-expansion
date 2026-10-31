@@ -4450,6 +4450,8 @@ void TryApplyShinyRollBonuses(struct Pokemon* mon)
 		ForceMonShiny(mon);
 }
 
+static bool8 IsSpeciesRandomizerBanned(u16 species); //完整形态禁表查询(懒构建),声明见BuildWildSpeciesBans之后
+
 void TryRandomizeSpecies(unusedArg u16* species)
 {
 	#ifdef FLAG_POKEMON_RANDOMIZER
@@ -4482,8 +4484,8 @@ void TryRandomizeSpecies(unusedArg u16* species)
 		newSpecies ^= xorVal;
 		newSpecies %= (u32) speciesCount; //Prevent overflow
 		
-		while ((gSpecialSpeciesFlags[newSpecies].randomizerBan
-		|| (newSpecies >= SPECIES_CELEBI + 1 && newSpecies < SPECIES_TREECKO)) //基础ROM预留的"?"占位物种
+		while ((newSpecies == SPECIES_NONE || newSpecies == SPECIES_EGG || newSpecies == SPECIES_ZYGARDE_CELL
+		|| IsSpeciesRandomizerBanned(newSpecies)) //完整形态禁表:「?」占位/Mega/超极巨化/觉醒/道具变身/randomizerBan全量
 		&& numAttempts < 100)
 		{
 			newSpecies *= xorVal;
@@ -4492,6 +4494,10 @@ void TryRandomizeSpecies(unusedArg u16* species)
 		}
 
 		if (numAttempts >= 100)
+			newSpecies = SPECIES_DITTO;
+
+		//图鉴编号为0的物种(未登记的占位等)兜底为百变怪,绝不输出「?」
+		if (SpeciesToNationalPokedexNum(newSpecies) == 0)
 			newSpecies = SPECIES_DITTO;
 
 		*species = newSpecies;
@@ -5022,6 +5028,19 @@ static void BuildWildSpeciesBans(void)
 	sWildSpeciesBansBuilt = TRUE;
 }
 
+//查询物种是否被禁随机(首次调用时懒构建禁表)。全局随机化(TryRandomizeSpecies)、
+//随机野生遭遇(TryRandomizeWildSpecies)、随机训练家(RandomizeTrainerMon)三路共用同一张位图
+static bool8 IsSpeciesRandomizerBanned(u16 species)
+{
+	if (species >= NUM_SPECIES)
+		return TRUE;
+
+	if (!sWildSpeciesBansBuilt)
+		BuildWildSpeciesBans();
+
+	return (sFormSpeciesBans[species >> 3] & (1 << (species & 7))) != 0;
+}
+
 //随机野生遭遇按徽章数限制可遭遇的最大种族值总和:0徽章300,每枚徽章+40,8徽章解除限制(可遭遇580以上的宝可梦)
 static const u16 sWildBstCapByBadges[] =
 {
@@ -5091,6 +5110,10 @@ u16 TryRandomizeWildSpecies(u16 species)
 
 		if (GetSpeciesBst(newSpecies) > bstCap)
 			continue; //种族值超出当前徽章数允许的范围
+
+		//图鉴编号为0的物种(未登记的占位等)兜底为百变怪,绝不输出「?」
+		if (SpeciesToNationalPokedexNum(newSpecies) == 0)
+			return SPECIES_DITTO;
 
 		return newSpecies;
 	}
@@ -5196,6 +5219,10 @@ static void RandomizeTrainerMon(struct Pokemon* mon)
 
 	if (numAttempts >= 100) //重掷100次未命中则保持原物种(几乎不可能发生)
 		newSpecies = mon->species;
+
+	//图鉴编号为0的物种(未登记的占位等)兜底为百变怪,绝不输出「?」
+	if (SpeciesToNationalPokedexNum(newSpecies) == 0)
+		newSpecies = SPECIES_DITTO;
 
 	//写入新物种与昵称
 	SetMonData(mon, MON_DATA_SPECIES, &newSpecies);
