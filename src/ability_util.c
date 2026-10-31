@@ -404,11 +404,6 @@ bool8 IsVitalSpiritAbility(ability_t ability, unusedArg u16 species)
 	return ability == ABILITY_VITALSPIRIT;
 }
 
-bool8 MindsEyePreventsLoweringStat(ability_t ability, u8 statId)
-{
-	return ability == ABILITY_MINDSEYE && statId == STAT_STAGE_ACC;
-}
-
 bool8 IsFullMetalBodyAbility(ability_t ability, unusedArg u16 species)
 {
 	return ability == ABILITY_FULLMETALBODY;

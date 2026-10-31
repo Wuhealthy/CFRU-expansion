@@ -43,7 +43,6 @@ bool8 IsAffectedByBadDreams(u8 bank);
 bool8 IsTrappedByAbility(u8 bankDef, ability_t trapAbility);
 bool8 IsWhiteSmokeAbility(ability_t ability, u16 species);
 bool8 IsVitalSpiritAbility(ability_t ability, u16 species);
-bool8 MindsEyePreventsLoweringStat(ability_t ability, u8 statId);
 bool8 IsFullMetalBodyAbility(ability_t ability, u16 species);
 bool8 CheckStatusAny(u8 bank);
 u8 CountFallenPokemonInParty(u8 bank);
