@@ -214,11 +214,20 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			case ABILITY_ANGERSHELL:
 			case ABILITY_BROKENCLAW:
 			case ABILITY_SPIKECLAW:
+			case ABILITY_NIRVANA:
 			{
 				u32 predictedDamage = GetFinalAIMoveDamage(move, bankAtk, bankDef, 1, NULL);
 				u32 currentHp = gBattleMons[bankDef].hp;
 				u32 maxHp = gBattleMons[bankDef].maxHP;
 				bool8 abilityUsed = gNewBS->oncePerBattleAbilityFlags[SIDE(bankDef)][gBattlerPartyIndexes[bankDef]];
+
+				if (data->defAbility == ABILITY_NIRVANA)
+				{
+					//会被打死反而触发复活（跨过致死线，不能放进 predictedDamage < currentHp 门内）
+					if (!abilityUsed && predictedDamage >= currentHp)
+						DECREASE_VIABILITY(2);
+					break;
+				}
 
 				if (predictedDamage < currentHp)
 				{
@@ -232,11 +241,7 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 					&& currentHp > maxHp / 2
 					&& currentHp - predictedDamage <= maxHp / 2)
 						DECREASE_VIABILITY(1);
-					else if (data->defAbility == ABILITY_NIRVANA
-				&& !abilityUsed
-				&& currentHp - predictedDamage <= 0) //会被打死反而触发复活
-					DECREASE_VIABILITY(2);
-				else if (data->defAbility == ABILITY_SPIKECLAW
+					else if (data->defAbility == ABILITY_SPIKECLAW
 					&& !abilityUsed
 					&& currentHp > maxHp / 3
 					&& currentHp - predictedDamage < maxHp / 3)
