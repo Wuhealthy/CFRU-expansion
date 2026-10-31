@@ -314,10 +314,10 @@ void atk05_damagecalc(void)
 	if (gBattleMoveDamage > 0
     && ABILITY(gBankAttacker) == ABILITY_STELLARENERGY
     && gSpecialMoveFlags[gCurrentMove].gPunchingMoves
-    && gNewBS->StellarEnergyCounter[gBankAttacker] < 5
+    && gNewBS->StellarEnergyCounter[SIDE(gBankAttacker)][gBattlerPartyIndexes[gBankAttacker]] < 5
     && !(gMoveResultFlags & MOVE_RESULT_NO_EFFECT))
     {
-        gNewBS->StellarEnergyCounter[gBankAttacker]++;
+        gNewBS->StellarEnergyCounter[SIDE(gBankAttacker)][gBattlerPartyIndexes[gBankAttacker]]++;
     }
 	++gBattlescriptCurrInstr;
 }
@@ -4329,7 +4329,17 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 		case ABILITY_STELLARENERGY:
 			if (data->moveSplit == SPLIT_PHYSICAL)
     		{
-        		u8 bonus = gNewBS->StellarEnergyCounter[bankAtk] * 10;
+        		u32 monId, side;
+
+        		if (data->monAtk != NULL) //AI后备兽等预设计算：按队伍槽位取该个体的层数
+        			GetMonIdAndSideByMon(data->monAtk, &monId, &side);
+        		else
+        		{
+        			monId = gBattlerPartyIndexes[data->bankAtk];
+        			side = SIDE(data->bankAtk);
+        		}
+
+				u8 bonus = gNewBS->StellarEnergyCounter[side][monId] * 10;
 				power = power * (100 + bonus) / 100;
     		}
 			break;

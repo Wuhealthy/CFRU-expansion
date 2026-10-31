@@ -841,7 +841,7 @@ struct NewBattleStruct
 	u8 ProtosynthesisActivated[MAX_BATTLERS_COUNT];
 	u8 boosterEnergyActivated[MAX_BATTLERS_COUNT];
 	u8 paradoxBoostedStat[MAX_BATTLERS_COUNT];
-	u8 StellarEnergyCounter[MAX_BATTLERS_COUNT];
+	u8 StellarEnergyCounter[NUM_BATTLE_SIDES][PARTY_SIZE]; //星光能量：按队伍槽位（个体）保留层数，换下再上不清零
 	u8 speedDiveRecoilBank[MAX_BATTLERS_COUNT];
 	u32 statuses4[MAX_BATTLERS_COUNT]; //Volatile Gen 9 effects (currently Salt Cure)
 	bool8 fallenPokemonFlags[NUM_BATTLE_SIDES][PARTY_SIZE]; //Mon that fainted at any point this battle (survives revival)
