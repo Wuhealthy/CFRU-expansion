@@ -4,6 +4,7 @@
 #include "../../include/constants/items.h"
 
 #include "../../include/new/ability_tables.h"
+#include "../../include/new/ability_util.h"
 #include "../../include/new/accuracy_calc.h"
 #include "../../include/new/ai_advanced.h"
 #include "../../include/new/ai_master.h"
@@ -747,6 +748,17 @@ bool8 StrongestMoveGoesFirst(u16 currentMove, u8 bankAtk, u8 bankDef)
 	return gNewBS->ai.strongestMoveGoesFirst[bankAtk][bankDef] == currentMove;
 }
 
+//转守为攻：读取队伍招式时应用出场转换，让后备兽上场评估看到真实的进攻招式
+u16 GetPartyMoveWithMutantAdapt(struct Pokemon* mon, u8 index)
+{
+	u16 move = GetMonData(mon, MON_DATA_MOVE1 + index, NULL);
+
+	if (GetMonAbility(mon) == ABILITY_MUTANTADAPT)
+		return GetDefensiveToOffensiveMove(move);
+
+	return move;
+}
+
 bool8 CanKnockOutFromParty(struct Pokemon* monAtk, u8 bankDef, struct DamageCalc* damageData)
 {
 	int i;
@@ -764,7 +776,7 @@ bool8 CanKnockOutFromParty(struct Pokemon* monAtk, u8 bankDef, struct DamageCalc
 		if (imposter)
 			move = GetBattleMonMove(damageData->atkImposterBank, i);
 		else
-			move = GetMonData(monAtk, MON_DATA_MOVE1 + i, NULL);
+			move = GetPartyMoveWithMutantAdapt(monAtk, i);
 
 		if (move == MOVE_NONE)
 			break;
@@ -3748,7 +3760,7 @@ bool8 PhysicalMoveInMonMoveset(struct Pokemon* mon, u8 moveLimitations)
 	moveLimitations = CheckMoveLimitationsFromParty(mon, 0, moveLimitations);
 	for (u32 i = 0; i < MAX_MON_MOVES; ++i)
 	{
-		move = GetMonData(mon, MON_DATA_MOVE1 + i, NULL);
+		move = GetPartyMoveWithMutantAdapt(mon, i);
 		if (move == MOVE_NONE)
 			break;
 
@@ -3771,7 +3783,7 @@ bool8 SpecialMoveInMonMoveset(struct Pokemon* mon, u8 moveLimitations)
 	moveLimitations = CheckMoveLimitationsFromParty(mon, 0, moveLimitations);
 	for (u32 i = 0; i < MAX_MON_MOVES; ++i)
 	{
-		move = GetMonData(mon, MON_DATA_MOVE1 + i, NULL);
+		move = GetPartyMoveWithMutantAdapt(mon, i);
 		if (move == MOVE_NONE)
 			break;
 

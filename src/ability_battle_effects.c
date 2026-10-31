@@ -1087,14 +1087,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
         	// 显示特性提示
         	gBattleStringLoader = gText_DefensiveToOffensiveActivate;
         	BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
-        
-        	// 备份原招式（用于战斗结束后恢复）
-        	for (u8 i = 0; i < MAX_MON_MOVES; i++)
-        	{
-            	gNewBS->backupMoves[bank][i] = gBattleMons[bank].moves[i];
-        	}
-        
-        	// 替换招式
+
+        	// 替换招式（只改战斗副本；换入时队伍数据会重载，不会污染队伍真招式）
         	for (u8 i = 0; i < MAX_MON_MOVES; i++)
         	{
             	u16 move = gBattleMons[bank].moves[i];
@@ -1104,7 +1098,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
                 	gBattleMons[bank].moves[i] = newMove;
             	}
         	}
-        
+
         	effect++;
     	}
     	break;
