@@ -121,6 +121,15 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 	&& !IsHealBlocked(bankAtk))
 		INCREASE_VIABILITY(1);
 
+	//吸血鬼：残血时用攻击招可回复伤害的一半（收益比水之再生大；打污泥浆会被反噬不加分）
+	if (atkAbility == ABILITY_VAMPIRE
+	&& moveSplit != SPLIT_STATUS
+	&& !(AI_SpecialTypeCalc(move, bankAtk, bankDef) & MOVE_RESULT_NO_EFFECT)
+	&& gBattleMons[bankAtk].hp < gBattleMons[bankAtk].maxHP
+	&& !IsHealBlocked(bankAtk)
+	&& defAbility != ABILITY_LIQUIDOOZE)
+		INCREASE_VIABILITY(2);
+
 	switch (moveEffect) {
 		case EFFECT_HIT:
 			if (atkAbility == ABILITY_TOXICCHAIN

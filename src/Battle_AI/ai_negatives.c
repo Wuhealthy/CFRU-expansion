@@ -141,6 +141,15 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 		return viability;
 	}
 
+	//吸血鬼：打污泥浆持有者时，回复会变成等量反噬伤害
+	if (data->atkAbility == ABILITY_VAMPIRE
+	&& data->defAbility == ABILITY_LIQUIDOOZE
+	&& moveSplit != SPLIT_STATUS
+	&& !(AI_SpecialTypeCalc(move, bankAtk, bankDef) & MOVE_RESULT_NO_EFFECT)
+	&& gBattleMons[bankAtk].hp < gBattleMons[bankAtk].maxHP
+	&& !IsHealBlocked(bankAtk))
+		DECREASE_VIABILITY(3);
+
 	//贪睡：AI持有者使用变化招式会让自己入睡；
 	//但有梦话/打鼾时入睡后仍可行动，只轻微扣分
 	if (data->atkAbility == ABILITY_SNOOZE
