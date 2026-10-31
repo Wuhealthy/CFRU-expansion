@@ -2489,7 +2489,8 @@ SKIP_CHECK_TARGET:
 			goto TWO_TURN_ATTACK_CHECK;
 
 		case EFFECT_SOLARBEAM:
-			if (gBattleWeather & WEATHER_SUN_ANY && !ItemEffectIgnoresSunAndRain(data->atkItemEffect) && WEATHER_HAS_EFFECT)
+			if ((gBattleWeather & WEATHER_SUN_ANY && !ItemEffectIgnoresSunAndRain(data->atkItemEffect) && WEATHER_HAS_EFFECT)
+			|| data->atkAbility == ABILITY_MEGASOL) //超级日光：无需蓄力，按普通招式评估
 				goto AI_STANDARD_DAMAGE;
 			//Fallthrough
 
