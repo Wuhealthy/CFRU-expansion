@@ -45,8 +45,13 @@ defines_battle.h
 
 #define REALLY_SMART_AI //The vanilla FR AI memory system sucks so this should always be defined
 
-#define IS_MOLD_BREAKER(ability, move) (IsMoldBreakerAbility(ability) || gSpecialMoveFlags[move].gMoldBreakerMoves)
-#define NO_MOLD_BREAKERS(ability, move) (!IsMoldBreakerAbility(ability) && !gSpecialMoveFlags[move].gMoldBreakerMoves)
+//菌丝之力：仅变化招式破格（攻击招式不破格）；招式自身破格（月光之力类）不受此限
+#define IS_MOLD_BREAKER(ability, move) (gSpecialMoveFlags[move].gMoldBreakerMoves \
+	|| (IsMoldBreakerAbility(ability) \
+		&& (ability != ABILITY_MYCELIUMMIGHT || SPLIT(move) == SPLIT_STATUS)))
+#define NO_MOLD_BREAKERS(ability, move) (!gSpecialMoveFlags[move].gMoldBreakerMoves \
+	&& (!IsMoldBreakerAbility(ability) \
+		|| (ability == ABILITY_MYCELIUMMIGHT && SPLIT(move) != SPLIT_STATUS)))
 #define IS_BLANK_TYPE(type) (type == TYPE_MYSTERY || type == TYPE_ROOSTLESS || type == TYPE_BLANK)
 #define IS_TRANSFORMED(bank) (gBattleMons[bank].status2 & STATUS2_TRANSFORMED)
 #define IS_BEHIND_SUBSTITUTE(bank) (gBattleMons[bank].status2 & STATUS2_SUBSTITUTE)

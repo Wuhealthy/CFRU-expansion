@@ -106,12 +106,6 @@ void atk00_attackcanceler(void)
 				if (i != gBankAttacker
 				&& (gSpecialAbilityFlags[ABILITY(i)].gMoldBreakerIgnoredAbilities))
 				{
-					if (ABILITY(gBankAttacker) == ABILITY_MYCELIUMMIGHT
-                    	&& SPLIT(gCurrentMove) != SPLIT_STATUS)
-                	{
-                    	// 菌丝之力使用攻击招式 → 不破格
-                    	continue;  // 跳过这个目标，不禁用特性
-                	}
 					gNewBS->DisabledMoldBreakerAbilities[i] = ABILITY(i); //Temporarily disable all relevant abilities on the field
 					ABILITY(i) = ABILITY_NONE;
 				}

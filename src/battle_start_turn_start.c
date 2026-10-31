@@ -2228,17 +2228,13 @@ u8 GetWhoStrikesFirst(u8 bank1, u8 bank2, bool8 ignoreMovePriorities)
 		if (bank2QuickDraw && !bank1QuickDraw)
 			return SecondMon;
 		// ========== 抢占先机结束 ==========
-		if (ABILITY(bank1) == ABILITY_MYCELIUMMIGHT
-            && SPLIT(move1) == SPLIT_STATUS)
-        {
-            return SecondMon;
-        }
-        
-        if (ABILITY(bank2) == ABILITY_MYCELIUMMIGHT
-            && SPLIT(move2) == SPLIT_STATUS)
-        {
-            return FirstMon;
-        }
+		// ========== 菌丝之力：变化招式同优先度内最后出招；双方都触发时落入后续速度判定 ==========
+		bool8 bank1Might = ABILITY(bank1) == ABILITY_MYCELIUMMIGHT && SPLIT(move1) == SPLIT_STATUS;
+		bool8 bank2Might = ABILITY(bank2) == ABILITY_MYCELIUMMIGHT && SPLIT(move2) == SPLIT_STATUS;
+		if (bank1Might && !bank2Might)
+			return SecondMon;
+		if (bank2Might && !bank1Might)
+			return FirstMon;
 
 		bank1Bracket = gNewBS->lastBracketCalc[bank1] = BracketCalc(bank1, gChosenActionByBank[bank1], move1);
 		bank2Bracket = gNewBS->lastBracketCalc[bank2] = BracketCalc(bank2, gChosenActionByBank[bank2], move2);

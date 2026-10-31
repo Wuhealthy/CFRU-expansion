@@ -273,13 +273,8 @@ void MoldBreakerRemoveAbilitiesOnForceSwitchIn(void)
 	else
 		bank = gBankAttacker;
 
-	if (IsMoldBreakerAbility(ABILITY(bank)))
+	if (IS_MOLD_BREAKER(ABILITY(bank), gCurrentMove))
 	{
-		if (ABILITY(bank) == ABILITY_MYCELIUMMIGHT
-            && SPLIT(gCurrentMove) != SPLIT_STATUS)
-        {
-            return;
-        }
 		if (gSpecialAbilityFlags[ABILITY(gBankSwitching)].gMoldBreakerIgnoredAbilities)
 		{
 			gNewBS->DisabledMoldBreakerAbilities[gBankSwitching] = ABILITY(gBankSwitching);
