@@ -4485,6 +4485,7 @@ void TryRandomizeSpecies(unusedArg u16* species)
 		newSpecies %= (u32) speciesCount; //Prevent overflow
 		
 		while ((newSpecies == SPECIES_NONE || newSpecies == SPECIES_EGG || newSpecies == SPECIES_ZYGARDE_CELL
+		|| SpeciesToNationalPokedexNum(newSpecies) == 0 //图鉴编号0(不吃禁表)兜底式再随机
 		|| IsSpeciesRandomizerBanned(newSpecies)) //完整形态禁表:「?」占位/Mega/超极巨化/觉醒/道具变身/randomizerBan全量
 		&& numAttempts < 100)
 		{
@@ -4494,10 +4495,6 @@ void TryRandomizeSpecies(unusedArg u16* species)
 		}
 
 		if (numAttempts >= 100)
-			newSpecies = SPECIES_DITTO;
-
-		//图鉴编号为0的物种(未登记的占位等)兜底为百变怪,绝不输出「?」
-		if (SpeciesToNationalPokedexNum(newSpecies) == 0)
 			newSpecies = SPECIES_DITTO;
 
 		*species = newSpecies;
@@ -5104,16 +5101,14 @@ u16 TryRandomizeWildSpecies(u16 species)
 	{
 		newSpecies = 1 + (Random() % (NUM_SPECIES - 1));
 
-		if (newSpecies == SPECIES_EGG || newSpecies == SPECIES_ZYGARDE_CELL
+		//编号0/图鉴编号0(不吃禁表)兜底式再随机
+		if (newSpecies == SPECIES_NONE || newSpecies == SPECIES_EGG || newSpecies == SPECIES_ZYGARDE_CELL
+		|| SpeciesToNationalPokedexNum(newSpecies) == 0
 		|| (sFormSpeciesBans[newSpecies >> 3] & (1 << (newSpecies & 7))) != 0)
 			continue;
 
 		if (GetSpeciesBst(newSpecies) > bstCap)
 			continue; //种族值超出当前徽章数允许的范围
-
-		//图鉴编号为0的物种(未登记的占位等)兜底为百变怪,绝不输出「?」
-		if (SpeciesToNationalPokedexNum(newSpecies) == 0)
-			return SPECIES_DITTO;
 
 		return newSpecies;
 	}
@@ -5187,7 +5182,9 @@ static void RandomizeTrainerMon(struct Pokemon* mon)
 	{
 		newSpecies = 1 + (Random() % (NUM_SPECIES - 1));
 
-		if (newSpecies == SPECIES_EGG || newSpecies == SPECIES_ZYGARDE_CELL)
+		//编号0/图鉴编号0(不吃禁表)兜底式再随机
+		if (newSpecies == SPECIES_NONE || newSpecies == SPECIES_EGG || newSpecies == SPECIES_ZYGARDE_CELL
+		|| SpeciesToNationalPokedexNum(newSpecies) == 0)
 			continue;
 		if (sFormSpeciesBans[newSpecies >> 3] & (1 << (newSpecies & 7)))
 			continue;
@@ -5206,7 +5203,9 @@ static void RandomizeTrainerMon(struct Pokemon* mon)
 		{
 			newSpecies = 1 + (Random() % (NUM_SPECIES - 1));
 
-			if (newSpecies == SPECIES_EGG || newSpecies == SPECIES_ZYGARDE_CELL)
+			//编号0/图鉴编号0(不吃禁表)兜底式再随机
+			if (newSpecies == SPECIES_NONE || newSpecies == SPECIES_EGG || newSpecies == SPECIES_ZYGARDE_CELL
+			|| SpeciesToNationalPokedexNum(newSpecies) == 0)
 				continue;
 			if (sFormSpeciesBans[newSpecies >> 3] & (1 << (newSpecies & 7)))
 				continue;
@@ -5219,10 +5218,6 @@ static void RandomizeTrainerMon(struct Pokemon* mon)
 
 	if (numAttempts >= 100) //重掷100次未命中则保持原物种(几乎不可能发生)
 		newSpecies = mon->species;
-
-	//图鉴编号为0的物种(未登记的占位等)兜底为百变怪,绝不输出「?」
-	if (SpeciesToNationalPokedexNum(newSpecies) == 0)
-		newSpecies = SPECIES_DITTO;
 
 	//写入新物种与昵称
 	SetMonData(mon, MON_DATA_SPECIES, &newSpecies);
