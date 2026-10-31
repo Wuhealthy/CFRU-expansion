@@ -3117,38 +3117,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				}
 				break;
 
-			case ABILITY_PHANTOMWALL:
-    			if (MOVE_HAD_EFFECT
-    			&& TOOK_DAMAGE(bank)
-    			&& gBankAttacker != bank
-    			&& !BATTLER_ALIVE(bank))
-    			{
-        			u8 side = SIDE(bank);
-        			bool8 removed = FALSE;
-
-        			if (gSideStatuses[side] & SIDE_STATUS_LIGHTSCREEN)
-        			{
-            			gSideStatuses[side] &= ~SIDE_STATUS_LIGHTSCREEN;
-            			gSideTimers[side].lightscreenTimer = 0;
-            			removed = TRUE;
-        			}
-
-        			if (gSideStatuses[side] & SIDE_STATUS_REFLECT)
-        			{
-            			gSideStatuses[side] &= ~SIDE_STATUS_REFLECT;
-            			gSideTimers[side].reflectTimer = 0;
-            			removed = TRUE;
-        			}
-
-        			if (removed)
-        			{
-            			BattleScriptPushCursor();
-            			gBattlescriptCurrInstr = BattleScript_PhantomWallShattered;
-            			effect++;
-        			}
-    			}
-    			break;
-
 			case ABILITY_SPIKECLAW:	//斗志
 				if (MOVE_HAD_EFFECT
     			&& TOOK_DAMAGE(bank)

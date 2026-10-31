@@ -1557,6 +1557,39 @@ void atk1B_cleareffectsonfaint(void) {
 				++gNewBS->faintEffectsState;
 			__attribute__ ((fallthrough));
 
+			case Faint_PhantomWall:
+				//幻墙：濒死（任意致死源）时己方墙壁破碎
+				if (ABILITY(gActiveBattler) == ABILITY_PHANTOMWALL)
+				{
+					u8 side = SIDE(gActiveBattler);
+					bool8 removed = FALSE;
+
+					if (gSideStatuses[side] & SIDE_STATUS_LIGHTSCREEN)
+					{
+						gSideStatuses[side] &= ~SIDE_STATUS_LIGHTSCREEN;
+						gSideTimers[side].lightscreenTimer = 0;
+						removed = TRUE;
+					}
+
+					if (gSideStatuses[side] & SIDE_STATUS_REFLECT)
+					{
+						gSideStatuses[side] &= ~SIDE_STATUS_REFLECT;
+						gSideTimers[side].reflectTimer = 0;
+						removed = TRUE;
+					}
+
+					if (removed)
+					{
+						gLastUsedAbility = ABILITY_PHANTOMWALL;
+						BattleScriptPushCursor();
+						gBattlescriptCurrInstr = BattleScript_PhantomWallShattered;
+						++gNewBS->faintEffectsState;
+						return;
+					}
+				}
+				++gNewBS->faintEffectsState;
+			__attribute__ ((fallthrough));
+
 			case Faint_SwitchInAbilities: //Now null b/c handled in BS
 				++gNewBS->faintEffectsState;
 			__attribute__ ((fallthrough));

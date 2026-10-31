@@ -42,6 +42,7 @@ enum FaintEffectsStates
 	Faint_ClearEffects,
 	Faint_SoulHeart,
 	Faint_ReceiverActivate,
+	Faint_PhantomWall,
 	Faint_SwitchInAbilities,
 	Faint_PrimalWeather,
 	Faint_SkyDrop,
