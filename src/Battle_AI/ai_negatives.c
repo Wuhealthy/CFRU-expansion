@@ -237,10 +237,16 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			}
 
 			case ABILITY_AQUAREGEN:
-				if (gBattleMons[bankDef].hp < gBattleMons[bankDef].maxHP
+			{
+				//只有打不死目标时攻击才会喂给水之再生回血
+				u32 predictedDamage = GetFinalAIMoveDamage(move, bankAtk, bankDef, 1, NULL);
+
+				if (predictedDamage < gBattleMons[bankDef].hp
+				&& gBattleMons[bankDef].hp < gBattleMons[bankDef].maxHP
 				&& !IsHealBlocked(bankDef))
 					DECREASE_VIABILITY(1);
 				break;
+			}
 		}
 	}
 

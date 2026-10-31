@@ -2768,7 +2768,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				&& TOOK_DAMAGE(bank)
 				&& BATTLER_ALIVE(bank)
 				&& gBankAttacker != bank
-				&& !BATTLER_MAX_HP(bank))
+				&& !BATTLER_MAX_HP(bank)
+				&& !IsHealBlocked(bank))
 				{
 					gBattleMoveDamage = MathMax(1, GetBaseMaxHP(bank) / 16);
         			gBattleMoveDamage *= -1;

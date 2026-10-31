@@ -1538,6 +1538,7 @@ void atk49_moveend(void) //All the effects that happen after a move is used
     		&& ABILITY(gBankAttacker) == ABILITY_AQUAREGEN
     		&& BATTLER_ALIVE(gBankAttacker)
     		&& !BATTLER_MAX_HP(gBankAttacker)
+    		&& !IsHealBlocked(gBankAttacker)
     		&& gNewBS->AttackerDidDamageAtLeastOnce)
     		{
         		gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankAttacker) / 16);

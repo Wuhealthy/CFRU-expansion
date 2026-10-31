@@ -113,6 +113,14 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 		}
 	}
 
+	//水之再生：残血时用攻击招可以边打边回血
+	if (atkAbility == ABILITY_AQUAREGEN
+	&& moveSplit != SPLIT_STATUS
+	&& !(AI_SpecialTypeCalc(move, bankAtk, bankDef) & MOVE_RESULT_NO_EFFECT)
+	&& gBattleMons[bankAtk].hp < gBattleMons[bankAtk].maxHP
+	&& !IsHealBlocked(bankAtk))
+		INCREASE_VIABILITY(1);
+
 	switch (moveEffect) {
 		case EFFECT_HIT:
 			if (atkAbility == ABILITY_TOXICCHAIN
