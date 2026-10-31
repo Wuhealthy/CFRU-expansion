@@ -73,6 +73,15 @@
 #org @gText_LButtonMenu_TrainingShop_Greeting
 欢迎光临养成商店！\p这里出售养成类道具。
 
+#org @gText_LButtonMenu_OnlineShop
+网上商店
+
+#org @gText_LButtonMenu_BallShop
+精灵球商店
+
+#org @gText_LButtonMenu_BallShop_Greeting
+欢迎光临精灵球商店！\p这里出售各类精灵球。
+
 #org @gText_BikeTurboBoostEnable
 涡轮加速已[GREEN]激活[BLACK]。
 

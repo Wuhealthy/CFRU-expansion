@@ -98,20 +98,12 @@ SystemScript_LButtonMenu:
 	waitmsg
 	multichoiceoption gText_LButtonMenu_AutoRun 0
 	multichoiceoption gText_LButtonMenu_HiddenPower 1
-	multichoiceoption gText_LButtonMenu_MegaShop 2
-	multichoiceoption gText_LButtonMenu_TmShop 3
-	multichoiceoption gText_LButtonMenu_BattleItemShop 4
-	multichoiceoption gText_LButtonMenu_EvolutionItemShop 5
-	multichoiceoption gText_LButtonMenu_TrainingShop 6
-	multichoice 0x0 0x0 SEVEN_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_OnlineShop 2
+	multichoice 0x0 0x0 THREE_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleAutoRun
 	case 1, SystemScript_LButtonMenu_HiddenPower
-	case 2, SystemScript_LButtonMenu_MegaShop
-	case 3, SystemScript_LButtonMenu_TmShop
-	case 4, SystemScript_LButtonMenu_BattleItemShop
-	case 5, SystemScript_LButtonMenu_EvolutionItemShop
-	case 6, SystemScript_LButtonMenu_TrainingShop
+	case 2, SystemScript_LButtonMenu_OnlineShop
 	releaseall
 	end
 
@@ -124,20 +116,12 @@ SystemScript_LButtonMenu_Bike:
 	waitmsg
 	multichoiceoption gText_LButtonMenu_BikeTurbo 0
 	multichoiceoption gText_LButtonMenu_HiddenPower 1
-	multichoiceoption gText_LButtonMenu_MegaShop 2
-	multichoiceoption gText_LButtonMenu_TmShop 3
-	multichoiceoption gText_LButtonMenu_BattleItemShop 4
-	multichoiceoption gText_LButtonMenu_EvolutionItemShop 5
-	multichoiceoption gText_LButtonMenu_TrainingShop 6
-	multichoice 0x0 0x0 SEVEN_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_OnlineShop 2
+	multichoice 0x0 0x0 THREE_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleBikeTurbo
 	case 1, SystemScript_LButtonMenu_HiddenPower
-	case 2, SystemScript_LButtonMenu_MegaShop
-	case 3, SystemScript_LButtonMenu_TmShop
-	case 4, SystemScript_LButtonMenu_BattleItemShop
-	case 5, SystemScript_LButtonMenu_EvolutionItemShop
-	case 6, SystemScript_LButtonMenu_TrainingShop
+	case 2, SystemScript_LButtonMenu_OnlineShop
 	releaseall
 	end
 
@@ -150,20 +134,31 @@ SystemScript_LButtonMenu_Surf:
 	waitmsg
 	multichoiceoption gText_LButtonMenu_SurfTurbo 0
 	multichoiceoption gText_LButtonMenu_HiddenPower 1
-	multichoiceoption gText_LButtonMenu_MegaShop 2
-	multichoiceoption gText_LButtonMenu_TmShop 3
-	multichoiceoption gText_LButtonMenu_BattleItemShop 4
-	multichoiceoption gText_LButtonMenu_EvolutionItemShop 5
-	multichoiceoption gText_LButtonMenu_TrainingShop 6
-	multichoice 0x0 0x0 SEVEN_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_OnlineShop 2
+	multichoice 0x0 0x0 THREE_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleSurfTurbo
 	case 1, SystemScript_LButtonMenu_HiddenPower
-	case 2, SystemScript_LButtonMenu_MegaShop
-	case 3, SystemScript_LButtonMenu_TmShop
-	case 4, SystemScript_LButtonMenu_BattleItemShop
-	case 5, SystemScript_LButtonMenu_EvolutionItemShop
-	case 6, SystemScript_LButtonMenu_TrainingShop
+	case 2, SystemScript_LButtonMenu_OnlineShop
+	releaseall
+	end
+
+@ 网上商店：所有商店的二级菜单（买完后返回本菜单，按 B 退出）
+SystemScript_LButtonMenu_OnlineShop:
+	multichoiceoption gText_LButtonMenu_MegaShop 0
+	multichoiceoption gText_LButtonMenu_TmShop 1
+	multichoiceoption gText_LButtonMenu_BattleItemShop 2
+	multichoiceoption gText_LButtonMenu_EvolutionItemShop 3
+	multichoiceoption gText_LButtonMenu_TrainingShop 4
+	multichoiceoption gText_LButtonMenu_BallShop 5
+	multichoice 0x0 0x0 SIX_MULTICHOICE_OPTIONS 0x0
+	switch LASTRESULT
+	case 0, SystemScript_LButtonMenu_MegaShop
+	case 1, SystemScript_LButtonMenu_TmShop
+	case 2, SystemScript_LButtonMenu_BattleItemShop
+	case 3, SystemScript_LButtonMenu_EvolutionItemShop
+	case 4, SystemScript_LButtonMenu_TrainingShop
+	case 5, SystemScript_LButtonMenu_BallShop
 	releaseall
 	end
 
@@ -172,40 +167,42 @@ SystemScript_LButtonMenu_MegaShop:
 	waitmsg
 	pokemart MegaStoneShopItems
 	msgbox gText_LButtonMenu_MegaShop_Farewell MSG_KEEPOPEN
-	releaseall
-	end
+	goto SystemScript_LButtonMenu_OnlineShop
 
 SystemScript_LButtonMenu_TmShop:
 	preparemsg gText_LButtonMenu_TmShop_Greeting
 	waitmsg
 	pokemart TmShopItems
 	msgbox gText_LButtonMenu_MegaShop_Farewell MSG_KEEPOPEN
-	releaseall
-	end
+	goto SystemScript_LButtonMenu_OnlineShop
 
 SystemScript_LButtonMenu_BattleItemShop:
 	preparemsg gText_LButtonMenu_BattleItemShop_Greeting
 	waitmsg
 	pokemart BattleItemShopItems
 	msgbox gText_LButtonMenu_MegaShop_Farewell MSG_KEEPOPEN
-	releaseall
-	end
+	goto SystemScript_LButtonMenu_OnlineShop
 
 SystemScript_LButtonMenu_EvolutionItemShop:
 	preparemsg gText_LButtonMenu_EvolutionItemShop_Greeting
 	waitmsg
 	pokemart EvolutionItemShopItems
 	msgbox gText_LButtonMenu_MegaShop_Farewell MSG_KEEPOPEN
-	releaseall
-	end
+	goto SystemScript_LButtonMenu_OnlineShop
 
 SystemScript_LButtonMenu_TrainingShop:
 	preparemsg gText_LButtonMenu_TrainingShop_Greeting
 	waitmsg
 	pokemart TrainingShopItems
 	msgbox gText_LButtonMenu_MegaShop_Farewell MSG_KEEPOPEN
-	releaseall
-	end
+	goto SystemScript_LButtonMenu_OnlineShop
+
+SystemScript_LButtonMenu_BallShop:
+	preparemsg gText_LButtonMenu_BallShop_Greeting
+	waitmsg
+	pokemart BallShopItems
+	msgbox gText_LButtonMenu_MegaShop_Farewell MSG_KEEPOPEN
+	goto SystemScript_LButtonMenu_OnlineShop
 
 @ 新一代 Mega 石（include/constants/items.h 从 0x308 起，asm_defines.s 未生成 .equ）
 .equ ITEM_MIRROR_HERB, 0x34F
@@ -887,6 +884,36 @@ TrainingShopItems:
 	.hword ITEM_CARBOS
 	.hword ITEM_CALCIUM
 	.hword ITEM_ZINC
+	.hword 0x0
+
+@ 精灵球（不卖大师球/狩猎球等特殊球）
+.align 2
+BallShopItems:
+@ 常规球
+	.hword ITEM_POKE_BALL
+	.hword ITEM_GREAT_BALL
+	.hword ITEM_ULTRA_BALL
+	.hword ITEM_PREMIER_BALL
+@ 条件加成球
+	.hword ITEM_NET_BALL
+	.hword ITEM_DIVE_BALL
+	.hword ITEM_NEST_BALL
+	.hword ITEM_REPEAT_BALL
+	.hword ITEM_TIMER_BALL
+	.hword ITEM_LUXURY_BALL
+	.hword ITEM_DUSK_BALL
+	.hword ITEM_HEAL_BALL
+	.hword ITEM_QUICK_BALL
+@ 宝可梦球种（丰缘/神奥限定球）
+	.hword ITEM_FAST_BALL
+	.hword ITEM_LEVEL_BALL
+	.hword ITEM_LURE_BALL
+	.hword ITEM_HEAVY_BALL
+	.hword ITEM_LOVE_BALL
+	.hword ITEM_FRIEND_BALL
+	.hword ITEM_MOON_BALL
+	.hword ITEM_BEAST_BALL
+	.hword ITEM_DREAM_BALL
 	.hword 0x0
 
 SystemScript_LButtonMenu_ToggleAutoRun:
