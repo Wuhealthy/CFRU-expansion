@@ -2680,7 +2680,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
     			&& TOOK_DAMAGE(bank)
     			&& BATTLER_ALIVE(gBankAttacker)
     			&& gBankAttacker != bank
-				&& CanBeBurned(gBankAttacker, bank, FALSE))
+				&& CanBeBurned(gBankAttacker, bank, TRUE)) //尊重队友青草守护对草系同伴的保护（与火焰之躯同口径）
     			{
             		gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_BURN;
             		BattleScriptPushCursor();
