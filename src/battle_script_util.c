@@ -3302,3 +3302,12 @@ void TripleArrowsFlinchCheck(void)
 }
 
 #pragma GCC diagnostic pop
+//对战金钱倍率设置:结算时实时读取(0=正常,1/2/3/4=x2/x3/x5/x10),
+//与幸运金币/庆祝之舞写入的moneyMultiplier累乘器相乘(参考ITEM_EFFECT_DOUBLE_PRIZE的写法)
+u8 GetBattleMoneyVarMult(void)
+{
+	static const u8 sBattleMoneyMultipliers[] = {1, 2, 3, 5, 10};
+	u16 idx = VarGet(VAR_BATTLE_MONEY_MULTIPLIER);
+	if (idx > 4) idx = 0;
+	return sBattleMoneyMultipliers[idx];
+}

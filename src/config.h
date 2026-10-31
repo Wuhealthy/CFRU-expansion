@@ -345,7 +345,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define PICK_UP_KNOCKED_OFF_ITEMS //Items knocked off wild Pokemon will be picked up at the end of battle
 #define PICKUP_ITEMS_STRAIGHT_TO_BAG //Items obtained with Pickup or Honey Gather are placed right in the bag
 #define TAKE_WILD_MON_ITEM_ON_CAPTURE //Items held by Wild Pokemon when caught can be placed in the bag at the player's request
-//#define PAYDAY_MONEY_CAP //Pay Day and G-Max Gold Rush should cap at $99999 per battle
+#define PAYDAY_MONEY_CAP //Pay Day and G-Max Gold Rush should cap at $999999 per battle
 #define QUICK_CLAW_PROCING_ALWAYS_ALLOWS_FLEEING //Fleeing from wild battles will never fail the turn a Quick Claw activates
 #define FROSTBITE //Replaces the Freeze status condition with the Frostbite status condition from PLA
 

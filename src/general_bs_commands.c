@@ -3042,19 +3042,21 @@ void atk90_tryconversiontypechange(void)
 	}
 }
 
+extern u8 GetBattleMoneyVarMult(void);
 void atk91_givepaydaymoney(void)
 {
 	int i;
+	u8 moneyVarMult = GetBattleMoneyVarMult();
 	u32 money = 0;
 
 	if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_TRAINER_TOWER)))
 	{
 		for (i = 0; i < PARTY_SIZE; ++i)
 			money += (gPlayerParty[i].level * 5) * gNewBS->PayDayByPartyIndices[i];
-		money *= gBattleStruct->moneyMultiplier;
-		money += gNewBS->maxGoldrushMoney * gBattleStruct->moneyMultiplier;
+		money *= gBattleStruct->moneyMultiplier * moneyVarMult;
+		money += gNewBS->maxGoldrushMoney * gBattleStruct->moneyMultiplier * moneyVarMult;
 		#ifdef PAYDAY_MONEY_CAP
-		money = MathMin(money, 99999); //Pay Day and Gold Rush cap at $99999
+		money = MathMin(money, 999999); //Pay Day and Gold Rush cap at $999999
 		#endif
 
 		if (money > 0)

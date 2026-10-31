@@ -182,3 +182,4 @@ void TryFailRevivalBlessing(void);
 void ReviveFirstFaintedPartyMon(void);
 bool8 TryConsumeOpportunistBoosts(u8 bank, bool8 execute);
 void TripleArrowsFlinchCheck(void);
+u8 GetBattleMoneyVarMult(void);

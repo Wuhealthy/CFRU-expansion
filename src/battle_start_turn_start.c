@@ -155,14 +155,6 @@ void HandleNewBattleRamClearBeforeBattle(void)
 	Memset(gBattleMons, 0x0, sizeof(gBattleMons)); //Clear battle data - can be filled from last double battle and interfere with battle engine
 	//Memset((u8*) 0x203C020, 0x0, 0xE0);
 
-	//对战金钱倍率设置:0=正常,1/2/3/4=x2/x3/x5/x10(影响训练家奖金/啄钱等战斗所得,与幸运金币叠乘)
-	{
-		static const u8 sBattleMoneyMultipliers[] = {1, 2, 3, 5, 10};
-		u16 idx = VarGet(VAR_BATTLE_MONEY_MULTIPLIER);
-		if (idx > 4) idx = 0;
-		gBattleStruct->moneyMultiplier = sBattleMoneyMultipliers[idx];
-	}
-
 	if (IsRaidBattle())
 	{
 		gBattleTypeFlags |= BATTLE_TYPE_DYNAMAX;

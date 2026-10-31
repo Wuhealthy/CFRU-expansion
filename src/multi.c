@@ -491,6 +491,7 @@ u32 MultiMoneyCalc(void)
 #ifndef EXPAND_TRAINERS
 #define gTrainerMoneyTable ((struct TrainerMoney*) *((u32*) 0x80259CC))
 #endif
+extern u8 GetBattleMoneyVarMult(void);
 static u32 CalcPrizeiMoneyForTrainer(u16 trainerId)
 {
 	u8 i, firstMonId, lastMonId, level, rate;
@@ -544,7 +545,7 @@ static u32 CalcPrizeiMoneyForTrainer(u16 trainerId)
 	}
 
 	//Final calc
-	u32 money = (rate * 4) * level * gBattleStruct->moneyMultiplier;
+	u32 money = (rate * 4) * level * gBattleStruct->moneyMultiplier * GetBattleMoneyVarMult();
 
 	if (IS_DOUBLE_BATTLE && !(gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS))
 		money *= 2;
