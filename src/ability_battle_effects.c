@@ -3155,7 +3155,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
     			&& BATTLER_ALIVE(bank)
     			&& gBankAttacker != bank
 				&& gBattleMons[bank].hp < gBattleMons[bank].maxHP / 3
-    			&& gBattleMons[bank].hp + gHpDealt > gBattleMons[bank].maxHP / 3)
+    			&& gBattleMons[bank].hp + gHpDealt > gBattleMons[bank].maxHP / 3
+				&& !IsHealBlocked(bank)) //回复封锁下不触发、不置位一次性标记
     			{
         			u8 side = SIDE(bank);
 					u8 partyId = gBattlerPartyIndexes[bank];
