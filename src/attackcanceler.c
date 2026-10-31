@@ -62,6 +62,10 @@ void atk00_attackcanceler(void)
 	gNewBS->ignoreDefenderItems = (ABILITY(gBankAttacker) == ABILITY_FLOWERBLADE
 	                            && GetMoveTypeSpecial(gBankAttacker, gCurrentMove) == TYPE_GRASS);
 
+	//俯冲：清除残留的体重反作用力标记（防住/未命中的上一招不会串到本招）
+	for (i = 0; i < MAX_BATTLERS_COUNT; i++)
+		gNewBS->speedDiveRecoilBank[i] = 0;
+
 	//精神棱镜：记录对手即将使用的变化招式，招式结束后由 moveend 结算布下精神场地
 	gNewBS->psychoReboundBank = 0xFF;
 	if (SPLIT(gCurrentMove) == SPLIT_STATUS)

@@ -4364,7 +4364,8 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
         		if (bonus > 0)
             		power = power * (100 + bonus) / 100;
         
-        		if (weight >= 100)
+        		if (weight >= 100
+        		&& !(data->specialFlags & (FLAG_CHECKING_FROM_MENU | FLAG_AI_CALC))) //仅真实出招置位，菜单预览/AI模拟不置位
         		{
             		gNewBS->speedDiveRecoilBank[bankAtk] = 1;
         		}
