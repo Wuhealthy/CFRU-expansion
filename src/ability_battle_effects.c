@@ -2961,10 +2961,14 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				{
 					switch (ABILITY(gBankAttacker)) {
 						case ABILITY_MUMMY:
+						case ABILITY_ASONEICERIDER:
+						case ABILITY_ASONESHADOWRIDER:
 						case ABILITY_BATTLEBOND:
 						case ABILITY_COMATOSE:
 						case ABILITY_COMMANDER:
 						case ABILITY_DISGUISE:
+						case ABILITY_EEVEEHERO:
+						case ABILITY_GULPMISSILE:
 						case ABILITY_MULTITYPE:
 						case ABILITY_POWERCONSTRUCT:
 						case ABILITY_RKSSYSTEM:
@@ -2973,6 +2977,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 						case ABILITY_STANCECHANGE:
 						case ABILITY_ICEFACE:
 						case ABILITY_TERASHIFT:
+						case ABILITY_ZEROTOHERO:
 							break;
 						default:
 							BattleScriptPushCursor();

@@ -111,12 +111,12 @@ bool8 IsTargetItemIgnoredByAbility(u8 bankAtk, u8 bankDef)
     switch (ABILITY(bankAtk))
     {
         case ABILITY_FLOWERBLADE:
-            // 花刃：草属性攻击时无视目标道具
-            if (gBattleStruct->dynamicMoveType == TYPE_GRASS)
+            // 花刃：草属性攻击时无视目标道具（仅限出招窗口内，canceller 置位 / cmd49 复位）
+            if (gNewBS->ignoreDefenderItems && bankAtk != bankDef)
                 return TRUE;
             break;
     }
-    
+
     return FALSE;
 }
 

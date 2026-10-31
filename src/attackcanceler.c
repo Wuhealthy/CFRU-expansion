@@ -58,6 +58,10 @@ void atk00_attackcanceler(void)
 
 	ResetBestMonToSwitchInto(gBankAttacker); //So the AI recalculates the Pokemon to switch into for moves like U-Turn
 
+	//花刃：记录本次出招是否为草属性攻击（出招窗口内无视目标道具；cmd49 结束时复位）
+	gNewBS->ignoreDefenderItems = (ABILITY(gBankAttacker) == ABILITY_FLOWERBLADE
+	                            && GetMoveTypeSpecial(gBankAttacker, gCurrentMove) == TYPE_GRASS);
+
 	//精神棱镜：记录对手即将使用的变化招式，招式结束后由 moveend 结算布下精神场地
 	gNewBS->psychoReboundBank = 0xFF;
 	if (SPLIT(gCurrentMove) == SPLIT_STATUS)

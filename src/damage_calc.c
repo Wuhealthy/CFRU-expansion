@@ -1558,10 +1558,23 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 	if (moveType == TYPE_FIRE && gNewBS->tarShotBits & gBitTable[bankDef]) //Fire always Super-Effective if covered in tar
 		multiplier = TYPE_MUL_SUPER_EFFECTIVE;
 
-	if (atkAbility == ABILITY_EEVEEHERO
-	&& moveType == TYPE_NORMAL && !IsOfType(bankDef, TYPE_STEEL) && !IsOfType(bankDef, TYPE_GHOST) && !IsOfType(bankDef, TYPE_ROCK))
+	if (atkAbility == ABILITY_EEVEEHERO && moveType == TYPE_NORMAL)
 	{
-		multiplier = TYPE_MUL_SUPER_EFFECTIVE;
+		bool8 exemptType;
+
+		if (monDef != NULL) //Party-mon calc: check the mon's own types (bankDef is 0 here)
+		{
+			u8 t1 = GetMonType(monDef, 0);
+			u8 t2 = GetMonType(monDef, 1);
+
+			exemptType = (t1 == TYPE_STEEL || t1 == TYPE_GHOST || t1 == TYPE_ROCK
+			           || t2 == TYPE_STEEL || t2 == TYPE_GHOST || t2 == TYPE_ROCK);
+		}
+		else
+			exemptType = IsOfType(bankDef, TYPE_STEEL) || IsOfType(bankDef, TYPE_GHOST) || IsOfType(bankDef, TYPE_ROCK);
+
+		if (!exemptType)
+			multiplier = TYPE_MUL_SUPER_EFFECTIVE;
 	}
 
 	// For Terastallization - Stellar Type Check

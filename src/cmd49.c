@@ -1811,6 +1811,10 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 
 	} while (gBattleScripting.atk49_state != ATK49_COUNT && effect == FALSE);
 
+	//花刃：出招窗口结束，恢复全场道具判定
+	if (gBattleScripting.atk49_state == ATK49_COUNT)
+		gNewBS->ignoreDefenderItems = FALSE;
+
 	if (gBattleScripting.atk49_state == ATK49_COUNT && effect == FALSE)
 		gBattlescriptCurrInstr += 3;
 }

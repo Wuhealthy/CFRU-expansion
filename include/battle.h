@@ -834,6 +834,7 @@ struct NewBattleStruct
 	u8 syrupBombAttackers[MAX_BATTLERS_COUNT]; //Who applied Syrupy, for Mirror Armor
 	u8 teatimeBank;
 	bool8 ElectroCounter[MAX_BATTLERS_COUNT];
+	bool8 ignoreDefenderItems; //花刃：本次出招为草属性攻击时，出招窗口内无视目标道具
 	bool8 windRiderTailwindBoosted[MAX_BATTLERS_COUNT];
 	bool8 oncePerBattleAbilityFlags[NUM_BATTLE_SIDES][PARTY_SIZE];
 	u8 quarkDriveActivated[MAX_BATTLERS_COUNT];
