@@ -1729,7 +1729,7 @@ bool8 IsZMove(const u16 move)
 void ResetVarsForAbilityChange(u8 bank)
 {
 	gNewBS->SlowStartTimers[bank] = 0;
-	gDisableStructs[gBankTarget].truantCounter = 0;
+	gDisableStructs[bank].truantCounter = 0;
 	gStatuses3[bank] &= ~(STATUS3_SWITCH_IN_ABILITY_DONE);
 	TryRemoveUnburdenBoost(bank);
 }
