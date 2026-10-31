@@ -182,7 +182,7 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				break;
 			case ABILITY_RAGECROWN:
 				//攻击会给怒发冲冠叠层（威力提升，满层还提升攻击）
-				if (gNewBS->rageCrownStacks[bankDef] < 3)
+				if (gNewBS->rageCrownStacks[SIDE(bankDef)][gBattlerPartyIndexes[bankDef]] < 3)
 					DECREASE_VIABILITY(1);
 				break;
 

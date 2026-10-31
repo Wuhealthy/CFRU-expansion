@@ -2623,10 +2623,10 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				&& BATTLER_ALIVE(bank)
 				&& gBankAttacker != bank
 				&& (SPLIT(move) == SPLIT_PHYSICAL || SPLIT(move) == SPLIT_SPECIAL)
-				&& gNewBS->rageCrownStacks[bank] < 3)
+				&& gNewBS->rageCrownStacks[SIDE(bank)][gBattlerPartyIndexes[bank]] < 3)
 				{
-					gNewBS->rageCrownStacks[bank]++;
-					if (gNewBS->rageCrownStacks[bank] == 3
+					gNewBS->rageCrownStacks[SIDE(bank)][gBattlerPartyIndexes[bank]]++;
+					if (gNewBS->rageCrownStacks[SIDE(bank)][gBattlerPartyIndexes[bank]] == 3
 					&& STAT_CAN_RISE(bank, STAT_STAGE_ATK))
 					{
 						PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_STAGE_ATK);

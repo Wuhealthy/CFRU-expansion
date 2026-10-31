@@ -825,7 +825,7 @@ struct NewBattleStruct
 	u8 quickDrawRandomNumber[MAX_BATTLERS_COUNT];
 	u16 tookAbilityFrom[MAX_BATTLERS_COUNT]; //Helps display the correct Ability when one has been passed around
 	u8 rageFistCounter[MAX_BATTLERS_COUNT];
-	u8 rageCrownStacks[MAX_BATTLERS_COUNT]; //怒发冲冠：受击叠层
+	u8 rageCrownStacks[NUM_BATTLE_SIDES][PARTY_SIZE]; //怒发冲冠：受击叠层，按个体保留（换下再上不清零，不同个体不继承）
 	u8 psychoReboundBank; //精神棱镜：待结算的携带者位置，0xFF=无
 	u8 psychoReboundAnimBank; //精神棱镜：脚本执行时弹窗/动画所在的携带者
 	u8 volatileExplosionBank; //一触即爆：待铺场的特性持有者位置，铺场时重新绑定 scripting bank

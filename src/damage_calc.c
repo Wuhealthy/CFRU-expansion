@@ -4499,9 +4499,21 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
         		power = (power * 15) / 10;
     		break;
 		case ABILITY_RAGECROWN:
-		//怒发冲冠：每层招式威力+10%，最多3层（+30%）
-			if (gNewBS->rageCrownStacks[bankAtk])
-				power = (power * (10 + gNewBS->rageCrownStacks[bankAtk])) / 10;
+		//怒发冲冠：每层招式威力+10%，最多3层（+30%）；按个体保留层数
+			{
+				u32 monId, side;
+
+				if (data->monAtk != NULL) //AI后备兽等预设计算：按队伍槽位取该个体的层数
+					GetMonIdAndSideByMon(data->monAtk, &monId, &side);
+				else
+				{
+					monId = gBattlerPartyIndexes[bankAtk];
+					side = SIDE(bankAtk);
+				}
+
+				if (gNewBS->rageCrownStacks[side][monId])
+					power = (power * (10 + gNewBS->rageCrownStacks[side][monId])) / 10;
+			}
 			break;
 
 		case ABILITY_PHOENIXGUARD:
