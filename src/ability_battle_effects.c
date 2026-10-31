@@ -883,9 +883,9 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			}
 			else if (gBattleWeather & WEATHER_PRIMAL_ANY && !(gBattleWeather & WEATHER_RAIN_ANY))
 			{
+				//原始天气挡雨时只挡雨，回血仍按描述执行（落到下方 canHeal 分支）
 				BattleScriptPushCursorAndCallback(BattleScript_WeatherAbilityBlockedByPrimalWeather);
 				effect++;
-				break;
 			}
 
 			if (canHeal)
