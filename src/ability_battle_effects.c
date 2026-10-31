@@ -1580,6 +1580,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 
         	if (cleared)
         	{
+        		gSideStatuses[side] &= ~(SIDE_STATUS_SPIKES); //主标志位一并清除（钉子投放/伤害消耗端都读它）
             	BattleScriptPushCursorAndCallback(BattleScript_IceCrystalPurgeActivates);
             	effect++;
         	}
