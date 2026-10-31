@@ -97,12 +97,12 @@ SystemScript_LButtonMenu:
 	preparemsg gText_LButtonMenu_Prompt
 	waitmsg
 	multichoiceoption gText_LButtonMenu_AutoRun 0
-	multichoiceoption gText_LButtonMenu_HiddenPower 1
+	multichoiceoption gText_LButtonMenu_PokemonTraining 1
 	multichoiceoption gText_LButtonMenu_OnlineShop 2
 	multichoice 0x0 0x0 THREE_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleAutoRun
-	case 1, SystemScript_LButtonMenu_HiddenPower
+	case 1, SystemScript_LButtonMenu_Training
 	case 2, SystemScript_LButtonMenu_OnlineShop
 	releaseall
 	end
@@ -115,12 +115,12 @@ SystemScript_LButtonMenu_Bike:
 	preparemsg gText_LButtonMenu_Prompt
 	waitmsg
 	multichoiceoption gText_LButtonMenu_BikeTurbo 0
-	multichoiceoption gText_LButtonMenu_HiddenPower 1
+	multichoiceoption gText_LButtonMenu_PokemonTraining 1
 	multichoiceoption gText_LButtonMenu_OnlineShop 2
 	multichoice 0x0 0x0 THREE_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleBikeTurbo
-	case 1, SystemScript_LButtonMenu_HiddenPower
+	case 1, SystemScript_LButtonMenu_Training
 	case 2, SystemScript_LButtonMenu_OnlineShop
 	releaseall
 	end
@@ -133,15 +133,135 @@ SystemScript_LButtonMenu_Surf:
 	preparemsg gText_LButtonMenu_Prompt
 	waitmsg
 	multichoiceoption gText_LButtonMenu_SurfTurbo 0
-	multichoiceoption gText_LButtonMenu_HiddenPower 1
+	multichoiceoption gText_LButtonMenu_PokemonTraining 1
 	multichoiceoption gText_LButtonMenu_OnlineShop 2
 	multichoice 0x0 0x0 THREE_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleSurfTurbo
-	case 1, SystemScript_LButtonMenu_HiddenPower
+	case 1, SystemScript_LButtonMenu_Training
 	case 2, SystemScript_LButtonMenu_OnlineShop
 	releaseall
 	end
+
+@ 宝可梦培养：觉醒力量属性 / 更改个体值（全满 6000 元，单项 1000 元）
+SystemScript_LButtonMenu_Training:
+	multichoiceoption gText_LButtonMenu_HiddenPower 0
+	multichoiceoption gText_LButtonMenu_IVEditor 1
+	multichoice 0x0 0x0 TWO_MULTICHOICE_OPTIONS 0x0
+	switch LASTRESULT
+	case 0, SystemScript_LButtonMenu_HiddenPower
+	case 1, SystemScript_LButtonMenu_IVMenu
+	releaseall
+	end
+
+@ 更改个体值主菜单
+SystemScript_LButtonMenu_IVMenu:
+	countpokemon
+	compare LASTRESULT 0x0
+	if equal _goto SystemScript_LButtonMenu_Cancelled
+	multichoiceoption gText_LButtonMenu_IVMaxAll 0
+	multichoiceoption gText_LButtonMenu_IVCustom 1
+	multichoice 0x0 0x0 TWO_MULTICHOICE_OPTIONS 0x0
+	switch LASTRESULT
+	case 0, SystemScript_LButtonMenu_IVMaxAll
+	case 1, SystemScript_LButtonMenu_IVCustom
+	releaseall
+	end
+
+@ 全个体值升满：花 6000 元把六项 IV 一次性设为 31
+SystemScript_LButtonMenu_IVMaxAll:
+	checkmoney 6000
+	compare LASTRESULT 0x1
+	if 0x0 _goto SystemScript_LButtonMenu_IV_NoMoney
+	special 0x9F @ Opens Pokemon selection menu
+	waitstate
+	compare 0x8004 PARTY_SIZE
+	if greaterorequal _goto SystemScript_LButtonMenu_Cancelled
+	msgbox gText_LButtonMenu_IVMaxAll_Confirm MSG_YESNO
+	compare LASTRESULT FALSE
+	if equal _goto SystemScript_LButtonMenu_IVMenu
+	setvar 0x8003 0x0 @ 防 SELECT_FROM_PC 分支误写盒子
+	setvar 0x8005 0x6 @ SetAllIVs
+	setvar 0x8006 31
+	special 0x10 @ sp010_IVSetter
+	removemoney 6000
+	msgbox gText_LButtonMenu_IVDone MSG_NORMAL
+	goto SystemScript_LButtonMenu_IVMenu
+
+@ 自定义个体值：选一只宝可梦，再选能力项，逐项输入 0-31（每项 1000 元）
+SystemScript_LButtonMenu_IVCustom:
+	special 0x9F
+	waitstate
+	compare 0x8004 PARTY_SIZE
+	if greaterorequal _goto SystemScript_LButtonMenu_Cancelled
+SystemScript_LButtonMenu_IVCustom_StatMenu:
+	multichoiceoption gText_LButtonMenu_IVStat_HP 0
+	multichoiceoption gText_LButtonMenu_IVStat_Atk 1
+	multichoiceoption gText_LButtonMenu_IVStat_Def 2
+	multichoiceoption gText_LButtonMenu_IVStat_SpAtk 3
+	multichoiceoption gText_LButtonMenu_IVStat_SpDef 4
+	multichoiceoption gText_LButtonMenu_IVStat_Spd 5
+	multichoice 0x0 0x0 SIX_MULTICHOICE_OPTIONS 0x0
+	switch LASTRESULT
+	case 0, SystemScript_LButtonMenu_IVCustom_HP
+	case 1, SystemScript_LButtonMenu_IVCustom_Atk
+	case 2, SystemScript_LButtonMenu_IVCustom_Def
+	case 3, SystemScript_LButtonMenu_IVCustom_SpAtk
+	case 4, SystemScript_LButtonMenu_IVCustom_SpDef
+	case 5, SystemScript_LButtonMenu_IVCustom_Spd
+	releaseall
+	end
+
+@ sp010_IVSetter 的能力序号：0=HP 1=攻击 2=防御 3=速度 4=特攻 5=特防
+SystemScript_LButtonMenu_IVCustom_HP:
+	setvar 0x8005 0x0
+	msgbox gText_LButtonMenu_IVCustom_EnterHP MSG_NORMAL
+	goto SystemScript_LButtonMenu_IVCustom_Input
+SystemScript_LButtonMenu_IVCustom_Atk:
+	setvar 0x8005 0x1
+	msgbox gText_LButtonMenu_IVCustom_EnterAtk MSG_NORMAL
+	goto SystemScript_LButtonMenu_IVCustom_Input
+SystemScript_LButtonMenu_IVCustom_Def:
+	setvar 0x8005 0x2
+	msgbox gText_LButtonMenu_IVCustom_EnterDef MSG_NORMAL
+	goto SystemScript_LButtonMenu_IVCustom_Input
+SystemScript_LButtonMenu_IVCustom_SpAtk:
+	setvar 0x8005 0x4
+	msgbox gText_LButtonMenu_IVCustom_EnterSpAtk MSG_NORMAL
+	goto SystemScript_LButtonMenu_IVCustom_Input
+SystemScript_LButtonMenu_IVCustom_SpDef:
+	setvar 0x8005 0x5
+	msgbox gText_LButtonMenu_IVCustom_EnterSpDef MSG_NORMAL
+	goto SystemScript_LButtonMenu_IVCustom_Input
+SystemScript_LButtonMenu_IVCustom_Spd:
+	setvar 0x8005 0x3
+	msgbox gText_LButtonMenu_IVCustom_EnterSpd MSG_NORMAL
+	goto SystemScript_LButtonMenu_IVCustom_Input
+
+SystemScript_LButtonMenu_IVCustom_Input:
+	checkmoney 1000
+	compare LASTRESULT 0x1
+	if 0x0 _goto SystemScript_LButtonMenu_IV_NoMoney
+	special 0xB3 @ 数字输入界面（取消返回 0xFFFF）
+	waitstate
+	compare LASTRESULT 0xFFFF
+	if equal _goto SystemScript_LButtonMenu_IVCustom_StatMenu
+	compare LASTRESULT 32
+	if greaterorequal _goto SystemScript_LButtonMenu_IVCustom_Invalid
+	copyvar 0x8006 LASTRESULT
+	setvar 0x8003 0x0 @ 防 SELECT_FROM_PC 分支误写盒子
+	special 0x10 @ sp010_IVSetter
+	removemoney 1000
+	msgbox gText_LButtonMenu_IVDone MSG_NORMAL
+	goto SystemScript_LButtonMenu_IVCustom_StatMenu
+
+SystemScript_LButtonMenu_IVCustom_Invalid:
+	msgbox gText_LButtonMenu_IVInvalid MSG_NORMAL
+	goto SystemScript_LButtonMenu_IVCustom_Input
+
+SystemScript_LButtonMenu_IV_NoMoney:
+	msgbox gText_LButtonMenu_IV_NoMoneyText MSG_NORMAL
+	goto SystemScript_LButtonMenu_IVMenu
 
 @ 网上商店：所有商店的二级菜单（买完后返回本菜单，按 B 退出）
 SystemScript_LButtonMenu_OnlineShop:
@@ -883,8 +1003,9 @@ SystemScript_LButtonMenu_HiddenPower:
 	compare 0x8002 0x7
 	if TRUE _goto SystemScript_LButtonMenu_Cancelled
 	call SystemScript_ChooseHiddenPowerType
-	releaseall
-	end
+	compare LASTRESULT 0x7F @ 属性选择被取消
+	if equal _goto SystemScript_LButtonMenu_Cancelled
+	goto SystemScript_LButtonMenu_Training
 
 SystemScript_LButtonMenu_Cancelled:
 	releaseall

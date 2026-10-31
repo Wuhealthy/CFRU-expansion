@@ -82,6 +82,66 @@
 #org @gText_LButtonMenu_BallShop_Greeting
 欢迎光临精灵球商店！\p这里出售各类精灵球。
 
+#org @gText_LButtonMenu_PokemonTraining
+宝可梦培养
+
+#org @gText_LButtonMenu_IVEditor
+更改个体值
+
+#org @gText_LButtonMenu_IVMaxAll
+个体值全满
+
+#org @gText_LButtonMenu_IVCustom
+自定义个体值
+
+#org @gText_LButtonMenu_IVStat_HP
+HP
+
+#org @gText_LButtonMenu_IVStat_Atk
+攻击
+
+#org @gText_LButtonMenu_IVStat_Def
+防御
+
+#org @gText_LButtonMenu_IVStat_SpAtk
+特攻
+
+#org @gText_LButtonMenu_IVStat_SpDef
+特防
+
+#org @gText_LButtonMenu_IVStat_Spd
+速度
+
+#org @gText_LButtonMenu_IVMaxAll_Confirm
+将这只宝可梦的全部个体值升满到31，\n需要6000元。确定吗？
+
+#org @gText_LButtonMenu_IVCustom_EnterHP
+请输入HP个体值，范围是0到31。
+
+#org @gText_LButtonMenu_IVCustom_EnterAtk
+请输入攻击个体值，范围是0到31。
+
+#org @gText_LButtonMenu_IVCustom_EnterDef
+请输入防御个体值，范围是0到31。
+
+#org @gText_LButtonMenu_IVCustom_EnterSpAtk
+请输入特攻个体值，范围是0到31。
+
+#org @gText_LButtonMenu_IVCustom_EnterSpDef
+请输入特防个体值，范围是0到31。
+
+#org @gText_LButtonMenu_IVCustom_EnterSpd
+请输入速度个体值，范围是0到31。
+
+#org @gText_LButtonMenu_IVInvalid
+输入无效，请输入0到31之间的数值。
+
+#org @gText_LButtonMenu_IVDone
+个体值更改完成！
+
+#org @gText_LButtonMenu_IV_NoMoneyText
+你的钱不够！
+
 #org @gText_BikeTurboBoostEnable
 涡轮加速已[GREEN]激活[BLACK]。
 

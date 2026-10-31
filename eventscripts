@@ -12,7 +12,6 @@ npc 3 0 1 EventScript_Pallet_FatGuy_CoinGame
 ## Viridian City
 ## npc 3 1 3 EventScript_ChangeTeraTypeNPC
 ## npc 3 1 5 EventScript_ViridianCity_Youngster
-npc 3 1 6 EventScript_ViridianCity_IVEditor
 tile 3 1 2 EventScript_CoffeeGuy_Tile1
 tile 3 1 3 EventScript_CoffeeGuy_Tile
 npc 3 1 3 EventScript_CoffeeGuy_NPC

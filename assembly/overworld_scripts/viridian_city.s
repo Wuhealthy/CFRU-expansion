@@ -7,7 +7,6 @@
 
 .global EventScript_ViridianCity_YoungMan
 .global EventScript_ViridianCity_Youngster
-.global EventScript_ViridianCity_IVEditor
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 EventScript_ViridianCity_YoungMan:
@@ -79,116 +78,5 @@ EventScript_ViridianCity_Youngster:
 
     additem ITEM_MASTER_BALL 1
     msgbox gText_ViridianCity_BattleOver MSG_NORMAL
-    release
-    end
-
-EventScript_ViridianCity_IVEditor:
-    lock
-    faceplayer
-    msgbox gText_ViridianCity_OldMan_IVChangeAsk MSG_YESNO
-    compare LASTRESULT FALSE
-    if equal _goto EventScript_ViridianCity_IVEditor_No
-
-    countpokemon
-    compare LASTRESULT 0
-    if equal _goto EventScript_ViridianCity_IVEditor_NoPokemon
-
-    msgbox gText_ViridianCity_OldMan_OpenMenu MSG_NORMAL
-    special 0x9F
-    waitstate
-    copyvar 0x8005 0x8004
-    compare 0x8005 PARTY_SIZE
-    if greaterorequal _goto EventScript_ViridianCity_IVEditor_No
-
-EventScript_ViridianCity_IVEditor_EnterHP:
-    msgbox gText_ViridianCity_OldMan_EnterHPIV MSG_NORMAL
-    special 0xB3
-    waitstate
-    compare LASTRESULT 0xFFFF
-    if equal _goto EventScript_ViridianCity_IVEditor_No
-    compare LASTRESULT 32
-    if greaterorequal _goto EventScript_ViridianCity_IVEditor_InvalidHP
-    copyvar 0x8006 LASTRESULT
-    goto EventScript_ViridianCity_IVEditor_EnterAttack
-EventScript_ViridianCity_IVEditor_InvalidHP:
-    msgbox gText_ViridianCity_OldMan_InvalidIV MSG_NORMAL
-    goto EventScript_ViridianCity_IVEditor_EnterHP
-
-EventScript_ViridianCity_IVEditor_EnterAttack:
-    msgbox gText_ViridianCity_OldMan_EnterAttackIV MSG_NORMAL
-    special 0xB3
-    waitstate
-    compare LASTRESULT 0xFFFF
-    if equal _goto EventScript_ViridianCity_IVEditor_No
-    compare LASTRESULT 32
-    if greaterorequal _goto EventScript_ViridianCity_IVEditor_InvalidAttack
-    copyvar 0x8007 LASTRESULT
-    goto EventScript_ViridianCity_IVEditor_EnterDefense
-EventScript_ViridianCity_IVEditor_InvalidAttack:
-    msgbox gText_ViridianCity_OldMan_InvalidIV MSG_NORMAL
-    goto EventScript_ViridianCity_IVEditor_EnterAttack
-
-EventScript_ViridianCity_IVEditor_EnterDefense:
-    msgbox gText_ViridianCity_OldMan_EnterDefenseIV MSG_NORMAL
-    special 0xB3
-    waitstate
-    compare LASTRESULT 0xFFFF
-    if equal _goto EventScript_ViridianCity_IVEditor_No
-    compare LASTRESULT 32
-    if greaterorequal _goto EventScript_ViridianCity_IVEditor_InvalidDefense
-    copyvar 0x8008 LASTRESULT
-    goto EventScript_ViridianCity_IVEditor_EnterSpeed
-EventScript_ViridianCity_IVEditor_InvalidDefense:
-    msgbox gText_ViridianCity_OldMan_InvalidIV MSG_NORMAL
-    goto EventScript_ViridianCity_IVEditor_EnterDefense
-
-EventScript_ViridianCity_IVEditor_EnterSpeed:
-    msgbox gText_ViridianCity_OldMan_EnterSpeedIV MSG_NORMAL
-    special 0xB3
-    waitstate
-    compare LASTRESULT 0xFFFF
-    if equal _goto EventScript_ViridianCity_IVEditor_No
-    compare LASTRESULT 32
-    if greaterorequal _goto EventScript_ViridianCity_IVEditor_InvalidSpeed
-    copyvar 0x8009 LASTRESULT
-    goto EventScript_ViridianCity_IVEditor_EnterSpAttack
-EventScript_ViridianCity_IVEditor_InvalidSpeed:
-    msgbox gText_ViridianCity_OldMan_InvalidIV MSG_NORMAL
-    goto EventScript_ViridianCity_IVEditor_EnterSpeed
-
-EventScript_ViridianCity_IVEditor_EnterSpAttack:
-    msgbox gText_ViridianCity_OldMan_EnterSpAttackIV MSG_NORMAL
-    special 0xB3
-    waitstate
-    compare LASTRESULT 0xFFFF
-    if equal _goto EventScript_ViridianCity_IVEditor_No
-    compare LASTRESULT 32
-    if greaterorequal _goto EventScript_ViridianCity_IVEditor_InvalidSpAttack
-    copyvar 0x800A LASTRESULT
-    goto EventScript_ViridianCity_IVEditor_EnterSpDefense
-EventScript_ViridianCity_IVEditor_InvalidSpAttack:
-    msgbox gText_ViridianCity_OldMan_InvalidIV MSG_NORMAL
-    goto EventScript_ViridianCity_IVEditor_EnterSpAttack
-
-EventScript_ViridianCity_IVEditor_EnterSpDefense:
-    msgbox gText_ViridianCity_OldMan_EnterSpDefenseIV MSG_NORMAL
-    special 0xB3
-    waitstate
-    compare LASTRESULT 0xFFFF
-    if equal _goto EventScript_ViridianCity_IVEditor_No
-    compare LASTRESULT 32
-    if greaterorequal _goto EventScript_ViridianCity_IVEditor_InvalidSpDefense
-    copyvar 0x800B LASTRESULT
-    callasm SetCustomMonIVs
-    msgbox gText_ViridianCity_OldMan_Done MSG_NORMAL
-    release
-    end
-EventScript_ViridianCity_IVEditor_InvalidSpDefense:
-    msgbox gText_ViridianCity_OldMan_InvalidIV MSG_NORMAL
-    goto EventScript_ViridianCity_IVEditor_EnterSpDefense
-
-EventScript_ViridianCity_IVEditor_NoPokemon:
-    msgbox gText_ViridianCity_OldMan_NoPokemon MSG_NORMAL
-EventScript_ViridianCity_IVEditor_No:
     release
     end
