@@ -3196,21 +3196,26 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 		}
 	}
 
-	u8 banks[2] = {bankAtk, bankDef};
+	ability_t bankAbilities[2] = {data->atkAbility, data->defAbility}; //monAtk/monDef预测路径也正确
+	bool8 atkMoldBreaker = (bankAbilities[0] == ABILITY_MOLDBREAKER
+						 || bankAbilities[0] == ABILITY_TURBOBLAZE
+						 || bankAbilities[0] == ABILITY_TERAVOLT); //破格类执行招式时无视灾祸(官方)
 
 	for (u8 i = 0; i < 2; i++) {
-    	u8 bank = banks[i];
-    
-    	if (beadsOfRuinOnField && ABILITY(bank) != ABILITY_BEADSOFRUIN)
+    	ability_t bankAbility = bankAbilities[i];
+
+    	if (beadsOfRuinOnField && bankAbility != ABILITY_BEADSOFRUIN)
         	spDefense = (spDefense * 75) / 100;
-    
-    	if (tabletsOfRuinOnField && ABILITY(bank) != ABILITY_TABLETSOFRUIN)
+
+    	if (tabletsOfRuinOnField && bankAbility != ABILITY_TABLETSOFRUIN
+    	&& !(i == 0 && atkMoldBreaker))
         	attack = (attack * 75) / 100;
-    
-    	if (vesselOfRuinOnField && ABILITY(bank) != ABILITY_VESSELOFRUIN)
+
+    	if (vesselOfRuinOnField && bankAbility != ABILITY_VESSELOFRUIN
+    	&& !(i == 0 && atkMoldBreaker))
         	spAttack = (spAttack * 75) / 100;
-    
-    	if (swordOfRuinOnField && ABILITY(bank) != ABILITY_SWORDOFRUIN)
+
+    	if (swordOfRuinOnField && bankAbility != ABILITY_SWORDOFRUIN)
         	defense = (defense * 75) / 100;
 	}
 
