@@ -1724,7 +1724,10 @@ BattleScript_AbilityPopUpRevert:
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 BattleScript_AngerShellActivates:
 	jumpifstat BANK_TARGET GREATERTHAN STAT_DEF STAT_MIN AngerShellModDef
-	jumpifstat BANK_TARGET EQUALS STAT_SPD STAT_MAX AngerShellReturn
+	jumpifstat BANK_TARGET GREATERTHAN STAT_SPDEF STAT_MIN AngerShellModDef
+	@;双防都已到最低：只弹窗并进入提升段（原先误判速度满级就整体中止）
+	call BattleScript_AbilityPopUp
+	goto AngerShellModSpd
 
 AngerShellModDef:
 	call BattleScript_AbilityPopUp
