@@ -1537,9 +1537,9 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				effect++;
 			}
 			break;
-
+	
 		case ABILITY_PURIFYINGSALT:
-			effect = ImmunityAbilityCheck(bank, STATUS1_ANY, gStatusConditionString_PurifySalt);
+			//官方：获得洁净之盐时已有的异常状态不会解除（免疫只在施加时经 CanBe* 检查）
 			break;
 
 		case ABILITY_IMMUNITY:
@@ -3524,13 +3524,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			{
 				switch (ABILITY(bank))
 				{
-				case ABILITY_PURIFYINGSALT:
-					if (CheckStatusAny(bank))
-					{
-						StringCopy(gBattleTextBuff1, gStatusConditionString_PurifySalt);
-						effect = 1;
-					}
-					break;
 				case ABILITY_IMMUNITY:
 					if (gBattleMons[bank].status1 & STATUS1_PSN_ANY)
 					{

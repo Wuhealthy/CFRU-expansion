@@ -924,6 +924,8 @@ u16 GetAmountToRecoverBy(u8 bankAtk, u8 bankDef, u16 move)
 			break;
 
 		case EFFECT_REST:
+			if (!CanBePutToSleep(bankAtk, bankAtk, TRUE))
+				break; //Move will fail (e.g. Purifying Salt / Insomnia)
 			amountToRecover = maxHp;
 			break;
 

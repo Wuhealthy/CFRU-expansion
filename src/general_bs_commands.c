@@ -2802,6 +2802,7 @@ void atk81_trysetrest(void)
 		switch (ABILITY(gActiveBattler)) {
 			case ABILITY_INSOMNIA:
 			case ABILITY_VITALSPIRIT:
+			case ABILITY_PURIFYINGSALT: //洁净之盐：不能陷入睡眠，睡觉失败
 				gBattlescriptCurrInstr = BattleScript_TargetStayedAwakeUsingAbility;
 				fail = TRUE;
 				break;
