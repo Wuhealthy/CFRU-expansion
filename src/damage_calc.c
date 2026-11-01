@@ -2792,7 +2792,21 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 		{
 			//Boost was snapshotted on entry: mons fainting later don't raise it,
 			//and reviving doesn't lower it (capped at 50%)
-			u8 fallenCount = gNewBS->supremeOverlordFallenCount[SIDE(bankAtk)][gBattlerPartyIndexes[bankAtk]];
+			u8 fallenCount;
+
+			if (data->monAtk != NULL) //AI后备兽预设计算：模拟上场时按当前倒下数快照
+			{
+				u32 monId, side;
+				GetMonIdAndSideByMon(data->monAtk, &monId, &side);
+				fallenCount = CountFallenMonsOnSide(side);
+			}
+			else
+			{
+				fallenCount = gNewBS->supremeOverlordFallenCount[SIDE(bankAtk)][gBattlerPartyIndexes[bankAtk]];
+			}
+
+			if (fallenCount > 5)
+				fallenCount = 5; //Boost caps at 50%
 
 			if (fallenCount > 0)
 			{

@@ -414,12 +414,11 @@ bool8 CheckStatusAny(u8 bank)
     return (gBattleMons[bank].status1 & STATUS1_ANY);
 }
 
-u8 CountFallenPokemonInParty(u8 bank)
+u8 CountFallenMonsOnSide(u8 side)
 {
     u8 i;
     u8 count = 0;
     u8 partyCount;
-    u8 side = SIDE(bank);
 
     //Only count mons that fainted during this battle; mons brought into the
     //battle already fainted don't count (per official Supreme Overlord /
@@ -432,6 +431,11 @@ u8 CountFallenPokemonInParty(u8 bank)
     }
 
     return count;
+}
+
+u8 CountFallenPokemonInParty(u8 bank)
+{
+    return CountFallenMonsOnSide(SIDE(bank));
 }
 
 void MarkFallenMon(u8 bank)
