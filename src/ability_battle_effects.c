@@ -3034,6 +3034,11 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 						case ABILITY_STANCECHANGE:
 						case ABILITY_ICEFACE:
 						case ABILITY_TERASHIFT:
+						case ABILITY_ZENMODE:
+						case ABILITY_PROTOSYNTHESIS:
+						case ABILITY_QUARKDRIVE:
+						case ABILITY_ORICHALCUMPULSE:
+						case ABILITY_HADRONENGINE:
 						case ABILITY_ZEROTOHERO:
 							break;
 						default:
@@ -3054,6 +3059,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				{
 					switch (ABILITY(gBankAttacker)) {
 						case ABILITY_LINGERINGAROMA:
+						case ABILITY_MUMMY: //木乃伊不会被传染
 						case ABILITY_ASONEICERIDER:
 						case ABILITY_ASONESHADOWRIDER:
 						case ABILITY_BATTLEBOND:
@@ -3069,6 +3075,11 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 						case ABILITY_STANCECHANGE:
 						case ABILITY_ICEFACE:
 						case ABILITY_TERASHIFT:
+						case ABILITY_ZENMODE:
+						case ABILITY_PROTOSYNTHESIS:
+						case ABILITY_QUARKDRIVE:
+						case ABILITY_ORICHALCUMPULSE:
+						case ABILITY_HADRONENGINE:
 						case ABILITY_ZEROTOHERO:
 						case ABILITY_EEVEEHERO:
 							break;
