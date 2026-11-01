@@ -49,3 +49,7 @@ Cover Art.png
 
 # pycache files
 *.pyc
+
+# 图鉴站点生成物 (用 pokedex_site/tools/extract_data.py 重新生成; 站点发布在 gh-pages 分支)
+pokedex_site/data/
+pokedex_site/sprites/
