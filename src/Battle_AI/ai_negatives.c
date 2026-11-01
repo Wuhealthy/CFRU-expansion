@@ -592,8 +592,18 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				}
 				break;
 
-			case ABILITY_CLEARBODY:
 			case ABILITY_GOODASGOLD:
+				//黄金之躯挡下所有以它为目标的变化招（全场/铺场地类除外），比降能力组更广
+				if (SPLIT(move) == SPLIT_STATUS
+				&& !specialMoveFlags->gSpecialWholeFieldMovess
+				&& !(gBattleMoves[move].target & MOVE_TARGET_OPPONENTS_FIELD))
+				{
+					DECREASE_VIABILITY(20);
+					return viability;
+				}
+				break;
+
+			case ABILITY_CLEARBODY:
 			case ABILITY_WHITESMOKE:
 			#ifdef ABILITY_FULLMETALBODY
 			case ABILITY_FULLMETALBODY:
