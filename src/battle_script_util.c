@@ -1702,14 +1702,15 @@ void SeedRoomServiceLooper(void)
 		if (BATTLER_ALIVE(bank)
         && ABILITY(bank) == ABILITY_QUARKDRIVE
         && !gNewBS->quarkDriveActivated[bank]
-        && gTerrainType == ELECTRIC_TERRAIN)
+        && gTerrainType == ELECTRIC_TERRAIN) //官方：无论持有者是否接地均发动
         {
             gNewBS->quarkDriveActivated[bank] = TRUE;
+            gNewBS->paradoxBoostedStat[bank] = GetHighestStat(bank); //激活时按当前能力变化锁定最高项
             gBankAttacker = bank;
             gActiveBattler = bank;
-            PREPARE_STAT_BUFFER(gBattleTextBuff1, GetHighestStat(gBankAttacker));
+            PREPARE_STAT_BUFFER(gBattleTextBuff1, gNewBS->paradoxBoostedStat[bank]);
             BattleScriptPushCursorAndCallback(BattleScript_QuarkDriveActivates);
-            
+
             gBattlescriptCurrInstr -= 5;
             return;
         }
@@ -2985,17 +2986,17 @@ void TryActivateQuarkDrive(void)
 
     for (u8 bank = 0; bank < gBattlersCount; bank++)
     {
-		if (gNewBS->quarkDriveActivated[bank]) 
+		if (gNewBS->quarkDriveActivated[bank])
             continue;
 
         u16 ability = ABILITY(bank);
-        if (ability == ABILITY_QUARKDRIVE && terrainFlag == ELECTRIC_TERRAIN
-            && IsAffectedByElectricTerrain(bank))
+        if (ability == ABILITY_QUARKDRIVE && terrainFlag == ELECTRIC_TERRAIN) //官方：无论持有者是否接地均发动
         {
 			gNewBS->quarkDriveActivated[bank] = TRUE;
+			gNewBS->paradoxBoostedStat[bank] = GetHighestStat(bank); //激活时按当前能力变化锁定最高项
 			gBankAttacker = bank;
             gActiveBattler = bank;
-            PREPARE_STAT_BUFFER(gBattleTextBuff1, GetHighestStat(bank));
+            PREPARE_STAT_BUFFER(gBattleTextBuff1, gNewBS->paradoxBoostedStat[bank]);
             gBattlescriptCurrInstr = BattleScript_QuarkDriveActivates2 - 5;
         }
     }
@@ -3005,16 +3006,18 @@ void TryActivateProtosynthesis(void)
 {
     for (u8 bank = 0; bank < gBattlersCount; bank++)
     {
-		if (gNewBS->ProtosynthesisActivated[bank]) 
+		if (gNewBS->ProtosynthesisActivated[bank])
             continue;
 
         u16 ability = ABILITY(bank);
-        if (ability == ABILITY_PROTOSYNTHESIS && IsSunWeatherActive(bank))
+        if (ability == ABILITY_PROTOSYNTHESIS
+        && (gBattleWeather & WEATHER_SUN_ANY) && WEATHER_HAS_EFFECT) //官方：遮阳伞不影响发动
         {
 			gNewBS->ProtosynthesisActivated[bank] = TRUE;
+			gNewBS->paradoxBoostedStat[bank] = GetHighestStat(bank); //激活时按当前能力变化锁定最高项
 			gBankAttacker = bank;
             gActiveBattler = bank;
-            PREPARE_STAT_BUFFER(gBattleTextBuff1, GetHighestStat(bank));
+            PREPARE_STAT_BUFFER(gBattleTextBuff1, gNewBS->paradoxBoostedStat[bank]);
             gBattlescriptCurrInstr = BattleScript_ProtosynthesisActivates2 - 5;
         }
     }

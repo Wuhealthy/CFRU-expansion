@@ -201,7 +201,7 @@ bool8 IsAbilitySuppressed(u8 bank);
 bool8 AreAbilitiesSuppressed(void);
 bool8 CantScoreACrit(u8 bank, struct Pokemon* mon);
 u16 GetHighestStat(u8 bankAtk);
-u16 GetHighestStatMon(struct Pokemon* mon);
+u16 GetHighestStatMon(struct Pokemon* mon, u8 side);
 bool8 IsParadoxBoostActive(u8 bank);
 u8 GetParadoxBoostedStat(u8 bank);
 bool8 IsSunWeatherActive(u8 bank);

@@ -18,7 +18,7 @@ void TransferAbilityPopUpHelperAsTrace(void);
 void TransferAbilityPopUpHelperAsImposter(void);
 void TransferAbilityPopUp(u8 bank, ability_t ability);
 u16 GetHighestStat(u8 bankAtk);
-u16 GetHighestStatMon(struct Pokemon* mon);
+u16 GetHighestStatMon(struct Pokemon* mon, u8 side);
 bool8 IsParadoxBoostActive(u8 bank);
 u8 GetParadoxBoostedStat(u8 bank);
 bool8 TryActivateCommander(u8 tatsugiri);

@@ -2548,7 +2548,8 @@ static u32 BoostSpeedInWeather(ability_t ability, u8 itemEffect, u32 speed, u8 b
 					speed *= 2;
 				break;
 			case ABILITY_PROTOSYNTHESIS:
-				if (IsParadoxBoostActive(bank)
+				if (bank < gBattlersCount //SpeedCalcMon预测替补兽时bank无效，防止越界读
+				&& IsParadoxBoostActive(bank)
 				&& GetParadoxBoostedStat(bank) == STAT_SPEED)
 					speed = (speed * 15) / 10;
 			break;
@@ -2706,13 +2707,13 @@ u32 SpeedCalcMon(u8 side, struct Pokemon* mon) //Used for the AI
 	//Check for abilities that alter speed
 	speed = BoostSpeedInWeather(ability, itemEffect, speed, bank);
 
-	if (ability == ABILITY_QUARKDRIVE
-	&& gTerrainType == ELECTRIC_TERRAIN
-	&& GetHighestStatMon(mon) == STAT_SPEED)
-		speed = (speed * 15) / 10;
-	else if (ability == ABILITY_PROTOSYNTHESIS
-	&& IsSunWeatherActive(bank)
-	&& GetHighestStatMon(mon) == STAT_SPEED)
+	if (bank >= gBattlersCount //仅替补兽预测；场上宝可梦已在BoostSpeedInWeather处理，避免双重加成
+	&& GetHighestStatMon(mon, side) == STAT_SPEED
+	&& ((ability == ABILITY_PROTOSYNTHESIS
+		&& (gBattleWeather & WEATHER_SUN_ANY) && WEATHER_HAS_EFFECT) //官方：遮阳伞不影响
+	 || (ability == ABILITY_QUARKDRIVE
+		&& gTerrainType == ELECTRIC_TERRAIN) //官方：无需接地判定
+	 || itemEffect == ITEM_EFFECT_BOOSTER_ENERGY)) //上场时若无晴天/地形会消耗能量，必定激活
 		speed = (speed * 15) / 10;
 
 	switch (ability) {

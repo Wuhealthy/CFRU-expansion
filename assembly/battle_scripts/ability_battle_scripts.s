@@ -400,6 +400,7 @@ BattleScript_TerrainFromAbility:
 	printstring 0x184
 	waitmessage DELAY_1SECOND
 	call BattleScript_AbilityPopUpRevert
+	callasm TryActivateQuarkDrive @;规则7：克充能先于种子发动
 	setbyte SEED_HELPER 0
 	callasm SeedRoomServiceLooper
 	callasm TryActivateMimicry
@@ -957,6 +958,7 @@ BattleScript_VolatileExplosion_SetTerrain:
     setword BATTLE_STRING_LOADER ElectricTerrainSetString
     printstring 0x184
     waitmessage DELAY_1SECOND
+    callasm TryActivateQuarkDrive @;规则7：克充能先于种子发动
     setbyte SEED_HELPER 0
     callasm SeedRoomServiceLooper
     callasm TryActivateMimicry

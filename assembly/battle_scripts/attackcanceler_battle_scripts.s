@@ -72,6 +72,7 @@ BattleScript_PsychoReboundSetTerrain:
     setword BATTLE_STRING_LOADER PsychicTerrainSetString
     printstring 0x184
     waitmessage DELAY_1SECOND
+    callasm TryActivateQuarkDrive @;规则7：克充能先于种子发动
     setbyte SEED_HELPER 0
     callasm SeedRoomServiceLooper
     callasm TryActivateMimicry

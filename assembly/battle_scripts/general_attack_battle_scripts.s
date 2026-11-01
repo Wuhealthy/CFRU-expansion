@@ -5806,11 +5806,11 @@ BS_226_Terrain:
 	waitanimation
 	printstring 0x184
 	waitmessage DELAY_1SECOND
+	callasm TryActivateQuarkDrive @;规则7：场地从无到有时克充能先于电气种子发动
 	setbyte SEED_HELPER 0
 	callasm SeedRoomServiceLooper
 	copybyte USER_BANK TARGET_BANK @;Restore original target
 	callasm TryActivateMimicry
-	callasm TryActivateQuarkDrive
 	goto BS_MOVE_END
 	
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -5861,6 +5861,7 @@ BS_228_FieldEffects:
 	printstring 0x184
 	waitmessage DELAY_1SECOND
 	jumpifmove MOVE_GRAVITY GravityBringDownBS
+	callasm TryActivateQuarkDrive @;规则7：克充能先于种子发动
 	setbyte SEED_HELPER 0
 	callasm SeedRoomServiceLooper
 	copybyte USER_BANK TARGET_BANK @;Restore original target
@@ -6310,12 +6311,12 @@ BattleScript_SetTerrain:
 	playanimation2 BANK_ATTACKER ANIM_ARG_1 0x0
 	printstring 0x184
 	waitmessage DELAY_1SECOND
+	callasm TryActivateQuarkDrive @;规则7：克充能先于种子发动
 	setbyte SEED_HELPER 0
 	copyhword BACKUP_HWORD USER_BANK @;Backup original atatcker + target
 	callasm SeedRoomServiceLooper
 	copyhword USER_BANK BACKUP_HWORD @;Restore original attacker + target
 	callasm TryActivateMimicry
-	callasm TryActivateQuarkDrive
 BattleScript_SetTerrainReturn:
 	return
 

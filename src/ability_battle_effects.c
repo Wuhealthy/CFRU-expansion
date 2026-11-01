@@ -495,8 +495,9 @@ extern bool8 IsTerastallized(u8 bank);
 
 u16 GetHighestStat(u8 bankAtk)
 {
+	u32 stats[STAT_SPDEF + 1]; //Create new array to avoid modifying original stats
 	u16 maxStatId;
-	u16 stats[STAT_SPDEF + 1]; //Create new array to avoid modifying original stats
+	u8 stat, stage;
 
 	stats[STAT_ATK] = gBattleMons[bankAtk].attack;
 	stats[STAT_DEF] = gBattleMons[bankAtk].defense;
@@ -504,19 +505,27 @@ u16 GetHighestStat(u8 bankAtk)
 	stats[STAT_SPDEF] = gBattleMons[bankAtk].spDefense;
 	stats[STAT_SPEED] = gBattleMons[bankAtk].speed;
 
-	maxStatId = STAT_ATK;
-	for (u8 i = STAT_DEF; i < NELEMS(stats); ++i)
+	//官方：最高项判定计入能力变化（黏黏网降速等），但不计道具/特性/状态等其他修正
+	for (stat = STAT_ATK; stat <= STAT_SPDEF; ++stat)
 	{
-		if (stats[i] > stats[maxStatId])
-			maxStatId = i;
-	}	
+		stage = gBattleMons[bankAtk].statStages[stat - 1];
+		stats[stat] = stats[stat] * gStatStageRatios[stage][0] / gStatStageRatios[stage][1];
+	}
+
+	maxStatId = STAT_ATK;
+	for (stat = STAT_DEF; stat <= STAT_SPDEF; ++stat) //同项取先：攻击>防御>特攻>特防>速度
+	{
+		if (stats[stat] > stats[maxStatId])
+			maxStatId = stat;
+	}
 	return maxStatId;
 }
 
-u16 GetHighestStatMon(struct Pokemon* mon)
+u16 GetHighestStatMon(struct Pokemon* mon, u8 side)
 {
+	u32 stats[STAT_SPDEF + 1]; //Create new array to avoid modifying original stats
 	u16 maxStatId;
-	u16 stats[STAT_SPDEF + 1]; //Create new array to avoid modifying original stats
+	u8 stat;
 
 	stats[STAT_ATK] = mon->attack;
 	stats[STAT_DEF] = mon->defense;
@@ -524,12 +533,18 @@ u16 GetHighestStatMon(struct Pokemon* mon)
 	stats[STAT_SPDEF] = mon->spDefense;
 	stats[STAT_SPEED] = mon->speed;
 
+	//替补兽预测：上场时能力阶段全为0，但黏黏网会先降1级速度再判定最高项
+	if (gSideTimers[side].stickyWeb
+	&& IsMonAffectedByHazards(mon)
+	&& CheckMonGrounding(mon))
+		stats[STAT_SPEED] = stats[STAT_SPEED] * 2 / 3;
+
 	maxStatId = STAT_ATK;
-	for (u8 i = STAT_DEF; i < NELEMS(stats); ++i)
+	for (stat = STAT_DEF; stat <= STAT_SPDEF; ++stat) //同项取先：攻击>防御>特攻>特防>速度
 	{
-		if (stats[i] > stats[maxStatId])
-			maxStatId = i;
-	}	
+		if (stats[stat] > stats[maxStatId])
+			maxStatId = stat;
+	}
 	return maxStatId;
 }
 
@@ -539,17 +554,17 @@ bool8 IsParadoxBoostActive(u8 bank)
 	if (gNewBS->boosterEnergyActivated[bank])
 		return ability == ABILITY_PROTOSYNTHESIS || ability == ABILITY_QUARKDRIVE;
 	if (ability == ABILITY_PROTOSYNTHESIS)
-		return IsSunWeatherActive(bank);
-	return ability == ABILITY_QUARKDRIVE
-		&& gTerrainType == ELECTRIC_TERRAIN
-		&& IsAffectedByElectricTerrain(bank);
+		return (gBattleWeather & WEATHER_SUN_ANY) && WEATHER_HAS_EFFECT; //官方：遮阳伞不影响古代活性发动
+	if (ability == ABILITY_QUARKDRIVE)
+		return gTerrainType == ELECTRIC_TERRAIN; //官方：无论持有者是否接地均发动
+	return FALSE;
 }
 
 u8 GetParadoxBoostedStat(u8 bank)
 {
-	return gNewBS->boosterEnergyActivated[bank]
-		? gNewBS->paradoxBoostedStat[bank]
-		: GetHighestStat(bank);
+	if (gNewBS->paradoxBoostedStat[bank] >= STAT_ATK) //激活时已按当前能力变化锁定最高项
+		return gNewBS->paradoxBoostedStat[bank];
+	return GetHighestStat(bank); //中途获得特性等未锁定场景兜底
 }
 
 void FreeTatsugiriFromMouth(u8 tatsugiri)
@@ -1913,26 +1928,28 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 		
 		case ABILITY_QUARKDRIVE:
 		case ABILITY_PROTOSYNTHESIS:
-			if (IsSunWeatherActive(bank)
+			if ((gBattleWeather & WEATHER_SUN_ANY) && WEATHER_HAS_EFFECT //官方：遮阳伞不影响古代活性发动
 			&& !gNewBS->ProtosynthesisActivated[bank]
 			&& ABILITY(bank) == ABILITY_PROTOSYNTHESIS)
 			{
 				gNewBS->ProtosynthesisActivated[bank] = TRUE;
+				gNewBS->paradoxBoostedStat[bank] = GetHighestStat(bank); //激活时按当前能力变化锁定最高项
 				gBankAttacker = bank;
 				gActiveBattler = bank;
-				PREPARE_STAT_BUFFER(gBattleTextBuff1, GetHighestStat(gBankAttacker));
-				BattleScriptPushCursorAndCallback(BattleScript_ProtosynthesisActivates); 
+				PREPARE_STAT_BUFFER(gBattleTextBuff1, gNewBS->paradoxBoostedStat[bank]);
+				BattleScriptPushCursorAndCallback(BattleScript_ProtosynthesisActivates);
 				effect++;
 			}
-			else if(gTerrainType == ELECTRIC_TERRAIN
+			else if(gTerrainType == ELECTRIC_TERRAIN //官方：无论持有者是否接地均发动
 			&& !gNewBS->quarkDriveActivated[bank]
 			&& ABILITY(bank) == ABILITY_QUARKDRIVE)
 			{
 				gNewBS->quarkDriveActivated[bank] = TRUE;
+				gNewBS->paradoxBoostedStat[bank] = GetHighestStat(bank); //激活时按当前能力变化锁定最高项
 				gBankAttacker = bank;
 				gActiveBattler = bank;
-				PREPARE_STAT_BUFFER(gBattleTextBuff1, GetHighestStat(gBankAttacker));
-				BattleScriptPushCursorAndCallback(BattleScript_QuarkDriveActivates); 
+				PREPARE_STAT_BUFFER(gBattleTextBuff1, gNewBS->paradoxBoostedStat[bank]);
+				BattleScriptPushCursorAndCallback(BattleScript_QuarkDriveActivates);
 				effect++;
 			}
 			else if (ITEM_EFFECT(bank) == ITEM_EFFECT_BOOSTER_ENERGY)

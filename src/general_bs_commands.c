@@ -5524,14 +5524,15 @@ void atkE7_trycastformdatachange(void)
 
 	if (ABILITY(bank) == ABILITY_PROTOSYNTHESIS
 	&& BATTLER_ALIVE(bank)
-	&& IsSunWeatherActive(bank))
+	&& (gBattleWeather & WEATHER_SUN_ANY) && WEATHER_HAS_EFFECT) //官方：遮阳伞不影响发动
     {
         if (!gNewBS->ProtosynthesisActivated[bank])
         {
             gNewBS->ProtosynthesisActivated[bank] = TRUE;
+            gNewBS->paradoxBoostedStat[bank] = GetHighestStat(bank); //激活时按当前能力变化锁定最高项
             gBankAttacker = bank;
             gActiveBattler = bank;
-            PREPARE_STAT_BUFFER(gBattleTextBuff1, GetHighestStat(bank));
+            PREPARE_STAT_BUFFER(gBattleTextBuff1, gNewBS->paradoxBoostedStat[bank]);
             BattleScriptPushCursorAndCallback(BattleScript_ProtosynthesisActivates);
         }
     }

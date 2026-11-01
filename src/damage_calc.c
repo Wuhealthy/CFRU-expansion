@@ -9,6 +9,7 @@
 
 #include "../include/new/accuracy_calc.h"
 #include "../include/new/ai_util.h"
+#include "../include/new/ability_battle_effects.h"
 #include "../include/new/ability_util.h"
 #include "../include/new/battle_start_turn_start.h"
 #include "../include/new/battle_util.h"
@@ -2857,33 +2858,41 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			break;
 		
 		case ABILITY_PROTOSYNTHESIS:
-			if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
-			&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect))
-			{
-				if (GetHighestStat(bankAtk) == STAT_ATK)
-					attack = (attack * 13) / 10;
-				if (GetHighestStat(bankAtk) == STAT_SPATK)
-					spAttack = (spAttack * 13) / 10;
-				if (GetHighestStat(bankAtk) == STAT_DEF)
-					defense = (defense * 13) / 10;
-				if (GetHighestStat(bankAtk) == STAT_SPDEF)
-					spDefense = (spDefense * 13) / 10;
-			}
-			break;
-
 		case ABILITY_QUARKDRIVE:
-			if (gTerrainType == ELECTRIC_TERRAIN)
+		//Paradox boost: 1.3x on the highest raw stat. Booster Energy keeps it active
+		//even after the weather/terrain ends; AI party prediction reads the mon itself.
+		{
+			bool8 boostActive;
+			u16 boostedStat;
+
+			if (data->monAtk != NULL) //AI后备兽预设计算
 			{
-				if (GetHighestStat(bankAtk) == STAT_ATK)
+				boostActive = data->atkItemEffect == ITEM_EFFECT_BOOSTER_ENERGY //上场时若无晴天/地形会消耗能量，必定激活
+					|| (data->atkAbility == ABILITY_PROTOSYNTHESIS
+						&& WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)) //官方：遮阳伞不影响
+					|| (data->atkAbility == ABILITY_QUARKDRIVE
+						&& gTerrainType == ELECTRIC_TERRAIN); //官方：无需接地判定
+				boostedStat = GetHighestStatMon(data->monAtk, SIDE(bankAtk));
+			}
+			else
+			{
+				boostActive = IsParadoxBoostActive(bankAtk);
+				boostedStat = GetParadoxBoostedStat(bankAtk);
+			}
+
+			if (boostActive)
+			{
+				if (boostedStat == STAT_ATK)
 					attack = (attack * 13) / 10;
-				if (GetHighestStat(bankAtk) == STAT_SPATK)
+				if (boostedStat == STAT_SPATK)
 					spAttack = (spAttack * 13) / 10;
-				if (GetHighestStat(bankAtk) == STAT_DEF)
+				if (boostedStat == STAT_DEF)
 					defense = (defense * 13) / 10;
-				if (GetHighestStat(bankAtk) == STAT_SPDEF)
+				if (boostedStat == STAT_SPDEF)
 					spDefense = (spDefense * 13) / 10;
 			}
 			break;
+		}
 
 		case ABILITY_SLOWSTART:
 		//0.5x Boost
@@ -3008,33 +3017,40 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			break;
 
 		case ABILITY_PROTOSYNTHESIS:
-			if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
-			&& !ItemEffectIgnoresSunAndRain(data->defItemEffect))
-			{
-				if (GetHighestStat(bankDef) == STAT_ATK)
-					attack = (attack * 13) / 10;
-				if (GetHighestStat(bankDef) == STAT_SPATK)
-					spAttack = (spAttack * 13) / 10;
-				if (GetHighestStat(bankDef) == STAT_DEF)
-					defense = (defense * 13) / 10;
-				if (GetHighestStat(bankDef) == STAT_SPDEF)
-					spDefense = (spDefense * 13) / 10;
-			}
-			break;
-
 		case ABILITY_QUARKDRIVE:
-			if (gTerrainType == ELECTRIC_TERRAIN)
+		//Same paradox boost logic as the attacker side, from the defender's perspective
+		{
+			bool8 boostActive;
+			u16 boostedStat;
+
+			if (data->monDef != NULL) //AI后备兽预设计算
 			{
-				if (GetHighestStat(bankDef) == STAT_ATK)
+				boostActive = data->defItemEffect == ITEM_EFFECT_BOOSTER_ENERGY
+					|| (data->defAbility == ABILITY_PROTOSYNTHESIS
+						&& WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)) //官方：遮阳伞不影响
+					|| (data->defAbility == ABILITY_QUARKDRIVE
+						&& gTerrainType == ELECTRIC_TERRAIN); //官方：无需接地判定
+				boostedStat = GetHighestStatMon(data->monDef, SIDE(bankDef));
+			}
+			else
+			{
+				boostActive = IsParadoxBoostActive(bankDef);
+				boostedStat = GetParadoxBoostedStat(bankDef);
+			}
+
+			if (boostActive)
+			{
+				if (boostedStat == STAT_ATK)
 					attack = (attack * 13) / 10;
-				if (GetHighestStat(bankDef) == STAT_SPATK)
+				if (boostedStat == STAT_SPATK)
 					spAttack = (spAttack * 13) / 10;
-				if (GetHighestStat(bankDef) == STAT_DEF)
+				if (boostedStat == STAT_DEF)
 					defense = (defense * 13) / 10;
-				if (GetHighestStat(bankDef) == STAT_SPDEF)
+				if (boostedStat == STAT_SPDEF)
 					spDefense = (spDefense * 13) / 10;
 			}
 			break;
+		}
 	}
 
 //Attacker Item Checks
