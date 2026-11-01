@@ -18,6 +18,7 @@
 #include "../include/new/item_battle_scripts.h"
 #include "../include/new/move_battle_scripts.h"
 #include "../include/new/switching.h"
+#include "../include/new/terastallization.h"
 #include "../include/new/util.h"
 
 /*
@@ -1674,17 +1675,22 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 
 						#if (defined SPECIES_MORPEKO && defined SPECIES_MORPEKO_HANGRY)
 						case ABILITY_HUNGERSWITCH:
-							if (species == SPECIES_MORPEKO)
+							if (!IsTerastallized(gActiveBattler)) //官方：太晶化后不再切换形态，维持太晶化前的样子
 							{
-								newSpecies = SPECIES_MORPEKO_HANGRY;
-								changedForm = TRUE;
-								battleScript = BattleScript_FlowerGiftEnd2;
-							}
-							else if (species == SPECIES_MORPEKO_HANGRY)
-							{
-								newSpecies = SPECIES_MORPEKO;
-								changedForm = TRUE;
-								battleScript = BattleScript_FlowerGiftEnd2;
+								if (species == SPECIES_MORPEKO)
+								{
+									newSpecies = SPECIES_MORPEKO_HANGRY;
+									changedForm = TRUE;
+									reloadType = TRUE; //满腹电/超能力 → 空腹电/恶，需重载属性
+									battleScript = BattleScript_FlowerGiftEnd2;
+								}
+								else if (species == SPECIES_MORPEKO_HANGRY)
+								{
+									newSpecies = SPECIES_MORPEKO;
+									changedForm = TRUE;
+									reloadType = TRUE;
+									battleScript = BattleScript_FlowerGiftEnd2;
+								}
 							}
 						#endif
 							break;
