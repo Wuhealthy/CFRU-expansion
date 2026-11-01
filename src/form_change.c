@@ -206,7 +206,7 @@ void SwitchOutFormsRevert(u8 bank)
 		case SPECIES_PALAFIN:
 			if (backupSpecies != SPECIES_NONE && ability == ABILITY_ZEROTOHERO)
 				DoFormChange(bank, backupSpecies, FALSE, TRUE, FALSE);
-			else
+			else if (GetBankAbility(bank) == ABILITY_ZEROTOHERO) //拥有全能变身时下场才变身（被技能交换/接住魂换走则不变）
 				DoFormChange(bank, SPECIES_PALAFIN_HERO, FALSE, TRUE, FALSE);
 			break;
 		#endif
