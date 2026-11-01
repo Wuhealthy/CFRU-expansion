@@ -1338,6 +1338,22 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			effect++;
 			break;
 
+		case ABILITY_WINDRIDER: //官方：顺风持续期间上场时攻击+1
+			if (gNewBS->TailwindTimers[SIDE(bank)]
+			&& STAT_STAGE(bank, STAT_STAGE_ATK) < STAT_STAGE_MAX)
+			{
+				gBankAttacker = bank;
+				STAT_STAGE(bank, STAT_STAGE_ATK)++;
+				QueueOpportunistCopies(bank, STAT_STAGE_ATK, 1);
+				gBattleScripting.statChanger = STAT_STAGE_ATK | INCREASE_1;
+				PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_STAGE_ATK);
+				PREPARE_STAT_ROSE(gBattleTextBuff2);
+				gNewBS->statRoseThisRound[bank] = TRUE;
+				BattleScriptPushCursorAndCallback(BattleScript_AttackerAbilityStatRaiseEnd3);
+				effect++;
+			}
+			break;
+
 		case ABILITY_FIREDEITY: //三神特性归入气场类，上场播报
 			gBattleStringLoader = gText_FireDeityActivate;
 			BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
