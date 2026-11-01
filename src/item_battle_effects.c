@@ -143,8 +143,9 @@ u8 ItemBattleEffects(u8 caseID, u8 bank, bool8 moveTurn, bool8 doPluck)
 					u8 increase = gNewBS->mirrorHerbStatBoosts[bank][i];
 					if (increase && gBattleMons[bank].statStages[i] < STAT_STAGE_MAX)
 					{
-						gBattleMons[bank].statStages[i] = MathMin(STAT_STAGE_MAX,
-							gBattleMons[bank].statStages[i] + increase);
+						u8 applied = MathMin(increase, STAT_STAGE_MAX - gBattleMons[bank].statStages[i]);
+						gBattleMons[bank].statStages[i] += applied;
+						QueueOpportunistCopies(bank, i + 1, applied); //The copied increase counts as an opposing stat increase for Opportunist
 						effect = ITEM_STATS_CHANGE;
 					}
 					gNewBS->mirrorHerbStatBoosts[bank][i] = 0;

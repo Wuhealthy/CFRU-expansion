@@ -100,6 +100,7 @@ ai_negatives.c
 
 extern move_effect_t gSetStatusMoveEffects[];
 extern move_effect_t gStatLoweringMoveEffects[];
+extern move_effect_t gStatRaisingMoveEffects[];
 extern move_effect_t gConfusionMoveEffects[];
 extern const struct FlingStruct gFlingTable[];
 
@@ -107,6 +108,7 @@ extern const struct FlingStruct gFlingTable[];
 static bool8 PartnerMoveEffectIsStatusSameTarget(struct AIScript* data, u16 move, u8 bankDef);
 static void AI_Flee(void);
 static void AI_Watch(void);
+static bool8 AnyStatCanRise(u8 bank);
 
 u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove, const u8 originalViability, struct AIScript* data)
 {
@@ -652,6 +654,18 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 					if (!TARGETING_PARTNER //Good idea to attack partner
 					&& AI_STAT_CAN_RISE(bankDef, STAT_SPATK) //Ability can activate
 					&& SpecialMoveInMoveset(bankDef)) //Target has a move that the ability will affect
+					{
+						DECREASE_VIABILITY(8); //Not 10 b/c move still works, just not recommended
+						return viability;
+					}
+				}
+				break;
+
+			case ABILITY_OPPORTUNIST:
+				if (moveSplit == SPLIT_STATUS && CheckTableForMovesEffect(move, gStatRaisingMoveEffects)) //Stat boosting moves feed the foe's Opportunist
+				{
+					if (!TARGETING_PARTNER //Ally boosts don't help the foe's copy
+					&& AnyStatCanRise(bankDef)) //Foe can actually copy something
 					{
 						DECREASE_VIABILITY(8); //Not 10 b/c move still works, just not recommended
 						return viability;
@@ -3540,6 +3554,17 @@ static bool8 PartnerMoveEffectIsStatusSameTarget(struct AIScript* data, u16 move
 static void AI_Flee(void)
 {
 	AI_THINKING_STRUCT->aiAction |= (AI_ACTION_DONE | AI_ACTION_FLEE | AI_ACTION_DO_NOT_ATTACK);
+}
+
+static bool8 AnyStatCanRise(u8 bank) //Can at least one battle stat still be raised (Opportunist has something to copy)
+{
+	for (u8 stat = STAT_STAGE_ATK; stat <= STAT_STAGE_EVASION; ++stat)
+	{
+		if (AI_STAT_CAN_RISE(bank, stat))
+			return TRUE;
+	}
+
+	return FALSE;
 }
 
 u8 AIScript_Roaming(const u8 bankAtk, const unusedArg u8 bankDef, const unusedArg u16 move, const u8 originalViability, unusedArg struct AIScript* data)

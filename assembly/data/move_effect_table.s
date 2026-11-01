@@ -11,6 +11,7 @@ move_effect_tables.s
 .global gBattleScriptsForMoveEffects
 .global gSetStatusMoveEffects
 .global gStatLoweringMoveEffects
+.global gStatRaisingMoveEffects
 .global gConfusionMoveEffects
 .global gMoveEffectsThatIgnoreWeaknessResistance
 
@@ -303,6 +304,34 @@ gStatLoweringMoveEffects:
 .byte EFFECT_TICKLE
 .byte EFFECT_PLAY_NICE
 .byte EFFECT_VENOM_DRENCH
+.byte MOVE_EFFECT_TABLES_TERMIN
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+gStatRaisingMoveEffects:
+.byte EFFECT_ATTACK_UP
+.byte EFFECT_DEFENSE_UP
+.byte EFFECT_SPEED_UP
+.byte EFFECT_SPECIAL_ATTACK_UP
+.byte EFFECT_SPECIAL_DEFENSE_UP
+.byte EFFECT_ACCURACY_UP
+.byte EFFECT_EVASION_UP
+.byte EFFECT_ATTACK_UP_2
+.byte EFFECT_DEFENSE_UP_2
+.byte EFFECT_SPEED_UP_2
+.byte EFFECT_SPECIAL_ATTACK_UP_2
+.byte EFFECT_SPECIAL_DEFENSE_UP_2
+.byte EFFECT_ACCURACY_UP_2
+.byte EFFECT_EVASION_UP_2
+.byte EFFECT_ATK_SPATK_UP
+.byte EFFECT_ATK_ACC_UP
+.byte EFFECT_DEF_EVSN_UP @C header EFFECT_DEF_SPD_UP (200) - Def + Sp. Def up
+.byte EFFECT_COSMIC_POWER
+.byte EFFECT_EXTREME_EVOBOOST @+ No Retreat + Clangorous Soul
+.byte EFFECT_BULK_UP
+.byte EFFECT_CALM_MIND
+.byte EFFECT_DRAGON_DANCE
+.byte EFFECT_STOCKPILE
 .byte MOVE_EFFECT_TABLES_TERMIN
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
