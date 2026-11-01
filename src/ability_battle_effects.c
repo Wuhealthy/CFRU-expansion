@@ -21,6 +21,7 @@ extern const u8 BattleScript_Moxie[]; //怒发冲冠满层时复用攻击提升�
 #include "../include/new/cmd49.h"
 #include "../include/new/damage_calc.h"
 #include "../include/new/dynamax.h"
+#include "../include/new/item_battle_effects.h"
 #include "../include/new/form_change.h"
 #include "../include/new/move_battle_scripts.h"
 #include "../include/new/move_tables.h"
@@ -1322,6 +1323,24 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 			effect++;
 			break;
 
+		case ABILITY_FIREDEITY: //三神特性归入气场类，上场播报
+			gBattleStringLoader = gText_FireDeityActivate;
+			BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+			effect++;
+			break;
+
+		case ABILITY_THUNDERDEITY:
+			gBattleStringLoader = gText_ThunderDeityActivate;
+			BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+			effect++;
+			break;
+
+		case ABILITY_ICEDEITY:
+			gBattleStringLoader = gText_IceDeityActivate;
+			BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
+			effect++;
+			break;
+
 		case ABILITY_COMATOSE:
 			gBattleStringLoader = gText_ComatoseActivate;
 			BattleScriptPushCursorAndCallback(BattleScript_SwitchInAbilityMsg);
@@ -2319,8 +2338,12 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					{
 						if (--gNewBS->CudChewCounter[bank] == 0) //Re-eat the berry at the end of the next turn
 						{
-							BattleScriptPushCursorAndCallback(BattleScript_CudChew);
-							++effect;
+							if (CanCudChewReEatBerry(bank)) //官方：无法受到该树果影响则不发动
+							{
+								BattleScriptPushCursorAndCallback(BattleScript_CudChew);
+								++effect;
+							}
+							//无法受影响时本次机会作废（计数已归零）
 						}
 					}
 					else

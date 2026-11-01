@@ -3384,58 +3384,62 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 	if (ITEM_EFFECT(gBankAttacker) == ITEM_EFFECT_PUNCHING_GLOVE && gSpecialMoveFlags[move].gPunchingMoves)
 		damage = (damage * 11) / 10;
 
+	//Deity Abilities (Aura class - reversed by Aura Break)
 	{
-    	bool8 thunderDeityOnField = FALSE;
-    	bool8 fireDeityOnField = FALSE;
-		bool8 iceDeityOnField = FALSE;
-    
-    	for (u8 i = 0; i < gBattlersCount; i++)
-    	{
-        	if (!BATTLER_ALIVE(i))
-            	continue;
-        	if (ABILITY(i) == ABILITY_THUNDERDEITY)
-            	thunderDeityOnField = TRUE;
-        	if (ABILITY(i) == ABILITY_FIREDEITY)
-            	fireDeityOnField = TRUE;
-        	if (ABILITY(i) == ABILITY_ICEDEITY)
-            	iceDeityOnField = TRUE;
-    	}
-    
-    	if (thunderDeityOnField)
-    	{
-        	switch (data->moveType) {
-            	case TYPE_ELECTRIC:
-                	damage = (damage * 15) / 10;
-                	break;
-            	case TYPE_GROUND:
-                	damage /= 2;
-                	break;
-        	}
-    	}
-    
-    	if (fireDeityOnField)
-    	{
-        	switch (data->moveType) {
-            	case TYPE_FIRE:
-                	damage = (damage * 15) / 10;
-                	break;
-            	case TYPE_WATER:
-                	damage /= 2;
-                	break;
-        	}
-    	}
+		bool8 auraBreakOnField = ABILITY_ON_FIELD(ABILITY_AURABREAK)
+							  || data->atkAbility == ABILITY_AURABREAK
+							  || data->defAbility == ABILITY_AURABREAK;
+		bool8 thunderDeityOnField = data->atkAbility == ABILITY_THUNDERDEITY || data->defAbility == ABILITY_THUNDERDEITY; //Also checked directly because attacker/defender may be a party mon
+		bool8 fireDeityOnField = data->atkAbility == ABILITY_FIREDEITY || data->defAbility == ABILITY_FIREDEITY;
+		bool8 iceDeityOnField = data->atkAbility == ABILITY_ICEDEITY || data->defAbility == ABILITY_ICEDEITY;
+
+		for (u8 i = 0; i < gBattlersCount; i++)
+		{
+			if (!BATTLER_ALIVE(i))
+				continue;
+			if (ABILITY(i) == ABILITY_THUNDERDEITY)
+				thunderDeityOnField = TRUE;
+			if (ABILITY(i) == ABILITY_FIREDEITY)
+				fireDeityOnField = TRUE;
+			if (ABILITY(i) == ABILITY_ICEDEITY)
+				iceDeityOnField = TRUE;
+		}
+
+		if (thunderDeityOnField)
+		{
+			switch (data->moveType) {
+				case TYPE_ELECTRIC:
+					damage = auraBreakOnField ? (damage * 2) / 3 : (damage * 3) / 2;
+					break;
+				case TYPE_GROUND:
+					damage = auraBreakOnField ? (damage * 3) / 2 : (damage * 2) / 3;
+					break;
+			}
+		}
+
+		if (fireDeityOnField)
+		{
+			switch (data->moveType) {
+				case TYPE_FIRE:
+					damage = auraBreakOnField ? (damage * 2) / 3 : (damage * 3) / 2;
+					break;
+				case TYPE_WATER:
+					damage = auraBreakOnField ? (damage * 3) / 2 : (damage * 2) / 3;
+					break;
+			}
+		}
 
 		if (iceDeityOnField)
-    	{
-        	switch (data->moveType) {
-            	case TYPE_ICE:
-                	damage = (damage * 15) / 10;
-                	break;
-            	case TYPE_FIRE:
-                	damage /= 2;
-                	break;
-        	}
-    	}
+		{
+			switch (data->moveType) {
+				case TYPE_ICE:
+					damage = auraBreakOnField ? (damage * 2) / 3 : (damage * 3) / 2;
+					break;
+				case TYPE_FIRE:
+					damage = auraBreakOnField ? (damage * 3) / 2 : (damage * 2) / 3;
+					break;
+			}
+		}
 	}
 
 	if (ABILITY(data->bankAtk) == ABILITY_MEGASOL)

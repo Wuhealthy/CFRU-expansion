@@ -31,6 +31,15 @@
 #org @gText_AuraBreakActivate
 [SCRIPTING_BANK]\n压制了所有气场！
 
+#org @gText_FireDeityActivate
+[SCRIPTING_BANK]\n正在释放烈焰气场！
+
+#org @gText_ThunderDeityActivate
+[SCRIPTING_BANK]\n正在释放雷电气场！
+
+#org @gText_IceDeityActivate
+[SCRIPTING_BANK]\n正在释放冰霜气场！
+
 #org @gText_ComatoseActivate
 [SCRIPTING_BANK]\n处于半梦半醒状态！
 

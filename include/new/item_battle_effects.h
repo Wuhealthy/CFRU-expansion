@@ -9,3 +9,4 @@
 
 //Exported Functions
 u8 ItemBattleEffects(u8 caseID, u8 bank, bool8 moveTurn, bool8 DoPluck);
+bool8 CanCudChewReEatBerry(u8 bank);

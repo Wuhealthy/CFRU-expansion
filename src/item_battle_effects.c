@@ -1122,6 +1122,71 @@ static u8 ConfusionBerries(u8 bank, u8 flavour, bool8 moveTurn, bool8 doPluck) {
 	return effect;
 }
 
+bool8 CanCudChewReEatBerry(u8 bank)
+{
+	//Official: the Cud Chew re-eat doesn't activate if the mon can't be affected by the berry
+	u8 stat;
+	u16 item = SAVED_CONSUMED_ITEMS(bank);
+
+	switch (ItemId_GetHoldEffect(item)) {
+	case ITEM_EFFECT_RESTORE_HP:
+		return !IsHealBlocked(bank) && !BATTLER_MAX_HP(bank); //HP满时无法受到回复HP树果的影响
+
+	case ITEM_EFFECT_RESTORE_PP:
+	{
+		u32 i;
+		u16 move;
+		u8 pp, ppBonuses, maxPP;
+		pokemon_t* poke = GetBankPartyData(bank);
+
+		for (i = 0; i < MAX_MON_MOVES; ++i)
+		{
+			move = GetMonData(poke, MON_DATA_MOVE1 + i, 0);
+			pp = GetMonData(poke, MON_DATA_PP1 + i, 0);
+			ppBonuses = GetMonData(poke, MON_DATA_PP_BONUSES, 0);
+			maxPP = CalculatePPWithBonus(move, ppBonuses, i);
+			if (IS_TRANSFORMED(bank) && maxPP > 5)
+				maxPP = 5;
+
+			if (move && pp < maxPP)
+				return TRUE;
+		}
+		return FALSE;
+	}
+
+	case ITEM_EFFECT_CURE_STATUS:
+		return (gBattleMons[bank].status1 & STATUS_ANY)
+			|| (gBattleMons[bank].status2 & STATUS2_CONFUSION); //无对应异常状态时无法受影响
+
+	case ITEM_EFFECT_CRITICAL_UP:
+		return !(gBattleMons[bank].status2 & STATUS2_FOCUS_ENERGY); //已处于要害提升状态时无法受影响
+
+	case ITEM_EFFECT_RANDOM_STAT_UP:
+		return !((MainStatsMaxed(bank) && ABILITY(bank) != ABILITY_CONTRARY)
+		      || (MainStatsMinned(bank) && ABILITY(bank) == ABILITY_CONTRARY));
+
+	case ITEM_EFFECT_ATTACK_UP:
+		stat = STAT_STAGE_ATK;
+		break;
+	case ITEM_EFFECT_DEFENSE_UP:
+		stat = STAT_STAGE_DEF;
+		break;
+	case ITEM_EFFECT_SPEED_UP:
+		stat = STAT_STAGE_SPEED;
+		break;
+	case ITEM_EFFECT_SP_ATTACK_UP:
+		stat = STAT_STAGE_SPATK;
+		break;
+	case ITEM_EFFECT_SP_DEFENSE_UP:
+		stat = STAT_STAGE_SPDEF;
+		break;
+	default:
+		return TRUE; //勿花果等混乱果（混乱总能生效）及其余树果照常发动
+	}
+
+	return STAT_CAN_RISE(bank, stat); //对应能力变化等级已满时无法受影响
+}
+
 static u8 StatRaiseBerries(u8 bank, u8 stat, bool8 moveTurn, bool8 doPluck) {
 	u8 effect = 0;
 	u8 backupUser = gBankAttacker;

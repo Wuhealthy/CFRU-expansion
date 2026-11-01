@@ -578,6 +578,11 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 				gBattleMons[gBankTarget].item = 0;
 				HandleUnburdenBoost(gBankTarget); //Give target Unburden boost
 
+				//The attacker ate the berry: record it for Harvest/Recycle and arm Cud Chew
+				SAVED_CONSUMED_ITEMS(gBankAttacker) = gLastUsedItem;
+				if (ABILITY(gBankAttacker) == ABILITY_CUDCHEW)
+					gNewBS->CudChewCounter[gBankAttacker] = 2; //Eat the berry again at the end of the next turn
+
 				gActiveBattler = gBankTarget;
 				EmitSetMonData(0, REQUEST_HELDITEM_BATTLE, 0, 2, &gBattleMons[gActiveBattler].item);
 				MarkBufferBankForExecution(gActiveBattler);
