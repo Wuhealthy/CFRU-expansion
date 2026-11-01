@@ -192,7 +192,9 @@ bool8 ProtectAffects(u16 move, u8 bankAtk, u8 bankDef, bool8 set)
 	u8 target = GetBaseMoveTarget(move, bankAtk);
 	u8 defSide = SIDE(bankDef);
 
-	if (protectFlag && IsContactMove(move, bankAtk, bankDef) && (ABILITY(bankAtk) == ABILITY_UNSEENFIST || ABILITY(bankAtk) == ABILITY_PIERCINGDRILL)) //Uses IsContactMove instead of CheckContact because Protective Pads don't affect this Ability
+	if (protectFlag && IsContactMove(move, bankAtk, bankDef)
+	&& !(ITEM_EFFECT(bankAtk) == ITEM_EFFECT_PUNCHING_GLOVE && gSpecialMoveFlags[move].gPunchingMoves) //拳击手套：拳类招式不接触，不受无形拳影响，仍被防住类招式阻挡
+	&& (ABILITY(bankAtk) == ABILITY_UNSEENFIST || ABILITY(bankAtk) == ABILITY_PIERCINGDRILL)) //Uses IsContactMove instead of CheckContact because Protective Pads don't affect this Ability
 		protectFlag = FALSE;
 
 	if (protectFlag && move == MOVE_HYPERDRILL)
@@ -312,6 +314,7 @@ bool8 DoesProtectionMoveBlockMove(u8 bankAtk, u8 bankDef, u16 atkMove, u16 prote
 	u8 target = GetBaseMoveTarget(atkMove, bankAtk);
 
 	if (!gSpecialMoveFlags[atkMove].gMovesThatLiftProtectTable
+	&& !(ITEM_EFFECT(bankAtk) == ITEM_EFFECT_PUNCHING_GLOVE && gSpecialMoveFlags[atkMove].gPunchingMoves) //拳击手套：拳类招式不接触，不受无形拳影响
 	&& ABILITY(bankAtk) != ABILITY_UNSEENFIST
 	&& ABILITY(bankAtk) != ABILITY_PIERCINGDRILL
 	)
