@@ -1,9 +1,3 @@
-#org @gText_TestScript
-正在生成跟随的宝可梦。
-
-#org @gText_PalletGirl_Text1
-是否显示跟随的宝可梦？\n选择是则显示，否则隐藏。
-
 #org @gText_ChangeTeraTypeNPCAsk
 啊，你好。\p我可以改变你的宝可梦的\n太晶属性！\p需要我帮你改变吗？
 
@@ -144,12 +138,6 @@
 
 #org @gText_ChangeHiddenPowerTypeNPCFetchFairy
 [BUFFER1]的觉醒力量变成\n妖精属性了！
-
-#org @gText_GiveMons_Special_Give
-这个给你！
-
-#org @gText_GiveMons_Special_Done
-我已经没什么可以给你了。
 
 #org @Text_Pallet_FatGuy_CoinIntro
 我每天都会在这里猜硬币。\p你要不要也来猜一次？\p猜对了有奖励哦！

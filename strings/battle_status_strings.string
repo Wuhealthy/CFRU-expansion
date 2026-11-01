@@ -100,8 +100,3 @@
 命中-
 
 // Combined strings for better layout
-#org @gText_BattleStatusLine1
-雨天 电气 反射壁 顺风
-
-#org @gText_BattleStatusLine2
-隐岩 菱 黏网

@@ -115,9 +115,6 @@ FALSE
 #org @gText_ReceivedPokemon
 获得了[BUFFER1]！
 
-#org @Text_EnterItem
-请输入要领取的道具ID。
-
 #org @gText_DebugMenu_GiveItemById
 道具
 
@@ -136,23 +133,11 @@ FALSE
 #org @gText_DebugMenu_CustomSetFlag
 设置自定义Flag
 
-#org @Text_CustomSetFlag
-请输入Flag的ID。
-
-#org @Text_InvalidNumber
-无效的Flag。
-
 #org @Text_FlagSet
 Flag已设置。
 
 #org @gText_DebugMenu_SetVar
 设置自定义变量
-
-#org @Text_CustomSetVar
-请输入变量编号。
-
-#org @gText_VarValue
-请输入要设置的值。
 
 #org @Text_VarSet
 变量已设置！
