@@ -1,4 +1,4 @@
-/* 横版物语图鉴 - 静态图鉴 (数据: data.js → window.PKDX) */
+/* 火红物语图鉴 - 静态图鉴 (数据: data.js → window.PKDX) */
 "use strict";
 const D = window.PKDX;
 

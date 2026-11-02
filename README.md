@@ -1,6 +1,6 @@
-# 横版物语图鉴 (pokedex_site)
+# 火红物语图鉴 (pokedex_site)
 
-「火红 横版物语」ROM 的静态图鉴网站。纯 HTML/CSS/JS，无需构建，双击 `index.html` 即可使用（或任意静态服务器）。
+「火红物语」ROM 的静态图鉴网站。纯 HTML/CSS/JS，无需构建，双击 `index.html` 即可使用（或任意静态服务器）。
 
 **线上地址**：<https://wuhealthy.github.io/CFRU-expansion/>（GitHub Pages，`gh-pages` 分支）
 
