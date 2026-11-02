@@ -157,6 +157,25 @@ function genderText(gf) {
 }
 function fmtDex(no) { return no == null ? "—" : "#" + no; }
 
+/* 搜索框: 右侧 ✕ 在有文字时显示, 点击一键清空 (派发 input 事件, 复用各页面自己的筛选监听) */
+function searchBox(id, placeholder, value) {
+  return `<div class="search-box"><span>🔍</span>
+    <input id="${id}" placeholder="${esc(placeholder)}" value="${esc(value)}">
+    <button type="button" class="search-clear${value ? "" : " hidden"}" title="清除" onclick="clearSearch('${id}')">✕</button>
+  </div>`;
+}
+window.clearSearch = function (id) {
+  const inp = document.getElementById(id);
+  inp.value = "";
+  inp.dispatchEvent(new Event("input", { bubbles: true }));
+  inp.focus();
+};
+document.addEventListener("input", e => {
+  const box = e.target.closest ? e.target.closest(".search-box") : null;
+  const btn = box && box.querySelector(".search-clear");
+  if (btn) btn.classList.toggle("hidden", !e.target.value);
+});
+
 /* ---------------- 弹窗 ---------------- */
 const mask = $("#popup-mask"), popup = $("#popup");
 mask.addEventListener("click", e => { if (e.target === mask) hidePopup(); });
@@ -246,10 +265,7 @@ function renderHome() {
     <div class="page-title">宝可梦图鉴</div>
     <div class="page-sub">默认形态 ${N_DEFAULT} 只 · 含特殊/地区形态共 ${D.species.length} 只 · 点击卡片查看详情</div>
     <div class="toolbar">
-      <div class="search-box">
-        <span>🔍</span>
-        <input id="q" placeholder="搜索名称 / 编号 / 形态，如 阿罗拉、超级进化" value="${esc(homeState.q)}">
-      </div>
+      ${searchBox("q", "搜索名称 / 编号 / 形态，如 阿罗拉、超级进化", homeState.q)}
       <div class="type-chips">${formChips}</div>
       <div class="type-chips">${chips}</div>
       <span class="count-hint" id="cnt"></span>
@@ -517,7 +533,7 @@ function renderMoves() {
     <div class="page-title">招式图鉴</div>
     <div class="page-sub">共 ${D.moves.length} 个招式 · 点击行查看详情</div>
     <div class="toolbar">
-      <div class="search-box"><span>🔍</span><input id="mq" placeholder="搜索招式名…" value="${esc(moveFilter.q)}"></div>
+      ${searchBox("mq", "搜索招式名…", moveFilter.q)}
       <select id="mtype" class="search-box" style="flex:0 0 140px">
         <option value="">全部属性</option>${typeOpts}
       </select>
@@ -567,7 +583,7 @@ function renderAbilities() {
     <div class="page-title">特性图鉴</div>
     <div class="page-sub">共 ${D.abilities.length} 个特性 · 点击查看持有该特性的宝可梦</div>
     <div class="toolbar">
-      <div class="search-box"><span>🔍</span><input id="aq" placeholder="搜索特性名…" value="${esc(abilFilter)}"></div>
+      ${searchBox("aq", "搜索特性名…", abilFilter)}
       <span class="count-hint" id="acnt"></span>
     </div>
     <div class="card" style="overflow:auto">
