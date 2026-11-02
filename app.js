@@ -387,9 +387,18 @@ function evoChainHTML(s) {
       <div class="nm">${esc(sp.zh)}</div><div class="no">${fmtDex(sp.dex)}</div></div>`;
   };
   const arrow = e => {
-    let label = e.methodZh, sub = e.param;
-    const v = EVO_MAIN_SKIP[e.method] && /^(.*)（(.+)）$/.exec(sub || "");  // 原始回归/究极爆发写在道具名后的括号里
-    if (v) { label = v[2]; sub = v[1]; }
+    let label = e.methodZh, sub = e.param || "", v;
+    if (EVO_MAIN_SKIP[e.method]) {
+      if ((v = /^(.*)（(.+)）$/.exec(sub))) { label = v[2]; sub = v[1]; }  // 原始回归/究极爆发写在道具名后的括号里
+    } else if ((v = /^([♂♀]?)(使用|携带)(.+)$/.exec(sub)) && label.includes(v[2] + "道具")) {
+      label = v[1] + label.replace(v[2] + "道具", v[2] + v[3]);   // 使用道具 + 使用水之石 → 使用水之石
+      sub = "";
+    } else if ((v = /^学会(.+)$/.exec(sub)) && /学会对应(属性)?招式/.test(label)) {
+      label = label.replace(/学会对应(属性)?招式/, "学会" + v[1]);   // → 学会妖精属性招式后升级
+      sub = "";
+    } else if (sub && label.includes(sub)) {
+      sub = "";
+    }
     return `<div class="evo-arrow"><span class="arr">→</span>${esc(label)}${sub ? `<span class="sub">${esc(sub)}</span>` : ""}</div>`;
   };
   const seen = new Set();

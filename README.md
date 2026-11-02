@@ -16,6 +16,8 @@ powershell -ExecutionPolicy Bypass -File tools\pages_status.ps1
 ```
 
 部署脚本使用 GitHub Desktop 存在 Windows 凭据管理器里的 token，无需手动登录。
+部署时会给 `index.html` 里 css/js/数据的引用加内容版本号（如 `app.js?v=35ec3298`），
+更新后浏览器直接取新文件，不会因 Pages 的 10 分钟缓存继续显示旧版。
 
 ## 功能
 
