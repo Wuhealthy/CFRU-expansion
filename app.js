@@ -271,6 +271,17 @@ function showMovePopup(mid) {
   const m = MOVE_BY_ID[mid];
   if (!m) return;
   const t = TYPE_BY_ID[m.type] || { zh: "?", color: "#999" };
+  // 招式性质: true 蓝色 / false 灰色 (与宝可梦百科一致); 远程/近身按是否接触判断
+  const flagPairs = [
+    [m.f[0], "接触类招式", "不是接触类招式"],
+    [m.f[1], "受守住影响", "不受守住影响"],
+    [m.f[2], "受魔法反射影响", "不受魔法反射影响"],
+    [m.f[3], "可以被抢先用", "不可以被抢先用"],
+    [m.f[4], "受鹦鹉学舌影响", "不受鹦鹉学舌影响"],
+    [m.f[5], "受王者之证等类道具影响", "不受王者之证等类道具影响"],
+    [!m.f[0], "是远程招式", "是近身招式"],
+  ];
+  const cats = (m.c || []).map(i => D.moveCats[i]);
   showPopup(`
     <h2>${esc(m.zh)}</h2>
     <div class="mv-meta">${typePill(t)}${splitBadge(m.split)}
@@ -280,6 +291,10 @@ function showMovePopup(mid) {
       <span class="pill small" style="background:#5a6b7d">优先度 ${m.priority > 0 ? "+" + m.priority : m.priority}</span>
     </div>
     <div class="mv-desc">${m.desc ? esc(m.desc) : "<i>暂无详细描述</i>"}</div>
+    <ul class="mv-flags">${flagPairs.map(([v, yes, no]) =>
+      `<li class="${v ? "yes" : "no"}">${v ? esc(yes) : esc(no)}</li>`).join("")}</ul>
+    ${cats.length ? `<div class="mv-cats">${cats.map(c =>
+      `<div class="cat-row"><span class="cat-pill">${esc(c.n)}</span>${c.d ? `<span class="cat-note">${esc(c.d)}</span>` : ""}</div>`).join("")}</div>` : ""}
     <dl class="kv">
       ${m.target ? `<dt>目标</dt><dd>${esc(m.target)}</dd>` : ""}
     </dl>`);

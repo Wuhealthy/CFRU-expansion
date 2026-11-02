@@ -255,6 +255,18 @@ a { color: inherit; text-decoration: none; }
 .popup .mv-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 8px 0 12px; }
 .popup .mv-desc { background: #f6f9fd; border-radius: 10px; padding: 12px 14px; line-height: 1.8; font-size: 14px; }
 .popup .kv { margin-top: 12px; }
+.mv-flags { list-style: none; margin: 12px 0 0; padding: 0; font-size: 13.5px; }
+.mv-flags li { margin: 3px 0; }
+.mv-flags li::before { content: "•"; margin-right: 8px; }
+.mv-flags li.yes { color: #2b7bd4; font-weight: 700; }
+.mv-flags li.no { color: var(--muted); }
+.mv-cats { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+.cat-row { display: flex; align-items: baseline; gap: 8px; font-size: 13px; }
+.cat-pill {
+  flex: none; background: #eaf2fd; border: 1px solid #bcd6f5; border-radius: 999px;
+  padding: 2px 10px; font-size: 12.5px; font-weight: 700; color: #1d5fae;
+}
+.cat-note { color: var(--ink); line-height: 1.6; }
 .ab-mons { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
 .ab-mons .m {
   display: flex; flex-direction: column; align-items: center; width: 72px;
