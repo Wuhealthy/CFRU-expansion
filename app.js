@@ -2,6 +2,64 @@
 "use strict";
 const D = window.PKDX;
 
+/* ---------------- 简体 / 繁体 ----------------
+   数据都是简体; 繁体时在浏览器端用 data.js 里的精简 OpenCC 词典 (词组最长匹配 → 单字) 转换。
+   页面新插入的文字由 MutationObserver 统一转换, 每个文字节点记住原文, 切回简体直接还原;
+   搜索输入一律先转回简体再匹配, 简繁都能搜。 */
+const HANT = D.hant;
+let LANG = localStorage.getItem("pkdx_lang") === "hant" ? "hant" : "hans";
+function toHant(s) {
+  if (!/[\u4e00-\u9fff]/.test(s)) return s;
+  let out = "";
+  for (let i = 0; i < s.length;) {
+    let n = Math.min(HANT.maxLen, s.length - i);
+    for (; n > 1; n--) {
+      const p = HANT.phrases[s.substr(i, n)];
+      if (p !== undefined) { out += p; break; }
+    }
+    if (n > 1) { i += n; continue; }
+    out += HANT.chars[s[i]] || s[i];
+    i++;
+  }
+  return out;
+}
+const toHans = s => s.replace(/[^\x00-\x7f]/g, c => HANT.t2s[c] || c);
+const ORIG_TEXT = new WeakMap();
+function localize(root) {
+  const conv = s => (LANG === "hant" ? toHant(s) : s);
+  const one = node => {
+    if (node.nodeType === 3) {
+      if (!ORIG_TEXT.has(node)) ORIG_TEXT.set(node, node.nodeValue);
+      const v = conv(ORIG_TEXT.get(node));
+      if (node.nodeValue !== v) node.nodeValue = v;
+    } else if (node.nodeType === 1) {
+      for (const a of ["placeholder", "title"]) {
+        if (!node.hasAttribute(a)) continue;
+        const key = "orig" + a;
+        if (node.dataset[key] === undefined) node.dataset[key] = node.getAttribute(a);
+        node.setAttribute(a, conv(node.dataset[key]));
+      }
+    }
+  };
+  one(root);
+  if (root.nodeType !== 1) return;
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT);
+  for (let n = w.nextNode(); n; n = w.nextNode()) one(n);
+}
+new MutationObserver(muts => {
+  if (LANG !== "hant") return;
+  for (const m of muts) m.addedNodes.forEach(localize);
+}).observe(document.body, { childList: true, subtree: true });
+const PAGE_TITLE = document.title;
+window.setLang = function (l) {
+  LANG = l;
+  localStorage.setItem("pkdx_lang", l);
+  document.documentElement.lang = l === "hant" ? "zh-TW" : "zh-CN";
+  document.title = l === "hant" ? toHant(PAGE_TITLE) : PAGE_TITLE;
+  document.querySelectorAll(".lang-switch button").forEach(b => b.classList.toggle("on", b.dataset.lang === l));
+  localize(document.body);
+};
+
 /* ---------------- 基础索引 ---------------- */
 const TYPE_BY_ID = {};        D.types.forEach(t => TYPE_BY_ID[t.id] = t);
 const ABIL_BY_ID = {};        D.abilities.forEach(a => ABIL_BY_ID[a.id] = a);
@@ -309,7 +367,7 @@ function renderHome() {
 }
 
 function matchSpecies(s) {
-  const q = homeState.q.toLowerCase();
+  const raw = toHans(homeState.q), q = raw.toLowerCase();  // 繁体输入先转简体
   const searching = !!(q || homeState.types.size);
   // 形态筛选优先; 未选形态时默认只显示默认形态, 搜索/属性筛选命中时特殊与地区形态一并显示
   if (homeState.form && homeState.form !== "all") {
@@ -321,7 +379,7 @@ function matchSpecies(s) {
     // 只按名字表里的实际名字(含其中的字母, 不区分大小写)、图鉴编号与形态词搜索, 不匹配内部常量名
     const hit = s.zh.toLowerCase().includes(q)
       || (s.dex != null && String(s.dex) === q)
-      || (s.tags && s.tags.includes(homeState.q));
+      || (s.tags && s.tags.includes(raw));
     if (!hit) return false;
   }
   if (homeState.types.size) {
@@ -615,7 +673,7 @@ function renderMoves() {
   renderMoveRows();
 }
 function renderMoveRows() {
-  const q = moveFilter.q.toLowerCase();
+  const q = toHans(moveFilter.q).toLowerCase();
   const rows = D.moves.filter(m => {
     if (!m.id) return false;
     if (q && !m.zh.toLowerCase().includes(q)) return false;
@@ -655,7 +713,8 @@ function renderAbilities() {
   renderAbilRows();
 }
 function renderAbilRows() {
-  const list = D.abilities.filter(a => a.id && (!abilFilter || a.zh.toLowerCase().includes(abilFilter.toLowerCase())));
+  const aq = toHans(abilFilter).toLowerCase();
+  const list = D.abilities.filter(a => a.id && (!aq || a.zh.toLowerCase().includes(aq)));
   $("#acnt").textContent = `${list.length} 个特性`;
   $("#arows").innerHTML = list.map(a => `<tr onclick="showAbilityPopup(${a.id})">
       <td class="mv-name">${esc(a.zh)}</td>
@@ -697,6 +756,7 @@ window.addEventListener("error", e => {
   console.error(e.message);
 });
 try {
+  setLang(LANG);  // 先套用记住的语言 (顶栏 + 标题), 之后渲染的内容由 MutationObserver 转换
   route();
 } catch (err) {
   app.innerHTML = `<div class="page-title">页面渲染出错</div><pre style="white-space:pre-wrap">${esc(err.stack || err)}</pre>`;

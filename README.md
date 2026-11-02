@@ -38,6 +38,10 @@ powershell -ExecutionPolicy Bypass -File tools\pages_status.ps1
 - **招式图鉴**：1002 个招式，属性/分类筛选 + 搜索（按招式名），点击查看详情
 - **特性图鉴**：368 个特性，搜索（按特性名），点击查看持有该特性的宝可梦
 - **属性相性表**：从 ROM `type_tables.h` 提取的实际克制关系（含星晶等新增属性）
+- **简体 / 繁体切换**：顶栏右侧「简｜繁」，选择会记住。数据都是简体，繁体时浏览器端用 OpenCC
+  （简→台湾繁体，只转字形不换用词）的精简词典实时转换；三个搜索框都会先把输入转回简体再匹配，简繁都能搜到。
+  词典原文在 `tools/opencc/`（Apache-2.0），提取时只打包网站实际用到的字和词组；
+  专有名词转错时在 `tools/extract_data.py` 的 `HANT_WORD_FIX` / `HANT_POST_FIX` 里加修正（如 尼多后、隆隆岩）
 
 页面上的名字一律取自游戏实际文本，不显示内部常量名：
 宝可梦 `Pokemon_Name_Table.string`；招式 `strings/attack_name_table.string`（按位置对应编号；
@@ -55,7 +59,8 @@ pokedex_site/
 ├── data/data.js        # 提取器生成的数据 (window.PKDX)
 ├── sprites/front/      # 正面图 64x64 (XOR 加密 .js, base64 载荷)
 ├── sprites/icon/       # 图标 32x32 (同上加密)
-└── tools/extract_data.py   # 数据提取 + 精灵图加密脚本
+├── tools/extract_data.py   # 数据提取 + 精灵图加密脚本
+└── tools/opencc/       # OpenCC 简繁词典 (繁体切换用, Apache-2.0, 见 LICENSE)
 ```
 
 ## 图片加密说明
