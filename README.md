@@ -85,6 +85,9 @@ pokedex_site/
   （不用 CFRU 的 `src/Tables/level_up_learnsets.c`）：
   - 升级招式 `src/Learnsets.c`
   - 蛋招式 `src/Egg_Moves.c`，同一进化链（含超级进化等特殊形态）都沿用最初形态的表
+  - 特殊形态（超级进化/超极巨化/觉醒形态/原始回归）在对战中变身出现，招式学习器/教学招式/蛋招式
+    一律用同编号默认形态（本体）的表；其他特殊形态是独立物种，有 DPE 数据就照实际，为空时用本体的；
+    地区形态有独立数据，不受影响
   - 招式学习器 / 教学招式的可学物种 `src/tm_compatibility`、`src/tutor_compatibility`：编号取文件名开头的数字
     （与 DPE 的 `scripts/tm_tutor.py` 一致），对应招式取 `src/TM_Tutor_Tables.c`；第 1–120 项为 TM01–TM120，
     121–128 项为 HM01–HM08（CFRU `src/config.h` 的 `NUM_TMS`）。文件名里的招式名与表不一致时写入 `data/report.txt`
