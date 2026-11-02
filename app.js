@@ -96,7 +96,7 @@ function loadSprite(kind, id) {
   }
   return sprCache[key];
 }
-/* fit: 裁掉透明边后放大到不超过 fit 像素 (最多 2 倍), 用于进化链圆框 */
+/* fit: 裁掉透明边后按原始大小显示 (不放大, 超过 fit 像素才缩小), 用于进化链圆框 */
 function spriteCanvas(kind, id, cls, fit) {
   return `<canvas class="${cls || ""}" data-spr="${kind}" data-id="${id}"${fit ? ` data-fit="${fit}"` : ""}></canvas>`;
 }
@@ -121,7 +121,7 @@ function fitSprite(cv, bmp, box) {
     }
   }
   if (x1 < 0) { x0 = y0 = 0; x1 = c.width - 1; y1 = c.height - 1; }
-  const w = x1 - x0 + 1, h = y1 - y0 + 1, scale = Math.min(2, box / Math.max(w, h));
+  const w = x1 - x0 + 1, h = y1 - y0 + 1, scale = Math.min(1, box / Math.max(w, h));  // 不放大, 像素图保持原始大小
   cv.width = w; cv.height = h;
   cv.getContext("2d").drawImage(c, x0, y0, w, h, 0, 0, w, h);
   cv.style.width = w * scale + "px";
@@ -429,7 +429,7 @@ function evoChainHTML(s) {
   const node = (id, stage, ref) => {
     const sp = SPECIES_BY_ID[id], t = TYPE_BY_ID[sp.types[0]];
     return `<div class="evo-node${id === s.id && !ref ? " cur" : ""}" onclick="location.hash='#/p/${id}'">
-      <div class="evo-pic" style="background:${t ? `color-mix(in srgb, ${t.color} 45%, #fff)` : "#eef1f4"}">${spriteCanvas("front", id, "", 92)}</div>
+      <div class="evo-pic" style="background:${t ? `color-mix(in srgb, ${t.color} 45%, #fff)` : "#eef1f4"}">${spriteCanvas("front", id, "", 64)}</div>
       <div class="evo-stage">${esc(stage)}</div>
       <div class="evo-name"><div class="nm">${esc(sp.zh)}</div><div class="types">${typePills(sp.types, true)}</div></div>
     </div>`;
