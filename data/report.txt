@@ -16,6 +16,9 @@
 == 常量式名称残留(0) ==
 
 
+== 道具名未翻译(0, 可补进 道具名称_英-中.xlsx) ==
+
+
 == 多形态编号的默认形态判定(303) ==
 #3 VENUSAUR ← VENUSAUR_MEGA VENUSAUR_GIGA
 #6 CHARIZARD ← CHARIZARD_MEGA_X CHARIZARD_MEGA_Y CHARIZARD_GIGA

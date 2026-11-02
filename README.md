@@ -36,7 +36,8 @@ powershell -ExecutionPolicy Bypass -File tools\pages_status.ps1
 页面上的名字一律取自游戏实际文本，不显示内部常量名：
 宝可梦 `Pokemon_Name_Table.string`；招式 `strings/attack_name_table.string`（按位置对应编号；
 Z 招式取 `z_move_names.string`，极巨/超极巨招式按战斗文本加「极巨」「超极巨」前缀）；
-特性 `strings/ability_name_table.string`；道具 `src/Tables/item_tables.c` 的 `.name`（按 `charmap.tbl` 解码）。
+特性 `strings/ability_name_table.string`；道具取 `src/Tables/item_tables.c` 的 `.name`（按 `charmap.tbl` 解码），
+游戏里是英文名的按仓库根目录 `道具名称_英-中.xlsx` 翻译（`ITEM_ZH` 只在缺少该表时作后备）。
 
 ## 文件结构
 
@@ -71,7 +72,8 @@ pokedex_site/
 数据源在两个仓库（脚本内路径按相对位置查找，改名需同步修改）：
 
 - `../`（CFRU-expansion）：招式数据 `src/Tables/battle_moves.c`、招式/特性/属性中文表
-  `strings/*.string`、常量表 `include/constants/*.h`、觉醒形态表 `src/mega.c`
+  `strings/*.string`、常量表 `include/constants/*.h`、觉醒形态表 `src/mega.c`、
+  道具表 `src/Tables/item_tables.c` + 字码表 `charmap.tbl`、道具中英对照 `道具名称_英-中.xlsx`
 - `../../Dynamic-Pokemon-Expansion-Gen-9`：种族值 `src/Base_Stats.c`、学习技/蛋招/TM/进化/图鉴数据、
   中文名 `strings/Pokemon_Name_Table.string`、精灵图 `graphics/frontspr` 与 `graphics/pokeicon`
 
@@ -92,5 +94,5 @@ python extract_data.py        # 需要 Python3 + Pillow
 - ROM 的 `Species_To_Pokdex_Table.c` 中 `RATICATE_MEGA`/`VENOMOTH_MEGA`/`GOLEM_MEGA` 的图鉴编号
   挂成了 #168/#53/#59，这几个形态在搜索结果里会显示在对应的错误编号下
 - 地区形态与默认形态共用图鉴编号，详情页的图鉴介绍/身高体重沿用默认形态的数据
-- 游戏道具表里多数道具是英文名（如 Passho Berry、Venusaurite）：`tools/extract_data.py` 的 `ITEM_ZH`
-  有中文译名的显示中文，其余照游戏实际名字显示；`data/report.txt` 的「常量式名称残留」应为 0
+- 道具名：游戏道具表里多数道具是英文名，按仓库根目录 `道具名称_英-中.xlsx` 翻译；对照表里没有的会列在
+  `data/report.txt` 的「道具名未翻译」（目前为 0），补进对照表后重新提取即可；「常量式名称残留」也应为 0
