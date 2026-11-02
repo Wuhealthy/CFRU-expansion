@@ -96,8 +96,9 @@ function loadSprite(kind, id) {
   }
   return sprCache[key];
 }
-function spriteCanvas(kind, id, cls) {
-  return `<canvas class="${cls || ""}" data-spr="${kind}" data-id="${id}"></canvas>`;
+/* fit: 裁掉透明边后放大到不超过 fit 像素 (最多 2 倍), 用于进化链圆框 */
+function spriteCanvas(kind, id, cls, fit) {
+  return `<canvas class="${cls || ""}" data-spr="${kind}" data-id="${id}"${fit ? ` data-fit="${fit}"` : ""}></canvas>`;
 }
 const sprIO = new IntersectionObserver(entries => {
   entries.forEach(en => {
@@ -106,9 +107,30 @@ const sprIO = new IntersectionObserver(entries => {
     drawSpriteCanvas(en.target);
   });
 }, { rootMargin: "300px" });
+function fitSprite(cv, bmp, box) {
+  const c = document.createElement("canvas");
+  c.width = bmp.width; c.height = bmp.height;
+  const g = c.getContext("2d");
+  g.drawImage(bmp, 0, 0);
+  const px = g.getImageData(0, 0, c.width, c.height).data;
+  let x0 = c.width, y0 = c.height, x1 = -1, y1 = -1;
+  for (let y = 0; y < c.height; y++) {
+    for (let x = 0; x < c.width; x++) {
+      if (!px[(y * c.width + x) * 4 + 3]) continue;
+      if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
+    }
+  }
+  if (x1 < 0) { x0 = y0 = 0; x1 = c.width - 1; y1 = c.height - 1; }
+  const w = x1 - x0 + 1, h = y1 - y0 + 1, scale = Math.min(2, box / Math.max(w, h));
+  cv.width = w; cv.height = h;
+  cv.getContext("2d").drawImage(c, x0, y0, w, h, 0, 0, w, h);
+  cv.style.width = w * scale + "px";
+  cv.style.height = h * scale + "px";
+}
 function drawSpriteCanvas(cv) {
   const kind = cv.dataset.spr, id = +cv.dataset.id;
   loadSprite(kind, id).then(bmp => {
+    if (cv.dataset.fit) return fitSprite(cv, bmp, +cv.dataset.fit);
     cv.width = bmp.width; cv.height = bmp.height;
     cv.getContext("2d").drawImage(bmp, 0, 0);
   }).catch(() => {
@@ -380,36 +402,33 @@ function evoChainHTML(s) {
     const list = leaves[id] = leaves[id] || [];
     if (!list.some(x => x.to === t)) list.push({ to: t, e });
   }));
-  const node = (id, ref) => {
-    const sp = SPECIES_BY_ID[id];
+  // 官方图鉴样式: 圆形头像(底色取第一属性) + 阶段 + 名字/属性框; 箭头上方写进化条件
+  const node = (id, stage, ref) => {
+    const sp = SPECIES_BY_ID[id], t = TYPE_BY_ID[sp.types[0]];
     return `<div class="evo-node${id === s.id && !ref ? " cur" : ""}" onclick="location.hash='#/p/${id}'">
-      ${spriteCanvas("front", id)}
-      <div class="nm">${esc(sp.zh)}</div><div class="no">${fmtDex(sp.dex)}</div></div>`;
+      <div class="evo-pic" style="background:${t ? `color-mix(in srgb, ${t.color} 45%, #fff)` : "#eef1f4"}">${spriteCanvas("front", id, "", 92)}</div>
+      <div class="evo-stage">${esc(stage)}</div>
+      <div class="evo-name"><div class="nm">${esc(sp.zh)}</div><div class="types">${typePills(sp.types, true)}</div></div>
+    </div>`;
   };
-  const arrow = e => {
-    let label = e.methodZh, sub = e.param || "", v;
-    if (EVO_MAIN_SKIP[e.method]) {
-      if ((v = /^(.*)（(.+)）$/.exec(sub))) { label = v[2]; sub = v[1]; }  // 原始回归/究极爆发写在道具名后的括号里
-    } else if ((v = /^([♂♀]?)(使用|携带)(.+)$/.exec(sub)) && label.includes(v[2] + "道具")) {
-      label = v[1] + label.replace(v[2] + "道具", v[2] + v[3]);   // 使用道具 + 使用水之石 → 使用水之石
-      sub = "";
-    } else if ((v = /^学会(.+)$/.exec(sub)) && /学会对应(属性)?招式/.test(label)) {
-      label = label.replace(/学会对应(属性)?招式/, "学会" + v[1]);   // → 学会妖精属性招式后升级
-      sub = "";
-    } else if (sub && label.includes(sub)) {
-      sub = "";
-    }
-    return `<div class="evo-arrow"><span class="arr">→</span>${esc(label)}${sub ? `<span class="sub">${esc(sub)}</span>` : ""}</div>`;
-  };
+  // 同一对宝可梦可能有多种进化方式 (如通信交换 或 使用联系绳): 箭头上全部列出, 以「或」分隔
+  const arrow = (from, to) => `<div class="evo-arrow">${SPECIES_BY_ID[from].evolutions.filter(e => e.to === to)
+    .map(e => `<div class="cond">${esc(e.text)}</div>${e.note ? `<div class="note">${esc(e.note)}</div>` : ""}`)
+    .join('<div class="or">或</div>')}<div class="arr">→</div></div>`;
+  // 阶段: 起点为「未进化」, 每经一次普通进化 +1 阶; 特殊形态写其方式 (超级进化/超极巨化/觉醒形态…)
+  const stageOf = (e, depth) => EVO_MAIN_SKIP[e.method] ? [e.text, depth] : [`${depth + 1}阶进化`, depth + 1];
   const seen = new Set();
-  const branch = id => {
+  const branch = (id, stage, depth) => {
     seen.add(id);
     const kids = (children[id] || []).filter(k => !seen.has(k));
-    const rows = kids.map(k => `<div class="evo-row">${arrow(inEdge[k])}${branch(k)}</div>`)
-      .concat((leaves[id] || []).map(x => `<div class="evo-row">${arrow(x.e)}<div class="evo-branch">${node(x.to, true)}</div></div>`));
-    return `<div class="evo-branch">${node(id)}${rows.length ? `<div class="evo-kids">${rows.join("")}</div>` : ""}</div>`;
+    const rows = kids.map(k => {
+      const [st, d] = stageOf(inEdge[k], depth);
+      return `<div class="evo-row">${arrow(id, k)}${branch(k, st, d)}</div>`;
+    }).concat((leaves[id] || []).map(x =>
+      `<div class="evo-row">${arrow(id, x.to)}<div class="evo-branch">${node(x.to, stageOf(x.e, depth)[0], true)}</div></div>`));
+    return `<div class="evo-branch">${node(id, stage)}${rows.length ? `<div class="evo-kids">${rows.join("")}</div>` : ""}</div>`;
   };
-  return `<div class="evo-chain">${mainNodes.filter(id => !inEdge[id]).map(branch).join("")}</div>`;
+  return `<div class="evo-chain">${mainNodes.filter(id => !inEdge[id]).map(id => branch(id, "未进化", 0)).join("")}</div>`;
 }
 
 function moveRow(mid, lv, tmNo) {
