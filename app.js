@@ -247,7 +247,7 @@ window.showAbilityPopup = showAbilityPopup;
 
 /* ---------------- 路由 ---------------- */
 const app = $("#app");
-let homeState = { q: "", types: new Set(), form: "" };
+let homeState = { q: "", types: new Set(), form: "", sort: { key: "dex", desc: false } };
 
 function route() {
   const h = location.hash || "#/";
@@ -264,16 +264,25 @@ function route() {
 window.addEventListener("hashchange", route);
 
 /* ---------------- 首页 ---------------- */
-function monCard(s) {
+function monCard(s, statKey) {
   return `<div class="mon-card" onclick="location.hash='#/p/${s.id}'">
     ${spriteCanvas("front", s.id)}
     <div class="no">${fmtDex(s.dex)}</div>
     <div class="nm">${esc(s.zh)}</div>
     <div class="types">${typePills(s.types, true)}</div>
+    ${statKey ? `<div class="stat-tag">${STAT_ZH[statKey]} <b>${s.stats[statKey]}</b></div>` : ""}
     ${s.formLabel ? `<div class="form-badge">${esc(s.formLabel)}</div>` : ""}
   </div>`;
 }
 window.monCard = monCard;
+
+/* 排序: 默认按图鉴编号; 种族值各项默认从高到低, 再点同一项切换升降序 */
+const SORT_KEYS = [["dex", "图鉴编号"], ["hp", "HP"], ["atk", "攻击"], ["def", "防御"], ["spa", "特攻"], ["spd", "特防"], ["spe", "速度"]];
+function sortChipsHTML() {
+  const { key, desc } = homeState.sort;
+  return `<span class="chip-label">排序</span>` + SORT_KEYS.map(([k, label]) =>
+    `<span class="pill sort-chip${k === key ? " on" : ""}" onclick="setSort('${k}')">${label}${k === key ? (desc ? " ↓" : " ↑") : ""}</span>`).join("");
+}
 
 function renderHome() {
   const chips = TYPES_SHOWN.map(t =>
@@ -290,6 +299,7 @@ function renderHome() {
       ${searchBox("q", "搜索名称 / 编号 / 形态，如 阿罗拉、超级进化", homeState.q)}
       <div class="type-chips">${formChips}</div>
       <div class="type-chips">${chips}</div>
+      <div class="type-chips" id="sort-chips">${sortChipsHTML()}</div>
       <span class="count-hint" id="cnt"></span>
     </div>
     <div id="dex-area"></div>`;
@@ -323,15 +333,21 @@ function matchSpecies(s) {
 function renderDexArea() {
   const list = D.species.filter(matchSpecies);
   $("#cnt").textContent = `筛选结果：${list.length}`;
-  const hasDex = list.filter(s => s.dex > 0)
-    .sort((a, b) => a.dex - b.dex || (b.isDefault ? 1 : 0) - (a.isDefault ? 1 : 0) || a.id - b.id);
-  const others = list.filter(s => !(s.dex > 0)).sort((a, b) => a.id - b.id);
+  const { key, desc } = homeState.sort;
+  const byStat = key !== "dex";
+  const dir = byStat && desc ? -1 : 1;
+  const ordered = list.sort((a, b) => {
+    if (byStat) return (a.stats[key] - b.stats[key]) * dir || a.dex - b.dex || a.id - b.id;
+    return (a.dex - b.dex || (b.isDefault ? 1 : 0) - (a.isDefault ? 1 : 0) || a.id - b.id) * dir;
+  });
+  const hasDex = ordered.filter(s => s.dex > 0);
+  const others = ordered.filter(s => !(s.dex > 0));
   let html = "";
   if (hasDex.length) {
-    html += `<div class="group-h">图鉴宝可梦</div><div class="dex-grid">${hasDex.map(monCard).join("")}</div>`;
+    html += `<div class="group-h">${byStat ? `按${STAT_ZH[key]}排序` : "图鉴宝可梦"}</div><div class="dex-grid">${hasDex.map(s => monCard(s, byStat ? key : null)).join("")}</div>`;
   }
   if (others.length) {
-    html += `<div class="group-h">其他形态</div><div class="dex-grid">${others.map(monCard).join("")}</div>`;
+    html += `<div class="group-h">其他形态</div><div class="dex-grid">${others.map(s => monCard(s, byStat ? key : null)).join("")}</div>`;
   }
   if (!html) html = `<div style="text-align:center;color:var(--muted);padding:60px 0">没有找到符合条件的宝可梦</div>`;
   $("#dex-area").innerHTML = html;
@@ -340,7 +356,7 @@ function renderDexArea() {
 window.toggleType = function (tid) {
   if (homeState.types.has(tid)) homeState.types.delete(tid);
   else homeState.types.add(tid);
-  document.querySelectorAll(".type-chips .pill:not(.form-chip)").forEach(el => {
+  document.querySelectorAll(".type-chips .pill:not(.form-chip):not(.sort-chip)").forEach(el => {
     const m = el.getAttribute("onclick").match(/\d+/);
     if (m) el.classList.toggle("on", homeState.types.has(+m[0]));
   });
@@ -350,6 +366,13 @@ window.setForm = function (v) {
   homeState.form = v;
   document.querySelectorAll(".form-chip").forEach(el =>
     el.classList.toggle("on", el.getAttribute("onclick").includes(`'${v}'`)));
+  renderDexArea();
+};
+window.setSort = function (k) {
+  const s = homeState.sort;
+  if (s.key === k && k !== "dex") s.desc = !s.desc;      // 种族值项: 再点切换升降序
+  else { s.key = k; s.desc = k !== "dex"; }               // 换项: 编号升序, 种族值降序
+  $("#sort-chips").innerHTML = sortChipsHTML();
   renderDexArea();
 };
 
