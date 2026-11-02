@@ -19,7 +19,16 @@ D.species.forEach(s => {
 
 /* 进化链: 组件划分 */
 const EVO_MAIN_SKIP = { EVO_MEGA: 1, EVO_GIGANTAMAX: 1, EVO_AWAKEN: 1 };
-const FORM_KIND_ZH = { awaken: "觉醒形态", mega: "超级进化", giga: "极巨化", primal: "原始回归" };
+const FORM_KIND_ZH = { awaken: "觉醒形态", mega: "超级进化", giga: "超极巨化", primal: "原始回归", regional: "地区形态", alt: "特殊形态" };
+/* 形态筛选: chip 值 -> 该 chip 显示的 formKind 集合 ("特殊形态"含原始回归) */
+const FORM_FILTER = {
+  regional: k => k === "regional",
+  alt: k => k === "alt" || k === "primal",
+  mega: k => k === "mega",
+  giga: k => k === "giga",
+  awaken: k => k === "awaken",
+};
+const N_DEFAULT = D.species.filter(s => s.isDefault).length;
 const evoAdj = {};   // 无向邻接
 D.species.forEach(s => (s.evolutions || []).forEach(e => {
   if (e.to == null || !SPECIES_BY_ID[e.to]) return;
@@ -197,7 +206,7 @@ window.showAbilityPopup = showAbilityPopup;
 
 /* ---------------- 路由 ---------------- */
 const app = $("#app");
-let homeState = { q: "", types: new Set() };
+let homeState = { q: "", types: new Set(), form: "" };
 
 function route() {
   const h = location.hash || "#/";
@@ -220,6 +229,7 @@ function monCard(s) {
     <div class="no">${fmtDex(s.dex)}</div>
     <div class="nm">${esc(s.zh)}</div>
     <div class="types">${typePills(s.types, true)}</div>
+    ${s.formLabel ? `<div class="form-badge">${esc(s.formLabel)}</div>` : ""}
   </div>`;
 }
 window.monCard = monCard;
@@ -228,14 +238,19 @@ function renderHome() {
   const chips = TYPES_SHOWN.map(t =>
     `<span class="pill${homeState.types.has(t.id) ? " on" : ""}" style="background:${t.color}"
       onclick="toggleType(${t.id})">${esc(t.zh)}</span>`).join("");
+  const formChips = [["", "仅默认形态"], ["all", "全部形态"]]
+    .concat(Object.keys(FORM_FILTER).map(k => [k, FORM_KIND_ZH[k]]))
+    .map(([v, label]) =>
+      `<span class="pill form-chip${homeState.form === v ? " on" : ""}" onclick="setForm('${v}')">${label}</span>`).join("");
   app.innerHTML = `
     <div class="page-title">宝可梦图鉴</div>
-    <div class="page-sub">共 ${D.species.length} 只宝可梦（含形态） · 点击卡片查看详情</div>
+    <div class="page-sub">默认形态 ${N_DEFAULT} 只 · 含特殊/地区形态共 ${D.species.length} 只 · 点击卡片查看详情</div>
     <div class="toolbar">
       <div class="search-box">
         <span>🔍</span>
-        <input id="q" placeholder="搜索中文名 / 编号 / 英文名…" value="${esc(homeState.q)}">
+        <input id="q" placeholder="搜索名称 / 编号 / 形态，如 阿罗拉、超级进化" value="${esc(homeState.q)}">
       </div>
+      <div class="type-chips">${formChips}</div>
       <div class="type-chips">${chips}</div>
       <span class="count-hint" id="cnt"></span>
     </div>
@@ -247,11 +262,19 @@ function renderHome() {
 
 function matchSpecies(s) {
   const q = homeState.q.toLowerCase();
+  const searching = !!(q || homeState.types.size);
+  // 形态筛选优先; 未选形态时默认只显示默认形态, 搜索/属性筛选命中时特殊与地区形态一并显示
+  if (homeState.form && homeState.form !== "all") {
+    if (!FORM_FILTER[homeState.form](s.formKind)) return false;
+  } else if (!homeState.form && !s.isDefault && !searching) {
+    return false;
+  }
   if (q) {
     const hit = s.zh.includes(homeState.q)
       || (s.en && s.en.toLowerCase().includes(q))
       || (s.dex != null && String(s.dex) === q)
-      || String(s.id) === q;
+      || String(s.id) === q
+      || (s.tags && s.tags.toLowerCase().includes(q));
     if (!hit) return false;
   }
   if (homeState.types.size) {
@@ -262,8 +285,9 @@ function matchSpecies(s) {
 function renderDexArea() {
   const list = D.species.filter(matchSpecies);
   $("#cnt").textContent = `筛选结果：${list.length}`;
-  const hasDex = list.filter(s => s.dex != null && s.dex > 0).sort((a, b) => a.dex - b.dex || a.id - b.id);
-  const others = list.filter(s => s.dex == null).sort((a, b) => a.id - b.id);
+  const hasDex = list.filter(s => s.dex > 0)
+    .sort((a, b) => a.dex - b.dex || (b.isDefault ? 1 : 0) - (a.isDefault ? 1 : 0) || a.id - b.id);
+  const others = list.filter(s => !(s.dex > 0)).sort((a, b) => a.id - b.id);
   let html = "";
   if (hasDex.length) {
     html += `<div class="group-h">图鉴宝可梦</div><div class="dex-grid">${hasDex.map(monCard).join("")}</div>`;
@@ -278,10 +302,16 @@ function renderDexArea() {
 window.toggleType = function (tid) {
   if (homeState.types.has(tid)) homeState.types.delete(tid);
   else homeState.types.add(tid);
-  document.querySelectorAll(".type-chips .pill").forEach(el => {
+  document.querySelectorAll(".type-chips .pill:not(.form-chip)").forEach(el => {
     const m = el.getAttribute("onclick").match(/\d+/);
-    el.classList.toggle("on", homeState.types.has(+m[0]));
+    if (m) el.classList.toggle("on", homeState.types.has(+m[0]));
   });
+  renderDexArea();
+};
+window.setForm = function (v) {
+  homeState.form = v;
+  document.querySelectorAll(".form-chip").forEach(el =>
+    el.classList.toggle("on", el.getAttribute("onclick").includes(`'${v}'`)));
   renderDexArea();
 };
 
@@ -397,7 +427,7 @@ function renderPokemon(id) {
         <div class="dex-no">${fmtDex(s.dex)}</div>
         <div class="nm">${esc(s.zh)}</div>
         <div class="en">${esc(s.en)}</div>
-        ${s.formKind ? `<div style="margin-top:6px"><span class="pill small" style="background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.45)">${FORM_KIND_ZH[s.formKind]}</span></div>` : ""}
+        ${s.formLabel ? `<div style="margin-top:6px"><span class="pill small" style="background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.45)">${esc(s.formLabel)}</span></div>` : ""}
         <div class="types">${typePills(s.types)}</div>
       </div>
     </div>

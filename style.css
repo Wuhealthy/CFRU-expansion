@@ -107,6 +107,14 @@ a { color: inherit; text-decoration: none; }
 .mon-card .no { font-size: 12px; color: var(--muted); font-weight: 700; }
 .mon-card .nm { font-size: 15px; font-weight: 800; margin: 2px 0 6px; }
 .mon-card .types { display: flex; justify-content: center; gap: 4px; }
+.mon-card .form-badge {
+  margin-top: 5px; display: inline-block; font-size: 10.5px; font-weight: 700;
+  color: #7a4b00; background: #ffedc7; border: 1px solid #ecd39a;
+  border-radius: 999px; padding: 1px 8px;
+}
+/* 形态筛选 chips: 中性配色, 与属性 chips 区分 */
+.form-chip { background: #5a6b7d !important; color: #fff; }
+.form-chip.on { outline-color: #5a6b7d; }
 .group-h { font-size: 16px; font-weight: 800; margin: 26px 0 2px; display: flex; align-items: center; gap: 8px; }
 .group-h::before { content: ""; width: 4px; height: 18px; border-radius: 2px; background: var(--accent); }
 

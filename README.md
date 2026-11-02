@@ -2,11 +2,29 @@
 
 「火红 横版物语」ROM 的静态图鉴网站。纯 HTML/CSS/JS，无需构建，双击 `index.html` 即可使用（或任意静态服务器）。
 
+**线上地址**：<https://wuhealthy.github.io/CFRU-expansion/>（GitHub Pages，`gh-pages` 分支）
+
+## 更新线上站点
+
+```powershell
+# 1. 重新提取数据
+cd tools && python extract_data.py
+# 2. 部署 (自动同步站点到 gh-pages 分支并推送, 网络不通时自动重试)
+powershell -ExecutionPolicy Bypass -File tools\deploy_pages.ps1
+# 3. (可选) 查询 Pages 构建状态
+powershell -ExecutionPolicy Bypass -File tools\pages_status.ps1
+```
+
+部署脚本使用 GitHub Desktop 存在 Windows 凭据管理器里的 token，无需手动登录。
+
 ## 功能
 
-- **宝可梦图鉴**：1549 只宝可梦（含全部形态）卡片列表，按图鉴编号排序
-  - 搜索：中文名 / 编号 / 英文名
-  - 属性筛选（数据来自 ROM 实际属性表）
+- **宝可梦图鉴**：主页面按图鉴编号只显示每个编号的默认形态（1025 只）；
+  522 个特殊/地区形态在搜索或筛选时才显示，卡片带形态徽标
+  - 搜索：中文名 / 编号 / 英文名 / 形态（「超级进化」「超极巨化」「觉醒形态」「特殊形态」
+    「地区形态」「阿罗拉」「伽勒尔」「洗翠」「帕底亚」）
+  - 形态筛选：仅默认形态 / 全部形态 / 地区形态 / 特殊形态（含原始回归）/ 超级进化 / 超极巨化 / 觉醒形态
+  - 属性筛选（数据来自 ROM 实际属性表）；输入搜索或选属性时各形态一并显示
 - **宝可梦详情**：正面图、图鉴介绍、种族值条形图、特性（含隐藏特性）、
   身高体重/捕获率/努力值/携带道具、培育资料（性别比/蛋组/孵化步数/亲密度/成长速度）、
   进化链（含超级进化/极巨化等特殊形态）、招式表（升级 / 招式学习器 / 教学招式 / 蛋招式）
@@ -59,8 +77,13 @@ python extract_data.py        # 需要 Python3 + Pillow
 运行后生成 `data/data.js`、加密精灵图 `.js`（默认删除明文 PNG）、`data/report.txt`（缺失项报告）。
 注意：精灵图只有缺失时才重新复制，改了处理逻辑后先删除 `sprites/` 再运行。
 
+默认形态判定：同一图鉴编号内，常量名是其他成员前缀者为默认形态（如 `MEOWTH` 之于 `MEOWTH_A`），
+超级进化/超极巨化/觉醒/原始回归形态不参与；判定结果列在 `data/report.txt` 末尾，更新数据后可抽查。
+
 ## 已知小缺口
 
 - 卡空斯的超级进化（SPECIES_CASTFORM, id 385）无正面图源文件，详情页回退显示图标
-- 2 个物种无图鉴编号（图鉴区按编号排序时自动归入「其他形态」区）
+- ROM 的 `Species_To_Pokdex_Table.c` 中 `RATICATE_MEGA`/`VENOMOTH_MEGA`/`GOLEM_MEGA` 的图鉴编号
+  挂成了 #168/#53/#59，这几个形态在搜索结果里会显示在对应的错误编号下
+- 地区形态与默认形态共用图鉴编号，详情页的图鉴介绍/身高体重沿用默认形态的数据
 - 部分稀有携带道具名为英文回退（`tools/extract_data.py` 中 `ITEM_ZH` 可继续补翻译）
