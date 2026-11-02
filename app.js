@@ -448,7 +448,7 @@ function renderPokemon(id) {
   const lvSorted = [...s.levelUp].sort((a, b) => a[0] - b[0] || a[1] - b[1]);
   const tmRows = s.tm.map(mid => moveRow(mid, null, null));
   const tmNames = {};
-  D.tms.forEach(t => tmNames[t.move] = t.no);
+  D.tms.forEach(t => tmNames[t.move] = tmNames[t.move] || t.label);
   const tutorRows = s.tutor.map(mid => moveRow(mid, null, null));
   const eggRows = s.egg.map(mid => moveRow(mid, null, null));
 
@@ -523,7 +523,7 @@ function renderPokemon(id) {
         </div>
         <div id="tab-tm" class="hidden">
           <table class="move-table"><thead><tr><th>编号</th><th>招式</th><th>属性</th><th>分类</th><th>威力</th><th>命中</th><th>PP</th></tr></thead>
-          <tbody>${s.tm.map(mid => moveRow(mid, null, tmNames[mid] ? "TM" + String(tmNames[mid]).padStart(2, "0") : null)).join("") || "<tr><td colspan=7>—</td></tr>"}</tbody></table>
+          <tbody>${s.tm.map(mid => moveRow(mid, null, tmNames[mid] || null)).join("") || "<tr><td colspan=7>—</td></tr>"}</tbody></table>
         </div>
         <div id="tab-tutor" class="hidden">
           <table class="move-table"><thead><tr><th></th><th>招式</th><th>属性</th><th>分类</th><th>威力</th><th>命中</th><th>PP</th></tr></thead>

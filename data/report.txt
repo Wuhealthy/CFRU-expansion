@@ -1,5 +1,19 @@
 == 提取警告 ==
-
+招式学习器 100: 文件名招式 Infestation 与 TM_Tutor_Tables.c 的 acidspray 不一致
+招式学习器 111: 文件名招式 Smack Down 与 TM_Tutor_Tables.c 的 fissure 不一致
+招式学习器 114: 文件名招式 Natural Gift 与 TM_Tutor_Tables.c 的 triattack 不一致
+招式学习器 119: 文件名招式 Sky Drop 与 TM_Tutor_Tables.c 的 eerieimpulse 不一致
+招式学习器 18: 文件名招式 Rain Dance 与 TM_Tutor_Tables.c 的 amnesia 不一致
+招式学习器 21: 文件名招式 Frustration 与 TM_Tutor_Tables.c 的 hardpress 不一致
+招式学习器 34: 文件名招式 Shock Wave 与 TM_Tutor_Tables.c 的 curse 不一致
+招式学习器 37: 文件名招式 Sandstorm 与 TM_Tutor_Tables.c 的 leechlife 不一致
+招式学习器 40: 文件名招式 Aerial Ace 与 TM_Tutor_Tables.c 的 supercellslam 不一致
+招式学习器 41: 文件名招式 Torment 与 TM_Tutor_Tables.c 的 temperflare 不一致
+招式学习器 43: 文件名招式 Secret Power 与 TM_Tutor_Tables.c 的 petalblizzard 不一致
+招式学习器 45: 文件名招式 Attract 与 TM_Tutor_Tables.c 的 doubleedge 不一致
+招式学习器 48: 文件名招式 Skill Swap 与 TM_Tutor_Tables.c 的 lunge 不一致
+招式学习器 49: 文件名招式 Leech Fang 与 TM_Tutor_Tables.c 的 steelbeam 不一致
+招式学习器 87: 文件名招式 Swagger 与 TM_Tutor_Tables.c 的 nightshade 不一致
 
 == 无正面图(1) ==
 [385]

@@ -77,8 +77,14 @@ pokedex_site/
 - `../`（CFRU-expansion）：招式数据 `src/Tables/battle_moves.c`、招式/特性/属性中文表
   `strings/*.string`、常量表 `include/constants/*.h`、觉醒形态表 `src/mega.c`、
   道具表 `src/Tables/item_tables.c` + 字码表 `charmap.tbl`、道具中英对照 `道具名称_英-中.xlsx`
-- `../../Dynamic-Pokemon-Expansion-Gen-9`：种族值 `src/Base_Stats.c`、学习技/蛋招/TM/进化/图鉴数据、
-  中文名 `strings/Pokemon_Name_Table.string`、精灵图 `graphics/frontspr` 与 `graphics/pokeicon`
+- `../../Dynamic-Pokemon-Expansion-Gen-9`：种族值 `src/Base_Stats.c`、进化/图鉴数据、
+  中文名 `strings/Pokemon_Name_Table.string`、精灵图 `graphics/frontspr` 与 `graphics/pokeicon`；招式表全部以 DPE 为准
+  （不用 CFRU 的 `src/Tables/level_up_learnsets.c`）：
+  - 升级招式 `src/Learnsets.c`
+  - 蛋招式 `src/Egg_Moves.c`，同一进化链（含超级进化等特殊形态）都沿用最初形态的表
+  - 招式学习器 / 教学招式的可学物种 `src/tm_compatibility`、`src/tutor_compatibility`：编号取文件名开头的数字
+    （与 DPE 的 `scripts/tm_tutor.py` 一致），对应招式取 `src/TM_Tutor_Tables.c`；第 1–120 项为 TM01–TM120，
+    121–128 项为 HM01–HM08（CFRU `src/config.h` 的 `NUM_TMS`）。文件名里的招式名与表不一致时写入 `data/report.txt`
 
 ```bash
 cd tools
