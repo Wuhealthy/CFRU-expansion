@@ -10,7 +10,7 @@
  *
  * Technical notes
  * - Panel/message tiles live in VRAM tile slots 0x30.. (permanent; the original art only used 0x00-0x2F).
- * - Button tiles (BTB_TILE_BASE in battle_textbox_data.h, 0x250+) are re-uploaded each time the action menu is drawn,
+ * - Button tiles (BTB_TILE_BASE in battle_textbox_data.h, 0x360+) are re-uploaded each time the action menu is drawn,
  *   because other battle windows (move names, PP...) reuse that VRAM range.
  * - Palettes: slot 0 (message text colours), 1 (Yes/No frame), 12-15 (one per button; 8-11 are used by double battles).
  *   Slot 5 (window text) and slot 6 (type/category icons) are recoloured.
