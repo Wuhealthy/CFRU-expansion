@@ -277,7 +277,8 @@ function matchSpecies(s) {
     if (!hit) return false;
   }
   if (homeState.types.size) {
-    if (!s.types.some(t => homeState.types.has(t))) return false;
+    // 多选属性须同时具备 (如 火+飞行); 宝可梦最多两种属性, 选三种及以上不会有结果
+    for (const t of homeState.types) if (!s.types.includes(t)) return false;
   }
   return true;
 }
