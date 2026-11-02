@@ -38,6 +38,7 @@
 #include "../include/metatile_behavior.h"
 #include "../include/fieldmap.h"
 #include "../include/new/terastallization.h"
+#include "../include/new/battle_rule_roulette.h"
 
 /*
 battle_start_turn_start.c
@@ -65,6 +66,7 @@ enum BattleBeginStates
 	BTSTART_PIXIE_BATTLE,
 	BTSTART_PIXIE_BATTLE_BUFFS,
 	BTSTART_RAINBOW_BATTLE,
+	BTSTART_ROULETTE_RULES,
 	BTSTART_NEUTRALIZING_GAS,
 	BTSTART_SWITCH_IN_ABILITIES,
 	BTSTART_SWITCH_IN_ITEMS,
@@ -175,6 +177,8 @@ void HandleNewBattleRamClearBeforeBattle(void)
 		gNewBS->ringChallengeBannedTypes[2] = VarGet(VAR_RING_CHALLENGE_BANNED_TYPE_3);
 		#endif
 	}
+
+	ApplyTrainerBattleRulesAtBattleStart(); //对战规则轮盘:属性封禁类型拷入gNewBS/裸装清空战斗副本道具
 
 	#ifdef FLAG_BENJAMIN_BUTTERFREE_BATTLE
 	if (FlagGet(FLAG_BENJAMIN_BUTTERFREE_BATTLE))
@@ -615,6 +619,24 @@ void BattleBeginFirstTurn(void)
 				#endif
 				++*state;
 				break;
+
+			case BTSTART_ROULETTE_RULES:
+			{
+				if (!(gBattleTypeFlags & BATTLE_TYPE_ROULETTE))
+				{
+					++*state;
+					break;
+				}
+				const u8* ruleName = GetNextRouletteRuleAnnouncement(); //逐条取规则名
+				if (ruleName != NULL)
+				{
+					gBattleStringLoader = ruleName;
+					BattleScriptPushCursorAndCallback(BattleScript_PrintCustomStringEnd3);
+					return; //本条播完重入本状态继续下一条
+				}
+				++*state;
+				break;
+			}
 
 			case BTSTART_NEUTRALIZING_GAS:
 				for (; *bank < gBattlersCount; ++*bank)

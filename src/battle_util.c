@@ -19,13 +19,14 @@
 #include "../include/new/multi.h"
 #include "../include/new/util.h"
 #include "../include/new/terastallization.h"
+#include "../include/new/battle_rule_roulette.h"
 
 /*
 battle_util.c
 	general functions for aiding in battle logic for everything
 */
 
-#define IS_BATTLE_CIRCUS (gBattleTypeFlags & BATTLE_TYPE_BATTLE_CIRCUS)
+#define IS_BATTLE_CIRCUS ((gBattleTypeFlags & BATTLE_TYPE_BATTLE_CIRCUS) || (gBattleTypeFlags & BATTLE_TYPE_ROULETTE)) //对战规则轮盘复用马戏团规则旗消费端
 
 static void TryRemoveUnburdenBoost(u8 bank);
 static bool8 CanBeGeneralStatused(u8 bankDef, ability_t defAbility, ability_t atkAbility, bool8 checkFlowerVeil);
@@ -803,6 +804,9 @@ bool8 IsUnusableMove(u16 move, u8 bank, u8 check, u8 pp, ability_t ability, u8 h
 		return TRUE;
 	#endif
 	else if (gBattleTypeFlags & BATTLE_TYPE_RING_CHALLENGE && IsMoveBannedInRingChallenge(move, bank) && check & MOVE_LIMITATION_ENCORE)
+		return TRUE;
+	else if (gBattleRouletteRules & ROULETTE_RULE_NO_PRIORITY
+	&& PriorityCalc(bank, ACTION_USE_MOVE, move) > 0) //轮盘规则:优先度封禁,+1以上优先度的招式不可用
 		return TRUE;
 	else if (gSpecialMoveFlags[move].gGravityBannedMoves && IsGravityActive() && check & MOVE_LIMITATION_DISABLED)
 		return TRUE;

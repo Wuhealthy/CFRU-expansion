@@ -30,6 +30,7 @@
 #include "../include/new/roamer.h"
 #include "../include/new/util.h"
 #include "../include/new/wild_encounter.h"
+#include "../include/new/battle_rule_roulette.h"
 /*
 wild_encounter.c
 	handles functions related to wild encounter probability and associated features
@@ -1289,6 +1290,7 @@ void DoStandardWildBattle(void)
 	StopPlayerAvatar();
 	gMain.savedCallback = CB2_EndWildBattle;
 	gBattleTypeFlags = 0;
+	ClearBattleRuleRoulette(); //野战不适用训练家轮盘规则,清掉上次训练家战残留
 
 	#ifdef FLAG_DOUBLE_WILD_BATTLE
 	if (FlagGet(FLAG_DOUBLE_WILD_BATTLE) || VarGet(VAR_DOUBLE_BATTLE) == 1)
@@ -1317,6 +1319,7 @@ static void StartRoamerBattle(void)
 	StopPlayerAvatar();
 	gMain.savedCallback = CB2_EndWildBattle;
 	gBattleTypeFlags = BATTLE_TYPE_ROAMER;
+	ClearBattleRuleRoulette();
 	CreateBattleStartTask(GetWildBattleTransition(), GetMUS_ForBattle());
 	IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
 	IncrementGameStat(GAME_STAT_WILD_BATTLES);

@@ -23,6 +23,7 @@
 #include "../include/new/util.h"
 #include "../include/new/mega.h"
 #include "../include/new/multi.h"
+#include "../include/new/battle_rule_roulette.h"
 
 /*
 end_battle.c
@@ -946,6 +947,7 @@ static void EndBattleFlagClear(void)
 	Memset(&ExtensionState, 0x0, sizeof(struct BattleExtensionState));
 	gTrainerBattleOpponent_B = backup;
 	gBattleCircusFlags = 0;
+	ClearBattleRuleRoulette(); //清轮盘规则
 	Memset(gStatuses3, 0, sizeof(gStatuses3));
 }
 

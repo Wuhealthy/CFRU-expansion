@@ -31,6 +31,7 @@
 #include "../include/new/trainer_sliding.h"
 #include "../include/new/z_move_battle_scripts.h"
 #include "../include/new/terastallization.h"
+#include "../include/new/battle_rule_roulette.h"
 /*
 switching.c
 	handles battle switching logic
@@ -385,6 +386,9 @@ void atk4D_switchindataupdate(void)
 	}
 
 	ABILITY(gActiveBattler) = GetMonAbility(GetBankPartyData(gActiveBattler));
+
+	if (gBattleRouletteRules & ROULETTE_RULE_NO_ITEMS)
+		gBattleMons[gActiveBattler].item = 0; //裸装规则:换入的宝可梦同样无道具(战斗副本清零,队伍道具不受影响)
 
 	CONSUMED_ITEMS(gActiveBattler) = 0;
 	gNewBS->StakeoutCounters[gActiveBattler] = 1;

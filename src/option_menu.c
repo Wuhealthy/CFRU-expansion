@@ -119,6 +119,7 @@ enum
     OPT_RANDOM_LEARNSETS,
     OPT_RANDOM_ABILITIES,
     OPT_RANDOM_TRAINERS,
+    OPT_BATTLE_RULE_ROULETTE,
     OPT_EASY_CATCH,
     OPT_BATTLE_MONEY_MULTIPLIER,
     OPT_CANCEL,
@@ -137,9 +138,9 @@ static const u8 sOptionPageItems[OPT_PAGE_COUNT][10] =
 	  OPT_DAMAGE_DISPLAY, OPT_EXP_CATCH_UP, OPT_EASY_CATCH, OPT_BATTLE_MONEY_MULTIPLIER, OPT_GAME_DIFFICULTY, OPT_CANCEL },
 	//第3页:随机设置
 	{ OPT_RANDOM_WILD_SPECIES, OPT_RANDOM_LEARNSETS, OPT_RANDOM_ABILITIES,
-	  OPT_RANDOM_TRAINERS, OPT_SHINY_ODDS, OPT_WILDLEVELSCALING, OPT_CANCEL },
+	  OPT_RANDOM_TRAINERS, OPT_SHINY_ODDS, OPT_WILDLEVELSCALING, OPT_BATTLE_RULE_ROULETTE, OPT_CANCEL },
 };
-static const u8 sOptionPageItemCount[OPT_PAGE_COUNT] = {9, 10, 7};
+static const u8 sOptionPageItemCount[OPT_PAGE_COUNT] = {9, 10, 8};
 
 #define OPTION_LIST_VISIBLE 7
 
@@ -168,6 +169,7 @@ struct OptionMenu
     /*0x??*/ u16 randomLearnsets;     //随机招式表开关,存于FLAG_POKEMON_LEARNSET_RANDOMIZER
     /*0x??*/ u16 randomAbilities;     //随机特性开关,存于FLAG_ABILITY_RANDOMIZER
     /*0x??*/ u16 randomTrainers;      //随机训练家开关,存于FLAG_TRAINER_RANDOMIZER
+    /*0x??*/ u16 battleRuleRoulette;  //对战规则轮盘开关,存于VAR_BATTLE_RULE_ROULETTE
     /*0x??*/ u16 expCatchUp;          //经验共享升级开关,存于FLAG_EXP_SHARE_CATCH_UP
     /*0x??*/ u16 easyCatch;           //容易捕捉开关,存于FLAG_EASY_CATCH
     /*0x??*/ u16 battleMoneyMultiplier; //对战金钱倍率,存于VAR_BATTLE_MONEY_MULTIPLIER
@@ -195,6 +197,8 @@ extern const u8 gText_RandomWildSpecies[];
 extern const u8 gText_RandomLearnsets[];
 extern const u8 gText_RandomAbilities[];
 extern const u8 gText_RandomTrainers[];
+extern const u8 gText_BattleRuleRoulette[];
+extern const u8 gText_OptionDesc_BattleRuleRoulette[];
 extern const u8 gText_ExpCatchUp[];
 extern const u8 gText_EasyCatch[];
 extern const u8 gText_BattleMoneyMultiplier[];
@@ -388,6 +392,11 @@ static const u8 *const sRandomTrainersOptions[] =
 	gText_OffOption,
 	gText_OnOption
 };
+static const u8 *const sBattleRuleRouletteOptions[] =
+{
+	gText_OffOption,
+	gText_OnOption
+};
 static const u8 *const sExpCatchUpOptions[] =
 {
 	gText_OffOption,
@@ -429,6 +438,7 @@ static const u8 *const sOptionDescriptions[OPT_COUNT] =
     [OPT_RANDOM_LEARNSETS]          = gText_OptionDesc_RandomLearnsets,
     [OPT_RANDOM_ABILITIES]          = gText_OptionDesc_RandomAbilities,
     [OPT_RANDOM_TRAINERS]           = gText_OptionDesc_RandomTrainers,
+    [OPT_BATTLE_RULE_ROULETTE]      = gText_OptionDesc_BattleRuleRoulette,
     [OPT_EXP_CATCH_UP]              = gText_OptionDesc_ExpCatchUp,
     [OPT_EASY_CATCH]                = gText_OptionDesc_EasyCatch,
     [OPT_BATTLE_MONEY_MULTIPLIER]   = gText_OptionDesc_BattleMoneyMultiplier,
@@ -463,6 +473,7 @@ static const u8 * GetOptionItemName(u16 item)
     case OPT_RANDOM_LEARNSETS:            return gText_RandomLearnsets;
     case OPT_RANDOM_ABILITIES:            return gText_RandomAbilities;
     case OPT_RANDOM_TRAINERS:             return gText_RandomTrainers;
+    case OPT_BATTLE_RULE_ROULETTE:        return gText_BattleRuleRoulette;
     case OPT_EXP_CATCH_UP:                return gText_ExpCatchUp;
     case OPT_EASY_CATCH:                  return gText_EasyCatch;
     case OPT_BATTLE_MONEY_MULTIPLIER:     return gText_BattleMoneyMultiplier;
@@ -495,6 +506,7 @@ static u16 * GetOptionItemValuePtr(u16 item)
     case OPT_RANDOM_LEARNSETS:            return &sOptionMenuPtr->randomLearnsets;
     case OPT_RANDOM_ABILITIES:            return &sOptionMenuPtr->randomAbilities;
     case OPT_RANDOM_TRAINERS:             return &sOptionMenuPtr->randomTrainers;
+    case OPT_BATTLE_RULE_ROULETTE:        return &sOptionMenuPtr->battleRuleRoulette;
     case OPT_EXP_CATCH_UP:                return &sOptionMenuPtr->expCatchUp;
     case OPT_EASY_CATCH:                  return &sOptionMenuPtr->easyCatch;
     case OPT_BATTLE_MONEY_MULTIPLIER:     return &sOptionMenuPtr->battleMoneyMultiplier;
@@ -526,6 +538,7 @@ static u16 GetOptionItemCount(u16 item)
     case OPT_RANDOM_LEARNSETS:            return 2;
     case OPT_RANDOM_ABILITIES:            return 2;
     case OPT_RANDOM_TRAINERS:             return 2;
+    case OPT_BATTLE_RULE_ROULETTE:        return 2;
     case OPT_EXP_CATCH_UP:                return 2;
     case OPT_EASY_CATCH:                  return 2;
     case OPT_BATTLE_MONEY_MULTIPLIER:     return 5;
@@ -565,6 +578,7 @@ static const u8 * GetOptionItemValueString(u16 item)
     case OPT_RANDOM_LEARNSETS:            return sRandomLearnsetsOptions[*value];
     case OPT_RANDOM_ABILITIES:            return sRandomAbilitiesOptions[*value];
     case OPT_RANDOM_TRAINERS:             return sRandomTrainersOptions[*value];
+    case OPT_BATTLE_RULE_ROULETTE:        return sBattleRuleRouletteOptions[*value];
     case OPT_EXP_CATCH_UP:                return sExpCatchUpOptions[*value];
     case OPT_EASY_CATCH:                  return sEasyCatchOptions[*value];
     case OPT_BATTLE_MONEY_MULTIPLIER:     return sBattleMoneyMultiplierOptions[*value];
@@ -608,6 +622,9 @@ void CB2_OptionsMenuFromStartMenu(void)
     sOptionMenuPtr->randomLearnsets = FlagGet(FLAG_POKEMON_LEARNSET_RANDOMIZER);
     sOptionMenuPtr->randomAbilities = FlagGet(FLAG_ABILITY_RANDOMIZER);
     sOptionMenuPtr->randomTrainers = FlagGet(FLAG_TRAINER_RANDOMIZER);
+    sOptionMenuPtr->battleRuleRoulette = VarGet(VAR_BATTLE_RULE_ROULETTE);
+    if (sOptionMenuPtr->battleRuleRoulette >= 2) //旧存档该VAR可能是残留数据,视为关闭
+        sOptionMenuPtr->battleRuleRoulette = 0;
     sOptionMenuPtr->expCatchUp = FlagGet(FLAG_EXP_SHARE_CATCH_UP);
     sOptionMenuPtr->easyCatch = FlagGet(FLAG_EASY_CATCH);
     sOptionMenuPtr->battleMoneyMultiplier = VarGet(VAR_BATTLE_MONEY_MULTIPLIER);
@@ -722,6 +739,7 @@ void CloseAndSaveOptionMenu(u8 taskId)
         FlagSet(FLAG_TRAINER_RANDOMIZER);
     else
         FlagClear(FLAG_TRAINER_RANDOMIZER);
+    VarSet(VAR_BATTLE_RULE_ROULETTE, sOptionMenuPtr->battleRuleRoulette);
     if (sOptionMenuPtr->expCatchUp)
         FlagSet(FLAG_EXP_SHARE_CATCH_UP);
     else

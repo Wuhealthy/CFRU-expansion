@@ -38,6 +38,7 @@
 #include "../include/new/pokemon_storage_system.h"
 #include "../include/new/species_tables.h"
 #include "../include/new/terastallization.h"
+#include "../include/new/battle_rule_roulette.h"
 #include "../include/new/util.h"
 
 #include "Tables/battle_tower_spreads.h"
@@ -403,7 +404,7 @@ void BuildTrainerPartySetup(void)
 	}
 
 	//Try swapping a Pokemon in the Battle Circus
-	if (gBattleTypeFlags & BATTLE_TYPE_BATTLE_CIRCUS && gBattleCircusFlags & BATTLE_CIRCUS_TRADE_MON)
+	if ((gBattleTypeFlags & (BATTLE_TYPE_BATTLE_CIRCUS | BATTLE_TYPE_ROULETTE)) && gBattleCircusFlags & BATTLE_CIRCUS_TRADE_MON)
 	{
 		//Swap a random Pokemon on each side of the field
 		u8 playerMonId, enemyMonId;
@@ -2164,10 +2165,10 @@ static u8 BuildFrontierParty(struct Pokemon* const party, const u16 trainerId, c
 			species = spread->species;
 			dexNum = SpeciesToNationalPokedexNum(species);
 			item = spread->item;
-			ability = (gMain.inBattle && gBattleTypeFlags & BATTLE_TYPE_BATTLE_CIRCUS && gBattleCircusFlags & BATTLE_CIRCUS_ABILITY_SUPPRESSION) ? 0
+			ability = (gMain.inBattle && gBattleTypeFlags & (BATTLE_TYPE_BATTLE_CIRCUS | BATTLE_TYPE_ROULETTE) && gBattleCircusFlags & BATTLE_CIRCUS_ABILITY_SUPPRESSION) ? 0
 					: ConvertFrontierAbilityNumToAbility(spread->ability, species);
 			itemEffect = (ability == ABILITY_KLUTZ
-					  || (gMain.inBattle && gBattleTypeFlags & BATTLE_TYPE_BATTLE_CIRCUS && gBattleCircusFlags & BATTLE_CIRCUS_MAGIC_ROOM)) ? 0 : ItemId_GetHoldEffect(item);
+					  || (gMain.inBattle && gBattleTypeFlags & (BATTLE_TYPE_BATTLE_CIRCUS | BATTLE_TYPE_ROULETTE) && gBattleCircusFlags & BATTLE_CIRCUS_MAGIC_ROOM)) ? 0 : ItemId_GetHoldEffect(item);
 
 			if (IsFrontierSingles(battleType))
 			{
@@ -2878,10 +2879,10 @@ static bool8 TeamDoesntHaveSynergy(const struct BattleTowerSpread* const spread,
 {
 	int i;
 
-	ability_t ability = (gMain.inBattle && gBattleTypeFlags & BATTLE_TYPE_BATTLE_CIRCUS && gBattleCircusFlags & BATTLE_CIRCUS_ABILITY_SUPPRESSION) ? 0
+	ability_t ability = (gMain.inBattle && gBattleTypeFlags & (BATTLE_TYPE_BATTLE_CIRCUS | BATTLE_TYPE_ROULETTE) && gBattleCircusFlags & BATTLE_CIRCUS_ABILITY_SUPPRESSION) ? 0
 			   : ConvertFrontierAbilityNumToAbility(spread->ability, spread->species);
 	u8 itemEffect = (ability == ABILITY_KLUTZ
-				 || (gMain.inBattle && gBattleTypeFlags & BATTLE_TYPE_BATTLE_CIRCUS && gBattleCircusFlags & BATTLE_CIRCUS_MAGIC_ROOM)) ? 0 : ItemId_GetHoldEffect(spread->item);
+				 || (gMain.inBattle && gBattleTypeFlags & (BATTLE_TYPE_BATTLE_CIRCUS | BATTLE_TYPE_ROULETTE) && gBattleCircusFlags & BATTLE_CIRCUS_MAGIC_ROOM)) ? 0 : ItemId_GetHoldEffect(spread->item);
 	u8 battleType = builder->battleType;
 
 	bool8 hasTailwinder = builder->moveOnTeam[MOVE_TAILWIND];

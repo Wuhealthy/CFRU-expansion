@@ -29,6 +29,7 @@ extern const u8 BattleScript_Moxie[]; //怒发冲冠满层时复用攻击提升�
 #include "../include/new/text.h"
 #include "../include/new/util.h"
 #include "../include/new/terastallization.h"
+#include "../include/new/battle_rule_roulette.h"
 
 /*
 ability_battle_effects.c
@@ -839,7 +840,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 
 			if (effect)
 			{
-				if (gBattleTypeFlags & BATTLE_TYPE_BATTLE_CIRCUS && gBattleCircusFlags & BATTLE_CIRCUS_WEATHER)
+				if (gBattleTypeFlags & (BATTLE_TYPE_BATTLE_CIRCUS | BATTLE_TYPE_ROULETTE) && gBattleCircusFlags & BATTLE_CIRCUS_WEATHER)
 					gBattleWeather |= WEATHER_CIRCUS; //Can't be removed
 
 				if (gBattleWeather & WEATHER_SANDSTORM_PRIMAL)
@@ -3853,7 +3854,7 @@ static u8 TryActivateTerrainAbility(u8 terrain, u8 anim, u8 bank)
 {
 	u8 effect = 0;
 
-	if (gBattleTypeFlags & BATTLE_TYPE_BATTLE_CIRCUS && gBattleCircusFlags & BATTLE_CIRCUS_TERRAIN)
+	if (gBattleTypeFlags & (BATTLE_TYPE_BATTLE_CIRCUS | BATTLE_TYPE_ROULETTE) && gBattleCircusFlags & BATTLE_CIRCUS_TERRAIN)
 		return effect; //Can't be removed
 
 	if (gTerrainType != terrain)

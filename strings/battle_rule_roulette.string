@@ -1,0 +1,116 @@
+#org @gText_RouletteElectricTerrain
+电气场地
+
+#org @gText_RouletteGrassyTerrain
+青草场地
+
+#org @gText_RouletteMistyTerrain
+薄雾场地
+
+#org @gText_RoulettePsychicTerrain
+精神场地
+
+#org @gText_RouletteRain
+下雨
+
+#org @gText_RouletteSun
+大晴天
+
+#org @gText_RouletteSandstorm
+沙暴
+
+#org @gText_RouletteHail
+冰雹
+
+#org @gText_RouletteDeltaStream
+乱流
+
+#org @gText_RouletteTrickRoom
+戏法空间
+
+#org @gText_RouletteMagicRoom
+神奇空间
+
+#org @gText_RouletteWonderRoom
+奇妙空间
+
+#org @gText_RouletteGravity
+重力
+
+#org @gText_RouletteFairyLock
+仙锁
+
+#org @gText_RouletteMagnetRise
+磁场浮起
+
+#org @gText_RouletteMist
+白雾弥漫
+
+#org @gText_RouletteSafeguard
+守护场
+
+#org @gText_RouletteSeaOfFire
+火海
+
+#org @gText_RouletteRainbow
+彩虹
+
+#org @gText_RouletteConfused
+双方混乱
+
+#org @gText_RouletteTaunt
+双方挑衅
+
+#org @gText_RouletteTorment
+双方定身法
+
+#org @gText_RouletteHealBlock
+回复封锁
+
+#org @gText_RouletteThroatChop
+喉斩封锁
+
+#org @gText_RouletteAlwaysCrit
+全体会心
+
+#org @gText_RouletteNoCrits
+无会心
+
+#org @gText_RouletteAbilitySuppression
+特性压制
+
+#org @gText_RouletteDynamax
+极巨化解禁
+
+#org @gText_RouletteTradeMon
+交换宝可梦
+
+#org @gText_RouletteDouble
+双打对战
+
+#org @gText_RouletteInverse
+逆属性对战
+
+#org @gText_RouletteMegaBrawl
+Mega大乱斗
+
+#org @gText_RouletteNoItems
+裸装上阵
+
+#org @gText_RouletteNoPriority
+优先度封禁
+
+#org @gText_RouletteRingBan
+属性封禁
+
+#org @gText_RouletteUnknown
+未知规则
+
+#org @gText_RouletteRuleAnnounce
+对战规则：[BUFFER][00]
+
+#org @gText_RouletteNoPriorityMenu
+优先度+1以上的招式无法使用！
+
+#org @gText_RouletteNoItemsMenu
+裸装规则：道具全部失效！

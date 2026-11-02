@@ -172,6 +172,9 @@ R键模式
 #org @gText_RandomTrainers
 随机训练家
 
+#org @gText_BattleRuleRoulette
+对战规则轮盘
+
 #org @gText_OptionDesc_RandomWildSpecies
 草丛等野外遭遇的宝可梦将被随机化。
 
@@ -183,6 +186,9 @@ R键模式
 
 #org @gText_OptionDesc_RandomTrainers
 随机训练家的队伍。
+
+#org @gText_OptionDesc_BattleRuleRoulette
+训练家对战随机附加特殊规则。
 
 #org @gText_ExpCatchUp
 经验共享升级

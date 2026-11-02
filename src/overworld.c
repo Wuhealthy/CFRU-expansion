@@ -58,6 +58,7 @@
 #include "../include/new/party_menu.h"
 #include "../include/new/read_keys.h"
 #include "../include/new/wild_encounter.h"
+#include "../include/new/battle_rule_roulette.h"
 #include "../include/save.h"
 #include "../include/new_start_menu.h"
 
@@ -1116,6 +1117,8 @@ void BattleSetup_StartTrainerBattle(void)
 		if (FlagGet(FLAG_AI_CONTROL_BATTLE))
 			gBattleTypeFlags |= BATTLE_TYPE_MOCK_BATTLE;
 		#endif
+
+		RollTrainerBattleRules(); //对战规则轮盘:抽取规则并应用类型旗(马戏团等自带规则的模式内部不抽)
 	}
 
 	#ifdef FLAG_DYNAMAX_BATTLE

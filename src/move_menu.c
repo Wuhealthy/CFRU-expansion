@@ -27,6 +27,7 @@
 #include "../include/new/text.h"
 #include "../include/new/util.h"
 #include "../include/new/z_move_effects.h"
+#include "../include/new/battle_rule_roulette.h"
 
 /*
 move_menu.c
@@ -1853,7 +1854,13 @@ u8 TrySetCantSelectMoveBattleScript(void)
 			PREPARE_TYPE_BUFFER(gBattleTextBuff1, GetMoveTypeSpecial(gActiveBattler, move));
 			gSelectionBattleScripts[gActiveBattler] = BattleScript_SelectingNotAllowedRingChallenge;
 		}
-	
+
+		++limitations;
+	}
+	else if (gBattleRouletteRules & ROULETTE_RULE_NO_PRIORITY
+	&& !isAnyMaxMove && PriorityCalc(gActiveBattler, ACTION_USE_MOVE, move) > 0) //轮盘规则:优先度封禁
+	{
+		gSelectionBattleScripts[gActiveBattler] = BattleScript_SelectingNotAllowedPriority;
 		++limitations;
 	}
 	else if (!gNewBS->zMoveData.toBeUsed[gActiveBattler] //Can still use status Z-Moves even during Gravity - they'll just fail after

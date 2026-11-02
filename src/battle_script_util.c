@@ -37,6 +37,7 @@ void __attribute__((long_call)) BattlePutTextOnWindow(const u8* text, u8 windowI
 #include "../include/new/stat_buffs.h"
 #include "../include/new/switching.h"
 #include "../include/new/util.h"
+#include "../include/new/battle_rule_roulette.h"
 
 
 #pragma GCC diagnostic push
@@ -1727,7 +1728,7 @@ void CheckTerrainAndSetVolatileExplosion(void)
         gBattleScripting.bank = holder; //重新绑定特性持有者（攻击者濒死换人后 scripting bank 可能已被改写）
 
     if (gTerrainType != ELECTRIC_TERRAIN
-    && !(gBattleTypeFlags & BATTLE_TYPE_BATTLE_CIRCUS && gBattleCircusFlags & BATTLE_CIRCUS_TERRAIN)) //对战马戏团场地不可被替换
+    && !(gBattleTypeFlags & (BATTLE_TYPE_BATTLE_CIRCUS | BATTLE_TYPE_ROULETTE) && gBattleCircusFlags & BATTLE_CIRCUS_TERRAIN)) //对战马戏团场地不可被替换
     {
         gTerrainType = ELECTRIC_TERRAIN;
         #ifdef INFINITE_TERRAIN

@@ -62,6 +62,7 @@
 #include "../include/new/scrolling_multichoice.h"
 #include "../include/new/Vanilla_functions_battle.h"
 #include "../include/new/wild_encounter.h"
+#include "../include/new/battle_rule_roulette.h"
 #include "../include/random.h"
 /*
 scripting.c
@@ -1154,6 +1155,7 @@ void sp09C_OldManBattleModifier(void)
 	ScriptContext2_Enable();
 	gMain.savedCallback = CB2_ReturnToFieldContinueScriptPlayMapMusic;
 	gBattleTypeFlags = BATTLE_TYPE_OLD_MAN;
+	ClearBattleRuleRoulette();
 	CreateBattleStartTask(8, 0);
 }
 

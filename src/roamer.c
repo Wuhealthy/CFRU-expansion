@@ -17,6 +17,7 @@
 #include "../include/new/util.h"
 #include "../include/new/roamer.h"
 #include "../include/new/wild_encounter.h"
+#include "../include/new/battle_rule_roulette.h"
 /*
 roamer.c
 	handles roaming pokemon and relevant functions/hooks
@@ -379,6 +380,7 @@ void BattleSetup_StartRoamerBattle(void)
 	StopPlayerAvatar();
 	gMain.savedCallback = CB2_EndWildBattle;
 	gBattleTypeFlags = BATTLE_TYPE_ROAMER;
+	ClearBattleRuleRoulette();
 	CreateBattleStartTask(GetWildBattleTransition(), GetMUS_ForBattle());
 	IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
 	IncrementGameStat(GAME_STAT_WILD_BATTLES);
