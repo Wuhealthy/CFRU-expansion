@@ -342,7 +342,7 @@ function evoChainHTML(s) {
     if (e.to == null || !memberSet.has(e.to)) return;
     (EVO_MAIN_SKIP[e.method] ? extraEdges : mainEdges).push({ from: id, e });
   }));
-  // 特殊形态(超级进化/极巨化等)不参与主链层级；进化表 MEGA 边双向冗余，需排除主链节点
+  // 特殊形态(超级进化/超极巨化/觉醒形态等)不参与主链层级; 目标同时是主链节点时按主链处理
   const mainTo = new Set(mainEdges.map(x => x.e.to));
   const extraTo = new Set(extraEdges.map(x => x.e.to));
   for (const t of mainTo) extraTo.delete(t);
@@ -357,42 +357,50 @@ function evoChainHTML(s) {
     mainEdges.filter(x => x.from === id).forEach(x => walk(x.e.to, lv + 1));
   };
   (roots.length ? roots : mainNodes.slice(0, 1)).forEach(r => walk(r, 0));
-  const maxLv = Math.max(0, ...Object.values(level));
-  const node = id => {
+  // 画成树: 每个节点挂在一个来源下 (主链取上一级的来源, 特殊形态取其基础形态), 来源右侧并排
+  // 它的所有走向 (主链进化在前, 超级进化/超极巨化/觉醒形态等在后), 箭头下写方式, 再下一行写条件/道具
+  const inEdge = {}, parentOf = {}, extraKids = [];
+  mainNodes.forEach(id => {
+    if (!level[id]) return;
+    const x = mainEdges.find(x => x.e.to === id && level[x.from] === level[id] - 1) || mainEdges.find(x => x.e.to === id);
+    if (x) { inEdge[id] = x.e; parentOf[id] = x.from; }
+  });
+  extraEdges.forEach(x => {
+    const t = x.e.to;
+    if (extraTo.has(t) && !inEdge[t]) { inEdge[t] = x.e; parentOf[t] = x.from; extraKids.push(t); }
+  });
+  const children = {};
+  mainNodes.filter(id => inEdge[id]).concat(extraKids)
+    .forEach(id => (children[parentOf[id]] = children[parentOf[id]] || []).push(id));
+  // 同一形态可由多个来源变成 (如各种皮卡丘都能超极巨化成同一只): 其余来源也画箭头, 目标只画单个节点不再展开
+  const leaves = {};
+  members.forEach(id => (SPECIES_BY_ID[id].evolutions || []).forEach(e => {
+    const t = e.to;
+    if (t == null || !memberSet.has(t) || !inEdge[t] || parentOf[t] === id) return;
+    const list = leaves[id] = leaves[id] || [];
+    if (!list.some(x => x.to === t)) list.push({ to: t, e });
+  }));
+  const node = (id, ref) => {
     const sp = SPECIES_BY_ID[id];
-    return `<div class="evo-node${id === s.id ? " cur" : ""}" onclick="location.hash='#/p/${id}'">
+    return `<div class="evo-node${id === s.id && !ref ? " cur" : ""}" onclick="location.hash='#/p/${id}'">
       ${spriteCanvas("front", id)}
       <div class="nm">${esc(sp.zh)}</div><div class="no">${fmtDex(sp.dex)}</div></div>`;
   };
-  const arrow = e => `<div class="evo-arrow"><span class="arr">→</span>${esc(e.methodZh)}${e.param ? " " + esc(e.param) : ""}</div>`;
-  let html = "";
-  for (let lv = 0; lv <= maxLv; lv++) {
-    const ids = mainNodes.filter(id => level[id] === lv);
-    if (!ids.length) continue;
-    html += `<div style="display:flex;flex-direction:column;gap:8px">${ids.map(node).join("")}</div>`;
-    if (lv < maxLv) {
-      const next = mainNodes.filter(id => level[id] === lv + 1);
-      const arrs = next.map(id => {
-        const e = mainEdges.find(x => x.e.to === id && level[x.from] === lv);
-        return arrow(e ? e.e : { methodZh: "进化", param: "" });
-      }).join("");
-      html += `<div style="display:flex;flex-direction:column;gap:8px;justify-content:center">${arrs}</div>`;
-    }
-  }
-  // 超级进化/极巨化等附加形态
-  const seenExtra = new Set();
-  const extras = extraEdges
-    .filter(x => extraTo.has(x.e.to) && !seenExtra.has(x.e.to) && seenExtra.add(x.e.to))
-    .map(x => {
-      const sp = SPECIES_BY_ID[x.e.to];
-      return `<div style="display:flex;flex-direction:column;align-items:center;gap:2px">
-        ${node(x.e.to)}
-        <div style="font-size:11px;color:var(--muted);text-align:center;max-width:118px">${esc(x.e.methodZh)}${x.e.param ? "·" + esc(x.e.param) : ""}</div>
-      </div>`;
-    })
-    .join("");
-  if (extras) html += `<div class="evo-extra"><span class="lbl">特殊形态</span>${extras}</div>`;
-  return `<div class="evo-chain">${html}</div>`;
+  const arrow = e => {
+    let label = e.methodZh, sub = e.param;
+    const v = EVO_MAIN_SKIP[e.method] && /^(.*)（(.+)）$/.exec(sub || "");  // 原始回归/究极爆发写在道具名后的括号里
+    if (v) { label = v[2]; sub = v[1]; }
+    return `<div class="evo-arrow"><span class="arr">→</span>${esc(label)}${sub ? `<span class="sub">${esc(sub)}</span>` : ""}</div>`;
+  };
+  const seen = new Set();
+  const branch = id => {
+    seen.add(id);
+    const kids = (children[id] || []).filter(k => !seen.has(k));
+    const rows = kids.map(k => `<div class="evo-row">${arrow(inEdge[k])}${branch(k)}</div>`)
+      .concat((leaves[id] || []).map(x => `<div class="evo-row">${arrow(x.e)}<div class="evo-branch">${node(x.to, true)}</div></div>`));
+    return `<div class="evo-branch">${node(id)}${rows.length ? `<div class="evo-kids">${rows.join("")}</div>` : ""}</div>`;
+  };
+  return `<div class="evo-chain">${mainNodes.filter(id => !inEdge[id]).map(branch).join("")}</div>`;
 }
 
 function moveRow(mid, lv, tmNo) {
