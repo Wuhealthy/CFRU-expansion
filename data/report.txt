@@ -13,6 +13,9 @@
 == 无图鉴描述(0) ==
 []
 
+== 常量式名称残留(0) ==
+
+
 == 多形态编号的默认形态判定(303) ==
 #3 VENUSAUR ← VENUSAUR_MEGA VENUSAUR_GIGA
 #6 CHARIZARD ← CHARIZARD_MEGA_X CHARIZARD_MEGA_Y CHARIZARD_GIGA

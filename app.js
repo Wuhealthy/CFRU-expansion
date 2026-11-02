@@ -173,7 +173,7 @@ function showMovePopup(mid) {
   if (!m) return;
   const t = TYPE_BY_ID[m.type] || { zh: "?", color: "#999" };
   showPopup(`
-    <h2>${esc(m.zh)} <span style="color:var(--muted);font-size:13px">${esc(m.en)}</span></h2>
+    <h2>${esc(m.zh)}</h2>
     <div class="mv-meta">${typePill(t)}${splitBadge(m.split)}
       <span class="pill small" style="background:#5a6b7d">威力 ${m.power || "—"}</span>
       <span class="pill small" style="background:#5a6b7d">命中 ${m.acc || "—"}</span>
@@ -192,7 +192,7 @@ function showAbilityPopup(aid) {
   if (!a) return;
   const users = (ABIL_USERS[aid] || []).map(id => SPECIES_BY_ID[id]);
   showPopup(`
-    <h2>${esc(a.zh)} <span style="color:var(--muted);font-size:13px">${esc(a.en)}</span></h2>
+    <h2>${esc(a.zh)}</h2>
     <div class="mv-desc" style="margin-top:10px">${a.desc ? esc(a.desc) : "<i>暂无描述</i>"}</div>
     <div class="ab-mons">${users.slice(0, 60).map(s => `
       <div class="m" onclick="location.hash='#/p/${s.id}';hidePopup()">
@@ -270,11 +270,10 @@ function matchSpecies(s) {
     return false;
   }
   if (q) {
-    const hit = s.zh.includes(homeState.q)
-      || (s.en && s.en.toLowerCase().includes(q))
+    // 只按名字表里的实际名字(含其中的字母, 不区分大小写)、图鉴编号与形态词搜索, 不匹配内部常量名
+    const hit = s.zh.toLowerCase().includes(q)
       || (s.dex != null && String(s.dex) === q)
-      || String(s.id) === q
-      || (s.tags && s.tags.toLowerCase().includes(q));
+      || (s.tags && s.tags.includes(homeState.q));
     if (!hit) return false;
   }
   if (homeState.types.size) {
@@ -426,7 +425,6 @@ function renderPokemon(id) {
       <div>
         <div class="dex-no">${fmtDex(s.dex)}</div>
         <div class="nm">${esc(s.zh)}</div>
-        <div class="en">${esc(s.en)}</div>
         ${s.formLabel ? `<div style="margin-top:6px"><span class="pill small" style="background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.45)">${esc(s.formLabel)}</span></div>` : ""}
         <div class="types">${typePills(s.types)}</div>
       </div>
@@ -544,7 +542,7 @@ function renderMoveRows() {
   const q = moveFilter.q.toLowerCase();
   const rows = D.moves.filter(m => {
     if (!m.id) return false;
-    if (q && !m.zh.includes(moveFilter.q) && !m.en.toLowerCase().includes(q)) return false;
+    if (q && !m.zh.toLowerCase().includes(q)) return false;
     if (moveFilter.type !== "" && String(m.type) !== moveFilter.type) return false;
     if (moveFilter.split && m.split !== moveFilter.split) return false;
     return true;
@@ -581,7 +579,7 @@ function renderAbilities() {
   renderAbilRows();
 }
 function renderAbilRows() {
-  const list = D.abilities.filter(a => a.id && (!abilFilter || a.zh.includes(abilFilter) || a.en.toLowerCase().includes(abilFilter.toLowerCase())));
+  const list = D.abilities.filter(a => a.id && (!abilFilter || a.zh.toLowerCase().includes(abilFilter.toLowerCase())));
   $("#acnt").textContent = `${list.length} 个特性`;
   $("#arows").innerHTML = list.map(a => `<tr onclick="showAbilityPopup(${a.id})">
       <td class="mv-name">${esc(a.zh)}</td>

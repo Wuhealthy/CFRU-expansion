@@ -135,7 +135,6 @@ a { color: inherit; text-decoration: none; }
 .hero img, .hero canvas { width: 168px; height: 168px; object-fit: contain; filter: drop-shadow(0 6px 8px rgba(0,0,0,.3)); z-index: 1; }
 .hero .dex-no { font-size: 15px; font-weight: 800; opacity: .9; letter-spacing: 1px; }
 .hero .nm { font-size: 32px; font-weight: 900; text-shadow: 0 2px 4px rgba(0,0,0,.3); }
-.hero .en { font-size: 14px; opacity: .85; font-weight: 600; letter-spacing: 1px; }
 .hero .types { display: flex; gap: 8px; margin-top: 8px; }
 .hero .types .pill { font-size: 14px; padding: 4px 16px; }
 
