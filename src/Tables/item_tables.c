@@ -2101,7 +2101,7 @@ const struct Item gItemData[] =
         .secondaryId = 4
 	},
 	{
-		.name = {_N, _e, _t, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("捕网球"),
 		.itemId = ITEM_NET_BALL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -2117,7 +2117,7 @@ const struct Item gItemData[] =
         .secondaryId = 5
 	},
 	{
-		.name = {_D, _i, _v, _e, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("潜水球"),
 		.itemId = ITEM_DIVE_BALL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -2133,7 +2133,7 @@ const struct Item gItemData[] =
         .secondaryId = 6
 	},
 	{
-		.name = {_N, _e, _s, _t, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("巢穴球"),
 		.itemId = ITEM_NEST_BALL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -2149,7 +2149,7 @@ const struct Item gItemData[] =
         .secondaryId = 7
 	},
 	{
-		.name = {_R, _e, _p, _e, _a, _t, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("重复球"),
 		.itemId = ITEM_REPEAT_BALL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -2165,7 +2165,7 @@ const struct Item gItemData[] =
         .secondaryId = 8
 	},
 	{
-		.name = {_T, _i, _m, _e, _r, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("计时球"),
 		.itemId = ITEM_TIMER_BALL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -2181,7 +2181,7 @@ const struct Item gItemData[] =
         .secondaryId = 9
 	},
 	{
-		.name = {_L, _u, _x, _u, _r, _y, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("豪华球"),
 		.itemId = ITEM_LUXURY_BALL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -2197,7 +2197,7 @@ const struct Item gItemData[] =
         .secondaryId = 10
 	},
 	{
-		.name = {_P, _r, _e, _m, _i, _e, _r, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("纪念球"),
 		.itemId = ITEM_PREMIER_BALL,
 		.price = 200,
 		.holdEffect = 0,
@@ -2213,7 +2213,7 @@ const struct Item gItemData[] =
         .secondaryId = 11
 	},
 	{
-		.name = {_P, _o, _t, _i, _o, _n, _END},
+		.name = CN("伤药"),
 		.itemId = ITEM_POTION,
 		.price = 200,
 		.holdEffect = 0,
@@ -2229,7 +2229,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_A, _n, _t, _i, _d, _o, _t, _e, _END},
+		.name = CN("解毒药"),
 		.itemId = ITEM_ANTIDOTE,
 		.price = 200,
 		.holdEffect = 0,
@@ -2245,7 +2245,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _u, _r, _n, _SPACE, _H, _e, _a, _l, _END},
+		.name = CN("灼伤药"),
 		.itemId = ITEM_BURN_HEAL,
 		.price = 200,
 		.holdEffect = 0,
@@ -2261,7 +2261,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_I, _c, _e, _SPACE, _H, _e, _a, _l, _END},
+		.name = CN("解冻药"),
 		.itemId = ITEM_ICE_HEAL,
 		.price = 200,
 		.holdEffect = 0,
@@ -2277,7 +2277,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_A, _w, _a, _k, _e, _n, _i, _n, _g, _END},
+		.name = CN("解眠药"),
 		.itemId = ITEM_AWAKENING,
 		.price = 200,
 		.holdEffect = 0,
@@ -2309,7 +2309,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_F, _u, _l, _l, _SPACE, _R, _e, _s, _t, _o, _r, _e, _END},
+		.name = CN("全复药"),
 		.itemId = ITEM_FULL_RESTORE,
 		.price = 3000,
 		.holdEffect = 0,
@@ -2325,7 +2325,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _x, _SPACE, _P, _o, _t, _i, _o, _n, _END},
+		.name = CN("全满药"),
 		.itemId = ITEM_MAX_POTION,
 		.price = 2500,
 		.holdEffect = 0,
@@ -2341,7 +2341,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_H, _y, _p, _e, _r, _SPACE, _P, _o, _t, _i, _o, _n, _END},
+		.name = CN("厉害伤药"),
 		.itemId = ITEM_HYPER_POTION,
 		.price = 1500,
 		.holdEffect = 0,
@@ -2357,7 +2357,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _u, _p, _e, _r, _SPACE, _P, _o, _t, _i, _o, _n, _END},
+		.name = CN("好伤药"),
 		.itemId = ITEM_SUPER_POTION,
 		.price = 700,
 		.holdEffect = 0,
@@ -2373,7 +2373,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_F, _u, _l, _l, _SPACE, _H, _e, _a, _l, _END},
+		.name = CN("万灵药"),
 		.itemId = ITEM_FULL_HEAL,
 		.price = 400,
 		.holdEffect = 0,
@@ -2389,7 +2389,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _v, _i, _v, _e, _END},
+		.name = CN("活力碎片"),
 		.itemId = ITEM_REVIVE,
 		.price = 2000,
 		.holdEffect = 0,
@@ -2405,7 +2405,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _x, _SPACE, _R, _e, _v, _i, _v, _e, _END},
+		.name = CN("活力块"),
 		.itemId = ITEM_MAX_REVIVE,
 		.price = 4000,
 		.holdEffect = 0,
@@ -2421,7 +2421,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_F, _r, _e, _s, _h, _SPACE, _W, _a, _t, _e, _r, _END},
+		.name = CN("美味之水"),
 		.itemId = ITEM_FRESH_WATER,
 		.price = 200,
 		.holdEffect = 0,
@@ -2437,7 +2437,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _o, _d, _a, _SPACE, _P, _o, _p, _END},
+		.name = CN("劲爽汽水"),
 		.itemId = ITEM_SODA_POP,
 		.price = 300,
 		.holdEffect = 0,
@@ -2453,7 +2453,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _e, _m, _o, _n, _a, _d, _e, _END},
+		.name = CN("果汁牛奶"),
 		.itemId = ITEM_LEMONADE,
 		.price = 350,
 		.holdEffect = 0,
@@ -2469,7 +2469,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _o, _o, _m, _o, _o, _SPACE, _M, _i, _l, _k, _END},
+		.name = CN("哞哞鲜奶"),
 		.itemId = ITEM_MOOMOO_MILK,
 		.price = 600,
 		.holdEffect = 0,
@@ -2485,7 +2485,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_E, _n, _e, _r, _g, _y, _SPACE, _P, _o, _w, _d, _e, _r, _END},
+		.name = CN("元气粉"),
 		.itemId = ITEM_ENERGY_POWDER,
 		.price = 500,
 		.holdEffect = 0,
@@ -2501,7 +2501,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_E, _n, _e, _r, _g, _y, _SPACE, _R, _o, _o, _t, _END},
+		.name = CN("元气根"),
 		.itemId = ITEM_ENERGY_ROOT,
 		.price = 1200,
 		.holdEffect = 0,
@@ -2517,7 +2517,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_H, _e, _a, _l, _SPACE, _P, _o, _w, _d, _e, _r, _END},
+		.name = CN("万能粉"),
 		.itemId = ITEM_HEAL_POWDER,
 		.price = 300,
 		.holdEffect = 0,
@@ -2533,7 +2533,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _v, _i, _v, _a, _l, _SPACE, _H, _e, _r, _b, _END},
+		.name = CN("复活草"),
 		.itemId = ITEM_REVIVAL_HERB,
 		.price = 2800,
 		.holdEffect = 0,
@@ -2549,7 +2549,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_E, _t, _h, _e, _r, _END},
+		.name = CN("PP单项小补剂"),
 		.itemId = ITEM_ETHER,
 		.price = 1200,
 		.holdEffect = 0,
@@ -2565,7 +2565,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _x, _SPACE, _E, _t, _h, _e, _r, _END},
+		.name = CN("PP单项全补剂"),
 		.itemId = ITEM_MAX_ETHER,
 		.price = 2000,
 		.holdEffect = 0,
@@ -2581,7 +2581,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_E, _l, _i, _x, _i, _r, _END},
+		.name = CN("PP多项小补剂"),
 		.itemId = ITEM_ELIXIR,
 		.price = 3000,
 		.holdEffect = 0,
@@ -2597,7 +2597,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _x, _SPACE, _E, _l, _i, _x, _i, _r, _END},
+		.name = CN("PP多项全补剂"),
 		.itemId = ITEM_MAX_ELIXIR,
 		.price = 4500,
 		.holdEffect = 0,
@@ -2613,7 +2613,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _a, _v, _a, _SPACE, _C, _o, _o, _k, _i, _e, _END},
+		.name = CN("釜炎仙贝"),
 		.itemId = ITEM_LAVA_COOKIE,
 		.price = 350,
 		.holdEffect = 0,
@@ -2629,7 +2629,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _l, _u, _e, _SPACE, _F, _l, _u, _t, _e, _END},
+		.name = CN("蓝色玻璃哨"),
 		.itemId = ITEM_BLUE_FLUTE,
 		.price = 100,
 		.holdEffect = 0,
@@ -2645,7 +2645,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_Y, _e, _l, _l, _o, _w, _SPACE, _F, _l, _u, _t, _e, _END},
+		.name = CN("黄色玻璃哨"),
 		.itemId = ITEM_YELLOW_FLUTE,
 		.price = 300,
 		.holdEffect = 0,
@@ -2661,7 +2661,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _d, _SPACE, _F, _l, _u, _t, _e, _END},
+		.name = CN("红色玻璃哨"),
 		.itemId = ITEM_RED_FLUTE,
 		.price = 200,
 		.holdEffect = 0,
@@ -2677,7 +2677,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _l, _a, _c, _k, _SPACE, _F, _l, _u, _t, _e, _END},
+		.name = CN("黑色玻璃哨"),
 		.itemId = ITEM_BLACK_FLUTE,
 		.price = 400,
 		.holdEffect = 0,
@@ -2693,7 +2693,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_W, _h, _i, _t, _e, _SPACE, _F, _l, _u, _t, _e, _END},
+		.name = CN("白色玻璃哨"),
 		.itemId = ITEM_WHITE_FLUTE,
 		.price = 500,
 		.holdEffect = 0,
@@ -2709,7 +2709,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _e, _r, _r, _y, _SPACE, _J, _u, _i, _c, _e, _END},
+		.name = CN("树果汁"),
 		.itemId = ITEM_BERRY_JUICE,
 		.price = 100,
 		.holdEffect = 1,
@@ -2725,7 +2725,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _a, _c, _r, _e, _d, _SPACE, _A, _s, _h, _END},
+		.name = CN("圣灰"),
 		.itemId = ITEM_SACRED_ASH,
 		.price = 200,
 		.holdEffect = 0,
@@ -2741,7 +2741,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _h, _o, _a, _l, _SPACE, _S, _a, _l, _t, _END},
+		.name = CN("浅滩海盐"),
 		.itemId = ITEM_SHOAL_SALT,
 		.price = 20,
 		.holdEffect = 0,
@@ -2757,7 +2757,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _h, _o, _a, _l, _SPACE, _S, _h, _e, _l, _l, _END},
+		.name = CN("浅滩贝壳"),
 		.itemId = ITEM_SHOAL_SHELL,
 		.price = 20,
 		.holdEffect = 0,
@@ -2773,7 +2773,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _d, _SPACE, _S, _h, _a, _r, _d, _END},
+		.name = CN("红色碎片"),
 		.itemId = ITEM_RED_SHARD,
 		.price = 1000,
 		.holdEffect = 0,
@@ -2789,7 +2789,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _l, _u, _e, _SPACE, _S, _h, _a, _r, _d, _END},
+		.name = CN("蓝色碎片"),
 		.itemId = ITEM_BLUE_SHARD,
 		.price = 1000,
 		.holdEffect = 0,
@@ -2805,7 +2805,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_Y, _e, _l, _l, _o, _w, _SPACE, _S, _h, _a, _r, _d, _END},
+		.name = CN("黄色碎片"),
 		.itemId = ITEM_YELLOW_SHARD,
 		.price = 1000,
 		.holdEffect = 0,
@@ -2821,7 +2821,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_G, _r, _e, _e, _n, _SPACE, _S, _h, _a, _r, _d, _END},
+		.name = CN("绿色碎片"),
 		.itemId = ITEM_GREEN_SHARD,
 		.price = 1000,
 		.holdEffect = 0,
@@ -2837,7 +2837,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _a, _g, _e, _C, _a, _n, _d, _y, _B, _a, _r, _END},
+		.name = CN("愤怒馒头"),
 		.itemId = ITEM_RAGE_CANDY_BAR,
 		.price = 350,
 		.holdEffect = 0,
@@ -2853,7 +2853,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_O, _l, _d, _SPACE, _G, _a, _t, _e, _a, _u, _END},
+		.name = CN("森之羊羹"),
 		.itemId = ITEM_OLD_GATEAU,
 		.price = 350,
 		.holdEffect = 0,
@@ -2869,7 +2869,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _a, _s, _t, _e, _l, _i, _a, _c, _o, _n, _e, _END},
+		.name = CN("飞云冰淇淋"),
 		.itemId = ITEM_CASTELIACONE,
 		.price = 350,
 		.holdEffect = 0,
@@ -2885,7 +2885,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _u, _m, _i, _o, _s, _e, _SPACE, _G, _a, _l, _PERIOD, _END},
+		.name = CN("密阿雷格雷饼"),
 		.itemId = ITEM_LUMIOSE_GALETTE,
 		.price = 350,
 		.holdEffect = 0,
@@ -2901,7 +2901,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _h, _a, _l, _o, _u, _r, _S, _a, _b, _l, _e, _END},
+		.name = CN("娑罗沙布蕾"),
 		.itemId = ITEM_SHALOUR_SABLE,
 		.price = 350,
 		.holdEffect = 0,
@@ -2917,7 +2917,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_H, _e, _a, _l, _t, _h, _SPACE, _W, _i, _n, _g, _END},
+		.name = CN("体力之羽"),
 		.itemId = ITEM_HEALTH_WING,
 		.price = 300,
 		.holdEffect = 0,
@@ -2933,7 +2933,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _u, _s, _c, _l, _e, _SPACE, _W, _i, _n, _g, _END},
+		.name = CN("肌力之羽"),
 		.itemId = ITEM_MUSCLE_WING,
 		.price = 300,
 		.holdEffect = 0,
@@ -2949,7 +2949,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _s, _i, _s, _t, _SPACE, _W, _i, _n, _g, _END},
+		.name = CN("抵抗之羽"),
 		.itemId = ITEM_RESIST_WING,
 		.price = 300,
 		.holdEffect = 0,
@@ -2965,7 +2965,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_G, _e, _n, _i, _u, _s, _SPACE, _W, _i, _n, _g, _END},
+		.name = CN("智力之羽"),
 		.itemId = ITEM_GENIUS_WING,
 		.price = 300,
 		.holdEffect = 0,
@@ -2981,7 +2981,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _l, _e, _v, _e, _r, _SPACE, _W, _i, _n, _g, _END},
+		.name = CN("精神之羽"),
 		.itemId = ITEM_CLEVER_WING,
 		.price = 300,
 		.holdEffect = 0,
@@ -2997,7 +2997,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _w, _i, _f, _t, _SPACE, _W, _i, _n, _g, _END},
+		.name = CN("瞬发之羽"),
 		.itemId = ITEM_SWIFT_WING,
 		.price = 300,
 		.holdEffect = 0,
@@ -3013,7 +3013,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_H, _P, _SPACE, _U, _p, _END},
+		.name = CN("HP增强剂"),
 		.itemId = ITEM_HP_UP,
 		.price = 10000,
 		.holdEffect = 0,
@@ -3029,7 +3029,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _r, _o, _t, _e, _i, _n, _END},
+		.name = CN("攻击增强剂"),
 		.itemId = ITEM_PROTEIN,
 		.price = 10000,
 		.holdEffect = 0,
@@ -3045,7 +3045,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_I, _r, _o, _n, _END},
+		.name = CN("防御增强剂"),
 		.itemId = ITEM_IRON,
 		.price = 10000,
 		.holdEffect = 0,
@@ -3061,7 +3061,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _a, _r, _b, _o, _s, _END},
+		.name = CN("速度增强剂"),
 		.itemId = ITEM_CARBOS,
 		.price = 10000,
 		.holdEffect = 0,
@@ -3077,7 +3077,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _a, _l, _c, _i, _u, _m, _END},
+		.name = CN("特攻增强剂"),
 		.itemId = ITEM_CALCIUM,
 		.price = 10000,
 		.holdEffect = 0,
@@ -3093,7 +3093,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _a, _r, _e, _SPACE, _C, _a, _n, _d, _y, _END},
+		.name = CN("神奇糖果"),
 		.itemId = ITEM_RARE_CANDY,
 		.price = 1000,
 		.holdEffect = 0,
@@ -3109,7 +3109,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _P, _SPACE, _U, _p, _END},
+		.name = CN("PP提升剂"),
 		.itemId = ITEM_PP_UP,
 		.price = 10000,
 		.holdEffect = 0,
@@ -3125,7 +3125,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_Z, _i, _n, _c, _END},
+		.name = CN("特防增强剂"),
 		.itemId = ITEM_ZINC,
 		.price = 10000,
 		.holdEffect = 0,
@@ -3141,7 +3141,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _P, _SPACE, _M, _a, _x, _END},
+		.name = CN("PP极限提升剂"),
 		.itemId = ITEM_PP_MAX,
 		.price = 10000,
 		.holdEffect = 0,
@@ -3157,7 +3157,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _x, _SPACE, _C, _a, _n, _d, _y, _END},
+		.name = CN("极巨糖果"),
 		.itemId = ITEM_DYNAMAX_CANDY,
 		.price = 10000,
 		.holdEffect = 0,
@@ -3173,7 +3173,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_G, _u, _a, _r, _d, _SPACE, _S, _p, _e, _c, _END},
+		.name = CN("能力防守"),
 		.itemId = ITEM_GUARD_SPEC,
 		.price = 1500,
 		.holdEffect = 0,
@@ -3189,7 +3189,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_D, _i, _r, _e, _SPACE, _H, _i, _t, _END},
+		.name = CN("要害攻击"),
 		.itemId = ITEM_DIRE_HIT,
 		.price = 1000,
 		.holdEffect = 0,
@@ -3205,7 +3205,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_X, _SPACE, _A, _t, _t, _a, _c, _k, _END},
+		.name = CN("力量强化"),
 		.itemId = ITEM_X_ATTACK,
 		.price = 1000,
 		.holdEffect = 0,
@@ -3221,7 +3221,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_X, _SPACE, _D, _e, _f, _e, _n, _d, _END},
+		.name = CN("防御强化"),
 		.itemId = ITEM_X_DEFEND,
 		.price = 1000,
 		.holdEffect = 0,
@@ -3237,7 +3237,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_X, _SPACE, _S, _p, _e, _e, _d, _END},
+		.name = CN("速度强化"),
 		.itemId = ITEM_X_SPEED,
 		.price = 1000,
 		.holdEffect = 0,
@@ -3253,7 +3253,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_X, _SPACE, _A, _c, _c, _u, _r, _a, _c, _y, _END},
+		.name = CN("命中强化"),
 		.itemId = ITEM_X_ACCURACY,
 		.price = 1000,
 		.holdEffect = 0,
@@ -3269,7 +3269,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_X, _SPACE, _S, _p, _PERIOD, _SPACE, _A, _t, _k, _END},
+		.name = CN("特攻强化"),
 		.itemId = ITEM_X_SPECIAL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -3285,7 +3285,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _o, _k, _eACUTE, _SPACE, _D, _o, _l, _l, _END},
+		.name = CN("皮皮玩偶"),
 		.itemId = ITEM_POKE_DOLL,
 		.price = 300,
 		.holdEffect = 0,
@@ -3301,7 +3301,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_F, _l, _u, _f, _f, _y, _SPACE, _T, _a, _i, _l, _END},
+		.name = CN("向尾喵的尾巴"),
 		.itemId = ITEM_FLUFFY_TAIL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -3317,7 +3317,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _i, _g, _SPACE, _M, _a, _l, _a, _s, _a, _d, _a, _END},
+		.name = CN("大马拉萨达"),
 		.itemId = ITEM_BIG_MALASADA,
 		.price = 350,
 		.holdEffect = 0,
@@ -3333,7 +3333,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _u, _p, _e, _r, _SPACE, _R, _e, _p, _e, _l, _END},
+		.name = CN("白银喷雾"),
 		.itemId = ITEM_SUPER_REPEL,
 		.price = 700,
 		.holdEffect = 0,
@@ -3349,7 +3349,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _x, _SPACE, _R, _e, _p, _e, _l, _END},
+		.name = CN("黄金喷雾"),
 		.itemId = ITEM_MAX_REPEL,
 		.price = 900,
 		.holdEffect = 0,
@@ -3365,7 +3365,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_E, _s, _c, _a, _p, _e, _SPACE, _R, _o, _p, _e, _END},
+		.name = CN("离洞绳"),
 		.itemId = ITEM_ESCAPE_ROPE,
 		.price = 1000,
 		.holdEffect = 0,
@@ -3381,7 +3381,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _p, _e, _l, _END},
+		.name = CN("除虫喷雾"),
 		.itemId = ITEM_REPEL,
 		.price = 400,
 		.holdEffect = 0,
@@ -3397,7 +3397,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _i, _n, _k, _SPACE, _C, _a, _b, _l, _e, _END},
+		.name = CN("联系绳"),
 		.itemId = ITEM_LINK_CABLE,
 		.price = 3000,
 		.holdEffect = 0,
@@ -3413,7 +3413,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _r, _o, _t, _e, _c, _t, _o, _r, _END},
+		.name = CN("护具"),
 		.itemId = ITEM_PROTECTOR,
 		.price = 3000,
 		.holdEffect = 0,
@@ -3429,7 +3429,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_E, _l, _e, _c, _t, _i, _r, _i, _z, _e, _r, _END},
+		.name = CN("电力增幅器"),
 		.itemId = ITEM_ELECTIRIZER,
 		.price = 3000,
 		.holdEffect = 0,
@@ -3445,7 +3445,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _g, _m, _a, _r, _i, _z, _e, _r, _END},
+		.name = CN("熔岩增幅器"),
 		.itemId = ITEM_MAGMARIZER,
 		.price = 3000,
 		.holdEffect = 0,
@@ -3461,7 +3461,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_D, _u, _b, _i, _o, _u, _s, _SPACE, _D, _i, _s, _c, _END},
+		.name = CN("可疑补丁"),
 		.itemId = ITEM_DUBIOUS_DISC,
 		.price = 3000,
 		.holdEffect = 0,
@@ -3477,7 +3477,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _a, _p, _e, _r, _SPACE, _C, _l, _o, _t, _h, _END},
+		.name = CN("灵界之布"),
 		.itemId = ITEM_REAPER_CLOTH,
 		.price = 3000,
 		.holdEffect = 0,
@@ -3493,7 +3493,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _u, _n, _SPACE, _S, _t, _o, _n, _e, _END},
+		.name = CN("日之石"),
 		.itemId = ITEM_SUN_STONE,
 		.price = 3000,
 		.holdEffect = 0,
@@ -3509,7 +3509,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _o, _o, _n, _SPACE, _S, _t, _o, _n, _e, _END},
+		.name = CN("月之石"),
 		.itemId = ITEM_MOON_STONE,
 		.price = 3000,
 		.holdEffect = 0,
@@ -3525,7 +3525,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_F, _i, _r, _e, _SPACE, _S, _t, _o, _n, _e, _END},
+		.name = CN("火之石"),
 		.itemId = ITEM_FIRE_STONE,
 		.price = 3000,
 		.holdEffect = 0,
@@ -3541,7 +3541,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_T, _h, _u, _n, _d, _e, _r, _S, _t, _o, _n, _e, _END},
+		.name = CN("雷之石"),
 		.itemId = ITEM_THUNDER_STONE,
 		.price = 3000,
 		.holdEffect = 0,
@@ -3557,7 +3557,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_W, _a, _t, _e, _r, _SPACE, _S, _t, _o, _n, _e, _END},
+		.name = CN("水之石"),
 		.itemId = ITEM_WATER_STONE,
 		.price = 3000,
 		.holdEffect = 0,
@@ -3573,7 +3573,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _e, _a, _f, _SPACE, _S, _t, _o, _n, _e, _END},
+		.name = CN("叶之石"),
 		.itemId = ITEM_LEAF_STONE,
 		.price = 3000,
 		.holdEffect = 0,
@@ -3589,7 +3589,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _h, _i, _n, _y, _SPACE, _S, _t, _o, _n, _e, _END},
+		.name = CN("光之石"),
 		.itemId = ITEM_SHINY_STONE,
 		.price = 3000,
 		.holdEffect = 0,
@@ -3605,7 +3605,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_D, _u, _s, _k, _SPACE, _S, _t, _o, _n, _e, _END},
+		.name = CN("暗之石"),
 		.itemId = ITEM_DUSK_STONE,
 		.price = 3000,
 		.holdEffect = 0,
@@ -3621,7 +3621,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_D, _a, _w, _n, _SPACE, _S, _t, _o, _n, _e, _END},
+		.name = CN("觉醒之石"),
 		.itemId = ITEM_DAWN_STONE,
 		.price = 3000,
 		.holdEffect = 0,
@@ -3637,7 +3637,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_I, _c, _e, _SPACE, _S, _t, _o, _n, _e, _END},
+		.name = CN("冰之石"),
 		.itemId = ITEM_ICE_STONE,
 		.price = 3000,
 		.holdEffect = 0,
@@ -3653,7 +3653,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_T, _i, _n, _y, _M, _u, _s, _h, _r, _o, _o, _m, _END},
+		.name = CN("小蘑菇"),
 		.itemId = ITEM_TINY_MUSHROOM,
 		.price = 500,
 		.holdEffect = 0,
@@ -3669,7 +3669,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _i, _g, _SPACE, _M, _u, _s, _h, _r, _o, _o, _m, _END},
+		.name = CN("大蘑菇"),
 		.itemId = ITEM_BIG_MUSHROOM,
 		.price = 5000,
 		.holdEffect = 0,
@@ -3685,7 +3685,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _a, _l, _m, _M, _u, _s, _h, _r, _o, _o, _m, _END},
+		.name = CN("芳香蘑菇"),
 		.itemId = ITEM_BALM_MUSHROOM,
 		.price = 15000,
 		.holdEffect = 0,
@@ -3701,7 +3701,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _e, _a, _r, _l, _END},
+		.name = CN("珍珠"),
 		.itemId = ITEM_PEARL,
 		.price = 2000,
 		.holdEffect = 0,
@@ -3717,7 +3717,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _i, _g, _SPACE, _P, _e, _a, _r, _l, _END},
+		.name = CN("大珍珠"),
 		.itemId = ITEM_BIG_PEARL,
 		.price = 8000,
 		.holdEffect = 0,
@@ -3733,7 +3733,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _t, _a, _r, _d, _u, _s, _t, _END},
+		.name = CN("星星沙子"),
 		.itemId = ITEM_STARDUST,
 		.price = 3000,
 		.holdEffect = 0,
@@ -3749,7 +3749,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _t, _a, _r, _SPACE, _P, _i, _e, _c, _e, _END},
+		.name = CN("星星碎片"),
 		.itemId = ITEM_STAR_PIECE,
 		.price = 12000,
 		.holdEffect = 0,
@@ -3765,7 +3765,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_N, _u, _g, _g, _e, _t, _END},
+		.name = CN("金珠"),
 		.itemId = ITEM_NUGGET,
 		.price = 10000,
 		.holdEffect = 0,
@@ -3781,7 +3781,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_H, _e, _a, _r, _t, _SPACE, _S, _c, _a, _l, _e, _END},
+		.name = CN("心之鳞片"),
 		.itemId = ITEM_HEART_SCALE,
 		.price = 100,
 		.holdEffect = 0,
@@ -3797,7 +3797,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _a, _r, _e, _SPACE, _B, _o, _n, _e, _END},
+		.name = CN("贵重骨头"),
 		.itemId = ITEM_RARE_BONE,
 		.price = 5000,
 		.holdEffect = 0,
@@ -3813,7 +3813,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _e, _a, _r, _l, _SPACE, _S, _t, _r, _i, _n, _g, _END},
+		.name = CN("丸子珍珠"),
 		.itemId = ITEM_PEARL_STRING,
 		.price = 20000,
 		.holdEffect = 0,
@@ -3829,7 +3829,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _o, _m, _e, _t, _SPACE, _S, _h, _a, _r, _d, _END},
+		.name = CN("彗星碎片"),
 		.itemId = ITEM_COMET_SHARD,
 		.price = 25000,
 		.holdEffect = 0,
@@ -3845,7 +3845,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _i, _g, _SPACE, _N, _u, _g, _g, _e, _t, _END},
+		.name = CN("巨大金珠"),
 		.itemId = ITEM_BIG_NUGGET,
 		.price = 25000,
 		.holdEffect = 0,
@@ -3861,7 +3861,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_H, _o, _n, _e, _y, _END},
+		.name = CN("甜甜蜜"),
 		.itemId = ITEM_HONEY,
 		.price = 900,
 		.holdEffect = 0,
@@ -3877,7 +3877,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _r, _e, _t, _t, _y, _SPACE, _W, _i, _n, _g, _END},
+		.name = CN("美丽之羽"),
 		.itemId = ITEM_PRETTY_WING,
 		.price = 1000,
 		.holdEffect = 0,
@@ -3893,7 +3893,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_O, _v, _a, _l, _SPACE, _S, _t, _o, _n, _e, _END},
+		.name = CN("浑圆之石"),
 		.itemId = ITEM_OVAL_STONE,
 		.price = 2000,
 		.holdEffect = 0,
@@ -3909,7 +3909,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _a, _z, _o, _r, _SPACE, _C, _l, _a, _w, _END},
+		.name = CN("锐利之爪"),
 		.itemId = ITEM_RAZOR_CLAW,
 		.price = 3000,
 		.holdEffect = ITEM_EFFECT_SCOPE_LENS,
@@ -3925,7 +3925,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _a, _z, _o, _r, _SPACE, _F, _a, _n, _g, _END},
+		.name = CN("锐利之牙"),
 		.itemId = ITEM_RAZOR_FANG,
 		.price = 3000,
 		.holdEffect = ITEM_EFFECT_FLINCH,
@@ -3941,7 +3941,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_O, _r, _a, _n, _g, _e, _SPACE, _M, _a, _i, _l, _END},
+		.name = CN("橙色邮件"),
 		.itemId = ITEM_ORANGE_MAIL,
 		.price = 50,
 		.holdEffect = 0,
@@ -3957,7 +3957,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_H, _a, _r, _b, _o, _r, _SPACE, _M, _a, _i, _l, _END},
+		.name = CN("港口邮件"),
 		.itemId = ITEM_HARBOR_MAIL,
 		.price = 50,
 		.holdEffect = 0,
@@ -3973,7 +3973,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_G, _l, _i, _t, _t, _e, _r, _SPACE, _M, _a, _i, _l, _END},
+		.name = CN("闪亮邮件"),
 		.itemId = ITEM_GLITTER_MAIL,
 		.price = 50,
 		.holdEffect = 0,
@@ -3989,7 +3989,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _e, _c, _h, _SPACE, _M, _a, _i, _l, _END},
+		.name = CN("机械邮件"),
 		.itemId = ITEM_MECH_MAIL,
 		.price = 50,
 		.holdEffect = 0,
@@ -4005,7 +4005,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_W, _o, _o, _d, _SPACE, _M, _a, _i, _l, _END},
+		.name = CN("木纹邮件"),
 		.itemId = ITEM_WOOD_MAIL,
 		.price = 50,
 		.holdEffect = 0,
@@ -4021,7 +4021,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_W, _a, _v, _e, _SPACE, _M, _a, _i, _l, _END},
+		.name = CN("波涛邮件"),
 		.itemId = ITEM_WAVE_MAIL,
 		.price = 50,
 		.holdEffect = 0,
@@ -4037,7 +4037,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _e, _a, _d, _SPACE, _M, _a, _i, _l, _END},
+		.name = CN("珠宝邮件"),
 		.itemId = ITEM_BEAD_MAIL,
 		.price = 50,
 		.holdEffect = 0,
@@ -4053,7 +4053,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _h, _a, _d, _o, _w, _SPACE, _M, _a, _i, _l, _END},
+		.name = CN("影子邮件"),
 		.itemId = ITEM_SHADOW_MAIL,
 		.price = 50,
 		.holdEffect = 0,
@@ -4069,7 +4069,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_T, _r, _o, _p, _i, _c, _SPACE, _M, _a, _i, _l, _END},
+		.name = CN("热带邮件"),
 		.itemId = ITEM_TROPIC_MAIL,
 		.price = 50,
 		.holdEffect = 0,
@@ -4085,7 +4085,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_D, _r, _e, _a, _m, _SPACE, _M, _a, _i, _l, _END},
+		.name = CN("梦境邮件"),
 		.itemId = ITEM_DREAM_MAIL,
 		.price = 50,
 		.holdEffect = 0,
@@ -4101,7 +4101,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_F, _a, _b, _SPACE, _M, _a, _i, _l, _END},
+		.name = CN("奇迹邮件"),
 		.itemId = ITEM_FAB_MAIL,
 		.price = 50,
 		.holdEffect = 0,
@@ -4117,7 +4117,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _t, _r, _o, _SPACE, _M, _a, _i, _l, _END},
+		.name = CN("复古邮件"),
 		.itemId = ITEM_RETRO_MAIL,
 		.price = 50,
 		.holdEffect = 0,
@@ -4133,7 +4133,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _h, _e, _r, _i, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("樱子果"),
 		.itemId = ITEM_CHERI_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_CURE_PAR,
@@ -4149,7 +4149,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _h, _e, _s, _t, _o, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("零余果"),
 		.itemId = ITEM_CHESTO_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_CURE_SLP,
@@ -4165,7 +4165,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _e, _c, _h, _a, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("桃桃果"),
 		.itemId = ITEM_PECHA_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_CURE_PSN,
@@ -4181,7 +4181,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _a, _w, _s, _t, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("莓莓果"),
 		.itemId = ITEM_RAWST_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_CURE_BRN,
@@ -4197,7 +4197,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_A, _s, _p, _e, _a, _r, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("利木果"),
 		.itemId = ITEM_ASPEAR_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_CURE_FRZ,
@@ -4213,7 +4213,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _e, _p, _p, _a, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("苹野果"),
 		.itemId = ITEM_LEPPA_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_RESTORE_PP,
@@ -4229,7 +4229,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_O, _r, _a, _n, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("橙橙果"),
 		.itemId = ITEM_ORAN_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_RESTORE_HP,
@@ -4261,7 +4261,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _u, _m, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("木子果"),
 		.itemId = ITEM_LUM_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_CURE_STATUS,
@@ -4277,7 +4277,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _i, _t, _r, _u, _s, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("文柚果"),
 		.itemId = ITEM_SITRUS_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_RESTORE_HP,
@@ -4293,7 +4293,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_F, _i, _g, _y, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("勿花果"),
 		.itemId = ITEM_FIGY_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_CONFUSE_SPICY,
@@ -4309,7 +4309,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_W, _i, _k, _i, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("异奇果"),
 		.itemId = ITEM_WIKI_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_CONFUSE_DRY,
@@ -4325,7 +4325,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _g, _o, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("芒芒果"),
 		.itemId = ITEM_MAGO_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_CONFUSE_SWEET,
@@ -4341,7 +4341,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_A, _g, _u, _a, _v, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("乐芭果"),
 		.itemId = ITEM_AGUAV_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_CONFUSE_BITTER,
@@ -4357,7 +4357,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_I, _a, _p, _a, _p, _a, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("芭亚果"),
 		.itemId = ITEM_IAPAPA_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_CONFUSE_SOUR,
@@ -4373,7 +4373,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _a, _z, _z, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("蔓莓果"),
 		.itemId = ITEM_RAZZ_BERRY,
 		.price = 500,
 		.holdEffect = 0,
@@ -4389,7 +4389,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _l, _u, _k, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("墨莓果"),
 		.itemId = ITEM_BLUK_BERRY,
 		.price = 500,
 		.holdEffect = 0,
@@ -4405,7 +4405,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_N, _a, _n, _a, _b, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("蕉香果"),
 		.itemId = ITEM_NANAB_BERRY,
 		.price = 500,
 		.holdEffect = 0,
@@ -4421,7 +4421,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_W, _e, _p, _e, _a, _r, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("西梨果"),
 		.itemId = ITEM_WEPEAR_BERRY,
 		.price = 500,
 		.holdEffect = 0,
@@ -4437,7 +4437,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _i, _n, _a, _p, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("凰梨果"),
 		.itemId = ITEM_PINAP_BERRY,
 		.price = 500,
 		.holdEffect = 0,
@@ -4453,7 +4453,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _o, _m, _e, _g, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("榴石果"),
 		.itemId = ITEM_POMEG_BERRY,
 		.price = 20,
 		.holdEffect = 0,
@@ -4469,7 +4469,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_K, _e, _l, _p, _s, _y, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("藻根果"),
 		.itemId = ITEM_KELPSY_BERRY,
 		.price = 20,
 		.holdEffect = 0,
@@ -4485,7 +4485,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_Q, _u, _a, _l, _o, _t, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("比巴果"),
 		.itemId = ITEM_QUALOT_BERRY,
 		.price = 20,
 		.holdEffect = 0,
@@ -4501,7 +4501,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_H, _o, _n, _d, _e, _w, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("哈密果"),
 		.itemId = ITEM_HONDEW_BERRY,
 		.price = 20,
 		.holdEffect = 0,
@@ -4517,7 +4517,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_G, _r, _e, _p, _a, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("萄葡果"),
 		.itemId = ITEM_GREPA_BERRY,
 		.price = 20,
 		.holdEffect = 0,
@@ -4533,7 +4533,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_T, _a, _m, _a, _t, _o, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("茄番果"),
 		.itemId = ITEM_TAMATO_BERRY,
 		.price = 20,
 		.holdEffect = 0,
@@ -4549,7 +4549,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _o, _r, _n, _n, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("玉黍果"),
 		.itemId = ITEM_CORNN_BERRY,
 		.price = 500,
 		.holdEffect = 0,
@@ -4565,7 +4565,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _g, _o, _s, _t, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("岳竹果"),
 		.itemId = ITEM_MAGOST_BERRY,
 		.price = 500,
 		.holdEffect = 0,
@@ -4581,7 +4581,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _a, _b, _u, _t, _a, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("茸丹果"),
 		.itemId = ITEM_RABUTA_BERRY,
 		.price = 500,
 		.holdEffect = 0,
@@ -4597,7 +4597,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_N, _o, _m, _e, _l, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("檬柠果"),
 		.itemId = ITEM_NOMEL_BERRY,
 		.price = 500,
 		.holdEffect = 0,
@@ -4613,7 +4613,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _p, _e, _l, _o, _n, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("刺角果"),
 		.itemId = ITEM_SPELON_BERRY,
 		.price = 500,
 		.holdEffect = 0,
@@ -4629,7 +4629,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _a, _m, _t, _r, _e, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("椰木果"),
 		.itemId = ITEM_PAMTRE_BERRY,
 		.price = 500,
 		.holdEffect = 0,
@@ -4645,7 +4645,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_W, _a, _t, _m, _e, _l, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("瓜西果"),
 		.itemId = ITEM_WATMEL_BERRY,
 		.price = 500,
 		.holdEffect = 0,
@@ -4661,7 +4661,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_D, _u, _r, _i, _n, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("金枕果"),
 		.itemId = ITEM_DURIN_BERRY,
 		.price = 500,
 		.holdEffect = 0,
@@ -4677,7 +4677,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _e, _l, _u, _e, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("靛莓果"),
 		.itemId = ITEM_BELUE_BERRY,
 		.price = 500,
 		.holdEffect = 0,
@@ -4693,7 +4693,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _i, _e, _c, _h, _i, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("枝荔果"),
 		.itemId = ITEM_LIECHI_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_ATTACK_UP,
@@ -4709,7 +4709,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_G, _a, _n, _l, _o, _n, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("龙睛果"),
 		.itemId = ITEM_GANLON_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_DEFENSE_UP,
@@ -4725,7 +4725,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _a, _l, _a, _c, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("沙鳞果"),
 		.itemId = ITEM_SALAC_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_SPEED_UP,
@@ -4741,7 +4741,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _e, _t, _a, _y, _a, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("龙火果"),
 		.itemId = ITEM_PETAYA_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_SP_ATTACK_UP,
@@ -4773,7 +4773,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _a, _n, _s, _a, _t, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("兰萨果"),
 		.itemId = ITEM_LANSAT_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_CRITICAL_UP,
@@ -4789,7 +4789,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _t, _a, _r, _f, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("星桃果"),
 		.itemId = ITEM_STARF_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_RANDOM_STAT_UP,
@@ -4805,7 +4805,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_E, _n, _i, _g, _m, _a, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("谜芝果"),
 		.itemId = ITEM_ENIGMA_BERRY,
 		.price = 30000,
 		.holdEffect = ITEM_EFFECT_ENIGMA_BERRY,
@@ -4821,7 +4821,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _r, _i, _s, _m, _SPACE, _S, _c, _a, _l, _e, _END},
+		.name = CN("美丽鳞片"),
 		.itemId = ITEM_PRISM_SCALE,
 		.price = 3000,
 		.holdEffect = 0,
@@ -4837,7 +4837,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _a, _c, _h, _e, _t, _END},
+		.name = CN("香袋"),
 		.itemId = ITEM_SACHET,
 		.price = 3000,
 		.holdEffect = 0,
@@ -4853,7 +4853,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_W, _h, _i, _p, _SPACE, _D, _r, _e, _a, _m, _END},
+		.name = CN("泡沫黄油"),
 		.itemId = ITEM_WHIPPED_DREAM,
 		.price = 3000,
 		.holdEffect = 0,
@@ -4869,7 +4869,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _r, _i, _g, _h, _t, _P, _o, _w, _d, _e, _r, _END},
+		.name = CN("光粉"),
 		.itemId = ITEM_BRIGHT_POWDER,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_EVASION_UP,
@@ -4885,7 +4885,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_W, _h, _i, _t, _e, _SPACE, _H, _e, _r, _b, _END},
+		.name = CN("白色香草"),
 		.itemId = ITEM_WHITE_HERB,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_RESTORE_STATS,
@@ -4901,7 +4901,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _c, _h, _o, _SPACE, _B, _r, _a, _c, _e, _END},
+		.name = CN("强制锻炼器"),
 		.itemId = ITEM_MACHO_BRACE,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_MACHO_BRACE,
@@ -4917,7 +4917,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_E, _x, _p, _PERIOD, _SPACE, _S, _h, _a, _r, _e, _END},
+		.name = CN("学习装置"),
 		.itemId = ITEM_EXP_SHARE,
 		.price = 0,
 		.holdEffect = 0,
@@ -4933,7 +4933,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_Q, _u, _i, _c, _k, _SPACE, _C, _l, _a, _w, _END},
+		.name = CN("先制之爪"),
 		.itemId = ITEM_QUICK_CLAW,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_QUICK_CLAW,
@@ -4949,7 +4949,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _o, _o, _t, _h, _e, _SPACE, _B, _e, _l, _l, _END},
+		.name = CN("安抚之铃"),
 		.itemId = ITEM_SOOTHE_BELL,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_HAPPINESS_UP,
@@ -4965,7 +4965,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _e, _n, _t, _a, _l, _SPACE, _H, _e, _r, _b, _END},
+		.name = CN("心灵香草"),
 		.itemId = ITEM_MENTAL_HERB,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_CURE_ATTRACT,
@@ -4981,7 +4981,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _h, _o, _i, _c, _e, _SPACE, _B, _a, _n, _d, _END},
+		.name = CN("讲究头带"),
 		.itemId = ITEM_CHOICE_BAND,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_CHOICE_BAND,
@@ -4997,7 +4997,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_K, _i, _n, _g, _APOSTROPHE, _s, _SPACE, _R, _o, _c, _k, _END},
+		.name = CN("王者之证"),
 		.itemId = ITEM_KINGS_ROCK,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_FLINCH,
@@ -5013,7 +5013,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _i, _l, _v, _e, _r, _P, _o, _w, _d, _e, _r, _END},
+		.name = CN("银粉"),
 		.itemId = ITEM_SILVER_POWDER,
 		.price = 3000,
 		.holdEffect = ITEM_EFFECT_BUG_POWER,
@@ -5029,7 +5029,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_A, _m, _u, _l, _e, _t, _SPACE, _C, _o, _i, _n, _END},
+		.name = CN("护符金币"),
 		.itemId = ITEM_AMULET_COIN,
 		.price = 10000,
 		.holdEffect = ITEM_EFFECT_DOUBLE_PRIZE,
@@ -5045,7 +5045,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _l, _e, _a, _n, _s, _e, _SPACE, _T, _a, _g, _END},
+		.name = CN("洁净之符"),
 		.itemId = ITEM_CLEANSE_TAG,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_REPEL,
@@ -5061,7 +5061,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _o, _u, _l, _SPACE, _D, _e, _w, _END},
+		.name = CN("心之水滴"),
 		.itemId = ITEM_SOUL_DEW,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_SOUL_DEW,
@@ -5077,7 +5077,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_D, _e, _e, _p, _S, _e, _a, _T, _o, _o, _t, _h, _END},
+		.name = CN("深海之牙"),
 		.itemId = ITEM_DEEP_SEA_TOOTH,
 		.price = 3000,
 		.holdEffect = ITEM_EFFECT_DEEP_SEA_TOOTH,
@@ -5093,7 +5093,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_D, _e, _e, _p, _S, _e, _a, _S, _c, _a, _l, _e, _END},
+		.name = CN("深海鳞片"),
 		.itemId = ITEM_DEEP_SEA_SCALE,
 		.price = 3000,
 		.holdEffect = ITEM_EFFECT_DEEP_SEA_SCALE,
@@ -5109,7 +5109,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _m, _o, _k, _e, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("烟雾球"),
 		.itemId = ITEM_SMOKE_BALL,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_CAN_ALWAYS_RUN,
@@ -5125,7 +5125,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_E, _v, _e, _r, _s, _t, _o, _n, _e, _END},
+		.name = CN("不变之石"),
 		.itemId = ITEM_EVERSTONE,
 		.price = 3000,
 		.holdEffect = ITEM_EFFECT_PREVENT_EVOLVE,
@@ -5141,7 +5141,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_F, _o, _c, _u, _s, _SPACE, _B, _a, _n, _d, _END},
+		.name = CN("气势头带"),
 		.itemId = ITEM_FOCUS_BAND,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_FOCUS_BAND,
@@ -5157,7 +5157,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _u, _c, _k, _y, _SPACE, _E, _g, _g, _END},
+		.name = CN("幸运蛋"),
 		.itemId = ITEM_LUCKY_EGG,
 		.price = 10000,
 		.holdEffect = ITEM_EFFECT_LUCKY_EGG,
@@ -5173,7 +5173,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _c, _o, _p, _e, _SPACE, _L, _e, _n, _s, _END},
+		.name = CN("焦点镜"),
 		.itemId = ITEM_SCOPE_LENS,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_SCOPE_LENS,
@@ -5189,7 +5189,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _e, _t, _a, _l, _SPACE, _C, _o, _a, _t, _END},
+		.name = CN("金属膜"),
 		.itemId = ITEM_METAL_COAT,
 		.price = 3000,
 		.holdEffect = ITEM_EFFECT_STEEL_POWER,
@@ -5205,7 +5205,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _e, _f, _t, _o, _v, _e, _r, _s, _END},
+		.name = CN("吃剩的东西"),
 		.itemId = ITEM_LEFTOVERS,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_LEFTOVERS,
@@ -5221,7 +5221,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_D, _r, _a, _g, _o, _n, _SPACE, _S, _c, _a, _l, _e, _END},
+		.name = CN("龙之鳞片"),
 		.itemId = ITEM_DRAGON_SCALE,
 		.price = 3000,
 		.holdEffect = ITEM_EFFECT_DRAGON_SCALE,
@@ -5237,7 +5237,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _i, _g, _h, _t, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("电气球"),
 		.itemId = ITEM_LIGHT_BALL,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_LIGHT_BALL,
@@ -5253,7 +5253,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _o, _f, _t, _SPACE, _S, _a, _n, _d, _END},
+		.name = CN("柔软沙子"),
 		.itemId = ITEM_SOFT_SAND,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_GROUND_POWER,
@@ -5269,7 +5269,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_H, _a, _r, _d, _SPACE, _S, _t, _o, _n, _e, _END},
+		.name = CN("硬石头"),
 		.itemId = ITEM_HARD_STONE,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_ROCK_POWER,
@@ -5285,7 +5285,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _i, _r, _a, _c, _l, _e, _SPACE, _S, _e, _e, _d, _END},
+		.name = CN("奇迹种子"),
 		.itemId = ITEM_MIRACLE_SEED,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_GRASS_POWER,
@@ -5301,7 +5301,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _l, _a, _c, _k, _G, _l, _a, _s, _s, _e, _s, _END},
+		.name = CN("黑色眼镜"),
 		.itemId = ITEM_BLACK_GLASSES,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_DARK_POWER,
@@ -5317,7 +5317,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _l, _a, _c, _k, _SPACE, _B, _e, _l, _t, _END},
+		.name = CN("黑带"),
 		.itemId = ITEM_BLACK_BELT,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_FIGHTING_POWER,
@@ -5333,7 +5333,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _g, _n, _e, _t, _END},
+		.name = CN("磁铁"),
 		.itemId = ITEM_MAGNET,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_ELECTRIC_POWER,
@@ -5349,7 +5349,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _y, _s, _t, _i, _c, _SPACE, _W, _a, _t, _e, _r, _END},
+		.name = CN("神秘水滴"),
 		.itemId = ITEM_MYSTIC_WATER,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_WATER_POWER,
@@ -5365,7 +5365,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _h, _a, _r, _p, _SPACE, _B, _e, _a, _k, _END},
+		.name = CN("锐利鸟嘴"),
 		.itemId = ITEM_SHARP_BEAK,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_FLYING_POWER,
@@ -5381,7 +5381,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _o, _i, _s, _o, _n, _SPACE, _B, _a, _r, _b, _END},
+		.name = CN("毒针"),
 		.itemId = ITEM_POISON_BARB,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_POISON_POWER,
@@ -5397,7 +5397,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_N, _e, _v, _e, _r, _m, _e, _l, _t, _i, _c, _e, _END},
+		.name = CN("不融冰"),
 		.itemId = ITEM_NEVER_MELT_ICE,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_ICE_POWER,
@@ -5413,7 +5413,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _p, _e, _l, _l, _SPACE, _T, _a, _g, _END},
+		.name = CN("诅咒之符"),
 		.itemId = ITEM_SPELL_TAG,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_GHOST_POWER,
@@ -5429,7 +5429,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_T, _w, _i, _s, _t, _e, _d, _S, _p, _o, _o, _n, _END},
+		.name = CN("弯曲的汤匙"),
 		.itemId = ITEM_TWISTED_SPOON,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_PSYCHIC_POWER,
@@ -5445,7 +5445,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _h, _a, _r, _c, _o, _a, _l, _END},
+		.name = CN("木炭"),
 		.itemId = ITEM_CHARCOAL,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_FIRE_POWER,
@@ -5461,7 +5461,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_D, _r, _a, _g, _o, _n, _SPACE, _F, _a, _n, _g, _END},
+		.name = CN("龙之牙"),
 		.itemId = ITEM_DRAGON_FANG,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_DRAGON_POWER,
@@ -5477,7 +5477,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _i, _l, _k, _SPACE, _S, _c, _a, _r, _f, _END},
+		.name = CN("丝绸围巾"),
 		.itemId = ITEM_SILK_SCARF,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_NORMAL_POWER,
@@ -5493,7 +5493,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_U, _p, _g, _r, _a, _d, _e, _END},
+		.name = CN("升级数据"),
 		.itemId = ITEM_UP_GRADE,
 		.price = 3000,
 		.holdEffect = ITEM_EFFECT_UP_GRADE,
@@ -5509,7 +5509,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _h, _e, _l, _l, _SPACE, _B, _e, _l, _l, _END},
+		.name = CN("贝壳之铃"),
 		.itemId = ITEM_SHELL_BELL,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_SHELL_BELL,
@@ -5525,7 +5525,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _e, _a, _SPACE, _I, _n, _c, _e, _n, _s, _e, _END},
+		.name = CN("海潮薰香"),
 		.itemId = ITEM_SEA_INCENSE,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_WATER_POWER,
@@ -5541,7 +5541,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _a, _x, _SPACE, _I, _n, _c, _e, _n, _s, _e, _END},
+		.name = CN("悠闲薰香"),
 		.itemId = ITEM_LAX_INCENSE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_EVASION_UP,
@@ -5557,7 +5557,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _u, _c, _k, _y, _SPACE, _P, _u, _n, _c, _h, _END},
+		.name = CN("吉利拳"),
 		.itemId = ITEM_LUCKY_PUNCH,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_LUCKY_PUNCH,
@@ -5573,7 +5573,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _e, _t, _a, _l, _SPACE, _P, _o, _w, _d, _e, _r, _END},
+		.name = CN("金属粉"),
 		.itemId = ITEM_METAL_POWDER,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_METAL_POWDER,
@@ -5589,7 +5589,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_T, _h, _i, _c, _k, _SPACE, _C, _l, _u, _b, _END},
+		.name = CN("粗骨头"),
 		.itemId = ITEM_THICK_CLUB,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_THICK_CLUB,
@@ -5605,7 +5605,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _e, _e, _k, _END},
+		.name = CN("大葱"),
 		.itemId = ITEM_LEEK,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_STICK,
@@ -5621,7 +5621,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _t, _r, _a, _w, _PERIOD, _SPACE, _S, _w, _e, _e, _t, _END},
+		.name = CN("草莓糖饰"),
 		.itemId = ITEM_STRAWBERRY_SWEET,
 		.price = 3000,
 		.holdEffect = 0,
@@ -5637,7 +5637,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _e, _r, _r, _y, _SPACE, _S, _w, _e, _e, _t, _END},
+		.name = CN("野莓糖饰"),
 		.itemId = ITEM_BERRY_SWEET,
 		.price = 3000,
 		.holdEffect = 0,
@@ -5653,7 +5653,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _o, _v, _e, _SPACE, _S, _w, _e, _e, _t, _END},
+		.name = CN("爱心糖饰"),
 		.itemId = ITEM_LOVE_SWEET,
 		.price = 3000,
 		.holdEffect = 0,
@@ -5669,7 +5669,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _l, _o, _v, _e, _r, _SPACE, _S, _w, _e, _e, _t, _END},
+		.name = CN("幸运草糖饰"),
 		.itemId = ITEM_CLOVER_SWEET,
 		.price = 3000,
 		.holdEffect = 0,
@@ -5685,7 +5685,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_F, _l, _o, _w, _e, _r, _SPACE, _S, _w, _e, _e, _t, _END},
+		.name = CN("花朵糖饰"),
 		.itemId = ITEM_FLOWER_SWEET,
 		.price = 3000,
 		.holdEffect = 0,
@@ -5701,7 +5701,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _i, _b, _b, _o, _n, _SPACE, _S, _w, _e, _e, _t, _END},
+		.name = CN("蝴蝶结糖饰"),
 		.itemId = ITEM_RIBBON_SWEET,
 		.price = 3000,
 		.holdEffect = 0,
@@ -5717,7 +5717,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _t, _a, _r, _SPACE, _S, _w, _e, _e, _t, _END},
+		.name = CN("星星糖饰"),
 		.itemId = ITEM_STAR_SWEET,
 		.price = 3000,
 		.holdEffect = 0,
@@ -5733,7 +5733,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _w, _e, _e, _t, _SPACE, _A, _p, _p, _l, _e, _END},
+		.name = CN("甜甜苹果"),
 		.itemId = ITEM_SWEET_APPLE,
 		.price = 3000,
 		.holdEffect = 0,
@@ -5749,7 +5749,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_T, _a, _r, _t, _SPACE, _A, _p, _p, _l, _e, _END},
+		.name = CN("酸酸苹果"),
 		.itemId = ITEM_TART_APPLE,
 		.price = 3000,
 		.holdEffect = 0,
@@ -5765,7 +5765,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _r, _a, _c, _k, _e, _d, _SPACE, _P, _o, _t, _END},
+		.name = CN("破裂的茶壶"),
 		.itemId = ITEM_CRACKED_POT,
 		.price = 3000,
 		.holdEffect = 0,
@@ -5781,7 +5781,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _h, _i, _p, _p, _e, _d, _SPACE, _P, _o, _t, _END},
+		.name = CN("缺损的茶壶"),
 		.itemId = ITEM_CHIPPED_POT,
 		.price = 3000,
 		.holdEffect = 0,
@@ -5797,7 +5797,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_G, _a, _l, _a, _r, _SPACE, _C, _u, _f, _f, _END},
+		.name = CN("伽勒豆蔻手环"),
 		.itemId = ITEM_GALARICA_CUFF,
 		.price = 3000,
 		.holdEffect = 0,
@@ -5813,7 +5813,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_G, _a, _l, _a, _r, _SPACE, _W, _r, _e, _a, _t, _h, _END},
+		.name = CN("伽勒豆蔻花圈"),
 		.itemId = ITEM_GALARICA_WREATH,
 		.price = 3000,
 		.holdEffect = 0,
@@ -5829,7 +5829,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _h, _e, _r, _i, _s, _h, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("贵重球"),
 		.itemId = ITEM_CHERISH_BALL,
 		.price = 0,
 		.holdEffect = 0,
@@ -5845,7 +5845,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_D, _u, _s, _k, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("黑暗球"),
 		.itemId = ITEM_DUSK_BALL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -5861,7 +5861,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_H, _e, _a, _l, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("治愈球"),
 		.itemId = ITEM_HEAL_BALL,
 		.price = 300,
 		.holdEffect = 0,
@@ -5877,7 +5877,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_Q, _u, _i, _c, _k, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("先机球"),
 		.itemId = ITEM_QUICK_BALL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -5893,7 +5893,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_F, _a, _s, _t, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("速度球"),
 		.itemId = ITEM_FAST_BALL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -5909,7 +5909,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _e, _v, _e, _l, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("等级球"),
 		.itemId = ITEM_LEVEL_BALL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -5925,7 +5925,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _u, _r, _e, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("诱饵球"),
 		.itemId = ITEM_LURE_BALL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -5941,7 +5941,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_H, _e, _a, _v, _y, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("沉重球"),
 		.itemId = ITEM_HEAVY_BALL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -5957,7 +5957,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _o, _v, _e, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("甜蜜球"),
 		.itemId = ITEM_LOVE_BALL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -5973,7 +5973,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_F, _r, _i, _e, _n, _d, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("友友球"),
 		.itemId = ITEM_FRIEND_BALL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -5989,7 +5989,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _o, _o, _n, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("月亮球"),
 		.itemId = ITEM_MOON_BALL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -6005,7 +6005,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _p, _o, _r, _t, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("竞赛球"),
 		.itemId = ITEM_SPORT_BALL,
 		.price = 0,
 		.holdEffect = 0,
@@ -6021,7 +6021,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _e, _a, _s, _t, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("究极球"),
 		.itemId = ITEM_BEAST_BALL,
 		.price = 2000,
 		.holdEffect = 0,
@@ -6037,7 +6037,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_D, _r, _e, _a, _m, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("梦境球"),
 		.itemId = ITEM_DREAM_BALL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -6053,7 +6053,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _a, _r, _k, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("公园球"),
 		.itemId = ITEM_PARK_BALL,
 		.price = 1000,
 		.holdEffect = 0,
@@ -6069,7 +6069,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _d, _SPACE, _S, _c, _a, _r, _f, _END},
+		.name = CN("红色头巾"),
 		.itemId = ITEM_RED_SCARF,
 		.price = 100,
 		.holdEffect = 0,
@@ -6085,7 +6085,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _l, _u, _e, _SPACE, _S, _c, _a, _r, _f, _END},
+		.name = CN("蓝色头巾"),
 		.itemId = ITEM_BLUE_SCARF,
 		.price = 100,
 		.holdEffect = 0,
@@ -6101,7 +6101,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_P, _i, _n, _k, _SPACE, _S, _c, _a, _r, _f, _END},
+		.name = CN("粉红头巾"),
 		.itemId = ITEM_PINK_SCARF,
 		.price = 100,
 		.holdEffect = 0,
@@ -6117,7 +6117,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_G, _r, _e, _e, _n, _SPACE, _S, _c, _a, _r, _f, _END},
+		.name = CN("绿色头巾"),
 		.itemId = ITEM_GREEN_SCARF,
 		.price = 100,
 		.holdEffect = 0,
@@ -6133,7 +6133,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_Y, _e, _l, _l, _o, _w, _SPACE, _S, _c, _a, _r, _f, _END},
+		.name = CN("黄色头巾"),
 		.itemId = ITEM_YELLOW_SCARF,
 		.price = 100,
 		.holdEffect = 0,
@@ -6149,7 +6149,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _c, _h, _SPACE, _B, _i, _k, _e, _END},
+		.name = CN("音速自行车"),
 		.itemId = ITEM_MACH_BIKE,
 		.price = 0,
 		.holdEffect = 0,
@@ -6165,7 +6165,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _o, _i, _n, _SPACE, _C, _a, _s, _e, _END},
+		.name = CN("代币盒"),
 		.itemId = ITEM_COIN_CASE,
 		.price = 0,
 		.holdEffect = 0,
@@ -6181,7 +6181,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_I, _t, _e, _m, _f, _i, _n, _d, _e, _r, _END},
+		.name = CN("探宝器"),
 		.itemId = ITEM_ITEMFINDER,
 		.price = 0,
 		.holdEffect = 0,
@@ -6197,7 +6197,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_O, _l, _d, _SPACE, _R, _o, _d, _END},
+		.name = CN("破旧钓竿"),
 		.itemId = ITEM_OLD_ROD,
 		.price = 0,
 		.holdEffect = 0,
@@ -6213,7 +6213,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_G, _o, _o, _d, _SPACE, _R, _o, _d, _END},
+		.name = CN("好钓竿"),
 		.itemId = ITEM_GOOD_ROD,
 		.price = 0,
 		.holdEffect = 0,
@@ -6229,7 +6229,7 @@ const struct Item gItemData[] =
         .secondaryId = 1
 	},
 	{
-		.name = {_S, _u, _p, _e, _r, _SPACE, _R, _o, _d, _END},
+		.name = CN("厉害钓竿"),
 		.itemId = ITEM_SUPER_ROD,
 		.price = 0,
 		.holdEffect = 0,
@@ -6245,7 +6245,7 @@ const struct Item gItemData[] =
         .secondaryId = 2
 	},
 	{
-		.name = {_S, _PERIOD, _S, _PERIOD, _SPACE, _T, _i, _c, _k, _e, _t, _END},
+		.name = CN("船票"),
 		.itemId = ITEM_SS_TICKET,
 		.price = 0,
 		.holdEffect = 0,
@@ -6261,7 +6261,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _o, _n, _t, _e, _s, _t, _SPACE, _P, _a, _s, _s, _END},
+		.name = CN("华丽赛通行证"),
 		.itemId = ITEM_CONTEST_PASS,
 		.price = 0,
 		.holdEffect = 0,
@@ -6293,7 +6293,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_W, _a, _i, _l, _m, _e, _r, _SPACE, _P, _a, _i, _l, _END},
+		.name = CN("吼吼鲸喷壶"),
 		.itemId = ITEM_WAILMER_PAIL,
 		.price = 0,
 		.holdEffect = 0,
@@ -6309,7 +6309,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_D, _e, _v, _o, _n, _SPACE, _G, _o, _o, _d, _s, _END},
+		.name = CN("得文的物品"),
 		.itemId = ITEM_DEVON_GOODS,
 		.price = 0,
 		.holdEffect = 0,
@@ -6325,7 +6325,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _o, _o, _t, _SPACE, _S, _a, _c, _k, _END},
+		.name = CN("集灰袋"),
 		.itemId = ITEM_SOOT_SACK,
 		.price = 0,
 		.holdEffect = 0,
@@ -6341,7 +6341,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _a, _s, _e, _m, _e, _n, _t, _SPACE, _K, _e, _y, _END},
+		.name = CN("地下钥匙"),
 		.itemId = ITEM_BASEMENT_KEY,
 		.price = 0,
 		.holdEffect = 0,
@@ -6357,7 +6357,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_A, _c, _r, _o, _SPACE, _B, _i, _k, _e, _END},
+		.name = CN("越野自行车"),
 		.itemId = ITEM_ACRO_BIKE,
 		.price = 0,
 		.holdEffect = 0,
@@ -6373,7 +6373,7 @@ const struct Item gItemData[] =
         .secondaryId = 1
 	},
 	{
-		.name = {_P, _o, _k, _e, _b, _l, _o, _c, _k, _SPACE, _C, _a, _s, _END},
+		.name = CN("能量方块盒"),
 		.itemId = ITEM_POKEBLOCK_CASE,
 		.price = 0,
 		.holdEffect = 0,
@@ -6389,7 +6389,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_L, _e, _t, _t, _e, _r, _END},
+		.name = CN("给大吾的信"),
 		.itemId = ITEM_LETTER,
 		.price = 0,
 		.holdEffect = 0,
@@ -6405,7 +6405,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_E, _o, _n, _SPACE, _T, _i, _c, _k, _e, _t, _END},
+		.name = CN("无限船票"),
 		.itemId = ITEM_EON_TICKET,
 		.price = 0,
 		.holdEffect = 0,
@@ -6421,7 +6421,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _d, _SPACE, _O, _r, _b, _END},
+		.name = CN("朱红色宝珠"),
 		.itemId = ITEM_RED_ORB,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PRIMAL_ORB,
@@ -6437,7 +6437,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_B, _l, _u, _e, _SPACE, _O, _r, _b, _END},
+		.name = CN("靛蓝色宝珠"),
 		.itemId = ITEM_BLUE_ORB,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PRIMAL_ORB,
@@ -6453,7 +6453,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _c, _a, _n, _n, _e, _r, _END},
+		.name = CN("探测器"),
 		.itemId = ITEM_SCANNER,
 		.price = 0,
 		.holdEffect = 0,
@@ -6469,7 +6469,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_G, _o, _HYPHEN, _G, _o, _g, _g, _l, _e, _s, _END},
+		.name = CN("Go-Go护目镜"),
 		.itemId = ITEM_GO_GOGGLES,
 		.price = 0,
 		.holdEffect = 0,
@@ -6485,7 +6485,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_M, _e, _t, _e, _o, _r, _i, _t, _e, _END},
+		.name = CN("陨石"),
 		.itemId = ITEM_METEORITE,
 		.price = 0,
 		.holdEffect = 0,
@@ -6517,7 +6517,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _M, _PERIOD, _SPACE, _2, _SPACE, _K, _e, _y, _END},
+		.name = CN("2号客房钥匙"),
 		.itemId = ITEM_ROOM_2_KEY,
 		.price = 0,
 		.holdEffect = 0,
@@ -6533,7 +6533,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _M, _PERIOD, _SPACE, _4, _SPACE, _K, _e, _y, _END},
+		.name = CN("4号客房钥匙"),
 		.itemId = ITEM_ROOM_4_KEY,
 		.price = 0,
 		.holdEffect = 0,
@@ -6549,7 +6549,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _M, _PERIOD, _SPACE, _6, _SPACE, _K, _e, _y, _END},
+		.name = CN("6号客房钥匙"),
 		.itemId = ITEM_ROOM_6_KEY,
 		.price = 0,
 		.holdEffect = 0,
@@ -6565,7 +6565,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_S, _t, _o, _r, _a, _g, _e, _SPACE, _K, _e, _y, _END},
+		.name = CN("仓库钥匙"),
 		.itemId = ITEM_STORAGE_KEY,
 		.price = 0,
 		.holdEffect = 0,
@@ -6581,7 +6581,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_R, _o, _o, _t, _SPACE, _F, _o, _s, _s, _i, _l, _END},
+		.name = CN("根状化石"),
 		.itemId = ITEM_ROOT_FOSSIL,
 		.price = 7000,
 		.holdEffect = 0,
@@ -6597,7 +6597,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_C, _l, _a, _w, _SPACE, _F, _o, _s, _s, _i, _l, _END},
+		.name = CN("爪子化石"),
 		.itemId = ITEM_CLAW_FOSSIL,
 		.price = 7000,
 		.holdEffect = 0,
@@ -6613,7 +6613,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_D, _e, _v, _o, _n, _SPACE, _S, _c, _o, _p, _e, _END},
+		.name = CN("得文侦测镜"),
 		.itemId = ITEM_DEVON_SCOPE,
 		.price = 0,
 		.holdEffect = 0,
@@ -7557,7 +7557,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _y, _n, _a, _m, _a, _x, _SPACE, _B, _a, _n, _d, _END},
+		.name = CN("极巨腕带"),
 		.itemId = ITEM_DYNAMAX_BAND,
 		.price = 0,
 		.holdEffect = 0,
@@ -7573,7 +7573,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _o, _l, _d, _SPACE, _T, _e, _e, _t, _h, _END},
+		.name = CN("金假牙"),
 		.itemId = ITEM_GOLD_TEETH,
 		.price = 0,
 		.holdEffect = 0,
@@ -7589,7 +7589,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_O, _a, _k, _APOSTROPHE, _s, _SPACE, _P, _a, _r, _c, _e, _l, _END},
+		.name = CN("大木的信"),
 		.itemId = ITEM_OAKS_PARCEL,
 		.price = 0,
 		.holdEffect = 0,
@@ -7605,7 +7605,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _o, _k, _eACUTE, _SPACE, _F, _l, _u, _t, _e, _END},
+		.name = CN("宝可梦之笛"),
 		.itemId = ITEM_POKE_FLUTE,
 		.price = 0,
 		.holdEffect = 0,
@@ -7621,7 +7621,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _e, _c, _r, _e, _t, _SPACE, _K, _e, _y, _END},
+		.name = CN("秘密钥匙"),
 		.itemId = ITEM_SECRET_KEY,
 		.price = 0,
 		.holdEffect = 0,
@@ -7637,7 +7637,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _i, _k, _e, _SPACE, _V, _o, _u, _c, _h, _e, _r, _END},
+		.name = CN("兑换券"),
 		.itemId = ITEM_BIKE_VOUCHER,
 		.price = 0,
 		.holdEffect = 0,
@@ -7653,7 +7653,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _e, _g, _a, _SPACE, _R, _i, _n, _g, _END},
+		.name = CN("超级环"),
 		.itemId = ITEM_MEGA_RING,
 		.price = 5000,
 		.holdEffect = 0,
@@ -7669,7 +7669,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_O, _l, _d, _SPACE, _A, _m, _b, _e, _r, _END},
+		.name = CN("秘密琥珀"),
 		.itemId = ITEM_OLD_AMBER,
 		.price = 7000,
 		.holdEffect = 0,
@@ -7685,7 +7685,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_C, _a, _r, _d, _SPACE, _K, _e, _y, _END},
+		.name = CN("钥匙卡"),
 		.itemId = ITEM_CARD_KEY,
 		.price = 0,
 		.holdEffect = 0,
@@ -7701,7 +7701,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_L, _i, _f, _t, _SPACE, _K, _e, _y, _END},
+		.name = CN("电梯钥匙"),
 		.itemId = ITEM_LIFT_KEY,
 		.price = 0,
 		.holdEffect = 0,
@@ -7717,7 +7717,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_H, _e, _l, _i, _x, _SPACE, _F, _o, _s, _s, _i, _l, _END},
+		.name = CN("贝壳化石"),
 		.itemId = ITEM_HELIX_FOSSIL,
 		.price = 7000,
 		.holdEffect = 0,
@@ -7733,7 +7733,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _o, _m, _e, _SPACE, _F, _o, _s, _s, _i, _l, _END},
+		.name = CN("甲壳化石"),
 		.itemId = ITEM_DOME_FOSSIL,
 		.price = 7000,
 		.holdEffect = 0,
@@ -7749,7 +7749,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _i, _l, _p, _h, _SPACE, _S, _c, _o, _p, _e, _END},
+		.name = CN("西尔佛检视镜"),
 		.itemId = ITEM_SILPH_SCOPE,
 		.price = 0,
 		.holdEffect = 0,
@@ -7765,7 +7765,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _i, _c, _y, _c, _l, _e, _END},
+		.name = CN("自行车"),
 		.itemId = ITEM_BICYCLE,
 		.price = 0,
 		.holdEffect = 0,
@@ -7781,7 +7781,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = {_T, _o, _w, _n, _SPACE, _M, _a, _p, _END},
+		.name = CN("城镇地图"),
 		.itemId = ITEM_TOWN_MAP,
 		.price = 0,
 		.holdEffect = 0,
@@ -7797,7 +7797,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_V, _S, _SPACE, _S, _e, _e, _k, _e, _r, _END},
+		.name = CN("对战搜寻器"),
 		.itemId = ITEM_VS_SEEKER,
 		.price = 0,
 		.holdEffect = 0,
@@ -7813,7 +7813,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _a, _m, _e, _SPACE, _C, _h, _e, _c, _k, _e, _r, _END},
+		.name = CN("声音记录器"),
 		.itemId = ITEM_FAME_CHECKER,
 		.price = 0,
 		.holdEffect = 0,
@@ -7829,7 +7829,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _SPACE, _C, _a, _s, _e, _END},
+		.name = CN("招式学习器盒"),
 		.itemId = ITEM_TM_CASE,
 		.price = 0,
 		.holdEffect = 0,
@@ -7845,7 +7845,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _e, _r, _r, _y, _SPACE, _P, _o, _u, _c, _h, _END},
+		.name = CN("树果袋"),
 		.itemId = ITEM_BERRY_POUCH,
 		.price = 0,
 		.holdEffect = 0,
@@ -7861,7 +7861,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _e, _a, _c, _h, _y, _SPACE, _T, _V, _END},
+		.name = CN("教学电视"),
 		.itemId = ITEM_TEACHY_TV,
 		.price = 0,
 		.holdEffect = 0,
@@ -7877,7 +7877,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _r, _i, _HYPHEN, _P, _a, _s, _s, _END},
+		.name = CN("三岛通行证"),
 		.itemId = ITEM_TRI_PASS,
 		.price = 0,
 		.holdEffect = 0,
@@ -7893,7 +7893,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _a, _i, _n, _b, _o, _w, _SPACE, _P, _a, _s, _s, _END},
+		.name = CN("七岛通行证"),
 		.itemId = ITEM_RAINBOW_PASS,
 		.price = 0,
 		.holdEffect = 0,
@@ -7909,7 +7909,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _e, _a, _END},
+		.name = CN("茶"),
 		.itemId = ITEM_TEA,
 		.price = 0,
 		.holdEffect = 0,
@@ -7925,7 +7925,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _y, _s, _t, _i, _c, _SPACE, _T, _i, _c, _k, _e, _t, _END},
+		.name = CN("神秘船票"),
 		.itemId = ITEM_MYSTIC_TICKET,
 		.price = 0,
 		.holdEffect = 0,
@@ -7941,7 +7941,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_A, _u, _r, _o, _r, _a, _SPACE, _T, _i, _c, _k, _e, _t, _END},
+		.name = CN("极光船票"),
 		.itemId = ITEM_AURORA_TICKET,
 		.price = 0,
 		.holdEffect = 0,
@@ -7957,7 +7957,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _o, _w, _d, _e, _r, _SPACE, _J, _a, _r, _END},
+		.name = CN("粉末收集瓶"),
 		.itemId = ITEM_POWDER_JAR,
 		.price = 0,
 		.holdEffect = 0,
@@ -7973,7 +7973,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _u, _b, _y, _END},
+		.name = CN("红宝石"),
 		.itemId = ITEM_RUBY,
 		.price = 0,
 		.holdEffect = 0,
@@ -7989,7 +7989,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _a, _p, _p, _h, _i, _r, _e, _END},
+		.name = CN("蓝宝石"),
 		.itemId = ITEM_SAPPHIRE,
 		.price = 0,
 		.holdEffect = 0,
@@ -9141,7 +9141,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_O, _c, _c, _a, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("巧可果"),
 		.itemId = ITEM_OCCA_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9157,7 +9157,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _a, _s, _s, _h, _o, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("千香果"),
 		.itemId = ITEM_PASSHO_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9173,7 +9173,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_W, _a, _c, _a, _n, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("烛木果"),
 		.itemId = ITEM_WACAN_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9189,7 +9189,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _i, _n, _d, _o, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("罗子果"),
 		.itemId = ITEM_RINDO_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9205,7 +9205,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_Y, _a, _c, _h, _e, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("番荔果"),
 		.itemId = ITEM_YACHE_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9221,7 +9221,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_C, _h, _o, _p, _l, _e, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("莲蒲果"),
 		.itemId = ITEM_CHOPLE_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9237,7 +9237,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_K, _e, _b, _i, _a, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("通通果"),
 		.itemId = ITEM_KEBIA_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9253,7 +9253,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _h, _u, _c, _a, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("腰木果"),
 		.itemId = ITEM_SHUCA_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9269,7 +9269,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_C, _o, _b, _a, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("棱瓜果"),
 		.itemId = ITEM_COBA_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9285,7 +9285,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _a, _y, _a, _p, _a, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("福禄果"),
 		.itemId = ITEM_PAYAPA_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9301,7 +9301,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _a, _n, _g, _a, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("扁樱果"),
 		.itemId = ITEM_TANGA_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9317,7 +9317,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_C, _h, _a, _r, _t, _i, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("草蚕果"),
 		.itemId = ITEM_CHARTI_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9333,7 +9333,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_K, _a, _s, _i, _b, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("佛柑果"),
 		.itemId = ITEM_KASIB_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9349,7 +9349,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_H, _a, _b, _a, _n, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("莓榴果"),
 		.itemId = ITEM_HABAN_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9365,7 +9365,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_C, _o, _l, _b, _u, _r, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("刺耳果"),
 		.itemId = ITEM_COLBUR_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9381,7 +9381,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _a, _b, _i, _r, _i, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("霹霹果"),
 		.itemId = ITEM_BABIRI_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9397,7 +9397,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_C, _h, _i, _l, _a, _n, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("灯浆果"),
 		.itemId = ITEM_CHILAN_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9413,7 +9413,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _i, _c, _l, _e, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("奇秘果"),
 		.itemId = ITEM_MICLE_BERRY,
 		.price = 30000,
 		.holdEffect = ITEM_EFFECT_MICLE_BERRY,
@@ -9429,7 +9429,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_C, _u, _s, _t, _a, _p, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("释陀果"),
 		.itemId = ITEM_CUSTAP_BERRY,
 		.price = 30000,
 		.holdEffect = ITEM_EFFECT_CUSTAP_BERRY,
@@ -9445,7 +9445,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_J, _a, _b, _o, _c, _a, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("嘉珍果"),
 		.itemId = ITEM_JABOCA_BERRY,
 		.price = 30000,
 		.holdEffect = ITEM_EFFECT_JABOCA_ROWAP_BERRY,
@@ -9461,7 +9461,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _o, _w, _a, _p, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("雾莲果"),
 		.itemId = ITEM_ROWAP_BERRY,
 		.price = 30000,
 		.holdEffect = ITEM_EFFECT_JABOCA_ROWAP_BERRY,
@@ -9477,7 +9477,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _o, _s, _e, _l, _i, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("洛玫果"),
 		.itemId = ITEM_ROSELI_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_BERRY,
@@ -9493,7 +9493,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_K, _e, _e, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("亚开果"),
 		.itemId = ITEM_KEE_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_KEE_BERRY,
@@ -9509,7 +9509,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _r, _a, _n, _g, _SPACE, _B, _e, _r, _r, _y, _END},
+		.name = CN("香罗果"),
 		.itemId = ITEM_MARANGA_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_MARANGA_BERRY,
@@ -9525,7 +9525,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_O, _v, _a, _l, _SPACE, _C, _h, _a, _r, _m, _END},
+		.name = CN("圆形护符"),
 		.itemId = ITEM_OVAL_CHARM,
 		.price = 0,
 		.holdEffect = 0,
@@ -9541,7 +9541,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _h, _i, _n, _y, _SPACE, _C, _h, _a, _r, _m, _END},
+		.name = CN("闪耀护符"),
 		.itemId = ITEM_SHINY_CHARM,
 		.price = 0,
 		.holdEffect = 0,
@@ -9557,7 +9557,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _a, _i, _n, _b, _o, _w, _SPACE, _W, _i, _n, _g, _END},
+		.name = CN("虹色之羽"),
 		.itemId = ITEM_RAINBOW_WING,
 		.price = 0,
 		.holdEffect = 0,
@@ -9573,7 +9573,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _i, _l, _v, _e, _r, _SPACE, _W, _i, _n, _g, _END},
+		.name = CN("银色之羽"),
 		.itemId = ITEM_SILVER_WING,
 		.price = 0,
 		.holdEffect = 0,
@@ -9589,7 +9589,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _g, _m, _a, _SPACE, _S, _t, _o, _n, _e, _END},
+		.name = CN("火山镇石"),
 		.itemId = ITEM_MAGMA_STONE,
 		.price = 0,
 		.holdEffect = 0,
@@ -9605,7 +9605,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_L, _i, _g, _h, _t, _SPACE, _S, _t, _o, _n, _e, _END},
+		.name = CN("光明石"),
 		.itemId = ITEM_LIGHT_STONE,
 		.price = 0,
 		.holdEffect = 0,
@@ -9621,7 +9621,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _a, _r, _k, _SPACE, _S, _t, _o, _n, _e, _END},
+		.name = CN("黑暗石"),
 		.itemId = ITEM_DARK_STONE,
 		.price = 0,
 		.holdEffect = 0,
@@ -9637,7 +9637,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _u, _n, _SPACE, _F, _l, _u, _t, _e, _END},
+		.name = CN("太阳之笛"),
 		.itemId = ITEM_SUN_FLUTE,
 		.price = 0,
 		.holdEffect = 0,
@@ -9653,7 +9653,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _o, _o, _n, _SPACE, _F, _l, _u, _t, _e, _END},
+		.name = CN("月亮之笛"),
 		.itemId = ITEM_MOON_FLUTE,
 		.price = 0,
 		.holdEffect = 0,
@@ -9669,7 +9669,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _r, _a, _c, _i, _d, _e, _a, _END},
+		.name = CN("葛拉西蒂亚花"),
 		.itemId = ITEM_GRACIDEA,
 		.price = 0,
 		.holdEffect = 0,
@@ -9685,7 +9685,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _N, _A, _SPACE, _S, _p, _l, _i, _c, _e, _r, _s, _END},
+		.name = CN("基因之楔"),
 		.itemId = ITEM_DNA_SPLICERS,
 		.price = 0,
 		.holdEffect = 0,
@@ -9701,7 +9701,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _v, _e, _a, _l, _SPACE, _G, _l, _a, _s, _s, _END},
+		.name = CN("现形镜"),
 		.itemId = ITEM_REVEAL_GLASS,
 		.price = 0,
 		.holdEffect = 0,
@@ -9717,7 +9717,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _r, _i, _s, _o, _n, _B, _o, _t, _t, _l, _e, _END},
+		.name = CN("惩戒之壶"),
 		.itemId = ITEM_PRISON_BOTTLE,
 		.price = 0,
 		.holdEffect = 0,
@@ -9733,7 +9733,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_N, _HYPHEN, _S, _o, _l, _a, _r, _i, _z, _e, _r, _END},
+		.name = CN("索尔合体器"),
 		.itemId = ITEM_N_SOLARIZER,
 		.price = 0,
 		.holdEffect = 0,
@@ -9749,7 +9749,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_N, _HYPHEN, _L, _u, _n, _a, _r, _i, _z, _e, _r, _END},
+		.name = CN("露奈合体器"),
 		.itemId = ITEM_N_LUNARIZER,
 		.price = 0,
 		.holdEffect = 0,
@@ -9765,7 +9765,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _u, _s, _t, _y, _SPACE, _S, _w, _o, _r, _d, _END},
+		.name = CN("腐朽的剑"),
 		.itemId = ITEM_RUSTED_SWORD,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_RUSTED_SWORD,
@@ -9781,7 +9781,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _u, _s, _t, _y, _SPACE, _S, _h, _i, _e, _l, _d, _END},
+		.name = CN("腐朽的盾"),
 		.itemId = ITEM_RUSTED_SHIELD,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_RUSTED_SHIELD,
@@ -9797,7 +9797,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_A, _d, _a, _m, _a, _n, _t, _SPACE, _O, _r, _b, _END},
+		.name = CN("金刚宝珠"),
 		.itemId = ITEM_ADAMANT_ORB,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_ADAMANT_ORB,
@@ -9813,7 +9813,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_L, _u, _s, _t, _r, _o, _u, _s, _SPACE, _O, _r, _b, _END},
+		.name = CN("白玉宝珠"),
 		.itemId = ITEM_LUSTROUS_ORB,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_LUSTROUS_ORB,
@@ -9829,7 +9829,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _r, _i, _s, _e, _o, _u, _s, _SPACE, _O, _r, _b, _END},
+		.name = CN("白金宝珠"),
 		.itemId = ITEM_GRISEOUS_ORB,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_GRISEOUS_ORB,
@@ -9845,7 +9845,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _i, _s, _t, _SPACE, _P, _l, _a, _t, _e, _END},
+		.name = CN("拳头石板"),
 		.itemId = ITEM_FIST_PLATE,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PLATE,
@@ -9861,7 +9861,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _k, _y, _SPACE, _P, _l, _a, _t, _e, _END},
+		.name = CN("蓝天石板"),
 		.itemId = ITEM_SKY_PLATE,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PLATE,
@@ -9877,7 +9877,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _o, _x, _i, _c, _SPACE, _P, _l, _a, _t, _e, _END},
+		.name = CN("剧毒石板"),
 		.itemId = ITEM_TOXIC_PLATE,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PLATE,
@@ -9893,7 +9893,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_E, _a, _r, _t, _h, _SPACE, _P, _l, _a, _t, _e, _END},
+		.name = CN("大地石板"),
 		.itemId = ITEM_EARTH_PLATE,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PLATE,
@@ -9909,7 +9909,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _t, _o, _n, _e, _SPACE, _P, _l, _a, _t, _e, _END},
+		.name = CN("岩石石板"),
 		.itemId = ITEM_STONE_PLATE,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PLATE,
@@ -9925,7 +9925,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_I, _n, _s, _e, _c, _t, _SPACE, _P, _l, _a, _t, _e, _END},
+		.name = CN("玉虫石板"),
 		.itemId = ITEM_INSECT_PLATE,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PLATE,
@@ -9941,7 +9941,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _p, _o, _o, _k, _y, _SPACE, _P, _l, _a, _t, _e, _END},
+		.name = CN("妖怪石板"),
 		.itemId = ITEM_SPOOKY_PLATE,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PLATE,
@@ -9957,7 +9957,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_I, _r, _o, _n, _SPACE, _P, _l, _a, _t, _e, _END},
+		.name = CN("钢铁石板"),
 		.itemId = ITEM_IRON_PLATE,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PLATE,
@@ -9973,7 +9973,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _l, _a, _m, _e, _SPACE, _P, _l, _a, _t, _e, _END},
+		.name = CN("火球石板"),
 		.itemId = ITEM_FLAME_PLATE,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PLATE,
@@ -9989,7 +9989,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _p, _l, _a, _s, _h, _SPACE, _P, _l, _a, _t, _e, _END},
+		.name = CN("水滴石板"),
 		.itemId = ITEM_SPLASH_PLATE,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PLATE,
@@ -10005,7 +10005,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _e, _a, _d, _o, _w, _SPACE, _P, _l, _a, _t, _e, _END},
+		.name = CN("碧绿石板"),
 		.itemId = ITEM_MEADOW_PLATE,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PLATE,
@@ -10021,7 +10021,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_Z, _a, _p, _SPACE, _P, _l, _a, _t, _e, _END},
+		.name = CN("雷电石板"),
 		.itemId = ITEM_ZAP_PLATE,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PLATE,
@@ -10037,7 +10037,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _i, _n, _d, _SPACE, _P, _l, _a, _t, _e, _END},
+		.name = CN("神奇石板"),
 		.itemId = ITEM_MIND_PLATE,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PLATE,
@@ -10053,7 +10053,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_I, _c, _i, _c, _l, _e, _SPACE, _P, _l, _a, _t, _e, _END},
+		.name = CN("冰柱石板"),
 		.itemId = ITEM_ICICLE_PLATE,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PLATE,
@@ -10069,7 +10069,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _r, _a, _c, _o, _SPACE, _P, _l, _a, _t, _e, _END},
+		.name = CN("龙之石板"),
 		.itemId = ITEM_DRACO_PLATE,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PLATE,
@@ -10085,7 +10085,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _r, _e, _a, _d, _SPACE, _P, _l, _a, _t, _e, _END},
+		.name = CN("恶颜石板"),
 		.itemId = ITEM_DREAD_PLATE,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PLATE,
@@ -10101,7 +10101,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _i, _x, _i, _e, _SPACE, _P, _l, _a, _t, _e, _END},
+		.name = CN("妖精石板"),
 		.itemId = ITEM_PIXIE_PLATE,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_PLATE,
@@ -10117,7 +10117,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _i, _g, _h, _t, _SPACE, _M, _e, _m, _PERIOD, _END},
+		.name = CN("战斗存储碟"),
 		.itemId = ITEM_FIGHTING_MEMORY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_MEMORY,
@@ -10133,7 +10133,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _l, _y, _i, _n, _g, _SPACE, _M, _e, _m, _PERIOD, _END},
+		.name = CN("飞翔存储碟"),
 		.itemId = ITEM_FLYING_MEMORY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_MEMORY,
@@ -10149,7 +10149,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _o, _i, _s, _o, _n, _SPACE, _M, _e, _m, _PERIOD, _END},
+		.name = CN("毒存储碟"),
 		.itemId = ITEM_POISON_MEMORY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_MEMORY,
@@ -10165,7 +10165,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _r, _o, _u, _n, _d, _SPACE, _M, _e, _m, _PERIOD, _END},
+		.name = CN("大地存储碟"),
 		.itemId = ITEM_GROUND_MEMORY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_MEMORY,
@@ -10181,7 +10181,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _o, _c, _k, _SPACE, _M, _e, _m, _PERIOD, _END},
+		.name = CN("岩石存储碟"),
 		.itemId = ITEM_ROCK_MEMORY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_MEMORY,
@@ -10197,7 +10197,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _u, _g, _SPACE, _M, _e, _m, _PERIOD, _END},
+		.name = CN("虫子存储碟"),
 		.itemId = ITEM_BUG_MEMORY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_MEMORY,
@@ -10213,7 +10213,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _h, _o, _s, _t, _SPACE, _M, _e, _m, _PERIOD, _END},
+		.name = CN("幽灵存储碟"),
 		.itemId = ITEM_GHOST_MEMORY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_MEMORY,
@@ -10229,7 +10229,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _t, _e, _e, _l, _SPACE, _M, _e, _m, _PERIOD, _END},
+		.name = CN("钢铁存储碟"),
 		.itemId = ITEM_STEEL_MEMORY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_MEMORY,
@@ -10245,7 +10245,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _i, _r, _e, _SPACE, _M, _e, _m, _PERIOD, _END},
+		.name = CN("火焰存储碟"),
 		.itemId = ITEM_FIRE_MEMORY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_MEMORY,
@@ -10261,7 +10261,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_W, _a, _t, _e, _r, _SPACE, _M, _e, _m, _PERIOD, _END},
+		.name = CN("清水存储碟"),
 		.itemId = ITEM_WATER_MEMORY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_MEMORY,
@@ -10277,7 +10277,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _r, _a, _s, _s, _SPACE, _M, _e, _m, _PERIOD, _END},
+		.name = CN("青草存储碟"),
 		.itemId = ITEM_GRASS_MEMORY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_MEMORY,
@@ -10293,7 +10293,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_E, _l, _e, _c, _t, _r, _SPACE, _M, _e, _m, _PERIOD, _END},
+		.name = CN("电子存储碟"),
 		.itemId = ITEM_ELECTRIC_MEMORY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_MEMORY,
@@ -10309,7 +10309,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _s, _y, _c, _h, _i, _c, _SPACE, _M, _e, _m, _PERIOD, _END},
+		.name = CN("精神存储碟"),
 		.itemId = ITEM_PSYCHIC_MEMORY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_MEMORY,
@@ -10325,7 +10325,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_I, _c, _e, _SPACE, _M, _e, _m, _PERIOD, _END},
+		.name = CN("冰雪存储碟"),
 		.itemId = ITEM_ICE_MEMORY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_MEMORY,
@@ -10341,7 +10341,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _r, _a, _g, _o, _n, _SPACE, _M, _e, _m, _PERIOD, _END},
+		.name = CN("龙存储碟"),
 		.itemId = ITEM_DRAGON_MEMORY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_MEMORY,
@@ -10357,7 +10357,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _a, _r, _k, _SPACE, _M, _e, _m, _PERIOD, _END},
+		.name = CN("黑暗存储碟"),
 		.itemId = ITEM_DARK_MEMORY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_MEMORY,
@@ -10373,7 +10373,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _a, _i, _r, _y, _SPACE, _M, _e, _m, _PERIOD, _END},
+		.name = CN("妖精存储碟"),
 		.itemId = ITEM_FAIRY_MEMORY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_MEMORY,
@@ -10389,7 +10389,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _u, _r, _n, _SPACE, _D, _r, _i, _v, _e, _END},
+		.name = CN("火焰卡带"),
 		.itemId = ITEM_BURN_DRIVE,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_DRIVE,
@@ -10405,7 +10405,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _o, _u, _s, _e, _SPACE, _D, _r, _i, _v, _e, _END},
+		.name = CN("水流卡带"),
 		.itemId = ITEM_DOUSE_DRIVE,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_DRIVE,
@@ -10421,7 +10421,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _h, _o, _c, _k, _SPACE, _D, _r, _i, _v, _e, _END},
+		.name = CN("闪电卡带"),
 		.itemId = ITEM_SHOCK_DRIVE,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_DRIVE,
@@ -10437,7 +10437,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_C, _h, _i, _l, _l, _SPACE, _D, _r, _i, _v, _e, _END},
+		.name = CN("冰冻卡带"),
 		.itemId = ITEM_CHILL_DRIVE,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_DRIVE,
@@ -10453,7 +10453,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _d, _SPACE, _N, _e, _c, _t, _a, _r, _END},
+		.name = CN("朱红色花蜜"),
 		.itemId = ITEM_RED_NECTAR,
 		.price = 300,
 		.holdEffect = 0,
@@ -10469,7 +10469,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_Y, _e, _l, _l, _o, _w, _N, _e, _c, _t, _a, _r, _END},
+		.name = CN("金黄色花蜜"),
 		.itemId = ITEM_YELLOW_NECTAR,
 		.price = 300,
 		.holdEffect = 0,
@@ -10485,7 +10485,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _i, _n, _k, _SPACE, _N, _e, _c, _t, _a, _r, _END},
+		.name = CN("桃粉色花蜜"),
 		.itemId = ITEM_PINK_NECTAR,
 		.price = 300,
 		.holdEffect = 0,
@@ -10501,7 +10501,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _u, _r, _p, _l, _e, _N, _e, _c, _t, _a, _r, _END},
+		.name = CN("兰紫色花蜜"),
 		.itemId = ITEM_PURPLE_NECTAR,
 		.price = 300,
 		.holdEffect = 0,
@@ -10517,7 +10517,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_N, _e, _c, _r, _o, _z, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("究极奈克洛Z"),
 		.itemId = ITEM_ULTRANECROZIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10533,7 +10533,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_V, _e, _n, _u, _s, _a, _u, _r, _i, _t, _e, _END},
+		.name = CN("妙蛙花石"),
 		.itemId = ITEM_VENUSAURITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10549,7 +10549,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_C, _h, _a, _r, _z, _a, _r, _d, _i, _t, _e, _X, _END},
+		.name = CN("喷火龙石X"),
 		.itemId = ITEM_CHARIZARDITE_X,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10565,7 +10565,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_C, _h, _a, _r, _z, _a, _r, _d, _i, _t, _e, _Y, _END},
+		.name = CN("喷火龙石Y"),
 		.itemId = ITEM_CHARIZARDITE_Y,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10581,7 +10581,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _l, _a, _s, _t, _o, _i, _s, _n, _i, _t, _e, _END},
+		.name = CN("水箭龟石"),
 		.itemId = ITEM_BLASTOISINITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10597,7 +10597,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _e, _e, _d, _r, _i, _l, _l, _i, _t, _e, _END},
+		.name = CN("大针蜂石"),
 		.itemId = ITEM_BEEDRILLITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10613,7 +10613,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _i, _d, _g, _e, _o, _t, _i, _t, _e, _END},
+		.name = CN("大比鸟石"),
 		.itemId = ITEM_PIDGEOTITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10629,7 +10629,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_A, _l, _a, _k, _a, _z, _i, _t, _e, _END},
+		.name = CN("胡地石"),
 		.itemId = ITEM_ALAKAZITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10645,7 +10645,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _l, _o, _w, _b, _r, _o, _n, _i, _t, _e, _END},
+		.name = CN("呆壳兽石"),
 		.itemId = ITEM_SLOWBRONITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10661,7 +10661,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _e, _n, _g, _a, _r, _i, _t, _e, _END},
+		.name = CN("耿鬼石"),
 		.itemId = ITEM_GENGARITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10677,7 +10677,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_K, _a, _n, _g, _a, _s, _k, _a, _n, _i, _t, _e, _END},
+		.name = CN("袋兽石"),
 		.itemId = ITEM_KANGASKHANITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10693,7 +10693,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _i, _n, _s, _i, _r, _i, _t, _e, _END},
+		.name = CN("凯罗斯石"),
 		.itemId = ITEM_PINSIRITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10709,7 +10709,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _y, _a, _r, _a, _d, _o, _s, _i, _t, _e, _END},
+		.name = CN("暴鲤龙石"),
 		.itemId = ITEM_GYARADOSITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10725,7 +10725,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_A, _e, _r, _o, _d, _a, _c, _t, _l, _i, _t, _e, _END},
+		.name = CN("化石翼龙石"),
 		.itemId = ITEM_AERODACTYLITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10741,7 +10741,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _e, _w, _t, _w, _o, _n, _i, _t, _e, _X, _END},
+		.name = CN("超梦石X"),
 		.itemId = ITEM_MEWTWONITE_X,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10757,7 +10757,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _e, _w, _t, _w, _o, _n, _i, _t, _e, _Y, _END},
+		.name = CN("超梦石Y"),
 		.itemId = ITEM_MEWTWONITE_Y,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10773,7 +10773,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_A, _m, _p, _h, _a, _r, _o, _s, _i, _t, _e, _END},
+		.name = CN("电龙石"),
 		.itemId = ITEM_AMPHAROSITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10789,7 +10789,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _t, _e, _e, _l, _i, _x, _i, _t, _e, _END},
+		.name = CN("大钢蛇石"),
 		.itemId = ITEM_STEELIXITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10805,7 +10805,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _c, _i, _z, _o, _r, _i, _t, _e, _END},
+		.name = CN("巨钳螳螂石"),
 		.itemId = ITEM_SCIZORITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10821,7 +10821,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_H, _e, _r, _a, _c, _r, _o, _n, _i, _t, _e, _END},
+		.name = CN("赫拉克罗斯石"),
 		.itemId = ITEM_HERACRONITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10837,7 +10837,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_H, _o, _u, _n, _d, _o, _o, _m, _n, _i, _t, _e, _END},
+		.name = CN("黑鲁加石"),
 		.itemId = ITEM_HOUNDOOMINITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10853,7 +10853,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _y, _r, _a, _n, _i, _t, _a, _r, _i, _t, _e, _END},
+		.name = CN("班基拉斯石"),
 		.itemId = ITEM_TYRANITARITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10869,7 +10869,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _c, _e, _p, _t, _i, _l, _i, _t, _e, _END},
+		.name = CN("蜥蜴王石"),
 		.itemId = ITEM_SCEPTILITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10885,7 +10885,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _l, _a, _z, _i, _k, _e, _n, _i, _t, _e, _END},
+		.name = CN("火焰鸡石"),
 		.itemId = ITEM_BLAZIKENITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10901,7 +10901,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _w, _a, _m, _p, _e, _r, _t, _i, _t, _e, _END},
+		.name = CN("巨沼怪石"),
 		.itemId = ITEM_SWAMPERTITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10917,7 +10917,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _a, _r, _d, _e, _v, _o, _i, _r, _i, _t, _e, _END},
+		.name = CN("沙奈朵石"),
 		.itemId = ITEM_GARDEVOIRITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10933,7 +10933,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _a, _b, _l, _e, _n, _i, _t, _e, _END},
+		.name = CN("勾魂眼石"),
 		.itemId = ITEM_SABLENITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10949,7 +10949,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _w, _i, _l, _i, _t, _e, _END},
+		.name = CN("大嘴娃石"),
 		.itemId = ITEM_MAWILITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10965,7 +10965,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_A, _g, _g, _r, _o, _n, _i, _t, _e, _END},
+		.name = CN("波士可多拉石"),
 		.itemId = ITEM_AGGRONITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10981,7 +10981,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _e, _d, _i, _c, _h, _a, _m, _i, _t, _e, _END},
+		.name = CN("恰雷姆石"),
 		.itemId = ITEM_MEDICHAMITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -10997,7 +10997,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _n, _e, _c, _t, _i, _t, _e, _END},
+		.name = CN("雷电兽石"),
 		.itemId = ITEM_MANECTITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11013,7 +11013,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _h, _a, _r, _p, _e, _d, _o, _n, _i, _t, _e, _END},
+		.name = CN("巨牙鲨石"),
 		.itemId = ITEM_SHARPEDONITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11029,7 +11029,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_C, _a, _m, _e, _r, _u, _p, _t, _i, _t, _e, _END},
+		.name = CN("喷火驼石"),
 		.itemId = ITEM_CAMERUPTITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11045,7 +11045,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_A, _l, _t, _a, _r, _i, _a, _n, _i, _t, _e, _END},
+		.name = CN("七夕青鸟石"),
 		.itemId = ITEM_ALTARIANITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11061,7 +11061,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _a, _n, _e, _t, _t, _i, _t, _e, _END},
+		.name = CN("诅咒娃娃石"),
 		.itemId = ITEM_BANETTITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11077,7 +11077,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_A, _b, _s, _o, _l, _i, _t, _e, _END},
+		.name = CN("阿勃梭鲁石"),
 		.itemId = ITEM_ABSOLITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11093,7 +11093,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _l, _a, _l, _i, _t, _i, _t, _e, _END},
+		.name = CN("冰鬼护石"),
 		.itemId = ITEM_GLALITITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11109,7 +11109,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _a, _l, _a, _m, _e, _n, _c, _i, _t, _e, _END},
+		.name = CN("暴飞龙石"),
 		.itemId = ITEM_SALAMENCITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11125,7 +11125,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _e, _t, _a, _g, _r, _o, _s, _s, _i, _t, _e, _END},
+		.name = CN("巨金怪石"),
 		.itemId = ITEM_METAGROSSITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11141,7 +11141,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_L, _a, _t, _i, _a, _s, _i, _t, _e, _END},
+		.name = CN("拉帝亚斯石"),
 		.itemId = ITEM_LATIASITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11157,7 +11157,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_L, _a, _t, _i, _o, _s, _i, _t, _e, _END},
+		.name = CN("拉帝欧斯石"),
 		.itemId = ITEM_LATIOSITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11173,7 +11173,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_L, _o, _p, _u, _n, _n, _i, _t, _e, _END},
+		.name = CN("长耳兔石"),
 		.itemId = ITEM_LOPUNNITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11189,7 +11189,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _a, _r, _c, _h, _o, _m, _p, _i, _t, _e, _END},
+		.name = CN("烈咬陆鲨石"),
 		.itemId = ITEM_GARCHOMPITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11205,7 +11205,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_L, _u, _c, _a, _r, _i, _o, _n, _i, _t, _e, _END},
+		.name = CN("路卡利欧石"),
 		.itemId = ITEM_LUCARIONITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11221,7 +11221,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_A, _b, _o, _m, _a, _s, _i, _t, _e, _END},
+		.name = CN("暴雪王石"),
 		.itemId = ITEM_ABOMASITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11237,7 +11237,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _a, _l, _l, _a, _d, _i, _t, _e, _END},
+		.name = CN("艾路雷朵石"),
 		.itemId = ITEM_GALLADITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11253,7 +11253,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_A, _u, _d, _i, _n, _i, _t, _e, _END},
+		.name = CN("差不多娃娃石"),
 		.itemId = ITEM_AUDINITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11269,7 +11269,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _i, _a, _n, _c, _i, _t, _e, _END},
+		.name = CN("蒂安希石"),
 		.itemId = ITEM_DIANCITE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,
@@ -11285,7 +11285,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_N, _o, _r, _m, _a, _l, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("一般Z"),
 		.itemId = ITEM_NORMALIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11301,7 +11301,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _i, _g, _h, _t, _i, _n, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("格斗Z"),
 		.itemId = ITEM_FIGHTINIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11317,7 +11317,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _l, _y, _i, _n, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("飞行Z"),
 		.itemId = ITEM_FLYINIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11333,7 +11333,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _o, _i, _s, _o, _n, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("毒Z"),
 		.itemId = ITEM_POISONIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11349,7 +11349,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _r, _o, _u, _n, _d, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("地面Z"),
 		.itemId = ITEM_GROUNDIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11365,7 +11365,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _o, _c, _k, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("岩石Z"),
 		.itemId = ITEM_ROCKIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11381,7 +11381,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _u, _g, _i, _n, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("虫Z"),
 		.itemId = ITEM_BUGINIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11397,7 +11397,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _h, _o, _s, _t, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("幽灵Z"),
 		.itemId = ITEM_GHOSTIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11413,7 +11413,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _t, _e, _e, _l, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("钢Z"),
 		.itemId = ITEM_STEELIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11429,7 +11429,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _i, _r, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("火Z"),
 		.itemId = ITEM_FIRIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11445,7 +11445,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_W, _a, _t, _e, _r, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("水Z"),
 		.itemId = ITEM_WATERIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11461,7 +11461,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _r, _a, _s, _s, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("草Z"),
 		.itemId = ITEM_GRASSIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11477,7 +11477,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_E, _l, _e, _c, _t, _r, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("电Z"),
 		.itemId = ITEM_ELECTRIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11493,7 +11493,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _s, _y, _c, _h, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("超能力Z"),
 		.itemId = ITEM_PSYCHIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11509,7 +11509,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_I, _c, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("冰Z"),
 		.itemId = ITEM_ICIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11525,7 +11525,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _r, _a, _g, _o, _n, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("龙Z"),
 		.itemId = ITEM_DRAGONIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11541,7 +11541,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _a, _r, _k, _i, _n, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("恶Z"),
 		.itemId = ITEM_DARKINIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11557,7 +11557,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _a, _i, _r, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("妖精Z"),
 		.itemId = ITEM_FAIRIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11573,7 +11573,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_A, _l, _o, _r, _i, _c, _h, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("阿罗雷Z"),
 		.itemId = ITEM_ALORAICHIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11589,7 +11589,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _e, _c, _i, _d, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("狙射树枭Z"),
 		.itemId = ITEM_DECIDIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11605,7 +11605,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_E, _e, _v, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("伊布Z"),
 		.itemId = ITEM_EEVIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11621,7 +11621,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_I, _n, _c, _i, _n, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("炽焰咆哮虎Z"),
 		.itemId = ITEM_INCINIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11637,7 +11637,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_K, _o, _m, _m, _o, _n, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("杖尾鳞甲龙Z"),
 		.itemId = ITEM_KOMMONIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11653,7 +11653,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_L, _u, _n, _a, _l, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("露奈雅拉Z"),
 		.itemId = ITEM_LUNALIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11669,7 +11669,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_L, _y, _c, _a, _n, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("鬃岩狼人Z"),
 		.itemId = ITEM_LYCANIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11685,7 +11685,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _a, _r, _s, _h, _a, _d, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("玛夏多Z"),
 		.itemId = ITEM_MARSHADIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11701,7 +11701,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _e, _w, _n, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("梦幻Z"),
 		.itemId = ITEM_MEWNIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11717,7 +11717,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _i, _m, _i, _k, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("谜拟丘Z"),
 		.itemId = ITEM_MIMIKIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11733,7 +11733,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _i, _k, _a, _n, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("皮卡丘Z"),
 		.itemId = ITEM_PIKANIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11749,7 +11749,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _i, _k, _s, _h, _u, _n, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("智皮卡Z"),
 		.itemId = ITEM_PIKASHUNIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11765,7 +11765,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _r, _i, _m, _a, _r, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("西狮海壬Z"),
 		.itemId = ITEM_PRIMARIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11781,7 +11781,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _n, _o, _r, _l, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("卡比兽Z"),
 		.itemId = ITEM_SNORLIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11797,7 +11797,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _o, _l, _g, _a, _n, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("索尔迦雷欧Z"),
 		.itemId = ITEM_SOLGANIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11813,7 +11813,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _a, _p, _u, _n, _i, _u, _m, _SPACE, _Z, _END},
+		.name = CN("卡璞Z"),
 		.itemId = ITEM_TAPUNIUM_Z,
 		.price = 0,
 		.holdEffect = ITEM_EFFECT_Z_CRYSTAL,
@@ -11829,7 +11829,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _l, _k, _SPACE, _A, _p, _r, _i, _c, _o, _r, _n, _END},
+		.name = CN("黑球果"),
 		.itemId = ITEM_BLACK_APRICORN,
 		.price = 200,
 		.holdEffect = 0,
@@ -11845,7 +11845,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _l, _u, _SPACE, _A, _p, _r, _i, _c, _o, _r, _n, _END},
+		.name = CN("蓝球果"),
 		.itemId = ITEM_BLUE_APRICORN,
 		.price = 200,
 		.holdEffect = 0,
@@ -11861,7 +11861,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _r, _n, _SPACE, _A, _p, _r, _i, _c, _o, _r, _n, _END},
+		.name = CN("绿球果"),
 		.itemId = ITEM_GREEN_APRICORN,
 		.price = 200,
 		.holdEffect = 0,
@@ -11877,7 +11877,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _n, _k, _SPACE, _A, _p, _r, _i, _c, _o, _r, _n, _END},
+		.name = CN("粉球果"),
 		.itemId = ITEM_PINK_APRICORN,
 		.price = 200,
 		.holdEffect = 0,
@@ -11893,7 +11893,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _d, _SPACE, _A, _p, _r, _i, _c, _o, _r, _n, _END},
+		.name = CN("红球果"),
 		.itemId = ITEM_RED_APRICORN,
 		.price = 200,
 		.holdEffect = 0,
@@ -11909,7 +11909,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_W, _h, _t, _SPACE, _A, _p, _r, _i, _c, _o, _r, _n, _END},
+		.name = CN("白球果"),
 		.itemId = ITEM_WHITE_APRICORN,
 		.price = 200,
 		.holdEffect = 0,
@@ -11925,7 +11925,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_Y, _l, _w, _SPACE, _A, _p, _r, _i, _c, _o, _r, _n, _END},
+		.name = CN("黄球果"),
 		.itemId = ITEM_YELLOW_APRICORN,
 		.price = 200,
 		.holdEffect = 0,
@@ -11941,7 +11941,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _l, _i, _c, _SPACE, _C, _o, _p, _p, _e, _r, _END},
+		.name = CN("古代铜币"),
 		.itemId = ITEM_RELIC_COPPER,
 		.price = 1000,
 		.holdEffect = 0,
@@ -11957,7 +11957,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _l, _i, _c, _SPACE, _S, _i, _l, _v, _e, _r, _END},
+		.name = CN("古代银币"),
 		.itemId = ITEM_RELIC_SILVER,
 		.price = 5000,
 		.holdEffect = 0,
@@ -11973,7 +11973,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _l, _i, _c, _SPACE, _G, _o, _l, _d, _END},
+		.name = CN("古代金币"),
 		.itemId = ITEM_RELIC_GOLD,
 		.price = 10000,
 		.holdEffect = 0,
@@ -11989,7 +11989,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _l, _i, _c, _SPACE, _V, _a, _s, _e, _END},
+		.name = CN("古代之壶"),
 		.itemId = ITEM_RELIC_VASE,
 		.price = 20000,
 		.holdEffect = 0,
@@ -12005,7 +12005,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _l, _i, _c, _SPACE, _B, _a, _n, _d, _END},
+		.name = CN("古代手镯"),
 		.itemId = ITEM_RELIC_BAND,
 		.price = 30000,
 		.holdEffect = 0,
@@ -12021,7 +12021,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _l, _i, _c, _SPACE, _S, _t, _a, _t, _u, _e, _END},
+		.name = CN("古代石像"),
 		.itemId = ITEM_RELIC_STATUE,
 		.price = 40000,
 		.holdEffect = 0,
@@ -12037,7 +12037,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _l, _i, _c, _SPACE, _C, _r, _o, _w, _n, _END},
+		.name = CN("古代王冠"),
 		.itemId = ITEM_RELIC_CROWN,
 		.price = 50000,
 		.holdEffect = 0,
@@ -12053,7 +12053,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _k, _u, _l, _l, _SPACE, _F, _o, _s, _s, _i, _l, _END},
+		.name = CN("头盖化石"),
 		.itemId = ITEM_SKULL_FOSSIL,
 		.price = 7000,
 		.holdEffect = 0,
@@ -12069,7 +12069,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_A, _r, _m, _o, _r, _SPACE, _F, _o, _s, _s, _i, _l, _END},
+		.name = CN("盾甲化石"),
 		.itemId = ITEM_ARMOR_FOSSIL,
 		.price = 7000,
 		.holdEffect = 0,
@@ -12085,7 +12085,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_C, _o, _v, _e, _r, _SPACE, _F, _o, _s, _s, _i, _l, _END},
+		.name = CN("背盖化石"),
 		.itemId = ITEM_COVER_FOSSIL,
 		.price = 7000,
 		.holdEffect = 0,
@@ -12101,7 +12101,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _l, _u, _m, _e, _SPACE, _F, _o, _s, _s, _i, _l, _END},
+		.name = CN("羽毛化石"),
 		.itemId = ITEM_PLUME_FOSSIL,
 		.price = 7000,
 		.holdEffect = 0,
@@ -12117,7 +12117,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_J, _a, _w, _SPACE, _F, _o, _s, _s, _i, _l, _END},
+		.name = CN("颚之化石"),
 		.itemId = ITEM_JAW_FOSSIL,
 		.price = 7000,
 		.holdEffect = 0,
@@ -12133,7 +12133,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _a, _i, _l, _SPACE, _F, _o, _s, _s, _i, _l, _END},
+		.name = CN("鳍之化石"),
 		.itemId = ITEM_SAIL_FOSSIL,
 		.price = 7000,
 		.holdEffect = 0,
@@ -12149,7 +12149,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _i, _r, _d, _SPACE, _F, _o, _s, _s, _i, _l, _END},
+		.name = CN("化石鸟"),
 		.itemId = ITEM_FOSSILIZED_BIRD,
 		.price = 7000,
 		.holdEffect = 0,
@@ -12165,7 +12165,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _i, _s, _h, _SPACE, _F, _o, _s, _s, _i, _l, _END},
+		.name = CN("化石鱼"),
 		.itemId = ITEM_FOSSILIZED_FISH,
 		.price = 7000,
 		.holdEffect = 0,
@@ -12181,7 +12181,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _r, _a, _k, _e, _SPACE, _F, _o, _s, _s, _i, _l, _END},
+		.name = CN("化石龙"),
 		.itemId = ITEM_FOSSILIZED_DRAKE,
 		.price = 7000,
 		.holdEffect = 0,
@@ -12197,7 +12197,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _i, _n, _o, _SPACE, _F, _o, _s, _s, _i, _l, _END},
+		.name = CN("化石海兽"),
 		.itemId = ITEM_FOSSILIZED_DINO,
 		.price = 7000,
 		.holdEffect = 0,
@@ -12213,7 +12213,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_O, _d, _d, _SPACE, _K, _e, _y, _s, _t, _o, _n, _e, _END},
+		.name = CN("楔石"),
 		.itemId = ITEM_ODD_KEYSTONE,
 		.price = 2100,
 		.holdEffect = 0,
@@ -12229,7 +12229,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _o, _t, _t, _l, _e, _SPACE, _C, _a, _p, _END},
+		.name = CN("银色王冠"),
 		.itemId = ITEM_BOTTLE_CAP,
 		.price = 5000,
 		.holdEffect = 0,
@@ -12245,7 +12245,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _PERIOD, _B, _o, _t, _t, _l, _e, _SPACE, _C, _a, _p, _END},
+		.name = CN("金色王冠"),
 		.itemId = ITEM_GOLD_BOTTLE_CAP,
 		.price = 10000,
 		.holdEffect = 0,
@@ -12261,7 +12261,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_W, _i, _s, _h, _SPACE, _P, _i, _e, _c, _e, _END},
+		.name = CN("许愿星块"),
 		.itemId = ITEM_WISHING_PIECE,
 		.price = 6000,
 		.holdEffect = 0,
@@ -12277,7 +12277,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _o, _w, _e, _r, _SPACE, _B, _r, _a, _c, _e, _r, _END},
+		.name = CN("力量护腕"),
 		.itemId = ITEM_POWER_BRACER,
 		.price = 3000,
 		.holdEffect = ITEM_EFFECT_MACHO_BRACE,
@@ -12293,7 +12293,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _o, _w, _e, _r, _SPACE, _B, _e, _l, _t, _END},
+		.name = CN("力量腰带"),
 		.itemId = ITEM_POWER_BELT,
 		.price = 3000,
 		.holdEffect = ITEM_EFFECT_MACHO_BRACE,
@@ -12309,7 +12309,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _o, _w, _e, _r, _SPACE, _L, _e, _n, _s, _END},
+		.name = CN("力量镜"),
 		.itemId = ITEM_POWER_LENS,
 		.price = 3000,
 		.holdEffect = ITEM_EFFECT_MACHO_BRACE,
@@ -12325,7 +12325,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _o, _w, _e, _r, _SPACE, _B, _a, _n, _d, _END},
+		.name = CN("力量束带"),
 		.itemId = ITEM_POWER_BAND,
 		.price = 3000,
 		.holdEffect = ITEM_EFFECT_MACHO_BRACE,
@@ -12341,7 +12341,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _o, _w, _e, _r, _SPACE, _A, _n, _k, _l, _e, _t, _END},
+		.name = CN("力量护踝"),
 		.itemId = ITEM_POWER_ANKLET,
 		.price = 3000,
 		.holdEffect = ITEM_EFFECT_MACHO_BRACE,
@@ -12357,7 +12357,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _o, _w, _e, _r, _SPACE, _W, _e, _i, _g, _h, _t, _END},
+		.name = CN("力量负重"),
 		.itemId = ITEM_POWER_WEIGHT,
 		.price = 3000,
 		.holdEffect = ITEM_EFFECT_MACHO_BRACE,
@@ -12373,7 +12373,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_L, _u, _c, _k, _SPACE, _I, _n, _c, _e, _n, _s, _e, _END},
+		.name = CN("幸运薰香"),
 		.itemId = ITEM_LUCK_INCENSE,
 		.price = 11000,
 		.holdEffect = ITEM_EFFECT_DOUBLE_PRIZE,
@@ -12389,7 +12389,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _u, _l, _l, _SPACE, _I, _n, _c, _e, _n, _s, _e, _END},
+		.name = CN("饱腹薰香"),
 		.itemId = ITEM_FULL_INCENSE,
 		.price = 5000,
 		.holdEffect = ITEM_EFFECT_LAGGING_TAIL,
@@ -12405,7 +12405,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_O, _d, _d, _SPACE, _I, _n, _c, _e, _n, _s, _e, _END},
+		.name = CN("奇异薰香"),
 		.itemId = ITEM_ODD_INCENSE,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_PSYCHIC_POWER,
@@ -12421,7 +12421,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _u, _r, _e, _SPACE, _I, _n, _c, _e, _n, _s, _e, _END},
+		.name = CN("洁净薰香"),
 		.itemId = ITEM_PURE_INCENSE,
 		.price = 6000,
 		.holdEffect = ITEM_EFFECT_REPEL,
@@ -12437,7 +12437,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _o, _c, _k, _SPACE, _I, _n, _c, _e, _n, _s, _e, _END},
+		.name = CN("岩石薰香"),
 		.itemId = ITEM_ROCK_INCENSE,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_ROCK_POWER,
@@ -12453,7 +12453,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _o, _s, _e, _SPACE, _I, _n, _c, _e, _n, _s, _e, _END},
+		.name = CN("花朵薰香"),
 		.itemId = ITEM_ROSE_INCENSE,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GRASS_POWER,
@@ -12469,7 +12469,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_W, _a, _v, _e, _SPACE, _I, _n, _c, _e, _n, _s, _e, _END},
+		.name = CN("涟漪薰香"),
 		.itemId = ITEM_WAVE_INCENSE,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_WATER_POWER,
@@ -12485,7 +12485,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_N, _o, _r, _m, _a, _l, _SPACE, _G, _e, _m, _END},
+		.name = CN("一般宝石"),
 		.itemId = ITEM_NORMAL_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12501,7 +12501,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _i, _g, _h, _t, _i, _n, _g, _SPACE, _G, _e, _m, _END},
+		.name = CN("格斗宝石"),
 		.itemId = ITEM_FIGHTING_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12517,7 +12517,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _l, _y, _i, _n, _g, _SPACE, _G, _e, _m, _END},
+		.name = CN("飞行宝石"),
 		.itemId = ITEM_FLYING_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12533,7 +12533,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _o, _i, _s, _o, _n, _SPACE, _G, _e, _m, _END},
+		.name = CN("毒之宝石"),
 		.itemId = ITEM_POISON_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12549,7 +12549,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _r, _o, _u, _n, _d, _SPACE, _G, _e, _m, _END},
+		.name = CN("地面宝石"),
 		.itemId = ITEM_GROUND_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12565,7 +12565,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _o, _c, _k, _SPACE, _G, _e, _m, _END},
+		.name = CN("岩石宝石"),
 		.itemId = ITEM_ROCK_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12581,7 +12581,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _u, _g, _SPACE, _G, _e, _m, _END},
+		.name = CN("虫之宝石"),
 		.itemId = ITEM_BUG_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12597,7 +12597,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _h, _o, _s, _t, _SPACE, _G, _e, _m, _END},
+		.name = CN("幽灵宝石"),
 		.itemId = ITEM_GHOST_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12613,7 +12613,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _t, _e, _e, _l, _SPACE, _G, _e, _m, _END},
+		.name = CN("钢之宝石"),
 		.itemId = ITEM_STEEL_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12629,7 +12629,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _i, _r, _e, _SPACE, _G, _e, _m, _END},
+		.name = CN("火之宝石"),
 		.itemId = ITEM_FIRE_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12645,7 +12645,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_W, _a, _t, _e, _r, _SPACE, _G, _e, _m, _END},
+		.name = CN("水之宝石"),
 		.itemId = ITEM_WATER_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12661,7 +12661,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _r, _a, _s, _s, _SPACE, _G, _e, _m, _END},
+		.name = CN("草之宝石"),
 		.itemId = ITEM_GRASS_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12677,7 +12677,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_E, _l, _e, _c, _t, _r, _i, _c, _SPACE, _G, _e, _m, _END},
+		.name = CN("电之宝石"),
 		.itemId = ITEM_ELECTRIC_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12693,7 +12693,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _s, _y, _c, _h, _i, _c, _SPACE, _G, _e, _m, _END},
+		.name = CN("超能力宝石"),
 		.itemId = ITEM_PSYCHIC_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12709,7 +12709,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_I, _c, _e, _SPACE, _G, _e, _m, _END},
+		.name = CN("冰之宝石"),
 		.itemId = ITEM_ICE_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12725,7 +12725,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _r, _a, _g, _o, _n, _SPACE, _G, _e, _m, _END},
+		.name = CN("龙之宝石"),
 		.itemId = ITEM_DRAGON_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12741,7 +12741,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _a, _r, _k, _SPACE, _G, _e, _m, _END},
+		.name = CN("恶之宝石"),
 		.itemId = ITEM_DARK_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12757,7 +12757,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _a, _i, _r, _y, _SPACE, _G, _e, _m, _END},
+		.name = CN("妖精宝石"),
 		.itemId = ITEM_FAIRY_GEM,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_GEM,
@@ -12773,7 +12773,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_W, _i, _d, _e, _SPACE, _L, _e, _n, _s, _END},
+		.name = CN("广角镜"),
 		.itemId = ITEM_WIDE_LENS,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_WIDE_LENS,
@@ -12789,7 +12789,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _u, _s, _c, _l, _e, _SPACE, _B, _a, _n, _d, _END},
+		.name = CN("力量头带"),
 		.itemId = ITEM_MUSCLE_BAND,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_MUSCLE_BAND,
@@ -12805,7 +12805,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_W, _i, _s, _e, _SPACE, _G, _l, _a, _s, _s, _e, _s, _END},
+		.name = CN("博识眼镜"),
 		.itemId = ITEM_WISE_GLASSES,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_WISE_GLASSES,
@@ -12821,7 +12821,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_E, _x, _p, _e, _r, _t, _SPACE, _B, _e, _l, _t, _END},
+		.name = CN("达人带"),
 		.itemId = ITEM_EXPERT_BELT,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_EXPERT_BELT,
@@ -12837,7 +12837,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_L, _i, _g, _h, _t, _SPACE, _C, _l, _a, _y, _END},
+		.name = CN("光之黏土"),
 		.itemId = ITEM_LIGHT_CLAY,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_LIGHT_CLAY,
@@ -12853,7 +12853,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_L, _i, _f, _e, _SPACE, _O, _r, _b, _END},
+		.name = CN("生命宝珠"),
 		.itemId = ITEM_LIFE_ORB,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_LIFE_ORB,
@@ -12869,7 +12869,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_P, _o, _w, _e, _r, _SPACE, _H, _e, _r, _b, _END},
+		.name = CN("强力香草"),
 		.itemId = ITEM_POWER_HERB,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_POWER_HERB,
@@ -12885,7 +12885,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _o, _x, _i, _c, _SPACE, _O, _r, _b, _END},
+		.name = CN("剧毒宝珠"),
 		.itemId = ITEM_TOXIC_ORB,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_TOXIC_ORB,
@@ -12901,7 +12901,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _l, _a, _m, _e, _SPACE, _O, _r, _b, _END},
+		.name = CN("火焰宝珠"),
 		.itemId = ITEM_FLAME_ORB,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_FLAME_ORB,
@@ -12917,7 +12917,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_Q, _u, _i, _c, _k, _SPACE, _P, _o, _w, _d, _e, _r, _END},
+		.name = CN("速度粉"),
 		.itemId = ITEM_QUICK_POWDER,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_QUICK_POWDER,
@@ -12933,7 +12933,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _o, _c, _u, _s, _SPACE, _S, _a, _s, _h, _END},
+		.name = CN("气势披带"),
 		.itemId = ITEM_FOCUS_SASH,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_FOCUS_BAND,
@@ -12949,7 +12949,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_Z, _o, _o, _m, _SPACE, _L, _e, _n, _s, _END},
+		.name = CN("对焦镜"),
 		.itemId = ITEM_ZOOM_LENS,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_ZOOM_LENS,
@@ -12965,7 +12965,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_M, _e, _t, _r, _o, _n, _o, _m, _e, _END},
+		.name = CN("节拍器"),
 		.itemId = ITEM_METRONOME,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_METRONOME,
@@ -12981,7 +12981,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_I, _r, _o, _n, _SPACE, _B, _a, _l, _l, _END},
+		.name = CN("黑色铁球"),
 		.itemId = ITEM_IRON_BALL,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_IRON_BALL,
@@ -12997,7 +12997,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_L, _a, _g, _g, _i, _n, _g, _SPACE, _T, _a, _i, _l, _END},
+		.name = CN("后攻之尾"),
 		.itemId = ITEM_LAGGING_TAIL,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_LAGGING_TAIL,
@@ -13013,7 +13013,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _e, _s, _t, _i, _n, _y, _SPACE, _K, _n, _o, _t, _END},
+		.name = CN("红线"),
 		.itemId = ITEM_DESTINY_KNOT,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_DESTINY_KNOT,
@@ -13029,7 +13029,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _l, _a, _c, _k, _SPACE, _S, _l, _u, _d, _g, _e, _END},
+		.name = CN("黑色污泥"),
 		.itemId = ITEM_BLACK_SLUDGE,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_BLACK_SLUDGE,
@@ -13045,7 +13045,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_I, _c, _y, _SPACE, _R, _o, _c, _k, _END},
+		.name = CN("冰冷岩石"),
 		.itemId = ITEM_ICY_ROCK,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_ICY_ROCK,
@@ -13061,7 +13061,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _m, _o, _o, _t, _h, _SPACE, _R, _o, _c, _k, _END},
+		.name = CN("沙沙岩石"),
 		.itemId = ITEM_SMOOTH_ROCK,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_SMOOTH_ROCK,
@@ -13077,7 +13077,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_H, _e, _a, _t, _SPACE, _R, _o, _c, _k, _END},
+		.name = CN("炽热岩石"),
 		.itemId = ITEM_HEAT_ROCK,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_HEAT_ROCK,
@@ -13093,7 +13093,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_D, _a, _m, _p, _SPACE, _R, _o, _c, _k, _END},
+		.name = CN("潮湿岩石"),
 		.itemId = ITEM_DAMP_ROCK,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_DAMP_ROCK,
@@ -13109,7 +13109,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_G, _r, _i, _p, _SPACE, _C, _l, _a, _w, _END},
+		.name = CN("紧缠钩爪"),
 		.itemId = ITEM_GRIP_CLAW,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_GRIP_CLAW,
@@ -13125,7 +13125,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_C, _h, _o, _i, _c, _e, _SPACE, _S, _c, _a, _r, _f, _END},
+		.name = CN("讲究围巾"),
 		.itemId = ITEM_CHOICE_SCARF,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_CHOICE_BAND,
@@ -13141,7 +13141,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_C, _h, _o, _i, _c, _e, _SPACE, _S, _p, _e, _c, _s, _END},
+		.name = CN("讲究眼镜"),
 		.itemId = ITEM_CHOICE_SPECS,
 		.price = 2000,
 		.holdEffect = ITEM_EFFECT_CHOICE_BAND,
@@ -13157,7 +13157,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _t, _i, _c, _k, _y, _SPACE, _B, _a, _r, _b, _END},
+		.name = CN("附着针"),
 		.itemId = ITEM_STICKY_BARB,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_STICKY_BARB,
@@ -13173,7 +13173,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _h, _e, _d, _SPACE, _S, _h, _e, _l, _l, _END},
+		.name = CN("美丽空壳"),
 		.itemId = ITEM_SHED_SHELL,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_SHED_SHELL,
@@ -13189,7 +13189,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _i, _g, _SPACE, _R, _o, _o, _t, _END},
+		.name = CN("大根茎"),
 		.itemId = ITEM_BIG_ROOT,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_BIG_ROOT,
@@ -13205,7 +13205,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_E, _v, _i, _o, _l, _i, _t, _e, _END},
+		.name = CN("进化奇石"),
 		.itemId = ITEM_EVIOLITE,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_EVIOLITE,
@@ -13221,7 +13221,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_F, _l, _o, _a, _t, _SPACE, _S, _t, _o, _n, _e, _END},
+		.name = CN("轻石"),
 		.itemId = ITEM_FLOAT_STONE,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_FLOAT_STONE,
@@ -13237,7 +13237,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _o, _c, _k, _y, _SPACE, _H, _e, _l, _m, _e, _t, _END},
+		.name = CN("凸凸头盔"),
 		.itemId = ITEM_ROCKY_HELMET,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_ROCKY_HELMET,
@@ -13253,7 +13253,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_A, _i, _r, _SPACE, _B, _a, _l, _l, _o, _o, _n, _END},
+		.name = CN("气球"),
 		.itemId = ITEM_AIR_BALLOON,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_AIR_BALLOON,
@@ -13269,7 +13269,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _e, _d, _SPACE, _C, _a, _r, _d, _END},
+		.name = CN("红牌"),
 		.itemId = ITEM_RED_CARD,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_RED_CARD,
@@ -13285,7 +13285,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_R, _i, _n, _g, _SPACE, _T, _a, _r, _g, _e, _t, _END},
+		.name = CN("标靶"),
 		.itemId = ITEM_RING_TARGET,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_RING_TARGET,
@@ -13301,7 +13301,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_B, _i, _n, _d, _i, _n, _g, _SPACE, _B, _a, _n, _d, _END},
+		.name = CN("紧绑束带"),
 		.itemId = ITEM_BINDING_BAND,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_BINDING_BAND,
@@ -13317,7 +13317,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_A, _b, _s, _o, _r, _b, _SPACE, _B, _u, _l, _b, _END},
+		.name = CN("球根"),
 		.itemId = ITEM_ABSORB_BULB,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_ABSORB_BULB,
@@ -13333,7 +13333,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_C, _e, _l, _l, _SPACE, _B, _a, _t, _t, _e, _r, _y, _END},
+		.name = CN("充电电池"),
 		.itemId = ITEM_CELL_BATTERY,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_CELL_BATTERY,
@@ -13349,7 +13349,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_E, _j, _e, _c, _t, _SPACE, _B, _u, _t, _t, _o, _n, _END},
+		.name = CN("逃脱按键"),
 		.itemId = ITEM_EJECT_BUTTON,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_EJECT_BUTTON,
@@ -13365,7 +13365,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_W, _e, _a, _k, _n, _e, _s, _s, _SPACE, _P, _o, _l, _PERIOD, _END},
+		.name = CN("弱点保险"),
 		.itemId = ITEM_WEAKNESS_POLICY,
 		.price = 1000,
 		.holdEffect = ITEM_EFFECT_WEAKNESS_POLICY,
@@ -13381,7 +13381,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_A, _s, _s, _a, _u, _l, _t, _SPACE, _V, _e, _s, _t, _END},
+		.name = CN("突击背心"),
 		.itemId = ITEM_ASSAULT_VEST,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_ASSAULT_VEST,
@@ -13397,7 +13397,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_L, _u, _m, _i, _n, _o, _u, _s, _M, _o, _s, _s, _END},
+		.name = CN("光苔"),
 		.itemId = ITEM_LUMINOUS_MOSS,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_LUMINOUS_MOSS,
@@ -13413,7 +13413,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _n, _o, _w, _b, _a, _l, _l, _END},
+		.name = CN("雪球"),
 		.itemId = ITEM_SNOWBALL,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_SNOWBALL,
@@ -13429,7 +13429,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_S, _a, _f, _e, _SPACE, _G, _u, _a, _r, _d, _END},
+		.name = CN("防尘护目镜"),
 		.itemId = ITEM_SAFETY_GOGGLES,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_SAFETY_GOGGLES,
@@ -13445,7 +13445,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_A, _d, _r, _e, _n, _a, _l, _SPACE, _O, _r, _b, _END},
+		.name = CN("胆怯球"),
 		.itemId = ITEM_ADRENALINE_ORB,
 		.price = 4000,
 		.holdEffect = ITEM_EFFECT_ADRENALINE_ORB,
@@ -13461,7 +13461,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
     {
-        .name = {_T, _e, _r, _r, _a, _i, _n, _SPACE, _E, _x, _t, _PERIOD, _END},
+        .name = CN("大地膜"),
         .itemId = ITEM_TERRAIN_EXTENDER,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_TERRAIN_EXTENDER,
@@ -13477,7 +13477,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_P, _r, _o, _t, _e, _c, _SPACE, _P, _a, _d, _s, _END},
+        .name = CN("部位护具"),
         .itemId = ITEM_PROTECTIVE_PADS,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_PROTECTIVE_PADS,
@@ -13493,7 +13493,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_E, _l, _e, _c, _t, _PERIOD, _SPACE, _S, _e, _e, _d, _END},
+        .name = CN("电气种子"),
         .itemId = ITEM_ELECTRIC_SEED,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_SEEDS,
@@ -13509,7 +13509,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_G, _r, _a, _s, _s, _y, _SPACE, _S, _e, _e, _d, _END},
+        .name = CN("青草种子"),
         .itemId = ITEM_GRASSY_SEED,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_SEEDS,
@@ -13525,7 +13525,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_M, _i, _s, _t, _y, _SPACE, _S, _e, _e, _d, _END},
+        .name = CN("薄雾种子"),
         .itemId = ITEM_MISTY_SEED,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_SEEDS,
@@ -13541,7 +13541,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_P, _s, _y, _c, _h, _i, _c, _SPACE, _S, _e, _e, _d, _END},
+        .name = CN("精神种子"),
         .itemId = ITEM_PSYCHIC_SEED,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_SEEDS,
@@ -13557,7 +13557,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_E, _j, _e, _c, _t, _SPACE, _P, _a, _c, _k, _END},
+        .name = CN("避难背包"),
         .itemId = ITEM_EJECT_PACK,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_EJECT_PACK,
@@ -13573,7 +13573,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_R, _o, _o, _m, _SPACE, _S, _e, _r, _v, _i, _c, _e, _END},
+        .name = CN("客房服务"),
         .itemId = ITEM_ROOM_SERVICE,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_ROOM_SERVICE,
@@ -13589,7 +13589,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_B, _l, _u, _n, _d, _e, _r, _SPACE, _P, _o, _l, _PERIOD, _END},
+        .name = CN("打空保险"),
         .itemId = ITEM_BLUNDER_POLICY,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_BLUNDER_POLICY,
@@ -13605,7 +13605,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_H, _e, _a, _v, _y, _D, _B, _o, _o, _t, _s, _END},
+        .name = CN("厚底靴"),
         .itemId = ITEM_HEAVY_DUTY_BOOTS,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_HEAVY_DUTY_BOOTS,
@@ -13621,7 +13621,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_U, _t, _PERIOD, _SPACE, _U, _m, _b, _r, _e, _l, _l, _a, _END},
+        .name = CN("万能伞"),
         .itemId = ITEM_UTILITY_UMBRELLA,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_UTILITY_UMBRELLA,
@@ -13637,7 +13637,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_T, _h, _r, _o, _a, _t, _SPACE, _S, _p, _r, _a, _y, _END},
+        .name = CN("爽喉喷雾"),
         .itemId = ITEM_THROAT_SPRAY,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_THROAT_SPRAY,
@@ -13653,7 +13653,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_A, _HYPHEN, _P, _o, _t, _i, _o, _n, _END},
+        .name = CN("特性胶囊"),
         .itemId = ITEM_ABILITY_CAPSULE,
         .price = 10000,
         .holdEffect = ITEM_EFFECT_ABILITY_CAPSULE,
@@ -13669,7 +13669,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
 	{
-        .name = {_A, _HYPHEN, _P, _a, _t, _c, _h, _END},
+        .name = CN("特性膏药"),
         .itemId = ITEM_ABILITY_PATCH,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_ABILITY_CAPSULE,
@@ -13685,7 +13685,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
 	    {
-        .name = {_A, _u, _s, _p, _i, _c, _i, _o, _u, _s, _HYPHEN, _A, _END},
+        .name = CN("庆祝之铠"),
         .itemId = ITEM_AUSPICIOUS_ARMOR,
         .price = 3000,
         .holdEffect = 0,
@@ -13701,7 +13701,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_M, _a, _l, _i, _c, _i, _o, _u, _s, _HYPHEN, _A, _END},
+        .name = CN("咒术之铠"),
         .itemId = ITEM_MALICIOUS_ARMOR,
         .price = 3000,
         .holdEffect = 0,
@@ -13717,7 +13717,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_B, _l, _k, _SPACE, _A, _u, _g, _u, _r, _i, _t, _e, _END},
+        .name = CN("黑奇石"),
         .itemId = ITEM_BLACK_AUGURITE,
         .price = 3000,
         .holdEffect = 0,
@@ -13733,7 +13733,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_M, _e, _t, _a, _l, _SPACE, _A, _l, _l, _o, _y, _END},
+        .name = CN("复合金属"),
         .itemId = ITEM_METAL_ALLOY,
         .price = 3000,
         .holdEffect = 0,
@@ -13749,7 +13749,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_P, _e, _a, _t, _SPACE, _B, _l, _o, _c, _k, _END},
+        .name = CN("泥炭块"),
         .itemId = ITEM_PEAT_BLOCK,
         .price = 3000,
         .holdEffect = 0,
@@ -13765,7 +13765,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_L, _e, _a, _d, _e, _r, _s, _SPACE, _C, _r, _e, _s, _t, _END},
+        .name = CN("头领凭证"),
         .itemId = ITEM_LEADERS_CREST,
         .price = 3000,
         .holdEffect = 0,
@@ -13781,7 +13781,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_G, _i, _m, _m, _i, _SPACE, _C, _o, _i, _n, _END},
+        .name = CN("索财灵的硬币"),
         .itemId = ITEM_GIMMIGHOUL_COIN,
         .price = 3000,
         .holdEffect = 0,
@@ -13797,7 +13797,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_S, _y, _r, _u, _p, _y, _SPACE, _A, _p, _p, _l, _e, _END},
+        .name = CN("蜜汁苹果"),
         .itemId = ITEM_SYRUPY_APPLE,
         .price = 3000,
         .holdEffect = 0,
@@ -13813,7 +13813,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_C, _l, _e, _a, _r, _SPACE, _A, _m, _u, _l, _e, _t, _END},
+        .name = CN("清净坠饰"),
         .itemId = ITEM_CLEAR_AMULET,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_CLEAR_AMULET,
@@ -13829,7 +13829,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_C, _o, _v, _e, _r, _t, _SPACE, _C, _l, _o, _a, _k, _END},
+        .name = CN("密探斗篷"),
         .itemId = ITEM_COVERT_CLOAK,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_COVERT_CLOAK,
@@ -13861,7 +13861,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_P, _u, _n, _c, _h, _SPACE, _G, _l, _o, _v, _e, _END},
+        .name = CN("拳击手套"),
         .itemId = ITEM_PUNCHING_GLOVE,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_PUNCHING_GLOVE,
@@ -13877,7 +13877,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_R, _e, _i, _n, _s, _SPACE, _U, _n, _i, _t, _y, _END},
+        .name = CN("牵绊缰绳"),
         .itemId = ITEM_REINS_OF_UNITY,
         .price = 0,
         .holdEffect = 0,
@@ -13893,7 +13893,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_B, _o, _o, _s, _t, _SPACE, _E, _n, _e, _r, _g, _y, _END},
+        .name = CN("驱劲能量"),
         .itemId = ITEM_BOOSTER_ENERGY,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_BOOSTER_ENERGY,
@@ -13909,7 +13909,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_W, _e, _l, _l, _PERIOD, _SPACE, _M, _a, _s, _k, _END},
+        .name = CN("水井面具"),
         .itemId = ITEM_WELLSPRING_MASK,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_MASKS,
@@ -13925,7 +13925,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_H, _e, _a, _r, _t, _PERIOD, _SPACE, _M, _a, _s, _k, _END},
+        .name = CN("火灶面具"),
         .itemId = ITEM_HEARTHFLAME_MASK,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_MASKS,
@@ -13941,7 +13941,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = {_C, _o, _r, _n, _e, _r, _PERIOD, _SPACE, _M, _a, _s, _k, _END},
+        .name = CN("础石面具"),
         .itemId = ITEM_CORNERSTONE_MASK,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_MASKS,
@@ -13958,7 +13958,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_LONELY_MINT]
     {
-        .name = {_L, _o, _n, _e, _l, _y, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("怕寂寞薄荷"),
         .itemId = ITEM_LONELY_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -13975,7 +13975,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_ADAMANT_MINT]
     {
-        .name = {_A, _d, _a, _m, _a, _n, _t, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("固执薄荷"),
         .itemId = ITEM_ADAMANT_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -13992,7 +13992,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_NAUGHTY_MINT]
     {
-        .name = {_N, _a, _u, _g, _h, _t, _y, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("顽皮薄荷"),
         .itemId = ITEM_NAUGHTY_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14009,7 +14009,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_BRAVE_MINT]
     {
-        .name = {_B, _r, _a, _v, _e, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("勇敢薄荷"),
         .itemId = ITEM_BRAVE_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14026,7 +14026,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_BOLD_MINT]
     {
-        .name = {_B, _o, _l, _d, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("大胆薄荷"),
         .itemId = ITEM_BOLD_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14043,7 +14043,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_IMPISH_MINT]
     {
-        .name = {_I, _m, _p, _i, _s, _h, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("淘气薄荷"),
         .itemId = ITEM_IMPISH_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14060,7 +14060,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_LAX_MINT]
     {
-        .name = {_L, _a, _x, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("乐天薄荷"),
         .itemId = ITEM_LAX_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14077,7 +14077,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_RELAXED_MINT]
     {
-        .name = {_R, _e, _l, _a, _x, _e, _d, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("悠闲薄荷"),
         .itemId = ITEM_RELAXED_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14094,7 +14094,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_MODEST_MINT]
     {
-        .name = {_M, _o, _d, _e, _s, _t, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("内敛薄荷"),
         .itemId = ITEM_MODEST_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14111,7 +14111,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_MILD_MINT]
     {
-        .name = {_M, _i, _l, _d, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("慢吞吞薄荷"),
         .itemId = ITEM_MILD_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14128,7 +14128,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_RASH_MINT]
     {
-        .name = {_R, _a, _s, _h, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("马虎薄荷"),
         .itemId = ITEM_RASH_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14145,7 +14145,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_QUIET_MINT]
     {
-        .name = {_Q, _u, _i, _e, _t, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("冷静薄荷"),
         .itemId = ITEM_QUIET_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14162,7 +14162,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_CALM_MINT]
     {
-        .name = {_C, _a, _l, _m, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("温和薄荷"),
         .itemId = ITEM_CALM_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14179,7 +14179,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_GENTLE_MINT]
     {
-        .name = {_G, _e, _n, _t, _l, _e, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("温顺薄荷"),
         .itemId = ITEM_GENTLE_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14196,7 +14196,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_CAREFUL_MINT]
     {
-        .name = {_C, _a, _r, _e, _f, _u, _l, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("慎重薄荷"),
         .itemId = ITEM_CAREFUL_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14213,7 +14213,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_SASSY_MINT]
     {
-        .name = {_S, _a, _s, _s, _y, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("自大薄荷"),
         .itemId = ITEM_SASSY_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14230,7 +14230,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_TIMID_MINT]
     {
-        .name = {_T, _i, _m, _i, _d, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("胆小薄荷"),
         .itemId = ITEM_TIMID_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14247,7 +14247,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_HASTY_MINT]
     {
-        .name = {_H, _a, _s, _t, _y, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("急躁薄荷"),
         .itemId = ITEM_HASTY_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14264,7 +14264,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_JOLLY_MINT]
     {
-        .name = {_J, _o, _l, _l, _y, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("爽朗薄荷"),
         .itemId = ITEM_JOLLY_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14281,7 +14281,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_NAIVE_MINT]
     {
-        .name = {_N, _a, _i, _v, _e, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("天真薄荷"),
         .itemId = ITEM_NAIVE_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14298,7 +14298,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_SERIOUS_MINT]
     {
-        .name = {_S, _e, _r, _i, _o, _u, _s, _SPACE, _M, _i, _n, _t, _END},
+        .name = CN("认真薄荷"),
         .itemId = ITEM_SERIOUS_MINT,
         .price = 20000,
         .holdEffect = ITEM_EFFECT_NATURE_MINT,
@@ -14315,7 +14315,7 @@ const struct Item gItemData[] =
     },
 	[ITEM_POKEVIAL]
 	{
-		.name = {_P, _o, _k, _e, _v, _i, _a, _l, _END},
+		.name = CN("宝可药瓶"),
 		.itemId = ITEM_POKEVIAL,  // No standard effect
 		.price = 0,  // Key Items have no price
 		.holdEffect = 0,  // Not a held item
@@ -14332,7 +14332,7 @@ const struct Item gItemData[] =
 	},
 	[ITEM_EVIV_DISPLAYER]
  	{
- 		.name = {_E, _V, _HYPHEN, _I, _V, _SPACE, _V, _i, _e, _w, _e, _r, _END},
+ 		.name = CN("能力值查看器"),
  		.itemId = ITEM_EVIV_DISPLAYER,  // No standard effect
  		.price = 0,  // Key Items have no price
  		.holdEffect = 0,  // Not a held item
@@ -14348,7 +14348,7 @@ const struct Item gItemData[] =
  		.secondaryId = 0,
  	},
 	[ITEM_CATCHING_CHARM]
-	{    .name = {_C, _a, _t, _c, _h, _i, _n, _g, _C, _h, _a, _r, _m, _END},
+	{    .name = CN("防晃护符"),
         .itemId = ITEM_CATCHING_CHARM,
         .price = 0,
         .holdEffect = 0,
@@ -14364,7 +14364,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
 	[ITEM_HISUI_ROCK]
-	{    .name = {_H, _i, _s, _u, _i, _SPACE, _R, _o, _c, _k, _END},
+	{    .name = CN("洗翠石"),
 		.itemId = ITEM_HISUI_ROCK,
 		.price = 10000,
 		.holdEffect = 0,
@@ -14381,7 +14381,7 @@ const struct Item gItemData[] =
 	},
 	[ITEM_UNREMARKABLE_TEACUP]
 	{
-		.name = {_U, _n, _r, _PERIOD, _SPACE, _T, _e, _a, _c, _u, _p, _END},
+		.name = CN("凡作茶碗"),
 		.itemId = ITEM_UNREMARKABLE_TEACUP,
 		.price = 3000,
 		.holdEffect = 0,
@@ -14398,7 +14398,7 @@ const struct Item gItemData[] =
 	},
 	[ITEM_MASTERPIECE_TEACUP]
 	{
-		.name = {_M, _a, _s, _p, _PERIOD, _SPACE, _T, _e, _a, _c, _u, _p, _END},
+		.name = CN("杰作茶碗"),
 		.itemId = ITEM_MASTERPIECE_TEACUP,
 		.price = 3000,
 		.holdEffect = 0,
@@ -14415,7 +14415,7 @@ const struct Item gItemData[] =
 	},
 	[ITEM_TERA_ORB]
 	{
-		.name = {_T, _e, _r, _a, _SPACE, _O, _r, _b, _END},
+		.name = CN("太晶珠"),
 		.itemId = ITEM_TERA_ORB,
 		.price = 0,
 		.holdEffect = 0,
@@ -14432,7 +14432,7 @@ const struct Item gItemData[] =
 	},
 	[ITEM_PORTABLE_PC]
 	{
-		.name = {_P, _o, _r, _t, _a, _b, _l, _e, _SPACE, _P, _C, _END},
+		.name = CN("便携式电脑"),
 		.itemId = ITEM_PORTABLE_PC,
 		.price = 0,
 		.holdEffect = 0,
@@ -15584,7 +15584,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-        .name = {_M, _i, _r, _r, _o, _r, _SPACE, _H, _e, _r, _b, _END},
+        .name = CN("模仿香草"),
         .itemId = ITEM_MIRROR_HERB,
         .price = 30000,
 		.holdEffect = ITEM_EFFECT_MIRROR_HERB,

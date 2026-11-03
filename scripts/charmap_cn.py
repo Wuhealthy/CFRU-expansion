@@ -16,6 +16,15 @@ charmap_cn.py
 	A line is only replaced when re-encoding the decoded text reproduces the
 	original bytes exactly, so migration is lossless.
 
+	Bulk-translate English `_X` token names from a dictionary spreadsheet:
+		python scripts/charmap_cn.py --apply-xlsx 道具名称_英-中.xlsx src/Tables/item_tables.c [maxBytes]
+	Reads EN->CN pairs from columns A/B (data after the 原文 header row),
+	decodes each token-style `.name = { _X, ... _END }` back to English,
+	matches case- and accent-insensitively, and rewrites hits as CN("译文").
+	Names whose translation exceeds maxBytes (default 14, the u8 name[] size)
+	are skipped and reported, never truncated. Token codes come from
+	include/easy_text.h, so new punctuation tokens need no script changes.
+
 	Byte emission matches scripts/string.py ProcessString: codes <= 0xFF are one
 	byte, larger codes are two bytes big-endian, and 0xFF (_END) terminates.
 """
@@ -23,6 +32,9 @@ charmap_cn.py
 import os
 import re
 import sys
+import unicodedata
+import xml.etree.ElementTree as ET
+import zipfile
 
 CharMap = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "charmap.tbl")
 STRING_TERMINATOR = 0xFF
@@ -268,13 +280,168 @@ def MigrateFile(path):
 	print("Entries left as-is: %d (English _X tokens, placeholders, or undecodable)" % len(skipped))
 
 
+# ---------------- xlsx dictionary application ----------------
+
+_XlsxNamespace = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+_DefineRegex = re.compile(r"^#define\s+(_\w+)\s+0x([0-9A-Fa-f]+)\s*(?:$|//)")
+
+
+def _NormalizeKey(text):
+	"""Casefold + strip accents so 'Pokè Doll', 'Poké Doll' and 'poke doll' match."""
+	decomposed = unicodedata.normalize("NFKD", text)
+	stripped = "".join(char for char in decomposed if not unicodedata.combining(char))
+	return " ".join(stripped.casefold().split())
+
+
+def _LoadXlsxDictionary(xlsxPath):
+	"""Parse EN->CN pairs from columns A/B, data rows after the 原文 header row."""
+	with zipfile.ZipFile(xlsxPath) as archive:
+		shared = []
+		if "xl/sharedStrings.xml" in archive.namelist():
+			root = ET.fromstring(archive.read("xl/sharedStrings.xml"))
+			for item in root.findall(_XlsxNamespace + "si"):
+				shared.append("".join(node.text or "" for node in item.iter(_XlsxNamespace + "t")))
+		sheetName = sorted(
+			name for name in archive.namelist()
+			if name.startswith("xl/worksheets/sheet") and name.endswith(".xml")
+		)[0]
+		root = ET.fromstring(archive.read(sheetName))
+
+	pairs = []
+	headerSeen = False
+	for row in root.iter(_XlsxNamespace + "row"):
+		cells = {}
+		for cell in row.findall(_XlsxNamespace + "c"):
+			column = "".join(char for char in cell.get("r", "") if char.isalpha()).upper()
+			cellType = cell.get("t")
+			valueNode = cell.find(_XlsxNamespace + "v")
+			if cellType == "s" and valueNode is not None:
+				value = shared[int(valueNode.text)]
+			elif cellType == "inlineStr":
+				inline = cell.find(_XlsxNamespace + "is")
+				value = "".join(node.text or "" for node in inline.iter(_XlsxNamespace + "t")) if inline is not None else ""
+			elif valueNode is not None and valueNode.text is not None:
+				value = valueNode.text
+			else:
+				value = ""
+			cells[column] = value.strip()
+		english = cells.get("A", "")
+		chinese = cells.get("B", "")
+		if not headerSeen:
+			if english == "原文":
+				headerSeen = True
+			continue
+		if english and chinese:
+			pairs.append((english, chinese))
+
+	dictionary = {}
+	duplicates = []
+	for english, chinese in pairs:
+		key = _NormalizeKey(english)
+		if key in dictionary and dictionary[key] != chinese:
+			duplicates.append((english, chinese))
+		dictionary[key] = chinese  # later rows win
+	return dictionary, duplicates, len(pairs)
+
+
+def _LoadTokenMap(headerPath):
+	"""Parse `#define _X 0xYY` from the text header, resolve chars via charmap."""
+	reverse = _BuildReverseMap()
+	tokens = {}
+	with open(headerPath, "r", encoding="utf-8-sig") as file:
+		for line in file:
+			match = _DefineRegex.match(line.strip())
+			if match is None:
+				continue
+			name, codeText = match.groups()
+			code = int(codeText, 16)
+			if code in reverse:
+				tokens[name] = reverse[code]
+	return tokens
+
+
+def ApplyXlsx(xlsxPath, cFilePath, maxBytes):
+	dictionary, duplicates, pairCount = _LoadXlsxDictionary(xlsxPath)
+	print('Loaded %d EN->CN pairs from "%s" (%d duplicate keys, later rows win)'
+		  % (pairCount, xlsxPath, len(duplicates)))
+	for english, chinese in duplicates:
+		print('  duplicate: "%s" -> "%s" (overridden by a later row)' % (english, chinese))
+
+	headerPath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "include", "easy_text.h")
+	tokens = _LoadTokenMap(headerPath)
+	if len(tokens) == 0:
+		print("Error! No _X token defines found in " + headerPath)
+		sys.exit(1)
+
+	with open(cFilePath, "rb") as file:
+		text = file.read().decode("utf-8")
+
+	replaced = 0
+	tooLong = []
+	unmatched = []
+	unknownToken = set()
+
+	def replaceMatch(match):
+		nonlocal replaced
+		body = match.group(1)
+		tokenNames = [token.strip() for token in body.split(",") if token.strip()]
+		if any("0x" in token.lower() for token in tokenNames):
+			return match.group(0)  # hex-style entries are not this mode's business
+		english = ""
+		for name in tokenNames:
+			if name == "_END":
+				break
+			if name not in tokens:
+				unknownToken.add(name)
+				return match.group(0)
+			english += tokens[name]
+		if not english:
+			return match.group(0)
+		chinese = dictionary.get(_NormalizeKey(english))
+		if chinese is None:
+			unmatched.append(english)
+			return match.group(0)
+		try:
+			needed = len(EncodeToBytes(chinese))
+		except ValueError as error:
+			tooLong.append((english, chinese, str(error)))
+			return match.group(0)
+		if needed > maxBytes:
+			tooLong.append((english, chinese, "%d bytes > %d" % (needed, maxBytes)))
+			return match.group(0)
+		replaced += 1
+		return '.name = CN("' + _Escape(chinese) + '")'
+
+	newText = _NameFieldRegex.sub(replaceMatch, text)
+
+	if replaced:
+		with open(cFilePath, "wb") as file:
+			file.write(newText.encode("utf-8"))
+
+	print('Applied xlsx: %d names replaced in %s' % (replaced, cFilePath))
+	if tooLong:
+		print("Skipped, translation too long for %d bytes:" % maxBytes)
+		for english, chinese, reason in tooLong:
+			print('  "%s" -> "%s" (%s)' % (english, chinese, reason))
+	if unmatched:
+		print("No dictionary entry found for %d names (left as English):" % len(unmatched))
+		for english in unmatched:
+			print('  "%s"' % english)
+	if unknownToken:
+		print("Unknown tokens skipped: " + ", ".join(sorted(unknownToken)))
+
+
 if __name__ == "__main__":
 	if len(sys.argv) == 3 and sys.argv[1] == "--migrate":
 		MigrateFile(sys.argv[2])
 	elif len(sys.argv) == 3 and sys.argv[1] == "--encode":
 		bytes_ = EncodeToBytes(sys.argv[2])
 		print("{ " + ", ".join("0x%02X" % byte for byte in bytes_) + "}")
+	elif len(sys.argv) in (4, 5) and sys.argv[1] == "--apply-xlsx":
+		maxBytes = int(sys.argv[4]) if len(sys.argv) == 5 else 14
+		ApplyXlsx(sys.argv[2], sys.argv[3], maxBytes)
 	else:
 		print("Usage:")
 		print('  python scripts/charmap_cn.py --encode "大师球"')
 		print("  python scripts/charmap_cn.py --migrate src/Tables/item_tables.c")
+		print("  python scripts/charmap_cn.py --apply-xlsx 道具名称_英-中.xlsx src/Tables/item_tables.c [maxBytes]")
