@@ -596,7 +596,7 @@ function moveRow(mid, lv, tmNo) {
   if (!m) return "";
   const t = TYPE_BY_ID[m.type] || { zh: "?", color: "#999" };
   return `<tr onclick="showMovePopup(${mid})">
-    <td>${lv != null ? `<span class="lv">${lv === 0 ? "进化" : "Lv." + lv}</span>` : (tmNo != null ? `<span class="tm-col-no">${tmNo}</span>` : "")}</td>
+    <td>${lv != null ? `<span class="lv">${lv === 0 ? "进化" : lv === 1 ? "—" : "Lv." + lv}</span>` : (tmNo != null ? `<span class="tm-col-no">${tmNo}</span>` : "")}</td>
     <td class="mv-name">${esc(m.zh)}</td>
     <td>${typePill(t, true)}</td>
     <td>${splitBadge(m.split)}</td>
@@ -605,6 +605,52 @@ function moveRow(mid, lv, tmNo) {
     <td class="num">${m.pp}</td>
   </tr>`;
 }
+
+/* 招式表排序: 每个页签独立, 表头点击循环 升序 → 降序 → 默认(等级/编号)顺序 */
+let MT_DATA = null, MT_SORT = null;
+const SPLIT_ORDER = { "物理": 0, "特殊": 1, "变化": 2 };
+function moveSortVal(col, row) {
+  const lv = row[0], mid = row[1], label = row[2], m = MOVE_BY_ID[mid];
+  switch (col) {
+    case "lv": return lv == null ? 1e9 : lv;
+    case "no": return label ? (parseInt(label.replace(/\D/g, ""), 10) || 0) + (label[0] === "H" ? 1000 : 0) : 0;
+    case "name": return m.zh;
+    case "type": return m.type;
+    case "split": return SPLIT_ORDER[m.split] ?? 3;
+    case "power": return m.power === 0 ? -1 : m.power === 1 ? 0 : m.power;  // — 在「变化」之前
+    case "acc": return m.acc || -1;
+    case "pp": return m.pp;
+  }
+}
+function renderMoveTable(tab) {
+  const s = MT_SORT[tab];
+  const rows = MT_DATA[tab].slice();
+  if (s.key) rows.sort((x, y) => {
+    const a = moveSortVal(s.key, x), b = moveSortVal(s.key, y);
+    const c = typeof a === "string" ? a.localeCompare(b, "zh") : a - b;
+    return c * s.dir || x[1] - y[1];
+  });
+  $("#mtb-" + tab).innerHTML = rows.map(r => moveRow(r[1], tab === "lv" ? r[0] : null, tab === "tm" ? r[2] : null)).join("")
+    || "<tr><td colspan=7>—</td></tr>";
+  document.querySelectorAll(`#tab-${tab} th.sortable .arrow`).forEach(a => {
+    a.textContent = a.closest("th").dataset.col === s.key ? (s.dir > 0 ? "▲" : "▼") : "";
+  });
+}
+window.sortMoves = function (tab, col) {
+  const s = MT_SORT[tab];
+  if (s.key === col) s.dir = -s.dir; else { s.key = col; s.dir = 1; }
+  renderMoveTable(tab);
+};
+window.switchTab = function (btn) {
+  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b === btn));
+  ["lv", "tm", "tutor", "egg"].forEach(k => $("#tab-" + k).classList.toggle("hidden", k !== btn.dataset.tab));
+};
+const mvHead = (tab, cols) => "<thead><tr>" + cols.map(([col, label]) =>
+  col ? `<th class="sortable" data-col="${col}" onclick="sortMoves('${tab}','${col}')">${label}<span class="arrow"></span></th>`
+      : `<th>${label}</th>`).join("") + "</tr></thead>";
+const MV_COLS_LV = [["lv", "等级"], ["name", "招式"], ["type", "属性"], ["split", "分类"], ["power", "威力"], ["acc", "命中"], ["pp", "PP"]];
+const MV_COLS_NO = [["no", "编号"], ["name", "招式"], ["type", "属性"], ["split", "分类"], ["power", "威力"], ["acc", "命中"], ["pp", "PP"]];
+const MV_COLS_PLAIN = [["", ""], ["name", "招式"], ["type", "属性"], ["split", "分类"], ["power", "威力"], ["acc", "命中"], ["pp", "PP"]];
 
 function renderPokemon(id) {
   const s = SPECIES_BY_ID[id];
@@ -624,12 +670,15 @@ function renderPokemon(id) {
       <div class="ab-desc">${esc(a.desc || "")}</div></div>`;
   }).join("");
 
-  const lvSorted = [...s.levelUp].sort((a, b) => a[0] - b[0] || a[1] - b[1]);
-  const tmRows = s.tm.map(mid => moveRow(mid, null, null));
   const tmNames = {};
   D.tms.forEach(t => tmNames[t.move] = tmNames[t.move] || t.label);
-  const tutorRows = s.tutor.map(mid => moveRow(mid, null, null));
-  const eggRows = s.egg.map(mid => moveRow(mid, null, null));
+  MT_DATA = {
+    lv: [...s.levelUp],
+    tm: s.tm.map(mid => [null, mid, tmNames[mid] || ""]),
+    tutor: s.tutor.map(mid => [null, mid]),
+    egg: s.egg.map(mid => [null, mid]),
+  };
+  MT_SORT = { lv: { key: null, dir: 1 }, tm: { key: null, dir: 1 }, tutor: { key: null, dir: 1 }, egg: { key: null, dir: 1 } };
 
   app.innerHTML = `
     <a class="back-link" href="#/">← 返回图鉴</a>
@@ -697,29 +746,22 @@ function renderPokemon(id) {
           <button data-tab="egg" onclick="switchTab(this)">蛋招式（${s.egg.length}）</button>
         </div>
         <div id="tab-lv">
-          <table class="move-table"><thead><tr><th>等级</th><th>招式</th><th>属性</th><th>分类</th><th>威力</th><th>命中</th><th>PP</th></tr></thead>
-          <tbody>${lvSorted.map(([lv, mid]) => moveRow(mid, lv, null)).join("") || "<tr><td colspan=7>—</td></tr>"}</tbody></table>
+          <table class="move-table">${mvHead("lv", MV_COLS_LV)}<tbody id="mtb-lv"></tbody></table>
         </div>
         <div id="tab-tm" class="hidden">
-          <table class="move-table"><thead><tr><th>编号</th><th>招式</th><th>属性</th><th>分类</th><th>威力</th><th>命中</th><th>PP</th></tr></thead>
-          <tbody>${s.tm.map(mid => moveRow(mid, null, tmNames[mid] || null)).join("") || "<tr><td colspan=7>—</td></tr>"}</tbody></table>
+          <table class="move-table">${mvHead("tm", MV_COLS_NO)}<tbody id="mtb-tm"></tbody></table>
         </div>
         <div id="tab-tutor" class="hidden">
-          <table class="move-table"><thead><tr><th></th><th>招式</th><th>属性</th><th>分类</th><th>威力</th><th>命中</th><th>PP</th></tr></thead>
-          <tbody>${tutorRows.join("") || "<tr><td colspan=7>—</td></tr>"}</tbody></table>
+          <table class="move-table">${mvHead("tutor", MV_COLS_PLAIN)}<tbody id="mtb-tutor"></tbody></table>
         </div>
         <div id="tab-egg" class="hidden">
-          <table class="move-table"><thead><tr><th></th><th>招式</th><th>属性</th><th>分类</th><th>威力</th><th>命中</th><th>PP</th></tr></thead>
-          <tbody>${eggRows.join("") || "<tr><td colspan=7>—</td></tr>"}</tbody></table>
+          <table class="move-table">${mvHead("egg", MV_COLS_PLAIN)}<tbody id="mtb-egg"></tbody></table>
         </div>
       </section>
     </div>`;
+  ["lv", "tm", "tutor", "egg"].forEach(renderMoveTable);
   mountSprites(app);
 }
-window.switchTab = function (btn) {
-  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b === btn));
-  ["lv", "tm", "tutor", "egg"].forEach(k => $("#tab-" + k).classList.toggle("hidden", k !== btn.dataset.tab));
-};
 
 /* ---------------- 招式页 ---------------- */
 let moveFilter = { q: "", type: "", split: "", cat: "" };

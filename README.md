@@ -126,7 +126,6 @@ python extract_data.py        # 需要 Python3 + Pillow
 
 ## 已知小缺口
 
-- 卡空斯的超级进化（SPECIES_CASTFORM, id 385）无正面图源文件，详情页回退显示图标
 - 地区形态与默认形态共用图鉴编号，详情页的图鉴介绍/身高体重沿用默认形态的数据
 - 进化条件按 CFRU `src/evolution.c` 的判定逻辑由 DPE 进化表参数生成；地点进化的编号按本作（火红）的
   `region_map_sections.h` 解释（DPE 写的是 Unbound 地名）。`EVO_COINS`、`EVO_MAUSHOLD_*`（DPE 独有）与

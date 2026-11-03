@@ -15,8 +15,8 @@
 招式学习器 49: 文件名招式 Leech Fang 与 TM_Tutor_Tables.c 的 steelbeam 不一致
 招式学习器 87: 文件名招式 Swagger 与 TM_Tutor_Tables.c 的 nightshade 不一致
 
-== 无正面图(1) ==
-[385]
+== 无正面图(0) ==
+[]
 
 == 无图标(0) ==
 []

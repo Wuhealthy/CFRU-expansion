@@ -221,6 +221,9 @@ a { color: inherit; text-decoration: none; }
   text-align: left; color: var(--muted); font-size: 12px;
   padding: 8px 10px; border-bottom: 2px solid var(--line); white-space: nowrap;
 }
+.move-table th.sortable { cursor: pointer; user-select: none; }
+.move-table th.sortable:hover { color: var(--ink); }
+.move-table th .arrow { margin-left: 3px; color: var(--accent); }
 .move-table td { padding: 8px 10px; border-bottom: 1px solid #edf1f6; }
 .move-table tbody tr { cursor: pointer; }
 .move-table tbody tr:hover { background: #f6f9fd; }
