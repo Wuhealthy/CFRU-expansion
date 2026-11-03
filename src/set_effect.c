@@ -10,6 +10,7 @@
 #include "../include/new/dynamax.h"
 #include "../include/new/item.h"
 #include "../include/new/move_battle_scripts.h"
+#include "../include/new/end_turn_battle_scripts.h"
 #include "../include/new/set_effect.h"
 #include "../include/new/stat_buffs.h"
 #include "../include/new/util.h"
@@ -852,8 +853,7 @@ void SetMoveEffect(bool8 primary, u8 certain)
 					gTerrainType = 0;
 					gNewBS->TerrainTimer = 0;
 					BattleScriptPush(gBattlescriptCurrInstr + 1);
-					gBattleStringLoader = TerrainEndString;
-					gBattlescriptCurrInstr = BattleScript_PrintCustomString;
+					gBattlescriptCurrInstr = BattleScript_TerrainEnd; //完整清场序列（动画+播报）并触发拟态恢复
 
 					gActiveBattler = GetFirstAliveActiveBattler();
 					EmitDataTransfer(0, &gTerrainType, 1, &gTerrainType);

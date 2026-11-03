@@ -2550,8 +2550,7 @@ const u8* TryActivateMimicryForBank(u8 bank)
 			u8 type1 = GetMonType(mon, 0);
 			u8 type2 = GetMonType(mon, 1);
 
-			if (gBattleMons[bank].type1 != type1 || gBattleMons[bank].type2 != type2
-			||  !IS_BLANK_TYPE(gBattleMons[bank].type3))
+			if (gBattleMons[bank].type1 != type1 || gBattleMons[bank].type2 != type2)
 			{
 				gBattleMons[bank].type1 = type1;
 				gBattleMons[bank].type2 = type2;
@@ -2564,12 +2563,13 @@ const u8* TryActivateMimicryForBank(u8 bank)
 		else
 		{
 			if (gBattleMons[bank].type1 != monType || gBattleMons[bank].type2 != monType
-			|| !IS_BLANK_TYPE(gBattleMons[bank].type3))
+			|| gBattleMons[bank].type3 == monType) //额外属性与拟态属性重复时消失（官方：森林咒术变草后又遇青草场地，咒术效果消失）
 			{
 				gBattleScripting.bank = bank;
 				gBattleMons[bank].type1 = monType;
 				gBattleMons[bank].type2 = monType;
-				//Type 3 does not change!
+				if (gBattleMons[bank].type3 == monType)
+					gBattleMons[bank].type3 = TYPE_BLANK; //清除重复的额外属性
 				PREPARE_TYPE_BUFFER(gBattleTextBuff1, monType);
 				return BattleScript_MimicryTransformed;
 			}
