@@ -6295,6 +6295,7 @@ BS_243_DamageSetTerrain:
 	goto BS_MOVE_END
 
 IceSpinner_BS:
+	accuracycheck BS_MOVE_MISSED 0x0
 	call STANDARD_DAMAGE
 	jumpifmovehadnoeffect BS_MOVE_FAINT
 	seteffectwithchancetarget
