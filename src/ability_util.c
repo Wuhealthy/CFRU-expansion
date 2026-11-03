@@ -438,6 +438,25 @@ u8 CountFallenPokemonInParty(u8 bank)
     return CountFallenMonsOnSide(SIDE(bank));
 }
 
+u8 CountFallenMonsForTrainerParty(u8 bank)
+{
+    u8 i;
+    u8 count = 0;
+    u8 firstMonId, lastMonId;
+    u8 side = SIDE(bank);
+
+    //多人对战/联机同伴/双对手战只数同一训练家的宝可梦（官方收尾细则：同伴训练家的
+    //宝可梦陷入昏厥不增加威力）；普通单打/双打返回全队，行为与按方计数一致
+    LoadPartyRange(bank, &firstMonId, &lastMonId);
+    for (i = firstMonId; i < lastMonId; i++)
+    {
+        if (gNewBS->fallenPokemonFlags[side][i])
+            ++count;
+    }
+
+    return count;
+}
+
 void MarkFallenMon(u8 bank)
 {
     u8 side = SIDE(bank);
