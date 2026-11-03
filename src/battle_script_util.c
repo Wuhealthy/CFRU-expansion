@@ -1839,12 +1839,17 @@ bool8 CanUseLastResort(u8 bank)
 
 void GigatonHammerFunc(void)
 {
-    if(gLastUsedMoves[gBankAttacker] == MOVE_GIGATONHAMMER)
+	//号令/梦话/挥指/接招等重演不受限制（官方：可通过号令、梦话、挥指使出第二次；
+	//重演场景 gCurrentMove 是被重演的招式，gChosenMove 仍是菜单选择，二者不等）
+	if (gCurrentMove != gChosenMove)
+		return;
+
+	//per-bank 实际使出记录：上回合成功使出巨力锤则失败；麻痹/睡眠未使出保持禁用（官方）
+	if (gLastResultingMoves[gBankAttacker] == MOVE_GIGATONHAMMER)
         gBattlescriptCurrInstr = BattleScript_ButItFailed - 2 - 5;
 
-	else if(gLastUsedMoves[gBankAttacker] == MOVE_BLOODMOON)
+	else if (gLastResultingMoves[gBankAttacker] == MOVE_BLOODMOON)
         gBattlescriptCurrInstr = BattleScript_ButItFailed - 2 - 5;
-    
 }
 
 void SynchronoiseFunc(void)

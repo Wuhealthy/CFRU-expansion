@@ -3467,8 +3467,8 @@ SKIP_CHECK_TARGET:
 		case EFFECT_LAST_RESORT:
 			if (!CanUseLastResort(bankAtk))
 				DECREASE_VIABILITY(10);
-			else if (gLastUsedMoves[bankAtk] == MOVE_GIGATONHAMMER || gLastUsedMoves[bankAtk] == MOVE_BLOODMOON)
-                DECREASE_VIABILITY(10);
+			else if (gLastResultingMoves[bankAtk] == MOVE_GIGATONHAMMER || gLastResultingMoves[bankAtk] == MOVE_BLOODMOON)
+                DECREASE_VIABILITY(10); //与选招限制同源（per-bank 实际使出记录）
 			else
 				goto AI_STANDARD_DAMAGE;
 			break;

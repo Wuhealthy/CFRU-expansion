@@ -1834,6 +1834,12 @@ u8 TrySetCantSelectMoveBattleScript(void)
 		gSelectionBattleScripts[gActiveBattler] = BattleScript_SelectingNotAllowedMoveAssaultVest;
 		++limitations;
 	}
+	else if (!isAnyMaxMove && (move == MOVE_GIGATONHAMMER || move == MOVE_BLOODMOON)
+	&& gLastResultingMoves[gActiveBattler] == move) //巨力锤/血月：上回合成功使出则选招时即提示（与殊死一搏同款体验）
+	{
+		gSelectionBattleScripts[gActiveBattler] = BattleScript_SelectingNotAllowedGigatonHammer;
+		++limitations;
+	}
 	#ifdef FLAG_SKY_BATTLE
 	else if (!gNewBS->zMoveData.toBeUsed[gActiveBattler] //Can still use status Z-Moves even during Sky Battle
 	&& FlagGet(FLAG_SKY_BATTLE) && gSpecialMoveFlags[move].gSkyBattleBannedMoves)

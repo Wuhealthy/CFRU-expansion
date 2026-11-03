@@ -812,9 +812,9 @@ bool8 IsUnusableMove(u16 move, u8 bank, u8 check, u8 pp, ability_t ability, u8 h
 		return TRUE;
 	else if (IsRaidBattle() && bank != BANK_RAID_BOSS && gSpecialMoveFlags[move].gRaidBattleBannedMoves && check & MOVE_LIMITATION_ENCORE)
 		return TRUE;
-	else if (move == MOVE_GIGATONHAMMER && gNewBS->LastUsedMove == MOVE_GIGATONHAMMER)
-        return TRUE;
-	else if (move == MOVE_BLOODMOON && gNewBS->LastUsedMove == MOVE_BLOODMOON)
+	else if (move == MOVE_GIGATONHAMMER && gLastResultingMoves[bank] == MOVE_GIGATONHAMMER)
+        return TRUE; //per-bank记录：双打中同伴出招不会误解锁；麻痹/睡眠未使出则保持禁选
+	else if (move == MOVE_BLOODMOON && gLastResultingMoves[bank] == MOVE_BLOODMOON)
         return TRUE;
 
 	return FALSE;
