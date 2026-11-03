@@ -343,3 +343,7 @@ Item_StoragePal 0810d7fc
 egg_hatchingTiles 0826011C
 egg_hatchingPal 0826012C
 
+##New Battle Textbox - Safari Zone health box fix (enabled by "#define NEW_BATTLE_TEXTBOX" in src/config.h)
+#ifdef NEW_BATTLE_TEXTBOX
+gBTBSafariHealthboxSheet 0803488C
+#endif

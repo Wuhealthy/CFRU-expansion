@@ -29,3 +29,8 @@ GetAllGroundEffectFlags_OnFinishStep 0x08067bd4 2 0
 DoFlaggedGroundEffects 0x0806874c 3 0
 Task_WeatherMainHook 0x08079e0c 1 0
 #endif
+
+##New Battle Textbox (enabled by "#define NEW_BATTLE_TEXTBOX" in src/config.h): Safari balls counter survives Yes/No box clears
+#ifdef NEW_BATTLE_TEXTBOX
+BTB_HandleBattleWindow 0x0802DB7C 5 0
+#endif

@@ -41,6 +41,40 @@
 typedef void (*VoidFn)(void);
 typedef void (*TilemapCopyFn)(u8 bg, const void* src, u16 mode, u16 offset);
 typedef void (*CompPalFn)(const void* src, u16 offset, u16 size);
+typedef void (*TilemapRectFn)(u8 bg, const void* src, u8 destX, u8 destY, u8 width, u8 height, u8 palette); //CopyToBgTilemapBufferRect_ChangePalette
+
+//---------------------------------------------------------------------------------------------------------------------
+// FIX (Safari Zone): corrupted opponent health box
+// The vanilla Safari health box sprite sheet (tag 0xD70B) is only used by the Safari counter box, which this feature hides and
+// replaces. Older versions repointed that sheet entry to the fixed address 0x0880A020, which is only a valid compressed image
+// in one specific ROM. In any other ROM the game decompressed random data into the heap, corrupting the health box graphics.
+// This is a valid LZ77 image (0x1000 bytes of zeros) that lives inside the build, so it works in every ROM. 'repoints' points
+// the one place that loads the sheet (literal at 0x0803488C) to this struct.
+//---------------------------------------------------------------------------------------------------------------------
+static const u32 sBTBSafariHealthboxSheetLZ[] =
+{
+	0x00100010,0x00F0007F,0x00F000F0,0x00F000F0,0x00F000F0,0xF000F0FF,0xF000F000,0xF000F000,
+	0xF000F000,0x00F0FF00,0x00F000F0,0x00F000F0,0x00F000F0,0xF0FF00F0,0xF000F000,0xF000F000,
+	0xF000F000,0xFF00F000,0x00F000F0,0x00F000F0,0x00F000F0,0x00F000F0,0xF000F0FF,0xF000F000,
+	0xF000F000,0xF000F000,0x00F0FF00,0x00F000F0,0x00F000F0,0x00F000F0,0xF0FF00F0,0xF000F000,
+	0xF000F000,0xF000F000,0xFF00F000,0x00F000F0,0x00F000F0,0x00F000F0,0x00F000F0,0xF000F0FF,
+	0xF000F000,0xF000F000,0xF000F000,0x00F0FF00,0x00F000F0,0x00F000F0,0x00F000F0,0xF0FF00F0,
+	0xF000F000,0xF000F000,0xF000F000,0xFF00F000,0x00F000F0,0x00F000F0,0x00F000F0,0x00F000F0,
+	0xF000F0FF,0xF000F000,0xF000F000,0xF000F000,0x00F0FF00,0x00F000F0,0x00F000F0,0x00F000F0,
+	0xF0FF00F0,0xF000F000,0xF000F000,0xF000F000,0xFF00F000,0x00F000F0,0x00F000F0,0x00F000F0,
+	0x00F000F0,0xF000F0FF,0xF000F000,0xF000F000,0xF000F000,0x00F0FF00,0x00F000F0,0x00F000F0,
+	0x00F000F0,0xF0FF00F0,0xF000F000,0xF000F000,0xF000F000,0xFF00F000,0x00F000F0,0x00F000F0,
+	0x00F000F0,0x00F000F0,0xF000F0FF,0xF000F000,0xF000F000,0xF000F000,0x00F0FF00,0x00F000F0,
+	0x00F000F0,0x00F000F0,0xF0FF00F0,0xF000F000,0xF000F000,0xF000F000,0xFF00F000,0x00F000F0,
+	0x00F000F0,0x00F000F0,0x00F000F0,0xF000F0FF,0xF000F000,0xF000F000,0xF000F000,0x00F0FF00,
+	0x00F000F0,0x00F000F0,0x00F000F0,0xF0FF00F0,0xF000F000,0xF000F000,0xF000F000,0xF800F000,
+	0x00F000F0,0x00F000F0,0x00000060,
+};
+
+const struct CompressedSpriteSheet gBTBSafariHealthboxSheet =
+{
+	(const u8*) sBTBSafariHealthboxSheetLZ, 0x1000, 0xD70B
+};
 
 static void BTB_SetPal(u8 slot, u8 idx, u16 colour)
 {
@@ -199,6 +233,24 @@ void BTB_MoveSelectionCreateCursorAt(u8 cursorPos, u8 baseTileNum)
 	BTB_SetPal(6, 14, BTB_PLATE_COLOUR);
 }
 
+/*
+ * FIX: Yes/No box (nickname prompt after a capture, "use next Pokémon?"...) drawn with the vanilla window frame.
+ * Vanilla HandleBattleWindow builds the frame from tiles 0x22-0x2A (palette 1) and BattleCreateYesNoCursorAt puts the
+ * arrow (tiles 1-2) in column 24; the arrow is erased with tile 0x20. The ring art for 0x22-0x2A is sent by
+ * BTB_UploadRingAndCursorTiles, but the vanilla frame tiles that LoadBattleMenuWindowGfx queues for DMA land after it.
+ * The other menus re-send the art every time they are drawn, the Yes/No box did not: when the screen had just been
+ * re-initialised (Pokédex page of a newly caught species) the box came out with the vanilla frame recoloured by
+ * palette 1 - a white cell beside the unselected option (frame interior tile = colour 1 = white since the Safari fix).
+ * Same behaviour as vanilla otherwise (position from gBattleCommunication[CURSOR_POSITION], verbatim copy mode 0x11).
+ */
+void BTB_BattleCreateYesNoCursorAt(void) //Replaces BattleCreateYesNoCursorAt (0x0802DCB8)
+{
+	u16 src[2] = {1, 2};
+	BTB_UploadRingAndCursorTiles();
+	((TilemapRectFn) 0x8002229)(0, src, 24, 9 + 2 * gBattleCommunication[CURSOR_POSITION], 1, 2, 0x11);
+	CopyBgTilemapBufferToVram(0);
+}
+
 //Vanilla blit_move_info_icon rewritten (same behaviour) + in battle, window 8 (type/category strip) gets a dark plate:
 //every colour-15 (white) pixel connected to the window border becomes colour 14, so the letters/symbols inside
 //the icons (also colour 15) stay white.
@@ -333,6 +385,40 @@ static void BTB_DrawSafariCounter(void)
 	}
 	CopyBgTilemapBufferToVram(0);
 	RemoveWindow(win);
+}
+
+/*
+ * FIX (Safari Zone): the balls counter is BG0 art (BTB_DrawSafariCounter, columns 17-28) and the vanilla Yes/No box
+ * (columns 23-29) overlaps its right half. After "take the held item?" / "give a nickname?" is answered, the box is wiped
+ * with HandleBattleWindow(..., WINDOW_CLEAR), which resets those cells to tile 0 and left a hole in the counter (the
+ * vanilla counter is a sprite, so vanilla never had this problem). This is the vanilla routine (same tiles, same
+ * BG1-only VRAM copy quirk), plus a re-draw of the counter when a clear touched it. Wrapped via 'functionrewrites'.
+ */
+#define BTB_WINDOW_BG1 0x80
+void BTB_HandleBattleWindow(u8 xStart, u8 yStart, u8 xEnd, u8 yEnd, u8 flags) //Replaces HandleBattleWindow (0x0802DB7C)
+{
+	u16 tile;
+	for (u8 y = yStart; y <= yEnd; ++y)
+	{
+		for (u8 x = xStart; x <= xEnd; ++x)
+		{
+			if (y == yStart)
+				tile = (x == xStart) ? 0x1022 : (x == xEnd) ? 0x1024 : 0x1023;
+			else if (y == yEnd)
+				tile = (x == xStart) ? 0x1028 : (x == xEnd) ? 0x102A : 0x1029;
+			else
+				tile = (x == xStart) ? 0x1025 : (x == xEnd) ? 0x1027 : 0x1026;
+			if (flags & WINDOW_CLEAR)
+				tile = 0;
+			((TilemapRectFn) 0x8002229)((flags & BTB_WINDOW_BG1) ? 1 : 0, &tile, x, y, 1, 1, 0x11);
+		}
+	}
+	CopyBgTilemapBufferToVram(1);
+
+	if ((flags & (WINDOW_CLEAR | BTB_WINDOW_BG1)) == WINDOW_CLEAR && BTB_IsSafariBattle()
+	 && xStart <= BTB_SAFARI_COL + 11 && xEnd >= BTB_SAFARI_COL
+	 && ((yStart <= BTB_SAFARI_ROW + 3 && yEnd >= BTB_SAFARI_ROW) || (yStart <= BTB_SAFARI_ROW + 23 && yEnd >= BTB_SAFARI_ROW + 20)))
+		BTB_DrawSafariCounter(); //Repaints both scroll positions and copies BG0 to VRAM
 }
 
 static void BTB_HideSafariHealthbox(u8 healthboxSpriteId)
