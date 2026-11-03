@@ -1523,32 +1523,46 @@ void AbilityChangeBSFunc(void)
 			bool8 hasPartner = IS_DOUBLE_BATTLE && BATTLER_ALIVE(partner);
 			ability_t partnerAbility = hasPartner ? ABILITY(partner) : ABILITY_NONE;
 
+			//官方规则2：无法被覆盖（禁换出表）或与目标相同的特性不受描绘影响；双方都豁免则失败
+			bool8 atkExempt = gSpecialAbilityFlags[atkAbility].gSkillSwapBannedAbilities
+			               || atkAbility == defAbility;
+			bool8 partnerExempt = !hasPartner
+			                   || gSpecialAbilityFlags[partnerAbility].gSkillSwapBannedAbilities
+			                   || partnerAbility == defAbility;
+
 			if (defAbility == ABILITY_NONE
 			||  IsDynamaxed(gBankTarget)
-			||  (defAbility == atkAbility && (!hasPartner || defAbility == partnerAbility))
+			||  (atkExempt && partnerExempt)
 			||  gSpecialAbilityFlags[defAbility].gEntrainmentBannedAbilitiesTarget)
 				gBattlescriptCurrInstr = BattleScript_ButItFailed - 5;
 			else
 			{
-				gNewBS->backupAbility = atkAbility;
-				*atkAbilityLoc = defAbility;
-				SetTookAbilityFrom(gBankAttacker, gBankTarget);
-				gLastUsedAbility = atkAbility; //Original ability
-				ResetVarsForAbilityChange(gBankAttacker);
+				gBattleCommunication[MULTISTRING_CHOOSER] = 0; //同伴弹窗默认不弹
 
-				if (hasPartner)
+				if (!atkExempt)
+				{
+					gNewBS->backupAbility = atkAbility;
+					*atkAbilityLoc = defAbility;
+					SetTookAbilityFrom(gBankAttacker, gBankTarget);
+					gLastUsedAbility = atkAbility; //Original ability
+					ResetVarsForAbilityChange(gBankAttacker);
+
+					if (gLastUsedAbility == ABILITY_TRUANT)
+						gDisableStructs[gBankAttacker].truantCounter = 0; //Reset counter
+				}
+
+				if (hasPartner && !partnerExempt)
 				{
 					*GetAbilityLocation(partner) = defAbility;
 					SetTookAbilityFrom(partner, gBankTarget);
 					ResetVarsForAbilityChange(partner);
 					if (partnerAbility == ABILITY_TRUANT)
 						gDisableStructs[partner].truantCounter = 0;
+
+					gBattleCommunication[MULTISTRING_CHOOSER] = 1; //同伴被改，脚本弹同伴特性弹窗
 				}
 
 				gBattleStringLoader = DoodleString;
-
-				if (gLastUsedAbility == ABILITY_TRUANT)
-					gDisableStructs[gBankAttacker].truantCounter = 0; //Reset counter
 			}
 			break;
 		}
@@ -1561,6 +1575,27 @@ void AbilityChangeBSFunc(void)
 void EntrainmentSetCorrectTookAbilityFrom(void)
 {
 	SetTookAbilityFrom(gBankTarget, gBankAttacker);
+}
+
+//描绘：同伴被改时把弹窗定位到同伴（BattleScript_AbilityPopUp 按 scripting.bank 显示当前特性）；
+//未改时置 MULTISTRING_CHOOSER=0 让脚本跳过同伴弹窗段
+void DoodlePartnerPopupHandler(void)
+{
+	if (gBattleExecBuffer) return;
+	gBattlescriptCurrInstr += 5;
+
+	if (gCurrentMove == MOVE_DOODLE && gBattleCommunication[MULTISTRING_CHOOSER])
+	{
+		u8 partner = PARTNER(gBankAttacker);
+		if (IS_DOUBLE_BATTLE && BATTLER_ALIVE(partner))
+		{
+			gBattleScripting.bank = partner;
+			TransferAbilityPopUp(partner, ABILITY(partner)); //弹窗内容 = 同伴复制后的特性
+			return;
+		}
+	}
+
+	gBattleCommunication[MULTISTRING_CHOOSER] = 0; //兜底：跳过弹窗段
 }
 
 void LoadStatustoPsychoShiftTransfer(void)

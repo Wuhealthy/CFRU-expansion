@@ -4520,6 +4520,15 @@ DoodleBS:
 	pause DELAY_HALFSECOND
 	call BattleScript_AbilityPopUpRevert
 
+	callasm DoodlePartnerPopupHandler @;同伴被改时定位弹窗到同伴并写入弹窗数据
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x0 DoodleSkipPartnerPopup
+	playanimation BANK_SCRIPTING ANIM_LOAD_ABILITY_POP_UP 0x0
+	call BattleScript_AbilityPopUpRevert
+	call BattleScript_AbilityPopUp
+	pause DELAY_HALFSECOND
+	call BattleScript_AbilityPopUpRevert
+DoodleSkipPartnerPopup:
+
 	printstring 0x184
 	waitmessage DELAY_1SECOND
 	copyarray BATTLE_SCRIPTING_BANK USER_BANK 0x1
