@@ -1186,7 +1186,12 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 
 								if (gBattleMoves[gCurrentMove].effect == EFFECT_SUPERPOWER //Only lower user stats once for Clanging Scales (and similar custom moves)
 								&&  gNewBS->AttackerDidDamageAtLeastOnce)
-									gBattlescriptCurrInstr = gBattleScriptsForMoveEffects[0];
+								{
+									if (gCurrentMove == MOVE_MAKEITRAIN)
+										gBattlescriptCurrInstr = BattleScript_MakeItRainNextTarget; //淘金潮：特攻只降一次，但每个目标各投一份金币（官方）
+									else
+										gBattlescriptCurrInstr = gBattleScriptsForMoveEffects[0];
+								}
 								else
 									gBattlescriptCurrInstr = gBattleScriptsForMoveEffects[gBattleMoves[gCurrentMove].effect];
 

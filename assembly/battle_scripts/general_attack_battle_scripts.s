@@ -4252,6 +4252,13 @@ MakeItRainBS:
     goto BS_MOVE_END
 
 
+@;淘金潮第二目标：特攻只降一次，但各投一份金币（官方）
+.global BattleScript_MakeItRainNextTarget
+BattleScript_MakeItRainNextTarget:
+    setmoveeffect MOVE_EFFECT_PAYDAY
+    seteffectprimary
+    goto BS_MOVE_FAINT
+
 MIT_LowerSpAtk:
     setbyte STAT_ANIM_PLAYED 0x0
 	playstatchangeanimation BANK_ATTACKER, STAT_ANIM_SPATK, STAT_ANIM_DOWN | STAT_ANIM_IGNORE_ABILITIES

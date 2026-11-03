@@ -9,6 +9,7 @@
 extern const u8* gBattleScriptsForMoveEffects[];
 
 //Scripts
+extern const u8 BattleScript_MakeItRainNextTarget[];
 #define BattleScript_FlushMessageBox (u8*) 0x81D96A8
 #define BattleScript_MoveFaint (u8*) 0x81D6947
 #define BattleScript_ButItDoesntAffect (u8*) 0x81D7E04

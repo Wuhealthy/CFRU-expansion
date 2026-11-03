@@ -377,18 +377,28 @@ void SetMoveEffect(bool8 primary, u8 certain)
 				break;
 
 			case MOVE_EFFECT_PAYDAY:
-				if (!gNewBS->secondaryEffectApplied)
+				if (SIDE(gBankAttacker) == B_SIDE_PLAYER)
 				{
-					gNewBS->secondaryEffectApplied = TRUE;
-					if (SIDE(gBankAttacker) == B_SIDE_PLAYER)
+					if (IsAnyMaxMove(gCurrentMove) && gBattleMoves[gCurrentMove].z_move_effect == MAX_EFFECT_CONFUSE_FOES_PAY_DAY)
 					{
-						if (IsAnyMaxMove(gCurrentMove) && gBattleMoves[gCurrentMove].z_move_effect == MAX_EFFECT_CONFUSE_FOES_PAY_DAY)
+						if (!gNewBS->secondaryEffectApplied)
+						{
+							gNewBS->secondaryEffectApplied = TRUE;
 							gNewBS->maxGoldrushMoney += (100 * ++gNewBS->maxGoldrushUses * gBattleMons[gBankAttacker].level);
-						else
-							gNewBS->PayDayByPartyIndices[gBattlerPartyIndexes[gBankAttacker]]++;
+							BattleScriptPush(gBattlescriptCurrInstr + 1);
+							gBattlescriptCurrInstr = sMoveEffectBS_Ptrs[gBattleCommunication[MOVE_EFFECT_BYTE]];
+						}
 					}
-					BattleScriptPush(gBattlescriptCurrInstr + 1);
-					gBattlescriptCurrInstr = sMoveEffectBS_Ptrs[gBattleCommunication[MOVE_EFFECT_BYTE]];
+					else
+					{
+						gNewBS->PayDayByPartyIndices[gBattlerPartyIndexes[gBankAttacker]]++; //每命中一目标各投一份（官方）
+						if (!gNewBS->secondaryEffectApplied) //撒钱演出只播一次
+						{
+							gNewBS->secondaryEffectApplied = TRUE;
+							BattleScriptPush(gBattlescriptCurrInstr + 1);
+							gBattlescriptCurrInstr = sMoveEffectBS_Ptrs[gBattleCommunication[MOVE_EFFECT_BYTE]];
+						}
+					}
 				}
 				break;
 
