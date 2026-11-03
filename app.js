@@ -658,9 +658,18 @@ window.switchTab = function (btn) {
 };
 
 /* ---------------- 招式页 ---------------- */
-let moveFilter = { q: "", type: "", split: "" };
+let moveFilter = { q: "", type: "", split: "", cat: "" };
+/* 招式类别: 按 moveCats 的官方顺序去重 (连续/反作用力/存在追加效果有多条说明变体), 附带数量 */
+const MOVE_CAT_NAMES = {}, MOVE_CAT_COUNT = {}, MOVE_CAT_ORDER = [];
+D.moves.forEach(m => {
+  const names = new Set((m.c || []).map(i => D.moveCats[i].n));
+  MOVE_CAT_NAMES[m.id] = names;
+  if (m.id) names.forEach(n => MOVE_CAT_COUNT[n] = (MOVE_CAT_COUNT[n] || 0) + 1);
+});
+D.moveCats.forEach(c => { if (MOVE_CAT_COUNT[c.n] && !MOVE_CAT_ORDER.includes(c.n)) MOVE_CAT_ORDER.push(c.n); });
 function renderMoves() {
   const typeOpts = TYPES_SHOWN.map(t => `<option value="${t.id}">${esc(t.zh)}</option>`).join("");
+  const catOpts = MOVE_CAT_ORDER.map(n => `<option value="${esc(n)}">${esc(n)}（${MOVE_CAT_COUNT[n]}）</option>`).join("");
   app.innerHTML = `
     <div class="page-title">招式图鉴</div>
     <div class="page-sub">共 ${D.moves.length} 个招式 · 点击行查看详情</div>
@@ -672,6 +681,9 @@ function renderMoves() {
       <select id="msplit" class="search-box" style="flex:0 0 120px">
         <option value="">全部分类</option><option>物理</option><option>特殊</option><option>变化</option>
       </select>
+      <select id="mcat" class="search-box" style="flex:0 0 190px">
+        <option value="">全部类别</option>${catOpts}
+      </select>
       <span class="count-hint" id="mcnt"></span>
     </div>
     <div class="card" style="overflow:auto">
@@ -682,9 +694,11 @@ function renderMoves() {
     </div>`;
   $("#mtype").value = moveFilter.type;
   $("#msplit").value = moveFilter.split;
+  $("#mcat").value = moveFilter.cat;
   $("#mq").addEventListener("input", e => { moveFilter.q = e.target.value.trim(); renderMoveRows(); });
   $("#mtype").addEventListener("change", e => { moveFilter.type = e.target.value; renderMoveRows(); });
   $("#msplit").addEventListener("change", e => { moveFilter.split = e.target.value; renderMoveRows(); });
+  $("#mcat").addEventListener("change", e => { moveFilter.cat = e.target.value; renderMoveRows(); });
   renderMoveRows();
 }
 function renderMoveRows() {
@@ -694,6 +708,7 @@ function renderMoveRows() {
     if (q && !m.zh.toLowerCase().includes(q)) return false;
     if (moveFilter.type !== "" && String(m.type) !== moveFilter.type) return false;
     if (moveFilter.split && m.split !== moveFilter.split) return false;
+    if (moveFilter.cat && !MOVE_CAT_NAMES[m.id].has(moveFilter.cat)) return false;
     return true;
   });
   $("#mcnt").textContent = `${rows.length} 个招式`;
