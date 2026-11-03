@@ -1058,6 +1058,9 @@ SaltCureBS:
 	faintpokemon BANK_TARGET FALSE NULL
 	jumpiffaintedmon BANK_TARGET, TRUE, BS_EffectSaltCure_End
 	jumpifbehindsubstitute BANK_TARGET BS_EffectSaltCure_End
+	jumpifability BANK_TARGET ABILITY_MAGICGUARD BS_EffectSaltCure_End
+	jumpifability BANK_TARGET ABILITY_SHIELDDUST BS_EffectSaltCure_End
+	jumpifhelditemeffect BANK_TARGET ITEM_EFFECT_COVERT_CLOAK BS_EffectSaltCure_End
 	applysaltcure BANK_TARGET
 	setword BATTLE_STRING_LOADER sText_TargetIsBeingSaltCured
 	printstring 0x184
