@@ -338,6 +338,49 @@ function route() {
 }
 window.addEventListener("hashchange", route);
 
+/* ---------------- 左侧目录 (图鉴 / 招式 / 特性 三页共用) ----------------
+   items: [{ id: 分节元素 id, label }]; 「（首段）」回到顶部; 隐藏状态三页共用并记住 */
+let tocHidden = localStorage.getItem("pkdx_toc_hidden") === "1";
+const GEN_NAMES = ["", "第一世代", "第二世代", "第三世代", "第四世代", "第五世代", "第六世代", "第七世代", "第八世代", "第九世代"];
+function tocHTML(items) {
+  return `<aside class="toc${tocHidden ? " folded" : ""}">
+    <div class="toc-head"><b>目录</b><button type="button" class="toc-toggle" onclick="toggleToc()">${tocHidden ? "显示" : "隐藏"}</button></div>
+    <ul class="toc-list">
+      <li><a onclick="jumpTo('')">（首段）</a></li>
+      ${items.map(it => `<li><a data-sec="${it.id}" onclick="jumpTo('${it.id}')">${it.label}</a></li>`).join("")}
+    </ul>
+    <div class="toc-note hidden" id="toc-note"></div>
+  </aside>`;
+}
+/* 筛选后没有内容的分节在目录里置灰; note 非空时在目录下方显示说明 */
+function tocMark(presentIds, note) {
+  document.querySelectorAll(".toc-list a[data-sec]").forEach(a => a.classList.toggle("empty", !presentIds.has(a.dataset.sec)));
+  const n = $("#toc-note");
+  if (n) { n.textContent = note || ""; n.classList.toggle("hidden", !note); }
+}
+window.jumpTo = function (id) {
+  // 直接跳转 (与百科目录一致); 全局 scroll-behavior: smooth 在几万像素的页面上要滚 1~2 秒, 故强制 instant。
+  // 宝可梦卡片有 content-visibility 占位高度, 跳转后临近内容展开会把位置推偏, 稍候校正一次
+  if (!id) { window.scrollTo({ top: 0, behavior: "instant" }); return; }
+  const sec = document.getElementById(id);
+  if (!sec) return;
+  sec.scrollIntoView({ block: "start", behavior: "instant" });
+  setTimeout(() => {
+    const top = sec.getBoundingClientRect().top;
+    if (top > 90 || top < 40) sec.scrollIntoView({ block: "start", behavior: "instant" });  // 顶栏遮挡由 scroll-margin-top 处理
+  }, 80);
+};
+window.toggleToc = function () {
+  tocHidden = !tocHidden;
+  localStorage.setItem("pkdx_toc_hidden", tocHidden ? "1" : "0");
+  document.querySelector(".toc").classList.toggle("folded", tocHidden);
+  document.querySelector(".toc-toggle").textContent = tocHidden ? "显示" : "隐藏";
+  if (LANG === "hant") localize(document.querySelector(".toc-toggle"));
+};
+/* 宝可梦世代: 按全国图鉴编号 (各世代最后一个编号) */
+const GEN_DEX_END = [0, 151, 251, 386, 493, 649, 721, 809, 905, 1025];
+const dexGen = dex => GEN_DEX_END.findIndex((end, g) => g > 0 && dex <= end);
+
 /* ---------------- 首页 ---------------- */
 function monCard(s, statKey) {
   return `<div class="mon-card" onclick="location.hash='#/p/${s.id}'">
@@ -368,16 +411,21 @@ function renderHome() {
     .map(([v, label]) =>
       `<span class="pill form-chip${homeState.form === v ? " on" : ""}" onclick="setForm('${v}')">${label}</span>`).join("");
   app.innerHTML = `
-    <div class="page-title">宝可梦图鉴</div>
-    <div class="page-sub">默认形态 ${N_DEFAULT} 只 · 含特殊/地区形态共 ${D.species.length} 只 · 点击卡片查看详情</div>
-    <div class="toolbar">
-      ${searchBox("q", "搜索名称 / 编号 / 形态，如 阿罗拉、超级进化", homeState.q)}
-      <div class="type-chips">${formChips}</div>
-      <div class="type-chips">${chips}</div>
-      <div class="type-chips" id="sort-chips">${sortChipsHTML()}</div>
-      <span class="count-hint" id="cnt"></span>
-    </div>
-    <div id="dex-area"></div>`;
+    <div class="toc-layout">
+      ${tocHTML(GEN_NAMES.slice(1).map((label, i) => ({ id: "pgen-" + (i + 1), label })))}
+      <div class="toc-main">
+        <div class="page-title">宝可梦图鉴</div>
+        <div class="page-sub">默认形态 ${N_DEFAULT} 只 · 含特殊/地区形态共 ${D.species.length} 只 · 按世代排列 · 点击卡片查看详情</div>
+        <div class="toolbar">
+          ${searchBox("q", "搜索名称 / 编号 / 形态，如 阿罗拉、超级进化", homeState.q)}
+          <div class="type-chips">${formChips}</div>
+          <div class="type-chips">${chips}</div>
+          <div class="type-chips" id="sort-chips">${sortChipsHTML()}</div>
+          <span class="count-hint" id="cnt"></span>
+        </div>
+        <div id="dex-area"></div>
+      </div>
+    </div>`;
 
   $("#q").addEventListener("input", e => { homeState.q = e.target.value.trim(); renderDexArea(); });
   renderDexArea();
@@ -417,15 +465,29 @@ function renderDexArea() {
   });
   const hasDex = ordered.filter(s => s.dex > 0);
   const others = ordered.filter(s => !(s.dex > 0));
+  const card = s => monCard(s, byStat ? key : null);
   let html = "";
-  if (hasDex.length) {
-    html += `<div class="group-h">${byStat ? `按${STAT_ZH[key]}排序` : "图鉴宝可梦"}</div><div class="dex-grid">${hasDex.map(s => monCard(s, byStat ? key : null)).join("")}</div>`;
+  const present = new Set();
+  if (hasDex.length && byStat) {
+    // 按种族值排序是全体排名, 不分世代
+    html += `<div class="group-h">按${STAT_ZH[key]}排序</div><div class="dex-grid">${hasDex.map(card).join("")}</div>`;
+  } else if (hasDex.length) {
+    const byGen = {};
+    hasDex.forEach(s => (byGen[dexGen(s.dex)] = byGen[dexGen(s.dex)] || []).push(s));
+    Object.keys(byGen).map(Number).sort((a, b) => a - b).forEach(g => {
+      present.add("pgen-" + g);
+      html += `<section class="gen-sec" id="pgen-${g}">
+        <h3 class="gen-h">${GEN_NAMES[g]}<span class="gen-cnt">${byGen[g].length} 只</span></h3>
+        <div class="dex-grid">${byGen[g].map(card).join("")}</div>
+      </section>`;
+    });
   }
   if (others.length) {
-    html += `<div class="group-h">其他形态</div><div class="dex-grid">${others.map(s => monCard(s, byStat ? key : null)).join("")}</div>`;
+    html += `<div class="group-h">其他形态</div><div class="dex-grid">${others.map(card).join("")}</div>`;
   }
   if (!html) html = `<div style="text-align:center;color:var(--muted);padding:60px 0">没有找到符合条件的宝可梦</div>`;
   $("#dex-area").innerHTML = html;
+  tocMark(present, byStat ? "按种族值排序时不分世代，切回「图鉴编号」排序即可按世代跳转" : "");
   mountSprites($("#dex-area"));
 }
 window.toggleType = function (tid) {
@@ -670,22 +732,14 @@ D.moves.forEach(m => {
 });
 D.moveCats.forEach(c => { if (MOVE_CAT_COUNT[c.n] && !MOVE_CAT_ORDER.includes(c.n)) MOVE_CAT_ORDER.push(c.n); });
 /* 世代: 1-9 对照 52poke 招式列表, 10 为原创招式 (排在第九世代后); 世代内按官方编号排序 */
-const GEN_ZH = ["", "第一世代", "第二世代", "第三世代", "第四世代", "第五世代", "第六世代", "第七世代", "第八世代", "第九世代", "原创招式"];
 const MOVES_BY_GEN = D.moves.filter(m => m.id).sort((a, b) => a.gen - b.gen || a.no - b.no || a.id - b.id);
-let tocHidden = localStorage.getItem("pkdx_toc_hidden") === "1";
 function renderMoves() {
   const typeOpts = TYPES_SHOWN.map(t => `<option value="${t.id}">${esc(t.zh)}</option>`).join("");
   const catOpts = MOVE_CAT_ORDER.map(n => `<option value="${esc(n)}">${esc(n)}（${MOVE_CAT_COUNT[n]}）</option>`).join("");
   app.innerHTML = `
-    <div class="moves-layout">
-      <aside class="toc${tocHidden ? " folded" : ""}">
-        <div class="toc-head"><b>目录</b><button type="button" class="toc-toggle" onclick="toggleToc()">${tocHidden ? "显示" : "隐藏"}</button></div>
-        <ul class="toc-list">
-          <li><a onclick="jumpGen(0)">（首段）</a></li>
-          ${GEN_ZH.slice(1).map((g, i) => `<li><a data-gen="${i + 1}" onclick="jumpGen(${i + 1})">${g}</a></li>`).join("")}
-        </ul>
-      </aside>
-      <div class="moves-main">
+    <div class="toc-layout">
+      ${tocHTML(GEN_NAMES.slice(1).map((label, i) => ({ id: "gen-" + (i + 1), label })).concat([{ id: "gen-10", label: "原创招式" }]))}
+      <div class="toc-main">
         <div class="page-title">招式图鉴</div>
         <div class="page-sub">共 ${MOVES_BY_GEN.length} 个招式 · 按世代排序，原创招式在第九世代之后 · 点击行查看详情</div>
         <div class="toolbar">
@@ -736,7 +790,7 @@ function renderMoveRows() {
     </tr>`;
   $("#mgens").innerHTML = Object.keys(byGen).map(Number).sort((a, b) => a - b).map(g => `
     <section class="gen-sec" id="gen-${g}">
-      <h3 class="gen-h">${GEN_ZH[g]}<span class="gen-cnt">${byGen[g].length} 个</span></h3>
+      <h3 class="gen-h">${GEN_NAMES[g] || "原创招式"}<span class="gen-cnt">${byGen[g].length} 个</span></h3>
       <div class="card" style="overflow:auto">
         <table class="list-table">
           <thead><tr><th>招式</th><th>属性</th><th>分类</th><th>威力</th><th>命中</th><th>PP</th><th>优先度</th></tr></thead>
@@ -745,49 +799,50 @@ function renderMoveRows() {
       </div>
     </section>`).join("") || `<div style="text-align:center;color:var(--muted);padding:60px 0">没有找到符合条件的招式</div>`;
   // 目录: 筛选后没有招式的世代置灰
-  document.querySelectorAll(".toc-list a[data-gen]").forEach(a => a.classList.toggle("empty", !byGen[a.dataset.gen]));
+  tocMark(new Set(Object.keys(byGen).map(g => "gen-" + g)));
 }
-window.jumpGen = function (g) {
-  // 直接跳转 (与百科目录一致); 全局 scroll-behavior: smooth 在近 4 万像素的页面上要滚 1~2 秒, 故强制 instant
-  if (!g) { window.scrollTo({ top: 0, behavior: "instant" }); return; }
-  const sec = document.getElementById("gen-" + g);
-  if (sec) sec.scrollIntoView({ block: "start", behavior: "instant" });  // 顶栏遮挡由 scroll-margin-top 处理
-};
-window.toggleToc = function () {
-  tocHidden = !tocHidden;
-  localStorage.setItem("pkdx_toc_hidden", tocHidden ? "1" : "0");
-  document.querySelector(".toc").classList.toggle("folded", tocHidden);
-  document.querySelector(".toc-toggle").textContent = tocHidden ? "显示" : "隐藏";
-  if (LANG === "hant") localize(document.querySelector(".toc-toggle"));
-};
 
 /* ---------------- 特性页 ---------------- */
 let abilFilter = "";
+const ABILS_BY_GEN = D.abilities.filter(a => a.id).sort((a, b) => a.gen - b.gen || a.no - b.no || a.id - b.id);
 function renderAbilities() {
   app.innerHTML = `
-    <div class="page-title">特性图鉴</div>
-    <div class="page-sub">共 ${D.abilities.length} 个特性 · 点击查看持有该特性的宝可梦</div>
-    <div class="toolbar">
-      ${searchBox("aq", "搜索特性名…", abilFilter)}
-      <span class="count-hint" id="acnt"></span>
-    </div>
-    <div class="card" style="overflow:auto">
-      <table class="list-table">
-        <thead><tr><th style="width:170px">特性</th><th>效果</th></tr></thead>
-        <tbody id="arows"></tbody>
-      </table>
+    <div class="toc-layout">
+      ${tocHTML([3, 4, 5, 6, 7, 8, 9].map(g => ({ id: "agen-" + g, label: GEN_NAMES[g] + "引入" })).concat([{ id: "agen-10", label: "原创特性" }]))}
+      <div class="toc-main">
+        <div class="page-title">特性图鉴</div>
+        <div class="page-sub">共 ${D.abilities.length} 个特性 · 按引入世代排列，原创特性在最后 · 点击查看持有该特性的宝可梦</div>
+        <div class="toolbar">
+          ${searchBox("aq", "搜索特性名…", abilFilter)}
+          <span class="count-hint" id="acnt"></span>
+        </div>
+        <div id="agens"></div>
+      </div>
     </div>`;
   $("#aq").addEventListener("input", e => { abilFilter = e.target.value.trim(); renderAbilRows(); });
   renderAbilRows();
 }
 function renderAbilRows() {
   const aq = toHans(abilFilter).toLowerCase();
-  const list = D.abilities.filter(a => a.id && (!aq || a.zh.toLowerCase().includes(aq)));
+  const list = ABILS_BY_GEN.filter(a => !aq || a.zh.toLowerCase().includes(aq));
   $("#acnt").textContent = `${list.length} 个特性`;
-  $("#arows").innerHTML = list.map(a => `<tr onclick="showAbilityPopup(${a.id})">
+  const byGen = {};
+  list.forEach(a => (byGen[a.gen] = byGen[a.gen] || []).push(a));
+  const row = a => `<tr onclick="showAbilityPopup(${a.id})">
       <td class="mv-name">${esc(a.zh)}</td>
       <td style="color:var(--muted)">${esc(a.desc || "")}</td>
-    </tr>`).join("");
+    </tr>`;
+  $("#agens").innerHTML = Object.keys(byGen).map(Number).sort((a, b) => a - b).map(g => `
+    <section class="gen-sec" id="agen-${g}">
+      <h3 class="gen-h">${GEN_NAMES[g] || "原创特性"}引入<span class="gen-cnt">${byGen[g].length} 个</span></h3>
+      <div class="card" style="overflow:auto">
+        <table class="list-table">
+          <thead><tr><th style="width:170px">特性</th><th>效果</th></tr></thead>
+          <tbody>${byGen[g].map(row).join("")}</tbody>
+        </table>
+      </div>
+    </section>`).join("") || `<div style="text-align:center;color:var(--muted);padding:60px 0">没有找到符合条件的特性</div>`;
+  tocMark(new Set(Object.keys(byGen).map(g => "agen-" + g)));
 }
 
 /* ---------------- 属性相性页 ---------------- */
