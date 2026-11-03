@@ -6629,7 +6629,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 		{
-		.name = {_T, _M, _0, _1, _END},
+		.name = CN("招式学习器01"),
 		.itemId = ITEM_TM01,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6645,7 +6645,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _0, _2, _END},
+		.name = CN("招式学习器02"),
 		.itemId = ITEM_TM02,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6661,7 +6661,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _0, _3, _END},
+		.name = CN("招式学习器03"),
 		.itemId = ITEM_TM03,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6677,7 +6677,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _0, _4, _END},
+		.name = CN("招式学习器04"),
 		.itemId = ITEM_TM04,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6693,7 +6693,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _0, _5, _END},
+		.name = CN("招式学习器05"),
 		.itemId = ITEM_TM05,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6709,7 +6709,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _0, _6, _END},
+		.name = CN("招式学习器06"),
 		.itemId = ITEM_TM06,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6725,7 +6725,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _0, _7, _END},
+		.name = CN("招式学习器07"),
 		.itemId = ITEM_TM07,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6741,7 +6741,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _0, _8, _END},
+		.name = CN("招式学习器08"),
 		.itemId = ITEM_TM08,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6757,7 +6757,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _0, _9, _END},
+		.name = CN("招式学习器09"),
 		.itemId = ITEM_TM09,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6773,7 +6773,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _0, _END},
+		.name = CN("招式学习器10"),
 		.itemId = ITEM_TM10,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6789,7 +6789,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _1, _END},
+		.name = CN("招式学习器11"),
 		.itemId = ITEM_TM11,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6805,7 +6805,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _2, _END},
+		.name = CN("招式学习器12"),
 		.itemId = ITEM_TM12,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6821,7 +6821,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _3, _END},
+		.name = CN("招式学习器13"),
 		.itemId = ITEM_TM13,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6837,7 +6837,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _4, _END},
+		.name = CN("招式学习器14"),
 		.itemId = ITEM_TM14,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6853,7 +6853,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _5, _END},
+		.name = CN("招式学习器15"),
 		.itemId = ITEM_TM15,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6869,7 +6869,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _6, _END},
+		.name = CN("招式学习器16"),
 		.itemId = ITEM_TM16,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6885,7 +6885,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _7, _END},
+		.name = CN("招式学习器17"),
 		.itemId = ITEM_TM17,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6901,7 +6901,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _8, _END},
+		.name = CN("招式学习器18"),
 		.itemId = ITEM_TM18,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6917,7 +6917,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _9, _END},
+		.name = CN("招式学习器19"),
 		.itemId = ITEM_TM19,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6933,7 +6933,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _2, _0, _END},
+		.name = CN("招式学习器20"),
 		.itemId = ITEM_TM20,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6949,7 +6949,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _2, _1, _END},
+		.name = CN("招式学习器21"),
 		.itemId = ITEM_TM21,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6965,7 +6965,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _2, _2, _END},
+		.name = CN("招式学习器22"),
 		.itemId = ITEM_TM22,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6981,7 +6981,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _2, _3, _END},
+		.name = CN("招式学习器23"),
 		.itemId = ITEM_TM23,
 		.price = 3000,
 		.holdEffect = 0,
@@ -6997,7 +6997,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _2, _4, _END},
+		.name = CN("招式学习器24"),
 		.itemId = ITEM_TM24,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7013,7 +7013,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _2, _5, _END},
+		.name = CN("招式学习器25"),
 		.itemId = ITEM_TM25,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7029,7 +7029,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _2, _6, _END},
+		.name = CN("招式学习器26"),
 		.itemId = ITEM_TM26,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7045,7 +7045,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _2, _7, _END},
+		.name = CN("招式学习器27"),
 		.itemId = ITEM_TM27,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7061,7 +7061,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _2, _8, _END},
+		.name = CN("招式学习器28"),
 		.itemId = ITEM_TM28,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7077,7 +7077,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _2, _9, _END},
+		.name = CN("招式学习器29"),
 		.itemId = ITEM_TM29,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7093,7 +7093,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _3, _0, _END},
+		.name = CN("招式学习器30"),
 		.itemId = ITEM_TM30,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7109,7 +7109,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _3, _1, _END},
+		.name = CN("招式学习器31"),
 		.itemId = ITEM_TM31,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7125,7 +7125,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _3, _2, _END},
+		.name = CN("招式学习器32"),
 		.itemId = ITEM_TM32,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7141,7 +7141,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _3, _3, _END},
+		.name = CN("招式学习器33"),
 		.itemId = ITEM_TM33,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7157,7 +7157,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _3, _4, _END},
+		.name = CN("招式学习器34"),
 		.itemId = ITEM_TM34,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7173,7 +7173,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _3, _5, _END},
+		.name = CN("招式学习器35"),
 		.itemId = ITEM_TM35,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7189,7 +7189,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _3, _6, _END},
+		.name = CN("招式学习器36"),
 		.itemId = ITEM_TM36,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7205,7 +7205,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _3, _7, _END},
+		.name = CN("招式学习器37"),
 		.itemId = ITEM_TM37,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7221,7 +7221,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _3, _8, _END},
+		.name = CN("招式学习器38"),
 		.itemId = ITEM_TM38,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7237,7 +7237,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _3, _9, _END},
+		.name = CN("招式学习器39"),
 		.itemId = ITEM_TM39,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7253,7 +7253,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _4, _0, _END},
+		.name = CN("招式学习器40"),
 		.itemId = ITEM_TM40,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7269,7 +7269,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _4, _1, _END},
+		.name = CN("招式学习器41"),
 		.itemId = ITEM_TM41,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7285,7 +7285,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _4, _2, _END},
+		.name = CN("招式学习器42"),
 		.itemId = ITEM_TM42,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7301,7 +7301,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _4, _3, _END},
+		.name = CN("招式学习器43"),
 		.itemId = ITEM_TM43,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7317,7 +7317,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _4, _4, _END},
+		.name = CN("招式学习器44"),
 		.itemId = ITEM_TM44,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7333,7 +7333,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _4, _5, _END},
+		.name = CN("招式学习器45"),
 		.itemId = ITEM_TM45,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7349,7 +7349,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _4, _6, _END},
+		.name = CN("招式学习器46"),
 		.itemId = ITEM_TM46,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7365,7 +7365,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _4, _7, _END},
+		.name = CN("招式学习器47"),
 		.itemId = ITEM_TM47,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7381,7 +7381,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _4, _8, _END},
+		.name = CN("招式学习器48"),
 		.itemId = ITEM_TM48,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7397,7 +7397,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _4, _9, _END},
+		.name = CN("招式学习器49"),
 		.itemId = ITEM_TM49,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7413,7 +7413,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _5, _0, _END},
+		.name = CN("招式学习器50"),
 		.itemId = ITEM_TM50,
 		.price = 3000,
 		.holdEffect = 0,
@@ -7429,7 +7429,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_H, _M, _0, _1, _END},
+		.name = CN("秘传学习器01"),
 		.itemId = ITEM_HM01_CUT,
 		.price = 0,
 		.holdEffect = 0,
@@ -7445,7 +7445,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_H, _M, _0, _2, _END},
+		.name = CN("秘传学习器02"),
 		.itemId = ITEM_HM02_FLY,
 		.price = 0,
 		.holdEffect = 0,
@@ -7461,7 +7461,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_H, _M, _0, _3, _END},
+		.name = CN("秘传学习器03"),
 		.itemId = ITEM_HM03_SURF,
 		.price = 0,
 		.holdEffect = 0,
@@ -7477,7 +7477,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_H, _M, _0, _4, _END},
+		.name = CN("秘传学习器04"),
 		.itemId = ITEM_HM04_STRENGTH,
 		.price = 0,
 		.holdEffect = 0,
@@ -7493,7 +7493,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_H, _M, _0, _5, _END},
+		.name = CN("秘传学习器05"),
 		.itemId = ITEM_HM05_DIVE,
 		.price = 0,
 		.holdEffect = 0,
@@ -7509,7 +7509,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_H, _M, _0, _6, _END},
+		.name = CN("秘传学习器06"),
 		.itemId = ITEM_HM06_ROCK_SMASH,
 		.price = 0,
 		.holdEffect = 0,
@@ -7525,7 +7525,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_H, _M, _0, _7, _END},
+		.name = CN("秘传学习器07"),
 		.itemId = ITEM_HM07_WATERFALL,
 		.price = 0,
 		.holdEffect = 0,
@@ -7541,7 +7541,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_H, _M, _0, _8, _END},
+		.name = CN("秘传学习器08"),
 		.itemId = ITEM_HM08_ROCK_CLIMB,
 		.price = 0,
 		.holdEffect = 0,
@@ -8021,7 +8021,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _5, _1, _END},
+		.name = CN("招式学习器51"),
 		.itemId = ITEM_TM51,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8037,7 +8037,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _5, _2, _END},
+		.name = CN("招式学习器52"),
 		.itemId = ITEM_TM52,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8053,7 +8053,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _5, _3, _END},
+		.name = CN("招式学习器53"),
 		.itemId = ITEM_TM53,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8069,7 +8069,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _5, _4, _END},
+		.name = CN("招式学习器54"),
 		.itemId = ITEM_TM54,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8085,7 +8085,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _5, _5, _END},
+		.name = CN("招式学习器55"),
 		.itemId = ITEM_TM55,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8101,7 +8101,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _5, _6, _END},
+		.name = CN("招式学习器56"),
 		.itemId = ITEM_TM56,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8117,7 +8117,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _5, _7, _END},
+		.name = CN("招式学习器57"),
 		.itemId = ITEM_TM57,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8133,7 +8133,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _5, _8, _END},
+		.name = CN("招式学习器58"),
 		.itemId = ITEM_TM58,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8149,7 +8149,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _5, _9, _END},
+		.name = CN("招式学习器59"),
 		.itemId = ITEM_TM59,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8165,7 +8165,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _6, _0, _END},
+		.name = CN("招式学习器60"),
 		.itemId = ITEM_TM60,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8181,7 +8181,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _6, _1, _END},
+		.name = CN("招式学习器61"),
 		.itemId = ITEM_TM61,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8197,7 +8197,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _6, _2, _END},
+		.name = CN("招式学习器62"),
 		.itemId = ITEM_TM62,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8213,7 +8213,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _6, _3, _END},
+		.name = CN("招式学习器63"),
 		.itemId = ITEM_TM63,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8229,7 +8229,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _6, _4, _END},
+		.name = CN("招式学习器64"),
 		.itemId = ITEM_TM64,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8245,7 +8245,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _6, _5, _END},
+		.name = CN("招式学习器65"),
 		.itemId = ITEM_TM65,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8261,7 +8261,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _6, _6, _END},
+		.name = CN("招式学习器66"),
 		.itemId = ITEM_TM66,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8277,7 +8277,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _6, _7, _END},
+		.name = CN("招式学习器67"),
 		.itemId = ITEM_TM67,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8293,7 +8293,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _6, _8, _END},
+		.name = CN("招式学习器68"),
 		.itemId = ITEM_TM68,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8309,7 +8309,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _6, _9, _END},
+		.name = CN("招式学习器69"),
 		.itemId = ITEM_TM69,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8325,7 +8325,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _7, _0, _END},
+		.name = CN("招式学习器70"),
 		.itemId = ITEM_TM70,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8341,7 +8341,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _7, _1, _END},
+		.name = CN("招式学习器71"),
 		.itemId = ITEM_TM71,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8357,7 +8357,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _7, _2, _END},
+		.name = CN("招式学习器72"),
 		.itemId = ITEM_TM72,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8373,7 +8373,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _7, _3, _END},
+		.name = CN("招式学习器73"),
 		.itemId = ITEM_TM73,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8389,7 +8389,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _7, _4, _END},
+		.name = CN("招式学习器74"),
 		.itemId = ITEM_TM74,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8405,7 +8405,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _7, _5, _END},
+		.name = CN("招式学习器75"),
 		.itemId = ITEM_TM75,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8421,7 +8421,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _7, _6, _END},
+		.name = CN("招式学习器76"),
 		.itemId = ITEM_TM76,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8437,7 +8437,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _7, _7, _END},
+		.name = CN("招式学习器77"),
 		.itemId = ITEM_TM77,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8453,7 +8453,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _7, _8, _END},
+		.name = CN("招式学习器78"),
 		.itemId = ITEM_TM78,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8469,7 +8469,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _7, _9, _END},
+		.name = CN("招式学习器79"),
 		.itemId = ITEM_TM79,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8485,7 +8485,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _8, _0, _END},
+		.name = CN("招式学习器80"),
 		.itemId = ITEM_TM80,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8501,7 +8501,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _8, _1, _END},
+		.name = CN("招式学习器81"),
 		.itemId = ITEM_TM81,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8517,7 +8517,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _8, _2, _END},
+		.name = CN("招式学习器82"),
 		.itemId = ITEM_TM82,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8533,7 +8533,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _8, _3, _END},
+		.name = CN("招式学习器83"),
 		.itemId = ITEM_TM83,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8549,7 +8549,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _8, _4, _END},
+		.name = CN("招式学习器84"),
 		.itemId = ITEM_TM84,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8565,7 +8565,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _8, _5, _END},
+		.name = CN("招式学习器85"),
 		.itemId = ITEM_TM85,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8581,7 +8581,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _8, _6, _END},
+		.name = CN("招式学习器86"),
 		.itemId = ITEM_TM86,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8597,7 +8597,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _8, _7, _END},
+		.name = CN("招式学习器87"),
 		.itemId = ITEM_TM87,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8613,7 +8613,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _8, _8, _END},
+		.name = CN("招式学习器88"),
 		.itemId = ITEM_TM88,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8629,7 +8629,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _8, _9, _END},
+		.name = CN("招式学习器89"),
 		.itemId = ITEM_TM89,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8645,7 +8645,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _9, _0, _END},
+		.name = CN("招式学习器90"),
 		.itemId = ITEM_TM90,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8661,7 +8661,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _9, _1, _END},
+		.name = CN("招式学习器91"),
 		.itemId = ITEM_TM91,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8677,7 +8677,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _9, _2, _END},
+		.name = CN("招式学习器92"),
 		.itemId = ITEM_TM92,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8693,7 +8693,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _9, _3, _END},
+		.name = CN("招式学习器93"),
 		.itemId = ITEM_TM93,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8709,7 +8709,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _9, _4, _END},
+		.name = CN("招式学习器94"),
 		.itemId = ITEM_TM94,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8725,7 +8725,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _9, _5, _END},
+		.name = CN("招式学习器95"),
 		.itemId = ITEM_TM95,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8741,7 +8741,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _9, _6, _END},
+		.name = CN("招式学习器96"),
 		.itemId = ITEM_TM96,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8757,7 +8757,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _9, _7, _END},
+		.name = CN("招式学习器97"),
 		.itemId = ITEM_TM97,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8773,7 +8773,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _9, _8, _END},
+		.name = CN("招式学习器98"),
 		.itemId = ITEM_TM98,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8789,7 +8789,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _9, _9, _END},
+		.name = CN("招式学习器99"),
 		.itemId = ITEM_TM99,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8805,7 +8805,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _0, _0, _END},
+		.name = CN("招式学习器100"),
 		.itemId = ITEM_TM100,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8821,7 +8821,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _0, _1, _END},
+		.name = CN("招式学习器101"),
 		.itemId = ITEM_TM101,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8837,7 +8837,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _0, _2, _END},
+		.name = CN("招式学习器102"),
 		.itemId = ITEM_TM102,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8853,7 +8853,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _0, _3, _END},
+		.name = CN("招式学习器103"),
 		.itemId = ITEM_TM103,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8869,7 +8869,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _0, _4, _END},
+		.name = CN("招式学习器104"),
 		.itemId = ITEM_TM104,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8885,7 +8885,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _0, _5, _END},
+		.name = CN("招式学习器105"),
 		.itemId = ITEM_TM105,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8901,7 +8901,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _0, _6, _END},
+		.name = CN("招式学习器106"),
 		.itemId = ITEM_TM106,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8917,7 +8917,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _0, _7, _END},
+		.name = CN("招式学习器107"),
 		.itemId = ITEM_TM107,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8933,7 +8933,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _0, _8, _END},
+		.name = CN("招式学习器108"),
 		.itemId = ITEM_TM108,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8949,7 +8949,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _0, _9, _END},
+		.name = CN("招式学习器109"),
 		.itemId = ITEM_TM109,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8965,7 +8965,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _1, _0, _END},
+		.name = CN("招式学习器110"),
 		.itemId = ITEM_TM110,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8981,7 +8981,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _1, _1, _END},
+		.name = CN("招式学习器111"),
 		.itemId = ITEM_TM111,
 		.price = 3000,
 		.holdEffect = 0,
@@ -8997,7 +8997,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _1, _2, _END},
+		.name = CN("招式学习器112"),
 		.itemId = ITEM_TM112,
 		.price = 3000,
 		.holdEffect = 0,
@@ -9013,7 +9013,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _1, _3, _END},
+		.name = CN("招式学习器113"),
 		.itemId = ITEM_TM113,
 		.price = 3000,
 		.holdEffect = 0,
@@ -9029,7 +9029,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _1, _4, _END},
+		.name = CN("招式学习器114"),
 		.itemId = ITEM_TM114,
 		.price = 3000,
 		.holdEffect = 0,
@@ -9045,7 +9045,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _1, _5, _END},
+		.name = CN("招式学习器115"),
 		.itemId = ITEM_TM115,
 		.price = 3000,
 		.holdEffect = 0,
@@ -9061,7 +9061,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _1, _6, _END},
+		.name = CN("招式学习器116"),
 		.itemId = ITEM_TM116,
 		.price = 3000,
 		.holdEffect = 0,
@@ -9077,7 +9077,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _1, _7, _END},
+		.name = CN("招式学习器117"),
 		.itemId = ITEM_TM117,
 		.price = 3000,
 		.holdEffect = 0,
@@ -9093,7 +9093,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _1, _8, _END},
+		.name = CN("招式学习器118"),
 		.itemId = ITEM_TM118,
 		.price = 3000,
 		.holdEffect = 0,
@@ -9109,7 +9109,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _1, _9, _END},
+		.name = CN("招式学习器119"),
 		.itemId = ITEM_TM119,
 		.price = 3000,
 		.holdEffect = 0,
@@ -9125,7 +9125,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = {_T, _M, _1, _2, _0, _END},
+		.name = CN("招式学习器120"),
 		.itemId = ITEM_TM120,
 		.price = 3000,
 		.holdEffect = 0,
