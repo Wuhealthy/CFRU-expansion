@@ -236,6 +236,8 @@ function genderText(gf) {
   return `♂ ${m}% / ♀ ${gf}%`;
 }
 function fmtDex(no) { return no == null ? "—" : "#" + no; }
+/* 威力: 1 是威力不固定招式的占位值 (按体重/等级等计算, Z/极巨招式随原招式), 显示「变化」 */
+function fmtPower(p) { return p === 1 ? "变化" : (p || "—"); }
 
 /* 搜索框: 右侧 ✕ 在有文字时显示, 点击一键清空 (派发 input 事件, 复用各页面自己的筛选监听) */
 function searchBox(id, placeholder, value) {
@@ -285,7 +287,7 @@ function showMovePopup(mid) {
   showPopup(`
     <h2>${esc(m.zh)}</h2>
     <div class="mv-meta">${typePill(t)}${splitBadge(m.split)}
-      <span class="pill small" style="background:#5a6b7d">威力 ${m.power || "—"}</span>
+      <span class="pill small" style="background:#5a6b7d">威力 ${fmtPower(m.power)}</span>
       <span class="pill small" style="background:#5a6b7d">命中 ${m.acc || "—"}</span>
       <span class="pill small" style="background:#5a6b7d">PP ${m.pp}</span>
       <span class="pill small" style="background:#5a6b7d">优先度 ${m.priority > 0 ? "+" + m.priority : m.priority}</span>
@@ -536,7 +538,7 @@ function moveRow(mid, lv, tmNo) {
     <td class="mv-name">${esc(m.zh)}</td>
     <td>${typePill(t, true)}</td>
     <td>${splitBadge(m.split)}</td>
-    <td class="num">${m.power || "—"}</td>
+    <td class="num">${fmtPower(m.power)}</td>
     <td class="num">${m.acc || "—"}</td>
     <td class="num">${m.pp}</td>
   </tr>`;
@@ -667,30 +669,40 @@ D.moves.forEach(m => {
   if (m.id) names.forEach(n => MOVE_CAT_COUNT[n] = (MOVE_CAT_COUNT[n] || 0) + 1);
 });
 D.moveCats.forEach(c => { if (MOVE_CAT_COUNT[c.n] && !MOVE_CAT_ORDER.includes(c.n)) MOVE_CAT_ORDER.push(c.n); });
+/* 世代: 1-9 对照 52poke 招式列表, 10 为原创招式 (排在第九世代后); 世代内按官方编号排序 */
+const GEN_ZH = ["", "第一世代", "第二世代", "第三世代", "第四世代", "第五世代", "第六世代", "第七世代", "第八世代", "第九世代", "原创招式"];
+const MOVES_BY_GEN = D.moves.filter(m => m.id).sort((a, b) => a.gen - b.gen || a.no - b.no || a.id - b.id);
+let tocHidden = localStorage.getItem("pkdx_toc_hidden") === "1";
 function renderMoves() {
   const typeOpts = TYPES_SHOWN.map(t => `<option value="${t.id}">${esc(t.zh)}</option>`).join("");
   const catOpts = MOVE_CAT_ORDER.map(n => `<option value="${esc(n)}">${esc(n)}（${MOVE_CAT_COUNT[n]}）</option>`).join("");
   app.innerHTML = `
-    <div class="page-title">招式图鉴</div>
-    <div class="page-sub">共 ${D.moves.length} 个招式 · 点击行查看详情</div>
-    <div class="toolbar">
-      ${searchBox("mq", "搜索招式名…", moveFilter.q)}
-      <select id="mtype" class="search-box" style="flex:0 0 140px">
-        <option value="">全部属性</option>${typeOpts}
-      </select>
-      <select id="msplit" class="search-box" style="flex:0 0 120px">
-        <option value="">全部分类</option><option>物理</option><option>特殊</option><option>变化</option>
-      </select>
-      <select id="mcat" class="search-box" style="flex:0 0 190px">
-        <option value="">全部类别</option>${catOpts}
-      </select>
-      <span class="count-hint" id="mcnt"></span>
-    </div>
-    <div class="card" style="overflow:auto">
-      <table class="list-table">
-        <thead><tr><th>招式</th><th>属性</th><th>分类</th><th>威力</th><th>命中</th><th>PP</th><th>优先度</th></tr></thead>
-        <tbody id="mrows"></tbody>
-      </table>
+    <div class="moves-layout">
+      <aside class="toc${tocHidden ? " folded" : ""}">
+        <div class="toc-head"><b>目录</b><button type="button" class="toc-toggle" onclick="toggleToc()">${tocHidden ? "显示" : "隐藏"}</button></div>
+        <ul class="toc-list">
+          <li><a onclick="jumpGen(0)">（首段）</a></li>
+          ${GEN_ZH.slice(1).map((g, i) => `<li><a data-gen="${i + 1}" onclick="jumpGen(${i + 1})">${g}</a></li>`).join("")}
+        </ul>
+      </aside>
+      <div class="moves-main">
+        <div class="page-title">招式图鉴</div>
+        <div class="page-sub">共 ${MOVES_BY_GEN.length} 个招式 · 按世代排序，原创招式在第九世代之后 · 点击行查看详情</div>
+        <div class="toolbar">
+          ${searchBox("mq", "搜索招式名…", moveFilter.q)}
+          <select id="mtype" class="search-box" style="flex:0 0 140px">
+            <option value="">全部属性</option>${typeOpts}
+          </select>
+          <select id="msplit" class="search-box" style="flex:0 0 120px">
+            <option value="">全部分类</option><option>物理</option><option>特殊</option><option>变化</option>
+          </select>
+          <select id="mcat" class="search-box" style="flex:0 0 190px">
+            <option value="">全部类别</option>${catOpts}
+          </select>
+          <span class="count-hint" id="mcnt"></span>
+        </div>
+        <div id="mgens"></div>
+      </div>
     </div>`;
   $("#mtype").value = moveFilter.type;
   $("#msplit").value = moveFilter.split;
@@ -703,8 +715,7 @@ function renderMoves() {
 }
 function renderMoveRows() {
   const q = toHans(moveFilter.q).toLowerCase();
-  const rows = D.moves.filter(m => {
-    if (!m.id) return false;
+  const rows = MOVES_BY_GEN.filter(m => {
     if (q && !m.zh.toLowerCase().includes(q)) return false;
     if (moveFilter.type !== "" && String(m.type) !== moveFilter.type) return false;
     if (moveFilter.split && m.split !== moveFilter.split) return false;
@@ -712,16 +723,43 @@ function renderMoveRows() {
     return true;
   });
   $("#mcnt").textContent = `${rows.length} 个招式`;
-  $("#mrows").innerHTML = rows.map(m => `<tr onclick="showMovePopup(${m.id})">
+  const byGen = {};
+  rows.forEach(m => (byGen[m.gen] = byGen[m.gen] || []).push(m));
+  const row = m => `<tr onclick="showMovePopup(${m.id})">
       <td class="mv-name">${esc(m.zh)}</td>
       <td>${typePill(TYPE_BY_ID[m.type] || { zh: "?", color: "#999" }, true)}</td>
       <td>${splitBadge(m.split)}</td>
-      <td class="num">${m.power || "—"}</td>
+      <td class="num">${fmtPower(m.power)}</td>
       <td class="num">${m.acc || "—"}</td>
       <td class="num">${m.pp}</td>
       <td class="num">${m.priority > 0 ? "+" + m.priority : m.priority}</td>
-    </tr>`).join("");
+    </tr>`;
+  $("#mgens").innerHTML = Object.keys(byGen).map(Number).sort((a, b) => a - b).map(g => `
+    <section class="gen-sec" id="gen-${g}">
+      <h3 class="gen-h">${GEN_ZH[g]}<span class="gen-cnt">${byGen[g].length} 个</span></h3>
+      <div class="card" style="overflow:auto">
+        <table class="list-table">
+          <thead><tr><th>招式</th><th>属性</th><th>分类</th><th>威力</th><th>命中</th><th>PP</th><th>优先度</th></tr></thead>
+          <tbody>${byGen[g].map(row).join("")}</tbody>
+        </table>
+      </div>
+    </section>`).join("") || `<div style="text-align:center;color:var(--muted);padding:60px 0">没有找到符合条件的招式</div>`;
+  // 目录: 筛选后没有招式的世代置灰
+  document.querySelectorAll(".toc-list a[data-gen]").forEach(a => a.classList.toggle("empty", !byGen[a.dataset.gen]));
 }
+window.jumpGen = function (g) {
+  // 直接跳转 (与百科目录一致); 全局 scroll-behavior: smooth 在近 4 万像素的页面上要滚 1~2 秒, 故强制 instant
+  if (!g) { window.scrollTo({ top: 0, behavior: "instant" }); return; }
+  const sec = document.getElementById("gen-" + g);
+  if (sec) sec.scrollIntoView({ block: "start", behavior: "instant" });  // 顶栏遮挡由 scroll-margin-top 处理
+};
+window.toggleToc = function () {
+  tocHidden = !tocHidden;
+  localStorage.setItem("pkdx_toc_hidden", tocHidden ? "1" : "0");
+  document.querySelector(".toc").classList.toggle("folded", tocHidden);
+  document.querySelector(".toc-toggle").textContent = tocHidden ? "显示" : "隐藏";
+  if (LANG === "hant") localize(document.querySelector(".toc-toggle"));
+};
 
 /* ---------------- 特性页 ---------------- */
 let abilFilter = "";
