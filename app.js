@@ -293,7 +293,7 @@ function showMovePopup(mid) {
     <div class="mv-desc">${m.desc ? esc(m.desc) : "<i>暂无详细描述</i>"}</div>
     <ul class="mv-flags">${flagPairs.map(([v, yes, no]) =>
       `<li class="${v ? "yes" : "no"}">${v ? esc(yes) : esc(no)}</li>`).join("")}</ul>
-    ${cats.length ? `<div class="mv-cats">${cats.map(c =>
+    ${cats.length ? `<div class="mv-cats"><div class="cats-title">分类</div>${cats.map(c =>
       `<div class="cat-row"><span class="cat-pill">${esc(c.n)}</span>${c.d ? `<span class="cat-note">${esc(c.d)}</span>` : ""}</div>`).join("")}</div>` : ""}
     <dl class="kv">
       ${m.target ? `<dt>目标</dt><dd>${esc(m.target)}</dd>` : ""}
