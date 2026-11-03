@@ -11,6 +11,7 @@ import subprocess
 import sys
 from string import StringFileConverter
 from make import ChangeFileLine
+from charmap_cn import ExpandCNInFile
 import platform
 
 on_wsl = "microsoft" in platform.uname()[3].lower()
@@ -243,7 +244,12 @@ def ProcessC(cFile: str) -> str:
 
     if regenerateObjectFile is False:
         return objectFile  # No point in recompiling file
-    return ProcessCToObjectFile(cFile, objectFile)
+
+    # Files containing CN("中文") literals are compiled from a generated copy
+    # in build/ with the literals expanded to charmap byte arrays (see
+    # scripts/charmap_cn.py). The source file itself keeps the readable text.
+    compileFile = ExpandCNInFile(cFile) or cFile
+    return ProcessCToObjectFile(compileFile, objectFile)
 
 
 def ProcessCToObjectFile(cFile: str, objectFile: str) -> str:

@@ -14,6 +14,11 @@
 /*
 item_tables.c
 	set up item data tables
+
+	道具名可以直接写中文: .name = CN(“大师球”),
+	构建时自动用 charmap.tbl 转成字节(见 scripts/charmap_cn.py),本文件保持中文可编辑。
+	CN 的第二个可选参数表示用 0xFF 填充满指定字节数(默认只加一个 0xFF 结束符)。
+	每个道具名含结束符最多 14 字节(即 6 个汉字 + 多出的英文字符位)。
 		-pickup lists
 		-fling
 		-ban lists
@@ -2016,7 +2021,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = { 0x02, 0xD3, 0x0B, 0xE2, 0x0B, 0x14, 0xFF},
+		.name = CN("大师球"),
 		.itemId = ITEM_MASTER_BALL,
 		.price = 0,
 		.holdEffect = 0,
@@ -2032,7 +2037,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = { 0x04, 0x49, 0x05, 0xA1, 0x0B, 0x14, 0xFF},
+		.name = CN("高级球"),
 		.itemId = ITEM_ULTRA_BALL,
 		.price = 800,
 		.holdEffect = 0,
@@ -2048,7 +2053,7 @@ const struct Item gItemData[] =
         .secondaryId = 1
 	},
 	{
-		.name = { 0x02, 0x2E, 0x05, 0xA1, 0x0B, 0x14, 0xFF},
+		.name = CN("超级球"),
 		.itemId = ITEM_GREAT_BALL,
 		.price = 600,
 		.holdEffect = 0,
@@ -2064,7 +2069,7 @@ const struct Item gItemData[] =
         .secondaryId = 2
 	},
 	{
-		.name = { 0x07, 0x5B, 0x08, 0xBC, 0x0B, 0x14, 0xFF},
+		.name = CN("精灵球"),
 		.itemId = ITEM_POKE_BALL,
 		.price = 200,
 		.holdEffect = 0,
@@ -2080,7 +2085,7 @@ const struct Item gItemData[] =
         .secondaryId = 3
 	},
 	{
-		.name = { 0x14, 0xF1, 0x08, 0xA7, 0x0B, 0x14, 0xFF},
+		.name = CN("狩猎球"),
 		.itemId = ITEM_SAFARI_BALL,
 		.price = 0,
 		.holdEffect = 0,
@@ -2288,7 +2293,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = { 0x07, 0x34, 0x09, 0x23, 0x0E, 0xF0, 0xFF},
+		.name = CN("解麻药"),
 		.itemId = ITEM_PARALYZE_HEAL,
 		.price = 200,
 		.holdEffect = 0,
@@ -4240,7 +4245,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = { 0x0C, 0x06, 0x11, 0x08, 0x04, 0xC3, 0xFF},
+		.name = CN("柿仔果"),
 		.itemId = ITEM_PERSIM_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_CURE_CONFUSION,
@@ -4752,7 +4757,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = { 0x0E, 0x5E, 0x11, 0x08, 0x04, 0xC3, 0xFF},
+		.name = CN("杏仔果"),
 		.itemId = ITEM_APICOT_BERRY,
 		.price = 20,
 		.holdEffect = ITEM_EFFECT_SP_DEFENSE_UP,
@@ -6272,7 +6277,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = { 0xD4, 0x0A, 0xD8, 0x08, 0x79, 0x0C, 0x1B, 0x05, 0x44, 0xFF},
+		.name = CN("Z强力手环"),
 		.itemId = ITEM_Z_POWER_RING,
 		.price = 0,
 		.holdEffect = 0,
@@ -6496,7 +6501,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
 	},
 	{
-		.name = { 0x0D, 0x24, 0x05, 0xE3, 0x03, 0x03, 0x04, 0xE3, 0xFF},
+		.name = CN("图鉴导航"),
 		.itemId = ITEM_ROOM_1_KEY,
 		.price = 0,
 		.holdEffect = 0,
@@ -13840,7 +13845,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
     {
-        .name = { 0x05, 0x87, 0x01, 0xA1, 0x1E, 0x1A, 0x11, 0x0B, 0xFF},
+        .name = CN("机变骰子"),
         .itemId = ITEM_LOADED_DICE,
         .price = 4000,
         .holdEffect = ITEM_EFFECT_LOADED_DICE,
@@ -14443,7 +14448,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0
 	},
 	{
-		.name = { 0x18, 0x16, 0x05, 0xA4, 0x08, 0xCD, 0x0B, 0xEB, 0xFF},
+		.name = CN("戟脊龙石"),
 		.itemId = ITEM_BAXCALIBURITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14459,7 +14464,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x09, 0x6F, 0x08, 0x75, 0x08, 0xCD, 0x0B, 0xEB, 0xFF},
+		.name = CN("米立龙石"),
 		.itemId = ITEM_TATSUGIRIITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14475,7 +14480,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x08, 0x4C, 0x0B, 0x12, 0x0B, 0xEB, 0xD2, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.name = CN("雷丘石X", 14),	//阿柏怪石
 		.itemId = ITEM_RAICHUXITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14491,7 +14496,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x08, 0x4C, 0x0B, 0x12, 0x0B, 0xEB, 0xD3, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.name = CN("雷丘石Y", 14),	//阿柏怪石
 		.itemId = ITEM_RAICHUYITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14507,7 +14512,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x07, 0x57, 0x04, 0xAA, 0x05, 0x35, 0x0B, 0xEB, 0xFF},
+		.name = CN("晶光花石"),
 		.itemId = ITEM_GLIMMORAITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14523,7 +14528,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x05, 0x0C, 0x08, 0x26, 0x07, 0x09, 0x0B, 0xEB, 0xFF},
+		.name = CN("狠辣椒石"),
 		.itemId = ITEM_SCOVILLAINITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14539,7 +14544,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x08, 0xA3, 0x10, 0x66, 0x01, 0xB5, 0x0B, 0xEB, 0xFF},
+		.name = CN("列阵兵石"),
 		.itemId = ITEM_FALINKSITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14555,7 +14560,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0A, 0x5F, 0x07, 0xD7, 0x0D, 0xBD, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.name = CN("皮可西石", 14),	//阿柏怪石
 		.itemId = ITEM_CLEFABLEITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14571,7 +14576,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x07, 0x2F, 0x08, 0x22, 0x01, 0x21, 0x08, 0x22, 0x0B, 0xEB, 0xFF},
+		.name = CN("捷拉奥拉石"),
 		.itemId = ITEM_ZERAORAITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14587,7 +14592,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x09, 0x24, 0x05, 0x87, 0x0E, 0xAE, 0x09, 0xBE, 0x0B, 0xEB, 0xFF},
+		.name = CN("玛机雅娜石"),
 		.itemId = ITEM_MAGEARNAITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14603,7 +14608,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x08, 0x44, 0x0D, 0x92, 0x08, 0xCD, 0x0B, 0xEB, 0xFF},
+		.name = CN("老翁龙石"),
 		.itemId = ITEM_DRAMPAITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14619,7 +14624,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x07, 0x8F, 0x05, 0xC2, 0x0D, 0xAA, 0x10, 0x52, 0x0B, 0xEB, 0xFF},
+		.name = CN("具甲武者石"),
 		.itemId = ITEM_GOLISOPODITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14635,7 +14640,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x02, 0xD3, 0x0B, 0xEF, 0x05, 0x35, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.name = CN("大食花石", 14),	//阿柏怪石
 		.itemId = ITEM_VICTREEBELITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14651,7 +14656,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x04, 0xE9, 0x0B, 0xE0, 0x09, 0x43, 0x0E, 0x42, 0x0B, 0xEB, 0xFF},
+		.name = CN("好胜毛蟹石"),
 		.itemId = ITEM_CRABMINBLEITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14667,7 +14672,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x05, 0x86, 0x04, 0x5B, 0x03, 0xA0, 0x03, 0x09, 0x0B, 0xEB, 0xFF},	//阿柏怪石
+		.name = CN("基格尔德石"),	//阿柏怪石
 		.itemId = ITEM_ZYGARDEITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14683,7 +14688,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x1A, 0x56, 0x09, 0x58, 0x08, 0xCD, 0x0B, 0xEB, 0xFF},	//阿柏怪石
+		.name = CN("黏美龙石"),	//阿柏怪石
 		.itemId = ITEM_GOODRAITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14699,7 +14704,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0C, 0x47, 0x07, 0x19, 0x0F, 0x53, 0x0B, 0x4B, 0x0B, 0xEB, 0xFF},	//阿柏怪石
+		.name = CN("摔角鹰人石"),	//阿柏怪石
 		.itemId = ITEM_HAWLUCHAITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14715,7 +14720,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x03, 0x63, 0x0F, 0xF1, 0x08, 0xCD, 0x0B, 0xEB, 0xFF},	//阿柏怪石
+		.name = CN("毒藻龙石"),	//阿柏怪石
 		.itemId = ITEM_DRAGALGEITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14731,7 +14736,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x04, 0xB2, 0x11, 0x1B, 0x07, 0x8E, 0x19, 0xE5, 0x0B, 0xEB, 0xFF},	//阿柏怪石
+		.name = CN("龟足巨铠石"),	//阿柏怪石
 		.itemId = ITEM_BARBARACLEITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14747,7 +14752,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x01, 0x63, 0x0B, 0xEB, 0x04, 0xC9, 0x0E, 0x52, 0x0B, 0xEB, 0xFF, 0xFF, 0xFF, 0xFF},	//阿柏怪石
+		.name = CN("宝石海星石", 14),	//阿柏怪石
 		.itemId = ITEM_STARMIEITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14763,7 +14768,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0D, 0xA0, 0x10, 0x09, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF},
+		.name = CN("乌贼王石"),
 		.itemId = ITEM_MALAMARITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14779,7 +14784,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x02, 0x2E, 0x09, 0xD2, 0x09, 0x86, 0x14, 0x35, 0x0B, 0xEB, 0xFF},
+		.name = CN("超能妙喵石"),
 		.itemId = ITEM_MEOWSTICITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14795,7 +14800,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0C, 0x51, 0x0F, 0x11, 0x01, 0xD7, 0x0B, 0xEB, 0xFF},
+		.name = CN("水伊布石"),
 		.itemId = ITEM_VAPOREONITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14811,7 +14816,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x08, 0x4C, 0x0F, 0x11, 0x01, 0xD7, 0x0B, 0xEB, 0xFF},
+		.name = CN("雷伊布石"),
 		.itemId = ITEM_JOLTEONITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14827,7 +14832,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x05, 0x7D, 0x0F, 0x11, 0x01, 0xD7, 0x0B, 0xEB, 0xFF},
+		.name = CN("火伊布石"),
 		.itemId = ITEM_FLAREONITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14843,7 +14848,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x05, 0x9C, 0x03, 0x58, 0x09, 0xE7, 0x0B, 0xEB, 0xFF},
+		.name = CN("急冻鸟石"),
 		.itemId = ITEM_ARTICUNOITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14859,7 +14864,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0B, 0x9F, 0x03, 0x2E, 0x09, 0xE7, 0x0B, 0xEB, 0xFF},
+		.name = CN("闪电鸟石"),
 		.itemId = ITEM_ZAPDOSITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14875,7 +14880,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x05, 0x7D, 0x0E, 0xCF, 0x09, 0xE7, 0x0B, 0xEB, 0xFF},
+		.name = CN("火焰鸟石"),
 		.itemId = ITEM_MOLTRESITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14891,7 +14896,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x08, 0x03, 0x08, 0xCD, 0x0B, 0xEB, 0xFF},
+		.name = CN("快龙石"),
 		.itemId = ITEM_DRAGONITEITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14907,7 +14912,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x02, 0xD3, 0x1C, 0x98, 0x08, 0x12, 0x0B, 0xEB, 0xFF},
+		.name = CN("大竺葵石"),
 		.itemId = ITEM_MEGANIUMITE,					//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14923,7 +14928,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x05, 0x7D, 0x01, 0x66, 0x0C, 0x23, 0x0B, 0xEB, 0xFF},
+		.name = CN("火暴兽石"),
 		.itemId = ITEM_TYPHLOSIONITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14939,7 +14944,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x02, 0xD3, 0x08, 0x79, 0x1D, 0xF1, 0x0B, 0xEB, 0xFF},
+		.name = CN("大力鳄石"),
 		.itemId = ITEM_FERALIGATRITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14955,7 +14960,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x05, 0x35, 0x0F, 0x06, 0x03, 0x20, 0x0B, 0xEB, 0xFF},
+		.name = CN("花叶蒂石"),
 		.itemId = ITEM_FLOETTEITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14971,7 +14976,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x05, 0x7D, 0x0E, 0xC0, 0x0B, 0xE4, 0x0B, 0xEB, 0xFF},
+		.name = CN("火炎狮石"),
 		.itemId = ITEM_PYROARITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -14987,7 +14992,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0C, 0xAC, 0x0E, 0xDD, 0x0F, 0x11, 0x01, 0xD7, 0x0B, 0xEB, 0xFF},
+		.name = CN("太阳伊布石"),
 		.itemId = ITEM_ESPEONITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15003,7 +15008,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0F, 0xCE, 0x08, 0x94, 0x0F, 0x11, 0x01, 0xD7, 0x0B, 0xEB, 0xFF},
+		.name = CN("月亮伊布石"),
 		.itemId = ITEM_UMBREONITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15019,7 +15024,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x05, 0xC2, 0x05, 0x07, 0x0B, 0x4C, 0x0D, 0x44, 0x0B, 0xEB, 0xFF},
+		.name = CN("甲贺忍蛙石"),
 		.itemId = ITEM_GRENINJAITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15035,7 +15040,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x08, 0x0F, 0x05, 0xC2, 0x09, 0xE7, 0x0B, 0xEB, 0xFF},
+		.name = CN("盔甲鸟石"),
 		.itemId = ITEM_SKARMORYITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15051,7 +15056,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x05, 0xC2, 0x05, 0x07, 0x0B, 0x4C, 0x0D, 0x44, 0x0B, 0xEB, 0xD4, 0xFF},
+		.name = CN("甲贺忍蛙石Z"),
 		.itemId = ITEM_GRENINJAZITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15067,7 +15072,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x04, 0xC9, 0x18, 0xAA, 0x0D, 0xE4, 0x0B, 0xEB, 0xFF},
+		.name = CN("海豚侠石"),
 		.itemId = ITEM_PALAFINITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15083,7 +15088,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x08, 0x4C, 0x04, 0x73, 0x0B, 0xEB, 0xFF},
+		.name = CN("雷公石"),
 		.itemId = ITEM_RAIKOUITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15099,7 +15104,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0E, 0xC0, 0x03, 0x22, 0x0B, 0xEB, 0xFF},
+		.name = CN("炎帝石"),
 		.itemId = ITEM_ENTEIITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15115,7 +15120,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0C, 0x51, 0x07, 0xAD, 0x0B, 0xEB, 0xFF},
+		.name = CN("水君石"),
 		.itemId = ITEM_SUICUNEITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15131,7 +15136,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x09, 0x1F, 0x0A, 0xA1, 0x0E, 0xB0, 0x0B, 0xEB, 0xFF},
+		.name = CN("洛奇亚石"),
 		.itemId = ITEM_LUGIAITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15147,7 +15152,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x03, 0xF2, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF},
+		.name = CN("凤王石"),
 		.itemId = ITEM_HOOHITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15163,7 +15168,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0B, 0x0D, 0x05, 0xC4, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF},
+		.name = CN("请假王石"),
 		.itemId = ITEM_SLAKINGITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15179,7 +15184,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x01, 0xDB, 0x0C, 0x5F, 0x05, 0x27, 0x0B, 0xEB, 0xFF},
+		.name = CN("怖思壶石"),
 		.itemId = ITEM_POLTEAGEISTITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15195,7 +15200,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x01, 0xD7, 0x08, 0x64, 0x07, 0xB6, 0x08, 0xD2, 0x0B, 0xEB, 0xFF},
+		.name = CN("布里卡隆石"),
 		.itemId = ITEM_CHESNAUGHTITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15211,7 +15216,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0E, 0xE6, 0x05, 0x7D, 0x05, 0x1B, 0x05, 0x2B, 0x0B, 0xEB, 0xFF},
+		.name = CN("妖火红狐石"),
 		.itemId = ITEM_DELPHOXITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15227,7 +15232,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x09, 0xD6, 0x0A, 0x19, 0x07, 0x8E, 0x0B, 0x4B, 0x0B, 0xEB, 0xFF},
+		.name = CN("泥偶巨人石"),
 		.itemId = ITEM_GOLURKITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15243,7 +15248,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0C, 0x51, 0x07, 0x57, 0x03, 0x0D, 0x05, 0x7D, 0x08, 0xBC, 0x0B, 0xEB, 0xFF},
+		.name = CN("水晶灯火灵石"),
 		.itemId = ITEM_CHANDELUREITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15259,7 +15264,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x03, 0xEA, 0x08, 0xB8, 0x08, 0xB8, 0x0B, 0xEB, 0xFF},
+		.name = CN("风铃铃石"),
 		.itemId = ITEM_CHIMECHOITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15275,7 +15280,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x01, 0x01, 0x01, 0xC5, 0x0C, 0x96, 0x08, 0xE4, 0x0B, 0xEB, 0xD4, 0xFF},
+		.name = CN("阿勃梭鲁石Z"),
 		.itemId = ITEM_ABSOLZITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15291,7 +15296,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0A, 0xB5, 0x0C, 0x05, 0x05, 0x1E, 0x0B, 0xEB, 0xFF},
+		.name = CN("弃世猴石"),
 		.itemId = ITEM_ANNIHILAPEITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15307,7 +15312,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0D, 0x29, 0x0C, 0xA9, 0x04, 0xB2, 0x0B, 0xEB, 0xFF},
+		.name = CN("土台龟石"),
 		.itemId = ITEM_TORTERRAITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15323,7 +15328,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x08, 0xA5, 0x0E, 0xCF, 0x05, 0x1E, 0x0B, 0xEB, 0xFF},
+		.name = CN("烈焰猴石"),
 		.itemId = ITEM_INFERNAPEITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15339,7 +15344,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x03, 0x22, 0x0D, 0x5D, 0x09, 0xB9, 0x01, 0xC3, 0x0B, 0xEB, 0xFF},
+		.name = CN("帝王拿波石"),
 		.itemId = ITEM_EMPOLEONITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15355,7 +15360,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x09, 0xAD, 0x07, 0xD9, 0x0F, 0x53, 0x0B, 0xEB, 0xFF},
+		.name = CN("姆克鹰石"),
 		.itemId = ITEM_STARAPTORITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15371,7 +15376,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x1C, 0x51, 0x1C, 0x33, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF},
+		.name = CN("蜈蚣王石"),
 		.itemId = ITEM_SCOLIPEDEITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15387,7 +15392,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0D, 0x1F, 0x07, 0x3F, 0x05, 0x79, 0x05, 0x79, 0x0B, 0xEB, 0xFF},
+		.name = CN("头巾混混石"),
 		.itemId = ITEM_SCRAFTYITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15403,7 +15408,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x09, 0x23, 0x09, 0x23, 0x1E, 0x08, 0x0F, 0x91, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF},
+		.name = CN("麻麻鳗鱼王石"),
 		.itemId = ITEM_EELEKTROSSITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15419,7 +15424,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x08, 0xA5, 0x0E, 0xEE, 0x08, 0xEE, 0x1D, 0xE0, 0x0B, 0xEB, 0xD4, 0xFF},
+		.name = CN("烈咬陆鲨石Z"),
 		.itemId = ITEM_GARCHOMPZITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15435,7 +15440,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x08, 0xE8, 0x07, 0xB6, 0x08, 0x70, 0x0A, 0x14, 0x0B, 0xEB, 0xD4, 0xFF},
+		.name = CN("路卡利欧石Z"),
 		.itemId = ITEM_LUCARIOZITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15451,7 +15456,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0E, 0x92, 0x0E, 0xE6, 0x0A, 0x0B, 0x0B, 0xEB, 0xFF},
+		.name = CN("雪妖女石"),
 		.itemId = ITEM_FROSLASSITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15467,7 +15472,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0D, 0xD3, 0x03, 0x85, 0x08, 0x2B, 0x03, 0x9C, 0x0B, 0xEB, 0xFF},
+		.name = CN("席多蓝恩石"),
 		.itemId = ITEM_HEATRANITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15483,7 +15488,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x02, 0xCF, 0x07, 0xD9, 0x08, 0x28, 0x0F, 0x11, 0x0B, 0xEB, 0xFF},
+		.name = CN("达克莱伊石"),
 		.itemId = ITEM_DARKRAIITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15499,7 +15504,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x07, 0xD9, 0x08, 0x4C, 0x0B, 0x89, 0x08, 0x70, 0x0E, 0xB0, 0x0B, 0xEB, 0xFF},
+		.name = CN("克雷色利亚石"),
 		.itemId = ITEM_CRESSELIAITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15515,7 +15520,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x07, 0xAD, 0x10, 0xC8, 0x0B, 0xBD, 0x0B, 0xEB, 0xFF},
+		.name = CN("君主蛇石"),
 		.itemId = ITEM_SERPERIORITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15531,7 +15536,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x0E, 0xC0, 0x0D, 0xAA, 0x0D, 0x5D, 0x0B, 0xEB, 0xFF},
+		.name = CN("炎武王石"),
 		.itemId = ITEM_EMBOARITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15547,7 +15552,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x02, 0xD3, 0x05, 0xEC, 0x04, 0xB5, 0x0B, 0xEB, 0xFF},
+		.name = CN("大剑鬼石"),
 		.itemId = ITEM_SAMUROTTITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15563,7 +15568,7 @@ const struct Item gItemData[] =
 		.secondaryId = 0							//二次ID
 	},
 	{
-		.name = { 0x08, 0xCD, 0x0D, 0x1F, 0x03, 0x1F, 0x0C, 0x38, 0x0B, 0xEB, 0xFF},
+		.name = CN("龙头地鼠石"),
 		.itemId = ITEM_EXCADRILLITE,				//道具编号
 		.price = 5000,									//价格
 		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
@@ -15595,7 +15600,7 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
 	{
-        .name = { 0x07, 0xA5, 0x0E, 0x5C, 0x09, 0xD2, 0x08, 0x92, 0xFF},
+        .name = CN("觉醒能量"),
         .itemId = ITEM_AWAKEN_CHARM,
         .price = 30000,
         .holdEffect = 0,
