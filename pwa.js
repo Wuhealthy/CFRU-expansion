@@ -9,9 +9,15 @@ let deferredInstallPrompt = null;
 const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent)
   || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 const isAndroid = /android/i.test(navigator.userAgent);
-const isMobile = isIos || isAndroid || /mobile/i.test(navigator.userAgent);
+const isHarmonyOS = /harmonyos/i.test(navigator.userAgent) || /huawei/i.test(navigator.userAgent);
+const isMobile = isIos || isAndroid || isHarmonyOS || /mobile/i.test(navigator.userAgent);
 const isStandalone = () => window.matchMedia("(display-mode: standalone)").matches
   || navigator.standalone === true;
+
+function getInstallButtonLabel() {
+  if (isIos) return "添加到主屏幕";
+  return isMobile ? "安装到手机" : "安装到桌面";
+}
 
 function showOfflineStatus(message, temporary) {
   if (!offlineStatus) return;
@@ -27,7 +33,7 @@ function updateInstallButton() {
   if (!installButton) return;
   const isHome = !location.hash || location.hash === "#/" || location.hash === "#";
   installButton.classList.toggle("hidden", !isHome || isStandalone() || (!isMobile && !deferredInstallPrompt));
-  installButton.textContent = isIos ? "添加到主屏幕" : "安装到手机";
+  installButton.textContent = getInstallButtonLabel();
 }
 
 if (installButton) {
@@ -37,9 +43,11 @@ if (installButton) {
       return;
     }
     if (!deferredInstallPrompt) {
-      showOfflineStatus(isAndroid
+      showOfflineStatus(isAndroid || isHarmonyOS
         ? "请点浏览器菜单「安装应用」或「添加到主屏幕」；建议使用 Chrome"
-        : "请点浏览器菜单「添加到主屏幕」；iPhone 请使用 Safari", true);
+        : isMobile
+          ? "请点浏览器菜单「添加到主屏幕」；iPhone 请使用 Safari"
+          : "请点浏览器菜单「安装应用」或「添加到桌面」；建议使用 Chrome", true);
       return;
     }
 
