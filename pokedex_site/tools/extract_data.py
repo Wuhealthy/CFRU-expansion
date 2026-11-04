@@ -1441,6 +1441,38 @@ for t, v in oc_tsc.items():
 hant = {"chars": hant_chars, "phrases": hant_used, "maxLen": hant_maxlen, "t2s": hant_t2s}
 print("繁体词典: 单字 %d / 词组 %d / 繁→简 %d, 复核不一致 %d" % (len(hant_chars), len(hant_used), len(hant_t2s), len(hant_bad)))
 
+# ---------------------------------------------------------------- Mega 招式替换
+mega_text = read(os.path.join(CFRU, "src", "mega.c"))
+mega_table = re.search(r"gMegaMoveChanges\[\]\s*=\s*\{(.*?)\};", mega_text, re.S)
+if not mega_table:
+    raise ValueError("src/mega.c 中找不到 gMegaMoveChanges 表")
+
+mega_changes_by_move = {}
+mega_entries = re.findall(
+    r"\{\s*SPECIES_(\w+)\s*,\s*MOVE_(\w+)\s*,\s*MOVE_(\w+)\s*\}",
+    mega_table.group(1))
+if len(mega_entries) != mega_table.group(1).count("{"):
+    raise ValueError("gMegaMoveChanges 表中有无法解析的条目")
+for species_name, old_move_name, new_move_name in mega_entries:
+    species_id = sp_id(species_name)
+    old_move_id = move_index.get(old_move_name)
+    new_move_id = move_index.get(new_move_name)
+    if species_id is None or old_move_id is None or new_move_id is None:
+        raise ValueError("无法解析 Mega 招式替换: %s / %s / %s" %
+                         (species_name, old_move_name, new_move_name))
+    mega_changes_by_move.setdefault(new_move_id, []).append({
+        "species": species_id,
+        "oldMove": old_move_id,
+    })
+
+if not mega_entries:
+    warn("gMegaMoveChanges 表中没有可解析的替换项")
+for move in move_list:
+    changes = mega_changes_by_move.get(move["id"])
+    if changes:
+        move["megaChanges"] = changes
+print("Mega 招式替换: %d 条" % len(mega_entries))
+
 # ---------------------------------------------------------------- 输出
 
 data = {
