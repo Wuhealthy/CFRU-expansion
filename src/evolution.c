@@ -309,6 +309,18 @@ u16 GetEvolutionTargetSpecies(struct Pokemon* mon, u8 type, u16 evolutionItem)
 						#endif
 					}
 					break;
+
+				case EVO_MAUSHOLD_THREE: //DPE：升级且 personality % 100 == 0 → 三只家族
+					if (level >= gEvolutionTable[species][i].param
+					&& (personality % 100) == 0)
+						targetSpecies = gEvolutionTable[species][i].targetSpecies;
+					break;
+
+				case EVO_MAUSHOLD_FOUR: //DPE：升级且 personality % 100 != 0 → 四只家族
+					if (level >= gEvolutionTable[species][i].param
+					&& (personality % 100) != 0)
+						targetSpecies = gEvolutionTable[species][i].targetSpecies;
+					break;
 			}
 		}
 
@@ -429,6 +441,8 @@ bool8 IsLevelUpEvolutionMethod(u8 method)
 		case EVO_NATURE_HIGH:
 		case EVO_NATURE_LOW:
 		case EVO_LEVEL_HOLD_ITEM:
+		case EVO_MAUSHOLD_THREE:
+		case EVO_MAUSHOLD_FOUR:
 			return TRUE;
 		default:
 			return FALSE;

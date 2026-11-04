@@ -638,6 +638,9 @@ enum EvolutionMethods
 	EVO_MOVE_MALE, // Knows a given move and is male
 	EVO_MOVE_FEMALE, // Knows a given move and is female
 	EVO_ITEM_NIGHT, // Item is used on it at night
+	EVO_COINS = 40, //DPE：集币进化（本作不实现行为，咕哧鸽改用鸽币道具）——值与DPE/ROM表对齐
+	EVO_MAUSHOLD_THREE = 41, // Level up while personality % 100 == 0
+	EVO_MAUSHOLD_FOUR = 42, // Level up while personality % 100 != 0
 };
 #define EVO_GIGANTAMAX 0xFD
 #define EVO_MEGA 0xFE
