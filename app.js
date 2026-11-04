@@ -285,6 +285,12 @@ function showMovePopup(mid) {
     [!m.f[0], "是远程招式", "是近身招式"],
   ];
   const cats = (m.c || []).map(i => D.moveCats[i]);
+  const megaChanges = (m.megaChanges || []).map(change => {
+    const species = SPECIES_BY_ID[change.species];
+    const oldMove = MOVE_BY_ID[change.oldMove];
+    if (!species || !oldMove) return "";
+    return `<div class="mega-move-change"><b>${esc(species.zh)}</b> 超级进化时，携带的 <b>${esc(oldMove.zh)}</b> 会变为此招式。</div>`;
+  }).filter(Boolean);
   showPopup(`
     <h2>${esc(m.zh)}</h2>
     <div class="mv-meta">${typePill(t)}${splitBadge(m.split)}
@@ -300,7 +306,8 @@ function showMovePopup(mid) {
       `<div class="cat-row"><span class="cat-pill">${esc(c.n)}</span>${c.d ? `<span class="cat-note">${esc(c.d)}</span>` : ""}</div>`).join("")}</div>` : ""}
     <dl class="kv">
       ${m.target ? `<dt>目标</dt><dd>${esc(m.target)}</dd>` : ""}
-    </dl>`);
+    </dl>
+    ${megaChanges.length ? `<div class="mv-mega-changes"><div class="cats-title">超级进化招式变化</div>${megaChanges.join("")}</div>` : ""}`);
 }
 window.showMovePopup = showMovePopup;
 
