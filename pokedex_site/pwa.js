@@ -9,7 +9,8 @@ let deferredInstallPrompt = null;
 const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent)
   || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 const isAndroid = /android/i.test(navigator.userAgent);
-const isMobile = isIos || isAndroid || /mobile/i.test(navigator.userAgent);
+const isHarmonyOS = /harmonyos/i.test(navigator.userAgent) || /huawei/i.test(navigator.userAgent);
+const isMobile = isIos || isAndroid || isHarmonyOS || /mobile/i.test(navigator.userAgent);
 const isStandalone = () => window.matchMedia("(display-mode: standalone)").matches
   || navigator.standalone === true;
 
@@ -42,7 +43,7 @@ if (installButton) {
       return;
     }
     if (!deferredInstallPrompt) {
-      showOfflineStatus(isAndroid
+      showOfflineStatus(isAndroid || isHarmonyOS
         ? "请点浏览器菜单「安装应用」或「添加到主屏幕」；建议使用 Chrome"
         : isMobile
           ? "请点浏览器菜单「添加到主屏幕」；iPhone 请使用 Safari"
