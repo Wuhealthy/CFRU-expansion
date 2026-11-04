@@ -62,8 +62,8 @@ powershell -ExecutionPolicy Bypass -File tools\pages_status.ps1
 页面上的名字一律取自游戏实际文本，不显示内部常量名：
 宝可梦 `Pokemon_Name_Table.string`；招式 `strings/attack_name_table.string`（按位置对应编号；
 Z 招式取 `z_move_names.string`，极巨/超极巨招式按战斗文本加「极巨」「超极巨」前缀）；
-特性 `strings/ability_name_table.string`；道具取 `src/Tables/item_tables.c` 的 `.name`（按 `charmap.tbl` 解码），
-游戏里是英文名的按仓库根目录 `道具名称_英-中.xlsx` 翻译（`ITEM_ZH` 只在缺少该表时作后备）。
+特性 `strings/ability_name_table.string`；道具取 `src/Tables/item_tables.c` 的 `.name`
+（支持 `CN("中文名")` 直写与旧字节格式按 `charmap.tbl` 解码；全道具中文名已直写，无需对照表）。
 
 ## 文件结构
 
@@ -130,5 +130,5 @@ python extract_data.py        # 需要 Python3 + Pillow
 - 进化条件按 CFRU `src/evolution.c` 的判定逻辑由 DPE 进化表参数生成；地点进化的编号按本作（火红）的
   `region_map_sections.h` 解释（DPE 写的是 Unbound 地名）。`EVO_COINS`、`EVO_MAUSHOLD_*`（DPE 独有）与
   `EVO_DAMAGE_LOCATION` 在 CFRU 的进化判定中没有实现，网站照 DPE 数据显示其设计条件
-- 道具名：游戏道具表里多数道具是英文名，按仓库根目录 `道具名称_英-中.xlsx` 翻译；对照表里没有的会列在
-  `data/report.txt` 的「道具名未翻译」（目前为 0），补进对照表后重新提取即可；「常量式名称残留」也应为 0
+- 道具名：全道具中文名已直写进游戏道具表；若以后新增道具没写中文名，会列在
+  `data/report.txt` 的「道具名未翻译」；「常量式名称残留」也应为 0
