@@ -130,6 +130,12 @@ void atk15_seteffectwithchance(void)
 		percentChance *= 2;
 	#endif
 
+	//双炮管：单体攻击招式（已被特性改为攻击敌方全体）的追加效果出现率×2（与晴天彩/青草彩虹按本文件惯例叠乘）
+	if (ABILITY(gBankAttacker) == ABILITY_DOUBLEBARREL
+	&& gBattleMoves[gCurrentMove].target == MOVE_TARGET_SELECTED
+	&& SPLIT(gCurrentMove) != SPLIT_STATUS)
+		percentChance *= 2;
+
 	if (!SheerForceCheck() || (gBattleCommunication[MOVE_EFFECT_BYTE] & 0x3F) == MOVE_EFFECT_RAPIDSPIN)
 	{
 		if ((gBattleCommunication[MOVE_EFFECT_BYTE] & MOVE_EFFECT_CERTAIN) && MOVE_HAD_EFFECT)

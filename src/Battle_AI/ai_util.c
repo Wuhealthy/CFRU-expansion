@@ -2785,6 +2785,12 @@ u16 CalcSecondaryEffectChance(u8 bank, u16 move, ability_t ability)
 			chance *= 2;
 	}
 
+	//双炮管：单体攻击招式（已改为攻击敌方全体）的追加效果出现率×2
+	if (ability == ABILITY_DOUBLEBARREL
+	&& gBattleMoves[move].target == MOVE_TARGET_SELECTED
+	&& SPLIT(move) != SPLIT_STATUS)
+		chance *= 2;
+
 	#ifdef FROSTBITE
 	if (gBattleWeather & WEATHER_HAIL_ANY && (move == MOVE_ICEFANG || gBattleMoves[move].effect == EFFECT_FREEZE_HIT) && WEATHER_HAS_EFFECT)
 		chance *= 2;

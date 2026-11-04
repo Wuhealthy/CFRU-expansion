@@ -4348,12 +4348,6 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 				power = (power * 15) / 10;
 			break;
 
-		case ABILITY_DOUBLEBARREL:
-			if (gBattleMoves[move].target == MOVE_TARGET_SELECTED
-			&& data->moveSplit != SPLIT_STATUS)
-				power = (power * 120) / 100;
-			break;
-
 		case ABILITY_RIVALRY:
 		//1.25x / 0.75x Boost
 			if (!(data->specialFlags & FLAG_IGNORE_TARGET))
