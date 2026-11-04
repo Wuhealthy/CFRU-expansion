@@ -13,6 +13,11 @@ const isMobile = isIos || isAndroid || /mobile/i.test(navigator.userAgent);
 const isStandalone = () => window.matchMedia("(display-mode: standalone)").matches
   || navigator.standalone === true;
 
+function getInstallButtonLabel() {
+  if (isIos) return "添加到主屏幕";
+  return isMobile ? "安装到手机" : "安装到桌面";
+}
+
 function showOfflineStatus(message, temporary) {
   if (!offlineStatus) return;
   offlineStatus.textContent = message;
@@ -27,7 +32,7 @@ function updateInstallButton() {
   if (!installButton) return;
   const isHome = !location.hash || location.hash === "#/" || location.hash === "#";
   installButton.classList.toggle("hidden", !isHome || isStandalone() || (!isMobile && !deferredInstallPrompt));
-  installButton.textContent = isIos ? "添加到主屏幕" : "安装到手机";
+  installButton.textContent = getInstallButtonLabel();
 }
 
 if (installButton) {
@@ -39,7 +44,9 @@ if (installButton) {
     if (!deferredInstallPrompt) {
       showOfflineStatus(isAndroid
         ? "请点浏览器菜单「安装应用」或「添加到主屏幕」；建议使用 Chrome"
-        : "请点浏览器菜单「添加到主屏幕」；iPhone 请使用 Safari", true);
+        : isMobile
+          ? "请点浏览器菜单「添加到主屏幕」；iPhone 请使用 Safari"
+          : "请点浏览器菜单「安装应用」或「添加到桌面」；建议使用 Chrome", true);
       return;
     }
 
