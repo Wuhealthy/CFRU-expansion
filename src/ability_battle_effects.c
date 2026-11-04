@@ -451,6 +451,7 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_RAGECROWN] = 6,
 	[ABILITY_VALIANT] = 7,
 	[ABILITY_CRESCENTSLUMBER] = 7,
+	[ABILITY_DOUBLEBARREL] = 8,
 };
 
 const u16 gWeatherContinuesStringIds[] =

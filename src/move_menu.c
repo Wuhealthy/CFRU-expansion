@@ -130,13 +130,13 @@ void HandleInputChooseMove(void)
 		else if (chosenMove == MOVE_ACUPRESSURE && !(IS_DOUBLE_BATTLE))
 			moveTarget = MOVE_TARGET_USER; //Only can target yourself in singles
 		else
-			moveTarget = GetBaseMoveTargetByGrounding(chosenMove, moveInfo->atkIsGrounded);
+			moveTarget = GetBaseMoveTargetByGrounding(chosenMove, moveInfo->atkIsGrounded, moveInfo->ability);
 
 		if (gNewBS->zMoveData.viewing && moveInfo->moveSplit[gMoveSelectionCursor[gActiveBattler]] != SPLIT_STATUS) //Status moves keep original targets
-			moveTarget = gBattleMoves[moveInfo->possibleZMoves[gMoveSelectionCursor[gActiveBattler]]].target;
+			moveTarget = GetBaseMoveTargetByGrounding(moveInfo->possibleZMoves[gMoveSelectionCursor[gActiveBattler]], moveInfo->atkIsGrounded, moveInfo->ability);
 
 		if (gNewBS->dynamaxData.viewing || moveInfo->dynamaxed)
-			moveTarget = gBattleMoves[moveInfo->possibleMaxMoves[gMoveSelectionCursor[gActiveBattler]]].target;
+			moveTarget = GetBaseMoveTargetByGrounding(moveInfo->possibleMaxMoves[gMoveSelectionCursor[gActiveBattler]], moveInfo->atkIsGrounded, moveInfo->ability);
 
 		if (moveTarget & MOVE_TARGET_USER)
 			gMultiUsePlayerCursor = gActiveBattler;
@@ -1547,7 +1547,7 @@ void HandleInputChooseTarget(void)
 				case B_POSITION_PLAYER_RIGHT:
 					if (gActiveBattler != gMultiUsePlayerCursor)
 						i++;
-					else if (GetBaseMoveTargetByGrounding(move, moveInfo->atkIsGrounded) & MOVE_TARGET_USER_OR_PARTNER)
+					else if (GetBaseMoveTargetByGrounding(move, moveInfo->atkIsGrounded, moveInfo->ability) & MOVE_TARGET_USER_OR_PARTNER)
 						i++;
 
 					if ((moveInfo->dynamaxed || gNewBS->dynamaxData.viewing) && gMultiUsePlayerCursor == PARTNER(gActiveBattler))
@@ -1616,7 +1616,7 @@ void HandleInputChooseTarget(void)
 				case B_POSITION_PLAYER_RIGHT:
 					if (gActiveBattler != gMultiUsePlayerCursor)
 						i++;
-					else if (GetBaseMoveTargetByGrounding(move, moveInfo->atkIsGrounded) & MOVE_TARGET_USER_OR_PARTNER)
+					else if (GetBaseMoveTargetByGrounding(move, moveInfo->atkIsGrounded, moveInfo->ability) & MOVE_TARGET_USER_OR_PARTNER)
 						i++;
 
 					if ((moveInfo->dynamaxed || gNewBS->dynamaxData.viewing) && gMultiUsePlayerCursor == PARTNER(gActiveBattler))
@@ -1657,13 +1657,13 @@ static void HighlightPossibleTargets(void)
 				moveTarget = MOVE_TARGET_SELECTED;
 		}
 		else
-			moveTarget = GetBaseMoveTargetByGrounding(chosenMove, moveInfo->atkIsGrounded);
+			moveTarget = GetBaseMoveTargetByGrounding(chosenMove, moveInfo->atkIsGrounded, moveInfo->ability);
 
 		if (gNewBS->zMoveData.viewing && moveInfo->moveSplit[gMoveSelectionCursor[gActiveBattler]] != SPLIT_STATUS) //Status moves keep original targets
-			moveTarget = gBattleMoves[moveInfo->possibleZMoves[gMoveSelectionCursor[gActiveBattler]]].target;
+			moveTarget = GetBaseMoveTargetByGrounding(moveInfo->possibleZMoves[gMoveSelectionCursor[gActiveBattler]], moveInfo->atkIsGrounded, moveInfo->ability);
 
 		if (gNewBS->dynamaxData.viewing || moveInfo->dynamaxed)
-			moveTarget = gBattleMoves[moveInfo->possibleMaxMoves[gMoveSelectionCursor[gActiveBattler]]].target;
+			moveTarget = GetBaseMoveTargetByGrounding(moveInfo->possibleMaxMoves[gMoveSelectionCursor[gActiveBattler]], moveInfo->atkIsGrounded, moveInfo->ability);
 
 		switch (moveTarget)
 		{

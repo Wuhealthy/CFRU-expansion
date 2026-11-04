@@ -1081,3 +1081,6 @@ HP全满时受到的伤害变为效果不好
 
 #org @DESC_CRESCENTSLUMBER
 睡眠时会飘浮到空中，\n并可自由使出招式。
+
+#org @DESC_DOUBLEBARREL
+使出的单体攻击招式会攻击敌方全体，\n且威力提升20%。

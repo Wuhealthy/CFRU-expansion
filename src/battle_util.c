@@ -1046,6 +1046,16 @@ u8 GetMoveTarget(u16 move, u8 useMoveTarget)
 	return bankDef;
 }
 
+static u8 GetBaseMoveTargetByAbility(u16 move, ability_t atkAbility)
+{
+	if (atkAbility == ABILITY_DOUBLEBARREL
+	&& gBattleMoves[move].target == MOVE_TARGET_SELECTED
+	&& SPLIT(move) != SPLIT_STATUS)
+		return MOVE_TARGET_BOTH;
+
+	return gBattleMoves[move].target;
+}
+
 u8 GetBaseMoveTarget(u16 move, u8 bankAtk)
 {
 	if (move == MOVE_EXPANDINGFORCE
@@ -1054,10 +1064,10 @@ u8 GetBaseMoveTarget(u16 move, u8 bankAtk)
 	&& CheckGrounding(bankAtk))
 		return MOVE_TARGET_BOTH; //Special property of Expanding Force in Doubles
 	
-	return gBattleMoves[move].target;
+	return GetBaseMoveTargetByAbility(move, ABILITY(bankAtk));
 }
 
-u8 GetBaseMoveTargetByGrounding(u16 move, bool8 atkIsGrounded)
+u8 GetBaseMoveTargetByGrounding(u16 move, bool8 atkIsGrounded, ability_t atkAbility)
 {
 	if (move == MOVE_EXPANDINGFORCE
 	&& IS_DOUBLE_BATTLE
@@ -1065,7 +1075,7 @@ u8 GetBaseMoveTargetByGrounding(u16 move, bool8 atkIsGrounded)
 	&& atkIsGrounded)
 		return MOVE_TARGET_BOTH; //Special property of Expanding Force in Doubles
 
-	return gBattleMoves[move].target;
+	return GetBaseMoveTargetByAbility(move, atkAbility);
 }
 
 bool8 IsBattlerAlive(u8 bank)

@@ -81,7 +81,7 @@ bool8 IsMoveRedirectedByFollowMe(u16 move, u8 bankAtk, u8 defSide);
 bool8 IsMoveRedirectionPrevented(u16 move, ability_t atkAbility);
 u8 GetMoveTarget(u16 move, u8 useMoveTarget);
 u8 GetBaseMoveTarget(u16 move, u8 bankAtk);
-u8 GetBaseMoveTargetByGrounding(u16 move, bool8 atkIsGrounded);
+u8 GetBaseMoveTargetByGrounding(u16 move, bool8 atkIsGrounded, ability_t atkAbility);
 bool8 IsBattlerAlive(u8 bank);
 struct Pokemon* LoadPartyRange(u8 bank, u8* firstMonId, u8* lastMonId);
 bool8 UproarWakeUpCheck(unusedArg u8 bank);

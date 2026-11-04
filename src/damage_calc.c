@@ -3674,7 +3674,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 	//Spread Move Cut
 	if (IS_DOUBLE_BATTLE)
 	{
-		u8 moveTarget = GetBaseMoveTargetByGrounding(move, data->atkIsGrounded);
+		u8 moveTarget = GetBaseMoveTargetByGrounding(move, data->atkIsGrounded, data->atkAbility);
 		if (moveTarget & MOVE_TARGET_BOTH && CountAliveMonsInBattle(BATTLE_ALIVE_DEF_SIDE, bankAtk, bankDef) >= 2)
 			damage = (damage * 75) / 100;
 
@@ -4346,6 +4346,12 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 		//1.5x Boost
 			if (data->basePower <= 60)
 				power = (power * 15) / 10;
+			break;
+
+		case ABILITY_DOUBLEBARREL:
+			if (gBattleMoves[move].target == MOVE_TARGET_SELECTED
+			&& data->moveSplit != SPLIT_STATUS)
+				power = (power * 120) / 100;
 			break;
 
 		case ABILITY_RIVALRY:
