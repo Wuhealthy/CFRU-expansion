@@ -1078,3 +1078,6 @@ HP全满时受到的伤害变为效果不好
 
 #org @DESC_VALIANT
 首次击败对手时，\n攻击、特攻和速度提升1级。
+
+#org @DESC_CRESCENTSLUMBER
+睡眠时会飘浮到空中，\n并可自由使出招式。

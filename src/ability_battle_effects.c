@@ -450,6 +450,7 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_SNOOZE] = 3,
 	[ABILITY_RAGECROWN] = 6,
 	[ABILITY_VALIANT] = 7,
+	[ABILITY_CRESCENTSLUMBER] = 7,
 };
 
 const u16 gWeatherContinuesStringIds[] =

@@ -1105,7 +1105,9 @@ u8 TypeCalc(u16 move, u8 bankAtk, u8 bankDef, struct Pokemon* monAtk)
 	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && NO_MOLD_BREAKERS(atkAbility, move))
 	 || defEffect == ITEM_EFFECT_AIR_BALLOON
 	 || (gStatuses3[bankDef] & (STATUS3_LEVITATING | STATUS3_TELEKINESIS))
-	 || IsFloatingWithMagnetism(bankDef))
+	 || IsFloatingWithMagnetism(bankDef) || (defAbility == ABILITY_CRESCENTSLUMBER
+		 && gBattleMons[bankDef].status1 & STATUS1_SLEEP
+		 && NO_MOLD_BREAKERS(atkAbility, move)))
 	&& move != MOVE_THOUSANDARROWS)
 	{
 		flags |= (MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE);
@@ -1179,7 +1181,9 @@ u8 AI_TypeCalc(u16 move, u8 bankAtk, u8 bankDef, struct Pokemon* monDef) //bankD
 	&& !CheckMonGrounding(monDef)
 	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && NO_MOLD_BREAKERS(atkAbility, move))
 	 || (defEffect == ITEM_EFFECT_AIR_BALLOON && defAbility != ABILITY_KLUTZ)
-	 || IsMonFloatingWithMagnetism(monDef))
+	 || IsMonFloatingWithMagnetism(monDef) || (defAbility == ABILITY_CRESCENTSLUMBER
+		 && GetMonData(monDef, MON_DATA_STATUS, NULL) & STATUS1_SLEEP
+		 && NO_MOLD_BREAKERS(atkAbility, move)))
 	&& move != MOVE_THOUSANDARROWS)
 	{
 		flags = MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE;
@@ -1255,7 +1259,9 @@ u8 AI_SpecialTypeCalc(u16 move, u8 bankAtk, u8 bankDef)
 	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && NO_MOLD_BREAKERS(atkAbility, move))
 	 || defEffect == ITEM_EFFECT_AIR_BALLOON
 	 || (gStatuses3[bankDef] & (STATUS3_LEVITATING | STATUS3_TELEKINESIS))
-	 || IsFloatingWithMagnetism(bankDef))
+	 || IsFloatingWithMagnetism(bankDef) || (defAbility == ABILITY_CRESCENTSLUMBER
+		 && gBattleMons[bankDef].status1 & STATUS1_SLEEP
+		 && NO_MOLD_BREAKERS(atkAbility, move)))
 	&& move != MOVE_THOUSANDARROWS)
 	{
 		flags |= (MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE);
@@ -1343,7 +1349,10 @@ u8 VisualTypeCalc(u16 move, u8 bankAtk, u8 bankDef)
 	 || defEffect == ITEM_EFFECT_AIR_BALLOON
 	 || (gStatuses3[bankDef] & (STATUS3_LEVITATING | STATUS3_TELEKINESIS))
 	 || IsFloatingWithMagnetism(bankDef)
-	 || underIllusion) //Needed because ModulateDamageByType doesn't take Illusion into account - will still cause a mistake if Flying-type mon has Illusion, but that case is so rare it doesn't matter
+	 || underIllusion
+	 || (defAbility == ABILITY_CRESCENTSLUMBER
+	 && gBattleMons[bankDef].status1 & STATUS1_SLEEP
+	 && NO_MOLD_BREAKERS(atkAbility, move))) //Needed because ModulateDamageByType doesn't take Illusion into account - will still cause a mistake if Flying-type mon has Illusion, but that case is so rare it doesn't matter
 	&& move != MOVE_THOUSANDARROWS)
 	{
 		flags |= MOVE_RESULT_DOESNT_AFFECT_FOE;

@@ -91,8 +91,8 @@ ai_negatives.c
 #define GOOD_AI_MOVE_LOCKED (GOOD_AI \
                                && (IsChoiceItemEffectOrAbility(data->atkItemEffect, data->atkAbility) || gDisableStructs[bankAtk].encoreTimer > 0))
 
-#define ATTACKER_ASLEEP (data->atkStatus1 & STATUS1_SLEEP && data->atkStatus1 > 1)
-#define TARGET_ASLEEP (data->defStatus1 & STATUS1_SLEEP && data->defStatus1 > 1)
+#define ATTACKER_ASLEEP (data->atkStatus1 & STATUS1_SLEEP && data->atkStatus1 > 1 && data->atkAbility != ABILITY_CRESCENTSLUMBER) //新月祈眠：睡眠中可自由行动
+#define TARGET_ASLEEP (data->defStatus1 & STATUS1_SLEEP && data->defStatus1 > 1 && data->defAbility != ABILITY_CRESCENTSLUMBER) //新月祈眠：睡中会行动，按清醒预测
 
 //Doubles is now defined as being a non 1v1 Double Battle
 #undef IS_DOUBLE_BATTLE

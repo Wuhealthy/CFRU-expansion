@@ -261,7 +261,12 @@ static u8 AtkCanceller_UnableToUseMove(void)
 
 				if (gBattleMons[gBankAttacker].status1 & STATUS1_SLEEP)
 				{
-					if (gCurrentMove != MOVE_SNORE && gCurrentMove != MOVE_SLEEPTALK)
+					if (ABILITY(gBankAttacker) == ABILITY_CRESCENTSLUMBER)
+					{
+						//新月祈眠：睡眠中可自由使出招式（计数器已在上方照常流逝，自然醒来照常演出）
+						//空块贯穿到尾部 tracker++ 前进下一取消器状态
+					}
+					else if (gCurrentMove != MOVE_SNORE && gCurrentMove != MOVE_SLEEPTALK)
 					{
 						if (BATTLER_SEMI_INVULNERABLE(gBankAttacker)) //Caused by Yawn
 							CancelMultiTurnMoves(gActiveBattler = gBankAttacker);

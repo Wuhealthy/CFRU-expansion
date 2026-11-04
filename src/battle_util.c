@@ -312,6 +312,7 @@ bool8 CheckGrounding(u8 bank)
 	|| ITEM_EFFECT(bank) == ITEM_EFFECT_AIR_BALLOON
 	|| ABILITY(bank) == ABILITY_LEVITATE
 	|| ABILITY(bank) == ABILITY_EELEVATE
+	|| (ABILITY(bank) == ABILITY_CRESCENTSLUMBER && (gBattleMons[bank].status1 & STATUS1_SLEEP)) //新月祈眠：睡眠中真飘浮
 	|| IsFloatingWithMagnetism(bank)
 	|| gBattleMons[bank].type3 == TYPE_FLYING
 	|| gBattleMons[bank].type1 == TYPE_FLYING
@@ -336,6 +337,7 @@ bool8 NonInvasiveCheckGrounding(u8 bank, ability_t defAbility, u8 defType1, u8 d
    || IsFloatingWithMagnetism(bank)
    || defAbility == ABILITY_LEVITATE
    || defAbility == ABILITY_EELEVATE
+   || (defAbility == ABILITY_CRESCENTSLUMBER && (gBattleMons[bank].status1 & STATUS1_SLEEP)) //新月祈眠：睡眠中真飘浮
    || defType1 == TYPE_FLYING
    || defType2 == TYPE_FLYING
    || defType3 == TYPE_FLYING)
@@ -355,6 +357,7 @@ bool8 CheckMonGrounding(struct Pokemon* mon)
 
 	else if (GetMonAbility(mon) == ABILITY_LEVITATE
 	|| GetMonAbility(mon) == ABILITY_EELEVATE
+	|| (GetMonAbility(mon) == ABILITY_CRESCENTSLUMBER && (GetMonData(mon, MON_DATA_STATUS, NULL) & STATUS1_SLEEP)) //新月祈眠：睡眠中真飘浮
 	|| IsMonFloatingWithMagnetism(mon)
 	|| gBaseStats[species].type1 == TYPE_FLYING
 	|| gBaseStats[species].type2 == TYPE_FLYING)

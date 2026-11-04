@@ -33,8 +33,8 @@ extern const struct FlingStruct gFlingTable[];
 #undef IS_DOUBLE_BATTLE
 #define IS_DOUBLE_BATTLE (gBattleTypeFlags & BATTLE_TYPE_DOUBLE && ((BATTLER_ALIVE(data->foe1) && BATTLER_ALIVE(data->foe2)) || BATTLER_ALIVE(data->bankAtkPartner)))
 
-#define ATTACKER_ASLEEP (data->atkStatus1 & STATUS1_SLEEP && data->atkStatus1 > 1)
-#define TARGET_ASLEEP (data->defStatus1 & STATUS1_SLEEP && data->defStatus1 > 1)
+#define ATTACKER_ASLEEP (data->atkStatus1 & STATUS1_SLEEP && data->atkStatus1 > 1 && data->atkAbility != ABILITY_CRESCENTSLUMBER) //新月祈眠：睡眠中可自由行动
+#define TARGET_ASLEEP (data->defStatus1 & STATUS1_SLEEP && data->defStatus1 > 1 && data->defAbility != ABILITY_CRESCENTSLUMBER) //新月祈眠：睡中会行动，按清醒预测
 #define PRIORITY_MOVE_BUT_NORMALLY_SLOWER (PriorityCalc(bankAtk, ACTION_USE_MOVE, move) > 0 && data->atkSpeed < data->defSpeed)
 
 static s16 DamageMoveViabilityIncrease(u8 bankAtk, u8 bankDef, u16 move, s16 viability, u8 class, u16 predictedMove, ability_t atkAbility, ability_t defAbility, struct AIScript* data);
