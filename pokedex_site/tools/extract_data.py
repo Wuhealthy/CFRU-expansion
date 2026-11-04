@@ -213,7 +213,24 @@ for label, text in abil_names.items():
     if m:
         abil_name_by_id[int(m.group(1))] = text
 abil_descs = parse_string_file(os.path.join(CFRU, "strings", "ability_descriptions.string"))
-abil_desc_by_name = {label[5:]: t for label, t in abil_descs.items() if label.startswith("DESC_")}
+# 描述按指针表 gAbilityDescriptions (assembly/data/ability_description_table.s) 位置对应特性编号:
+# 第 i 项是特性 i 的描述 (每行注释都带常量名, 但部分标签是缩写, 不能按名字匹配)
+abil_desc_tbl = read(os.path.join(CFRU, "assembly", "data", "ability_description_table.s"))
+# 「连续 #org 无内容」是别名写法: 空标签与文件里下一个有内容的标签共用文本
+# (如 DESC_RECEIVER → DESC_POWEROFALCHEMY, DESC_STALWART → DESC_PROPELLERTAIL)
+_order = [l for l in abil_descs]
+_alias = {}
+for i, l in enumerate(_order):
+    if not abil_descs.get(l):
+        nxt = next((n for n in _order[i + 1:] if abil_descs.get(n)), None)
+        if nxt:
+            _alias[l] = abil_descs[nxt]
+abil_desc_resolved = {l: abil_descs[l] or _alias.get(l, "") for l in abil_descs}
+abil_desc_by_id = {}
+for i, label in enumerate(re.findall(r"^\s*\.word\s+(\w+)", abil_desc_tbl[abil_desc_tbl.index("gAbilityDescriptions:"):], re.M)):
+    abil_desc_by_id[i] = abil_desc_resolved.get(label, "")
+    if label not in abil_descs:
+        warn("特性描述指针 %s (特性 %d) 在 ability_descriptions.string 里找不到" % (label, i))
 
 abil_list = []
 for name, idx in sorted(abil_index.items(), key=lambda kv: kv[1]):
@@ -221,7 +238,7 @@ for name, idx in sorted(abil_index.items(), key=lambda kv: kv[1]):
         "id": idx,
         "en": name,
         "zh": abil_name_by_id.get(idx) or pretty_en(name, "ABILITY"),
-        "desc": abil_desc_by_name.get(name, "").replace("\\n", ""),
+        "desc": abil_desc_by_id.get(idx, "").replace("\\n", ""),
     })
 # 名称表里可能还有超出 defines 的保留编号
 if abil_list:
@@ -1054,7 +1071,7 @@ for r in species_list:
         continue
     fk = r["formKind"]
     suffix = r["constName"].rsplit("_", 1)[1] if "_" in r["constName"] else ""
-    if not fk and suffix in SPECIES_REGION_ZH and r["constName"] not in REGION_EXCLUDE:
+    if not fk and suffix in SPECIES_REGION_ZH and not r["constName"].startswith("UNOWN") and r["constName"] not in REGION_EXCLUDE:
         r["formKind"] = "regional"
         r["formLabel"] = SPECIES_REGION_ZH[suffix]
     else:

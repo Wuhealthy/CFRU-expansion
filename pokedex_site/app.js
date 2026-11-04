@@ -94,6 +94,7 @@ D.species.forEach(s => (s.evolutions || []).forEach(e => {
   (evoAdj[e.to] = evoAdj[e.to] || []).push(s.id);
 }));
 const evoComp = {};
+
 (function () {
   let comp = 0;
   const seen = new Set();
@@ -540,7 +541,7 @@ function evoChainHTML(s) {
   };
   (roots.length ? roots : mainNodes.slice(0, 1)).forEach(r => walk(r, 0));
   // 画成树: 每个节点挂在一个来源下 (主链取上一级的来源, 特殊形态取其基础形态), 来源右侧并排
-  // 它的所有走向 (主链进化在前, 超级进化/超极巨化/觉醒形态等在后), 箭头下写方式, 再下一行写条件/道具
+  // 它的所有走向 (主链进化在前, 超级进化/超极巨化/觉醒形态等在后), 箭头上写方式, 再下一行写条件/道具
   const inEdge = {}, parentOf = {}, extraKids = [];
   mainNodes.forEach(id => {
     if (!level[id]) return;
