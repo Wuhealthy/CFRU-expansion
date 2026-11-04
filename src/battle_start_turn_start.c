@@ -2702,6 +2702,7 @@ u32 SpeedCalcMon(u8 side, struct Pokemon* mon) //Used for the AI
 	if (gSideTimers[side].stickyWeb
 	&& IsMonAffectedByHazards(mon)
 	&& ability != ABILITY_CLEARBODY
+	&& ability != ABILITY_LEYLINEGUARD //地脉恒护
 	&& itemEffect != ITEM_EFFECT_CLEAR_AMULET
 	&& CheckMonGrounding(mon))
 	{

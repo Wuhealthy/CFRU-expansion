@@ -372,6 +372,7 @@
 #define ABILITY_RAGECROWN                            366 // 怒发冲冠
 #define ABILITY_VALIANT                              367 // 勇猛
 #define ABILITY_CRESCENTSLUMBER                      368 // 新月祈眠
-#define ABILITY_DOUBLEBARREL                         369 // 双炮管
+#define ABILITY_DOUBLEBARREL                         369
+#define ABILITY_LEYLINEGUARD                         370 // 地脉恒护
 
-#define ABILITIES_COUNT (ABILITY_DOUBLEBARREL + 1)
+#define ABILITIES_COUNT (ABILITY_LEYLINEGUARD + 1)

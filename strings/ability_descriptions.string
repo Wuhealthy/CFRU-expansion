@@ -1084,3 +1084,6 @@ HP全满时受到的伤害变为效果不好
 
 #org @DESC_DOUBLEBARREL
 单体攻击招式会攻击敌方全体，\n追加效果出现率翻倍。
+
+#org @DESC_LEYLINEGUARD
+不会被降低能力，\n每回合结束时回复最大HP的1/8。

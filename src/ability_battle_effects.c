@@ -452,6 +452,7 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_VALIANT] = 7,
 	[ABILITY_CRESCENTSLUMBER] = 7,
 	[ABILITY_DOUBLEBARREL] = 8,
+	[ABILITY_LEYLINEGUARD] = 7,
 };
 
 const u16 gWeatherContinuesStringIds[] =
@@ -2255,6 +2256,17 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
         			}
 					break;
 				}
+
+				case ABILITY_LEYLINEGUARD:
+					//地脉恒护：回合结束回复最大HP的1/8（复用雨盘回血脚本）
+					if (!BATTLER_MAX_HP(bank) && !IsHealBlocked(bank))
+					{
+						gBattleMoveDamage = MathMax(1, GetBaseMaxHP(bank) / 8);
+						gBattleMoveDamage *= -1;
+						BattleScriptPushCursorAndCallback(BattleScript_RainDishActivates);
+						effect++;
+					}
+					break;
 
 				case ABILITY_HEALER:
 					if (IS_DOUBLE_BATTLE

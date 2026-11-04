@@ -129,6 +129,7 @@ bool8 IsClearBodyAbility(ability_t ability)
 		#ifdef ABILITY_WHITESMOKE
 		|| ability == ABILITY_WHITESMOKE
 		#endif
+		|| ability == ABILITY_LEYLINEGUARD //地脉恒护：同恒净之躯家族
 		;
 }
 
