@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "pkdx-offline-fd8a6ab38f28";
+const CACHE_NAME = "pkdx-offline-6ddcfb7b7b21";
 const CORE_FILES = [
   "./",
   "./index.html",
@@ -12,8 +12,9 @@ const CORE_FILES = [
   "./icons/icon-512.png",
   "./data/data.js",
 ];
-const BATCH_SIZE = 40;
+const BATCH_SIZE = 16;
 const SCOPE_URL = self.registration.scope;
+let offlinePreparation = null;
 
 async function notifyClients(message) {
   const clients = await self.clients.matchAll({ includeUncontrolled: true });
@@ -22,6 +23,7 @@ async function notifyClients(message) {
 
 async function cacheSpriteBatch(cache, urls) {
   await Promise.all(urls.map(async url => {
+    if (await cache.match(url)) return;
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Failed to cache ${url}: HTTP ${response.status}`);
@@ -35,36 +37,9 @@ self.addEventListener("install", event => {
     try {
       const cache = await caches.open(CACHE_NAME);
       await cache.addAll(CORE_FILES);
-
-      const dataUrl = new URL("data/data.js", SCOPE_URL);
-      const dataResponse = await cache.match(dataUrl);
-      if (!dataResponse) throw new Error("Offline data file is missing");
-      const source = await dataResponse.text();
-      const assignment = source.indexOf("=");
-      if (assignment < 0) throw new Error("Offline data has an invalid format");
-      const data = JSON.parse(source.slice(assignment + 1).trim().replace(/;\s*$/, ""));
-      if (!Array.isArray(data.species)) throw new Error("Offline species data is missing");
-
-      const ids = [...new Set(data.species.map(species => species.id))];
-      const urls = ids.flatMap(id => [
-        new URL(`sprites/front/${id}.js`, SCOPE_URL).href,
-        new URL(`sprites/icon/${id}.js`, SCOPE_URL).href,
-      ]);
-      for (let offset = 0; offset < urls.length; offset += BATCH_SIZE) {
-        const batch = urls.slice(offset, offset + BATCH_SIZE);
-        await cacheSpriteBatch(cache, batch);
-        await notifyClients({
-          type: "offline-cache-progress",
-          cached: offset + batch.length,
-          total: urls.length,
-        });
-      }
-
-      await notifyClients({ type: "offline-cache-ready" });
       await self.skipWaiting();
     } catch (error) {
-      console.error("Offline cache installation failed", error);
-      await notifyClients({ type: "offline-cache-error" });
+      console.error("Core offline cache installation failed", error);
       throw error;
     }
   })());
@@ -78,6 +53,47 @@ self.addEventListener("activate", event => {
       .map(name => caches.delete(name)));
     await self.clients.claim();
   })());
+});
+
+self.addEventListener("message", event => {
+  if (event.data?.type !== "prepare-offline") return;
+  if (!offlinePreparation) {
+    offlinePreparation = (async () => {
+      try {
+        const cache = await caches.open(CACHE_NAME);
+        const dataUrl = new URL("data/data.js", SCOPE_URL);
+        const dataResponse = await cache.match(dataUrl);
+        if (!dataResponse) throw new Error("Offline data file is missing");
+        const source = await dataResponse.text();
+        const assignment = source.indexOf("=");
+        if (assignment < 0) throw new Error("Offline data has an invalid format");
+        const data = JSON.parse(source.slice(assignment + 1).trim().replace(/;\s*$/, ""));
+        if (!Array.isArray(data.species)) throw new Error("Offline species data is missing");
+
+        const ids = [...new Set(data.species.map(species => species.id))];
+        const urls = ids.flatMap(id => [
+          new URL(`sprites/front/${id}.js`, SCOPE_URL).href,
+          new URL(`sprites/icon/${id}.js`, SCOPE_URL).href,
+        ]);
+        for (let offset = 0; offset < urls.length; offset += BATCH_SIZE) {
+          const batch = urls.slice(offset, offset + BATCH_SIZE);
+          await cacheSpriteBatch(cache, batch);
+          await notifyClients({
+            type: "offline-cache-progress",
+            cached: offset + batch.length,
+            total: urls.length,
+          });
+        }
+
+        await notifyClients({ type: "offline-cache-ready" });
+      } catch (error) {
+        console.error("Offline sprite cache preparation failed", error);
+        await notifyClients({ type: "offline-cache-error" });
+        offlinePreparation = null;
+      }
+    })();
+  }
+  event.waitUntil(offlinePreparation);
 });
 
 self.addEventListener("fetch", event => {

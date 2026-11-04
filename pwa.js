@@ -6,6 +6,8 @@ let statusTimer;
 let deferredInstallPrompt = null;
 const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent)
   || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const isAndroid = /android/i.test(navigator.userAgent);
+const isMobile = isIos || isAndroid || /mobile/i.test(navigator.userAgent);
 const isStandalone = () => window.matchMedia("(display-mode: standalone)").matches
   || navigator.standalone === true;
 
@@ -22,7 +24,7 @@ function showOfflineStatus(message, temporary) {
 function updateInstallButton() {
   if (!installButton) return;
   const isHome = !location.hash || location.hash === "#/" || location.hash === "#";
-  installButton.classList.toggle("hidden", !isHome || isStandalone() || (!isIos && !deferredInstallPrompt));
+  installButton.classList.toggle("hidden", !isHome || isStandalone() || (!isMobile && !deferredInstallPrompt));
   installButton.textContent = isIos ? "添加到主屏幕" : "安装到手机";
 }
 
@@ -32,7 +34,12 @@ if (installButton) {
       showOfflineStatus("请点 Safari 的「分享」按钮，再选择「添加到主屏幕」", true);
       return;
     }
-    if (!deferredInstallPrompt) return;
+    if (!deferredInstallPrompt) {
+      showOfflineStatus(isAndroid
+        ? "请点浏览器菜单「安装应用」或「添加到主屏幕」；建议使用 Chrome"
+        : "请点浏览器菜单「添加到主屏幕」；iPhone 请使用 Safari", true);
+      return;
+    }
 
     const prompt = deferredInstallPrompt;
     deferredInstallPrompt = null;
@@ -63,6 +70,12 @@ if (installButton) {
 }
 
 if ("serviceWorker" in navigator) {
+  const prepareOfflineCache = () => {
+    if (navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({ type: "prepare-offline" });
+    }
+  };
+
   navigator.serviceWorker.addEventListener("message", event => {
     const message = event.data || {};
     if (message.type === "offline-cache-progress") {
@@ -80,9 +93,13 @@ if ("serviceWorker" in navigator) {
   }
 
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").catch(error => {
-      console.error("离线图鉴初始化失败", error);
-      showOfflineStatus("离线功能无法启用，请使用 HTTPS 并刷新页面重试");
-    });
+    navigator.serviceWorker.register("sw.js")
+      .then(() => navigator.serviceWorker.ready)
+      .then(prepareOfflineCache)
+      .catch(error => {
+        console.error("离线图鉴初始化失败", error);
+        showOfflineStatus("离线功能无法启用，请使用 HTTPS 并刷新页面重试");
+      });
   });
+  navigator.serviceWorker.addEventListener("controllerchange", prepareOfflineCache);
 }
