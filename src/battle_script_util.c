@@ -1523,32 +1523,46 @@ void AbilityChangeBSFunc(void)
 			bool8 hasPartner = IS_DOUBLE_BATTLE && BATTLER_ALIVE(partner);
 			ability_t partnerAbility = hasPartner ? ABILITY(partner) : ABILITY_NONE;
 
+			//官方规则2：无法被覆盖（禁换出表）或与目标相同的特性不受描绘影响；双方都豁免则失败
+			bool8 atkExempt = gSpecialAbilityFlags[atkAbility].gSkillSwapBannedAbilities
+			               || atkAbility == defAbility;
+			bool8 partnerExempt = !hasPartner
+			                   || gSpecialAbilityFlags[partnerAbility].gSkillSwapBannedAbilities
+			                   || partnerAbility == defAbility;
+
 			if (defAbility == ABILITY_NONE
 			||  IsDynamaxed(gBankTarget)
-			||  (defAbility == atkAbility && (!hasPartner || defAbility == partnerAbility))
+			||  (atkExempt && partnerExempt)
 			||  gSpecialAbilityFlags[defAbility].gEntrainmentBannedAbilitiesTarget)
 				gBattlescriptCurrInstr = BattleScript_ButItFailed - 5;
 			else
 			{
-				gNewBS->backupAbility = atkAbility;
-				*atkAbilityLoc = defAbility;
-				SetTookAbilityFrom(gBankAttacker, gBankTarget);
-				gLastUsedAbility = atkAbility; //Original ability
-				ResetVarsForAbilityChange(gBankAttacker);
+				gBattleCommunication[MULTISTRING_CHOOSER] = 0; //同伴弹窗默认不弹
 
-				if (hasPartner)
+				if (!atkExempt)
+				{
+					gNewBS->backupAbility = atkAbility;
+					*atkAbilityLoc = defAbility;
+					SetTookAbilityFrom(gBankAttacker, gBankTarget);
+					gLastUsedAbility = atkAbility; //Original ability
+					ResetVarsForAbilityChange(gBankAttacker);
+
+					if (gLastUsedAbility == ABILITY_TRUANT)
+						gDisableStructs[gBankAttacker].truantCounter = 0; //Reset counter
+				}
+
+				if (hasPartner && !partnerExempt)
 				{
 					*GetAbilityLocation(partner) = defAbility;
 					SetTookAbilityFrom(partner, gBankTarget);
 					ResetVarsForAbilityChange(partner);
 					if (partnerAbility == ABILITY_TRUANT)
 						gDisableStructs[partner].truantCounter = 0;
+
+					gBattleCommunication[MULTISTRING_CHOOSER] = 1; //同伴被改，脚本弹同伴特性弹窗
 				}
 
 				gBattleStringLoader = DoodleString;
-
-				if (gLastUsedAbility == ABILITY_TRUANT)
-					gDisableStructs[gBankAttacker].truantCounter = 0; //Reset counter
 			}
 			break;
 		}
@@ -1561,6 +1575,27 @@ void AbilityChangeBSFunc(void)
 void EntrainmentSetCorrectTookAbilityFrom(void)
 {
 	SetTookAbilityFrom(gBankTarget, gBankAttacker);
+}
+
+//描绘：同伴被改时把弹窗定位到同伴（BattleScript_AbilityPopUp 按 scripting.bank 显示当前特性）；
+//未改时置 MULTISTRING_CHOOSER=0 让脚本跳过同伴弹窗段
+void DoodlePartnerPopupHandler(void)
+{
+	if (gBattleExecBuffer) return;
+	gBattlescriptCurrInstr += 5;
+
+	if (gCurrentMove == MOVE_DOODLE && gBattleCommunication[MULTISTRING_CHOOSER])
+	{
+		u8 partner = PARTNER(gBankAttacker);
+		if (IS_DOUBLE_BATTLE && BATTLER_ALIVE(partner))
+		{
+			gBattleScripting.bank = partner;
+			TransferAbilityPopUp(partner, ABILITY(partner)); //弹窗内容 = 同伴复制后的特性
+			return;
+		}
+	}
+
+	gBattleCommunication[MULTISTRING_CHOOSER] = 0; //兜底：跳过弹窗段
 }
 
 void LoadStatustoPsychoShiftTransfer(void)
@@ -1804,12 +1839,17 @@ bool8 CanUseLastResort(u8 bank)
 
 void GigatonHammerFunc(void)
 {
-    if(gLastUsedMoves[gBankAttacker] == MOVE_GIGATONHAMMER)
+	//号令/梦话/挥指/接招等重演不受限制（官方：可通过号令、梦话、挥指使出第二次；
+	//重演场景 gCurrentMove 是被重演的招式，gChosenMove 仍是菜单选择，二者不等）
+	if (gCurrentMove != gChosenMove)
+		return;
+
+	//per-bank 实际使出记录：上回合成功使出巨力锤则失败；麻痹/睡眠未使出保持禁用（官方）
+	if (gLastResultingMoves[gBankAttacker] == MOVE_GIGATONHAMMER)
         gBattlescriptCurrInstr = BattleScript_ButItFailed - 2 - 5;
 
-	else if(gLastUsedMoves[gBankAttacker] == MOVE_BLOODMOON)
+	else if (gLastResultingMoves[gBankAttacker] == MOVE_BLOODMOON)
         gBattlescriptCurrInstr = BattleScript_ButItFailed - 2 - 5;
-    
 }
 
 void SynchronoiseFunc(void)
@@ -2550,8 +2590,7 @@ const u8* TryActivateMimicryForBank(u8 bank)
 			u8 type1 = GetMonType(mon, 0);
 			u8 type2 = GetMonType(mon, 1);
 
-			if (gBattleMons[bank].type1 != type1 || gBattleMons[bank].type2 != type2
-			||  !IS_BLANK_TYPE(gBattleMons[bank].type3))
+			if (gBattleMons[bank].type1 != type1 || gBattleMons[bank].type2 != type2)
 			{
 				gBattleMons[bank].type1 = type1;
 				gBattleMons[bank].type2 = type2;
@@ -2564,12 +2603,13 @@ const u8* TryActivateMimicryForBank(u8 bank)
 		else
 		{
 			if (gBattleMons[bank].type1 != monType || gBattleMons[bank].type2 != monType
-			|| !IS_BLANK_TYPE(gBattleMons[bank].type3))
+			|| gBattleMons[bank].type3 == monType) //额外属性与拟态属性重复时消失（官方：森林咒术变草后又遇青草场地，咒术效果消失）
 			{
 				gBattleScripting.bank = bank;
 				gBattleMons[bank].type1 = monType;
 				gBattleMons[bank].type2 = monType;
-				//Type 3 does not change!
+				if (gBattleMons[bank].type3 == monType)
+					gBattleMons[bank].type3 = TYPE_BLANK; //清除重复的额外属性
 				PREPARE_TYPE_BUFFER(gBattleTextBuff1, monType);
 				return BattleScript_MimicryTransformed;
 			}

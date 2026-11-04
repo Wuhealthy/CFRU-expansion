@@ -2261,6 +2261,13 @@ u8 GetWhoStrikesFirst(u8 bank1, u8 bank2, bool8 ignoreMovePriorities)
 		bank2Spd = bank1Spd;
 		bank1Spd = temp;
 	}
+	else if (ABILITY(bank1) == ABILITY_STALL && ABILITY(bank2) == ABILITY_STALL
+	&& bank1Bracket != 1 && bank1Bracket != -2) //慢出×慢出同档(-1)时速度低者先（官方）；双方快抢(1)或后攻之尾(-2)档正常速度序
+	{
+		temp = bank2Spd;
+		bank2Spd = bank1Spd;
+		bank1Spd = temp;
+	}
 
 	if (bank1Spd > bank2Spd)
 		return FirstMon;
@@ -2318,6 +2325,13 @@ static u8 GetWhoStrikesFirstUseLastBracketCalc(u8 bank1, u8 bank2)
 	bank2Spd = SpeedCalc(bank2);
 	u32 temp;
 	if (IsTrickRoomActive())
+	{
+		temp = bank2Spd;
+		bank2Spd = bank1Spd;
+		bank1Spd = temp;
+	}
+	else if (ABILITY(bank1) == ABILITY_STALL && ABILITY(bank2) == ABILITY_STALL
+	&& bank1Bracket != 1 && bank1Bracket != -2) //慢出×慢出同档(-1)时速度低者先（官方）
 	{
 		temp = bank2Spd;
 		bank2Spd = bank1Spd;

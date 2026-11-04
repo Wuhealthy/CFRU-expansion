@@ -3847,7 +3847,18 @@ static u16 GetBasePower(struct DamageCalc* data)
 				//+50 power per party mon that fainted during this battle; mons
 				//brought into battle already fainted don't count, revival doesn't
 				//lower it, and the user's own fainting counts too (max 5050)
-				u8 fallenCount = CountFallenPokemonInParty(bankAtk);
+				u8 fallenCount;
+
+				if (data->monAtk != NULL) //AI后备兽预设计算：按该个体所在方计数
+				{
+					u32 monId, side;
+					GetMonIdAndSideByMon(data->monAtk, &monId, &side);
+					fallenCount = CountFallenMonsOnSide(side);
+				}
+				else
+				{
+					fallenCount = CountFallenMonsForTrainerParty(bankAtk); //多人战只数同一训练家的宝可梦（官方）
+				}
 
 				power = 50 + (fallenCount * 50);
 				if (power > 5050)

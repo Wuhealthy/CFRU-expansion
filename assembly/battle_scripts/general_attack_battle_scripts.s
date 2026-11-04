@@ -1058,6 +1058,9 @@ SaltCureBS:
 	faintpokemon BANK_TARGET FALSE NULL
 	jumpiffaintedmon BANK_TARGET, TRUE, BS_EffectSaltCure_End
 	jumpifbehindsubstitute BANK_TARGET BS_EffectSaltCure_End
+	jumpifability BANK_TARGET ABILITY_MAGICGUARD BS_EffectSaltCure_End
+	jumpifability BANK_TARGET ABILITY_SHIELDDUST BS_EffectSaltCure_End
+	jumpifhelditemeffect BANK_TARGET ITEM_EFFECT_COVERT_CLOAK BS_EffectSaltCure_End
 	applysaltcure BANK_TARGET
 	setword BATTLE_STRING_LOADER sText_TargetIsBeingSaltCured
 	printstring 0x184
@@ -3009,12 +3012,14 @@ BattleScript_SideStatusWoreOffRet:
 MortalSpinBS:
 	attackcanceler
 	accuracycheck BS_MOVE_MISSED 0x0
-	setmoveeffect MOVE_EFFECT_RAPIDSPIN | MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN
 	call STANDARD_DAMAGE
-	seteffectwithchancetarget
 	setmoveeffect MOVE_EFFECT_POISON
-	seteffectwithchancetarget
-	goto BS_MOVE_FAINT
+	seteffectwithchancetarget @;中毒在前：使用者死于反伤时目标仍中毒（官方只禁止移除/摆脱）
+	prefaintmoveendeffects 0x0 @;反伤（凸凸头盔/铁刺/粗糙皮肤等）在此结算
+	faintpokemonaftermove @;使用者死于反伤则跳昏厥流程，清场摆脱不执行
+	setmoveeffect MOVE_EFFECT_RAPIDSPIN | MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN
+	seteffectwithchancetarget @;存活才移除己方场地状态并摆脱束缚/寄生种子
+	goto BS_MOVE_END
 
 TidyUpBS:
 	attackcanceler
@@ -4247,6 +4252,13 @@ MakeItRainBS:
     goto BS_MOVE_END
 
 
+@;淘金潮第二目标：特攻只降一次，但各投一份金币（官方）
+.global BattleScript_MakeItRainNextTarget
+BattleScript_MakeItRainNextTarget:
+    setmoveeffect MOVE_EFFECT_PAYDAY
+    seteffectprimary
+    goto BS_MOVE_FAINT
+
 MIT_LowerSpAtk:
     setbyte STAT_ANIM_PLAYED 0x0
 	playstatchangeanimation BANK_ATTACKER, STAT_ANIM_SPATK, STAT_ANIM_DOWN | STAT_ANIM_IGNORE_ABILITIES
@@ -4514,6 +4526,15 @@ DoodleBS:
 	call BattleScript_AbilityPopUp
 	pause DELAY_HALFSECOND
 	call BattleScript_AbilityPopUpRevert
+
+	callasm DoodlePartnerPopupHandler @;同伴被改时定位弹窗到同伴并写入弹窗数据
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x0 DoodleSkipPartnerPopup
+	playanimation BANK_SCRIPTING ANIM_LOAD_ABILITY_POP_UP 0x0
+	call BattleScript_AbilityPopUpRevert
+	call BattleScript_AbilityPopUp
+	pause DELAY_HALFSECOND
+	call BattleScript_AbilityPopUpRevert
+DoodleSkipPartnerPopup:
 
 	printstring 0x184
 	waitmessage DELAY_1SECOND
@@ -6295,6 +6316,7 @@ BS_243_DamageSetTerrain:
 	goto BS_MOVE_END
 
 IceSpinner_BS:
+	accuracycheck BS_MOVE_MISSED 0x0
 	call STANDARD_DAMAGE
 	jumpifmovehadnoeffect BS_MOVE_FAINT
 	seteffectwithchancetarget
