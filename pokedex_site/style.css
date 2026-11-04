@@ -56,6 +56,12 @@ a { color: inherit; text-decoration: none; }
 }
 .nav a:hover { background: #f0f3f8; color: var(--ink); }
 .nav a.active { background: #fdeaea; color: var(--accent); }
+.install-app-button {
+  flex: none; border: 0; border-radius: 999px; padding: 7px 12px;
+  background: var(--accent); color: #fff; font-size: 13px; font-weight: 700;
+  white-space: nowrap; cursor: pointer;
+}
+.install-app-button:hover { background: var(--accent-dark); }
 .lang-switch { display: inline-flex; flex: none; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
 .lang-switch button {
   border: none; background: transparent; padding: 5px 11px; cursor: pointer;
@@ -341,7 +347,8 @@ a { color: inherit; text-decoration: none; }
   .toc-list li { margin: 0; }
   .gen-sec > .card { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; }
   .detail-grid { grid-template-columns: minmax(0, 1fr); }
-  .topbar { padding: 8px 12px; gap: 10px; }
+  .topbar { padding: 8px 12px; gap: 10px; flex-wrap: wrap; }
+  .install-app-button { margin-left: auto; }
   .brand-sub { display: none; }
   #app { padding: 14px 12px 50px; }
   .hero { padding: 14px 16px; gap: 14px; }
