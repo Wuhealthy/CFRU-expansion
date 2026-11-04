@@ -2,6 +2,8 @@
 
 const offlineStatus = document.getElementById("offline-status");
 const installButton = document.getElementById("install-app-button");
+const pwaScriptUrl = document.currentScript && document.currentScript.src;
+const pwaVersion = pwaScriptUrl ? new URL(pwaScriptUrl).searchParams.get("v") : "";
 let statusTimer;
 let deferredInstallPrompt = null;
 const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent)
@@ -93,7 +95,8 @@ if ("serviceWorker" in navigator) {
   }
 
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js")
+    const swUrl = `sw.js${pwaVersion ? `?v=${encodeURIComponent(pwaVersion)}` : ""}`;
+    navigator.serviceWorker.register(swUrl)
       .then(() => navigator.serviceWorker.ready)
       .then(prepareOfflineCache)
       .catch(error => {
