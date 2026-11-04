@@ -240,6 +240,16 @@ bool8 ProtectAffects(u16 move, u8 bankAtk, u8 bankDef, bool8 set)
 			gBattleCommunication[6] = 1;
 		}
 	}
+	else if (gProtectStructs[bankDef].FieryBarrier && protectFlag)
+	{
+		effect = 1;
+		gNewBS->missStringId[bankDef] = 1;
+		if (contact && set)
+		{
+			gProtectStructs[bankDef].FieryBarrierHeal = 1;
+			gBattleCommunication[6] = 1;
+		}
+	}
 	else if (gProtectStructs[bankDef].obstruct && protectFlag)
 	{
 		effect = 1;

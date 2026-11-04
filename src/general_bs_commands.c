@@ -2451,6 +2451,7 @@ void atk77_setprotect(void)
 		case MOVE_MAX_GUARD:
 		case MOVE_SILKTRAP:
 		case MOVE_BURNINGBULWARK:
+		case MOVE_FIERYBARRIER:
 			break;
 		default:
 			gDisableStructs[gBankAttacker].protectUses = 0;
@@ -2530,6 +2531,11 @@ void atk77_setprotect(void)
 
 			case MOVE_BURNINGBULWARK:
 				gProtectStructs[gBankAttacker].BurningBulwark = 1;
+				gBattleCommunication[MULTISTRING_CHOOSER] = 0;
+				break;
+
+			case MOVE_FIERYBARRIER:
+				gProtectStructs[gBankAttacker].FieryBarrier = 1;
 				gBattleCommunication[MULTISTRING_CHOOSER] = 0;
 				break;
 

@@ -570,3 +570,6 @@
 
 #org @MirrorHerbString
 [SCRIPTING_BANK]使用模仿香草\n模仿了对手的能力变化！
+
+#org @FieryBarrierHealString
+[SCRIPTING_BANK]被炽炎障壁包裹，\n回复了体力！

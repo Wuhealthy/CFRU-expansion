@@ -18,6 +18,8 @@ extern const u8 BattleScript_KingsShield[];
 extern const u8 BattleScript_SpikyShield[];
 extern const u8 BattleScript_RainDishActivatesSS[];
 extern const u8 BattleScript_BanefulBunker[];
+extern const u8 BattleScript_FieryBarrierHeal[];
+extern const u8 FieryBarrierHealString[];
 extern const u8 BattleScript_BurningBulwark[];
 extern const u8 BattleScript_ObstructStatDecrement[];
 extern const u8 BattleScript_SilkTrapStatDecrement[];

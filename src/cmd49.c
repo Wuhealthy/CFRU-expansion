@@ -320,6 +320,25 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 				}
 			}
 
+			if (gProtectStructs[gBankTarget].FieryBarrierHeal)
+			{
+				gProtectStructs[gBankTarget].FieryBarrierHeal = 0;
+
+				if (BATTLER_ALIVE(gBankTarget) && !BATTLER_MAX_HP(gBankTarget) && !IsHealBlocked(gBankTarget)) //Target heals itself
+				{
+					u32 heal = MathMax(1, GetBaseMaxHP(gBankTarget) / 4);
+					gBattleMons[gBankTarget].hp = MathMin(gBattleMons[gBankTarget].hp + heal, gBattleMons[gBankTarget].maxHP);
+					gEffectBank = gActiveBattler = gBankTarget;
+					EmitSetMonData(0, REQUEST_HP_BATTLE, 0, 4, &gBattleMons[gBankTarget].hp);
+					MarkBufferBankForExecution(gActiveBattler);
+
+					BattleScriptPushCursor();
+					gBattlescriptCurrInstr = BattleScript_FieryBarrierHeal;
+					effect = TRUE;
+					break;
+				}
+			}
+
 			if (gProtectStructs[gBankTarget].obstructDamage)
 			{
 				gProtectStructs[gBankTarget].obstructDamage = FALSE;

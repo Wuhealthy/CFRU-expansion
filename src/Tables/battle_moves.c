@@ -16112,6 +16112,22 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_effect = 0
 	},
 
+	[MOVE_FIERYBARRIER] =
+	{
+		.effect = EFFECT_PROTECT,
+		.power = 0,
+		.type = TYPE_FIRE,
+		.accuracy = 0,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_USER,
+		.priority = 4,
+		.flags = 0,
+		.z_move_power = 0,
+		.split = SPLIT_STATUS,
+		.z_move_effect = Z_EFFECT_DEF_UP_1
+	},
+
 	[MOVE_CRIMSONSKY] =
 	{
 		.effect = EFFECT_BURN_HIT,

@@ -1048,6 +1048,7 @@ gMoveAnimations:
 .word ANIM_DESPERATEBLOOM
 .word ANIM_FRENZYBLAZE
 .word ANIM_CRIMSONSKY
+.word 0x81c8f55
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

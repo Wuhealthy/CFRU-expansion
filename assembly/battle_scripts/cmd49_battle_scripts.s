@@ -164,6 +164,17 @@ BattleScript_BanefulBunker:
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+BattleScript_FieryBarrierHeal:
+	playanimation BANK_TARGET ANIM_HEALING_SPARKLES 0x0
+	graphicalhpupdate BANK_TARGET
+	datahpupdate BANK_TARGET
+	setword BATTLE_STRING_LOADER FieryBarrierHealString
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	return
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 BattleScript_BurningBulwark:
 	statusanimation BANK_ATTACKER
 	refreshhpbar BANK_ATTACKER

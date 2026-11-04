@@ -433,6 +433,8 @@ struct ProtectStruct
     u32 spikyshield_damage : 1;
     u32 banefulbunker_damage : 1;
 	u32 BurningBulwark_damage : 1;
+    u32 FieryBarrier : 1;
+    u32 FieryBarrierHeal : 1;
     u32 enduredSturdy : 1;
     u32 Field3 : 1;
 
