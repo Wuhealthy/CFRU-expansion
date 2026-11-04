@@ -1,0 +1,26 @@
+{
+  "id": "./",
+  "name": "火红物语图鉴",
+  "short_name": "火红图鉴",
+  "description": "火红物语 ROM 的宝可梦、招式、特性与属性图鉴",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef1f5",
+  "theme_color": "#ee1515",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
