@@ -57,15 +57,6 @@ else { Write-Output "FETCH_FAILED"; exit 1 }
 Get-ChildItem $deploy -Force | Where-Object { $_.Name -ne ".git" } | Remove-Item -Recurse -Force
 Copy-Item (Join-Path $siteSrc "index.html"), (Join-Path $siteSrc "style.css"), (Join-Path $siteSrc "app.js"), (Join-Path $siteSrc "pwa.js"), (Join-Path $siteSrc "sw.js"), (Join-Path $siteSrc "manifest.webmanifest"), (Join-Path $siteSrc "icons"), (Join-Path $siteSrc "data"), (Join-Path $siteSrc "sprites"), (Join-Path $siteSrc "README.md") $deploy -Recurse -Force
 New-Item -ItemType File (Join-Path $deploy ".nojekyll") -Force | Out-Null
-# index.html 里 css/js/数据的引用加内容版本号 (Pages 默认缓存 10 分钟, 不加的话浏览器会继续用旧文件)
-$indexPath = Join-Path $deploy "index.html"
-$html = [IO.File]::ReadAllText($indexPath)
-foreach ($f in "style.css", "app.js", "data/data.js", "pwa.js") {
-  $v = (Get-FileHash (Join-Path $siteSrc $f) -Algorithm SHA1).Hash.Substring(0, 8).ToLower()
-  $pattern = "(?<=[`"'])$([regex]::Escape($f))(\?v=[^`"']*)?(?=[`"'])"
-  $html = [regex]::Replace($html, $pattern, "${f}?v=$v")
-}
-[IO.File]::WriteAllText($indexPath, $html, (New-Object Text.UTF8Encoding($false)))
 # Give every content update its own cache so the old app stays intact during installation.
 $cacheInputs = "index.html", "style.css", "app.js", "pwa.js", "sw.js", "manifest.webmanifest", "data/data.js", "icons/icon-192.png", "icons/icon-512.png"
 $cacheSeed = ($cacheInputs | ForEach-Object { (Get-FileHash (Join-Path $siteSrc $_) -Algorithm SHA1).Hash }) -join ""
@@ -73,6 +64,17 @@ $spriteHashes = Get-ChildItem (Join-Path $siteSrc "sprites") -File -Recurse | So
 $cacheSeed += ($spriteHashes -join "")
 $cacheVersion = ([System.Security.Cryptography.SHA1]::Create().ComputeHash([Text.Encoding]::UTF8.GetBytes($cacheSeed)) |
   ForEach-Object { $_.ToString("x2") }) -join ""
+# Content-version every asset; changing the worker URL forces mobile browsers to check for its update.
+$indexPath = Join-Path $deploy "index.html"
+$html = [IO.File]::ReadAllText($indexPath)
+foreach ($f in "style.css", "app.js", "data/data.js") {
+  $v = (Get-FileHash (Join-Path $siteSrc $f) -Algorithm SHA1).Hash.Substring(0, 8).ToLower()
+  $pattern = "(?<=[`"'])$([regex]::Escape($f))(\?v=[^`"']*)?(?=[`"'])"
+  $html = [regex]::Replace($html, $pattern, "${f}?v=$v")
+}
+$pattern = "(?<=[`"'])pwa\.js(\?v=[^`"']*)?(?=[`"'])"
+$html = [regex]::Replace($html, $pattern, "pwa.js?v=$($cacheVersion.Substring(0, 12))")
+[IO.File]::WriteAllText($indexPath, $html, (New-Object Text.UTF8Encoding($false)))
 $swPath = Join-Path $deploy "sw.js"
 $sw = [IO.File]::ReadAllText($swPath).Replace("__BUILD_VERSION__", $cacheVersion.Substring(0, 12))
 [IO.File]::WriteAllText($swPath, $sw, (New-Object Text.UTF8Encoding($false)))
