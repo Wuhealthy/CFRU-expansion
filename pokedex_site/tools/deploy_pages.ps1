@@ -1,4 +1,4 @@
-# 从 Windows 凭据管理器读取 GitHub Desktop 的 token，用于 push + 开启 Pages
+﻿# 从 Windows 凭据管理器读取 GitHub Desktop 的 token，用于 push + 开启 Pages
 $ErrorActionPreference = "Continue"
 
 Add-Type -TypeDefinition @'
@@ -26,42 +26,57 @@ $token = [CredMan]::ReadPass("GitHub - https://api.github.com/Wuhealthy")
 if (-not $token) { Write-Output "NO_TOKEN"; exit 1 }
 Write-Output ("token ok (len " + $token.Length + ", prefix " + $token.Substring(0,4) + ")")
 
-$workspace = "C:\Users\Administrator\Documents\GitHub\CFRU-expansion"
-$siteSrc = Join-Path $workspace "pokedex_site"
+# 站点目录 = 本脚本所在 tools/ 的上级, 换机器/换路径无需修改
+$siteSrc = Split-Path -Parent $PSScriptRoot
 $deploy = Join-Path $env:TEMP "cfru-pokedex-deploy"
 $remote = "https://Wuhealthy:$token@github.com/Wuhealthy/CFRU-expansion.git"
+# 用 $env:ComSpec 调 cmd.exe: PATH 里 devkitPro msys2 的 cmd 脚本排在 system32 前, 直接写 cmd 会解析错
 
-# 临时克隆不存在则重建 gh-pages 工作树 (只含站点文件, 不触碰主工作区)
+# 部署仓库 (只含站点文件, 不触碰主工作区): 每次先对齐远端 gh-pages 最新提交再同步,
+# 保证 push 可快进 (多台机器交替部署也不会被拒)
 if (-not (Test-Path (Join-Path $deploy ".git"))) {
-  Write-Output "重建部署克隆…"
+  Write-Output "初始化部署仓库…"
   if (Test-Path $deploy) { Remove-Item -Recurse -Force $deploy }
-  cmd /c "git clone --quiet `"$workspace`" `"$deploy`""
-  cmd /c "git -C `"$deploy`" checkout --quiet --orphan gh-pages"
-  cmd /c "git -C `"$deploy`" rm -rq --cached . 2>nul"
-  Get-ChildItem $deploy -Force | Where-Object { $_.Name -ne ".git" } | Remove-Item -Recurse -Force
-  Copy-Item (Join-Path $siteSrc "index.html"), (Join-Path $siteSrc "style.css"), (Join-Path $siteSrc "app.js"), (Join-Path $siteSrc "data"), (Join-Path $siteSrc "sprites"), (Join-Path $siteSrc "README.md") $deploy -Recurse -Force
-  New-Item -ItemType File (Join-Path $deploy ".nojekyll") -Force | Out-Null
-  cmd /c "git -C `"$deploy`" add -A"
-  cmd /c "git -C `"$deploy`" commit -qm ""横版物语图鉴站点更新 $(Get-Date -Format 'yyyy-MM-dd HH:mm')"""
-  Write-Output "克隆已重建并提交"
-} else {
-  # 已有克隆: 同步最新站点文件
-  Copy-Item (Join-Path $siteSrc "index.html"), (Join-Path $siteSrc "style.css"), (Join-Path $siteSrc "app.js") $deploy -Force
-  Copy-Item (Join-Path $siteSrc "data\*") (Join-Path $deploy "data") -Recurse -Force
-  Copy-Item (Join-Path $siteSrc "sprites\*") (Join-Path $deploy "sprites") -Recurse -Force
-  cmd /c "git -C `"$deploy`" add -A"
-  $hasChanges = cmd /c "git -C `"$deploy`" status --porcelain"
-  if ($hasChanges) {
-    cmd /c "git -C `"$deploy`" commit -qm ""横版物语图鉴站点更新 $(Get-Date -Format 'yyyy-MM-dd HH:mm')"""
-    Write-Output "检测到站点更新, 已提交"
-  } else { Write-Output "站点无变化" }
+  New-Item -ItemType Directory $deploy | Out-Null
+  & $env:ComSpec /c "git -C `"$deploy`" init -q"
 }
+$fetched = $false; $noBranch = $false
+for ($i = 1; $i -le 8; $i++) {
+  & $env:ComSpec /c "git -C `"$deploy`" fetch -q $remote gh-pages 2>&1" | Out-Null
+  if ($LASTEXITCODE -eq 0) { $fetched = $true; break }
+  & $env:ComSpec /c "git ls-remote --exit-code $remote gh-pages 2>&1" | Out-Null
+  if ($LASTEXITCODE -eq 2) { $noBranch = $true; break }  # 连接正常但远端无 gh-pages: 首次部署
+  Write-Output "== fetch 失败, 重试 $i =="
+  Start-Sleep -Seconds 4
+}
+if ($fetched) { & $env:ComSpec /c "git -C `"$deploy`" checkout -q -f -B gh-pages FETCH_HEAD" }
+elseif ($noBranch) { & $env:ComSpec /c "git -C `"$deploy`" checkout -q --orphan gh-pages" }
+else { Write-Output "FETCH_FAILED"; exit 1 }
+
+# 镜像同步站点文件 (先清空工作树, 站点中已删除的文件不会残留)
+Get-ChildItem $deploy -Force | Where-Object { $_.Name -ne ".git" } | Remove-Item -Recurse -Force
+Copy-Item (Join-Path $siteSrc "index.html"), (Join-Path $siteSrc "style.css"), (Join-Path $siteSrc "app.js"), (Join-Path $siteSrc "data"), (Join-Path $siteSrc "sprites"), (Join-Path $siteSrc "README.md") $deploy -Recurse -Force
+New-Item -ItemType File (Join-Path $deploy ".nojekyll") -Force | Out-Null
+# index.html 里 css/js/数据的引用加内容版本号 (Pages 默认缓存 10 分钟, 不加的话浏览器会继续用旧文件)
+$indexPath = Join-Path $deploy "index.html"
+$html = [IO.File]::ReadAllText($indexPath)
+foreach ($f in "style.css", "app.js", "data/data.js") {
+  $v = (Get-FileHash (Join-Path $siteSrc $f) -Algorithm SHA1).Hash.Substring(0, 8).ToLower()
+  $html = $html.Replace("""$f""", """$f`?v=$v""")
+}
+[IO.File]::WriteAllText($indexPath, $html, (New-Object Text.UTF8Encoding($false)))
+& $env:ComSpec /c "git -C `"$deploy`" add -A"
+$hasChanges = & $env:ComSpec /c "git -C `"$deploy`" status --porcelain"
+if ($hasChanges) {
+  & $env:ComSpec /c "git -C `"$deploy`" commit -qm ""火红物语图鉴站点更新 $(Get-Date -Format 'yyyy-MM-dd HH:mm')"""
+  Write-Output "检测到站点更新, 已提交"
+} else { Write-Output "站点无变化" }
 
 # push 带重试 (github.com 连接间歇被重置)
 $pushed = $false
 for ($i = 1; $i -le 8; $i++) {
   Write-Output "== push 尝试 $i =="
-  $out = cmd /c "git -C `"$deploy`" push $remote gh-pages 2>&1"
+  $out = & $env:ComSpec /c "git -C `"$deploy`" push $remote gh-pages 2>&1"
   if ($LASTEXITCODE -eq 0) { Write-Output "PUSH_OK"; $pushed = $true; break }
   Write-Output (($out -join " ").Trim().Substring(0, [Math]::Min(160, ($out -join " ").Trim().Length)))
   Start-Sleep -Seconds 4
@@ -76,6 +91,6 @@ try {
   Write-Output ("PAGES_ENABLED: " + $r.html_url)
 } catch {
   $msg = $_.ErrorDetails.Message
-  if ($msg -match "already exists") { Write-Output "PAGES_ALREADY_ENABLED" }
+  if ($msg -match "already (exists|enabled)") { Write-Output "PAGES_ALREADY_ENABLED" }
   else { Write-Output ("PAGES_API_ERR: " + $msg) }
 }
