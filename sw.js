@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "pkdx-offline-bd637d3ebcc8";
+const CACHE_NAME = "pkdx-offline-a9b6b66bb0fd";
 const CORE_FILES = [
   "./",
   "./index.html",
@@ -25,6 +25,7 @@ async function cacheSpriteBatch(cache, urls) {
   await Promise.all(urls.map(async url => {
     if (await cache.match(url)) return;
     const response = await fetch(url);
+    if (response.status === 404) return;  // 该个体没有这张图 (如部分闪光图缺失): 可选资源, 跳过不算失败
     if (!response.ok) {
       throw new Error(`Failed to cache ${url}: HTTP ${response.status}`);
     }
