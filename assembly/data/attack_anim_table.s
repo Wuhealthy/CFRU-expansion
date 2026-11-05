@@ -1052,6 +1052,7 @@ gMoveAnimations:
 .word ANIM_MUDBOMB		@MOVE_MUDDYBARRAGE
 .word ANIM_FLASHCANNON		@MOVE_MAGNETICPULSE
 .word ANIM_HEX			@MOVE_PSIONICCRASH
+.word ANIM_ECLIPSE_POISON_STING	@MOVE_ECLIPSEPOISONSTING
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -31631,6 +31632,31 @@ ANIM_CRIMSONSKY:
 	pokespritefromBG side_target
 	call UNSET_SCROLLING_BG
 	endanimation
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+ANIM_ECLIPSE_POISON_STING:
+	loadparticle ANIM_TAG_CLAW_SLASH
+	loadparticle ANIM_TAG_POISON_BUBBLE
+	pokespritetoBG bank_target
+	playsound2 0x81 SOUND_PAN_TARGET
+	launchtemplate ECLIPSE_POISON_CLAW TEMPLATE_TARGET | 2, 0x4, 8, 0, FALSE, FALSE
+	pause 0x4
+	playsound2 0x81 SOUND_PAN_TARGET
+	launchtemplate ECLIPSE_POISON_CLAW TEMPLATE_TARGET | 2, 0x4, -8, -8, TRUE, FALSE
+	pause 0x4
+	playsound2 0x81 SOUND_PAN_TARGET
+	launchtemplate ECLIPSE_POISON_CLAW TEMPLATE_TARGET | 2, 0x4, -8, 0, TRUE, TRUE
+	pause 0x8
+	call POISON_BUBBLES
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0x10 0x1
+	waitanimation
+	pokespritefromBG bank_target
+	endanimation
+
+.align 2
+ECLIPSE_POISON_CLAW: objtemplate ANIM_TAG_CLAW_SLASH ANIM_TAG_POISON_BUBBLE OAM_OFF_32x32 0x83E359C 0x0 gDummySpriteAffineAnimTable SpriteCB_FlippableSlash
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

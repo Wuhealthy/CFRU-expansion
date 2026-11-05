@@ -4222,6 +4222,7 @@ void atkB0_trysetspikes(void)
 			break;
 
 		case MOVE_TOXICSPIKES:
+		case MOVE_ECLIPSEPOISONSTING:
 			if (gSideTimers[defSide].tspikesAmount >= 2)
 			{
 				gSpecialStatuses[gBankAttacker].ppNotAffectedByPressure = 1;

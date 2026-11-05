@@ -3390,7 +3390,8 @@ BS_149_Gust:
 .global BS_150_Splinters @;Was Stomp
 BS_150_Splinters:
 	jumpifmove MOVE_STONEAXE StoneAxe_BS
-	jumpifmove MOVE_CEASELESSEDGE Ceaceless_BS
+	jumpifmove MOVE_CEASELESSEDGE Ceaseless_BS
+	jumpifmove MOVE_ECLIPSEPOISONSTING EclipsePoisonSting_BS
 	setmoveeffect MOVE_EFFECT_SPLINTERS
 	goto BS_STANDARD_HIT
 
@@ -3408,7 +3409,7 @@ StoneAxeSkip:
 	faintpokemonaftermove
 	goto BS_MOVE_END
 
-Ceaceless_BS:
+Ceaseless_BS:
 	attackcanceler
 	call STANDARD_DAMAGE
 	playanimation BANK_TARGET ANIM_SPIKES2 0x0
@@ -3418,6 +3419,20 @@ Ceaceless_BS:
 	waitmessage DELAY_1SECOND
 
 CeacelessSkip:
+	prefaintmoveendeffects 0x0
+	faintpokemonaftermove
+	goto BS_MOVE_END
+
+EclipsePoisonSting_BS:
+	attackcanceler
+	call STANDARD_DAMAGE
+	playanimation BANK_TARGET ANIM_TOXICSPIKES2 0x0
+	waitanimation
+	setspikes EclipsePoisonStingSkip
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+
+EclipsePoisonStingSkip:
 	prefaintmoveendeffects 0x0
 	faintpokemonaftermove
 	goto BS_MOVE_END

@@ -16253,6 +16253,21 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 160,
 		.split = SPLIT_SPECIAL,
 		.z_move_effect = 0
+	},
+	[MOVE_ECLIPSEPOISONSTING] =
+	{
+		.effect = EFFECT_SPLINTER,
+		.power = 75,
+		.type = TYPE_POISON,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 100,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 140,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
 	}
 };
 
@@ -16856,5 +16871,6 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_MUDDYBARRAGE] = 100,
 	[MOVE_MAGNETICPULSE] = 120,
 	[MOVE_PSIONICCRASH] = 130,
+	[MOVE_ECLIPSEPOISONSTING] = 130,
 };
 #endif
