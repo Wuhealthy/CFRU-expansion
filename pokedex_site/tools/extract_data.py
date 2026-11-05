@@ -1399,6 +1399,118 @@ for sid, fn in icon_map.items():
         copy_png(gfx_png[fn], dst, crop=(0, 0, 32, 32))
 print("front: %d, icons: %d" % (len(front_map), len(icon_map)))
 
+# ---------------------------------------------------------------- 闪光精灵图
+# 从 DPE GEN9 的 Shiny_Palette_Table.c 提取闪光色板 (LZ77 压缩 RGB555),
+# 替换正面图 PNG 的调色板生成闪光版, 加密到 sprites/front_shiny/
+
+def gba_lz77_decompress(data):
+    if not data or data[0] != 0x10:
+        return None
+    size = data[1] | (data[2] << 8) | (data[3] << 16)
+    out = bytearray()
+    i = 4
+    while len(out) < size and i < len(data):
+        flags = data[i]; i += 1
+        for bit in range(8):
+            if len(out) >= size:
+                break
+            if flags & (1 << (7 - bit)):
+                if i + 1 >= len(data):
+                    break
+                b1 = data[i]; b2 = data[i + 1]; i += 2
+                disp = ((b1 & 0x0F) << 8) | b2
+                count = (b1 >> 4) + 3
+                start = len(out) - disp - 1
+                for k in range(count):
+                    if start + k < len(out):
+                        out.append(out[start + k])
+                    else:
+                        out.append(0)
+            else:
+                if i >= len(data):
+                    break
+                out.append(data[i]); i += 1
+    return bytes(out[:size])
+
+def rgb555_to_rgb888(val):
+    return ((val & 0x1F) << 3, ((val >> 5) & 0x1F) << 3, ((val >> 10) & 0x1F) << 3)
+
+shiny_pal_symbols = {}
+for m in re.finditer(r"\[SPECIES_(\w+)\]\s*=\s*\{(gBackShinySprite\w+?)Pal,", read(os.path.join(DPE, "src", "Shiny_Palette_Table.c"))):
+    sp = sp_id(m.group(1), prefer_dpe=True)
+    if sp is not None:
+        shiny_pal_symbols[sp] = m.group(2) + "Pal"
+print("闪光色板符号: %d" % len(shiny_pal_symbols))
+
+import struct as _struct
+backspr_dir = os.path.join(DPE, "graphics", "backspr")
+shiny_palettes = {}
+for sp, sym in shiny_pal_symbols.items():
+    s_file = os.path.join(backspr_dir, sym[:-3] + ".s")
+    if not os.path.exists(s_file):
+        continue
+    hwords = []
+    in_pal = False
+    for line in read(s_file).splitlines():
+        if line.strip().startswith(sym + ":"):
+            in_pal = True
+            continue
+        if in_pal:
+            if ".hword" in line:
+                for part in line.split(".hword", 1)[1].split(","):
+                    part = part.strip()
+                    if part:
+                        try:
+                            hwords.append(int(part, 0))
+                        except ValueError:
+                            pass
+            elif line.strip() and not line.strip().startswith("@") and not line.strip().startswith("."):
+                break
+    if not hwords:
+        continue
+    raw_bytes = _struct.pack("<" + "H" * len(hwords), *hwords)
+    decompressed = gba_lz77_decompress(raw_bytes)
+    if decompressed is None:
+        continue
+    colors = [rgb555_to_rgb888(decompressed[i] | (decompressed[i + 1] << 8)) for i in range(0, len(decompressed) - 1, 2)]
+    shiny_palettes[sp] = colors
+print("闪光色板提取成功: %d" % len(shiny_palettes))
+
+shiny_front_dir = os.path.join(OUT, "sprites", "front_shiny")
+os.makedirs(shiny_front_dir, exist_ok=True)
+shiny_count = 0
+for sid, fn in front_map.items():
+    if sid not in shiny_palettes:
+        continue
+    src_png = gfx_png.get(fn)
+    if not src_png:
+        continue
+    dst = os.path.join(shiny_front_dir, "%d.png" % sid)
+    if os.path.exists(dst):
+        shiny_count += 1
+        continue
+    try:
+        from PIL import Image
+        im = Image.open(src_png)
+        if im.size[0] == 64 and im.size[1] > 64 and im.size[1] % 64 == 0:
+            im = im.crop((0, 0, 64, 64))
+        if im.mode != "P":
+            im = im.convert("P")
+        pal = im.getpalette()
+        sp = shiny_palettes[sid]
+        for i, (r, g, b) in enumerate(sp):
+            if i * 3 + 2 >= len(pal):
+                break
+            pal[i * 3] = r
+            pal[i * 3 + 1] = g
+            pal[i * 3 + 2] = b
+        im.putpalette(pal)
+        im.save(dst, transparency=0)
+        shiny_count += 1
+    except Exception as e:
+        warn("闪光图失败 %d: %s" % (sid, e))
+print("闪光正面图: %d" % shiny_count)
+
 # ---------------------------------------------------------------- 精灵图加密
 # PNG → XOR 混淆 → base64 → sprites/{front,icon}/NNN.js (页面动态加载后 canvas 解密绘制)
 # 明文 PNG 随即删除, 直接抓取文件得到乱码 (密钥与 app.js 的 SPR_KEY 一致)
@@ -1428,7 +1540,8 @@ def encrypt_sprite_dir(pdir, kind, kind_id):
 
 n1 = encrypt_sprite_dir(os.path.join(OUT, "sprites", "front"), "front", 0)
 n2 = encrypt_sprite_dir(os.path.join(OUT, "sprites", "icon"), "icon", 1)
-print("加密精灵图: front %d, icon %d%s" % (n1, n2, " (保留明文PNG)" if KEEP_PNG else ", 明文PNG已删除"))
+n3 = encrypt_sprite_dir(os.path.join(OUT, "sprites", "front_shiny"), "front_shiny", 2)
+print("加密精灵图: front %d, icon %d, front_shiny %d%s" % (n1, n2, n3, " (保留明文PNG)" if KEEP_PNG else ", 明文PNG已删除"))
 
 # ---------------------------------------------------------------- 繁体中文 (OpenCC 简→台湾繁体)
 # 页面在浏览器端按需把简体转成繁体, 这里只打包网站语料(数据 + 页面文字)实际用到的单字和词组。

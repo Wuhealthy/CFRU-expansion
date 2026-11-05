@@ -173,7 +173,7 @@ const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&a
    密钥须与 tools/extract_data.py 的 SPR_KEY 一致。 */
 const SPR_KEY = [0x5A, 0xC3, 0x11, 0x9E, 0x37, 0x6B, 0xD2, 0x84,
                  0x1F, 0xA6, 0x48, 0xE0, 0x73, 0xCB, 0x95, 0x2D];
-const KIND_ID = { front: 0, icon: 1 };
+const KIND_ID = { front: 0, icon: 1, front_shiny: 2 };
 const sprCache = {}, sprPending = {};
 window.__sprData = function (kind, id, b64) {
   const key = kind + id;
@@ -207,9 +207,32 @@ function loadSprite(kind, id) {
   return sprCache[key];
 }
 /* fit: 裁掉透明边后按原始大小显示 (不放大, 超过 fit 像素才缩小), 用于进化链圆框 */
-function spriteCanvas(kind, id, cls, fit) {
-  return `<canvas class="${cls || ""}" data-spr="${kind}" data-id="${id}"${fit ? ` data-fit="${fit}"` : ""}></canvas>`;
+/* toggle: 点击切换闪光/普通 */
+function spriteCanvas(kind, id, cls, fit, toggle) {
+  const ev = toggle ? ` onclick="${kind === "front" ? "event.stopPropagation()" : ""};toggleShiny(this)" style="cursor:pointer"` : "";
+  return `<canvas class="${cls || ""}" data-spr="${kind}" data-id="${id}"${fit ? ` data-fit="${fit}"` : ""}${ev}></canvas>`;
 }
+function toggleShiny(cv) {
+  if (cv.dataset.spr === "front") {
+    cv.dataset.spr = "front_shiny";
+  } else if (cv.dataset.spr === "front_shiny") {
+    cv.dataset.spr = "front";
+  } else {
+    return;
+  }
+  const key = cv.dataset.spr + cv.dataset.id;
+  if (!sprCache[key]) {
+    drawSpriteCanvas(cv);
+  } else {
+    sprCache[key].then(bmp => {
+      if (cv.dataset.fit) return fitSprite(cv, bmp, +cv.dataset.fit);
+      cv.width = bmp.width; cv.height = bmp.height;
+      cv.getContext("2d").drawImage(bmp, 0, 0);
+      cv.style.width = ""; cv.style.height = "";
+    });
+  }
+}
+window.toggleShiny = toggleShiny;
 const sprIO = new IntersectionObserver(entries => {
   entries.forEach(en => {
     if (!en.isIntersecting) return;
@@ -476,7 +499,7 @@ const dexGen = dex => GEN_DEX_END.findIndex((end, g) => g > 0 && dex <= end);
 /* ---------------- 首页 ---------------- */
 function monCard(s, statKey) {
   return `<div class="mon-card" onclick="location.hash='#/p/${s.id}'">
-    ${spriteCanvas("front", s.id)}
+    ${spriteCanvas("front", s.id, "mon-spr", null, true)}
     <div class="no">${fmtDex(s.dex)}</div>
     <div class="nm">${esc(speciesName(s))}</div>
     <div class="types">${typePills(s.types, true)}</div>
@@ -775,7 +798,7 @@ function renderPokemon(id) {
   app.innerHTML = `
     <a class="back-link" href="#/">← 返回图鉴</a>
     <div class="hero" style="background:linear-gradient(120deg, ${c1}, ${c2})">
-      ${spriteCanvas("front", s.id, "hero-spr")}
+      ${spriteCanvas("front", s.id, "hero-spr", null, true)}
       <div>
         <div class="dex-no">${fmtDex(s.dex)}</div>
         <div class="nm">${esc(speciesName(s))}</div>
