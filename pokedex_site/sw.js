@@ -12,7 +12,8 @@ const CORE_FILES = [
   "./icons/icon-512.png",
   "./data/data.js",
 ];
-const BATCH_SIZE = 16;
+const SPRITE_CHUNK = 64;  // 每 64 个编号一个 sprites/bundle_N.js (约 170KB); 必须与 extract_data.py / app.js 一致
+const BUNDLE_BATCH = 8;   // bundle 数量少 (~25 个) 单个大, 8 个并行刚好; github.io 是 HTTP/2 单连接多路复用
 const SCOPE_URL = self.registration.scope;
 let offlinePreparation = null;
 
@@ -75,16 +76,14 @@ self.addEventListener("message", event => {
         if (!Array.isArray(data.species)) throw new Error("Offline species data is missing");
 
         const ids = [...new Set(data.species.map(species => species.id))];
-        const urls = ids.flatMap(id => [
-          new URL(`sprites/front/${id}.js`, SCOPE_URL).href,
-          new URL(`sprites/front_shiny/${id}.js`, SCOPE_URL).href,
-          new URL(`sprites/icon/${id}.js`, SCOPE_URL).href,
-        ]);
+        const chunkSet = new Set(ids.map(id => Math.floor(id / SPRITE_CHUNK)));
+        const urls = [...chunkSet].sort((a, b) => a - b)
+          .map(c => new URL(`sprites/bundle_${c}.js`, SCOPE_URL).href);
         // 整个清单最多重试 3 次 (网络间歇被重置时, 已缓存的文件靠 cache.match 秒过, 从断点继续)
         for (let attempt = 1; ; attempt++) {
           try {
-            for (let offset = 0; offset < urls.length; offset += BATCH_SIZE) {
-              const batch = urls.slice(offset, offset + BATCH_SIZE);
+            for (let offset = 0; offset < urls.length; offset += BUNDLE_BATCH) {
+              const batch = urls.slice(offset, offset + BUNDLE_BATCH);
               await cacheSpriteBatch(cache, batch);
               await notifyClients({
                 type: "offline-cache-progress",

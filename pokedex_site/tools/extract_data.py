@@ -1519,10 +1519,14 @@ import sys
 KEEP_PNG = "--keep-png" in sys.argv
 SPR_KEY = bytes([0x5A, 0xC3, 0x11, 0x9E, 0x37, 0x6B, 0xD2, 0x84,
                  0x1F, 0xA6, 0x48, 0xE0, 0x73, 0xCB, 0x95, 0x2D])
+# 每 64 个编号合并成一个 bundle 文件 (三类图打包在一起, 约 170KB/个, 总共 ~25 个);
+# 逐个 4600+ 小文件的网络请求开销太大, 离线预缓存要 4-5 分钟, 合并后请求数降 99%。
+# 必须与 app.js / sw.js 的 SPRITE_CHUNK 一致
+SPRITE_CHUNK = 64
 
-def encrypt_sprite_dir(pdir, kind, kind_id):
-    n = 0
-    for fn in os.listdir(pdir):
+def encrypt_sprites(pdir, kind, kind_id):
+    out = []
+    for fn in sorted(os.listdir(pdir)):
         if not fn.endswith(".png"):
             continue
         sid = int(fn[:-4])
@@ -1530,18 +1534,35 @@ def encrypt_sprite_dir(pdir, kind, kind_id):
             raw = f.read()
         seed = (sid * 31 + kind_id * 7) & 0xFF
         enc = bytes(b ^ SPR_KEY[(i + seed) % len(SPR_KEY)] for i, b in enumerate(raw))
-        b64 = base64.b64encode(enc).decode()
-        with open(os.path.join(pdir, "%d.js" % sid), "w") as f:
-            f.write('__sprData("%s",%d,"%s");' % (kind, sid, b64))
+        out.append((sid, base64.b64encode(enc).decode()))
         if not KEEP_PNG:
             os.remove(os.path.join(pdir, fn))
-        n += 1
-    return n
+    return out
 
-n1 = encrypt_sprite_dir(os.path.join(OUT, "sprites", "front"), "front", 0)
-n2 = encrypt_sprite_dir(os.path.join(OUT, "sprites", "icon"), "icon", 1)
-n3 = encrypt_sprite_dir(os.path.join(OUT, "sprites", "front_shiny"), "front_shiny", 2)
-print("加密精灵图: front %d, icon %d, front_shiny %d%s" % (n1, n2, n3, " (保留明文PNG)" if KEEP_PNG else ", 明文PNG已删除"))
+n1 = encrypt_sprites(os.path.join(OUT, "sprites", "front"), "front", 0)
+n2 = encrypt_sprites(os.path.join(OUT, "sprites", "icon"), "icon", 1)
+n3 = encrypt_sprites(os.path.join(OUT, "sprites", "front_shiny"), "front_shiny", 2)
+payloads = ([("front", sid, b64) for sid, b64 in n1]
+            + [("icon", sid, b64) for sid, b64 in n2]
+            + [("front_shiny", sid, b64) for sid, b64 in n3])
+
+bundle_dir = os.path.join(OUT, "sprites")
+for fn in os.listdir(bundle_dir):  # 清掉旧运行的 bundle (分块边界可能已变)
+    if fn.startswith("bundle_") and fn.endswith(".js"):
+        os.remove(os.path.join(bundle_dir, fn))
+chunks = {}
+for kind, sid, b64 in payloads:
+    chunks.setdefault(sid // SPRITE_CHUNK, []).append((kind, sid, b64))
+for chunk in sorted(chunks):
+    body = "".join('__sprData("%s",%d,"%s");' % item for item in sorted(chunks[chunk]))
+    with open(os.path.join(bundle_dir, "bundle_%d.js" % chunk), "w") as f:
+        f.write(body)
+for sub in ("front", "icon", "front_shiny"):  # 按个体 .js 不再产出, 清掉旧残留
+    d = os.path.join(OUT, "sprites", sub)
+    for fn in os.listdir(d):
+        if fn.endswith(".js"):
+            os.remove(os.path.join(d, fn))
+print("加密精灵图: front %d, icon %d, front_shiny %d → %d 个 bundle%s" % (len(n1), len(n2), len(n3), len(chunks), " (保留明文PNG)" if KEEP_PNG else ", 明文PNG已删除"))
 
 # ---------------------------------------------------------------- 繁体中文 (OpenCC 简→台湾繁体)
 # 页面在浏览器端按需把简体转成繁体, 这里只打包网站语料(数据 + 页面文字)实际用到的单字和词组。
