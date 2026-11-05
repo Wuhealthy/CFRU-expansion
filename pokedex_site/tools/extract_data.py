@@ -500,7 +500,7 @@ print("招式分类标签 %d 项, 有分类 %d 个, 先制 %d, 存在追加效�
 
 # ---------------------------------------------------------------- 物品
 
-item_index = parse_defines(read(os.path.join(CFRU, "include", "constants", "items.h")), "ITEM_")
+item_index = parse_hybrid_constants(read(os.path.join(CFRU, "include", "constants", "items.h")), "ITEM_")
 
 ITEM_ZH = {
     "NONE": "", "TM_NONE": "",
@@ -523,6 +523,7 @@ ITEM_ZH = {
     "SCROLL_OF_DARKNESS": "恶之挂轴", "SCROLL_OF_WATERS": "水之挂轴",
     "LINKING_CORD": "联系绳", "METAL_ALLOY": "复合金属", "MASTER_BALL": "大师球",
     "UP_GRADE": "升级数据",
+    "AWAKEN_CHARM": "觉醒能量",
     # 常见携带道具
     "AIR_BALLOON": "气球", "ABSORB_BULB": "球根", "BERRY_JUICE": "树果汁",
     "BIG_MUSHROOM": "大蘑菇", "BIG_PEARL": "大珍珠", "BIG_ROOT": "大根茎",
@@ -666,6 +667,76 @@ def item_zh(expr):
     if game.strip("?"):
         return game
     return pretty_en(name, "")
+
+ITEM_POCKET_ZH = {
+    1: "道具",
+    2: "重要物品",
+    3: "精灵球",
+    4: "招式学习器",
+    5: "树果",
+}
+item_descriptions = parse_string_file(os.path.join(CFRU, "strings", "item_descriptions.string"))
+item_description_entries = list(item_descriptions.items())
+for i, (label, description) in enumerate(item_description_entries):
+    if not description:
+        item_descriptions[label] = next(
+            (text for _, text in item_description_entries[i + 1:] if text), ""
+        )
+item_table_start = re.search(r"const struct Item gItemData\[\]\s*=\s*\{", item_src)
+if not item_table_start:
+    raise ValueError("src/Tables/item_tables.c 中找不到 gItemData")
+item_table_body, _ = balanced_block(item_src, item_src.index("{", item_table_start.end() - 1))
+item_entries = []
+depth = 0
+entry_start = None
+for i, char in enumerate(item_table_body):
+    if char == "{":
+        if depth == 0:
+            entry_start = i
+        depth += 1
+    elif char == "}":
+        depth -= 1
+        if depth == 0 and entry_start is not None:
+            item_entries.append(item_table_body[entry_start + 1:i])
+            entry_start = None
+
+items = []
+for entry in item_entries:
+    id_match = re.search(r"\.itemId\s*=\s*ITEM_(\w+)", entry)
+    if not id_match:
+        continue
+    const_name = id_match.group(1)
+    description_match = re.search(r"\.description\s*=\s*(\w+)", entry)
+    description_key = description_match.group(1) if description_match else ""
+    if description_key == "gText_ItemNone":
+        continue
+    direct_name = re.search(r'\.name\s*=\s*CN\("([^"]*)"', entry)
+    if direct_name:
+        name = direct_name.group(1)
+    else:
+        encoded_name = re.search(r"\.name\s*=\s*\{([^}]*)\}", entry)
+        name = decode_game_text(encoded_name.group(1)) if encoded_name else ""
+    name = item_zh("ITEM_" + const_name) if name and not HAS_CJK.search(name) else name
+    if not name or not HAS_CJK.search(name):
+        continue
+    item_id = item_index.get(const_name)
+    if item_id is None:
+        warn("道具编号未知: ITEM_" + const_name)
+        continue
+    price_match = re.search(r"\.price\s*=\s*(\d+)", entry)
+    pocket_match = re.search(r"\.pocket\s*=\s*POCKET_(\w+)", entry)
+    pocket_id = {"ITEMS": 1, "KEY_ITEMS": 2, "POKE_BALLS": 3, "TM_CASE": 4, "BERRY_POUCH": 5}.get(pocket_match.group(1)) if pocket_match else None
+    items.append({
+        "id": item_id,
+        "en": const_name,
+        "zh": name,
+        "price": int(price_match.group(1)) if price_match else 0,
+        "pocket": pocket_id,
+        "pocketZh": ITEM_POCKET_ZH.get(pocket_id, "其他"),
+        "desc": item_descriptions.get(description_key, "").replace(r"\n", "\n"),
+    })
+items.sort(key=lambda item: item["id"])
+print("道具图鉴:", len(items), "个（已排除空道具位）")
 
 # ---------------------------------------------------------------- 升级招式表 / 蛇招式 / TM / 教学
 
@@ -961,7 +1032,7 @@ species_list.sort(key=lambda r: r["id"])
 print("species parsed:", len(species_list))
 
 # ---------------------------------------------------------------- 觉醒形态 (mega.c gAwakeningFormTable)
-# 觉醒: 学会觉醒力量或携带觉醒徽章时在对战中变身, 男女可不同形态; 归入图鉴进化链的特殊形态
+# 觉醒: 学会觉醒力量或携带觉醒能量时在对战中变身, 男女可不同形态; 归入图鉴进化链的特殊形态
 awaken_rows = []
 mega_c = read(os.path.join(CFRU, "src", "mega.c"))
 tbl = re.search(r"const struct AwakeningForm gAwakeningFormTable\[\]\s*=\s*\{(.*?)\n\s*\};", mega_c, re.S)
@@ -1205,7 +1276,8 @@ def describe_evo(e):
     if m == "EVO_GIGANTAMAX":
         return "超极巨化", ""
     if m == "EVO_AWAKEN":
-        return "觉醒形态", GENDER_NOTE.get(p3, "")
+        gender = {"MON_MALE": "；仅雄性", "MON_FEMALE": "；仅雌性"}.get(p3, "")
+        return "觉醒形态", "（学会觉醒力量或携带觉醒能量%s）" % gender
     warn("未知进化方式: %s" % m)
     return "满足特定条件后升级", ""
 
@@ -1414,6 +1486,7 @@ for a in abil_list:
     hant_corpus.update([a["zh"], a["desc"]])
 for c in move_cats:
     hant_corpus.update([c["n"], c["d"]])
+hant_corpus.update(value for item in items for value in (item["zh"], item["pocketZh"], item["desc"]))
 hant_corpus.update(t["zh"] for t in type_list)
 for fn in ("app.js", "index.html"):
     hant_corpus.update(re.findall(r"[\u4e00-\u9fff][\u4e00-\u9fff\u3000-\u303f\uff00-\uffef0-9A-Za-z·、，。：；！？（）「」\s]*",
@@ -1484,6 +1557,7 @@ data = {
     "moveCats": move_cats,
     "tms": tms,
     "tutors": tutors,
+    "items": items,
     "species": species_list,
     "hant": hant,
 }
@@ -1549,6 +1623,7 @@ for sub in ("front", "icon"):
         with open(os.path.join(sdir, fn), "rb") as f:
             spr_ver.update(f.read())
 spr_v = spr_ver.hexdigest()[:8]
+html = re.sub(r'<script>window\.SPRITE_VER="[0-9a-f]+"</script>\s*', "", html)
 html = re.sub(r'(<script src="app\.js)(\?v=[0-9a-f]+)?("></script>)',
               lambda m: '<script>window.SPRITE_VER="%s"</script>\n%s?v=%s%s'
                         % (spr_v, m.group(1), _file_hash(os.path.join(OUT, "app.js")), m.group(3)), html)
