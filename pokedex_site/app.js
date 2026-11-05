@@ -136,7 +136,7 @@ function loadSprite(kind, id) {
   if (!sprCache[key]) {
     sprCache[key] = new Promise((resolve, reject) => {
       const s = document.createElement("script");
-      s.src = "sprites/" + kind + "/" + id + ".js";
+      s.src = "sprites/" + kind + "/" + id + ".js" + (window.SPRITE_VER ? "?v=" + window.SPRITE_VER : "");
       sprPending[key] = b64 => {
         s.remove();
         try {
@@ -934,3 +934,33 @@ try {
 } catch (err) {
   app.innerHTML = `<div class="page-title">页面渲染出错</div><pre style="white-space:pre-wrap">${esc(err.stack || err)}</pre>`;
 }
+
+/* ---------------- 离线/本地使用: 文件更新后自动刷新 ----------------
+   仅本地 (localhost / 局域网 IP / file:) 生效, 线上站靠版本号即可;
+   轮询 data.js 与 app.js 的内容摘要, 有变化就整页刷新一次 (刷新后以新内容为基准, 不会循环) */
+(function () {
+  const host = location.hostname;
+  const isLocal = location.protocol === "http:" &&
+    (/^localhost$/i.test(host) || /^127\.|^0\.0\.0\.0|^::1$/.test(host) ||
+     /^192\.168\.|^10\.|^172\.(1[6-9]|2\d|3[01])\./.test(host) || /\.local$/i.test(host));
+  if (!isLocal) return;
+  const dgst = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = (h * 33 ^ s.charCodeAt(i)) >>> 0; return h + ":" + s.length; };
+  const base = {};
+  Promise.all([
+    fetch("data/data.js", { cache: "no-store" }).then(r => r.text()),
+    fetch("app.js", { cache: "no-store" }).then(r => r.text()),
+  ]).then(([d, a]) => { base.data = dgst(d); base.app = dgst(a); }).catch(() => {});
+  setInterval(() => {
+    if (!base.data) return;
+    Promise.all([
+      fetch("data/data.js", { cache: "no-store" }).then(r => r.text()),
+      fetch("app.js", { cache: "no-store" }).then(r => r.text()),
+    ]).then(([d, a]) => {
+      const nd = dgst(d), na = dgst(a);
+      if (nd !== base.data || na !== base.app) {
+        base.data = nd; base.app = na;
+        location.reload();
+      }
+    }).catch(() => { /* 本地服务不可达时静默 */ });
+  }, 8000);
+})();

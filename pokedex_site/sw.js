@@ -37,6 +37,9 @@ self.addEventListener("install", event => {
     try {
       const cache = await caches.open(CACHE_NAME);
       await cache.addAll(CORE_FILES);
+      // 新版本安装完成: 通知页面 (页面在旧版本控制下时收到此消息 → 自动刷新换新内容)
+      const clients = await self.clients.matchAll({ includeUncontrolled: true });
+      clients.forEach(client => client.postMessage({ type: "sw-updated", version: CACHE_NAME }));
       await self.skipWaiting();
     } catch (error) {
       console.error("Core offline cache installation failed", error);
@@ -85,7 +88,7 @@ self.addEventListener("message", event => {
           });
         }
 
-        await notifyClients({ type: "offline-cache-ready" });
+        await notifyClients({ type: "offline-cache-ready", version: CACHE_NAME });
       } catch (error) {
         console.error("Offline sprite cache preparation failed", error);
         await notifyClients({ type: "offline-cache-error" });
@@ -99,6 +102,7 @@ self.addEventListener("message", event => {
 self.addEventListener("fetch", event => {
   const request = event.request;
   if (request.method !== "GET" || new URL(request.url).origin !== self.location.origin) return;
+  if (new URL(request.url).searchParams.has("__bypass")) return;  // 页面的更新检查: 绕过缓存直连网络
 
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);

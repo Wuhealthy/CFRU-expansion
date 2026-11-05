@@ -1526,3 +1526,32 @@ with open(os.path.join(OUT, "data", "report.txt"), "w", encoding="utf-8") as f:
         len(item_untranslated), "\n".join(sorted(item_untranslated))))
     f.write("\n== 多形态编号的默认形态判定(%d) ==\n%s\n" % (len(default_report), "\n".join(default_report)))
 print("done →", OUT)
+
+# ---------------------------------------------------------------- 本地 index.html 版本号 (离线使用: 文件更新后浏览器直接取新内容)
+import hashlib
+def _file_hash(p):
+    h = hashlib.sha1()
+    with open(p, "rb") as f:
+        h.update(f.read())
+    return h.hexdigest()[:8]
+
+idx_path = os.path.join(OUT, "index.html")
+html = open(idx_path, encoding="utf-8").read()
+html = re.sub(r'(href="style\.css)(\?v=[0-9a-f]+)?(")',
+              lambda m: m.group(1) + "?v=" + _file_hash(os.path.join(OUT, "style.css")) + m.group(3), html)
+html = re.sub(r'(src="data/data\.js)(\?v=[0-9a-f]+)?(")',
+              lambda m: m.group(1) + "?v=" + _file_hash(os.path.join(OUT, "data", "data.js")) + m.group(3), html)
+spr_ver = hashlib.sha1()
+for sub in ("front", "icon"):
+    sdir = os.path.join(OUT, "sprites", sub)
+    for fn in sorted(os.listdir(sdir)):
+        spr_ver.update(fn.encode())
+        with open(os.path.join(sdir, fn), "rb") as f:
+            spr_ver.update(f.read())
+spr_v = spr_ver.hexdigest()[:8]
+html = re.sub(r'(<script src="app\.js)(\?v=[0-9a-f]+)?("></script>)',
+              lambda m: '<script>window.SPRITE_VER="%s"</script>\n%s?v=%s%s'
+                        % (spr_v, m.group(1), _file_hash(os.path.join(OUT, "app.js")), m.group(3)), html)
+if open(idx_path, encoding="utf-8").read() != html:
+    open(idx_path, "w", encoding="utf-8", newline="").write(html)
+    print("index.html 版本号已更新")
