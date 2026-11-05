@@ -8,6 +8,7 @@ let statusTimer;
 let deferredInstallPrompt = null;
 let pageReloading = false;
 let swRegistration = null;
+let offlineRetryCount = 0;
 const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent)
   || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 const isAndroid = /android/i.test(navigator.userAgent);
@@ -42,7 +43,11 @@ function reloadAfterOfflineUpdate(version) {
   if (pageReloading) return;
   const reloadKey = `pkdx-auto-reloaded:${version || pwaVersion || "current"}`;
   try {
-    if (sessionStorage.getItem(reloadKey)) return;
+    if (sessionStorage.getItem(reloadKey)) {
+      // 此版本已经刷新过: 页面内容已是最新, 不再重复刷新, 把状态条收掉
+      if (offlineStatus) offlineStatus.classList.add("hidden");
+      return;
+    }
     sessionStorage.setItem(reloadKey, "1");
   } catch (error) {
     console.error("离线图鉴自动刷新状态保存失败", error);
@@ -99,7 +104,11 @@ if ("serviceWorker" in navigator) {
   const prepareOfflineCache = () => {
     if (navigator.serviceWorker.controller) {
       navigator.serviceWorker.controller.postMessage({ type: "prepare-offline" });
+      return;
     }
+    // 首次访问: ready 可能在 activate 的 clients.claim() 生效前解析, 此时 controller 还是 null,
+    // 消息会丢; 等 controllerchange (接管完成) 再发, 否则离线准备永远不开始
+    navigator.serviceWorker.addEventListener("controllerchange", prepareOfflineCache, { once: true });
   };
 
   navigator.serviceWorker.addEventListener("message", event => {
@@ -108,10 +117,22 @@ if ("serviceWorker" in navigator) {
       const percent = Math.floor(message.cached / message.total * 100);
       showOfflineStatus(`正在准备离线图鉴：${percent}%`);
     } else if (message.type === "offline-cache-ready") {
-      showOfflineStatus("离线图鉴已准备完成，正在刷新…");
-      reloadAfterOfflineUpdate(message.version);
+      // 缓存补齐时页面内容本来就是当前版本 (由当前 SW 提供), 不需要刷新;
+      // 真正需要换内容的是 sw-updated (下面那个分支)
+      showOfflineStatus("离线图鉴已准备完成", true);
     } else if (message.type === "offline-cache-error") {
-      showOfflineStatus("离线缓存失败，请保持联网并刷新页面重试");
+      // 网络闪断: 先自动重试几次 (service worker 内部也会重试, 这里是它彻底失败后的兜底), 再提示手动刷新
+      offlineRetryCount += 1;
+      if (offlineRetryCount <= 3) {
+        showOfflineStatus(`离线缓存中断，正在自动重试（${offlineRetryCount}/3）…`);
+        setTimeout(() => {
+          if (navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({ type: "prepare-offline" });
+          }
+        }, 5000 * offlineRetryCount);
+      } else {
+        showOfflineStatus("离线缓存失败，请保持联网并刷新页面重试");
+      }
     } else if (message.type === "sw-updated" && navigator.serviceWorker.controller) {
       // 新版本安装完成, 且页面当前被旧版本控制 → 自动刷新换新内容
       // (首次安装时页面尚无 controller, 不刷新)
