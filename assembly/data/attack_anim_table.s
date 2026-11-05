@@ -1051,6 +1051,7 @@ gMoveAnimations:
 .word 0x81c8f55
 .word ANIM_MUDBOMB		@MOVE_MUDDYBARRAGE
 .word ANIM_FLASHCANNON		@MOVE_MAGNETICPULSE
+.word ANIM_HEX			@MOVE_PSIONICCRASH
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

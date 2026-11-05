@@ -4282,6 +4282,11 @@ static u16 GetBasePower(struct DamageCalc* data)
 				power = (power * 15) / 10;
 			break;
 
+		case MOVE_PSIONICCRASH:
+			if (gTerrainType == PSYCHIC_TERRAIN && data->atkIsGrounded)
+				power = (power * 15) / 10;
+			break;
+
 		case MOVE_MISTYEXPLOSION:
 			if (gTerrainType == MISTY_TERRAIN && data->atkIsGrounded)
 				power = (power * 15) / 10;
