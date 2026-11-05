@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "pkdx-offline-e532de61ff62";
+const CACHE_NAME = "pkdx-offline-db02f62f83a0";
 const CORE_FILES = [
   "./",
   "./index.html",
@@ -76,6 +76,7 @@ self.addEventListener("message", event => {
         const ids = [...new Set(data.species.map(species => species.id))];
         const urls = ids.flatMap(id => [
           new URL(`sprites/front/${id}.js`, SCOPE_URL).href,
+          new URL(`sprites/front_shiny/${id}.js`, SCOPE_URL).href,
           new URL(`sprites/icon/${id}.js`, SCOPE_URL).href,
         ]);
         for (let offset = 0; offset < urls.length; offset += BATCH_SIZE) {
