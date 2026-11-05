@@ -476,14 +476,15 @@ function route() {
     a.classList.toggle("active", a.getAttribute("href") === h || (a.getAttribute("data-nav") === "dex" && h.startsWith("#/p"))));
   hidePopup();
   const saved = SCROLL_BY_HASH[h];
-  window.scrollTo(0, saved == null ? 0 : saved);
+  // 恢复必须 instant: 全局 scroll-behavior: smooth 在几万像素的页面上要滚 1~2 秒
+  window.scrollTo({ top: saved == null ? 0 : saved, behavior: "instant" });
   if (h.startsWith("#/p/")) renderPokemon(+h.slice(4));
   else if (h.startsWith("#/moves")) renderMoves();
   else if (h.startsWith("#/abilities")) renderAbilities();
   else if (h.startsWith("#/items")) renderItems();
   else if (h.startsWith("#/types")) renderTypes();
   else renderHome();
-  if (saved != null) requestAnimationFrame(() => window.scrollTo(0, SCROLL_BY_HASH[h] || 0));
+  if (saved != null) requestAnimationFrame(() => window.scrollTo({ top: SCROLL_BY_HASH[h] || 0, behavior: "instant" }));
 }
 window.addEventListener("hashchange", route);
 
