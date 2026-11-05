@@ -8,6 +8,7 @@ let statusTimer;
 let deferredInstallPrompt = null;
 let pageReloading = false;
 let swRegistration = null;
+let offlineRetryCount = 0;
 const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent)
   || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 const isAndroid = /android/i.test(navigator.userAgent);
@@ -115,7 +116,18 @@ if ("serviceWorker" in navigator) {
       showOfflineStatus("离线图鉴已准备完成，正在刷新…");
       reloadAfterOfflineUpdate(message.version);
     } else if (message.type === "offline-cache-error") {
-      showOfflineStatus("离线缓存失败，请保持联网并刷新页面重试");
+      // 网络闪断: 先自动重试几次 (service worker 内部也会重试, 这里是它彻底失败后的兜底), 再提示手动刷新
+      offlineRetryCount += 1;
+      if (offlineRetryCount <= 3) {
+        showOfflineStatus(`离线缓存中断，正在自动重试（${offlineRetryCount}/3）…`);
+        setTimeout(() => {
+          if (navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({ type: "prepare-offline" });
+          }
+        }, 5000 * offlineRetryCount);
+      } else {
+        showOfflineStatus("离线缓存失败，请保持联网并刷新页面重试");
+      }
     } else if (message.type === "sw-updated" && navigator.serviceWorker.controller) {
       // 新版本安装完成, 且页面当前被旧版本控制 → 自动刷新换新内容
       // (首次安装时页面尚无 controller, 不刷新)

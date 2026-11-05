@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "pkdx-offline-a9533819d07f";
+const CACHE_NAME = "pkdx-offline-2a893646fbb0";
 const CORE_FILES = [
   "./",
   "./index.html",
@@ -80,14 +80,24 @@ self.addEventListener("message", event => {
           new URL(`sprites/front_shiny/${id}.js`, SCOPE_URL).href,
           new URL(`sprites/icon/${id}.js`, SCOPE_URL).href,
         ]);
-        for (let offset = 0; offset < urls.length; offset += BATCH_SIZE) {
-          const batch = urls.slice(offset, offset + BATCH_SIZE);
-          await cacheSpriteBatch(cache, batch);
-          await notifyClients({
-            type: "offline-cache-progress",
-            cached: offset + batch.length,
-            total: urls.length,
-          });
+        // 整个清单最多重试 3 次 (网络间歇被重置时, 已缓存的文件靠 cache.match 秒过, 从断点继续)
+        for (let attempt = 1; ; attempt++) {
+          try {
+            for (let offset = 0; offset < urls.length; offset += BATCH_SIZE) {
+              const batch = urls.slice(offset, offset + BATCH_SIZE);
+              await cacheSpriteBatch(cache, batch);
+              await notifyClients({
+                type: "offline-cache-progress",
+                cached: offset + batch.length,
+                total: urls.length,
+              });
+            }
+            break;
+          } catch (error) {
+            if (attempt >= 3) throw error;
+            console.error(`Offline sprite cache attempt ${attempt} failed, retrying`, error);
+            await new Promise(resolve => setTimeout(resolve, attempt * 4000));
+          }
         }
 
         await notifyClients({ type: "offline-cache-ready", version: CACHE_NAME });
