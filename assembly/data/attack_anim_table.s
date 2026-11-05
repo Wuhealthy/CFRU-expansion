@@ -1049,6 +1049,7 @@ gMoveAnimations:
 .word ANIM_FRENZYBLAZE
 .word ANIM_CRIMSONSKY
 .word 0x81c8f55
+.word ANIM_MUDBOMB		@MOVE_MUDDYBARRAGE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

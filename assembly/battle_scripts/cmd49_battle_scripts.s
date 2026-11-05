@@ -13,6 +13,7 @@ cmd49_battle_scripts.s
 .global BattleScript_PoisonTouch
 .global BattleScript_KingsShield
 .global BattleScript_SpikyShield
+.global BattleScript_FieryBarrierHeal
 .global BattleScript_RainDishActivatesSS
 .global BattleScript_BanefulBunker
 .global BattleScript_BurningBulwark
@@ -34,6 +35,7 @@ cmd49_battle_scripts.s
 .global BattleScript_MultiHitPrintStrings
 .global BattleScript_MultiHitWaitAttackerSubstitute
 .global BattleScript_ScaleShotBuff
+.global BattleScript_MuddyBarrageSpeedDrop
 .global BattleScript_PluckEat
 .global BattleScript_RaidShields
 .global BattleScript_BrokenRaidBarrier
@@ -248,6 +250,18 @@ BattleScript_Moxie:
 	waitmessage DELAY_1SECOND
 	call BattleScript_AbilityPopUpRevert
 .LReturn:
+	return
+
+BattleScript_MuddyBarrageSpeedDrop:
+	setbyte STAT_ANIM_PLAYED 0x0
+	setstatchanger STAT_SPD | DECREASE_1
+	statbuffchange STAT_TARGET | STAT_BS_PTR MuddyBarrageSpeedDropEnd
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 MuddyBarrageSpeedDropEnd
+	setgraphicalstatchangevalues
+	playanimation BANK_TARGET ANIM_STAT_BUFF ANIM_ARG_1
+	printfromtable gStatDownStringIds
+	waitmessage DELAY_1SECOND
+MuddyBarrageSpeedDropEnd:
 	return
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

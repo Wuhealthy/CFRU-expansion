@@ -33,6 +33,7 @@ extern const u8 BattleScript_DancerActivated[];
 extern const u8 BattleScript_MultiHitPrintStrings[];
 extern const u8 BattleScript_MultiHitWaitAttackerSubstitute[];
 extern const u8 BattleScript_ScaleShotBuff[];
+extern const u8 BattleScript_MuddyBarrageSpeedDrop[];
 extern const u8 BattleScript_FaintAttackerForExplosion[];
 extern const u8 BattleScript_ExplosionAnim[];
 extern const u8 BattleScript_PluckEat[];

@@ -823,6 +823,13 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 							gBattlescriptCurrInstr = BattleScript_ScaleShotBuff;
 						}
 					}
+					else if (gCurrentMove == MOVE_MUDDYBARRAGE && !SheerForceCheck()
+					&& BATTLER_ALIVE(gBankTarget)
+					&& STAT_CAN_FALL(gBankTarget, STAT_SPD))
+					{
+						BattleScriptPushCursor();
+						gBattlescriptCurrInstr = BattleScript_MuddyBarrageSpeedDrop;
+					}
 
 					BattleScriptPushCursor();
 					gBattlescriptCurrInstr = BattleScript_MultiHitPrintStrings;

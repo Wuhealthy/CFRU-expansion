@@ -16206,8 +16206,24 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 195,
 		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
-	}
+	},
 #endif
+
+	[MOVE_MUDDYBARRAGE] =
+	{
+		.effect = EFFECT_DOUBLE_HIT,
+		.power = 45,
+		.type = TYPE_GROUND,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 100,
+		.split = SPLIT_SPECIAL,
+		.z_move_effect = 0
+	}
 };
 
 #ifdef DYNAMAX_FEATURE
@@ -16807,5 +16823,6 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_DESPERATEBLOOM] = 140,
 	[MOVE_FRENZYBLAZE] = 140,
 	[MOVE_CRIMSONSKY] = 130,
+	[MOVE_MUDDYBARRAGE] = 100,
 };
 #endif
