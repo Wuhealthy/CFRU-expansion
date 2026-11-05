@@ -117,8 +117,9 @@ if ("serviceWorker" in navigator) {
       const percent = Math.floor(message.cached / message.total * 100);
       showOfflineStatus(`正在准备离线图鉴：${percent}%`);
     } else if (message.type === "offline-cache-ready") {
-      showOfflineStatus("离线图鉴已准备完成，正在刷新…");
-      reloadAfterOfflineUpdate(message.version);
+      // 缓存补齐时页面内容本来就是当前版本 (由当前 SW 提供), 不需要刷新;
+      // 真正需要换内容的是 sw-updated (下面那个分支)
+      showOfflineStatus("离线图鉴已准备完成", true);
     } else if (message.type === "offline-cache-error") {
       // 网络闪断: 先自动重试几次 (service worker 内部也会重试, 这里是它彻底失败后的兜底), 再提示手动刷新
       offlineRetryCount += 1;
