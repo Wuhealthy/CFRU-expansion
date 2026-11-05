@@ -99,7 +99,11 @@ if ("serviceWorker" in navigator) {
   const prepareOfflineCache = () => {
     if (navigator.serviceWorker.controller) {
       navigator.serviceWorker.controller.postMessage({ type: "prepare-offline" });
+      return;
     }
+    // 首次访问: ready 可能在 activate 的 clients.claim() 生效前解析, 此时 controller 还是 null,
+    // 消息会丢; 等 controllerchange (接管完成) 再发, 否则离线准备永远不开始
+    navigator.serviceWorker.addEventListener("controllerchange", prepareOfflineCache, { once: true });
   };
 
   navigator.serviceWorker.addEventListener("message", event => {
