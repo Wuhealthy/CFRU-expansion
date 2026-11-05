@@ -1969,6 +1969,18 @@ void PlayerHandleChooseAction(void)
 		}
 	}
 
+	#ifdef NEW_BATTLE_TEXTBOX
+	//If the move menu is still on screen (BG0 not scrolled back yet), redraw the buttons and scroll
+	//BG0 right away instead of waiting for the vanilla DMA3 hand-off in HandleChooseActionAfterDma3.
+	//This reshow's own button re-upload overwrites the move menu's text tiles, which would flash
+	//garbage for a frame (e.g. the partner's action menu right after a confirmed move in doubles).
+	if (gBattle_BG0_Y == 320)
+	{
+		ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
+		gBattle_BG0_Y = 160;
+	}
+	#endif
+
 	gBattlerControllerFuncs[gActiveBattler] = HandleChooseActionAfterDma3;
 
 	if (raidBattleEnd) //Time to catch Raid opponent
