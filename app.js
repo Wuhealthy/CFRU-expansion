@@ -23,7 +23,16 @@ function toHant(s) {
   }
   return out;
 }
-const toHans = s => s.replace(/[^\x00-\x7f]/g, c => HANT.t2s[c] || c);
+const HANS_CACHE = new Map();  // 搜索框每键都会对同一查询反复转简体, 缓存一下 (matchSpecies 每只精灵都会调用)
+const toHans = s => {
+  let v = HANS_CACHE.get(s);
+  if (v === undefined) {
+    v = s.replace(/[^\x00-\x7f]/g, c => HANT.t2s[c] || c);
+    if (HANS_CACHE.size > 500) HANS_CACHE.clear();
+    HANS_CACHE.set(s, v);
+  }
+  return v;
+};
 const ORIG_TEXT = new WeakMap();
 function localize(root) {
   const conv = s => (LANG === "hant" ? toHant(s) : s);
@@ -166,6 +175,12 @@ const evoComp = {};
 /* ---------------- 工具 ---------------- */
 const $ = sel => document.querySelector(sel);
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+/* 搜索每键会重建整页卡片/表格 (桌面 ~15ms, 低端手机 3-6 倍), 防抖一下手感更稳 */
+function debounce(fn, ms) {
+  let t;
+  return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+}
+const SEARCH_DEBOUNCE = 150;
 
 /* ---------------- 精灵图加密加载 ----------------
    sprites/bundle_<分块>.js 为 XOR 加密 base64 的合并文件 (每 SPRITE_CHUNK 个编号一块,
@@ -445,18 +460,30 @@ const app = $("#app");
 $("#back-to-top").addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 let homeState = { q: "", types: new Set(), form: "", sort: { key: "dex", desc: false } };
 
+/* 每个 hash 记住离开时的滚动位置: 详情页返回列表回到原位 (内容重渲染后 rAF 再校正一次,
+   因为 content-visibility 的占位高度展开后会推偏位置) */
+const SCROLL_BY_HASH = {};
+let lastHash = location.hash || "#/";
+history.scrollRestoration = "manual";
+window.addEventListener("hashchange", () => {
+  SCROLL_BY_HASH[lastHash] = window.scrollY;
+  lastHash = location.hash || "#/";
+});
+
 function route() {
   const h = location.hash || "#/";
   document.querySelectorAll(".nav a").forEach(a =>
     a.classList.toggle("active", a.getAttribute("href") === h || (a.getAttribute("data-nav") === "dex" && h.startsWith("#/p"))));
   hidePopup();
-  window.scrollTo(0, 0);
+  const saved = SCROLL_BY_HASH[h];
+  window.scrollTo(0, saved == null ? 0 : saved);
   if (h.startsWith("#/p/")) renderPokemon(+h.slice(4));
   else if (h.startsWith("#/moves")) renderMoves();
   else if (h.startsWith("#/abilities")) renderAbilities();
   else if (h.startsWith("#/items")) renderItems();
   else if (h.startsWith("#/types")) renderTypes();
   else renderHome();
+  if (saved != null) requestAnimationFrame(() => window.scrollTo(0, SCROLL_BY_HASH[h] || 0));
 }
 window.addEventListener("hashchange", route);
 
@@ -549,7 +576,7 @@ function renderHome() {
       </div>
     </div>`;
 
-  $("#q").addEventListener("input", e => { homeState.q = e.target.value.trim(); renderDexArea(); });
+  $("#q").addEventListener("input", debounce(e => { homeState.q = e.target.value.trim(); renderDexArea(); }, SEARCH_DEBOUNCE));
   renderDexArea();
 }
 
@@ -925,7 +952,7 @@ function renderMoves() {
   $("#mtype").value = moveFilter.type;
   $("#msplit").value = moveFilter.split;
   $("#mcat").value = moveFilter.cat;
-  $("#mq").addEventListener("input", e => { moveFilter.q = e.target.value.trim(); renderMoveRows(); });
+  $("#mq").addEventListener("input", debounce(e => { moveFilter.q = e.target.value.trim(); renderMoveRows(); }, SEARCH_DEBOUNCE));
   $("#mtype").addEventListener("change", e => { moveFilter.type = e.target.value; renderMoveRows(); });
   $("#msplit").addEventListener("change", e => { moveFilter.split = e.target.value; renderMoveRows(); });
   $("#mcat").addEventListener("change", e => { moveFilter.cat = e.target.value; renderMoveRows(); });
@@ -983,7 +1010,7 @@ function renderAbilities() {
         <div id="agens"></div>
       </div>
     </div>`;
-  $("#aq").addEventListener("input", e => { abilFilter = e.target.value.trim(); renderAbilRows(); });
+  $("#aq").addEventListener("input", debounce(e => { abilFilter = e.target.value.trim(); renderAbilRows(); }, SEARCH_DEBOUNCE));
   renderAbilRows();
 }
 function renderAbilRows() {
@@ -1037,10 +1064,10 @@ function renderItems() {
         <div id="item-sections"></div>
       </div>
     </div>`;
-  $("#iq").addEventListener("input", e => {
+  $("#iq").addEventListener("input", debounce(e => {
     itemFilter.q = e.target.value.trim();
     renderItemRows();
-  });
+  }, SEARCH_DEBOUNCE));
   $("#ipocket").addEventListener("change", e => {
     itemFilter.pocket = e.target.value;
     renderItemRows();
