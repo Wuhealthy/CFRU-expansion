@@ -66,6 +66,7 @@ const ABIL_BY_ID = {};        D.abilities.forEach(a => ABIL_BY_ID[a.id] = a);
 const MOVE_BY_ID = {};        D.moves.forEach(m => MOVE_BY_ID[m.id] = m);
 const SPECIES_BY_ID = {};     D.species.forEach(s => SPECIES_BY_ID[s.id] = s);
 const TYPES_SHOWN = D.types.filter(t => !t.pseudo);
+const SPECIES_FILTER_TYPES = TYPES_SHOWN.filter(t => t.en !== "MYSTERY" && t.en !== "STELLAR");
 
 /* 有该特性的宝可梦 (普通+隐藏) */
 const ABIL_USERS = {};
@@ -76,8 +77,58 @@ D.species.forEach(s => {
 });
 
 /* 进化链: 组件划分 */
-const EVO_MAIN_SKIP = { EVO_MEGA: 1, EVO_GIGANTAMAX: 1, EVO_AWAKEN: 1 };
+const EVO_MAIN_SKIP = { EVO_MEGA: 1, EVO_GIGANTAMAX: 1, EVO_AWAKEN: 1, EVO_FORM_ABILITY: 1 };
 const FORM_KIND_ZH = { awaken: "觉醒形态", mega: "超级进化", giga: "超极巨化", primal: "原始回归", regional: "地区形态", alt: "特殊形态" };
+const FORM_ABILITY_TRANSITIONS = [
+  { from: "DARMANITAN", to: "DARMANITANZEN", ability: "ZENMODE", note: "HP≤最大HP的一半时变为达摩模式；HP高于一半时恢复原形。" },
+  { from: "DARMANITAN_G", to: "DARMANITAN_G_ZEN", ability: "ZENMODE", note: "HP≤最大HP的一半时变为达摩模式；HP高于一半时恢复原形。" },
+  { from: "ZYGARDE", to: "ZYGARDE_COMPLETE", ability: "POWERCONSTRUCT" },
+  { from: "ZYGARDE_10", to: "ZYGARDE_COMPLETE", ability: "POWERCONSTRUCT" },
+  { from: "WISHIWASHI", to: "WISHIWASHI_S", ability: "SCHOOLING", note: "等级达到20且HP高于最大HP的四分之一时聚集；等级不足20或HP不高于四分之一时恢复原形。" },
+  ...["RED", "BLUE", "ORANGE", "YELLOW", "INDIGO", "GREEN", "VIOLET"].map(color => ({
+    from: "MINIOR_SHIELD",
+    to: `MINIOR_${color}`,
+    ability: "SHIELDSDOWN",
+    note: "HP降至最大HP的一半以下时变为核心形态；HP高于一半时恢复陨石形态。",
+  })),
+  { from: "CHERRIM", to: "CHERRIM_SUN", ability: "FLOWERGIFT", note: "有效晴天且未学习觉醒力量、未携带觉醒能量时变为花朵形态；阳光消失后恢复原形。" },
+  { from: "MORPEKO", to: "MORPEKO_HANGRY", ability: "HUNGERSWITCH", note: "每回合结束时交替改变形态；太晶化期间不会切换。" },
+  { from: "GRENINJA", to: "ASHGRENINJA", ability: "BATTLEBOND", note: "打倒对手后变为牵绊形态。" },
+  { from: "MIMIKYU", to: "MIMIKYU_BUSTED", ability: "DISGUISE", note: "替身布偶受到攻击后破损；换下场后恢复原形。" },
+  { from: "CRAMORANT", to: ["CRAMORANT_GULPING", "CRAMORANT_GORGING"], ability: "GULPMISSILE", note: "使用冲浪或潜水时变形；HP高于一半为一口吞形态，不高于一半为大口吞形态，受到攻击后恢复原形。" },
+  { from: "AEGISLASH", to: "AEGISLASH_BLADE", ability: "STANCECHANGE", note: "使用攻击招式变为剑形态；使用王者盾牌后恢复盾牌形态。" },
+  { from: "EISCUE", to: "EISCUE_NOICE", ability: "ICEFACE", note: "受到物理攻击后变为解冻头形态；冰雹天气下出场时恢复结冻头形态。" },
+  { from: "TERAPAGOS", to: "TERAPAGOS_TERASTAL", ability: "TERASHIFT", note: "出场时变为太晶形态。" },
+  { from: "TERAPAGOS_TERASTAL", to: "TERAPAGOS_STELLAR", text: "太晶化", note: "发动太晶化时变为星晶形态。" },
+  { from: "PALAFIN", to: "PALAFIN_HERO", ability: "ZEROTOHERO", note: "离场后再次出场时变为英雄形态；之后再次离场会恢复原形。" },
+  { from: "CALYREX", to: "CALYREX_ICE_RIDER", ability: "ASONEICERIDER", note: "使用牵绊缰绳与雪暴马合体。" },
+  { from: "CALYREX", to: "CALYREX_SHADOW_RIDER", ability: "ASONESHADOWRIDER", note: "使用牵绊缰绳与灵幽马合体。" },
+  ...["ARCEUS", "SILVALLY"].flatMap(baseName => {
+    const base = D.species.find(s => s.en === baseName);
+    if (!base) return [];
+    const ability = baseName === "ARCEUS" ? "MULTITYPE" : "RKSSYSTEM";
+    const note = baseName === "ARCEUS"
+      ? "携带对应属性的石板或Z纯晶时改变属性和形态；卸下后恢复原形。"
+      : "携带对应属性的存储碟时改变属性和形态；卸下后恢复原形。";
+    return D.species.filter(s => s.en.startsWith(baseName + "_") && s.dex === base.dex)
+      .map(s => ({ from: baseName, to: s.en, ability, note }));
+  }),
+];
+const FORM_ABILITY_EDGES = FORM_ABILITY_TRANSITIONS.flatMap(({ from, to, ability, text, note }) =>
+  (Array.isArray(to) ? to : [to]).map(target => {
+    const source = D.species.find(s => s.en === from);
+    const targetSpecies = D.species.find(s => s.en === target);
+    const formAbility = ability && D.abilities.find(a => a.en === ability);
+    if (!source || !targetSpecies || (!formAbility && !text)) return null;
+    return {
+      from: source.id,
+      edge: { to: targetSpecies.id, method: "EVO_FORM_ABILITY", text: text || formAbility.zh, note: note || formAbility.desc },
+    };
+  })
+).filter(Boolean);
+const speciesEvolutions = id => (SPECIES_BY_ID[id].evolutions || []).concat(
+  FORM_ABILITY_EDGES.filter(x => x.from === id).map(x => x.edge)
+);
 /* 形态筛选: chip 值 -> 该 chip 显示的 formKind 集合 ("特殊形态"含原始回归) */
 const FORM_FILTER = {
   regional: k => k === "regional",
@@ -88,7 +139,7 @@ const FORM_FILTER = {
 };
 const N_DEFAULT = D.species.filter(s => s.isDefault).length;
 const evoAdj = {};   // 无向邻接
-D.species.forEach(s => (s.evolutions || []).forEach(e => {
+D.species.forEach(s => speciesEvolutions(s.id).forEach(e => {
   if (e.to == null || !SPECIES_BY_ID[e.to]) return;
   (evoAdj[s.id] = evoAdj[s.id] || []).push(e.to);
   (evoAdj[e.to] = evoAdj[e.to] || []).push(s.id);
@@ -136,7 +187,7 @@ function loadSprite(kind, id) {
   if (!sprCache[key]) {
     sprCache[key] = new Promise((resolve, reject) => {
       const s = document.createElement("script");
-      s.src = "sprites/" + kind + "/" + id + ".js";
+      s.src = "sprites/" + kind + "/" + id + ".js" + (window.SPRITE_VER ? "?v=" + window.SPRITE_VER : "");
       sprPending[key] = b64 => {
         s.remove();
         try {
@@ -214,10 +265,38 @@ function typePill(t, small) {
 function typePills(ids, small) {
   return (ids || []).map(id => typePill(TYPE_BY_ID[id] || { zh: "?", color: "#999" }, small)).join("");
 }
+const SPECIES_NAME_PREFIX = { mega: "超级", awaken: "觉醒", giga: "超极巨化" };
+const SPECIES_NAME_SUFFIX = {
+  ZYGARDE: "50%形态",
+  ZYGARDE50_MEGA: "50%形态",
+  ZYGARDE_COMPLETE: "完全体形态",
+  ZYGARDE_MEGA: "完全体形态",
+  ZYGARDE_10: "10%形态",
+  ASHGRENINJA: "（小智版）",
+  MIMIKYU_BUSTED: "（破布形态）",
+  CRAMORANT_GULPING: "（一口吞形态）",
+  CRAMORANT_GORGING: "（大口吞形态）",
+  AEGISLASH_BLADE: "（剑形态）",
+  EISCUE_NOICE: "（解冻头形态）",
+  TERAPAGOS_TERASTAL: "（太晶形态）",
+  TERAPAGOS_STELLAR: "（星晶形态）",
+  PALAFIN_HERO: "（英雄形态）",
+  CALYREX_ICE_RIDER: "（骑白马形态）",
+  CALYREX_SHADOW_RIDER: "（骑黑马形态）",
+};
+const MEGA_BASE_SPECIES = {
+  ZYGARDE_MEGA: "ZYGARDE_COMPLETE",
+  ZYGARDE50_MEGA: "ZYGARDE",
+};
+function speciesName(s) {
+  const typeForm = /^(ARCEUS|SILVALLY)_/.test(s.en) && TYPE_BY_ID[s.types[0]]
+    ? `（${TYPE_BY_ID[s.types[0]].zh}属性）` : "";
+  return (SPECIES_NAME_PREFIX[s.formKind] || "") + s.zh + (SPECIES_NAME_SUFFIX[s.en] || "") + typeForm;
+}
 function splitBadge(sp) {
   return `<span class="pill small split-${esc(sp)}">${esc(sp)}</span>`;
 }
-const STAT_ZH = { hp: "HP", atk: "攻击", def: "防御", spe: "速度", spa: "特攻", spd: "特防" };
+const STAT_ZH = { hp: "HP", atk: "攻击", def: "防御", spa: "特攻", spd: "特防", spe: "速度" };
 const EV_ZH = ["HP", "攻击", "防御", "速度", "特攻", "特防"];
 function statColor(v) {
   if (v >= 120) return "#3ec76a";
@@ -289,7 +368,10 @@ function showMovePopup(mid) {
     const species = SPECIES_BY_ID[change.species];
     const oldMove = MOVE_BY_ID[change.oldMove];
     if (!species || !oldMove) return "";
-    return `<div class="mega-move-change"><b>${esc(species.zh)}</b> 超级进化时，携带的 <b>${esc(oldMove.zh)}</b> 会变为此招式。</div>`;
+    const baseEn = MEGA_BASE_SPECIES[species.en] || species.en.replace(/_MEGA(?:_[A-Z0-9]+)?$/, "");
+    const baseSpecies = D.species.find(s => s.en === baseEn && s.dex === species.dex && s.formKind !== "mega");
+    if (!baseSpecies) return "";
+    return `<div class="mega-move-change"><b>${esc(speciesName(baseSpecies))}</b> 超级进化为 <b>${esc(speciesName(species))}</b> 时，携带的 <b>${esc(oldMove.zh)}</b> 会变为此招式。</div>`;
   }).filter(Boolean);
   showPopup(`
     <h2>${esc(m.zh)}</h2>
@@ -321,7 +403,7 @@ function showAbilityPopup(aid) {
     <div class="ab-mons">${users.slice(0, 60).map(s => `
       <div class="m" onclick="location.hash='#/p/${s.id}';hidePopup()">
         ${spriteCanvas("front", s.id)}
-        <span class="nm">${esc(s.zh)}</span>
+        <span class="nm">${esc(speciesName(s))}</span>
       </div>`).join("")}
     </div>`);
   mountSprites(popup);
@@ -330,6 +412,7 @@ window.showAbilityPopup = showAbilityPopup;
 
 /* ---------------- 路由 ---------------- */
 const app = $("#app");
+$("#back-to-top").addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 let homeState = { q: "", types: new Set(), form: "", sort: { key: "dex", desc: false } };
 
 function route() {
@@ -341,13 +424,14 @@ function route() {
   if (h.startsWith("#/p/")) renderPokemon(+h.slice(4));
   else if (h.startsWith("#/moves")) renderMoves();
   else if (h.startsWith("#/abilities")) renderAbilities();
+  else if (h.startsWith("#/items")) renderItems();
   else if (h.startsWith("#/types")) renderTypes();
   else renderHome();
 }
 window.addEventListener("hashchange", route);
 
-/* ---------------- 左侧目录 (图鉴 / 招式 / 特性 三页共用) ----------------
-   items: [{ id: 分节元素 id, label }]; 「（首段）」回到顶部; 隐藏状态三页共用并记住 */
+/* ---------------- 左侧目录 (图鉴 / 招式 / 特性 / 道具四页共用) ----------------
+   items: [{ id: 分节元素 id, label }]; 「（首段）」回到顶部; 隐藏状态四页共用并记住 */
 let tocHidden = localStorage.getItem("pkdx_toc_hidden") === "1";
 const GEN_NAMES = ["", "第一世代", "第二世代", "第三世代", "第四世代", "第五世代", "第六世代", "第七世代", "第八世代", "第九世代"];
 function tocHTML(items) {
@@ -394,7 +478,7 @@ function monCard(s, statKey) {
   return `<div class="mon-card" onclick="location.hash='#/p/${s.id}'">
     ${spriteCanvas("front", s.id)}
     <div class="no">${fmtDex(s.dex)}</div>
-    <div class="nm">${esc(s.zh)}</div>
+    <div class="nm">${esc(speciesName(s))}</div>
     <div class="types">${typePills(s.types, true)}</div>
     ${statKey ? `<div class="stat-tag">${STAT_ZH[statKey]} <b>${s.stats[statKey]}</b></div>` : ""}
     ${s.formLabel ? `<div class="form-badge">${esc(s.formLabel)}</div>` : ""}
@@ -411,7 +495,7 @@ function sortChipsHTML() {
 }
 
 function renderHome() {
-  const chips = TYPES_SHOWN.map(t =>
+  const chips = SPECIES_FILTER_TYPES.map(t =>
     `<span class="pill${homeState.types.has(t.id) ? " on" : ""}" style="background:${t.color}"
       onclick="toggleType(${t.id})">${esc(t.zh)}</span>`).join("");
   const formChips = [["", "仅默认形态"], ["all", "全部形态"]]
@@ -450,7 +534,7 @@ function matchSpecies(s) {
   }
   if (q) {
     // 只按名字表里的实际名字(含其中的字母, 不区分大小写)、图鉴编号与形态词搜索, 不匹配内部常量名
-    const hit = s.zh.toLowerCase().includes(q)
+    const hit = speciesName(s).toLowerCase().includes(q)
       || (s.dex != null && String(s.dex) === q)
       || (s.tags && s.tags.includes(raw));
     if (!hit) return false;
@@ -528,7 +612,7 @@ function evoChainHTML(s) {
   const members = Object.keys(evoComp).map(Number).filter(id => evoComp[id] === compId);
   const memberSet = new Set(members);
   const mainEdges = [], extraEdges = [];
-  members.forEach(id => (SPECIES_BY_ID[id].evolutions || []).forEach(e => {
+  members.forEach(id => speciesEvolutions(id).forEach(e => {
     if (e.to == null || !memberSet.has(e.to)) return;
     (EVO_MAIN_SKIP[e.method] ? extraEdges : mainEdges).push({ from: id, e });
   }));
@@ -564,7 +648,7 @@ function evoChainHTML(s) {
     .forEach(id => (children[parentOf[id]] = children[parentOf[id]] || []).push(id));
   // 同一形态可由多个来源变成 (如各种皮卡丘都能超极巨化成同一只): 其余来源也画箭头, 目标只画单个节点不再展开
   const leaves = {};
-  members.forEach(id => (SPECIES_BY_ID[id].evolutions || []).forEach(e => {
+  members.forEach(id => speciesEvolutions(id).forEach(e => {
     const t = e.to;
     if (t == null || !memberSet.has(t) || !inEdge[t] || parentOf[t] === id) return;
     const list = leaves[id] = leaves[id] || [];
@@ -576,11 +660,11 @@ function evoChainHTML(s) {
     return `<div class="evo-node${id === s.id && !ref ? " cur" : ""}" onclick="location.hash='#/p/${id}'">
       <div class="evo-pic" style="background:${t ? `color-mix(in srgb, ${t.color} 45%, #fff)` : "#eef1f4"}">${spriteCanvas("front", id, "", 64)}</div>
       <div class="evo-stage">${esc(stage)}</div>
-      <div class="evo-name"><div class="nm">${esc(sp.zh)}</div><div class="types">${typePills(sp.types, true)}</div></div>
+      <div class="evo-name"><div class="nm">${esc(speciesName(sp))}</div><div class="types">${typePills(sp.types, true)}</div></div>
     </div>`;
   };
   // 同一对宝可梦可能有多种进化方式 (如通信交换 或 使用联系绳): 箭头上全部列出, 以「或」分隔
-  const arrow = (from, to) => `<div class="evo-arrow">${SPECIES_BY_ID[from].evolutions.filter(e => e.to === to)
+  const arrow = (from, to) => `<div class="evo-arrow">${speciesEvolutions(from).filter(e => e.to === to)
     .map(e => `<div class="cond">${esc(e.text)}</div>${e.note ? `<div class="note">${esc(e.note)}</div>` : ""}`)
     .join('<div class="or">或</div>')}<div class="arr">→</div></div>`;
   // 阶段: 起点为「未进化」, 每经一次普通进化 +1 阶; 特殊形态写其方式 (超级进化/超极巨化/觉醒形态…)
@@ -694,7 +778,7 @@ function renderPokemon(id) {
       ${spriteCanvas("front", s.id, "hero-spr")}
       <div>
         <div class="dex-no">${fmtDex(s.dex)}</div>
-        <div class="nm">${esc(s.zh)}</div>
+        <div class="nm">${esc(speciesName(s))}</div>
         ${s.formLabel ? `<div style="margin-top:6px"><span class="pill small" style="background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.45)">${esc(s.formLabel)}</span></div>` : ""}
         <div class="types">${typePills(s.types)}</div>
       </div>
@@ -895,6 +979,70 @@ function renderAbilRows() {
   tocMark(new Set(Object.keys(byGen).map(g => "agen-" + g)));
 }
 
+/* ---------------- 道具页 ---------------- */
+let itemFilter = { q: "", pocket: "" };
+const ITEM_POCKETS = [
+  [3, "精灵球"],
+  [1, "道具"],
+  [2, "重要物品"],
+  [4, "招式学习器"],
+  [5, "树果"],
+];
+const ITEMS_BY_ID = [...(D.items || [])].sort((a, b) => a.id - b.id);
+function renderItems() {
+  app.innerHTML = `
+    <div class="toc-layout">
+      ${tocHTML(ITEM_POCKETS.map(([id, label]) => ({ id: "ipocket-" + id, label })))}
+      <div class="toc-main">
+        <div class="page-title">道具图鉴</div>
+        <div class="page-sub">共 ${ITEMS_BY_ID.length} 个道具 · 按背包分类排列 · 排除空道具位</div>
+        <div class="toolbar">
+          ${searchBox("iq", "搜索道具名或效果…", itemFilter.q)}
+          <select id="ipocket" class="search-box item-pocket-filter">
+            <option value="">全部分类</option>
+            ${ITEM_POCKETS.map(([id, label]) => `<option value="${id}"${itemFilter.pocket === String(id) ? " selected" : ""}>${label}</option>`).join("")}
+          </select>
+          <span class="count-hint" id="icnt"></span>
+        </div>
+        <div id="item-sections"></div>
+      </div>
+    </div>`;
+  $("#iq").addEventListener("input", e => {
+    itemFilter.q = e.target.value.trim();
+    renderItemRows();
+  });
+  $("#ipocket").addEventListener("change", e => {
+    itemFilter.pocket = e.target.value;
+    renderItemRows();
+  });
+  renderItemRows();
+}
+function renderItemRows() {
+  const q = toHans(itemFilter.q).toLowerCase();
+  const list = ITEMS_BY_ID.filter(item =>
+    (!itemFilter.pocket || String(item.pocket) === itemFilter.pocket)
+    && (!q || item.zh.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q)));
+  $("#icnt").textContent = `${list.length} 个道具`;
+  const byPocket = {};
+  list.forEach(item => (byPocket[item.pocket] = byPocket[item.pocket] || []).push(item));
+  $("#item-sections").innerHTML = ITEM_POCKETS.filter(([id]) => byPocket[id]).map(([id, label]) => `
+    <section class="gen-sec" id="ipocket-${id}">
+      <h3 class="gen-h">${label}<span class="gen-cnt">${byPocket[id].length} 个</span></h3>
+      <div class="card item-table-wrap">
+        <table class="list-table item-table">
+          <thead><tr><th>道具</th><th>效果说明</th><th>价格</th></tr></thead>
+          <tbody>${byPocket[id].map(item => `
+            <tr>
+              <td class="mv-name">${esc(item.zh)}</td>
+              <td class="item-desc">${esc(item.desc || "暂无效果说明")}</td>
+              <td class="item-price">${item.price ? `${item.price}元` : "—"}</td>
+            </tr>`).join("")}</tbody>
+        </table>
+      </div>
+    </section>`).join("") || `<div style="text-align:center;color:var(--muted);padding:60px 0">没有找到符合条件的道具</div>`;
+  tocMark(new Set(Object.keys(byPocket).map(id => "ipocket-" + id)));
+}
+
 /* ---------------- 属性相性页 ---------------- */
 function renderTypes() {
   const shown = TYPES_SHOWN;
@@ -934,3 +1082,33 @@ try {
 } catch (err) {
   app.innerHTML = `<div class="page-title">页面渲染出错</div><pre style="white-space:pre-wrap">${esc(err.stack || err)}</pre>`;
 }
+
+/* ---------------- 离线/本地使用: 文件更新后自动刷新 ----------------
+   仅本地 (localhost / 局域网 IP / file:) 生效, 线上站靠版本号即可;
+   轮询 data.js 与 app.js 的内容摘要, 有变化就整页刷新一次 (刷新后以新内容为基准, 不会循环) */
+(function () {
+  const host = location.hostname;
+  const isLocal = location.protocol === "http:" &&
+    (/^localhost$/i.test(host) || /^127\.|^0\.0\.0\.0|^::1$/.test(host) ||
+     /^192\.168\.|^10\.|^172\.(1[6-9]|2\d|3[01])\./.test(host) || /\.local$/i.test(host));
+  if (!isLocal) return;
+  const dgst = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = (h * 33 ^ s.charCodeAt(i)) >>> 0; return h + ":" + s.length; };
+  const base = {};
+  Promise.all([
+    fetch("data/data.js", { cache: "no-store" }).then(r => r.text()),
+    fetch("app.js", { cache: "no-store" }).then(r => r.text()),
+  ]).then(([d, a]) => { base.data = dgst(d); base.app = dgst(a); }).catch(() => {});
+  setInterval(() => {
+    if (!base.data) return;
+    Promise.all([
+      fetch("data/data.js", { cache: "no-store" }).then(r => r.text()),
+      fetch("app.js", { cache: "no-store" }).then(r => r.text()),
+    ]).then(([d, a]) => {
+      const nd = dgst(d), na = dgst(a);
+      if (nd !== base.data || na !== base.app) {
+        base.data = nd; base.app = na;
+        location.reload();
+      }
+    }).catch(() => { /* 本地服务不可达时静默 */ });
+  }, 8000);
+})();

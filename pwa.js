@@ -6,6 +6,8 @@ const pwaScriptUrl = document.currentScript && document.currentScript.src;
 const pwaVersion = pwaScriptUrl ? new URL(pwaScriptUrl).searchParams.get("v") : "";
 let statusTimer;
 let deferredInstallPrompt = null;
+let pageReloading = false;
+let swRegistration = null;
 const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent)
   || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 const isAndroid = /android/i.test(navigator.userAgent);
@@ -34,6 +36,20 @@ function updateInstallButton() {
   const isHome = !location.hash || location.hash === "#/" || location.hash === "#";
   installButton.classList.toggle("hidden", !isHome || isStandalone() || (!isMobile && !deferredInstallPrompt));
   installButton.textContent = getInstallButtonLabel();
+}
+
+function reloadAfterOfflineUpdate(version) {
+  if (pageReloading) return;
+  const reloadKey = `pkdx-auto-reloaded:${version || pwaVersion || "current"}`;
+  try {
+    if (sessionStorage.getItem(reloadKey)) return;
+    sessionStorage.setItem(reloadKey, "1");
+  } catch (error) {
+    console.error("离线图鉴自动刷新状态保存失败", error);
+    return;
+  }
+  pageReloading = true;
+  setTimeout(() => location.reload(), 500);
 }
 
 if (installButton) {
@@ -92,9 +108,15 @@ if ("serviceWorker" in navigator) {
       const percent = Math.floor(message.cached / message.total * 100);
       showOfflineStatus(`正在准备离线图鉴：${percent}%`);
     } else if (message.type === "offline-cache-ready") {
-      showOfflineStatus("离线图鉴已准备完成", true);
+      showOfflineStatus("离线图鉴已准备完成，正在刷新…");
+      reloadAfterOfflineUpdate(message.version);
     } else if (message.type === "offline-cache-error") {
       showOfflineStatus("离线缓存失败，请保持联网并刷新页面重试");
+    } else if (message.type === "sw-updated" && navigator.serviceWorker.controller) {
+      // 新版本安装完成, 且页面当前被旧版本控制 → 自动刷新换新内容
+      // (首次安装时页面尚无 controller, 不刷新)
+      showOfflineStatus("图鉴已更新，正在刷新…");
+      reloadAfterOfflineUpdate(message.version);  // 等 activate 的缓存清理收尾
     }
   });
 
@@ -102,15 +124,21 @@ if ("serviceWorker" in navigator) {
     showOfflineStatus("正在准备离线图鉴…");
   }
 
+  // 离线图鉴更新后自动刷新: 新版 service worker 安装完成后广播 "sw-updated"
+  // (见 sw.js), 上面的 message 监听收到后整页刷新; 这里只维护刷新去重标志
+  const checkForUpdate = () => { if (swRegistration) swRegistration.update().catch(() => {}); };
+  // 长期开着的页面: 回到前台 / 每 30 分钟检查一次有没有新版本
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") checkForUpdate(); });
+  setInterval(checkForUpdate, 30 * 60 * 1000);
+
   window.addEventListener("load", () => {
     const swUrl = `sw.js${pwaVersion ? `?v=${encodeURIComponent(pwaVersion)}` : ""}`;
     navigator.serviceWorker.register(swUrl)
-      .then(() => navigator.serviceWorker.ready)
+      .then(registration => { swRegistration = registration; return navigator.serviceWorker.ready; })
       .then(prepareOfflineCache)
       .catch(error => {
         console.error("离线图鉴初始化失败", error);
         showOfflineStatus("离线功能无法启用，请使用 HTTPS 并刷新页面重试");
       });
   });
-  navigator.serviceWorker.addEventListener("controllerchange", prepareOfflineCache);
 }
