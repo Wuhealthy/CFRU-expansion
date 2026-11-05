@@ -1,35 +1,35 @@
 #org @gText_SaveScreen_Confirm
-Would you like to save the game?
+要保存游戏吗？
 
 #org @gText_SaveScreen_Saving1
-Saving.\nDon't turn off the power.
+正在保存.\n请不要关闭电源。
 
 #org @gText_SaveScreen_Saving2
-Saving..\nDon't turn off the power.
+正在保存..\n请不要关闭电源。
 
 #org @gText_SaveScreen_Saving3
-Saving...\nDon't turn off the power.
+正在保存...\n请不要关闭电源。
 
 #org @gText_SaveScreen_Saved
-[PLAYER] saved the game.
+[PLAYER]保存了游戏。
 
 #org @gText_SaveScreen_Error
-Save error.\nPlease exchange the backup memory.
+保存错误。\n请更换备份存储器。
 
 #org @gText_SaveScreen_Badges
-Gym Badges:
+徽章：
 
 #org @gText_SaveScreen_Pokedex
-Pokédex:
+宝可梦图鉴：
 
 #org @gText_SaveScreen_Time
-Time:
+游玩时间：
 
 #org @gText_SaveScreen_Yes
-YES
+是
 
 #org @gText_SaveScreen_No
-NO
+否
 
 #org @gText_SaveScreen_NoDate
 --/--/----

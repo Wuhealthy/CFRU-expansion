@@ -29,6 +29,7 @@
 #include "../include/constants/songs.h"
 #include "../include/new/dexnav.h"
 #include "../include/new/dynamic_ow_pals.h"
+#include "../include/new/save_screen.h"
 
 void Task_HandleChooseMonInput(u8 taskId);
 u8* __attribute__((long_call)) GetMapName(u8* dest, u16 regionMapId, u16 padLength);
@@ -1727,8 +1728,17 @@ static void BeginNewStartMenuAction(u8 taskId, struct NewStartMenuState *state)
 
     if (action == NEW_MENU_ACTION_SAVE)
     {
+#ifdef BW_SAVING_SCREEN
+        CleanupNewStartMenuResources(state);
+        FadeScreen(FADE_TO_BLACK, 0);
+        state->callback = StartMenuSaveScreenCallback;
+        ArmReturnToNewStartMenuHook();
+        gMain.savedCallback = CB2_ReturnToFieldWithOpenMenu;
+        gTasks[taskId].data[0] = TASK_STATE_WAIT_CALLBACK;
+#else
         DrawNewStartMenuMessage(state, gText_NewStartMenuSavePrompt);
         gTasks[taskId].data[0] = TASK_STATE_SAVE_CONFIRM;
+#endif
         return;
     }
 
