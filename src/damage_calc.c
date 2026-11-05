@@ -4813,6 +4813,10 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 	if (data->atkStatus3 & STATUS3_CHARGED_UP && data->moveType == TYPE_ELECTRIC)
 		power *= 2;
 
+	//Magnetic Pulse: consumes Charge status for 2x power
+	if (data->atkStatus3 & STATUS3_CHARGED_UP && gCurrentMove == MOVE_MAGNETICPULSE)
+		power *= 2;
+
 	#ifdef OLD_TERRAIN_BOOST
 		#define TERRAIN_BOOST 15 //1.5x in Gen 6 & 7
 	#else

@@ -2734,3 +2734,6 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 
 #org @DESC_MUDDYBARRAGE
 将水与泥沙混合成坚\n硬的水弹，连续攻击\n对手2次，且降低其\n速度。
+
+#org @DESC_MAGNETICPULSE
+将高压电流压缩成锐\n利的钢铁电磁束射向\n对手。若自身处于充\n电状态，会将其消耗\n并使招式的威力翻倍。
