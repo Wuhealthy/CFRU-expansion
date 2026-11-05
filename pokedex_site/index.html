@@ -32,14 +32,18 @@
   </span>
 </header>
 <div id="offline-status" class="offline-status hidden" role="status" aria-live="polite"></div>
-<main id="app"></main>
+<main id="app">
+  <!-- 首访数据下载期间的白屏占位; app.js 启动后 route() 会整体替换 -->
+  <div class="page-title">图鉴加载中…</div>
+  <div class="page-sub">首次打开需要下载数据，之后离线也能秒开</div>
+</main>
 <button id="back-to-top" class="back-to-top" type="button" aria-label="回到页面顶部" title="回到页面顶部">
   <span aria-hidden="true">↑</span>回到顶部
 </button>
 <div id="popup-mask" class="popup-mask hidden"><div id="popup" class="popup"></div></div>
-<script src="data/data.js?v=f980c8f4"></script>
-<script>window.SPRITE_VER="da39a3ee"</script>
-<script src="app.js?v=c140bad8"></script>
+<script src="data/data.js?v=4d1f8a0f"></script>
+<script>window.SPRITE_VER="b0919b7b"</script>
+<script src="app.js?v=a979dfd3"></script>
 <script src="pwa.js?v=6b8f390d"></script>
 </body>
 </html>

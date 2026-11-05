@@ -54,7 +54,13 @@ function reloadAfterOfflineUpdate(version) {
     return;
   }
   pageReloading = true;
-  setTimeout(() => location.reload(), 500);
+  // 不能只等固定 500ms: sw-updated 在安装期发出, 若 activate/claim 还没完成就 reload,
+  // 会被旧 worker 的旧缓存服务 (拿旧 index.html) 且去重键已置位, 之后再也不刷 → 卡在旧版。
+  // 正确信号是 controllerchange (新 worker 真正接管页面); 已接管过则不会再来, 用超时兜底。
+  let done = false;
+  const go = () => { if (!done) { done = true; location.reload(); } };
+  navigator.serviceWorker.addEventListener("controllerchange", go, { once: true });
+  setTimeout(go, 3000);
 }
 
 if (installButton) {

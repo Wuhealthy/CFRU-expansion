@@ -1750,11 +1750,11 @@ html = re.sub(r'(href="style\.css)(\?v=[0-9a-f]+)?(")',
 html = re.sub(r'(src="data/data\.js)(\?v=[0-9a-f]+)?(")',
               lambda m: m.group(1) + "?v=" + _file_hash(os.path.join(OUT, "data", "data.js")) + m.group(3), html)
 spr_ver = hashlib.sha1()
-for sub in ("front", "icon"):
-    sdir = os.path.join(OUT, "sprites", sub)
-    for fn in sorted(os.listdir(sdir)):
+for root, _dirs, files in os.walk(os.path.join(OUT, "sprites")):  # 递归哈希全部精灵图文件 (bundle 化后不再有 front/icon 子目录内容)
+    for fn in sorted(files):
+        p = os.path.join(root, fn)
         spr_ver.update(fn.encode())
-        with open(os.path.join(sdir, fn), "rb") as f:
+        with open(p, "rb") as f:
             spr_ver.update(f.read())
 spr_v = spr_ver.hexdigest()[:8]
 html = re.sub(r'<script>window\.SPRITE_VER="[0-9a-f]+"</script>\s*', "", html)
