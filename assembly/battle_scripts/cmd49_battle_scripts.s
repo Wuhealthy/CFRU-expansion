@@ -168,6 +168,7 @@ BattleScript_BanefulBunker:
 
 BattleScript_FieryBarrierHeal:
 	playanimation BANK_TARGET ANIM_HEALING_SPARKLES 0x0
+	orword HIT_MARKER HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_NON_ATTACK_DMG
 	graphicalhpupdate BANK_TARGET
 	datahpupdate BANK_TARGET
 	setword BATTLE_STRING_LOADER FieryBarrierHealString
