@@ -43,7 +43,11 @@ function reloadAfterOfflineUpdate(version) {
   if (pageReloading) return;
   const reloadKey = `pkdx-auto-reloaded:${version || pwaVersion || "current"}`;
   try {
-    if (sessionStorage.getItem(reloadKey)) return;
+    if (sessionStorage.getItem(reloadKey)) {
+      // 此版本已经刷新过: 页面内容已是最新, 不再重复刷新, 把状态条收掉
+      if (offlineStatus) offlineStatus.classList.add("hidden");
+      return;
+    }
     sessionStorage.setItem(reloadKey, "1");
   } catch (error) {
     console.error("离线图鉴自动刷新状态保存失败", error);
