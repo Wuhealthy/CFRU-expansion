@@ -1,1 +1,0 @@
-__sprData("icon",323,"vjucwxKsUupzy5UgE4tVzDdr0qQfpkjAd8iVLVpCRfnwa9KEL/YEtDarDa3aQ2Emj9MqfOce6KCDO739OoPhDh/jqnx/7oAIA1Ntnfpj0WZfw0rkf/4IoDMj8V6DwxGeNh+AykymCAarrZUtWr1Y2nY/qhjCKPntsPuZKePCsJczw5jhcszFAAaXnctWkjyag0DHhiHoSCmly/zfh/z/VxCRpTUNIOjIuMuRh1kwFObiMNIlhVMikD1jR2Zm3CgnsBm+yJ7er9y5GQU11eoI/ZJ0i/OcQYNmje35FckZO3lDe15hdG8P+J6kYCu0FCw7FzKc4x+mSOA6jttp9IFxHA==");

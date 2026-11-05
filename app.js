@@ -168,40 +168,47 @@ const $ = sel => document.querySelector(sel);
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
 /* ---------------- 精灵图加密加载 ----------------
-   sprites/{front,icon}/NNN.js 为 XOR 加密的 base64 数据,
-   动态 <script> 载入后解密为 ImageBitmap, 用 canvas 绘制 (无 <img>, 右键另存不可用)。
-   密钥须与 tools/extract_data.py 的 SPR_KEY 一致。 */
+   sprites/bundle_<分块>.js 为 XOR 加密 base64 的合并文件 (每 SPRITE_CHUNK 个编号一块,
+   front/icon/front_shiny 三类打包在一起, 约 170KB): 动态 <script> 载入后解密为 ImageBitmap,
+   用 canvas 绘制 (无 <img>, 右键另存不可用)。
+   合并让离线预缓存从 ~4700 个请求降到 ~25 个; 代价是看一只精灵会顺带载入同块其他个体
+   (仅首次, 之后走缓存)。密钥/分块须与 tools/extract_data.py 的 SPR_KEY/SPRITE_CHUNK 一致。 */
 const SPR_KEY = [0x5A, 0xC3, 0x11, 0x9E, 0x37, 0x6B, 0xD2, 0x84,
                  0x1F, 0xA6, 0x48, 0xE0, 0x73, 0xCB, 0x95, 0x2D];
 const KIND_ID = { front: 0, icon: 1, front_shiny: 2 };
-const sprCache = {}, sprPending = {};
+const SPRITE_CHUNK = 64;
+const sprCache = {}, sprStore = {}, sprBundleJobs = {};
 window.__sprData = function (kind, id, b64) {
-  const key = kind + id;
-  if (sprPending[key]) {
-    sprPending[key](b64);
-    delete sprPending[key];
-  }
+  sprStore[kind + id] = b64;
 };
+function bundleOf(id) {
+  return "sprites/bundle_" + Math.floor(id / SPRITE_CHUNK) + ".js";
+}
+function ensureBundle(bundle) {
+  if (!sprBundleJobs[bundle]) {
+    sprBundleJobs[bundle] = new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = bundle + (window.SPRITE_VER ? "?v=" + window.SPRITE_VER : "");
+      s.onload = () => { s.remove(); resolve(); };
+      s.onerror = () => { s.remove(); delete sprBundleJobs[bundle]; reject(new Error("missing " + s.src)); };
+      document.head.appendChild(s);
+    });
+  }
+  return sprBundleJobs[bundle];
+}
 function loadSprite(kind, id) {
   const key = kind + id;
   if (!sprCache[key]) {
-    sprCache[key] = new Promise((resolve, reject) => {
-      const s = document.createElement("script");
-      s.src = "sprites/" + kind + "/" + id + ".js" + (window.SPRITE_VER ? "?v=" + window.SPRITE_VER : "");
-      sprPending[key] = b64 => {
-        s.remove();
-        try {
-          const bin = atob(b64);
-          const seed = (id * 31 + KIND_ID[kind] * 7) & 0xFF;
-          const bytes = new Uint8Array(bin.length);
-          for (let i = 0; i < bin.length; i++) {
-            bytes[i] = bin.charCodeAt(i) ^ SPR_KEY[(i + seed) % SPR_KEY.length];
-          }
-          createImageBitmap(new Blob([bytes], { type: "image/png" })).then(resolve, reject);
-        } catch (e) { reject(e); }
-      };
-      s.onerror = () => { s.remove(); reject(new Error("missing " + s.src)); };
-      document.head.appendChild(s);
+    sprCache[key] = ensureBundle(bundleOf(id)).then(() => {
+      const b64 = sprStore[key];
+      if (b64 == null) throw new Error("no sprite " + key);
+      const bin = atob(b64);
+      const seed = (id * 31 + KIND_ID[kind] * 7) & 0xFF;
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) {
+        bytes[i] = bin.charCodeAt(i) ^ SPR_KEY[(i + seed) % SPR_KEY.length];
+      }
+      return createImageBitmap(new Blob([bytes], { type: "image/png" }));
     }).catch(err => { delete sprCache[key]; throw err; });
   }
   return sprCache[key];
