@@ -38,6 +38,10 @@ move_menu.c
 
 extern const u8 gMoveNames[][MOVE_NAME_LENGTH + 1];
 extern const u8 gTypeNames[][TYPE_NAME_LENGTH + 1];
+
+#ifdef NEW_BATTLE_TEXTBOX
+extern void BTB_ShowMoveMenuFrame(void); //src/battle_textbox_ui.c
+#endif
 extern const u8 gDynamaxMovePowers[MOVES_COUNT];
 extern const u8 sTargetIdentities[];
 extern const u16 gUserInterfaceGfx_TypeHighlightingPal[];
@@ -207,6 +211,13 @@ void HandleInputChooseMove(void)
 		gNewBS->dynamaxData.viewing = FALSE;
 		gMoveSelectionCursor[gActiveBattler] = 0;
 		PlaySE(SE_SELECT);
+		#ifdef NEW_BATTLE_TEXTBOX
+		//Redraw the buttons and scroll BG0 back right away. The vanilla reshow re-uploads the button
+		//art over the move menu's own text tiles while the move menu is still on screen (it only
+		//scrolls BG0 back after its queued DMA3 has finished), which flashes garbage for a frame.
+		ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
+		gBattle_BG0_Y = 160;
+		#endif
 		EmitTwoReturnValues(1, 10, 0xFFFF);
 		PlayerBufferExecCompleted();
 		ResetPaletteFadeControl();
@@ -2038,6 +2049,16 @@ void HandleInputChooseAction(void)
 		{
 			switch (gActionSelectionCursor[gActiveBattler]) {
 				case 0:
+					#ifdef NEW_BATTLE_TEXTBOX
+					if (!(gBattleTypeFlags & BATTLE_TYPE_SAFARI)) //Safari battles never open the move menu
+					{
+						//Scroll to the move menu right away (vanilla waits for its queued DMA3 first).
+						//The move menu's windows overwrite the button art in VRAM, so the buttons would
+						//flash garbage until the scroll happens; start from a clean move box instead.
+						BTB_ShowMoveMenuFrame();
+						gBattle_BG0_Y = 320;
+					}
+					#endif
 					EmitTwoReturnValues(1, ACTION_USE_MOVE, 0);
 					break;
 				case 1:

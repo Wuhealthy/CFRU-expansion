@@ -217,6 +217,24 @@ void BTB_ActionSelectionDestroyCursorAt(unusedArg u8 cursorPos)
 	//Cursor is part of the button art; the next Create call redraws the right state
 }
 
+/*
+ * FIX: garbage flash when the move menu opens/closes (A on FIGHT / B to cancel).
+ * The move menu's windows (move names, PP, type strip) get their VRAM tiles from the same allocator
+ * region the button art lives in (see BTB_UploadButtonTiles), and vanilla only scrolls BG0 between
+ * the two menus after its queued DMA3 transfers have finished. For the frames in between, the
+ * still-visible menu renders the other menu's freshly blitted tiles as garbage. The menu code now
+ * scrolls BG0 itself right away; this repaints the move box rows with the clean frame art first so
+ * no stale window cells (pointing at whatever the allocator currently hands out) are left behind.
+ */
+void BTB_ShowMoveMenuFrame(void)
+{
+	u16* buf = GetBgTilemapBuffer(0);
+	for (u8 r = 0; r < 6; ++r)
+		for (u8 c = 0; c < 30; ++c)
+			buf[(BTB_MOVE_TOP + r) * 32 + c] = gBTBMovesMap[r][c];
+	CopyBgTilemapBufferToVram(0);
+}
+
 void BTB_MoveSelectionCreateCursorAt(u8 cursorPos, u8 baseTileNum)
 {
 	//Same as vanilla (1x2 arrow tiles in the move box)...
