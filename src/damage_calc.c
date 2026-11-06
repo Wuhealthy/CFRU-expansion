@@ -4822,6 +4822,7 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 	if (data->atkAbility == ABILITY_HIGHVOLTAGE
 		&& data->moveSplit != SPLIT_STATUS
 		&& data->moveType != TYPE_ELECTRIC
+		&& gCurrentMove != MOVE_MAGNETICPULSE
 		&& data->atkStatus3 & STATUS3_CHARGED_UP)
 		power *= 2;
 
