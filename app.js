@@ -1137,13 +1137,15 @@ function renderTypes() {
    能力升降、特殊威力招式(威力显示为「变化」的)。能力值按 6V / 0 努力 计算。 */
 const BATTLE_EFF_TXT = { 0: "没有效果（×0）", 0.25: "效果非常不理想（×¼）", 0.5: "效果不理想（×½）", 1: "正常（×1）", 2: "效果绝佳（×2）", 4: "效果绝佳（×4）" };
 const BATTLE_NATURES = [
-  { zh: "认真", up: null, dn: null }, { zh: "孤僻", up: "atk", dn: "def" }, { zh: "固执", up: "atk", dn: "spa" },
-  { zh: "调皮", up: "atk", dn: "spd" }, { zh: "勇敢", up: "atk", dn: "spe" }, { zh: "大胆", up: "def", dn: "atk" },
-  { zh: "淘气", up: "def", dn: "spa" }, { zh: "无虑", up: "def", dn: "spd" }, { zh: "悠闲", up: "def", dn: "spe" },
-  { zh: "保守", up: "spa", dn: "atk" }, { zh: "慢吞吞", up: "spa", dn: "def" }, { zh: "自大", up: "spa", dn: "spd" },
-  { zh: "冷静", up: "spa", dn: "spe" }, { zh: "沉着", up: "spd", dn: "atk" }, { zh: "温顺", up: "spd", dn: "def" },
-  { zh: "仔细", up: "spd", dn: "spa" }, { zh: "自满", up: "spd", dn: "spe" }, { zh: "胆小", up: "spe", dn: "atk" },
-  { zh: "急躁", up: "spe", dn: "def" }, { zh: "开朗", up: "spe", dn: "spa" }, { zh: "天真", up: "spe", dn: "spd" },
+  { zh: "认真", up: null, dn: null }, { zh: "怕寂寞", up: "atk", dn: "def" }, { zh: "勇敢", up: "atk", dn: "spe" },
+  { zh: "固执", up: "atk", dn: "spa" }, { zh: "顽皮", up: "atk", dn: "spd" }, { zh: "大胆", up: "def", dn: "atk" },
+  { zh: "坦率", up: null, dn: null }, { zh: "悠闲", up: "def", dn: "spe" }, { zh: "淘气", up: "def", dn: "spa" },
+  { zh: "乐天", up: "def", dn: "spd" }, { zh: "胆小", up: "spe", dn: "atk" }, { zh: "急躁", up: "spe", dn: "def" },
+  { zh: "认真", up: null, dn: null }, { zh: "爽朗", up: "spe", dn: "spa" }, { zh: "天真", up: "spe", dn: "spd" },
+  { zh: "内敛", up: "spa", dn: "atk" }, { zh: "慢吞吞", up: "spa", dn: "def" }, { zh: "冷静", up: "spa", dn: "spe" },
+  { zh: "害羞", up: null, dn: null }, { zh: "马虎", up: "spa", dn: "spd" }, { zh: "温和", up: "spd", dn: "atk" },
+  { zh: "温顺", up: "spd", dn: "def" }, { zh: "自大", up: "spd", dn: "spe" }, { zh: "慎重", up: "spd", dn: "spa" },
+  { zh: "浮躁", up: null, dn: null },
 ];
 const BATTLE_STATUS_ZH = { none: "—", burn: "灼伤", poison: "中毒", toxic: "剧毒", par: "麻痹", sleep: "睡眠", freeze: "冰冻" };
 const BATTLE_STATUS_COLOR = { burn: "#e7633a", poison: "#ab6ac8", toxic: "#9b4dca", par: "#f4d23c", sleep: "#8b7ec8", freeze: "#73cec0" };
@@ -1359,8 +1361,8 @@ function renderBattle() {
   document.getElementById("battle-run").addEventListener("click", () => battleSimulate());
   document.getElementById("bs-species-0").value = SPECIES_BY_ID[D.species.find(s => s.constName === "CHARIZARD").id].id;
   document.getElementById("bs-species-1").value = SPECIES_BY_ID[D.species.find(s => s.constName === "BLASTOISE").id].id;
-  document.getElementById("bs-nature-0").value = 18;
-  document.getElementById("bs-nature-1").value = 10;
+  document.getElementById("bs-nature-0").value = 11;
+  document.getElementById("bs-nature-1").value = 16;
   refresh();
 }
 function renderBattleDamage() {
