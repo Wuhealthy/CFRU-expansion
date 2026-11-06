@@ -1115,7 +1115,7 @@ function renderItemRows() {
 
 /* ---------------- 属性相性页 ---------------- */
 function renderTypes() {
-  const shown = TYPES_SHOWN;
+  const shown = SPECIES_FILTER_TYPES;
   const head = shown.map(t => `<th title="${esc(t.zh)}">${esc(t.zh)}</th>`).join("");
   const rows = shown.map(at => {
     const cells = shown.map(df => {
