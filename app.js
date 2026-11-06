@@ -722,19 +722,6 @@ function evoChainHTML(s) {
       || (SPECIES_BY_ID[a].dex || 9999) - (SPECIES_BY_ID[b].dex || 9999) || a - b);
   (roots.length ? roots : mainNodes.filter(id => !crossHeads.has(id)).slice(0, 1)).forEach(r => walk(r, 0));
   crossEdges.forEach(x => walk(x.e.to, (level[x.from] || 0) + 1));  // 跨形态线后续进化也标层级
-  // 等价重复根折叠: 同名同形态标签、自己没有主进化线的根 (如 15 种限定帽子皮卡丘都只是
-  // 超极巨化的来源, 目标是同一只且已在主链渲染) 只画第一个, 避免整屏重复行
-  const rootKey = id => { const sp = SPECIES_BY_ID[id]; return speciesName(sp) + "|" + (sp.formLabel || ""); };
-  const seenRootKeys = new Set();
-  const renderedRoots = roots.filter(id => {
-    const key = rootKey(id);
-    const hasOwnLine = (children[id] || []).some(k => !extraTo.has(k));
-    if (!hasOwnLine) {
-      if (seenRootKeys.has(key)) return false;              // 与已渲染的根完全等价 → 折叠
-      seenRootKeys.add(key);
-    }
-    return true;
-  });
   // 画成树: 每个节点挂在一个来源下 (主链取上一级的来源, 特殊形态取其基础形态), 来源右侧并排
   // 它的所有走向 (主链进化在前, 超级进化/超极巨化/觉醒形态等在后), 箭头上写方式, 再下一行写条件/道具
   const inEdge = {}, parentOf = {}, extraKids = [];
@@ -784,6 +771,19 @@ function evoChainHTML(s) {
       `<div class="evo-row">${arrow(id, x.to)}<div class="evo-branch">${node(x.to, stageOf(x.e, depth)[0], true)}</div></div>`));
     return `<div class="evo-branch">${node(id, stage)}${rows.length ? `<div class="evo-kids">${rows.join("")}</div>` : ""}</div>`;
   };
+  // 等价重复根折叠: 同名同形态标签、自己没有主进化线的根 (如 15 种限定帽子皮卡丘都只是
+  // 超极巨化的来源, 目标是同一只且已在主链渲染) 只画第一个, 避免整屏重复行
+  const rootKey = id => { const sp = SPECIES_BY_ID[id]; return speciesName(sp) + "|" + (sp.formLabel || ""); };
+  const seenRootKeys = new Set();
+  const renderedRoots = roots.filter(id => {
+    const key = rootKey(id);
+    const hasOwnLine = (children[id] || []).some(k => !extraTo.has(k));
+    if (!hasOwnLine) {
+      if (seenRootKeys.has(key)) return false;              // 与已渲染的根完全等价 → 折叠
+      seenRootKeys.add(key);
+    }
+    return true;
+  });
   // 跨地区形态行: 行首复制来源节点 (ref=true 不重复高亮当前页), 阶段取它在主链里的实际层级
   const crossRows = crossEdges.slice().sort((a, b) => a.e.to - b.e.to).map(x => {
     const lv = level[x.from] || 0;
