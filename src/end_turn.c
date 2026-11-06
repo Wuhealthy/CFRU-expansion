@@ -922,12 +922,15 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 
 			case ET_Charge_Timer:
 				if (gNewBS->ElectroCounter[gActiveBattler])
-			break;
+				break;
+
 				u16 lastMove = gLastUsedMoves[gActiveBattler];
-			if ((gBattleMoves[lastMove].type == TYPE_ELECTRIC && lastMove != MOVE_CHARGE)
-			    || lastMove == MOVE_MAGNETICPULSE
-			    || (ABILITY(gActiveBattler) == ABILITY_HIGHVOLTAGE && SPLIT(lastMove) != SPLIT_STATUS))
-				gStatuses3[gActiveBattler] &= ~STATUS3_CHARGED_UP;
+				if ((gBattleMoves[lastMove].type == TYPE_ELECTRIC && lastMove != MOVE_CHARGE)
+			    	|| lastMove == MOVE_MAGNETICPULSE
+			    	|| (ABILITY(gActiveBattler) == ABILITY_HIGHVOLTAGE && SPLIT(lastMove) != SPLIT_STATUS))
+				{
+					gStatuses3[gActiveBattler] &= ~STATUS3_CHARGED_UP;
+				}
 				break;
 
 			case ET_Magnet_Rise_Timer:

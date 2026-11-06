@@ -1826,12 +1826,13 @@ BattleScript_ElectromorphosisActivatess:
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 BattleScript_HighVoltageCharge:
 	call BattleScript_AbilityPopUp
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
 	playanimation BANK_SCRIPTING ANIM_CHARGE2 0x0
 	setword BATTLE_STRING_LOADER gText_HighVoltageCharge
 	printstring 0x184
 	waitmessage DELAY_1SECOND
-	call BattleScript_AbilityPopUpRevert
-	end3
+	end2
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 BattleScript_NirvanaRevive:
