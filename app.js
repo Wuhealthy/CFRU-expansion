@@ -457,6 +457,10 @@ function showAbilityPopup(aid) {
   showPopup(`
     <h2>${esc(a.zh)}</h2>
     <div class="mv-desc" style="margin-top:10px">${a.desc ? esc(a.desc) : "<i>暂无描述</i>"}</div>
+    <div class="ab-detail">
+      <div class="cats-title">详细效果</div>
+      <div class="ab-detail-body">${a.detail ? esc(a.detail) : "<i>暂无详细效果说明</i>"}</div>
+    </div>
     <div class="ab-mons">${users.slice(0, 60).map(s => `
       <div class="m" onclick="location.hash='#/p/${s.id}';hidePopup()">
         ${spriteCanvas("front", s.id)}
