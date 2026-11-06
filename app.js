@@ -681,6 +681,14 @@ function evoChainHTML(s) {
   if (!compId) return `<div style="color:var(--muted);font-size:13.5px">该宝可梦没有进化关系。</div>`;
   const members = Object.keys(evoComp).map(Number).filter(id => evoComp[id] === compId);
   const memberSet = new Set(members);
+  // 地区形态线是与默认线不相连的独立连通分量 (如 喵喵(伽勒尔)->喵头目):
+  // 按图鉴编号把它们并入同一张链, 各占一行 —— 官方图鉴样式
+  const dexes = new Set(members.map(id => SPECIES_BY_ID[id].dex).filter(d => d != null));
+  const relatedCompIds = new Set(D.species.filter(sp => sp.formKind === "regional" && !memberSet.has(sp.id)
+    && sp.dex != null && dexes.has(sp.dex) && evoComp[sp.id] !== undefined).map(sp => evoComp[sp.id]));
+  relatedCompIds.forEach(cid => Object.keys(evoComp).map(Number).filter(id => evoComp[id] === cid).forEach(id => {
+    if (!memberSet.has(id)) { memberSet.add(id); members.push(id); }
+  }));
   const isRegional = id => { const sp = SPECIES_BY_ID[id]; return sp && sp.formKind === "regional"; };
   const allEdges = [];
   members.forEach(id => speciesEvolutions(id).forEach(e => {
