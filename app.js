@@ -1269,9 +1269,11 @@ function battleUpdateSide(idx) {
   const level = Math.min(100, Math.max(1, +document.getElementById("bs-level-" + idx).value || 50));
   const natureIdx = +document.getElementById("bs-nature-" + idx).value || 0;
   const stats = battleCalcStats(sp, level, natureIdx);
-  document.getElementById("bs-preview-" + idx).innerHTML =
+  const previewEl = document.getElementById("bs-preview-" + idx);
+  previewEl.innerHTML =
     `<div class="bs-spr" style="background:${TYPE_BY_ID[sp.types[0]] ? `color-mix(in srgb, ${TYPE_BY_ID[sp.types[0]].color} 45%, #fff)` : "#eef1f4"}">${spriteCanvas("front", sp.id, "", 64)}</div>
      <div class="bs-types">${typePills(sp.types, true)}</div>`;
+  mountSprites(previewEl);
   const abIds = [...(sp.abilities || []), ...(sp.hidden || [])];
   const abTxt = abIds.map(id => { const a = D.abilities.find(x => x.id === id); return a ? `<span class="bs-ab${(sp.hidden||[]).includes(id)?" bs-ab-h":""}">${esc(a.zh)}</span>` : ""; }).join("");
   document.getElementById("bs-ability-" + idx).innerHTML = abTxt ? `特性: ${abTxt}` : "";
