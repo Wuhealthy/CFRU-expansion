@@ -482,6 +482,7 @@ function route() {
   else if (h.startsWith("#/moves")) renderMoves();
   else if (h.startsWith("#/abilities")) renderAbilities();
   else if (h.startsWith("#/items")) renderItems();
+  else if (h.startsWith("#/battle")) renderBattle();
   else if (h.startsWith("#/types")) renderTypes();
   else renderHome();
   if (saved != null) requestAnimationFrame(() => window.scrollTo({ top: SCROLL_BY_HASH[h] || 0, behavior: "instant" }));
@@ -1128,6 +1129,366 @@ function renderTypes() {
       <span><i style="background:#fde3e3"></i>效果不好 ×½</span>
       <span><i style="background:#6b7684"></i>无效 ×0</span>
     </div>`;
+}
+
+/* ---------------- 对战模拟器 ---------------- */
+/* 简化对战: 等级/种族值/性格/属性相性/本系加成/要害/命中/PP/多连击/反作用力/
+   状态异常(灼伤/中毒/剧毒/麻痹/睡眠/冰冻)。未计入特性效果、道具、天气、场地、
+   能力升降、特殊威力招式(威力显示为「变化」的)。能力值按 6V / 0 努力 计算。 */
+const BATTLE_EFF_TXT = { 0: "没有效果（×0）", 0.25: "效果非常不理想（×¼）", 0.5: "效果不理想（×½）", 1: "正常（×1）", 2: "效果绝佳（×2）", 4: "效果绝佳（×4）" };
+const BATTLE_NATURES = [
+  { zh: "认真", up: null, dn: null }, { zh: "孤僻", up: "atk", dn: "def" }, { zh: "固执", up: "atk", dn: "spa" },
+  { zh: "调皮", up: "atk", dn: "spd" }, { zh: "勇敢", up: "atk", dn: "spe" }, { zh: "大胆", up: "def", dn: "atk" },
+  { zh: "淘气", up: "def", dn: "spa" }, { zh: "无虑", up: "def", dn: "spd" }, { zh: "悠闲", up: "def", dn: "spe" },
+  { zh: "保守", up: "spa", dn: "atk" }, { zh: "慢吞吞", up: "spa", dn: "def" }, { zh: "自大", up: "spa", dn: "spd" },
+  { zh: "冷静", up: "spa", dn: "spe" }, { zh: "沉着", up: "spd", dn: "atk" }, { zh: "温顺", up: "spd", dn: "def" },
+  { zh: "仔细", up: "spd", dn: "spa" }, { zh: "自满", up: "spd", dn: "spe" }, { zh: "胆小", up: "spe", dn: "atk" },
+  { zh: "急躁", up: "spe", dn: "def" }, { zh: "开朗", up: "spe", dn: "spa" }, { zh: "天真", up: "spe", dn: "spd" },
+];
+const BATTLE_STATUS_ZH = { none: "—", burn: "灼伤", poison: "中毒", toxic: "剧毒", par: "麻痹", sleep: "睡眠", freeze: "冰冻" };
+const BATTLE_STATUS_COLOR = { burn: "#e7633a", poison: "#ab6ac8", toxic: "#9b4dca", par: "#f4d23c", sleep: "#8b7ec8", freeze: "#73cec0" };
+function battleTypeEff(moveType, defTypes) {
+  let eff = 1;
+  for (const t of defTypes) {
+    const m = (D.typeChart[String(moveType)] || {})[String(t)];
+    eff *= (m == null ? 1 : m);
+  }
+  return eff;
+}
+function battleEffText(e) {
+  if (BATTLE_EFF_TXT[e] != null) return BATTLE_EFF_TXT[e];
+  return "×" + e;
+}
+function battleCalcStats(sp, level, natureIdx) {
+  const st = sp.stats;
+  const n = BATTLE_NATURES[natureIdx] || BATTLE_NATURES[0];
+  const hp = st.hp === 1 ? 1 : Math.floor((2 * st.hp + 31) * level / 100) + level + 10;
+  const raw = k => Math.floor((2 * st[k] + 31) * level / 100) + 5;
+  const apply = (k) => {
+    let v = raw(k);
+    if (n.up === k) v = Math.floor(v * 11 / 10);
+    if (n.dn === k) v = Math.floor(v * 9 / 10);
+    return v;
+  };
+  return { hp, atk: apply("atk"), def: apply("def"), spa: apply("spa"), spd: apply("spd"), spe: apply("spe") };
+}
+function battleMovepool(sp) {
+  const set = new Set();
+  (sp.levelUp || []).forEach(r => set.add(r[1]));
+  sp.tm.forEach(m => set.add(m));
+  sp.tutor.forEach(m => set.add(m));
+  sp.egg.forEach(m => set.add(m));
+  return [...set].filter(id => id && MOVE_BY_ID[id]).sort((a, b) => MOVE_BY_ID[a].zh.localeCompare(MOVE_BY_ID[b].zh, "zh"));
+}
+function battleReadSide(idx) {
+  const sp = SPECIES_BY_ID[+document.getElementById("bs-species-" + idx).value];
+  const level = Math.min(100, Math.max(1, +document.getElementById("bs-level-" + idx).value || 50));
+  const natureIdx = +document.getElementById("bs-nature-" + idx).value || 0;
+  const moves = [0, 1, 2, 3].map(i => MOVE_BY_ID[+document.getElementById("bs-move-" + idx + "-" + i).value]).filter(Boolean);
+  return { sp, level, natureIdx, stats: battleCalcStats(sp, level, natureIdx), moves };
+}
+function battleHitInfo(mv) {
+  const cats = mv.c || [];
+  if (cats.includes(11)) return { hits: 2, label: "×2" };
+  if (cats.includes(12)) return { hits: -1, label: "×2~5" };
+  if (cats.includes(10)) return { hits: 2, label: "×2" };
+  return { hits: 1, label: "" };
+}
+function battleRecoilFrac(mv) {
+  const cats = mv.c || [];
+  if (cats.includes(13) || cats.includes(14) || cats.includes(15)) return 0.25;
+  return 0;
+}
+function battleMoveStatus(mv) {
+  const cats = mv.c || [];
+  const hasSecondary = cats.includes(33) || cats.includes(34) || cats.includes(22);
+  if (mv.power === 0 || mv.power === 1) {
+    if (mv.zh.includes("剧毒")) return { status: "toxic", chance: 100 };
+    if (mv.type === 3) return { status: "poison", chance: 100 };
+    if (mv.type === 10) return { status: "burn", chance: 100 };
+    if (mv.type === 13) return { status: "par", chance: 100 };
+    if (mv.type === 15) return { status: "freeze", chance: 100 };
+    if (mv.zh.includes("催眠") || mv.zh.includes("睡")) return { status: "sleep", chance: 100 };
+    if (mv.zh.includes("灼") || mv.zh.includes("燃")) return { status: "burn", chance: 100 };
+    if (mv.zh.includes("麻") || mv.zh.includes("电")) return { status: "par", chance: 100 };
+    if (mv.zh.includes("冻") || mv.zh.includes("冰结")) return { status: "freeze", chance: 100 };
+    if (mv.zh.includes("毒")) return { status: "poison", chance: 100 };
+    return null;
+  }
+  if (!hasSecondary) return null;
+  const typeMap = { 10: "burn", 13: "par", 15: "freeze", 3: "poison" };
+  const s = typeMap[mv.type];
+  if (!s) return null;
+  return { status: s, chance: 10 };
+}
+function battleMoveDamage(atk, def, mv) {
+  const eff = battleTypeEff(mv.type, def.sp.types);
+  const cats = (mv.c || []).map(i => D.moveCats[i].n);
+  const alwaysCrit = cats.includes("必中要害类招式");
+  const highCrit = cats.includes("易中要害类招式");
+  const stab = atk.sp.types.includes(mv.type);
+  const hitInfo = battleHitInfo(mv);
+  const recoil = battleRecoilFrac(mv);
+  if (mv.power === 1 || mv.power === 0 || eff === 0) return { eff, alwaysCrit, highCrit, stab, min: 0, max: 0, special: true, hitInfo, recoil };
+  let atkStat = mv.split === "物理" ? atk.stats.atk : atk.stats.spa;
+  if (atk.status === "burn" && mv.split === "物理") atkStat = Math.floor(atkStat / 2);
+  const A = atkStat;
+  const Dv = mv.split === "物理" ? def.stats.def : def.stats.spd;
+  let base = Math.floor(Math.floor(Math.floor(2 * atk.level / 5 + 2) * mv.power * A / Dv) / 50) + 2;
+  if (stab) base = Math.floor(base * 3 / 2);
+  base = Math.max(1, Math.floor(base * eff));
+  const critBase = Math.floor(base * 3 / 2);
+  const min1 = Math.floor((alwaysCrit ? critBase : base) * 85 / 100);
+  const max1 = alwaysCrit ? critBase : base;
+  const critMin1 = Math.floor(critBase * 85 / 100), critMax1 = critBase;
+  const hits = hitInfo.hits > 0 ? hitInfo.hits : 2;
+  return { eff, alwaysCrit, highCrit, stab, hitInfo, recoil,
+    min: min1 * hits, max: max1 * hits,
+    critMin: critMin1 * hits, critMax: critMax1 * hits,
+    perHitMin: min1, perHitMax: max1, special: false };
+}
+let battleSpecOpts = null;
+function battleSideHTML(idx, title) {
+  const natureOpts = BATTLE_NATURES.map((n, i) => `<option value="${i}">${n.zh}</option>`).join("");
+  return `<div class="battle-side" id="bs-side-${idx}">
+    <div class="bs-title ${idx === 0 ? "ours" : "foe"}">${title}</div>
+    <select id="bs-species-${idx}" class="bs-species">${battleSpecOpts}</select>
+    <div class="bs-preview" id="bs-preview-${idx}"></div>
+    <div class="bs-nature-row"><label>性格 <select id="bs-nature-${idx}" class="bs-nature">${natureOpts}</select></label>
+    <label class="bs-level">等级 <input type="number" id="bs-level-${idx}" value="50" min="1" max="100"></label></div>
+    <div class="bs-ability" id="bs-ability-${idx}"></div>
+    <div class="bs-stats" id="bs-stats-${idx}"></div>
+    <div class="bs-moves">${[0, 1, 2, 3].map(i =>
+      `<select id="bs-move-${idx}-${i}" class="bs-move"></select>`).join("")}</div>
+  </div>`;
+}
+function battleUpdateSide(idx) {
+  const sp = SPECIES_BY_ID[+document.getElementById("bs-species-" + idx).value];
+  const level = Math.min(100, Math.max(1, +document.getElementById("bs-level-" + idx).value || 50));
+  const natureIdx = +document.getElementById("bs-nature-" + idx).value || 0;
+  const stats = battleCalcStats(sp, level, natureIdx);
+  document.getElementById("bs-preview-" + idx).innerHTML =
+    `<div class="bs-spr" style="background:${TYPE_BY_ID[sp.types[0]] ? `color-mix(in srgb, ${TYPE_BY_ID[sp.types[0]].color} 45%, #fff)` : "#eef1f4"}">${spriteCanvas("front", sp.id, "", 64)}</div>
+     <div class="bs-types">${typePills(sp.types, true)}</div>`;
+  const abIds = [...(sp.abilities || []), ...(sp.hidden || [])];
+  const abTxt = abIds.map(id => { const a = D.abilities.find(x => x.id === id); return a ? `<span class="bs-ab${(sp.hidden||[]).includes(id)?" bs-ab-h":""}">${esc(a.zh)}</span>` : ""; }).join("");
+  document.getElementById("bs-ability-" + idx).innerHTML = abTxt ? `特性: ${abTxt}` : "";
+  const n = BATTLE_NATURES[natureIdx];
+  document.getElementById("bs-stats-" + idx).innerHTML =
+    ["hp", "atk", "def", "spa", "spd", "spe"].map(k => {
+      const up = n.up === k, dn = n.dn === k;
+      const mark = up ? "↑" : dn ? "↓" : "";
+      return `<span class="${up?"stat-up":dn?"stat-dn":""}">${STAT_ZH[k]} ${mark}<b>${stats[k]}</b></span>`;
+    }).join("");
+  const pool = battleMovepool(sp);
+  const opts = pool.map(id => {
+    const m = MOVE_BY_ID[id];
+    return `<option value="${id}">${esc(m.zh)}（${esc((TYPE_BY_ID[m.type] || { zh: "?" }).zh)} · 威力${fmtPower(m.power)}）</option>`;
+  }).join("");
+  const defaults = [...(sp.levelUp || [])].sort((a, b) => b[0] - a[0]).map(r => r[1]).filter(id => pool.includes(id));
+  [0, 1, 2, 3].forEach(i => {
+    const sel = document.getElementById("bs-move-" + idx + "-" + i);
+    sel.innerHTML = `<option value="">（空）</option>` + opts;
+    const want = defaults[i];
+    if (want != null) sel.value = want;
+  });
+  battleUpdateMid();
+}
+function battleReadAll() { return [battleReadSide(0), battleReadSide(1)]; }
+function battleUpdateMid() {
+  try {
+    const [a, b] = battleReadAll();
+    const mid = document.getElementById("battle-mid-info");
+    if (!mid) return;
+    const sa = a.status === "par" ? Math.floor(a.stats.spe / 2) : a.stats.spe;
+    const sb = b.status === "par" ? Math.floor(b.stats.spe / 2) : b.stats.spe;
+    mid.innerHTML = `<div class="bs-speed">速度 <b>${sa}</b> vs <b>${sb}</b></div>
+      <div class="bs-first">${sa === sb ? "同速 · 随机先手" : sa > sb ? "我方先手" : "对方先手"}</div>`;
+  } catch (e) { /* 选择过程中间态 */ }
+}
+function battleDamageRows(atkSide, defSide, who) {
+  const rows = atkSide.moves.map(mv => {
+    if (!mv) return `<tr><td colspan="5" class="dim">（空）</td></tr>`;
+    const r = battleMoveDamage(atkSide, defSide, mv);
+    const t = TYPE_BY_ID[mv.type] || { zh: "?", color: "#999" };
+    if (r.special) {
+      const se = battleMoveStatus(mv);
+      const tag = se ? `<span class="status-tag" style="background:${BATTLE_STATUS_COLOR[se.status]}22;color:${BATTLE_STATUS_COLOR[se.status]}">${BATTLE_STATUS_ZH[se.status]}</span>` : "";
+      return `<tr><td>${esc(mv.zh)}</td><td>${typePill(t, true)}</td><td class="num">${mv.acc || "必中"}</td><td colspan="2" class="dim">${tag || "简化模拟未计入"}</td></tr>`;
+    }
+    const defMax = defSide.stats.hp;
+    const pct = v => (v / defMax * 100).toFixed(1) + "%";
+    const hitTag = r.hitInfo.label ? `<span class="hit-tag">${r.hitInfo.label}</span>` : "";
+    const recoilTag = r.recoil > 0 ? `<span class="recoil-tag">反作用力</span>` : "";
+    return `<tr><td>${esc(mv.zh)}${r.stab ? '<span class="stab-tag">本系</span>' : ""}${hitTag}</td>
+      <td>${typePill(t, true)}</td><td class="num">${mv.acc || "必中"}</td>
+      <td class="num">${r.min}–${r.max}${r.highCrit ? '<span class="crit-tag">易要害</span>' : ""}${r.alwaysCrit ? '<span class="crit-tag">必中要害</span>' : ""}${recoilTag}</td>
+      <td class="num">${pct(r.min)}–${pct(r.max)} ${battleEffText(r.eff)}</td></tr>`;
+  }).join("");
+  return `<div class="battle-dmg"><div class="bd-title">${who}</div>
+    <table class="list-table"><thead><tr><th>招式</th><th>属性</th><th>命中</th><th>伤害（85%–100%）</th><th>占对方 HP</th></tr></thead>
+    <tbody>${rows}</tbody></table></div>`;
+}
+function renderBattle() {
+  if (!battleSpecOpts) {
+    const list = D.species.filter(s => s.id).sort((a, b) => (a.dex - b.dex) || (b.isDefault ? 1 : 0) - (a.isDefault ? 1 : 0) || a.id - b.id);
+    battleSpecOpts = list.map(s =>
+      `<option value="${s.id}">#${s.dex == null ? "—" : s.dex} ${esc(s.zh)}${s.formLabel ? `（${esc(s.formLabel)}）` : ""}</option>`).join("");
+  }
+  app.innerHTML = `
+    <div class="page-title">对战模拟器</div>
+    <div class="page-sub">简化计算：等级 · 种族值 · 性格 · 属性相性 · 本系加成 · 要害 · 命中 · 优先度 · 多连击 · 反作用力 · 状态异常。未计入特性效果、道具、天气、场地、能力升降；能力值按 6V / 0 努力 计算。</div>
+    <div class="battle-grid">
+      ${battleSideHTML(0, "我方")}
+      <div class="battle-mid">
+        <div class="battle-vs">VS</div>
+        <div id="battle-mid-info"></div>
+        <button id="battle-run" class="battle-run" type="button">开始模拟</button>
+      </div>
+      ${battleSideHTML(1, "对方")}
+    </div>
+    <div id="battle-damage"></div>
+    <div id="battle-log"></div>`;
+  const refresh = () => { battleUpdateSide(0); battleUpdateSide(1); renderBattleDamage(); };
+  [0, 1].forEach(idx => {
+    document.getElementById("bs-species-" + idx).addEventListener("change", () => { battleUpdateSide(idx); renderBattleDamage(); });
+    document.getElementById("bs-level-" + idx).addEventListener("input", () => { battleUpdateSide(idx); renderBattleDamage(); });
+    document.getElementById("bs-nature-" + idx).addEventListener("change", () => { battleUpdateSide(idx); renderBattleDamage(); });
+    [0, 1, 2, 3].forEach(i => document.getElementById("bs-move-" + idx + "-" + i).addEventListener("change", renderBattleDamage));
+  });
+  document.getElementById("battle-run").addEventListener("click", () => battleSimulate());
+  document.getElementById("bs-species-0").value = SPECIES_BY_ID[D.species.find(s => s.constName === "CHARIZARD").id].id;
+  document.getElementById("bs-species-1").value = SPECIES_BY_ID[D.species.find(s => s.constName === "BLASTOISE").id].id;
+  document.getElementById("bs-nature-0").value = 18;
+  document.getElementById("bs-nature-1").value = 10;
+  refresh();
+}
+function renderBattleDamage() {
+  try {
+    const [a, b] = battleReadAll();
+    document.getElementById("battle-damage").innerHTML =
+      battleDamageRows(a, b, "我方 → 对方") + battleDamageRows(b, a, "对方 → 我方");
+  } catch (e) { /* 选择中间态 */ }
+}
+function battleSimulate() {
+  let a = battleReadSide(0), b = battleReadSide(1);
+  a.name = "我方 " + a.sp.zh; b.name = "对方 " + b.sp.zh;
+  [a, b].forEach(s => { s.hp = s.stats.hp; s.maxhp = s.stats.hp; s.pp = s.moves.map(m => m ? m.pp : 0); s.status = "none"; s.sleepTurns = 0; s.toxicCounter = 0; });
+  const rnd = n => Math.floor(Math.random() * n);
+  const log = [];
+  const pickMove = s => {
+    const usable = s.moves.map((m, i) => ({ m, i })).filter(x => x.m && s.pp[x.i] > 0);
+    if (!usable.length) return { m: null, struggle: true };
+    return { m: usable[rnd(usable.length)], struggle: false };
+  };
+  const effLine = e => e === 0 ? "没有效果…" : e < 1 ? "效果不理想" : e > 1 ? "效果绝佳" : "";
+  const statusTag = s => s.status !== "none" ? `【${BATTLE_STATUS_ZH[s.status]}】` : "";
+  const canAct = (s, lines, name) => {
+    if (s.status === "sleep") {
+      if (s.sleepTurns > 0) { s.sleepTurns--; lines.push(`${name} 正在睡觉…`); return false; }
+      s.status = "none"; lines.push(`${name} 醒了！`); return true;
+    }
+    if (s.status === "freeze") {
+      if (rnd(5) === 0) { s.status = "none"; lines.push(`${name} 解除了冰冻！`); return true; }
+      lines.push(`${name} 被冰冻了，无法行动…`); return false;
+    }
+    if (s.status === "par" && rnd(4) === 0) { lines.push(`${name} 身体麻痹，无法行动…`); return false; }
+    return true;
+  };
+  const endOfTurn = (s, lines, name) => {
+    if (s.hp <= 0) return;
+    if (s.status === "burn") { const d = Math.max(1, Math.floor(s.maxhp / 16)); s.hp = Math.max(0, s.hp - d); lines.push(`${name} 受到灼伤伤害 <b>${d}</b>（HP ${s.hp}/${s.maxhp}）`); }
+    else if (s.status === "poison") { const d = Math.max(1, Math.floor(s.maxhp / 8)); s.hp = Math.max(0, s.hp - d); lines.push(`${name} 受到中毒伤害 <b>${d}</b>（HP ${s.hp}/${s.maxhp}）`); }
+    else if (s.status === "toxic") { s.toxicCounter++; const d = Math.max(1, Math.floor(s.maxhp * s.toxicCounter / 16)); s.hp = Math.max(0, s.hp - d); lines.push(`${name} 受到剧毒伤害 <b>${d}</b>（HP ${s.hp}/${s.maxhp}）`); }
+  };
+  const inflictStatus = (def, mv, lines, defName) => {
+    const se = battleMoveStatus(mv);
+    if (!se) return;
+    if (def.status !== "none") return;
+    if (rnd(100) >= se.chance) return;
+    if (se.status === "sleep") { def.status = "sleep"; def.sleepTurns = 1 + rnd(3); }
+    else def.status = se.status;
+    if (se.status === "toxic") def.toxicCounter = 0;
+    lines.push(`${defName} 陷入了${BATTLE_STATUS_ZH[se.status]}状态！`);
+  };
+  let winner = null, turn = 0;
+  while (!winner && turn < 200) {
+    turn++;
+    const lines = [];
+    const pa = pickMove(a), pb = pickMove(b);
+    const ma = pa.struggle ? { zh: "挣扎", power: 50, split: "物理", type: 0, acc: 100, priority: 0, c: [] } : pa.m.m;
+    const mb = pb.struggle ? { zh: "挣扎", power: 50, split: "物理", type: 0, acc: 100, priority: 0, c: [] } : pb.m.m;
+    const sa = a.status === "par" ? Math.floor(a.stats.spe / 2) : a.stats.spe;
+    const sb = b.status === "par" ? Math.floor(b.stats.spe / 2) : b.stats.spe;
+    const first = ma.priority !== mb.priority ? (ma.priority > mb.priority ? "a" : "b")
+      : sa === sb ? (rnd(2) ? "a" : "b") : (sa > sb ? "a" : "b");
+    const order = first === "a" ? [["a", a, b, ma, pa], ["b", b, a, mb, pb]] : [["b", b, a, mb, pb], ["a", a, b, ma, pa]];
+    for (const [who, atk, def, mv, pick] of order) {
+      if (atk.hp <= 0 || def.hp <= 0) continue;
+      const atkName = who === "a" ? a.name : b.name;
+      const defName = who === "a" ? b.name : a.name;
+      if (!canAct(atk, lines, atkName)) continue;
+      if (pick.struggle) {
+        lines.push(`${atkName} 没有可用的招式，使用了挣扎！`);
+      } else {
+        atk.pp[pick.m.i]--;
+        lines.push(`${atkName} 使用了 ${mv.zh}！`);
+      }
+      if (mv.acc && rnd(100) >= mv.acc) { lines.push("但是失败了（未命中）"); continue; }
+      const r = battleMoveDamage(atk, def, mv);
+      if (r.special) {
+        inflictStatus(def, mv, lines, defName);
+        continue;
+      }
+      const hitInfo = battleHitInfo(mv);
+      const hits = hitInfo.hits > 0 ? hitInfo.hits : (2 + rnd(4));
+      let totalDmg = 0;
+      for (let h = 0; h < hits; h++) {
+        const crit = r.alwaysCrit || (r.highCrit ? rnd(8) === 0 : rnd(24) === 0);
+        const lo = crit ? r.critMin / hits : r.perHitMin;
+        const hi = crit ? r.critMax / hits : r.perHitMax;
+        const dmg = Math.max(1, Math.floor(lo) + rnd(Math.floor(hi) - Math.floor(lo) + 1));
+        totalDmg += dmg;
+        if (h === 0) {
+          if (effLine(r.eff)) lines.push(effLine(r.eff) + "！");
+          if (crit) lines.push("击中要害！");
+        }
+      }
+      def.hp = Math.max(0, def.hp - totalDmg);
+      const hitTxt = hits > 1 ? `（${hits}连击）` : "";
+      lines.push(`${defName} 受到 <b>${totalDmg}</b> 点伤害${hitTxt}（剩余 HP ${def.hp}/${def.maxhp}）`);
+      if (r.recoil > 0 && !pick.struggle) {
+        const recoil = Math.max(1, Math.floor(totalDmg * r.recoil));
+        atk.hp = Math.max(0, atk.hp - recoil);
+        lines.push(`${atkName} 受到反作用力伤害 <b>${recoil}</b>（剩余 HP ${atk.hp}/${atk.maxhp}）`);
+      }
+      if (pick.struggle && r.max > 0) {
+        const recoil = Math.max(1, Math.floor(totalDmg / 4));
+        atk.hp = Math.max(0, atk.hp - recoil);
+        lines.push(`${atkName} 受到反作用力伤害 <b>${recoil}</b>（剩余 HP ${atk.hp}/${atk.maxhp}）`);
+      }
+      if (def.hp > 0 && !pick.struggle) inflictStatus(def, mv, lines, defName);
+      if (def.hp <= 0) { lines.push(`<b>${defName} 倒下了！</b>`); winner = who; break; }
+    }
+    if (!winner) { endOfTurn(a, lines, a.name); if (a.hp <= 0) { winner = "b"; lines.push(`<b>${a.name} 倒下了！</b>`); } }
+    if (!winner) { endOfTurn(b, lines, b.name); if (b.hp <= 0) { winner = "a"; lines.push(`<b>${b.name} 倒下了！</b>`); } }
+    log.push(`<div class="battle-turn"><div class="bt-h">回合 ${turn} · ${statusTag(a)} ${statusTag(b)}</div>${lines.map(l => `<div class="bt-l">${l}</div>`).join("")}</div>`);
+  }
+  const bar = (s) => {
+    const pct = Math.max(0, Math.round(s.hp / s.maxhp * 100));
+    const color = pct > 50 ? "#3ec76a" : pct > 20 ? "#e8c93e" : "#e05a5a";
+    const stTag = s.status !== "none" ? ` <span class="status-tag" style="background:${BATTLE_STATUS_COLOR[s.status]}22;color:${BATTLE_STATUS_COLOR[s.status]}">${BATTLE_STATUS_ZH[s.status]}</span>` : "";
+    return `<div class="hp-bar"><i style="width:${pct}%;background:${color}"></i><span>${s.hp}/${s.maxhp}（${pct}%）${stTag}</span></div>`;
+  };
+  const result = winner ? `<b>${winner === "a" ? a.name : b.name} 获胜！</b>（${turn} 回合）` : `<b>${turn} 回合未分胜负（已达回合上限）</b>`;
+  document.getElementById("battle-log").innerHTML = `
+    <div class="battle-hp">
+      <div><div class="bh-name">${a.name}</div>${bar(a)}</div>
+      <div><div class="bh-name">${b.name}</div>${bar(b)}</div>
+    </div>
+    <div class="battle-result">${result}</div>
+    ${log.reverse().join("")}`;
+  document.getElementById("battle-log").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 /* ---------------- 启动 ---------------- */
