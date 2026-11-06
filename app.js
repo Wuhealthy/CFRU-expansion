@@ -1149,6 +1149,138 @@ const BATTLE_NATURES = [
 ];
 const BATTLE_STATUS_ZH = { none: "—", burn: "灼伤", poison: "中毒", toxic: "剧毒", par: "麻痹", sleep: "睡眠", freeze: "冰冻" };
 const BATTLE_STATUS_COLOR = { burn: "#e7633a", poison: "#ab6ac8", toxic: "#9b4dca", par: "#f4d23c", sleep: "#8b7ec8", freeze: "#73cec0" };
+const ABILITY_BY_ID = {};
+D.abilities.forEach(a => ABILITY_BY_ID[a.id] = a);
+function abilEn(id) { const a = ABILITY_BY_ID[id]; return a ? a.en : null; }
+function mvCat(mv, idx) { return (mv.c || []).includes(idx); }
+function isContact(mv) { return mv.f && mv.f[0]; }
+const TYPE_NORMAL = 0, TYPE_FIGHTING = 1, TYPE_FLYING = 2, TYPE_POISON = 3, TYPE_GROUND = 4, TYPE_ROCK = 5, TYPE_BUG = 6, TYPE_GHOST = 7, TYPE_STEEL = 8, TYPE_FIRE = 10, TYPE_WATER = 11, TYPE_GRASS = 12, TYPE_ELECTRIC = 13, TYPE_PSYCHIC = 14, TYPE_ICE = 15, TYPE_DRAGON = 16, TYPE_DARK = 17, TYPE_FAIRY = 23;
+function abilityMods(atk, def, mv, eff) {
+  const aA = abilEn(atk.abilityId), dA = abilEn(def.abilityId);
+  let r = { atkMul: 1, defMul: 1, powerMul: 1, dmgMul: 1, immune: false, moveType: mv.type, stabMul: 1.5, accMul: 1, priorityAdd: 0, noRecoil: false, immuneReason: "" };
+  if (aA) switch (aA) {
+    case "HUGEPOWER": case "PUREPOWER": if (mv.split === "物理") r.atkMul *= 2; break;
+    case "GUTS": if (atk.status && atk.status !== "none") r.atkMul *= 1.5; break;
+    case "HUSTLE": if (mv.split === "物理") { r.atkMul *= 1.5; r.accMul *= 0.8; } break;
+    case "DEFEATIST": if (atk.hp <= atk.maxhp / 2) r.atkMul *= 0.5; break;
+    case "GORILLATACTICS": r.atkMul *= 1.5; break;
+    case "TOXICBOOST": if (atk.status === "poison" || atk.status === "toxic") r.atkMul *= 1.5; break;
+    case "FLAREBOOST": if (atk.status === "burn" && mv.split === "特殊") r.atkMul *= 1.5; break;
+    case "TECHNICIAN": if (mv.power <= 60) r.powerMul *= 1.5; break;
+    case "SHEERFORCE": if (mvCat(mv, 22) || mvCat(mv, 33) || mvCat(mv, 34)) r.powerMul *= 1.3; break;
+    case "RECKLESS": if (mvCat(mv, 13) || mvCat(mv, 14) || mvCat(mv, 15)) r.powerMul *= 1.2; break;
+    case "IRONFIST": if (mvCat(mv, 1)) r.powerMul *= 1.2; break;
+    case "STRONGJAW": if (mvCat(mv, 2)) r.powerMul *= 1.5; break;
+    case "SHARPNESS": if (mvCat(mv, 9)) r.powerMul *= 1.5; break;
+    case "TOUGHCLAWS": if (isContact(mv)) r.powerMul *= 1.3; break;
+    case "MEGALAUNCHER": if (mvCat(mv, 3)) r.powerMul *= 1.5; break;
+    case "PUNKROCK": if (mvCat(mv, 4)) r.powerMul *= 1.3; break;
+    case "STEELWORKER": case "STEELYSPIRIT": if (mv.type === TYPE_STEEL) r.powerMul *= 1.5; break;
+    case "TRANSISTOR": if (mv.type === TYPE_ELECTRIC) r.powerMul *= 1.5; break;
+    case "DRAGONSMAW": if (mv.type === TYPE_DRAGON) r.powerMul *= 1.5; break;
+    case "WATERBUBBLE": if (mv.type === TYPE_WATER) r.powerMul *= 2; break;
+    case "ANALYTIC": if (atk.stats.spe < def.stats.spe) r.powerMul *= 1.3; break;
+    case "NEUROFORCE": if (eff > 1) r.dmgMul *= 1.25; break;
+    case "TINTEDLENS": if (eff < 1 && eff > 0) r.dmgMul *= 2; break;
+    case "ADAPTABILITY": r.stabMul = 2; break;
+    case "AERILATE": if (mv.type === TYPE_NORMAL) { r.moveType = TYPE_FLYING; r.powerMul *= 1.2; } break;
+    case "PIXILATE": if (mv.type === TYPE_NORMAL) { r.moveType = TYPE_FAIRY; r.powerMul *= 1.2; } break;
+    case "REFRIGERATE": if (mv.type === TYPE_NORMAL) { r.moveType = TYPE_ICE; r.powerMul *= 1.2; } break;
+    case "GALVANIZE": if (mv.type === TYPE_NORMAL) { r.moveType = TYPE_ELECTRIC; r.powerMul *= 1.2; } break;
+    case "DRAGONIZE": if (mv.type === TYPE_NORMAL) { r.moveType = TYPE_DRAGON; r.powerMul *= 1.2; } break;
+    case "NORMALIZE": r.moveType = TYPE_NORMAL; r.powerMul *= 1.2; break;
+    case "PRANKSTER": if (mv.split === "变化") r.priorityAdd += 1; break;
+    case "TRIAGE": if (mv.split === "变化" && mv.power === 0) r.priorityAdd += 3; break;
+    case "COMPOUNDEYES": r.accMul *= 1.3; break;
+    case "VICTORYSTAR": r.accMul *= 1.1; break;
+    case "NOGUARD": r.accMul = 999; break;
+    case "ROCKHEAD": case "MAGICGUARD": r.noRecoil = true; break;
+    case "DARKAURA": if (r.moveType === TYPE_DARK) r.dmgMul *= 4/3; break;
+    case "FAIRYAURA": if (r.moveType === TYPE_FAIRY) r.dmgMul *= 4/3; break;
+    case "FLOWERGIFT": if (mv.split === "物理") r.atkMul *= 1.5; break;
+    case "SOLARPOWER": if (mv.split === "特殊") r.atkMul *= 1.5; break;
+    case "PLUS": case "MINUS": if (mv.split === "特殊") r.atkMul *= 1.5; break;
+    case "SLOWSTART": r.atkMul *= 0.5; break;
+    case "RIVALRY": break;
+    case "STAKEOUT": r.powerMul *= 2; break;
+    case "BATTERY": if (mv.split === "特殊") r.powerMul *= 1.3; break;
+    case "POWERSPOT": r.powerMul *= 1.3; break;
+  }
+  if (dA) switch (dA) {
+    case "THICKFAT": if (r.moveType === TYPE_FIRE || r.moveType === TYPE_ICE) r.atkMul *= 0.5; break;
+    case "FURCOAT": if (mv.split === "物理") r.defMul *= 2; break;
+    case "MARVELSCALE": if (def.status && def.status !== "none") r.defMul *= 1.5; break;
+    case "LEVITATE": if (r.moveType === TYPE_GROUND) { r.immune = true; r.immuneReason = "漂浮"; } break;
+    case "VOLTABSORB": case "MOTORDRIVE": if (r.moveType === TYPE_ELECTRIC) { r.immune = true; r.immuneReason = "电气免疫"; } break;
+    case "WATERABSORB": case "DRYSKIN": if (r.moveType === TYPE_WATER) { r.immune = true; r.immuneReason = "水免疫"; } break;
+    case "FLASHFIRE": if (r.moveType === TYPE_FIRE) { r.immune = true; r.immuneReason = "引火"; } break;
+    case "STORMDRAIN": if (r.moveType === TYPE_WATER) { r.immune = true; r.immuneReason = "引水"; } break;
+    case "LIGHTNINGROD": if (r.moveType === TYPE_ELECTRIC) { r.immune = true; r.immuneReason = "避雷针"; } break;
+    case "SAPSIPPER": if (r.moveType === TYPE_GRASS) { r.immune = true; r.immuneReason = "食草"; } break;
+    case "WELLBAKEDBODY": if (r.moveType === TYPE_FIRE) { r.immune = true; r.immuneReason = "烤熟之躯"; } break;
+    case "EARTHEATER": if (r.moveType === TYPE_GROUND) { r.immune = true; r.immuneReason = "食土"; } break;
+    case "SOUNDPROOF": if (mvCat(mv, 4)) { r.immune = true; r.immuneReason = "防音"; } break;
+    case "BULLETPROOF": if (mvCat(mv, 6)) { r.immune = true; r.immuneReason = "防弹"; } break;
+    case "GOODASGOLD": if (mv.split === "变化") { r.immune = true; r.immuneReason = "黄金之躯"; } break;
+    case "WONDERGUARD": if (eff <= 1) { r.immune = true; r.immuneReason = "奇迹守护"; } break;
+    case "FILTER": case "SOLIDROCK": case "PRISMARMOR": if (eff > 1) r.dmgMul *= 0.75; break;
+    case "HEATPROOF": if (r.moveType === TYPE_FIRE) r.dmgMul *= 0.5; break;
+    case "WATERBUBBLE": if (r.moveType === TYPE_FIRE) r.dmgMul *= 0.5; break;
+    case "MULTISCALE": case "SHADOWSHIELD": if (def.hp >= def.maxhp) r.dmgMul *= 0.5; break;
+    case "FLUFFY": if (isContact(mv)) r.dmgMul *= 0.5; if (r.moveType === TYPE_FIRE) r.dmgMul *= 2; break;
+    case "AURAGUARD": if (isContact(mv)) r.dmgMul *= 0.5; break;
+    case "PURIFYINGSALT": if (r.moveType === TYPE_GHOST) r.dmgMul *= 0.5; break;
+    case "PUNKROCK": if (mvCat(mv, 4)) r.dmgMul *= 0.5; break;
+    case "ICESCALES": if (mv.split === "特殊") r.dmgMul *= 0.5; break;
+    case "DRYSKIN": if (r.moveType === TYPE_FIRE) r.dmgMul *= 1.25; break;
+    case "DARKAURA": if (r.moveType === TYPE_DARK) r.dmgMul *= 4/3; break;
+    case "FAIRYAURA": if (r.moveType === TYPE_FAIRY) r.dmgMul *= 4/3; break;
+    case "AURABREAK": r.dmgMul *= 1; break;
+    case "BEADSOFRUIN": if (mv.split === "特殊") r.defMul *= 0.75; break;
+    case "TABLETSOFRUIN": if (mv.split === "物理") r.defMul *= 0.75; break;
+    case "VESSELOFRUIN": if (mv.split === "特殊") r.defMul *= 0.75; break;
+    case "SWORDOFRUIN": if (mv.split === "物理") r.defMul *= 0.75; break;
+    case "FLOWERGIFT": if (mv.split === "特殊") r.defMul *= 1.5; break;
+    case "GRASSPELT": r.defMul *= 1.5; break;
+    case "FRIENDGUARD": r.dmgMul *= 0.75; break;
+  }
+  return r;
+}
+function abilitySpeedMul(side) {
+  const a = abilEn(side.abilityId);
+  if (!a) return 1;
+  switch (a) {
+    case "QUICKFEET": return side.status && side.status !== "none" ? 1.5 : 1;
+    case "SLOWSTART": return 0.5;
+    case "SURGESURFER": return 1;
+    default: return 1;
+  }
+}
+function getFormOptions(sp) {
+  const forms = [];
+  (sp.evolutions || []).forEach(e => {
+    if (e.method === "EVO_MEGA" || e.method === "EVO_AWAKEN") {
+      const target = SPECIES_BY_ID[e.to];
+      if (target) forms.push({ id: e.to, kind: e.method, label: e.text + (e.note || ""), sp: target });
+    }
+  });
+  return forms;
+}
+function applyMegaMoveChange(spId, moves) {
+  if (!moves || !moves.length) return moves;
+  return moves.map(mv => {
+    if (!mv) return mv;
+    if (mv.megaChanges) {
+      for (const c of mv.megaChanges) {
+        if (c.species === spId) {
+          const newMv = MOVE_BY_ID[c.newMove];
+          if (newMv) return newMv;
+        }
+      }
+    }
+    return mv;
+  });
+}
 function battleTypeEff(moveType, defTypes) {
   let eff = 1;
   for (const t of defTypes) {
@@ -1183,11 +1315,17 @@ function battleMovepool(sp) {
   return [...set].filter(id => id && MOVE_BY_ID[id]).sort((a, b) => MOVE_BY_ID[a].zh.localeCompare(MOVE_BY_ID[b].zh, "zh"));
 }
 function battleReadSide(idx) {
-  const sp = SPECIES_BY_ID[+document.getElementById("bs-species-" + idx).value];
+  const baseSp = SPECIES_BY_ID[+document.getElementById("bs-species-" + idx).value];
+  const formId = +document.getElementById("bs-form-" + idx).value || 0;
+  const sp = formId ? SPECIES_BY_ID[formId] : baseSp;
   const level = Math.min(100, Math.max(1, +document.getElementById("bs-level-" + idx).value || 50));
   const natureIdx = +document.getElementById("bs-nature-" + idx).value || 0;
-  const moves = [0, 1, 2, 3].map(i => MOVE_BY_ID[+document.getElementById("bs-move-" + idx + "-" + i).value]).filter(Boolean);
-  return { sp, level, natureIdx, stats: battleCalcStats(sp, level, natureIdx), moves };
+  const allAbIds = [...(sp.abilities || []), ...(sp.hidden || [])];
+  const abilSel = document.getElementById("bs-ability-sel-" + idx);
+  const abilityId = allAbIds.length > 1 ? (+abilSel.value || allAbIds[0]) : (allAbIds[0] || 0);
+  let moves = [0, 1, 2, 3].map(i => MOVE_BY_ID[+document.getElementById("bs-move-" + idx + "-" + i).value]).filter(Boolean);
+  if (formId) moves = applyMegaMoveChange(formId, moves);
+  return { sp, level, natureIdx, abilityId, stats: battleCalcStats(sp, level, natureIdx), moves };
 }
 function battleHitInfo(mv) {
   const cats = mv.c || [];
@@ -1198,7 +1336,10 @@ function battleHitInfo(mv) {
 }
 function battleRecoilFrac(mv) {
   const cats = mv.c || [];
-  if (cats.includes(13) || cats.includes(14) || cats.includes(15)) return 0.25;
+  if (cats.includes(13)) return 0.25;
+  if (cats.includes(14)) return 0.33;
+  if (cats.includes(15)) return 0.5;
+  if (cats.includes(16)) return -1;
   return 0;
 }
 function battleMoveStatus(mv) {
@@ -1224,30 +1365,38 @@ function battleMoveStatus(mv) {
   return { status: s, chance: 10 };
 }
 function battleMoveDamage(atk, def, mv) {
-  const eff = battleTypeEff(mv.type, def.sp.types);
+  const mods = abilityMods(atk, def, mv, battleTypeEff(mv.type, def.sp.types));
+  const eff = battleTypeEff(mods.moveType, def.sp.types);
   const cats = (mv.c || []).map(i => D.moveCats[i].n);
   const alwaysCrit = cats.includes("必中要害类招式");
   const highCrit = cats.includes("易中要害类招式");
-  const stab = atk.sp.types.includes(mv.type);
+  const stab = atk.sp.types.includes(mods.moveType);
   const hitInfo = battleHitInfo(mv);
-  const recoil = battleRecoilFrac(mv);
-  if (mv.power === 1 || mv.power === 0 || eff === 0) return { eff, alwaysCrit, highCrit, stab, min: 0, max: 0, special: true, hitInfo, recoil };
+  let recoil = battleRecoilFrac(mv);
+  if (mods.noRecoil) recoil = 0;
+  if (mods.immune || mv.power === 1 || mv.power === 0 || eff === 0) return { eff, alwaysCrit, highCrit, stab, min: 0, max: 0, special: true, hitInfo, recoil, immune: mods.immune, immuneReason: mods.immuneReason, mods };
   let atkStat = mv.split === "物理" ? atk.stats.atk : atk.stats.spa;
   if (atk.status === "burn" && mv.split === "物理") atkStat = Math.floor(atkStat / 2);
+  atkStat = Math.floor(atkStat * mods.atkMul);
   const A = atkStat;
-  const Dv = mv.split === "物理" ? def.stats.def : def.stats.spd;
-  let base = Math.floor(Math.floor(Math.floor(2 * atk.level / 5 + 2) * mv.power * A / Dv) / 50) + 2;
-  if (stab) base = Math.floor(base * 3 / 2);
+  let Dv = mv.split === "物理" ? def.stats.def : def.stats.spd;
+  Dv = Math.floor(Dv * mods.defMul);
+  let power = Math.floor(mv.power * mods.powerMul);
+  let base = Math.floor(Math.floor(Math.floor(2 * atk.level / 5 + 2) * power * A / Dv) / 50) + 2;
+  if (stab) base = Math.floor(base * mods.stabMul);
   base = Math.max(1, Math.floor(base * eff));
+  base = Math.floor(base * mods.dmgMul);
   const critBase = Math.floor(base * 3 / 2);
-  const min1 = Math.floor((alwaysCrit ? critBase : base) * 85 / 100);
-  const max1 = alwaysCrit ? critBase : base;
-  const critMin1 = Math.floor(critBase * 85 / 100), critMax1 = critBase;
+  const sniperMul = abilEn(atk.abilityId) === "SNIPER" ? 1.5 : 1;
+  const critBase2 = Math.floor(critBase * sniperMul);
+  const min1 = Math.floor((alwaysCrit ? critBase2 : base) * 85 / 100);
+  const max1 = alwaysCrit ? critBase2 : base;
+  const critMin1 = Math.floor(critBase2 * 85 / 100), critMax1 = critBase2;
   const hits = hitInfo.hits > 0 ? hitInfo.hits : 2;
   return { eff, alwaysCrit, highCrit, stab, hitInfo, recoil,
     min: min1 * hits, max: max1 * hits,
     critMin: critMin1 * hits, critMax: critMax1 * hits,
-    perHitMin: min1, perHitMax: max1, special: false };
+    perHitMin: min1, perHitMax: max1, special: false, mods };
 }
 let battleSpecOpts = null;
 function battleSideHTML(idx, title) {
@@ -1255,6 +1404,8 @@ function battleSideHTML(idx, title) {
   return `<div class="battle-side" id="bs-side-${idx}">
     <div class="bs-title ${idx === 0 ? "ours" : "foe"}">${title}</div>
     <select id="bs-species-${idx}" class="bs-species">${battleSpecOpts}</select>
+    <select id="bs-form-${idx}" class="bs-form" style="display:none"></select>
+    <select id="bs-ability-sel-${idx}" class="bs-ability-sel" style="display:none"></select>
     <div class="bs-preview" id="bs-preview-${idx}"></div>
     <div class="bs-nature-row"><label>性格 <select id="bs-nature-${idx}" class="bs-nature">${natureOpts}</select></label>
     <label class="bs-level">等级 <input type="number" id="bs-level-${idx}" value="50" min="1" max="100"></label></div>
@@ -1265,7 +1416,18 @@ function battleSideHTML(idx, title) {
   </div>`;
 }
 function battleUpdateSide(idx) {
-  const sp = SPECIES_BY_ID[+document.getElementById("bs-species-" + idx).value];
+  const baseSp = SPECIES_BY_ID[+document.getElementById("bs-species-" + idx).value];
+  const formSel = document.getElementById("bs-form-" + idx);
+  const formOptions = getFormOptions(baseSp);
+  if (formOptions.length > 0) {
+    formSel.style.display = "";
+    formSel.innerHTML = `<option value="0">原始形态</option>` + formOptions.map(f => `<option value="${f.id}">${f.label}</option>`).join("");
+  } else {
+    formSel.style.display = "none";
+    formSel.innerHTML = "";
+  }
+  const formId = +formSel.value || 0;
+  const sp = formId ? SPECIES_BY_ID[formId] : baseSp;
   const level = Math.min(100, Math.max(1, +document.getElementById("bs-level-" + idx).value || 50));
   const natureIdx = +document.getElementById("bs-nature-" + idx).value || 0;
   const stats = battleCalcStats(sp, level, natureIdx);
@@ -1274,8 +1436,18 @@ function battleUpdateSide(idx) {
     `<div class="bs-spr" style="background:${TYPE_BY_ID[sp.types[0]] ? `color-mix(in srgb, ${TYPE_BY_ID[sp.types[0]].color} 45%, #fff)` : "#eef1f4"}">${spriteCanvas("front", sp.id, "", 64)}</div>
      <div class="bs-types">${typePills(sp.types, true)}</div>`;
   mountSprites(previewEl);
-  const abIds = [...(sp.abilities || []), ...(sp.hidden || [])];
-  const abTxt = abIds.map(id => { const a = D.abilities.find(x => x.id === id); return a ? `<span class="bs-ab${(sp.hidden||[]).includes(id)?" bs-ab-h":""}">${esc(a.zh)}</span>` : ""; }).join("");
+  const abilSel = document.getElementById("bs-ability-sel-" + idx);
+  const allAbIds = [...(sp.abilities || []), ...(sp.hidden || [])];
+  if (allAbIds.length > 1) {
+    abilSel.style.display = "";
+    abilSel.innerHTML = allAbIds.map(id => { const a = ABILITY_BY_ID[id]; return a ? `<option value="${id}">${a.zh}${(sp.hidden||[]).includes(id)?"（隐藏）":""}</option>` : ""; }).join("");
+  } else {
+    abilSel.style.display = "none";
+    abilSel.innerHTML = "";
+  }
+  const abilityId = allAbIds.length > 1 ? (+abilSel.value || allAbIds[0]) : allAbIds[0];
+  if (abilSel.value != abilityId) abilSel.value = abilityId;
+  const abTxt = allAbIds.map(id => { const a = ABILITY_BY_ID[id]; return a ? `<span class="bs-ab${(sp.hidden||[]).includes(id)?" bs-ab-h":""}${id===abilityId?" bs-ab-active":""}">${esc(a.zh)}</span>` : ""; }).join("");
   document.getElementById("bs-ability-" + idx).innerHTML = abTxt ? `特性: ${abTxt}` : "";
   const n = BATTLE_NATURES[natureIdx];
   document.getElementById("bs-stats-" + idx).innerHTML =
@@ -1304,8 +1476,8 @@ function battleUpdateMid() {
     const [a, b] = battleReadAll();
     const mid = document.getElementById("battle-mid-info");
     if (!mid) return;
-    const sa = a.status === "par" ? Math.floor(a.stats.spe / 2) : a.stats.spe;
-    const sb = b.status === "par" ? Math.floor(b.stats.spe / 2) : b.stats.spe;
+    const sa = Math.floor(a.stats.spe * abilitySpeedMul(a) * (a.status === "par" ? 0.5 : 1));
+    const sb = Math.floor(b.stats.spe * abilitySpeedMul(b) * (b.status === "par" ? 0.5 : 1));
     mid.innerHTML = `<div class="bs-speed">速度 <b>${sa}</b> vs <b>${sb}</b></div>
       <div class="bs-first">${sa === sb ? "同速 · 随机先手" : sa > sb ? "我方先手" : "对方先手"}</div>`;
   } catch (e) { /* 选择过程中间态 */ }
@@ -1314,7 +1486,10 @@ function battleDamageRows(atkSide, defSide, who) {
   const rows = atkSide.moves.map(mv => {
     if (!mv) return `<tr><td colspan="5" class="dim">（空）</td></tr>`;
     const r = battleMoveDamage(atkSide, defSide, mv);
-    const t = TYPE_BY_ID[mv.type] || { zh: "?", color: "#999" };
+    const t = TYPE_BY_ID[(r.mods && r.mods.moveType) || mv.type] || { zh: "?", color: "#999" };
+    if (r.immune) {
+      return `<tr><td>${esc(mv.zh)}</td><td>${typePill(t, true)}</td><td class="num">${mv.acc || "必中"}</td><td colspan="2" class="dim"><span class="immune-tag">${r.immuneReason || "特性免疫"}</span></td></tr>`;
+    }
     if (r.special) {
       const se = battleMoveStatus(mv);
       const tag = se ? `<span class="status-tag" style="background:${BATTLE_STATUS_COLOR[se.status]}22;color:${BATTLE_STATUS_COLOR[se.status]}">${BATTLE_STATUS_ZH[se.status]}</span>` : "";
@@ -1323,8 +1498,9 @@ function battleDamageRows(atkSide, defSide, who) {
     const defMax = defSide.stats.hp;
     const pct = v => (v / defMax * 100).toFixed(1) + "%";
     const hitTag = r.hitInfo.label ? `<span class="hit-tag">${r.hitInfo.label}</span>` : "";
-    const recoilTag = r.recoil > 0 ? `<span class="recoil-tag">反作用力</span>` : "";
-    return `<tr><td>${esc(mv.zh)}${r.stab ? '<span class="stab-tag">本系</span>' : ""}${hitTag}</td>
+    const recoilTag = r.recoil > 0 ? `<span class="recoil-tag">反作用力${r.recoil === -1 ? "(半HP)" : Math.round(r.recoil*100)+"%"}</span>` : "";
+    const typeChgTag = (r.mods && r.mods.moveType !== mv.type) ? `<span class="type-chg-tag">${TYPE_BY_ID[r.mods.moveType].zh}</span>` : "";
+    return `<tr><td>${esc(mv.zh)}${r.stab ? '<span class="stab-tag">本系</span>' : ""}${hitTag}${typeChgTag}</td>
       <td>${typePill(t, true)}</td><td class="num">${mv.acc || "必中"}</td>
       <td class="num">${r.min}–${r.max}${r.highCrit ? '<span class="crit-tag">易要害</span>' : ""}${r.alwaysCrit ? '<span class="crit-tag">必中要害</span>' : ""}${recoilTag}</td>
       <td class="num">${pct(r.min)}–${pct(r.max)} ${battleEffText(r.eff)}</td></tr>`;
@@ -1341,7 +1517,7 @@ function renderBattle() {
   }
   app.innerHTML = `
     <div class="page-title">对战模拟器</div>
-    <div class="page-sub">简化计算：等级 · 种族值 · 性格 · 属性相性 · 本系加成 · 要害 · 命中 · 优先度 · 多连击 · 反作用力 · 状态异常。未计入特性效果、道具、天气、场地、能力升降；能力值按 6V / 0 努力 计算。</div>
+    <div class="page-sub">简化计算：等级 · 种族值 · 性格 · 特性效果 · 属性相性 · 本系加成 · 要害 · 命中 · 优先度 · 多连击 · 反作用力 · 状态异常 · 觉醒/Mega形态切换 · Mega招式转换。未计入道具、天气、场地、能力升降；能力值按 6V / 0 努力 计算。</div>
     <div class="battle-grid">
       ${battleSideHTML(0, "我方")}
       <div class="battle-mid">
@@ -1356,8 +1532,10 @@ function renderBattle() {
   const refresh = () => { battleUpdateSide(0); battleUpdateSide(1); renderBattleDamage(); };
   [0, 1].forEach(idx => {
     document.getElementById("bs-species-" + idx).addEventListener("change", () => { battleUpdateSide(idx); renderBattleDamage(); });
+    document.getElementById("bs-form-" + idx).addEventListener("change", () => { battleUpdateSide(idx); renderBattleDamage(); });
     document.getElementById("bs-level-" + idx).addEventListener("input", () => { battleUpdateSide(idx); renderBattleDamage(); });
     document.getElementById("bs-nature-" + idx).addEventListener("change", () => { battleUpdateSide(idx); renderBattleDamage(); });
+    document.getElementById("bs-ability-sel-" + idx).addEventListener("change", () => { battleUpdateSide(idx); renderBattleDamage(); });
     [0, 1, 2, 3].forEach(i => document.getElementById("bs-move-" + idx + "-" + i).addEventListener("change", renderBattleDamage));
   });
   document.getElementById("battle-run").addEventListener("click", () => battleSimulate());
@@ -1387,6 +1565,7 @@ function battleSimulate() {
   };
   const effLine = e => e === 0 ? "没有效果…" : e < 1 ? "效果不理想" : e > 1 ? "效果绝佳" : "";
   const statusTag = s => s.status !== "none" ? `【${BATTLE_STATUS_ZH[s.status]}】` : "";
+  const abilName = s => { const a = ABILITY_BY_ID[s.abilityId]; return a ? a.zh : ""; };
   const canAct = (s, lines, name) => {
     if (s.status === "sleep") {
       if (s.sleepTurns > 0) { s.sleepTurns--; lines.push(`${name} 正在睡觉…`); return false; }
@@ -1410,6 +1589,18 @@ function battleSimulate() {
     if (!se) return;
     if (def.status !== "none") return;
     if (rnd(100) >= se.chance) return;
+    const dA = abilEn(def.abilityId);
+    if (se.status === "burn" && (def.sp.types.includes(TYPE_FIRE) || dA === "WATERBUBBLE")) return;
+    if (se.status === "poison" && (def.sp.types.includes(TYPE_POISON) || def.sp.types.includes(TYPE_STEEL))) return;
+    if (se.status === "toxic" && (def.sp.types.includes(TYPE_POISON) || def.sp.types.includes(TYPE_STEEL))) return;
+    if (se.status === "par" && def.sp.types.includes(TYPE_ELECTRIC)) return;
+    if (se.status === "freeze" && def.sp.types.includes(TYPE_ICE)) return;
+    if (se.status === "sleep" && dA === "INSOMNIA") return;
+    if (se.status === "sleep" && dA === "VITALSPIRIT") return;
+    if (se.status === "par" && dA === "LIMBER") return;
+    if (se.status === "burn" && dA === "WATERVEIL") return;
+    if (se.status === "poison" && dA === "IMMUNITY") return;
+    if (se.status === "freeze" && dA === "MAGMAARMOR") return;
     if (se.status === "sleep") { def.status = "sleep"; def.sleepTurns = 1 + rnd(3); }
     else def.status = se.status;
     if (se.status === "toxic") def.toxicCounter = 0;
@@ -1420,14 +1611,18 @@ function battleSimulate() {
     turn++;
     const lines = [];
     const pa = pickMove(a), pb = pickMove(b);
-    const ma = pa.struggle ? { zh: "挣扎", power: 50, split: "物理", type: 0, acc: 100, priority: 0, c: [] } : pa.m.m;
-    const mb = pb.struggle ? { zh: "挣扎", power: 50, split: "物理", type: 0, acc: 100, priority: 0, c: [] } : pb.m.m;
-    const sa = a.status === "par" ? Math.floor(a.stats.spe / 2) : a.stats.spe;
-    const sb = b.status === "par" ? Math.floor(b.stats.spe / 2) : b.stats.spe;
-    const first = ma.priority !== mb.priority ? (ma.priority > mb.priority ? "a" : "b")
+    const ma = pa.struggle ? { zh: "挣扎", power: 50, split: "物理", type: 0, acc: 100, priority: 0, c: [], f: [true] } : pa.m.m;
+    const mb = pb.struggle ? { zh: "挣扎", power: 50, split: "物理", type: 0, acc: 100, priority: 0, c: [], f: [true] } : pb.m.m;
+    const modsA = abilityMods(a, b, ma, battleTypeEff(ma.type, b.sp.types));
+    const modsB = abilityMods(b, a, mb, battleTypeEff(mb.type, a.sp.types));
+    const sa = Math.floor(a.stats.spe * abilitySpeedMul(a) * (a.status === "par" ? 0.5 : 1));
+    const sb = Math.floor(b.stats.spe * abilitySpeedMul(b) * (b.status === "par" ? 0.5 : 1));
+    const priA = (ma.priority || 0) + modsA.priorityAdd;
+    const priB = (mb.priority || 0) + modsB.priorityAdd;
+    const first = priA !== priB ? (priA > priB ? "a" : "b")
       : sa === sb ? (rnd(2) ? "a" : "b") : (sa > sb ? "a" : "b");
-    const order = first === "a" ? [["a", a, b, ma, pa], ["b", b, a, mb, pb]] : [["b", b, a, mb, pb], ["a", a, b, ma, pa]];
-    for (const [who, atk, def, mv, pick] of order) {
+    const order = first === "a" ? [["a", a, b, ma, pa, modsA], ["b", b, a, mb, pb, modsB]] : [["b", b, a, mb, pb, modsB], ["a", a, b, ma, pa, modsA]];
+    for (const [who, atk, def, mv, pick, mods] of order) {
       if (atk.hp <= 0 || def.hp <= 0) continue;
       const atkName = who === "a" ? a.name : b.name;
       const defName = who === "a" ? b.name : a.name;
@@ -1438,8 +1633,13 @@ function battleSimulate() {
         atk.pp[pick.m.i]--;
         lines.push(`${atkName} 使用了 ${mv.zh}！`);
       }
-      if (mv.acc && rnd(100) >= mv.acc) { lines.push("但是失败了（未命中）"); continue; }
+      if (mods.immune) { lines.push(`${defName} 的${mods.immuneReason || "特性"}免疫了攻击！`); continue; }
+      let acc = mv.acc;
+      if (mods.accMul >= 999) acc = 100;
+      else if (mods.accMul !== 1 && acc) acc = Math.min(100, Math.floor(acc * mods.accMul));
+      if (acc && rnd(100) >= acc) { lines.push("但是失败了（未命中）"); continue; }
       const r = battleMoveDamage(atk, def, mv);
+      if (r.immune) { lines.push(`${defName} 的${r.immuneReason || "特性"}免疫了攻击！`); continue; }
       if (r.special) {
         inflictStatus(def, mv, lines, defName);
         continue;
@@ -1466,6 +1666,11 @@ function battleSimulate() {
         atk.hp = Math.max(0, atk.hp - recoil);
         lines.push(`${atkName} 受到反作用力伤害 <b>${recoil}</b>（剩余 HP ${atk.hp}/${atk.maxhp}）`);
       }
+      if (r.recoil === -1 && !pick.struggle) {
+        const recoil = Math.floor(atk.maxhp / 2);
+        atk.hp = Math.max(0, atk.hp - recoil);
+        lines.push(`${atkName} 受到反作用力伤害 <b>${recoil}</b>（剩余 HP ${atk.hp}/${atk.maxhp}）`);
+      }
       if (pick.struggle && r.max > 0) {
         const recoil = Math.max(1, Math.floor(totalDmg / 4));
         atk.hp = Math.max(0, atk.hp - recoil);
@@ -1487,8 +1692,8 @@ function battleSimulate() {
   const result = winner ? `<b>${winner === "a" ? a.name : b.name} 获胜！</b>（${turn} 回合）` : `<b>${turn} 回合未分胜负（已达回合上限）</b>`;
   document.getElementById("battle-log").innerHTML = `
     <div class="battle-hp">
-      <div><div class="bh-name">${a.name}</div>${bar(a)}</div>
-      <div><div class="bh-name">${b.name}</div>${bar(b)}</div>
+      <div><div class="bh-name">${a.name}（${abilName(a)}）</div>${bar(a)}</div>
+      <div><div class="bh-name">${b.name}（${abilName(b)}）</div>${bar(b)}</div>
     </div>
     <div class="battle-result">${result}</div>
     ${log.reverse().join("")}`;

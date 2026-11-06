@@ -424,6 +424,10 @@ a { color: inherit; text-decoration: none; }
 .status-tag { margin-left: 5px; font-size: 10px; font-weight: 700; border-radius: 999px; padding: 1px 6px; vertical-align: 1px; }
 .hit-tag { margin-left: 5px; font-size: 10px; font-weight: 700; border-radius: 999px; padding: 1px 6px; vertical-align: 1px; background: #e3f2fd; color: #1565c0; }
 .recoil-tag { margin-left: 5px; font-size: 10px; font-weight: 700; border-radius: 999px; padding: 1px 6px; vertical-align: 1px; background: #fce4ec; color: #c62828; }
+.immune-tag { margin-left: 5px; font-size: 10px; font-weight: 700; border-radius: 999px; padding: 1px 6px; vertical-align: 1px; background: #e8e8e8; color: #666; }
+.type-chg-tag { margin-left: 5px; font-size: 10px; font-weight: 700; border-radius: 999px; padding: 1px 6px; vertical-align: 1px; background: #e3f2fd; color: #1565c0; }
+.bs-form, .bs-ability-sel { width: 100%; margin: 3px 0; padding: 5px 8px; border: 1px solid var(--line); border-radius: 8px; font-size: 13px; background: #fff; }
+.bs-ab-active { box-shadow: 0 0 0 2px var(--accent); }
 @media (max-width: 860px) {
   .battle-grid { grid-template-columns: 1fr; }
   .battle-mid { flex-direction: row; }
