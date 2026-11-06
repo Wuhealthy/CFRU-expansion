@@ -288,6 +288,7 @@ a { color: inherit; text-decoration: none; }
 .evo-branch { display: flex; align-items: center; }
 .evo-kids { display: flex; flex-direction: column; gap: 12px; }
 .evo-row { display: flex; align-items: center; }
+.evo-indent { flex: none; }
 .evo-node { width: 132px; flex: none; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
 .evo-pic {
   width: 80px; height: 80px; border-radius: 50%; overflow: hidden;

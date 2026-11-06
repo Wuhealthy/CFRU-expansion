@@ -690,6 +690,7 @@ function evoChainHTML(s) {
     if (!memberSet.has(id)) { memberSet.add(id); members.push(id); }
   }));
   const isRegional = id => { const sp = SPECIES_BY_ID[id]; return sp && sp.formKind === "regional"; };
+  const EVO_COL_PX = 292;  // 一列的宽度 = .evo-node 132 + .evo-arrow 160 (style.css), 用于各行同列对齐
   const allEdges = [];
   members.forEach(id => speciesEvolutions(id).forEach(e => {
     if (e.to == null || !memberSet.has(e.to)) return;
@@ -722,6 +723,13 @@ function evoChainHTML(s) {
       || (SPECIES_BY_ID[a].dex || 9999) - (SPECIES_BY_ID[b].dex || 9999) || a - b);
   (roots.length ? roots : mainNodes.filter(id => !crossHeads.has(id)).slice(0, 1)).forEach(r => walk(r, 0));
   crossEdges.forEach(x => walk(x.e.to, (level[x.from] || 0) + 1));  // 跨形态线后续进化也标层级
+  // 列对齐: 同 dex 在主链里的层级 = 它应处的列号, 地区形态行按此缩进,
+  // 让同名的节点上下对齐 (如各行第 1 列都是皮卡丘, 只有 Y 坐标不同)
+  const dexLevel = {};
+  members.forEach(id => {
+    const sp = SPECIES_BY_ID[id];
+    if (level[id] != null && sp.dex != null && dexLevel[sp.dex] == null) dexLevel[sp.dex] = level[id];
+  });
   // 画成树: 每个节点挂在一个来源下 (主链取上一级的来源, 特殊形态取其基础形态), 来源右侧并排
   // 它的所有走向 (主链进化在前, 超级进化/超极巨化/觉醒形态等在后), 箭头上写方式, 再下一行写条件/道具
   const inEdge = {}, parentOf = {}, extraKids = [];
@@ -761,7 +769,7 @@ function evoChainHTML(s) {
   // 阶段: 起点为「未进化」, 每经一次普通进化 +1 阶; 特殊形态写其方式 (超级进化/超极巨化/觉醒形态…)
   const stageOf = (e, depth) => EVO_MAIN_SKIP[e.method] ? [e.text, depth] : [`${depth + 1}阶进化`, depth + 1];
   const seen = new Set();
-  const branch = (id, stage, depth) => {
+  const branch = (id, stage, depth, indent) => {
     seen.add(id);
     const kids = (children[id] || []).filter(k => !seen.has(k));
     const rows = kids.map(k => {
@@ -769,7 +777,7 @@ function evoChainHTML(s) {
       return `<div class="evo-row">${arrow(id, k)}${branch(k, st, d)}</div>`;
     }).concat((leaves[id] || []).map(x =>
       `<div class="evo-row">${arrow(id, x.to)}<div class="evo-branch">${node(x.to, stageOf(x.e, depth)[0], true)}</div></div>`));
-    return `<div class="evo-branch">${node(id, stage)}${rows.length ? `<div class="evo-kids">${rows.join("")}</div>` : ""}</div>`;
+    return `<div class="evo-branch">${indent ? `<div class="evo-indent" style="width:${indent * EVO_COL_PX}px"></div>` : ""}${node(id, stage)}${rows.length ? `<div class="evo-kids">${rows.join("")}</div>` : ""}</div>`;
   };
   // 等价重复根折叠: 同名同形态标签、自己没有主进化线的根 (如 15 种限定帽子皮卡丘都只是
   // 超极巨化的来源, 目标是同一只且已在主链渲染) 只画第一个, 避免整屏重复行
@@ -784,14 +792,19 @@ function evoChainHTML(s) {
     }
     return true;
   });
-  // 跨地区形态行: 行首复制来源节点 (ref=true 不重复高亮当前页), 阶段取它在主链里的实际层级
+  // 跨地区形态行: 行首复制来源节点 (ref=true 不重复高亮当前页), 阶段取它在主链里的实际层级,
+  // 并按该层级缩进 —— 与主链同名节点上下对齐
   const crossRows = crossEdges.slice().sort((a, b) => a.e.to - b.e.to).map(x => {
     const lv = level[x.from] || 0;
     const [st, d] = stageOf(x.e, lv);
-    return `<div class="evo-branch">${node(x.from, lv ? `${lv}阶进化` : "未进化", true)}
+    return `<div class="evo-branch"><div class="evo-indent" style="width:${lv * EVO_COL_PX}px"></div>${node(x.from, lv ? `${lv}阶进化` : "未进化", true)}
       <div class="evo-kids"><div class="evo-row">${arrow(x.from, x.e.to)}${branch(x.e.to, st, d)}</div></div></div>`;
   }).join("");
-  return `<div class="evo-chain">${renderedRoots.map(id => branch(id, "未进化", 0)).join("")}${crossRows}</div>`;
+  return `<div class="evo-chain">${renderedRoots.map(id => {
+    const sp = SPECIES_BY_ID[id];
+    const cols = sp.formKind === "regional" ? (dexLevel[sp.dex] || 0) : 0;  // 地区根按同 dex 默认形态的列对齐
+    return branch(id, cols ? `${cols}阶进化` : "未进化", cols, cols);
+  }).join("")}${crossRows}</div>`;
 }
 
 function moveRow(mid, lv, tmNo) {
