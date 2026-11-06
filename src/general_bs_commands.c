@@ -150,7 +150,8 @@ void atk02_attackstring(void)
 
 	if (gBattleExecBuffer) return;
 
-	if (gStatuses3[gBankAttacker] & STATUS3_CHARGED_UP && moveType == TYPE_ELECTRIC)
+	if (gStatuses3[gBankAttacker] & STATUS3_CHARGED_UP
+	&& (moveType == TYPE_ELECTRIC || gCurrentMove == MOVE_MAGNETICPULSE)) //钢磁脉冲：消耗充电状态（描述承诺）
 		{
     		gNewBS->ElectroCounter[gBankAttacker] = FALSE;
 		}

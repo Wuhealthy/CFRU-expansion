@@ -1356,7 +1356,8 @@ void atkFF26_attackstringnoprotean(void)
 	u8 moveType = gBattleStruct->dynamicMoveType;
 
 	//与 atk02_attackstring 相同口径：使用电属性招式（含变化招）即消耗充电状态
-	if (gStatuses3[gBankAttacker] & STATUS3_CHARGED_UP && moveType == TYPE_ELECTRIC)
+	if (gStatuses3[gBankAttacker] & STATUS3_CHARGED_UP
+	&& (moveType == TYPE_ELECTRIC || gCurrentMove == MOVE_MAGNETICPULSE)) //钢磁脉冲：消耗充电状态（描述承诺）
 		gNewBS->ElectroCounter[gBankAttacker] = FALSE;
 
 	if (!(gHitMarker & (HITMARKER_NO_ATTACKSTRING | HITMARKER_ATTACKSTRING_PRINTED)))
