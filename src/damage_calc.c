@@ -4824,7 +4824,7 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 		&& data->moveType != TYPE_ELECTRIC
 		&& gCurrentMove != MOVE_MAGNETICPULSE
 		&& data->atkStatus3 & STATUS3_CHARGED_UP)
-		power *= 2;
+		power = (power * 13) / 10;
 
 	//Magnetic Pulse: consumes Charge status for 2x power
 	if (data->atkStatus3 & STATUS3_CHARGED_UP && gCurrentMove == MOVE_MAGNETICPULSE)
