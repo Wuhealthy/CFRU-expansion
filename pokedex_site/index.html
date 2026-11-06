@@ -9,7 +9,7 @@
 <title>火红物语图鉴</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<link rel="stylesheet" href="style.css?v=9eb96b57">
+<link rel="stylesheet" href="style.css?v=d9a81a34">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%23ee1515' stroke='%23333' stroke-width='6'/><path d='M4 50a46 46 0 0 1 92 0z' fill='%23f5f5f5'/><circle cx='50' cy='50' r='16' fill='%23f5f5f5' stroke='%23333' stroke-width='6'/><circle cx='50' cy='50' r='8' fill='%23fff' stroke='%23333' stroke-width='4'/></svg>">
 </head>
 <body>
@@ -30,6 +30,9 @@
   <span class="lang-switch" title="简体 / 繁体">
     <button type="button" data-lang="hans" onclick="setLang('hans')">简</button><button type="button" data-lang="hant" onclick="setLang('hant')">繁</button>
   </span>
+  <span class="theme-switch" title="日间 / 夜间 / 护眼">
+    <button type="button" data-theme-btn="light" onclick="setTheme('light')">☀</button><button type="button" data-theme-btn="dark" onclick="setTheme('dark')">🌙</button><button type="button" data-theme-btn="sepia" onclick="setTheme('sepia')">🍃</button>
+  </span>
 </header>
 <div id="offline-status" class="offline-status hidden" role="status" aria-live="polite"></div>
 <main id="app">
@@ -41,9 +44,9 @@
   <span aria-hidden="true">↑</span>回到顶部
 </button>
 <div id="popup-mask" class="popup-mask hidden"><div id="popup" class="popup"></div></div>
-<script src="data/data.js?v=4d1f8a0f"></script>
-<script>window.SPRITE_VER="b0919b7b"</script>
-<script src="app.js?v=a979dfd3"></script>
+<script src="data/data.js?v=9c0933de"></script>
+<script>window.SPRITE_VER="348b3029"</script>
+<script src="app.js?v=1ecd4ca6"></script>
 <script src="pwa.js?v=6b8f390d"></script>
 </body>
 </html>

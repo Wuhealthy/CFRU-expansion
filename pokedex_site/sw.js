@@ -11,9 +11,9 @@ const CORE_FILES = [
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./data/data.js",
+  "./sprites/manifest.json",
 ];
-const SPRITE_CHUNK = 64;  // 每 64 个编号一个 sprites/bundle_N.js (约 170KB); 必须与 extract_data.py / app.js 一致
-const BUNDLE_BATCH = 8;   // bundle 数量少 (~25 个) 单个大, 8 个并行刚好; github.io 是 HTTP/2 单连接多路复用
+const BUNDLE_BATCH = 16;  // bundle 数量少 (~25 个) 单个大, 16 个并行加速; github.io 是 HTTP/2 单连接多路复用
 const SCOPE_URL = self.registration.scope;
 let offlinePreparation = null;
 
@@ -66,19 +66,13 @@ self.addEventListener("message", event => {
     offlinePreparation = (async () => {
       try {
         const cache = await caches.open(CACHE_NAME);
-        const dataUrl = new URL("data/data.js", SCOPE_URL);
-        const dataResponse = await cache.match(dataUrl);
-        if (!dataResponse) throw new Error("Offline data file is missing");
-        const source = await dataResponse.text();
-        const assignment = source.indexOf("=");
-        if (assignment < 0) throw new Error("Offline data has an invalid format");
-        const data = JSON.parse(source.slice(assignment + 1).trim().replace(/;\s*$/, ""));
-        if (!Array.isArray(data.species)) throw new Error("Offline species data is missing");
+        const manifestUrl = new URL("sprites/manifest.json", SCOPE_URL);
+        const manifestResponse = await cache.match(manifestUrl);
+        if (!manifestResponse) throw new Error("Sprite manifest is missing");
+        const manifest = await manifestResponse.json();
+        if (!Array.isArray(manifest.bundles)) throw new Error("Sprite manifest has no bundle list");
 
-        const ids = [...new Set(data.species.map(species => species.id))];
-        const chunkSet = new Set(ids.map(id => Math.floor(id / SPRITE_CHUNK)));
-        const urls = [...chunkSet].sort((a, b) => a - b)
-          .map(c => new URL(`sprites/bundle_${c}.js`, SCOPE_URL).href);
+        const urls = manifest.bundles.map(fn => new URL("sprites/" + fn, SCOPE_URL).href);
         // 整个清单最多重试 3 次 (网络间歇被重置时, 已缓存的文件靠 cache.match 秒过, 从断点继续)
         for (let attempt = 1; ; attempt++) {
           try {
@@ -95,7 +89,7 @@ self.addEventListener("message", event => {
           } catch (error) {
             if (attempt >= 3) throw error;
             console.error(`Offline sprite cache attempt ${attempt} failed, retrying`, error);
-            await new Promise(resolve => setTimeout(resolve, attempt * 4000));
+            await new Promise(resolve => setTimeout(resolve, attempt * 2000));
           }
         }
 

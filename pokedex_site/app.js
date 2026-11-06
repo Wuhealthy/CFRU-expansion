@@ -68,6 +68,18 @@ window.setLang = function (l) {
   document.querySelectorAll(".lang-switch button").forEach(b => b.classList.toggle("on", b.dataset.lang === l));
   localize(document.body);
 };
+window.setTheme = function (t) {
+  document.documentElement.setAttribute("data-theme", t);
+  localStorage.setItem("pkdx_theme", t);
+  document.querySelectorAll(".theme-switch button").forEach(b => b.classList.toggle("on", b.dataset.themeBtn === t));
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = t === "dark" ? "#1a1d24" : t === "sepia" ? "#f0e6d2" : "#ee1515";
+};
+(function () {
+  const saved = localStorage.getItem("pkdx_theme");
+  if (saved) setTheme(saved);
+  else document.querySelector('.theme-switch button[data-theme-btn="light"]').classList.add("on");
+})();
 
 /* ---------------- 基础索引 ---------------- */
 const TYPE_BY_ID = {};        D.types.forEach(t => TYPE_BY_ID[t.id] = t);
@@ -1103,7 +1115,7 @@ function renderItemRows() {
 
 /* ---------------- 属性相性页 ---------------- */
 function renderTypes() {
-  const shown = TYPES_SHOWN;
+  const shown = SPECIES_FILTER_TYPES;
   const head = shown.map(t => `<th title="${esc(t.zh)}">${esc(t.zh)}</th>`).join("");
   const rows = shown.map(at => {
     const cells = shown.map(df => {

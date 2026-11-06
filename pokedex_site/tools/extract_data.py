@@ -8,6 +8,9 @@ import json
 import os
 import re
 import shutil
+import sys
+
+FORCE_IMAGES = "--force-images" in sys.argv
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # CFRU-expansion
 DPE = os.path.normpath(os.path.join(ROOT, "..", "Dynamic-Pokemon-Expansion-Gen-9"))
@@ -1391,11 +1394,11 @@ def copy_png(src, dst, crop=None):
 
 for sid, fn in front_map.items():
     dst = os.path.join(OUT, "sprites", "front", "%d.png" % sid)
-    if not os.path.exists(dst):
+    if FORCE_IMAGES or not os.path.exists(dst):
         copy_png(gfx_png[fn], dst)
 for sid, fn in icon_map.items():
     dst = os.path.join(OUT, "sprites", "icon", "%d.png" % sid)
-    if not os.path.exists(dst):
+    if FORCE_IMAGES or not os.path.exists(dst):
         copy_png(gfx_png[fn], dst, crop=(0, 0, 32, 32))
 print("front: %d, icons: %d" % (len(front_map), len(icon_map)))
 
@@ -1486,7 +1489,7 @@ for sid, fn in front_map.items():
     if not src_png:
         continue
     dst = os.path.join(shiny_front_dir, "%d.png" % sid)
-    if os.path.exists(dst):
+    if not FORCE_IMAGES and os.path.exists(dst):
         shiny_count += 1
         continue
     try:
@@ -1562,7 +1565,11 @@ for sub in ("front", "icon", "front_shiny"):  # 按个体 .js 不再产出, 清�
     for fn in os.listdir(d):
         if fn.endswith(".js"):
             os.remove(os.path.join(d, fn))
+manifest_path = os.path.join(OUT, "sprites", "manifest.json")
+with open(manifest_path, "w") as mf:
+    json.dump({"bundles": sorted("bundle_%d.js" % c for c in chunks), "chunk": SPRITE_CHUNK}, mf)
 print("加密精灵图: front %d, icon %d, front_shiny %d → %d 个 bundle%s" % (len(n1), len(n2), len(n3), len(chunks), " (保留明文PNG)" if KEEP_PNG else ", 明文PNG已删除"))
+print("精灵图清单: %d 个 bundle → sprites/manifest.json" % len(chunks))
 
 # ---------------------------------------------------------------- 繁体中文 (OpenCC 简→台湾繁体)
 # 页面在浏览器端按需把简体转成繁体, 这里只打包网站语料(数据 + 页面文字)实际用到的单字和词组。
