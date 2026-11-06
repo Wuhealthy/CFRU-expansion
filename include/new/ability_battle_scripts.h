@@ -185,6 +185,7 @@ extern const u8 BattleScript_AngerShellActivates[];
 extern const u8 BattleScript_CudChew[];
 extern const u8 BattleScript_ElectromorphosisActivates[];
 extern const u8 BattleScript_ElectromorphosisActivatess[];
+extern const u8 BattleScript_HighVoltageCharge[];
 extern const u8 BattleScript_IceCrystalPurgeActivates[];
 extern const u8 BattleScript_RevivalActivates[];
 extern const u8 BattleScript_NirvanaRevive[];

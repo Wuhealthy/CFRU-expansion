@@ -123,6 +123,7 @@ ability_battle_scripts.s
 .global BattleScript_CudChew
 .global BattleScript_ElectromorphosisActivates
 .global BattleScript_ElectromorphosisActivatess
+.global BattleScript_HighVoltageCharge
 .global BattleScript_IceCrystalPurgeActivates
 .global BattleScript_RevivalActivates
 .global BattleScript_NirvanaRevive
@@ -1818,6 +1819,16 @@ BattleScript_ElectromorphosisActivatess:
 	setword BATTLE_STRING_LOADER gText_ElectromorphosisActivatess
 	printstring 0x184
 	playanimation BANK_SCRIPTING ANIM_CHARGE2 0x0
+	waitmessage DELAY_1SECOND
+	call BattleScript_AbilityPopUpRevert
+	end3
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+BattleScript_HighVoltageCharge:
+	call BattleScript_AbilityPopUp
+	playanimation BANK_SCRIPTING ANIM_CHARGE2 0x0
+	setword BATTLE_STRING_LOADER gText_HighVoltageCharge
+	printstring 0x184
 	waitmessage DELAY_1SECOND
 	call BattleScript_AbilityPopUpRevert
 	end3

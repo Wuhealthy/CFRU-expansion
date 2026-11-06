@@ -998,9 +998,29 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 						gBattlescriptCurrInstr = BattleScript_YawnMakesAsleep;
 						effect = 1;
 					}
-					break;
+				break;
 
-				case ABILITY_MOXIE:
+			case ABILITY_HIGHVOLTAGE:
+				//高压蓄能：变化招式成功生效→置位充电（消耗由 end_turn 钢磁脉冲模式处理）
+				if (arg1 != ARG_IN_FUTURE_ATTACK
+				&& BATTLER_ALIVE(gBankAttacker))
+				{
+					if (SPLIT(originallyUsedMove) == SPLIT_STATUS)
+					{
+						if (MOVE_HAD_EFFECT
+						&& !(gStatuses3[gBankAttacker] & STATUS3_CHARGED_UP))
+						{
+							gStatuses3[gBankAttacker] |= STATUS3_CHARGED_UP;
+							gBattleScripting.bank = gBankAttacker;
+							BattleScriptPushCursor();
+							gBattlescriptCurrInstr = BattleScript_HighVoltageCharge;
+							effect = 1;
+						}
+					}
+				}
+				break;
+
+			case ABILITY_MOXIE:
 				case ABILITY_CHILLINGNEIGH:
 				#ifdef ABILITY_ASONEICERIDER
 				case ABILITY_ASONEICERIDER:

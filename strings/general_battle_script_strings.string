@@ -573,3 +573,6 @@
 
 #org @FieryBarrierHealString
 [SCRIPTING_BANK]被炽炎障壁包裹，\n回复了体力！
+
+#org @gText_HighVoltageCharge
+[SCRIPTING_BANK]\n蓄能完毕，下一招攻击招式威力将翻倍！

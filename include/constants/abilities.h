@@ -374,5 +374,6 @@
 #define ABILITY_CRESCENTSLUMBER                      368 // 新月祈眠
 #define ABILITY_DOUBLEBARREL                         369
 #define ABILITY_LEYLINEGUARD                         370 // 地脉恒护
+#define ABILITY_HIGHVOLTAGE                          371 // 高压蓄能
 
-#define ABILITIES_COUNT (ABILITY_LEYLINEGUARD + 1)
+#define ABILITIES_COUNT (ABILITY_HIGHVOLTAGE + 1)

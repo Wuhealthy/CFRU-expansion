@@ -453,6 +453,7 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_CRESCENTSLUMBER] = 7,
 	[ABILITY_DOUBLEBARREL] = 8,
 	[ABILITY_LEYLINEGUARD] = 7,
+	[ABILITY_HIGHVOLTAGE] = 5,
 };
 
 const u16 gWeatherContinuesStringIds[] =
