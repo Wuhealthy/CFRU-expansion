@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "pkdx-offline-b342b20bcd51";
+const CACHE_NAME = "pkdx-offline-cdcb6e49d0a6";
 const CORE_FILES = [
   "./",
   "./index.html",
