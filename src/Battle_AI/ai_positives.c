@@ -2871,6 +2871,14 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 		viability = viabilityBeforeMaxStatus
 			+ (viability - viabilityBeforeMaxStatus) * maxStatusChance / 100;
 
+	//高压蓄能：未充电时用变化招主动充电，提升后续攻击招式威力（×1.3）
+	if (moveSplit == SPLIT_STATUS
+	&& atkAbility == ABILITY_HIGHVOLTAGE
+	&& !(data->atkStatus3 & STATUS3_CHARGED_UP)
+	&& BATTLER_ALIVE(bankAtk)
+	&& DamagingMoveInMoveset(bankAtk)) //有攻击招可消耗才有充电价值
+		INCREASE_STATUS_VIABILITY(2);
+
 	if (moveSplit != SPLIT_STATUS)
 		viability = DamageMoveViabilityIncrease(bankAtk, bankDef, move, viability, class, predictedMove, atkAbility, defAbility, data);
 

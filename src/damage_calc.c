@@ -4818,16 +4818,16 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 	if (data->atkStatus3 & STATUS3_CHARGED_UP && data->moveType == TYPE_ELECTRIC)
 		power *= 2;
 
-	//HighVoltage Charge check - 2x Boost (any attacking split, exclude electric to avoid stacking with vanilla Charge check)
+	//HighVoltage Charge check - 1.3x Boost (any attacking split, exclude electric to avoid stacking with vanilla Charge check)
 	if (data->atkAbility == ABILITY_HIGHVOLTAGE
 		&& data->moveSplit != SPLIT_STATUS
 		&& data->moveType != TYPE_ELECTRIC
-		&& gCurrentMove != MOVE_MAGNETICPULSE
+		&& move != MOVE_MAGNETICPULSE
 		&& data->atkStatus3 & STATUS3_CHARGED_UP)
 		power = (power * 13) / 10;
 
 	//Magnetic Pulse: consumes Charge status for 2x power
-	if (data->atkStatus3 & STATUS3_CHARGED_UP && gCurrentMove == MOVE_MAGNETICPULSE)
+	if (data->atkStatus3 & STATUS3_CHARGED_UP && move == MOVE_MAGNETICPULSE)
 		power *= 2;
 
 	#ifdef OLD_TERRAIN_BOOST
