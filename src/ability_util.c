@@ -54,9 +54,18 @@ void CopyAbilityNameForSummary(u8* dst, ability_t ability, const u16 species)
 	dst[i] = EOS;
 }
 
+// The vanilla summary struct reserves exactly 52 bytes for abilityDescStrBuf at
+// a fixed offset (the egg page fields follow it), so this mirror copy must stay
+// bounded. The BW summary screen prints the full description straight from ROM
+// via GetAbilityDescription instead of reading this buffer.
 void CopyAbilityDescription(u8* dst, ability_t ability, const u16 species)
 {
-	StringCopy(dst, GetAbilityDescription(ability, species));
+	const u8* src = GetAbilityDescription(ability, species);
+	u32 i;
+
+	for (i = 0; i < 51 && src[i] != EOS; ++i)
+		dst[i] = src[i];
+	dst[i] = EOS;
 }
 
 u16 GetProperAbilityPopUpSpecies(u8 bank)

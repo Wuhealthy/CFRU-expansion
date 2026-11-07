@@ -29,6 +29,7 @@
 #include "../include/gba/types.h"
 
 #include "../include/new/bw_summary_screen.h"
+#include "../include/new/ability_util.h"
 #include "../include/new/Vanilla_functions.h"
 #include "../include/new/ram_locs.h"
 #include "../include/new/rom_locs.h"
@@ -1091,10 +1092,18 @@ static void PokeSum_PrintSelectedMoveStats(void)
 
 static void PokeSum_PrintAbilityNameAndDesc(void)
 {
+    const u8* desc;
+
     FillWindowPixelBuffer(sMonSummaryScreen->windowIds[5], 0);
 	AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[5], 2, 11,  4, sPSSTextColours[WHITE], TEXT_SPEED_FF, gText_PSS_Ability);
     AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[5], 2, 60,  4, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.abilityNameStrBuf);
-    AddTextPrinterParameterized4(sMonSummaryScreen->windowIds[5], FONT_SMALL, 20, 17, 0, -2, sPSSTextColours[DARK], TEXT_SPEED_FF, sMonSummaryScreen->summary.abilityDescStrBuf);
+
+    //Print the description straight from ROM.  abilityDescStrBuf is the
+    //vanilla-pinned 52-byte buffer, so anything longer corrupts the egg page
+    //fields that follow it.  Keep descriptions to 2 lines (the window height).
+    desc = GetAbilityDescription(GetMonAbility(&sMonSummaryScreen->currentMon),
+                                 GetMonData(&sMonSummaryScreen->currentMon, MON_DATA_SPECIES2, NULL));
+    AddTextPrinterParameterized4(sMonSummaryScreen->windowIds[5], FONT_SMALL, 20, 17, 0, -2, sPSSTextColours[DARK], TEXT_SPEED_FF, desc);
 }
 
 static void PokeSum_DrawMoveTypeIcons(void)
