@@ -425,7 +425,7 @@ static u8 GetNumHitsBasedOnMove(u16 move, ability_t atkAbility, unusedArg u16 at
 {
 	u8 numHits = 1;
 
-	if (move == MOVE_SURGINGSTRIKES || move == MOVE_TRIPLEDIVE)
+	if (move == MOVE_SURGINGSTRIKES || move == MOVE_TRIPLEDIVE || move == MOVE_TRIPLEWATERPULSE)
 		numHits = 3;
 	else if (move == MOVE_POPULATIONBOMB)
 		numHits = 10;

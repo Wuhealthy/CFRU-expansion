@@ -999,7 +999,7 @@ static u8 AtkCanceller_UnableToUseMove(void)
 			{
 				ability_t ability = ABILITY(gBankAttacker);
 
-				if (gCurrentMove == MOVE_SURGINGSTRIKES || gCurrentMove == MOVE_TRIPLEDIVE)
+				if (gCurrentMove == MOVE_SURGINGSTRIKES || gCurrentMove == MOVE_TRIPLEDIVE || gCurrentMove == MOVE_TRIPLEWATERPULSE)
 				{
 					gMultiHitCounter = 3;
 				}

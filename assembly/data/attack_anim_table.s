@@ -1053,6 +1053,7 @@ gMoveAnimations:
 .word ANIM_FLASHCANNON		@MOVE_MAGNETICPULSE
 .word ANIM_HEX			@MOVE_PSIONICCRASH
 .word ANIM_ECLIPSE_POISON_STING	@MOVE_ECLIPSEPOISONSTING
+.word ANIM_TRIPLEWATERPULSE	@MOVE_TRIPLEWATERPULSE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -31657,7 +31658,35 @@ ANIM_ECLIPSE_POISON_STING:
 
 .align 2
 ECLIPSE_POISON_CLAW: objtemplate ANIM_TAG_CLAW_SLASH ANIM_TAG_POISON_BUBBLE OAM_OFF_32x32 0x83E359C 0x0 gDummySpriteAffineAnimTable SpriteCB_FlippableSlash
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+ANIM_TRIPLEWATERPULSE:
+	loadparticle ANIM_TAG_WATER_ORB
+	loadparticle ANIM_TAG_BLUE_RING_2
+	loadparticle ANIM_TAG_IMPACT
+	pokespritetoBG side_target
+	leftbankBG_over_partnerBG bank_target
+	launchsoundtask SoundTask_LoopSEAdjustPanning 0x7 0x87, 0xFF00 | SOUND_PAN_ATTACKER, SOUND_PAN_TARGET 0x5 0x5 0x0 0x5
+	call TWP_WAVE
+	call TWP_WAVE
+	call TWP_WAVE
+	pause 0xC
+	playsound2 0x98 SOUND_PAN_TARGET
+	launchtemplate TWP_HIT 0x2 0x4 0x0 0x0 0x1 0x2
+	waitanimation
+	pokespritefromBG side_target
+	endanimation
 
+.align 2
+TWP_WAVE:
+	launchtemplate TWP_RING TEMPLATE_TARGET | 2, 0x4, 0x0 0x0 0x28 0xf
+	pause 0xA
+	return
+
+.align 2
+TWP_RING: objtemplate ANIM_TAG_BLUE_RING_2 ANIM_TAG_WATER_ORB OAM_DOUBLE_16x32 gDummySpriteAnimTable 0x0 0x83E3C9C 0x80AC6D9
+TWP_HIT: objtemplate ANIM_TAG_IMPACT ANIM_TAG_WATER_ORB OAM_NORMAL_BLEND_32x32 gDummySpriteAnimTable 0x0 0x83E7BF8 0x80BA561
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
 .align 2
