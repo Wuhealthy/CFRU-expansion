@@ -379,4 +379,5 @@ gAbilityDescriptions:
 .word DESC_CRESCENTSLUMBER                       @ 368 ABILITY_CRESCENTSLUMBER
 .word DESC_DOUBLEBARREL                          @ 369 ABILITY_DOUBLEBARREL
 .word DESC_LEYLINEGUARD                          @ 370 ABILITY_LEYLINEGUARD
-.word DESC_HIGHVOLTAGE                           @ 370 ABILITY_HIGHVOLTAGE
+.word DESC_HIGHVOLTAGE                           @ 371 ABILITY_HIGHVOLTAGE
+.word DESC_NITENICHIRYU                          @ 372 ABILITY_NITENICHIRYU

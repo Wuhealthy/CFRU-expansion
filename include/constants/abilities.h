@@ -375,5 +375,6 @@
 #define ABILITY_DOUBLEBARREL                         369
 #define ABILITY_LEYLINEGUARD                         370 // 地脉恒护
 #define ABILITY_HIGHVOLTAGE                          371 // 高压蓄能
+#define ABILITY_NITENICHIRYU                         372 // 二天一流：切割类招式攻击2次，第2次伤害为1/4且必定击中要害
 
-#define ABILITIES_COUNT (ABILITY_HIGHVOLTAGE + 1)
+#define ABILITIES_COUNT (ABILITY_NITENICHIRYU + 1)

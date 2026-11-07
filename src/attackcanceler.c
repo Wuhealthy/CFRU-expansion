@@ -138,11 +138,11 @@ void atk00_attackcanceler(void)
 
 	else if (!gNewBS->ParentalBondOn
 	&& gNewBS->OriginalAttackerTargetCount == 0
-	&& ABILITY(gBankAttacker) == ABILITY_PARENTALBOND
-	&& IsMoveAffectedByParentalBond(gCurrentMove, gBankAttacker)
-	&& !(gAbsentBattlerFlags & gBitTable[gBankTarget]))
+	&& !(gAbsentBattlerFlags & gBitTable[gBankTarget])
+	&& ((ABILITY(gBankAttacker) == ABILITY_PARENTALBOND && IsMoveAffectedByParentalBond(gCurrentMove, gBankAttacker))
+	 || (ABILITY(gBankAttacker) == ABILITY_NITENICHIRYU && IsMoveAffectedByNitenIchiryu(gCurrentMove, gBankAttacker))))
 	{
-		gNewBS->ParentalBondOn = 2;
+		gNewBS->ParentalBondOn = 2; //二天一流复用亲子爱的第二击机制
 		gMultiHitCounter = 2;
 		PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 1, 0);
 	}

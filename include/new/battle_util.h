@@ -115,6 +115,7 @@ bool8 IsAuraBoss(u8 bank);
 bool8 IsMockBattle(void);
 bool8 IsPlayerInControl(u8 bank);
 bool8 IsMoveAffectedByParentalBond(u16 move, u8 bankAtk);
+bool8 IsMoveAffectedByNitenIchiryu(u16 move, u8 bankAtk);
 u8 CalcMoveSplit(u16 move, u8 bankAtk, u8 bankDef);
 u8 CalcMoveSplitFromParty(u16 move, struct Pokemon* mon);
 u8 FindMovePositionInMoveset(u16 move, u8 bank);

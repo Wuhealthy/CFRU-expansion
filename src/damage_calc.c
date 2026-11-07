@@ -227,6 +227,7 @@ static u8 CalcPossibleCritChance(u8 bankAtk, u8 bankDef, u16 move, struct Pokemo
 	|| (atkAbility == ABILITY_MERCILESS && (defStatus1 & STATUS_PSN_ANY))
 	|| (atkAbility == ABILITY_FLOWERBLADE && moveType == TYPE_GRASS)
 	|| (move == MOVE_AQUABLADE && IsOfType(bankDef, TYPE_WATER))
+	|| (gNewBS->ParentalBondOn == 1 && atkAbility == ABILITY_NITENICHIRYU) //二天一流：第二击必定击中要害
 	|| gSpecialMoveFlags[move].gAlwaysCriticalMoves)
 	{
 		return TRUE;
@@ -450,8 +451,8 @@ static u16 GetAIParentalBondMultiplierForMove(u16 move, u8 bankAtk, u8 numHits, 
 	u16 multiplier = 0;
 
 	if (numHits <= 1
-	&& ability == ABILITY_PARENTALBOND
-	&& IsMoveAffectedByParentalBond(move, bankAtk)) //Parental Bond can have effect on move
+	&& ((ability == ABILITY_PARENTALBOND && IsMoveAffectedByParentalBond(move, bankAtk)) //Parental Bond can have effect on move
+	 || (ability == ABILITY_NITENICHIRYU && IsMoveAffectedByNitenIchiryu(move, bankAtk)))) //二天一流：两击合计约 1.25 倍
 	{
 		#ifdef OLD_PARENTAL_BOND_DAMAGE
 			multiplier = 150; //1.5x overall boost
