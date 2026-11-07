@@ -205,6 +205,12 @@ L=登录道具2
 #org @gText_OptionDesc_BattleMoneyMultiplier
 对战胜利获得的金钱倍率。
 
+#org @gText_AIBattle
+AI对战
+
+#org @gText_OptionDesc_AIBattle
+AI代替你指挥宝可梦自动对战。
+
 #org @gText_MoneyMultNormal
 正常
 
