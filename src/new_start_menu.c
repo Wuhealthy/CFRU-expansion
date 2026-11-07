@@ -1388,21 +1388,15 @@ static void RestoreNewStartMenuObjPalettes(struct NewStartMenuState *state)
     state->objPalettesSaved = FALSE;
 }
 
-static void LoadNewStartMenuSpritePalettes(struct NewStartMenuState *state)
+static void RefreshNewStartMenuSpritePalettes(void)
 {
     u16 bgOffset = NEW_START_MENU_BG_OBJ_PAL_SLOT * 16;
     u16 iconOffset = NEW_START_MENU_ICON_OBJ_PAL_SLOT * 16;
     u16 arrowOffset = NEW_START_MENU_ARROW_OBJ_PAL_SLOT * 16;
-    u8 i;
-    const u8 slots[3] = {NEW_START_MENU_BG_OBJ_PAL_SLOT, NEW_START_MENU_ICON_OBJ_PAL_SLOT, NEW_START_MENU_ARROW_OBJ_PAL_SLOT};
 
-    BackupNewStartMenuObjPalettes(state);
-
-    //Mark the menu's palette slots so the DNS doesn't fade the menu UI, and so dynamic
-    //overworld sprites (e.g. the tall grass effect) don't get assigned these slots.
-    for (i = 0; i < ARRAY_COUNT(slots); i++)
-        SetPalRefType(slots[i], PalTypeOther);
-
+    //OBJ调色板槽13-15会被其他系统改写(如背包等界面退出后田野效果/NPC重新
+    //分配槽位并写入调色板),导致半透明背景条渲染成残留颜色(偶发变黄)。
+    //与ow_shadows每帧重写影子调色板是同一类修复:每帧把三组调色板重写一遍。
     CpuCopy16(sNewStartMenuBGPalRaw, &gPlttBufferUnfaded2[bgOffset], NEW_START_MENU_PALETTE_BYTES);
     CpuCopy16(sNewStartMenuBGPalRaw, &gPlttBufferFaded2[bgOffset], NEW_START_MENU_PALETTE_BYTES);
     CpuCopy16(sNewStartMenuBGPalRaw, (void *)(OBJ_PLTT + bgOffset * sizeof(u16)), NEW_START_MENU_PALETTE_BYTES);
@@ -1414,6 +1408,26 @@ static void LoadNewStartMenuSpritePalettes(struct NewStartMenuState *state)
     CpuCopy16(sNewStartMenuArrowPalRaw, &gPlttBufferUnfaded2[arrowOffset], NEW_START_MENU_PALETTE_BYTES);
     CpuCopy16(sNewStartMenuArrowPalRaw, &gPlttBufferFaded2[arrowOffset], NEW_START_MENU_PALETTE_BYTES);
     CpuCopy16(sNewStartMenuArrowPalRaw, (void *)(OBJ_PLTT + arrowOffset * sizeof(u16)), NEW_START_MENU_PALETTE_BYTES);
+}
+
+static void LoadNewStartMenuSpritePalettes(struct NewStartMenuState *state)
+{
+    u8 i;
+    const u8 slots[3] = {NEW_START_MENU_BG_OBJ_PAL_SLOT, NEW_START_MENU_ICON_OBJ_PAL_SLOT, NEW_START_MENU_ARROW_OBJ_PAL_SLOT};
+    //菜单专属tag,防止其他系统的tag通过FindPalRef命中本菜单占用的槽
+    static const u16 tags[3] = {0x2D10, 0x2D11, 0x2D12};
+
+    BackupNewStartMenuObjPalettes(state);
+
+    //Mark the menu's palette slots so the DNS doesn't fade the menu UI, and so dynamic
+    //overworld sprites (e.g. the tall grass effect) don't get assigned these slots.
+    for (i = 0; i < ARRAY_COUNT(slots); i++)
+    {
+        SetPalRefType(slots[i], PalTypeOther);
+        SetPalRefTag(slots[i], tags[i]);
+    }
+
+    RefreshNewStartMenuSpritePalettes();
 }
 
 //背景条已改由独立半透明精灵(sNewStartMenuRowBgTemplate)承载,窗口缓存只做透明底
@@ -2022,6 +2036,12 @@ static void Task_NewStartMenu(u8 taskId)
         DestroyTask(taskId);
         return;
     }
+
+    //每帧重写菜单调色板,防止槽13-15被其他系统改写(背景条偶发变黄的修复)。
+    //objPalettesSaved在Backup与Restore之间为真:菜单存活期间才刷新,
+    //清理(还原原调色板)之后绝不能再写。
+    if (state->objPalettesSaved)
+        RefreshNewStartMenuSpritePalettes();
 
     if (state->scrollFrame != 0)
     {
