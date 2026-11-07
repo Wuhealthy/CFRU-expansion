@@ -603,9 +603,12 @@ function matchSpecies(s) {
     return false;
   }
   if (q) {
+    // 编号搜索容错: 全角数字转半角、去掉 # 前缀与前导零, 006 / #6 / ６ 都能命中编号 6
+    const qNum = raw.replace(/[０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0))
+      .replace(/^[#＃]+/, "").replace(/^0+(?=\d)/, "");
     // 只按名字表里的实际名字(含其中的字母, 不区分大小写)、图鉴编号与形态词搜索, 不匹配内部常量名
     const hit = speciesName(s).toLowerCase().includes(q)
-      || (s.dex != null && String(s.dex) === q)
+      || (s.dex != null && qNum && String(s.dex) === qNum)
       || (s.tags && s.tags.includes(raw));
     if (!hit) return false;
   }
@@ -616,6 +619,7 @@ function matchSpecies(s) {
   return true;
 }
 function renderDexArea() {
+  if (!$("#dex-area")) return;  // 搜索防抖期间已切页: 旧页面的渲染回调直接丢弃
   const list = D.species.filter(matchSpecies);
   $("#cnt").textContent = `筛选结果：${list.length}`;
   const { key, desc } = homeState.sort;
@@ -947,7 +951,7 @@ function renderMoves() {
         <div class="page-title">招式图鉴</div>
         <div class="page-sub">共 ${MOVES_BY_GEN.length} 个招式 · 按世代排序，原创招式在第九世代之后 · 点击行查看详情</div>
         <div class="toolbar">
-          ${searchBox("mq", "搜索招式名…", moveFilter.q)}
+          ${searchBox("mq", "搜索招式名 / 效果…", moveFilter.q)}
           <select id="mtype" class="search-box" style="flex:0 0 140px">
             <option value="">全部属性</option>${typeOpts}
           </select>
@@ -972,9 +976,11 @@ function renderMoves() {
   renderMoveRows();
 }
 function renderMoveRows() {
+  if (!$("#mgens")) return;  // 搜索防抖期间已切页: 旧页面的渲染回调直接丢弃
   const q = toHans(moveFilter.q).toLowerCase();
   const rows = MOVES_BY_GEN.filter(m => {
-    if (q && !m.zh.toLowerCase().includes(q)) return false;
+    // 名字或效果描述任一命中 (道具页同款)
+    if (q && !m.zh.toLowerCase().includes(q) && !(m.desc || "").toLowerCase().includes(q)) return false;
     if (moveFilter.type !== "" && String(m.type) !== moveFilter.type) return false;
     if (moveFilter.split && m.split !== moveFilter.split) return false;
     if (moveFilter.cat && !MOVE_CAT_NAMES[m.id].has(moveFilter.cat)) return false;
@@ -1017,7 +1023,7 @@ function renderAbilities() {
         <div class="page-title">特性图鉴</div>
         <div class="page-sub">共 ${D.abilities.length} 个特性 · 按引入世代排列，原创特性在最后 · 点击查看持有该特性的宝可梦</div>
         <div class="toolbar">
-          ${searchBox("aq", "搜索特性名…", abilFilter)}
+          ${searchBox("aq", "搜索特性名 / 效果…", abilFilter)}
           <span class="count-hint" id="acnt"></span>
         </div>
         <div id="agens"></div>
@@ -1027,8 +1033,11 @@ function renderAbilities() {
   renderAbilRows();
 }
 function renderAbilRows() {
+  if (!$("#agens")) return;  // 搜索防抖期间已切页: 旧页面的渲染回调直接丢弃
   const aq = toHans(abilFilter).toLowerCase();
-  const list = ABILS_BY_GEN.filter(a => !aq || a.zh.toLowerCase().includes(aq));
+  // 名字或效果任一命中 (道具页同款)
+  const list = ABILS_BY_GEN.filter(a => !aq
+    || a.zh.toLowerCase().includes(aq) || (a.desc || "").toLowerCase().includes(aq));
   $("#acnt").textContent = `${list.length} 个特性`;
   const byGen = {};
   list.forEach(a => (byGen[a.gen] = byGen[a.gen] || []).push(a));
@@ -1088,6 +1097,7 @@ function renderItems() {
   renderItemRows();
 }
 function renderItemRows() {
+  if (!$("#item-sections")) return;  // 搜索防抖期间已切页: 旧页面的渲染回调直接丢弃
   const q = toHans(itemFilter.q).toLowerCase();
   const list = ITEMS_BY_ID.filter(item =>
     (!itemFilter.pocket || String(item.pocket) === itemFilter.pocket)
