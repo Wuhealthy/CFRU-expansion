@@ -681,61 +681,32 @@ function evoChainHTML(s) {
   if (!compId) return `<div style="color:var(--muted);font-size:13.5px">该宝可梦没有进化关系。</div>`;
   const members = Object.keys(evoComp).map(Number).filter(id => evoComp[id] === compId);
   const memberSet = new Set(members);
-  // 地区形态线是与默认线不相连的独立连通分量 (如 喵喵(伽勒尔)->喵头目):
-  // 按图鉴编号把它们并入同一张链, 各占一行 —— 官方图鉴样式
-  const dexes = new Set(members.map(id => SPECIES_BY_ID[id].dex).filter(d => d != null));
-  const relatedCompIds = new Set(D.species.filter(sp => sp.formKind === "regional" && !memberSet.has(sp.id)
-    && sp.dex != null && dexes.has(sp.dex) && evoComp[sp.id] !== undefined).map(sp => evoComp[sp.id]));
-  relatedCompIds.forEach(cid => Object.keys(evoComp).map(Number).filter(id => evoComp[id] === cid).forEach(id => {
-    if (!memberSet.has(id)) { memberSet.add(id); members.push(id); }
-  }));
-  const isRegional = id => { const sp = SPECIES_BY_ID[id]; return sp && sp.formKind === "regional"; };
-  const EVO_COL_PX = 292;  // 一列的宽度 = .evo-node 132 + .evo-arrow 160 (style.css), 用于各行同列对齐
-  const allEdges = [];
+  const mainEdges = [], extraEdges = [];
   members.forEach(id => speciesEvolutions(id).forEach(e => {
     if (e.to == null || !memberSet.has(e.to)) return;
-    allEdges.push({ from: id, e });
+    (EVO_MAIN_SKIP[e.method] ? extraEdges : mainEdges).push({ from: id, e });
   }));
-  const mainEdges = allEdges.filter(x => !EVO_MAIN_SKIP[x.e.method]);
-  const extraEdges = allEdges.filter(x => EVO_MAIN_SKIP[x.e.method]);
-  // 跨地区形态的边 (默认/其他形态 -> 地区形态, 如 皮卡丘->雷丘(阿罗拉)):
-  // 从主树拆出来单独成行, 行首复制来源节点 —— 与官方图鉴一致, 每条地区形态线独占一行
-  const crossEdges = mainEdges.filter(x => !isRegional(x.from) && isRegional(x.e.to));
-  const crossSet = new Set(crossEdges);
-  const crossHeads = new Set(crossEdges.map(x => x.e.to));
-  const treeEdges = mainEdges.filter(x => !crossSet.has(x));
   // 特殊形态(超级进化/超极巨化/觉醒形态等)不参与主链层级; 目标同时是主链节点时按主链处理
-  const mainTo = new Set(treeEdges.map(x => x.e.to));
+  const mainTo = new Set(mainEdges.map(x => x.e.to));
   const extraTo = new Set(extraEdges.map(x => x.e.to));
   for (const t of mainTo) extraTo.delete(t);
   const mainNodes = members.filter(id => !extraTo.has(id));
   const incoming = {};
-  treeEdges.forEach(x => incoming[x.e.to] = (incoming[x.e.to] || 0) + 1);
+  mainEdges.forEach(x => incoming[x.e.to] = (incoming[x.e.to] || 0) + 1);
+  const roots = mainNodes.filter(id => !incoming[id]);
   const level = {};
   const walk = (id, lv) => {
     if (level[id] != null && level[id] >= lv) return;
     level[id] = lv;
-    treeEdges.filter(x => x.from === id).forEach(x => walk(x.e.to, lv + 1));
+    mainEdges.filter(x => x.from === id).forEach(x => walk(x.e.to, lv + 1));
   };
-  // 行序: 默认形态在前, 其余按图鉴编号/种Id (阿罗拉在伽勒尔前等)
-  const roots = mainNodes.filter(id => !incoming[id] && !crossHeads.has(id))
-    .sort((a, b) => (SPECIES_BY_ID[b].isDefault ? 1 : 0) - (SPECIES_BY_ID[a].isDefault ? 1 : 0)
-      || (SPECIES_BY_ID[a].dex || 9999) - (SPECIES_BY_ID[b].dex || 9999) || a - b);
-  (roots.length ? roots : mainNodes.filter(id => !crossHeads.has(id)).slice(0, 1)).forEach(r => walk(r, 0));
-  crossEdges.forEach(x => walk(x.e.to, (level[x.from] || 0) + 1));  // 跨形态线后续进化也标层级
-  // 列对齐: 同 dex 在主链里的层级 = 它应处的列号, 地区形态行按此缩进,
-  // 让同名的节点上下对齐 (如各行第 1 列都是皮卡丘, 只有 Y 坐标不同)
-  const dexLevel = {};
-  members.forEach(id => {
-    const sp = SPECIES_BY_ID[id];
-    if (level[id] != null && sp.dex != null && dexLevel[sp.dex] == null) dexLevel[sp.dex] = level[id];
-  });
+  (roots.length ? roots : mainNodes.slice(0, 1)).forEach(r => walk(r, 0));
   // 画成树: 每个节点挂在一个来源下 (主链取上一级的来源, 特殊形态取其基础形态), 来源右侧并排
   // 它的所有走向 (主链进化在前, 超级进化/超极巨化/觉醒形态等在后), 箭头上写方式, 再下一行写条件/道具
   const inEdge = {}, parentOf = {}, extraKids = [];
   mainNodes.forEach(id => {
     if (!level[id]) return;
-    const x = treeEdges.find(x => x.e.to === id && level[x.from] === level[id] - 1) || treeEdges.find(x => x.e.to === id);
+    const x = mainEdges.find(x => x.e.to === id && level[x.from] === level[id] - 1) || mainEdges.find(x => x.e.to === id);
     if (x) { inEdge[id] = x.e; parentOf[id] = x.from; }
   });
   extraEdges.forEach(x => {
@@ -753,13 +724,13 @@ function evoChainHTML(s) {
     const list = leaves[id] = leaves[id] || [];
     if (!list.some(x => x.to === t)) list.push({ to: t, e });
   }));
-  // 官方图鉴样式: 圆形头像(底色取第一属性) + 阶段 + 名字/形态标签/属性框; 箭头上方写进化条件
+  // 官方图鉴样式: 圆形头像(底色取第一属性) + 阶段 + 名字/属性框; 箭头上方写进化条件
   const node = (id, stage, ref) => {
     const sp = SPECIES_BY_ID[id], t = TYPE_BY_ID[sp.types[0]];
     return `<div class="evo-node${id === s.id && !ref ? " cur" : ""}" onclick="location.hash='#/p/${id}'">
       <div class="evo-pic" style="background:${t ? `color-mix(in srgb, ${t.color} 45%, #fff)` : "#eef1f4"}">${spriteCanvas("front", id, "", 64)}</div>
       <div class="evo-stage">${esc(stage)}</div>
-      <div class="evo-name"><div class="nm">${esc(speciesName(sp))}</div>${sp.formLabel ? `<div class="form">${esc(sp.formLabel)}</div>` : ""}<div class="types">${typePills(sp.types, true)}</div></div>
+      <div class="evo-name"><div class="nm">${esc(speciesName(sp))}</div><div class="types">${typePills(sp.types, true)}</div></div>
     </div>`;
   };
   // 同一对宝可梦可能有多种进化方式 (如通信交换 或 使用联系绳): 箭头上全部列出, 以「或」分隔
@@ -769,7 +740,7 @@ function evoChainHTML(s) {
   // 阶段: 起点为「未进化」, 每经一次普通进化 +1 阶; 特殊形态写其方式 (超级进化/超极巨化/觉醒形态…)
   const stageOf = (e, depth) => EVO_MAIN_SKIP[e.method] ? [e.text, depth] : [`${depth + 1}阶进化`, depth + 1];
   const seen = new Set();
-  const branch = (id, stage, depth, indent) => {
+  const branch = (id, stage, depth) => {
     seen.add(id);
     const kids = (children[id] || []).filter(k => !seen.has(k));
     const rows = kids.map(k => {
@@ -777,34 +748,9 @@ function evoChainHTML(s) {
       return `<div class="evo-row">${arrow(id, k)}${branch(k, st, d)}</div>`;
     }).concat((leaves[id] || []).map(x =>
       `<div class="evo-row">${arrow(id, x.to)}<div class="evo-branch">${node(x.to, stageOf(x.e, depth)[0], true)}</div></div>`));
-    return `<div class="evo-branch">${indent ? `<div class="evo-indent" style="width:${indent * EVO_COL_PX}px"></div>` : ""}${node(id, stage)}${rows.length ? `<div class="evo-kids">${rows.join("")}</div>` : ""}</div>`;
+    return `<div class="evo-branch">${node(id, stage)}${rows.length ? `<div class="evo-kids">${rows.join("")}</div>` : ""}</div>`;
   };
-  // 等价重复根折叠: 同名同形态标签、自己没有主进化线的根 (如 15 种限定帽子皮卡丘都只是
-  // 超极巨化的来源, 目标是同一只且已在主链渲染) 只画第一个, 避免整屏重复行
-  const rootKey = id => { const sp = SPECIES_BY_ID[id]; return speciesName(sp) + "|" + (sp.formLabel || ""); };
-  const seenRootKeys = new Set();
-  const renderedRoots = roots.filter(id => {
-    const key = rootKey(id);
-    const hasOwnLine = (children[id] || []).some(k => !extraTo.has(k));
-    if (!hasOwnLine) {
-      if (seenRootKeys.has(key)) return false;              // 与已渲染的根完全等价 → 折叠
-      seenRootKeys.add(key);
-    }
-    return true;
-  });
-  // 跨地区形态行: 行首复制来源节点 (ref=true 不重复高亮当前页), 阶段取它在主链里的实际层级,
-  // 并按该层级缩进 —— 与主链同名节点上下对齐
-  const crossRows = crossEdges.slice().sort((a, b) => a.e.to - b.e.to).map(x => {
-    const lv = level[x.from] || 0;
-    const [st, d] = stageOf(x.e, lv);
-    return `<div class="evo-branch"><div class="evo-indent" style="width:${lv * EVO_COL_PX}px"></div>${node(x.from, lv ? `${lv}阶进化` : "未进化", true)}
-      <div class="evo-kids"><div class="evo-row">${arrow(x.from, x.e.to)}${branch(x.e.to, st, d)}</div></div></div>`;
-  }).join("");
-  return `<div class="evo-chain">${renderedRoots.map(id => {
-    const sp = SPECIES_BY_ID[id];
-    const cols = sp.formKind === "regional" ? (dexLevel[sp.dex] || 0) : 0;  // 地区根按同 dex 默认形态的列对齐
-    return branch(id, cols ? `${cols}阶进化` : "未进化", cols, cols);
-  }).join("")}${crossRows}</div>`;
+  return `<div class="evo-chain">${mainNodes.filter(id => !inEdge[id]).map(id => branch(id, "未进化", 0)).join("")}</div>`;
 }
 
 function moveRow(mid, lv, tmNo) {
