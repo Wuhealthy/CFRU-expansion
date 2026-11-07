@@ -2149,3 +2149,16 @@ void atkFF36_trygetcottondowntarget(void)
 	else
 		gBattlescriptCurrInstr += 5;
 }
+
+//atkFF37_jumpifhalftohp BANK FAIL_ADDRESS
+//半血以下 (hp <= maxHP/2) 时跳转
+void atkFF37_jumpifhalftohp(void)
+{
+	u8 bank = GetBankForBattleScript(gBattlescriptCurrInstr[1]);
+	u8* ptr = T1_READ_PTR(gBattlescriptCurrInstr + 2);
+
+	if (gBattleMons[bank].hp <= gBattleMons[bank].maxHP / 2)
+		gBattlescriptCurrInstr = ptr;
+	else
+		gBattlescriptCurrInstr += 6;
+}

@@ -1826,3 +1826,9 @@
 	getbattlerfainted \battler
 	jumpifbyte 0, gBattleCommunication, \value, \ptr
 .endm
+
+	.macro jumpifhalftohp bank rom_address
+	.byte 0xFF, 0x37
+	.byte \bank
+	.4byte \rom_address
+	.endm

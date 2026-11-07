@@ -171,3 +171,6 @@ enum Counters
 	Counters_TarShot,			//17
 	Counters_SyrupBomb,			//18
 };
+
+//atkFF37_jumpifhalftohp BANK FAIL_ADDRESS
+void atkFF37_jumpifhalftohp(void);

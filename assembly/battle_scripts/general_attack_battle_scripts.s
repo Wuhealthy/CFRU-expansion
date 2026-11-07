@@ -4218,7 +4218,7 @@ BS_182_Superpower:
 	jumpifmove MOVE_ARMORCANNON CloseCombatBS
 	jumpifmove MOVE_HAMMERARM HammerArmBS
 	jumpifmove MOVE_ICEHAMMER HammerArmBS
-	jumpifmove MOVE_DESPERATEBLOOM CloseCombatBS
+	jumpifmove MOVE_DESPERATEBLOOM DesperateBloomBS
 	jumpifmove MOVE_CLANGINGSCALES ClangingScalesBS
 	jumpifmove MOVE_VCREATE VCreateBS
 	jumpifmove MOVE_HYPERSPACEFURY HyperspaceFuryBS
@@ -4249,6 +4249,49 @@ CC_SkipTo:
 
 CC_LowerSpDef:
 	setstatchanger STAT_SPDEF | DECREASE_1
+	statbuffchange STAT_ATTACKER | STAT_BS_PTR | STAT_CERTAIN BS_MOVE_FAINT
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BS_MOVE_FAINT
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+	goto BS_MOVE_FAINT
+
+@绝境绽放: 半血以下使用时, 自降防/特防改为自升防/特防
+DesperateBloomBS:
+	attackcanceler
+	accuracycheck BS_MOVE_MISSED 0x0
+	call STANDARD_DAMAGE
+	jumpifmovehadnoeffect BS_MOVE_FAINT
+	jumpifhalftohp BANK_ATTACKER DespBloom_Raise
+	jumpifstat BANK_ATTACKER GREATERTHAN STAT_DEF STAT_MIN DespBloom_LowerDef
+	jumpifstat BANK_ATTACKER EQUALS STAT_SPDEF STAT_MIN BS_MOVE_FAINT
+DespBloom_LowerDef:
+	setbyte STAT_ANIM_PLAYED 0x0
+	playstatchangeanimation BANK_ATTACKER, STAT_ANIM_DEF | STAT_ANIM_SPDEF, STAT_ANIM_DOWN | STAT_ANIM_IGNORE_ABILITIES
+	setstatchanger STAT_DEF | DECREASE_1
+	statbuffchange STAT_ATTACKER | STAT_BS_PTR | STAT_CERTAIN DespBloom_LowerSpDef
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 DespBloom_LowerSpDef
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+DespBloom_LowerSpDef:
+	setstatchanger STAT_SPDEF | DECREASE_1
+	statbuffchange STAT_ATTACKER | STAT_BS_PTR | STAT_CERTAIN BS_MOVE_FAINT
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BS_MOVE_FAINT
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+	goto BS_MOVE_FAINT
+DespBloom_Raise:
+	jumpifstat BANK_ATTACKER LESSTHAN STAT_DEF STAT_MAX DespBloom_RaiseDef
+	jumpifstat BANK_ATTACKER EQUALS STAT_SPDEF STAT_MAX BS_MOVE_FAINT
+DespBloom_RaiseDef:
+	setbyte STAT_ANIM_PLAYED 0x0
+	playstatchangeanimation BANK_ATTACKER, STAT_ANIM_DEF | STAT_ANIM_SPDEF, STAT_ANIM_UP | STAT_ANIM_IGNORE_ABILITIES
+	setstatchanger STAT_DEF | INCREASE_1
+	statbuffchange STAT_ATTACKER | STAT_BS_PTR | STAT_CERTAIN DespBloom_RaiseSpDef
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 DespBloom_RaiseSpDef
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+DespBloom_RaiseSpDef:
+	setstatchanger STAT_SPDEF | INCREASE_1
 	statbuffchange STAT_ATTACKER | STAT_BS_PTR | STAT_CERTAIN BS_MOVE_FAINT
 	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BS_MOVE_FAINT
 	printfromtable gStatUpStringIds
