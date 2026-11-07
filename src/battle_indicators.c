@@ -85,6 +85,7 @@ extern const u8 gText_ScreenLight[];
 extern const u8 gText_ScreenAurora[];
 extern const u8 gText_StatusTailwind[];
 extern const u8 gText_HazardStealthRock[];
+extern const u8 gText_HazardPsychicSuppression[];
 extern const u8 gText_HazardSpikes[];
 extern const u8 gText_HazardStickyWeb[];
 extern const u8 gText_HazardTSpikes[];
@@ -2738,7 +2739,8 @@ static void Task_DisplayInBattleTeamPreview(u8 taskId)
 	if (gSideTimers[SIDE_PLAYER].srAmount > 0
 	|| gSideTimers[SIDE_PLAYER].spikesAmount > 0
 	|| gSideTimers[SIDE_PLAYER].tspikesAmount > 0
-	|| gSideTimers[SIDE_PLAYER].stickyWeb > 0)
+	|| gSideTimers[SIDE_PLAYER].stickyWeb > 0
+	|| gSideTimers[SIDE_PLAYER].psychicSuppression > 0)
 	{
 		if (gSideTimers[SIDE_PLAYER].srAmount > 0)
 			{ dst = StringAppend(dst, sColorRed); dst = StringAppend(dst, gText_HazardStealthRock); }
@@ -2748,13 +2750,16 @@ static void Task_DisplayInBattleTeamPreview(u8 taskId)
 			{ dst = StringAppend(dst, sColorRed); dst = StringAppend(dst, gText_HazardTSpikes); }
 		if (gSideTimers[SIDE_PLAYER].stickyWeb > 0)
 			{ dst = StringAppend(dst, sColorRed); dst = StringAppend(dst, gText_HazardStickyWeb); }
+		if (gSideTimers[SIDE_PLAYER].psychicSuppression > 0)
+			{ dst = StringAppend(dst, sColorRed); dst = StringAppend(dst, gText_HazardPsychicSuppression); }
 	}
 
 	// Opponent-side hazards (no color - hurts enemy)
 	if (gSideTimers[SIDE_OPPONENT].srAmount > 0
 	|| gSideTimers[SIDE_OPPONENT].spikesAmount > 0
 	|| gSideTimers[SIDE_OPPONENT].tspikesAmount > 0
-	|| gSideTimers[SIDE_OPPONENT].stickyWeb > 0)
+	|| gSideTimers[SIDE_OPPONENT].stickyWeb > 0
+	|| gSideTimers[SIDE_OPPONENT].psychicSuppression > 0)
 	{
 		if (gSideTimers[SIDE_OPPONENT].srAmount > 0)
 			dst = StringAppend(dst, gText_HazardStealthRock);
@@ -2764,6 +2769,8 @@ static void Task_DisplayInBattleTeamPreview(u8 taskId)
 			dst = StringAppend(dst, gText_HazardTSpikes);
 		if (gSideTimers[SIDE_OPPONENT].stickyWeb > 0)
 			dst = StringAppend(dst, gText_HazardStickyWeb);
+		if (gSideTimers[SIDE_OPPONENT].psychicSuppression > 0)
+			dst = StringAppend(dst, gText_HazardPsychicSuppression);
 	}
 
 	// Stat changes for active Pokemon (player side)

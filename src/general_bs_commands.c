@@ -99,6 +99,7 @@ static const u8* const sEntryHazardsStrings[] =
 	ToxicSpikesLayString,
 	StickyWebLayString,
 	gText_SteelsurgeLay,
+	PsychicSuppressionLayString,
 };
 
 
@@ -4269,6 +4270,20 @@ void atkB0_trysetspikes(void)
 			}
 			break;
 
+		case MOVE_PSYCHICSUPPRESSION:
+			if (gSideTimers[defSide].psychicSuppression)
+			{
+				gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
+			}
+			else
+			{
+				gSideStatuses[defSide] |= SIDE_STATUS_SPIKES;
+				gSideTimers[defSide].psychicSuppression = 1;
+				gBattlescriptCurrInstr += 5;
+				stringcase = 5;
+			}
+			break;
+
 		default:
 			if (gSideTimers[defSide].spikesAmount >= 3)
 			{
@@ -4678,6 +4693,7 @@ void atkBE_rapidspinfree(void)
 			gSideTimers[sideAtk].srAmount = 0;
 			gSideTimers[sideAtk].stickyWeb = 0;
 			gSideTimers[sideAtk].steelsurge = 0;
+			gSideTimers[sideAtk].psychicSuppression = 0;
 			BattleScriptPushCursor();
 			gBattlescriptCurrInstr = BattleScript_SpikesFree;
 		}
@@ -4704,6 +4720,7 @@ void atkBE_rapidspinfree(void)
 			gSideTimers[sideAtk].srAmount = 0;
 			gSideTimers[sideAtk].stickyWeb = 0;
 			gSideTimers[sideAtk].steelsurge = 0;
+			gSideTimers[sideAtk].psychicSuppression = 0;
 			BattleScriptPushCursor();
 			gBattlescriptCurrInstr = BattleScript_PrintCustomString;
 			gBattleStringLoader = RemovedEntryHazardsString;
@@ -4716,6 +4733,7 @@ void atkBE_rapidspinfree(void)
 			gSideTimers[sideDef].srAmount = 0;
 			gSideTimers[sideDef].stickyWeb = 0;
 			gSideTimers[sideDef].steelsurge = 0;
+			gSideTimers[sideDef].psychicSuppression = 0;
 			BattleScriptPushCursor();
 			gBattlescriptCurrInstr = BattleScript_PrintCustomString;
 			gBattleStringLoader = RemovedEntryHazardsTargetSideString;

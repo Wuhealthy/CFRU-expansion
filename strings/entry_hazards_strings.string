@@ -36,3 +36,9 @@
 
 #org @gText_HazardsBlownAway
 [ATTACKER]周围的\n场地状态消失不见了！
+
+#org @PsychicSuppressionLayString
+[FD][35]周围开始浮现出\n精神压制的力场！
+
+#org @gText_HurtByPsychicSuppression
+无形的精神力量\n压制着[TARGET]！

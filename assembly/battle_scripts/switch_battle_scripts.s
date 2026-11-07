@@ -21,6 +21,7 @@ switch_battle_scripts.s
 
 .global BattleScript_SpikesHurt
 .global BattleScript_SRHurt
+.global BattleScript_PsychicSuppressionHurt
 .global BattleScript_SteelsurgeHurt
 .global BattleScript_TSPoison
 .global BattleScript_TSHarshPoison
@@ -86,6 +87,19 @@ BattleScript_SRHurt:
 	graphicalhpupdate BANK_TARGET
 	datahpupdate BANK_TARGET
 	setword BATTLE_STRING_LOADER gText_HurtByStealthRock
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	faintpokemon BANK_TARGET 0x0 0x0
+	faintpokemon BANK_TARGET TRUE BattleScript_DmgHazardsOnTargetFainted
+	return
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+BattleScript_PsychicSuppressionHurt:
+	orword HIT_MARKER 0x100100
+	graphicalhpupdate BANK_TARGET
+	datahpupdate BANK_TARGET
+	setword BATTLE_STRING_LOADER gText_HurtByPsychicSuppression
 	printstring 0x184
 	waitmessage DELAY_1SECOND
 	faintpokemon BANK_TARGET 0x0 0x0

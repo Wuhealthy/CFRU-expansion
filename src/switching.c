@@ -49,6 +49,7 @@ enum SwitchInStates
 	SwitchIn_Steelsurge,
 	SwitchIn_ToxicSpikes,
 	SwitchIn_StickyWeb,
+	SwitchIn_PsychicSuppression,
 	SwitchIn_EmergencyExit,
 	SwitchIn_PrimalReversion,
 	SwitchIn_Truant,
@@ -574,7 +575,7 @@ void atk52_switchineffects(void)
 
 	if (!(gSideStatuses[SIDE(gActiveBattler)] & SIDE_STATUS_SPIKES) //Skip the entry hazards if there are none
 	&& gNewBS->switchInEffectsState >= SwitchIn_Spikes
-	&& gNewBS->switchInEffectsState <= SwitchIn_StickyWeb)
+	&& gNewBS->switchInEffectsState <= SwitchIn_PsychicSuppression)
 		gNewBS->switchInEffectsState = SwitchIn_PrimalReversion;
 
 	switch (gNewBS->switchInEffectsState) {
@@ -872,6 +873,26 @@ void atk52_switchineffects(void)
 				gBattleScripting.bank = gActiveBattler;
 				gBankTarget = gActiveBattler;
 				//gBankAttacker = FOE(gActiveBattler); //For EXP
+				++gNewBS->switchInEffectsState;
+				return;
+			}
+			++gNewBS->switchInEffectsState;
+		__attribute__ ((fallthrough));
+
+		case SwitchIn_PsychicSuppression:
+			if (gSideTimers[SIDE(gActiveBattler)].psychicSuppression
+			&& ability != ABILITY_MAGICGUARD
+			&& IsAffectedByHazards(gActiveBattler)
+			&& !IsOfType(gActiveBattler, TYPE_DARK)) //非恶属性才受伤
+			{
+				gBattleMoveDamage = CalcPsychicSuppressionDamage(gActiveBattler);
+				gNewBS->DamageTaken[gActiveBattler] += gBattleMoveDamage;
+
+				BattleScriptPushCursor();
+				gBattlescriptCurrInstr = BattleScript_PsychicSuppressionHurt;
+				gSideStatuses[SIDE(gActiveBattler)] |= SIDE_STATUS_SPIKES_DAMAGED;
+				gBattleScripting.bank = gActiveBattler;
+				gBankTarget = gActiveBattler;
 				++gNewBS->switchInEffectsState;
 				return;
 			}
@@ -1544,6 +1565,42 @@ u32 CalcSteelsurgeDamagePartyMon(struct Pokemon* mon)
 	return MathMax(1, GetMonData(mon, MON_DATA_MAX_HP, NULL) / divisor);
 }
 
+u32 CalcPsychicSuppressionDamage(u8 bank)
+{
+	u8 flags;
+	u8 divisor = 8;
+	gBattleMoveDamage = 40;
+
+	if (!IsAffectedByHazards(bank))
+		return 0;
+
+	TypeDamageModification(0, bank, MOVE_PSYCHICSUPPRESSION, TYPE_PSYCHIC, &flags);
+	divisor = GetStealthRockDivisor();
+
+	if (gBattleMoveDamage == 0) //Immune (e.g. Dark)
+		return 0;
+
+	return MathMax(1, gBattleMons[bank].maxHP / divisor);
+}
+
+u32 CalcMonPsychicSuppressionDamage(struct Pokemon* mon)
+{
+	u8 flags;
+	u8 divisor = 8;
+	gBattleMoveDamage = 40;
+
+	if (!IsMonAffectedByHazards(mon))
+		return 0;
+
+	TypeDamageModificationPartyMon(0, mon, MOVE_PSYCHICSUPPRESSION, TYPE_PSYCHIC, &flags);
+	divisor = GetStealthRockDivisor();
+
+	if (gBattleMoveDamage == 0) //Immune (e.g. Dark)
+		return 0;
+
+	return MathMax(1, GetMonData(mon, MON_DATA_MAX_HP, NULL) / divisor);
+}
+
 static u8 GetStealthRockDivisor(void)
 {
 	u8 divisor = 1;
@@ -1584,6 +1641,8 @@ u32 GetMonEntryHazardDamage(struct Pokemon* mon, u8 side)
 	{
 		if (gSideTimers[side].srAmount > 0)
 			dmg += CalcMonStealthRockDamage(mon);
+		if (gSideTimers[side].psychicSuppression > 0)
+			dmg += CalcMonPsychicSuppressionDamage(mon);
 
 		if (gSideTimers[side].steelsurge > 0)
 			dmg += CalcSteelsurgeDamagePartyMon(mon);

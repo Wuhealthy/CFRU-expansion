@@ -1981,6 +1981,9 @@ bool8 WillTakeSignificantDamageFromEntryHazards(u8 bank, u8 healthFraction)
 		if (gSideTimers[SIDE(bank)].srAmount > 0)
 			dmg += CalcMonStealthRockDamage(mon);
 
+		if (gSideTimers[SIDE(bank)].psychicSuppression > 0)
+			dmg += CalcMonPsychicSuppressionDamage(mon);
+
 		if (gSideTimers[SIDE(bank)].steelsurge > 0)
 			dmg += CalcSteelsurgeDamagePartyMon(mon);
 

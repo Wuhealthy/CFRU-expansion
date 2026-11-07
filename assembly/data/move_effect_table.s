@@ -265,7 +265,7 @@ gBattleScriptsForMoveEffects:
 .word BS_246_SkyDrop
 .word BS_247_Glaive_Rush
 .word BS_248_RevivalBlessing
-.word BS_249_Blank
+.word BS_249_PsychicSuppression
 .word BS_250_Blank
 .word BS_251_Blank
 .word BS_252_Blank

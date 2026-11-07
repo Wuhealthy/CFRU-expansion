@@ -1054,6 +1054,7 @@ gMoveAnimations:
 .word ANIM_HEX			@MOVE_PSIONICCRASH
 .word ANIM_ECLIPSE_POISON_STING	@MOVE_ECLIPSEPOISONSTING
 .word ANIM_TRIPLEWATERPULSE	@MOVE_TRIPLEWATERPULSE
+.word ANIM_PSYSHOCK	@MOVE_PSYCHICSUPPRESSION
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

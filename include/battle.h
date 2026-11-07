@@ -486,6 +486,7 @@ struct SideTimer
 			 u8 srAmount : 1;
 			 u8 stickyWeb : 1;
 			 u8 steelsurge: 1;
+			 u8 psychicSuppression : 1;
 	/*0x0B*/ u8 stickyWebBank;
 };
 

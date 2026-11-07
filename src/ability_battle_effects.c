@@ -1630,6 +1630,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
         	if (gSideTimers[side].steelsurge)
         	{
             	gSideTimers[side].steelsurge = 0;
+            	gSideTimers[side].psychicSuppression = 0;
             	cleared = TRUE;
         	}
 

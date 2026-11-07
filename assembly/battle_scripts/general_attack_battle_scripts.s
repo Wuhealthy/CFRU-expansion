@@ -6468,9 +6468,19 @@ RevivalBlessingCancel:
 	
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-.global BS_249_Blank
-BS_249_Blank:
-	goto BS_STANDARD_HIT
+.global BS_249_PsychicSuppression
+BS_249_PsychicSuppression:
+	attackcanceler
+	call STANDARD_DAMAGE
+	jumpifmovehadnoeffect PsychicSuppressionSkip
+	setspikes PsychicSuppressionSkip
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+
+PsychicSuppressionSkip:
+	prefaintmoveendeffects 0x0
+	faintpokemonaftermove
+	goto BS_MOVE_END
 	
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
