@@ -16,9 +16,6 @@ PrintSkillsPage 0x081370ec 0 1
 #ifdef BW_SUMMARY_SCREEN
 ShowPokemonSummaryScreen 0x081344F8 0 1
 #endif
-#ifdef BW_PARTY_SCREEN
-ShowBWPartyScreen 0x0811EA44 7 0
-#endif
 
 SetTitleScreenScene_Cry 0x080791c0 0 1
 Task_OakSpeech_IsInhabitedFarAndWide 0x0812fa78 0 1

@@ -49,7 +49,6 @@ sPartyMenuInternal = 0x203B09C;
 gPartyMenu = 0x203B0A0;
 sPartyMenuBoxes = 0x203B0B4;
 gPartyMenuUseExitCallback = 0x203B0C0;
-sBWPartyScreen = 0x203B160;
 gPostMenuFieldCallback = 0x203B0C4;
 
 /* Battle RAM */
