@@ -17,6 +17,7 @@
 #include "../include/palette.h"
 #include "../include/party_menu.h"
 #include "../include/save.h"
+#include "../include/rtc.h"
 #include "../include/safari_zone.h"
 #include "../include/script.h"
 #include "../include/sound.h"
@@ -42,10 +43,12 @@ u8* __attribute__((long_call)) GetMapName(u8* dest, u16 regionMapId, u16 padLeng
 #define NEW_START_MENU_INFO_BASE_BLOCK 0x210
 #define NEW_START_MENU_WINDOW_NONE 0xFF
 #define NEW_START_MENU_SPRITE_NONE 0xFF
-#define NEW_START_MENU_ICON_Y 140
-#define NEW_START_MENU_ARROW_Y 125
-#define NEW_START_MENU_BG_Y 152
+#define NEW_START_MENU_ICON_Y 80
+#define NEW_START_MENU_ARROW_Y 65
+#define NEW_START_MENU_BG_Y 92
 #define NEW_START_MENU_INFO_TEXT_Y 16
+#define NEW_START_MENU_NAME_TEXT_Y 116
+#define NEW_START_MENU_BG_BOX_TILE_START 26
 #define NEW_START_MENU_INFO_TEXT_TOP 1
 #define NEW_START_MENU_INFO_RIGHT_EDGE (DISPLAY_WIDTH - 8)
 #define NEW_START_MENU_SAFARI_BALLS_X 128
@@ -91,9 +94,6 @@ u8* __attribute__((long_call)) GetMapName(u8* dest, u16 regionMapId, u16 padLeng
 #define UnlockPlayerFieldControls_ ((void (*)(void))0x0806994D)
 #define gDifferentSaveFile (*(bool8 *)0x02031DB0)
 
-extern u8 gText_StartMenu_TimeBase_12Hr[];
-extern u8 gText_StartMenu_AM[];
-extern u8 gText_StartMenu_PM[];
 extern u8 gText_StartMenu_Sunday[];
 extern u8 gText_StartMenu_Monday[];
 extern u8 gText_StartMenu_Tuesday[];
@@ -145,13 +145,14 @@ struct NewStartMenuState
     u8 windowId;
     u8 infoWindowId;
     u8 bgSpriteIds[NEW_START_MENU_BG_SPRITES];
-    u8 infoBgSpriteIds[NEW_START_MENU_BG_SPRITES];
     u8 iconSpriteIds[NEW_START_MENU_VISIBLE_ICONS];
     u8 iconObjWindowSpriteIds[NEW_START_MENU_VISIBLE_ICONS];
     u8 scrollIconSpriteId;
     u8 scrollIconObjWindowSpriteId;
     u8 infoTextSpriteIds[NEW_START_MENU_INFO_TEXT_SPRITES];
     u8 infoTextObjWindowSpriteIds[NEW_START_MENU_INFO_TEXT_SPRITES];
+    u8 nameTextSpriteIds[NEW_START_MENU_INFO_TEXT_SPRITES];
+    u8 nameTextObjWindowSpriteIds[NEW_START_MENU_INFO_TEXT_SPRITES];
     u8 actions[NEW_START_MENU_ACTION_COUNT];
     u8 actionCount;
     u8 arrowSpriteId;
@@ -185,6 +186,8 @@ struct NewStartMenuState
     u16 savedObjPalTags[3];
     u8 infoWindowTiles[NEW_START_MENU_INFO_TILE_BYTES];
     u8 infoTextTiles[NEW_START_MENU_INFO_TILE_BYTES];
+    u8 nameWindowTiles[NEW_START_MENU_INFO_TILE_BYTES];
+    u8 nameTextTiles[NEW_START_MENU_INFO_TILE_BYTES];
     bool8 (*callback)(void);
 };
 
@@ -264,8 +267,9 @@ static const u8 *const sNewStartMenuDisplayNames[NEW_START_MENU_ACTION_COUNT] =
 static const struct TextColor sNewStartMenuTextColor =
 {
     .bgColor = TEXT_COLOR_TRANSPARENT,
-    .fgColor = TEXT_COLOR_WHITE,
-    .shadowColor = TEXT_COLOR_DARK_GREY,
+    //文字精灵与背景条共用BG调色板(槽13):色号2=白(前景)、色号1=深灰(阴影)
+    .fgColor = 2,
+    .shadowColor = 1,
 };
 
 static const u16 sNewStartMenuBGPalRaw[16] =
@@ -785,7 +789,6 @@ static void InitNewStartMenuState(struct NewStartMenuState *state)
     for (i = 0; i < NEW_START_MENU_BG_SPRITES; i++)
     {
         state->bgSpriteIds[i] = NEW_START_MENU_SPRITE_NONE;
-        state->infoBgSpriteIds[i] = NEW_START_MENU_SPRITE_NONE;
     }
 
     for (i = 0; i < NEW_START_MENU_VISIBLE_ICONS; i++)
@@ -798,6 +801,8 @@ static void InitNewStartMenuState(struct NewStartMenuState *state)
     {
         state->infoTextSpriteIds[i] = NEW_START_MENU_SPRITE_NONE;
         state->infoTextObjWindowSpriteIds[i] = NEW_START_MENU_SPRITE_NONE;
+        state->nameTextSpriteIds[i] = NEW_START_MENU_SPRITE_NONE;
+        state->nameTextObjWindowSpriteIds[i] = NEW_START_MENU_SPRITE_NONE;
     }
 
     for (i = 0; i < 3; i++)
@@ -931,36 +936,39 @@ static void DestroyNewStartMenuBgSprites(struct NewStartMenuState *state)
             DestroySprite(&gSprites[state->bgSpriteIds[i]]);
             state->bgSpriteIds[i] = NEW_START_MENU_SPRITE_NONE;
         }
+    }
+}
 
-        if (state->infoBgSpriteIds[i] < MAX_SPRITES)
+static void DestroyNewStartMenuRowTextSprites(u8 *spriteIds, u8 *objSpriteIds)
+{
+    u32 i;
+
+    for (i = 0; i < NEW_START_MENU_INFO_TEXT_SPRITES; i++)
+    {
+        if (objSpriteIds[i] < MAX_SPRITES)
         {
-            FreeSpriteTiles(&gSprites[state->infoBgSpriteIds[i]]);
-            DestroySprite(&gSprites[state->infoBgSpriteIds[i]]);
-            state->infoBgSpriteIds[i] = NEW_START_MENU_SPRITE_NONE;
+            FreeSpriteTiles(&gSprites[objSpriteIds[i]]);
+            DestroySprite(&gSprites[objSpriteIds[i]]);
+            objSpriteIds[i] = NEW_START_MENU_SPRITE_NONE;
+        }
+
+        if (spriteIds[i] < MAX_SPRITES)
+        {
+            FreeSpriteTiles(&gSprites[spriteIds[i]]);
+            DestroySprite(&gSprites[spriteIds[i]]);
+            spriteIds[i] = NEW_START_MENU_SPRITE_NONE;
         }
     }
 }
 
 static void DestroyNewStartMenuInfoTextSprites(struct NewStartMenuState *state)
 {
-    u32 i;
+    DestroyNewStartMenuRowTextSprites(state->infoTextSpriteIds, state->infoTextObjWindowSpriteIds);
+}
 
-    for (i = 0; i < NEW_START_MENU_INFO_TEXT_SPRITES; i++)
-    {
-        if (state->infoTextObjWindowSpriteIds[i] < MAX_SPRITES)
-        {
-            FreeSpriteTiles(&gSprites[state->infoTextObjWindowSpriteIds[i]]);
-            DestroySprite(&gSprites[state->infoTextObjWindowSpriteIds[i]]);
-            state->infoTextObjWindowSpriteIds[i] = NEW_START_MENU_SPRITE_NONE;
-        }
-
-        if (state->infoTextSpriteIds[i] < MAX_SPRITES)
-        {
-            FreeSpriteTiles(&gSprites[state->infoTextSpriteIds[i]]);
-            DestroySprite(&gSprites[state->infoTextSpriteIds[i]]);
-            state->infoTextSpriteIds[i] = NEW_START_MENU_SPRITE_NONE;
-        }
-    }
+static void DestroyNewStartMenuNameTextSprites(struct NewStartMenuState *state)
+{
+    DestroyNewStartMenuRowTextSprites(state->nameTextSpriteIds, state->nameTextObjWindowSpriteIds);
 }
 
 static void CopyNewStartMenuBgTilesToSprite(u8 spriteId, u8 srcTileY, u8 rowsToCopy, u8 spritePart)
@@ -1020,65 +1028,61 @@ static void CreateNewStartMenuBgSprites(struct NewStartMenuState *state)
         SetNewStartMenuSpritePalette(&gSprites[spriteId], NEW_START_MENU_BG_OBJ_PAL_SLOT);
         CopyNewStartMenuBgTilesToSprite(spriteId, 0, 5, i);
     }
+}
 
-    for (i = 0; i < NEW_START_MENU_BG_SPRITES; i++)
+static void ClearNewStartMenuRowTextSprites(const u8 *spriteIds, const u8 *objSpriteIds)
+{
+    u32 i;
+
+    for (i = 0; i < NEW_START_MENU_INFO_TEXT_SPRITES; i++)
     {
-        u8 spriteId = CreateSprite(&sNewStartMenuBgTemplate, sNewStartMenuBgX[i], 32, 2);
-
-        if (spriteId == MAX_SPRITES)
+        if (spriteIds[i] < MAX_SPRITES)
         {
-            DestroyNewStartMenuBgSprites(state);
-            return;
+            u8 *tileData = (u8 *)(OBJ_VRAM0 + gSprites[spriteIds[i]].oam.tileNum * TILE_SIZE_4BPP);
+            CpuFill16(0, tileData, NEW_START_MENU_INFO_TEXT_SPRITE_BYTES);
         }
 
-        state->infoBgSpriteIds[i] = spriteId;
-        SetNewStartMenuSpritePalette(&gSprites[spriteId], NEW_START_MENU_BG_OBJ_PAL_SLOT);
-        CopyNewStartMenuBgTilesToSprite(spriteId, 0, NEW_START_MENU_INFO_HEIGHT, i);
+        if (objSpriteIds[i] < MAX_SPRITES)
+        {
+            u8 *tileData = (u8 *)(OBJ_VRAM0 + gSprites[objSpriteIds[i]].oam.tileNum * TILE_SIZE_4BPP);
+            CpuFill16(0, tileData, NEW_START_MENU_INFO_TEXT_SPRITE_BYTES);
+        }
     }
 }
 
 static void ClearNewStartMenuInfoTextSprites(struct NewStartMenuState *state)
 {
-    u32 i;
-
-    CpuFill16(0, state->infoTextTiles, sizeof(state->infoTextTiles));
-
-    for (i = 0; i < NEW_START_MENU_INFO_TEXT_SPRITES; i++)
-    {
-        if (state->infoTextSpriteIds[i] < MAX_SPRITES)
-        {
-            u8 *tileData = (u8 *)(OBJ_VRAM0 + gSprites[state->infoTextSpriteIds[i]].oam.tileNum * TILE_SIZE_4BPP);
-            CpuFill16(0, tileData, NEW_START_MENU_INFO_TEXT_SPRITE_BYTES);
-        }
-
-        if (state->infoTextObjWindowSpriteIds[i] < MAX_SPRITES)
-        {
-            u8 *tileData = (u8 *)(OBJ_VRAM0 + gSprites[state->infoTextObjWindowSpriteIds[i]].oam.tileNum * TILE_SIZE_4BPP);
-            CpuFill16(0, tileData, NEW_START_MENU_INFO_TEXT_SPRITE_BYTES);
-        }
-    }
+    //文字精灵同时承载背景条和文字:缓存重置为背景图块而不是全零
+    CpuCopy16(state->infoWindowTiles, state->infoTextTiles, sizeof(state->infoTextTiles));
+    ClearNewStartMenuRowTextSprites(state->infoTextSpriteIds, state->infoTextObjWindowSpriteIds);
 }
 
-static void CopyNewStartMenuTextWindowToSpritesFrom(struct NewStartMenuState *state, u8 startSprite)
+static void ClearNewStartMenuNameTextSprites(struct NewStartMenuState *state)
+{
+    CpuCopy16(state->nameWindowTiles, state->nameTextTiles, sizeof(state->nameTextTiles));
+    ClearNewStartMenuRowTextSprites(state->nameTextSpriteIds, state->nameTextObjWindowSpriteIds);
+}
+
+static void CopyNewStartMenuRowWindowToSpritesFrom(u8 windowId, const u8 *spriteIds, const u8 *objSpriteIds, u8 startSprite)
 {
     u32 i;
     u32 row;
     u8 *src;
 
-    if (state->infoWindowId == NEW_START_MENU_WINDOW_NONE)
+    if (windowId == NEW_START_MENU_WINDOW_NONE)
         return;
 
-    src = (u8 *)GetWindowAttribute(state->infoWindowId, WINDOW_TILE_DATA);
+    src = (u8 *)GetWindowAttribute(windowId, WINDOW_TILE_DATA);
 
     for (i = startSprite; i < NEW_START_MENU_INFO_TEXT_SPRITES; i++)
     {
-        if (state->infoTextSpriteIds[i] < MAX_SPRITES)
+        if (spriteIds[i] < MAX_SPRITES)
         {
-            u8 *dst = (u8 *)(OBJ_VRAM0 + gSprites[state->infoTextSpriteIds[i]].oam.tileNum * TILE_SIZE_4BPP);
+            u8 *dst = (u8 *)(OBJ_VRAM0 + gSprites[spriteIds[i]].oam.tileNum * TILE_SIZE_4BPP);
             u8 *dstObjWindow = NULL;
 
-            if (state->infoTextObjWindowSpriteIds[i] < MAX_SPRITES)
-                dstObjWindow = (u8 *)(OBJ_VRAM0 + gSprites[state->infoTextObjWindowSpriteIds[i]].oam.tileNum * TILE_SIZE_4BPP);
+            if (objSpriteIds[i] < MAX_SPRITES)
+                dstObjWindow = (u8 *)(OBJ_VRAM0 + gSprites[objSpriteIds[i]].oam.tileNum * TILE_SIZE_4BPP);
 
             for (row = 0; row < NEW_START_MENU_INFO_HEIGHT; row++)
             {
@@ -1108,9 +1112,9 @@ static void CopyNewStartMenuTextWindowToSpritesFrom(struct NewStartMenuState *st
     }
 }
 
-static void PrintNewStartMenuInfoText(struct NewStartMenuState *state, s16 x, const u8 *str)
+static void PrintNewStartMenuRowText(u8 windowId, u8 *rowTiles, const u8 *spriteIds, const u8 *objSpriteIds, s16 x, const u8 *str)
 {
-    if (state->infoWindowId == NEW_START_MENU_WINDOW_NONE)
+    if (windowId == NEW_START_MENU_WINDOW_NONE)
         return;
 
     if (x < 0)
@@ -1119,10 +1123,10 @@ static void PrintNewStartMenuInfoText(struct NewStartMenuState *state, s16 x, co
     if (x >= NEW_START_MENU_INFO_WIDTH * 8)
         return;
 
-    FillWindowPixelBuffer(state->infoWindowId, PIXEL_FILL(0));
-    CopyToWindowPixelBuffer(state->infoWindowId, state->infoTextTiles, sizeof(state->infoTextTiles), 0);
+    FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
+    CopyToWindowPixelBuffer(windowId, rowTiles, NEW_START_MENU_INFO_TILE_BYTES, 0);
     WindowPrint(
-        state->infoWindowId,
+        windowId,
         NEW_START_MENU_ICON_FONT,
         x,
         NEW_START_MENU_INFO_TEXT_TOP,
@@ -1130,10 +1134,20 @@ static void PrintNewStartMenuInfoText(struct NewStartMenuState *state, s16 x, co
         0,
         str);
     CpuCopy16(
-        (const void *)GetWindowAttribute(state->infoWindowId, WINDOW_TILE_DATA),
-        state->infoTextTiles,
-        sizeof(state->infoTextTiles));
-    CopyNewStartMenuTextWindowToSpritesFrom(state, 0);
+        (const void *)GetWindowAttribute(windowId, WINDOW_TILE_DATA),
+        rowTiles,
+        NEW_START_MENU_INFO_TILE_BYTES);
+    CopyNewStartMenuRowWindowToSpritesFrom(windowId, spriteIds, objSpriteIds, 0);
+}
+
+static void PrintNewStartMenuInfoText(struct NewStartMenuState *state, s16 x, const u8 *str)
+{
+    PrintNewStartMenuRowText(state->infoWindowId, state->infoTextTiles, state->infoTextSpriteIds, state->infoTextObjWindowSpriteIds, x, str);
+}
+
+static void PrintNewStartMenuNameText(struct NewStartMenuState *state, s16 x, const u8 *str)
+{
+    PrintNewStartMenuRowText(state->infoWindowId, state->nameTextTiles, state->nameTextSpriteIds, state->nameTextObjWindowSpriteIds, x, str);
 }
 
 static u8 GetNewStartMenuWindowPixel(const u8 *tileData, u32 widthTiles, u32 x, u32 y)
@@ -1188,40 +1202,50 @@ static s16 GetNewStartMenuRenderedRightAlignX(struct NewStartMenuState *state, c
     return rightEdge - width;
 }
 
-static void CreateNewStartMenuInfoTextSprites(struct NewStartMenuState *state)
+static bool8 CreateNewStartMenuRowTextSprites(s16 y, u8 *spriteIds, u8 *objSpriteIds)
 {
     u32 i;
 
     for (i = 0; i < NEW_START_MENU_INFO_TEXT_SPRITES; i++)
     {
-        u8 spriteId = CreateSprite(&sNewStartMenuInfoTextTemplate, sNewStartMenuInfoTextX[i], NEW_START_MENU_INFO_TEXT_Y, 0);
+        u8 spriteId = CreateSprite(&sNewStartMenuInfoTextTemplate, sNewStartMenuInfoTextX[i], y, 0);
         u8 objWindowSpriteId;
 
         if (spriteId == MAX_SPRITES)
-        {
-            DestroyNewStartMenuInfoTextSprites(state);
-            return;
-        }
+            return FALSE;
 
-        state->infoTextSpriteIds[i] = spriteId;
-        SetNewStartMenuSpritePalette(&gSprites[spriteId], NEW_START_MENU_ICON_OBJ_PAL_SLOT);
+        spriteIds[i] = spriteId;
+        SetNewStartMenuSpritePalette(&gSprites[spriteId], NEW_START_MENU_BG_OBJ_PAL_SLOT);
 
         if (IsNewStartMenuInDarkCave())
         {
-            objWindowSpriteId = CreateSprite(&sNewStartMenuInfoTextTemplate, sNewStartMenuInfoTextX[i], NEW_START_MENU_INFO_TEXT_Y, 0);
+            objWindowSpriteId = CreateSprite(&sNewStartMenuInfoTextTemplate, sNewStartMenuInfoTextX[i], y, 0);
             if (objWindowSpriteId == MAX_SPRITES)
-            {
-                DestroyNewStartMenuInfoTextSprites(state);
-                return;
-            }
+                return FALSE;
 
-            state->infoTextObjWindowSpriteIds[i] = objWindowSpriteId;
-            SetNewStartMenuSpritePalette(&gSprites[objWindowSpriteId], NEW_START_MENU_ICON_OBJ_PAL_SLOT);
+            objSpriteIds[i] = objWindowSpriteId;
+            SetNewStartMenuSpritePalette(&gSprites[objWindowSpriteId], NEW_START_MENU_BG_OBJ_PAL_SLOT);
             gSprites[objWindowSpriteId].oam.objMode = ST_OAM_OBJ_WINDOW;
         }
     }
 
-    ClearNewStartMenuInfoTextSprites(state);
+    return TRUE;
+}
+
+static void CreateNewStartMenuInfoTextSprites(struct NewStartMenuState *state)
+{
+    if (CreateNewStartMenuRowTextSprites(NEW_START_MENU_INFO_TEXT_Y, state->infoTextSpriteIds, state->infoTextObjWindowSpriteIds))
+        ClearNewStartMenuInfoTextSprites(state);
+    else
+        DestroyNewStartMenuInfoTextSprites(state);
+}
+
+static void CreateNewStartMenuNameTextSprites(struct NewStartMenuState *state)
+{
+    if (CreateNewStartMenuRowTextSprites(NEW_START_MENU_NAME_TEXT_Y, state->nameTextSpriteIds, state->nameTextObjWindowSpriteIds))
+        ClearNewStartMenuNameTextSprites(state);
+    else
+        DestroyNewStartMenuNameTextSprites(state);
 }
 
 static void BackupNewStartMenuObjPalettes(struct NewStartMenuState *state)
@@ -1298,6 +1322,21 @@ static void LoadNewStartMenuSpritePalettes(struct NewStartMenuState *state)
     CpuCopy16(sNewStartMenuArrowPalRaw, (void *)(OBJ_PLTT + arrowOffset * sizeof(u16)), NEW_START_MENU_PALETTE_BYTES);
 }
 
+static void PrepareNewStartMenuNameTiles(struct NewStartMenuState *state)
+{
+    u32 row;
+
+    CpuFill16(0, state->nameWindowTiles, sizeof(state->nameWindowTiles));
+
+    for (row = 0; row < NEW_START_MENU_INFO_HEIGHT; row++)
+    {
+        CpuCopy16(
+            &sNewStartMenuBGTiles[row * NEW_START_MENU_BG_TILE_WIDTH * TILE_SIZE_4BPP],
+            &state->nameWindowTiles[row * NEW_START_MENU_INFO_WIDTH * TILE_SIZE_4BPP],
+            NEW_START_MENU_BG_BOX_TILE_START * TILE_SIZE_4BPP);
+    }
+}
+
 static void PrepareNewStartMenuInfoTiles(struct NewStartMenuState *state)
 {
     u32 row;
@@ -1325,11 +1364,20 @@ static void ResetNewStartMenuInfoBg(struct NewStartMenuState *state)
     CopyToWindowPixelBuffer(state->infoWindowId, state->infoWindowTiles, sizeof(state->infoWindowTiles), 0);
 }
 
+static void ResetNewStartMenuNameBg(struct NewStartMenuState *state)
+{
+    if (state->infoWindowId == NEW_START_MENU_WINDOW_NONE)
+        return;
+
+    CopyToWindowPixelBuffer(state->infoWindowId, state->nameWindowTiles, sizeof(state->nameWindowTiles), 0);
+}
+
 static void LoadNewStartMenuBg(struct NewStartMenuState *state)
 {
     struct WindowTemplate template;
 
     PrepareNewStartMenuInfoTiles(state);
+    PrepareNewStartMenuNameTiles(state);
     template = SetWindowTemplateFields(0, 0, 20, NEW_START_MENU_INFO_WIDTH, 2, 0, NEW_START_MENU_INFO_BASE_BLOCK);
     state->infoWindowId = AddWindow(&template);
     FillWindowPixelBuffer(state->infoWindowId, PIXEL_FILL(0));
@@ -1358,7 +1406,7 @@ static void EnableNewStartMenuBlend(struct NewStartMenuState *state)
     SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(0, DISPLAY_WIDTH));
     SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(0, NEW_START_MENU_INFO_HEIGHT * 8));
     SetGpuReg(REG_OFFSET_WIN1H, WIN_RANGE(0, DISPLAY_WIDTH));
-    SetGpuReg(REG_OFFSET_WIN1V, WIN_RANGE(NEW_START_MENU_ICON_Y - 20, DISPLAY_HEIGHT));
+    SetGpuReg(REG_OFFSET_WIN1V, WIN_RANGE(NEW_START_MENU_ARROW_Y - 12, NEW_START_MENU_NAME_TEXT_Y + 16));
     SetGpuReg(REG_OFFSET_WININ,
         WININ_WIN0_BG_ALL | WININ_WIN0_OBJ | WININ_WIN0_CLR
         | WININ_WIN1_BG_ALL | WININ_WIN1_OBJ | WININ_WIN1_CLR);
@@ -1410,16 +1458,37 @@ static void DrawNewStartMenuMessage(struct NewStartMenuState *state, const u8 *t
     ResetNewStartMenuInfoBg(state);
 }
 
-static void DrawNewStartMenuInfo(struct NewStartMenuState *state)
+static void DrawNewStartMenuName(struct NewStartMenuState *state)
 {
     u8 action;
     const u8 *name;
     s16 x;
+    s16 width;
 
     if (state->infoWindowId == NEW_START_MENU_WINDOW_NONE)
         return;
 
     action = state->actions[state->cursorPos];
+    StringExpandPlaceholders(gStringVar2, sNewStartMenuDisplayNames[action]);
+    name = gStringVar2;
+
+    //菜单名显示在图标栏下方居中
+    width = DISPLAY_WIDTH - GetNewStartMenuRenderedRightAlignX(state, name, DISPLAY_WIDTH);
+    x = (DISPLAY_WIDTH - width) / 2;
+    if (x < 4)
+        x = 4;
+
+    ResetNewStartMenuNameBg(state);
+    FillWindowPixelBuffer(state->infoWindowId, PIXEL_FILL(0));
+    ClearNewStartMenuNameTextSprites(state);
+    PrintNewStartMenuNameText(state, x, name);
+    ResetNewStartMenuNameBg(state);
+}
+
+static void DrawNewStartMenuInfo(struct NewStartMenuState *state)
+{
+    if (state->infoWindowId == NEW_START_MENU_WINDOW_NONE)
+        return;
 
     ResetNewStartMenuInfoBg(state);
     CopyWindowToVram(state->infoWindowId, COPYWIN_GFX);
@@ -1438,48 +1507,43 @@ static void DrawNewStartMenuInfo(struct NewStartMenuState *state)
     }
     else
     {
-        // 显示当前时间（替代金钱）
-        const u8* amPMString = (gClock.hour >= 12) ? gText_StartMenu_PM : gText_StartMenu_AM;
+        // 左上:星期 + 月/日/年 + 24小时制时间(拼法与存档界面 BuildDateAndClockStrings 相同)
+        if (RtcGetErrorStatus() & RTC_ERR_FLAG_MASK)
+        {
+            PrintNewStartMenuInfoText(state, 4, gText_StartMenu_Error);
+        }
+        else
+        {
+            u8 *ptr = StringCopy(gStringVar4, (gClock.dayOfWeek < 7) ? sDayNames[gClock.dayOfWeek] : gText_StartMenu_Error);
 
-        // 格式化小时（12小时制）
-        ConvertIntToDecimalStringN(gStringVar1,
-            (gClock.hour == 0) ? 12 : (gClock.hour > 12) ? gClock.hour - 12 : gClock.hour,
-            STR_CONV_MODE_RIGHT_ALIGN, 2);
+            *ptr++ = CHAR_SPACE;
+            ptr = ConvertIntToDecimalStringN(ptr, gClock.month, STR_CONV_MODE_LEFT_ALIGN, 2);
+            *ptr++ = CHAR_SLASH;
+            ptr = ConvertIntToDecimalStringN(ptr, gClock.day, STR_CONV_MODE_LEFT_ALIGN, 2);
+            *ptr++ = CHAR_SLASH;
+            ptr = ConvertIntToDecimalStringN(ptr, gClock.year, STR_CONV_MODE_LEFT_ALIGN, 4);
+            *ptr++ = CHAR_SPACE;
+            ptr = ConvertIntToDecimalStringN(ptr, gClock.hour, STR_CONV_MODE_LEADING_ZEROS, 2);
+            *ptr++ = CHAR_COLON;
+            ConvertIntToDecimalStringN(ptr, gClock.minute, STR_CONV_MODE_LEADING_ZEROS, 2);
+            PrintNewStartMenuInfoText(state, 4, gStringVar4);
+        }
 
-        // 格式化分钟（补零）
-        ConvertIntToDecimalStringN(gStringVar2, gClock.minute, STR_CONV_MODE_LEADING_ZEROS, 2);
-
-        // 构建 AM/PM
-        StringCopy(gStringVar3, amPMString);
-
-        // 获取星期名称
-        StringCopy(gStringVarC,
-            (gClock.dayOfWeek >= 7) ? gText_StartMenu_Error : sDayNames[gClock.dayOfWeek]);
-
-        // 组合完整时间字符串
-        StringExpandPlaceholders(gStringVar4, gText_StartMenu_TimeBase_12Hr);
-        
-        s16 timeWidth = NEW_START_MENU_INFO_RIGHT_EDGE
-                      - GetNewStartMenuRenderedRightAlignX(state, gStringVar4, NEW_START_MENU_INFO_RIGHT_EDGE);
-
-        // 打印时间
-        PrintNewStartMenuInfoText(state, 4, gStringVar4);
-
+        // 右上角:当前地名
         {
             u8 mapNameBuf[32];
+            s16 x;
+
             GetMapName(mapNameBuf, gMapHeader.regionMapSectionId, 0);
-            PrintNewStartMenuInfoText(state, 4 + timeWidth + 16, mapNameBuf);
+            x = GetNewStartMenuRenderedRightAlignX(state, mapNameBuf, NEW_START_MENU_INFO_RIGHT_EDGE);
+            if (x < 4)
+                x = 4;
+            PrintNewStartMenuInfoText(state, x, mapNameBuf);
         }
     }
 
-    StringExpandPlaceholders(gStringVar2, sNewStartMenuDisplayNames[action]);
-    name = gStringVar2;
-    x = GetNewStartMenuRenderedRightAlignX(state, name, NEW_START_MENU_INFO_RIGHT_EDGE);
-    if (x < 0)
-        x = 0;
-
-    PrintNewStartMenuInfoText(state, x, name);
     ResetNewStartMenuInfoBg(state);
+    DrawNewStartMenuName(state);
 }
 
 static void RedrawNewStartMenu(struct NewStartMenuState *state)
@@ -1860,6 +1924,7 @@ static void CleanupNewStartMenuResources(struct NewStartMenuState *state)
     DestroyNewStartMenuIconSprites(state);
     DestroyNewStartMenuArrowSprite(state);
     DestroyNewStartMenuInfoTextSprites(state);
+    DestroyNewStartMenuNameTextSprites(state);
     RestoreNewStartMenuObjPalettes(state);
 
     if (state->infoWindowId != NEW_START_MENU_WINDOW_NONE)
@@ -1925,6 +1990,7 @@ static void Task_NewStartMenu(u8 taskId)
         EnableNewStartMenuObjWindow(state);
         CreateNewStartMenuBgSprites(state);
         CreateNewStartMenuInfoTextSprites(state);
+        CreateNewStartMenuNameTextSprites(state);
         RedrawNewStartMenu(state);
         gTasks[taskId].data[0] = TASK_STATE_DRAW_INITIAL;
         break;
