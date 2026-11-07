@@ -241,6 +241,7 @@ extern const u8 gText_SoundStereo[];
 extern const u8 gText_ButtonTypeHelp[];
 extern const u8 gText_ButtonTypeLR[];
 extern const u8 gText_ButtonTypeLEqualsA[];
+extern const u8 gText_ButtonTypeRegisteredItem[];
 extern const u8 gText_FrameType[];
 extern const u8 gText_RButtonDexNav[];
 extern const u8 gText_RButtonPokemon[];
@@ -295,7 +296,8 @@ static const u8 *const sButtonTypeOptions[] =
 {
     gText_ButtonTypeHelp,
 	gText_ButtonTypeLR,
-	gText_ButtonTypeLEqualsA
+	gText_ButtonTypeLEqualsA,
+	gText_ButtonTypeRegisteredItem  //引擎支持L键使用第2个登录道具(read_keys.c), 原菜单只有3档选不到
 };
 
 static const u8 *const sRButtonModeOptions[] =
@@ -435,7 +437,7 @@ static const u8 *const sOptionDescriptions[OPT_COUNT] =
     [OPT_CANCEL]                    = gText_OptionDesc_Cancel,
 };
 
-static const u16 sOptionMenuItemCounts[MENUITEM_COUNT] = {3, 2, 2, 2, 3, 10, 0};
+static const u16 sOptionMenuItemCounts[MENUITEM_COUNT] = {3, 2, 2, 2, 4, 10, 0};
 static const u16 sOptionMenuItemCounts_SecondPage[MENUITEM_PAGE2_COUNT] = {3, 2, 2, 4, 4, 2, 0};
 static const u16 sOptionMenuItemCounts_ThirdPage[MENUITEM_PAGE3_COUNT] = {2, 2, 2, 0};
 
@@ -533,6 +535,13 @@ static u16 GetOptionItemCount(u16 item)
     }
 }
 
+/* 旧存档的VAR可能残留越界值(或脚本写入过其他值): 超出档位范围一律视为0,
+   否则值列字符串表会越界读; 关闭菜单时也不会把越界值写回存档 */
+static u16 ClampOptionEnum(u16 value, u16 count)
+{
+    return value >= count ? 0 : value;
+}
+
 static const u8 * GetOptionItemValueString(u16 item)
 {
     u16 *value = GetOptionItemValuePtr(item);
@@ -590,29 +599,23 @@ void CB2_OptionsMenuFromStartMenu(void)
     sOptionMenuPtr->option[MENUITEM_SOUND] = gSaveBlock2->optionsSound;
     sOptionMenuPtr->option[MENUITEM_BUTTONMODE] = gSaveBlock2->optionsButtonMode;
     sOptionMenuPtr->option[MENUITEM_FRAMETYPE] = gSaveBlock2->optionsWindowFrameType;
-    sOptionMenuPtr->option_secondPage[MENUITEM_RBUTTONMODE] = VarGet(VAR_R_BUTTON_MODE);
-    sOptionMenuPtr->option_secondPage[MENUITEM_BATTLEMUSIC] = VarGet(VAR_BATTLE_MUSIC);
-    sOptionMenuPtr->option_secondPage[MENUITEM_WILDLEVELSCALING] = VarGet(VAR_WILD_LEVEL_SCALING);
-    sOptionMenuPtr->option_secondPage[MENUITEM_AUTOSORTBAG] = VarGet(VAR_AUTO_SORT_BAG);
-    sOptionMenuPtr->option_secondPage[MENUITEM_GAME_DIFFICULTY] = VarGet(VAR_GAME_DIFFICULTY);
-    sOptionMenuPtr->option_secondPage[MENUITEM_INVERSE_BATTLE] = VarGet(VAR_INVERSE_BATTLE);
-    sOptionMenuPtr->option_thirdPage[MENUITEM_DOUBLE_BATTLE] = VarGet(VAR_DOUBLE_BATTLE);
-    sOptionMenuPtr->option_thirdPage[MENUITEM_NO_RANDOM_WILD_ENCOUNTERS] = VarGet(VAR_NO_RANDOM_WILD_ENCOUNTERS);
-    sOptionMenuPtr->option_thirdPage[MENUITEM_DAMAGE_DISPLAY] = VarGet(VAR_DAMAGE_TEXT_DISPLAY);
-    sOptionMenuPtr->shinyOdds = VarGet(VAR_SHINY_ODDS);
-    if (sOptionMenuPtr->shinyOdds >= SHINY_ODDS_MENU_OPTION_COUNT) //旧存档该VAR可能是残留数据,视为原版概率
-        sOptionMenuPtr->shinyOdds = 0;
-    sOptionMenuPtr->randomWildSpecies = VarGet(VAR_RANDOM_WILD_SPECIES);
-    if (sOptionMenuPtr->randomWildSpecies >= 2) //旧存档该VAR可能是残留数据,视为关闭
-        sOptionMenuPtr->randomWildSpecies = 0;
+    sOptionMenuPtr->option_secondPage[MENUITEM_RBUTTONMODE] = ClampOptionEnum(VarGet(VAR_R_BUTTON_MODE), sOptionMenuItemCounts_SecondPage[MENUITEM_RBUTTONMODE]);
+    sOptionMenuPtr->option_secondPage[MENUITEM_BATTLEMUSIC] = ClampOptionEnum(VarGet(VAR_BATTLE_MUSIC), sOptionMenuItemCounts_SecondPage[MENUITEM_BATTLEMUSIC]);
+    sOptionMenuPtr->option_secondPage[MENUITEM_WILDLEVELSCALING] = ClampOptionEnum(VarGet(VAR_WILD_LEVEL_SCALING), sOptionMenuItemCounts_SecondPage[MENUITEM_WILDLEVELSCALING]);
+    sOptionMenuPtr->option_secondPage[MENUITEM_AUTOSORTBAG] = ClampOptionEnum(VarGet(VAR_AUTO_SORT_BAG), sOptionMenuItemCounts_SecondPage[MENUITEM_AUTOSORTBAG]);
+    sOptionMenuPtr->option_secondPage[MENUITEM_GAME_DIFFICULTY] = ClampOptionEnum(VarGet(VAR_GAME_DIFFICULTY), sOptionMenuItemCounts_SecondPage[MENUITEM_GAME_DIFFICULTY]);
+    sOptionMenuPtr->option_secondPage[MENUITEM_INVERSE_BATTLE] = ClampOptionEnum(VarGet(VAR_INVERSE_BATTLE), sOptionMenuItemCounts_SecondPage[MENUITEM_INVERSE_BATTLE]);
+    sOptionMenuPtr->option_thirdPage[MENUITEM_DOUBLE_BATTLE] = ClampOptionEnum(VarGet(VAR_DOUBLE_BATTLE), sOptionMenuItemCounts_ThirdPage[MENUITEM_DOUBLE_BATTLE]);
+    sOptionMenuPtr->option_thirdPage[MENUITEM_NO_RANDOM_WILD_ENCOUNTERS] = ClampOptionEnum(VarGet(VAR_NO_RANDOM_WILD_ENCOUNTERS), sOptionMenuItemCounts_ThirdPage[MENUITEM_NO_RANDOM_WILD_ENCOUNTERS]);
+    sOptionMenuPtr->option_thirdPage[MENUITEM_DAMAGE_DISPLAY] = ClampOptionEnum(VarGet(VAR_DAMAGE_TEXT_DISPLAY), sOptionMenuItemCounts_ThirdPage[MENUITEM_DAMAGE_DISPLAY]);
+    sOptionMenuPtr->shinyOdds = ClampOptionEnum(VarGet(VAR_SHINY_ODDS), SHINY_ODDS_MENU_OPTION_COUNT);
+    sOptionMenuPtr->randomWildSpecies = ClampOptionEnum(VarGet(VAR_RANDOM_WILD_SPECIES), 2);
     sOptionMenuPtr->randomLearnsets = FlagGet(FLAG_POKEMON_LEARNSET_RANDOMIZER);
     sOptionMenuPtr->randomAbilities = FlagGet(FLAG_ABILITY_RANDOMIZER);
     sOptionMenuPtr->randomTrainers = FlagGet(FLAG_TRAINER_RANDOMIZER);
     sOptionMenuPtr->expCatchUp = FlagGet(FLAG_EXP_SHARE_CATCH_UP);
     sOptionMenuPtr->easyCatch = FlagGet(FLAG_EASY_CATCH);
-    sOptionMenuPtr->battleMoneyMultiplier = VarGet(VAR_BATTLE_MONEY_MULTIPLIER);
-    if (sOptionMenuPtr->battleMoneyMultiplier > 4)
-        sOptionMenuPtr->battleMoneyMultiplier = 0;
+    sOptionMenuPtr->battleMoneyMultiplier = ClampOptionEnum(VarGet(VAR_BATTLE_MONEY_MULTIPLIER), 5);
 
     for (i = 0; i < MENUITEM_COUNT - 1; i++)
     {
@@ -876,7 +879,7 @@ static u8 OptionMenu_SwitchPage(s8 dir)
 u8 OptionMenu_ProcessInput(void)
 {
     u16 *curr;
-    u16 current;
+    u16 count;
     u16 item;
 
     if (JOY_NEW(L_BUTTON))
@@ -893,11 +896,8 @@ u8 OptionMenu_ProcessInput(void)
         curr = GetOptionItemValuePtr(item);
         if (curr == NULL)
             return 0;
-        current = *curr;
-        if (current == GetOptionItemCount(item) - 1)
-            *curr = 0;
-        else
-            *curr = current + 1;
+        //取模回绕而非「等于末档才归零」: 若值因残留/脚本写入而越界, 也能一步拉回有效范围
+        *curr = (*curr + 1) % GetOptionItemCount(item);
         if (item == OPT_FRAMETYPE)
             return 2;
         return 4;
@@ -908,10 +908,8 @@ u8 OptionMenu_ProcessInput(void)
         curr = GetOptionItemValuePtr(item);
         if (curr == NULL)
             return 0;
-        if (*curr == 0)
-            *curr = GetOptionItemCount(item) - 1;
-        else
-            --*curr;
+        count = GetOptionItemCount(item);
+        *curr = (*curr + count - 1) % count;
         if (item == OPT_FRAMETYPE)
             return 2;
         return 4;
@@ -1027,6 +1025,8 @@ void OptionMenu_PickSwitchCancel(void)
     FillWindowPixelBuffer(2, PIXEL_FILL(15));
     AddTextPrinterParameterized3(2, 0, 4, 0, sOptionMenuPickSwitchCancelTextColor, 0, sOptionPageNames[sOptionMenuPtr->page]);
     x = 0xE4 - GetStringWidth(0, gText_PickSwitchCancel, 0);
+    if (x < 0)
+        x = 0;  //x 形参是 u8, 负数会回绕成大坐标导致整段提示不显示 (与 PrintOptionDescription 同款防护)
     AddTextPrinterParameterized3(2, 0, x, 0, sOptionMenuPickSwitchCancelTextColor, 0, gText_PickSwitchCancel);
     PutWindowTilemap(2);
     CopyWindowToVram(2, COPYWIN_BOTH);

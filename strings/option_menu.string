@@ -13,6 +13,9 @@ R键模式
 #org @gText_PickSwitchCancel
 [L_BUTTON][R_BUTTON]翻页 [DPAD_UP_DOWN]选择 [DPAD_LEFT_RIGHT]切换 [A_BUTTON][B_BUTTON]退出
 
+#org @gText_ButtonTypeRegisteredItem
+L=登录道具2
+
 #org @gText_BattleMusic
 对战音乐
 
