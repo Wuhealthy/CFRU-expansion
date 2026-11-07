@@ -98,8 +98,12 @@ void CB2_ReturnToFieldWithOpenMenuHook(void); //overworld.c - reopens the Start 
 
 #define CH_SPACE 0x00
 #define CH_HYPHEN 0xAE
-#define CH_SLASH 0xBA
 #define CH_COLON 0xF0
+
+//「年/月/日」字面量,构建时由 CN() 展开为 charmap 字节
+static const u8 sText_CN_Year[] = CN("年");
+static const u8 sText_CN_Month[] = CN("月");
+static const u8 sText_CN_Day[] = CN("日");
 
 #define FONT_ID 2
 #define TILEMAP_STRIDE 32
@@ -469,11 +473,12 @@ static void BuildDateAndClockStrings(u8* date, u8* clock)
 		return;
 	}
 
-	ptr = ConvertIntToDecimalStringN(date, gClock.month, STR_CONV_MODE_LEFT_ALIGN, 2);
-	*ptr++ = CH_SLASH;
+	ptr = ConvertIntToDecimalStringN(date, gClock.year, STR_CONV_MODE_LEFT_ALIGN, 4);
+	ptr = StringCopy(ptr, sText_CN_Year);
+	ptr = ConvertIntToDecimalStringN(ptr, gClock.month, STR_CONV_MODE_LEFT_ALIGN, 2);
+	ptr = StringCopy(ptr, sText_CN_Month);
 	ptr = ConvertIntToDecimalStringN(ptr, gClock.day, STR_CONV_MODE_LEFT_ALIGN, 2);
-	*ptr++ = CH_SLASH;
-	ConvertIntToDecimalStringN(ptr, gClock.year, STR_CONV_MODE_LEFT_ALIGN, 4);
+	ptr = StringCopy(ptr, sText_CN_Day);
 
 	ptr = ConvertIntToDecimalStringN(clock, gClock.hour, STR_CONV_MODE_LEADING_ZEROS, 2);
 	*ptr++ = CH_COLON;
@@ -510,10 +515,10 @@ static void PrintPanelTexts(void)
 	for (i = 0; i < WIN_COUNT; ++i)
 		FillWindowPixelBuffer(i, PIXEL_FILL(0));
 
-	//Row 1: date and time
+	//Row 1: date and time(日期改为"2026年11月7日"后更长,时钟右移避开)
 	BuildDateAndClockStrings(buffer, buffer2);
 	PrintText(WIN_DATE, 0, 1, sColorValue, buffer);
-	PrintText(WIN_DATE, 96, 1, sColorValue, buffer2);
+	PrintText(WIN_DATE, 104, 1, sColorValue, buffer2);
 
 	//Row 2: location
 	GetMapNameGeneric_(buffer, gMapHeader.regionMapSectionId);

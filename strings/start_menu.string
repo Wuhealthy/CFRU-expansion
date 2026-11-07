@@ -62,25 +62,25 @@ AM
 PM
 
 #org @gText_StartMenu_Sunday
-周日
+星期日
 
 #org @gText_StartMenu_Monday
-周一
+星期一
 
 #org @gText_StartMenu_Tuesday
-周二
+星期二
 
 #org @gText_StartMenu_Wednesday
-周三
+星期三
 
 #org @gText_StartMenu_Thursday
-周四
+星期四
 
 #org @gText_StartMenu_Friday
-周五
+星期五
 
 #org @gText_StartMenu_Saturday
-周六
+星期六
 
 #org @gText_StartMenu_Error
 报错
