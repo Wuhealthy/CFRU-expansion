@@ -495,6 +495,7 @@ const struct FlingStruct gFlingTable[ITEMS_COUNT] =
 	[ITEM_EMBOARITE] = {80, 0},
 	[ITEM_SAMUROTTITE] = {80, 0},
 	[ITEM_EXCADRILLITE] = {80, 0},
+	[ITEM_ZYGARDEZITE] = {80, 0},
 	[ITEM_ASSAULT_VEST] = {80, 0},
 	[ITEM_DAWN_STONE] = {80, 0},
 	[ITEM_DUSK_STONE] = {80, 0},
@@ -1040,6 +1041,7 @@ const u16 gItemsByType[ITEMS_COUNT] =
 	[ITEM_EMBOARITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_SAMUROTTITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_EXCADRILLITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_ZYGARDEZITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_NORMALIUM_Z] = ITEM_TYPE_Z_CRYSTAL,
 	[ITEM_FIGHTINIUM_Z] = ITEM_TYPE_Z_CRYSTAL,
 	[ITEM_FLYINIUM_Z] = ITEM_TYPE_Z_CRYSTAL,
@@ -1999,7 +2001,7 @@ const u32 *const gItemGraphicsTable[ITEMS_COUNT + 1][2] =
 	{gBag_VenusauriteTiles, gBag_VenusauritePal},
 	{gBagItem_Mirror_HerbTiles, gBagItem_Mirror_HerbPal},
 	{gBagItem_Booster_Energy1Tiles, gBagItem_Booster_Energy1Pal},
-	{gBag_InterrogationTiles, gBag_InterrogationPal}, //Free space 3
+	{gBag_DianciteTiles, gBag_DiancitePal},
 };
 
 const struct Item gItemData[] =
@@ -15616,20 +15618,20 @@ const struct Item gItemData[] =
         .secondaryId = 0
     },
 	{
-        .name = {_F, _r, _e, _e, _SPACE, _S, _p, _a, _c, _e, _SPACE, _3, _END},
-        .itemId = ITEM_FREE_SPACE3,
-        .price = 0,
-        .holdEffect = 0,
-        .holdEffectParam = 0,
-        .description = gText_ItemNone,
-        .importance = 0,
-        .unk19 = 0,
-        .pocket = POCKET_ITEMS,
-        .type = ITEM_USE_BAG_MENU,
-        .fieldUseFunc = FieldUseFunc_OakStopsYou,
-        .battleUsage = 0,
-        .battleUseFunc = NULL,
-        .secondaryId = 0
+        .name = CN("基格尔德石Z"),
+        .itemId = ITEM_ZYGARDEZITE,
+        .price = 5000,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
     },
 };
 #endif

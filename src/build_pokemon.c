@@ -4812,6 +4812,7 @@ static const u16 sExtraFormSpecies[] =
 	SPECIES_PYROAR_F_MEGA,
 	SPECIES_ZYGARDE50_MEGA,
 	SPECIES_CARBINK_MEGA,
+	SPECIES_ZYGARDE_MEGA_Z,
 	//randomizerBan名单其余条目(与assembly/data/species_tables.json对齐;SPECIES_NONE/SPECIES_EGG为防御性条目,正常随机流程抽不到)
 	SPECIES_NONE,
 	SPECIES_EGG,

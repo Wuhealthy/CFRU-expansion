@@ -497,6 +497,7 @@ MegaStoneShopItems:
 	.hword ITEM_EMBOARITE
 	.hword ITEM_SAMUROTTITE
 	.hword ITEM_EXCADRILLITE
+	.hword ITEM_ZYGARDEZITE
 	.hword 0x0
 
 @ 所有招式学习器 TM01–TM120（不含秘传学习器 HM）
