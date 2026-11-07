@@ -259,10 +259,18 @@ EventScript_ChangeHiddenPowerTypeNPCNo:
 	end
 
 EventScript_ChangeHiddenPowerTypeNPCSelected:
+	callasm IsSelectedMonEggInOW
+	compare 0x4001 TRUE @ VAR_TEMP_1: 1=选中的是蛋
+	if TRUE _goto EventScript_ChangeHiddenPowerTypeNPCEgg
 	@ 属性选择逻辑在 system_scripts.s 的共享例程里
 	call SystemScript_ChooseHiddenPowerType
 	compare LASTRESULT 0x7F
 	if equal _goto EventScript_ChangeHiddenPowerTypeNPCNo
+	release
+	end
+
+EventScript_ChangeHiddenPowerTypeNPCEgg:
+	msgbox gText_LButtonMenu_HiddenPower_Egg MSG_NORMAL
 	release
 	end
 
@@ -501,6 +509,7 @@ EventScript_Pallet_LittleGirl_NoMon:
 	end
 
 EventScript_Pallet_LittleGirl_AlreadyDone:
+	bufferfirstpokemon 0x0 @ 重新填BUFFER1, 否则「你的[BUFFER1]还好吗」显示上一个脚本残留的内容(乱码/错名字)
 	msgbox Text_Pallet_LittleGirl_After, MSG_NORMAL
 	release
 	end

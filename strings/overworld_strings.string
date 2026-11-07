@@ -163,6 +163,12 @@ HP
 #org @gText_LButtonMenu_IV_NoMoneyText
 你的钱不够！
 
+#org @gText_LButtonMenu_IV_Egg
+蛋无法更改个体值。
+
+#org @gText_LButtonMenu_HiddenPower_Egg
+蛋无法更改觉醒力量属性。
+
 #org @gText_BikeTurboBoostEnable
 涡轮加速已[GREEN]激活[BLACK]。
 

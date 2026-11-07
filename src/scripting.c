@@ -408,6 +408,19 @@ void sp010_IVSetter(void)
 	CalculateMonStats(&gPlayerParty[partyId]);
 }
 
+//L键菜单个体值编辑/觉醒力量属性更改(含Pallet镇NPC): 检查选中的宝可梦(0x8004)是否为蛋,
+//结果写入VAR_TEMP_1 (TRUE=是蛋, 脚本据此拒绝并提示)
+void IsSelectedMonEggInOW(void)
+{
+	u16 partySlot = VarGet(Var8004);
+	bool8 isEgg = FALSE;
+
+	if (partySlot < PARTY_SIZE)
+		isEgg = GetMonData(&gPlayerParty[partySlot], MON_DATA_IS_EGG, NULL) != 0;
+
+	VarSet(VAR_TEMP_1, isEgg);
+}
+
 void sp011_RibbonSetterCleaner(void)
 {
 	u16 partyId = Var8004;

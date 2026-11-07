@@ -33,6 +33,7 @@ SystemScript_DisableAutoRun:
 	lockall
 	special SPECIAL_STOP_SOUNDS
 	sound 0x3
+	signmsg @ 与开启提示一致用木牌框; signpost标记每帧在底版输入处理开头重置, 不会泄漏到后续消息
 	msgboxsign
 	msgbox gText_AutoRunDisable MSG_SIGN
 	releaseall
@@ -54,6 +55,7 @@ SystemScript_DisableBikeTurboBoost:
 	lockall
 	special SPECIAL_STOP_SOUNDS
 	sound 0x3
+	signmsg
 	msgboxsign
 	msgbox gText_BikeTurboBoostDisable MSG_SIGN
 	releaseall
@@ -75,6 +77,7 @@ SystemScript_DisableSurfTurboBoost:
 	lockall
 	special SPECIAL_STOP_SOUNDS
 	sound 0x3
+	signmsg
 	msgboxsign
 	msgbox gText_SurfTurboBoostDisable MSG_SIGN
 	releaseall
@@ -227,6 +230,9 @@ SystemScript_LButtonMenu_IVMaxAll:
 	waitstate
 	compare 0x8004 PARTY_SIZE
 	if greaterorequal _goto SystemScript_LButtonMenu_Cancelled
+	callasm IsSelectedMonEggInOW
+	compare 0x4001 TRUE @ VAR_TEMP_1: 1=选中的是蛋
+	if TRUE _goto SystemScript_LButtonMenu_IV_Egg
 	msgbox gText_LButtonMenu_IVMaxAll_Confirm MSG_YESNO
 	compare LASTRESULT FALSE
 	if equal _goto SystemScript_LButtonMenu_IVMenu
@@ -244,6 +250,9 @@ SystemScript_LButtonMenu_IVCustom:
 	waitstate
 	compare 0x8004 PARTY_SIZE
 	if greaterorequal _goto SystemScript_LButtonMenu_Cancelled
+	callasm IsSelectedMonEggInOW
+	compare 0x4001 TRUE @ VAR_TEMP_1: 1=选中的是蛋
+	if TRUE _goto SystemScript_LButtonMenu_IV_Egg
 SystemScript_LButtonMenu_IVCustom_StatMenu:
 	multichoiceoption gText_LButtonMenu_IVStat_HP 0
 	multichoiceoption gText_LButtonMenu_IVStat_Atk 1
@@ -311,6 +320,10 @@ SystemScript_LButtonMenu_IVCustom_Invalid:
 
 SystemScript_LButtonMenu_IV_NoMoney:
 	msgbox gText_LButtonMenu_IV_NoMoneyText MSG_NORMAL
+	goto SystemScript_LButtonMenu_IVMenu
+
+SystemScript_LButtonMenu_IV_Egg:
+	msgbox gText_LButtonMenu_IV_Egg MSG_NORMAL
 	goto SystemScript_LButtonMenu_IVMenu
 
 @ 网上商店：所有商店的二级菜单（买完后返回本菜单，按 B 退出）
@@ -1053,9 +1066,16 @@ SystemScript_LButtonMenu_HiddenPower:
 
 	compare 0x8002 0x7
 	if TRUE _goto SystemScript_LButtonMenu_Cancelled
+	callasm IsSelectedMonEggInOW
+	compare 0x4001 TRUE @ VAR_TEMP_1: 1=选中的是蛋
+	if TRUE _goto SystemScript_LButtonMenu_HiddenPower_Egg
 	call SystemScript_ChooseHiddenPowerType
 	compare LASTRESULT 0x7F @ 属性选择被取消
 	if equal _goto SystemScript_LButtonMenu_Cancelled
+	goto SystemScript_LButtonMenu_Training
+
+SystemScript_LButtonMenu_HiddenPower_Egg:
+	msgbox gText_LButtonMenu_HiddenPower_Egg MSG_NORMAL
 	goto SystemScript_LButtonMenu_Training
 
 SystemScript_LButtonMenu_Cancelled:
