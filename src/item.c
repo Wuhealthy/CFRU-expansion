@@ -318,58 +318,52 @@ bool8 GetSetItemObtained(u16 item, u8 caseId)
 
 u8 ReformatItemDescription(u16 itemId, u8* dest, u8 maxWidth)
 {
+	//一行最多 16 个汉字 (32 字节), 按字节边界折行; 描述自带的换行符 (0xFE) 直接忽略, 不转成空格或其他字符
 	//Requires dest be memset to 0xFF before calling!
-	u8 count = 0;
-	u8 k = 0;
 	u8 numLines = 1;
 	u8 buffer[150];
 	u8* desc;
-	u8* lineStart;
-	
+	u8* p;
+	u8* d = dest;
+	u8 lineBytes = 0;
+
 	desc = ItemId_GetDescription(itemId);
 	StringExpandPlaceholders(buffer, desc);
-	lineStart = dest;
 
-	while (buffer[k] != EOS)
+	p = buffer;
+	while (*p != EOS)
 	{
-		if (GetStringWidth(0, lineStart, 0) >= maxWidth)
+		u8 len;
+		if (*p == CHAR_NEWLINE)
 		{
-			do
-			{
-				//Go to end of previous word
-				dest--;
-				k--;
-			} while (buffer[k] != CHAR_SPACE && buffer[k] != CHAR_NEWLINE);
-
-			if (buffer[k + 1] != EOS) //String will continue on another line
-			{
-				*dest = CHAR_NEWLINE;
-				numLines++;
-			}
-
-			count = 0;
-			dest++;
-			k++;
-			lineStart = dest;
+			++p; //忽略文本自带的换行符
 			continue;
 		}
 
-		*dest = buffer[k];
-		if (buffer[k] == CHAR_NEWLINE)
+		//汉字/控制码是多字节, 折行只能落在字符边界上
+		if ((*p >= 0x01 && *p <= 0x1E) || *p == 0xF9)
+			len = 2; //2-byte glyph lead byte (Chinese)
+		else if (*p == 0xFD)
+			len = 2; //Buffer marker + buffer id byte
+		else if (*p == 0xFC)
+			len = 3; //Color control + two argument bytes
+		else
+			len = 1;
+
+		if (lineBytes + len > 32)
 		{
-			if (buffer[k - 1] != CHAR_SPACE) //Don't double space
-				*dest = CHAR_SPACE;
-			else
-				dest--; //Don't change curr position
+			*d++ = CHAR_NEWLINE;
+			numLines++;
+			lineBytes = 0;
 		}
 
-		dest++;
-		k++;
-		count++;
+		lineBytes += len;
+		while (len--)
+			*d++ = *p++;
 	}
 
 	// finish string
-	*dest = EOS;
+	*d = EOS;
 
 	return numLines;
 }
