@@ -422,7 +422,7 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_MUTANTADAPT] = 7,
 	[ABILITY_PSYCHOREBOUND] = 6,
 	[ABILITY_SHADOWHEAL] = 6,
-	[ABILITY_EEVEEHERO] = 10,
+	[ABILITY_NINECOLOR] = 10,
 	[ABILITY_FLOWERBLADE] = 6,
 	[ABILITY_FOGGYVEIL] = 5,
 	[ABILITY_BIOSHELL] = 6,
@@ -3041,7 +3041,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 						case ABILITY_COMATOSE:
 						case ABILITY_COMMANDER:
 						case ABILITY_DISGUISE:
-						case ABILITY_EEVEEHERO:
+						case ABILITY_NINECOLOR:
 						case ABILITY_GULPMISSILE:
 						case ABILITY_MULTITYPE:
 						case ABILITY_POWERCONSTRUCT:
@@ -3098,7 +3098,7 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 						case ABILITY_ORICHALCUMPULSE:
 						case ABILITY_HADRONENGINE:
 						case ABILITY_ZEROTOHERO:
-						case ABILITY_EEVEEHERO:
+						case ABILITY_NINECOLOR:
 							break;
 						default:
 							BattleScriptPushCursor();

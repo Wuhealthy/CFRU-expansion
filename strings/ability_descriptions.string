@@ -995,8 +995,8 @@ HP全满时受到的伤害变为效果不好
 #org @DESC_SHADOWHEAL
 每回合结束时，场上每个异常状态\n回复最大HP的1/16。
 
-#org @DESC_EEVEEHERO
-使出的一般属性招式，\n若效果一般，则威力会变为2倍。
+#org @DESC_NINECOLOR
+使出的一般属性招式都会变为效果绝佳。
 
 #org @DESC_FLOWERBLADE
 草属性招式必定击中要害，\n并无视对手的道具。

@@ -343,7 +343,7 @@
 #define ABILITY_MUTANTADAPT                          337 // 转守为攻
 #define ABILITY_PSYCHOREBOUND                        338 // 精神棱镜
 #define ABILITY_SHADOWHEAL                           339 // 暗影治愈
-#define ABILITY_EEVEEHERO                            340 // 全知全能
+#define ABILITY_NINECOLOR                            340 // 九彩升华(原全知全能)
 #define ABILITY_FLOWERBLADE                          341 // 花刃
 #define ABILITY_FOGGYVEIL                            342 // 雾幕
 #define ABILITY_BIOSHELL                             343 // 先拔头筹
