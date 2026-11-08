@@ -1462,6 +1462,7 @@ void TypeDamageModification(ability_t atkAbility, u8 bankDef, u16 move, u8 moveT
 static void TypeDamageModificationByDefTypes(ability_t atkAbility, u8 bankDef, u16 move, u8 moveType, u8* flags, u8 defType1, u8 defType2, u8 defType3, struct Pokemon* monDef)
 {
 	u8 multiplier1, multiplier2, multiplier3;
+	s32 originalDamage = gBattleMoveDamage;
 
 TYPE_LOOP:
 	multiplier1 = gTypeEffectiveness[moveType][defType1];
@@ -1482,11 +1483,18 @@ TYPE_LOOP:
 		moveType = TYPE_FLYING;
 		goto TYPE_LOOP;
 	}
+
+	//九彩升华:无论目标单/双/三属性,一般招式统一固定2倍(内层按属性逐次乘伤,此处收敛为恰好单次2倍)。
+	//飘风天气使飞行属性不受克制:纯飞行目标内层倍率被拉回正常且无效果绝佳标志,不进入本覆盖,保持普通倍率
+	if (moveType == TYPE_NORMAL && atkAbility == ABILITY_NINECOLOR
+	&& (*flags & MOVE_RESULT_SUPER_EFFECTIVE))
+		gBattleMoveDamage = MathMax(1, (originalDamage * TYPE_MUL_SUPER_EFFECTIVE) / 10);
 }
 
 void TypeDamageModificationPartyMon(ability_t atkAbility, struct Pokemon* monDef, u16 move, u8 moveType, u8* flags)
 {
 	u8 defType1, defType2, multiplier1, multiplier2;
+	s32 originalDamage = gBattleMoveDamage;
 
 	defType1 = GetMonType(monDef, 0);
 	defType2 = GetMonType(monDef, 1);
@@ -1505,6 +1513,11 @@ TYPE_LOOP_AI:
 		moveType = TYPE_FLYING;
 		goto TYPE_LOOP_AI;
 	}
+
+	//同TypeDamageModificationByDefTypes:九彩升华无论属性数统一固定2倍
+	if (moveType == TYPE_NORMAL && atkAbility == ABILITY_NINECOLOR
+	&& (*flags & MOVE_RESULT_SUPER_EFFECTIVE))
+		gBattleMoveDamage = MathMax(1, (originalDamage * TYPE_MUL_SUPER_EFFECTIVE) / 10);
 }
 
 static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, const u8 defType, const u8 bankDef, ability_t atkAbility, u8* flags, struct Pokemon* monDef)
@@ -1575,6 +1588,7 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 		multiplier = TYPE_MUL_SUPER_EFFECTIVE;
 
 	//九彩升华:使出的一般属性招式一律变为效果绝佳(不限于原版"效果一般才变"的对位,对钢/岩石/幽灵等同样生效)
+	//数值统一固定2倍:内层按属性逐次乘伤,由外层TypeDamageModificationByDefTypes/TypeDamageModificationPartyMon收敛为单次
 	if (atkAbility == ABILITY_NINECOLOR && moveType == TYPE_NORMAL)
 		multiplier = TYPE_MUL_SUPER_EFFECTIVE;
 
