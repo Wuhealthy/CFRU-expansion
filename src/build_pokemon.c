@@ -25,6 +25,7 @@
 #include "../include/new/build_pokemon.h"
 #include "../include/new/build_pokemon_2.h"
 #include "../include/new/catching.h"
+#include "../include/new/daycare.h"
 #include "../include/new/damage_calc.h"
 #include "../include/new/dexnav.h"
 #include "../include/new/dynamax.h"
@@ -5053,6 +5054,20 @@ static const u16 sWildBstCapByBadges[] =
 	/*8徽章*/ 9999, //无上限
 };
 
+//随机训练家按徽章数限制可随机的最大种族值总和:比随机野生遭遇高100——0徽章400,每枚徽章+40,8徽章解除限制
+static const u16 sTrainerBstCapByBadges[] =
+{
+	/*0徽章*/ 400,
+	/*1徽章*/ 440,
+	/*2徽章*/ 480,
+	/*3徽章*/ 520,
+	/*4徽章*/ 560,
+	/*5徽章*/ 600,
+	/*6徽章*/ 640,
+	/*7徽章*/ 680,
+	/*8徽章*/ 9999, //无上限
+};
+
 static u8 CountPlayerBadges(void)
 {
 	u16 flagId;
@@ -5146,10 +5161,125 @@ static bool8 SpeciesHasFurtherEvolution(u16 species)
 	return FALSE;
 }
 
+//随机训练家:收集物种可学的TM/HM+教学+蛋招式池(去重);等级招式不在池内,由GiveBoxMonInitialMoveset按等级给出
+static u16 BuildTrainerRandomExtraMovePool(struct Pokemon* mon, u16* pool)
+{
+	u16 num = 0;
+	u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+	u16 dexNum = SpeciesToNationalPokedexNum(species);
+	u32 i, j;
+
+	for (i = 0; i < NUM_TMSHMS; ++i)
+	{
+		if (CanMonLearnTMHM(mon, i))
+		{
+			u16 move = gTMHMMoves[i];
+
+			for (j = 0; j < num && pool[j] != move; ++j)
+				;
+
+			if (j == num && move != MOVE_NONE)
+				pool[num++] = move;
+		}
+	}
+
+	for (i = 0; i < NUM_MOVE_TUTORS; ++i)
+	{
+		#ifdef EXPANDED_MOVE_TUTORS
+		u8 tutRet = CanMonLearnTutorMove(mon, i);
+		#else
+		u8 tutRet = CanLearnTutorMove(species, i);
+		#endif
+		if (tutRet == TRUE
+		|| (tutRet > TRUE && tutRet == dexNum)) //专属教学招式按图鉴编号判定
+		{
+			#ifdef EXPANDED_MOVE_TUTORS
+			u16 move = GetExpandedTutorMove(i);
+			#else
+			u16 move = GetTutorMove(i);
+			#endif
+
+			if (move != MOVE_NONE)
+			{
+				for (j = 0; j < num && pool[j] != move; ++j)
+					;
+
+				if (j == num)
+					pool[num++] = move;
+			}
+		}
+	}
+
+	{
+		u16 eggMoves[EGG_MOVES_ARRAY_COUNT];
+		u8 eggCount = GetAllEggMoves(mon, eggMoves, FALSE); //FALSE=不排除已学会,由下方统一去重
+
+		for (i = 0; i < eggCount; ++i)
+		{
+			u16 move = eggMoves[i];
+
+			if (move == MOVE_NONE)
+				continue;
+
+			for (j = 0; j < num && pool[j] != move; ++j)
+				;
+
+			if (j == num)
+				pool[num++] = move;
+		}
+	}
+
+	return num;
+}
+
+//随机训练家:配招在等级招式基础上叠加随机可学TM/教学/蛋招式——
+//已有招式的格子按TRAINER_RANDOM_EXTRA_MOVE_CHANCE概率替换为池内随机招式;空格子始终用池内招式补满(低等级训练家配招不再残缺)
+static void RandomizeTrainerMonMoveset(struct Pokemon* mon)
+{
+	u16 pool[EGG_MOVES_ARRAY_COUNT + NUM_TMSHMS + (LAST_TOTAL_TUTOR_NUM + 1)];
+	u16 numPool = BuildTrainerRandomExtraMovePool(mon, pool);
+	u8 slot;
+
+	if (numPool == 0)
+		return;
+
+	for (slot = 0; slot < MAX_MON_MOVES; ++slot)
+	{
+		u16 current = GetMonData(mon, MON_DATA_MOVE1 + slot, NULL);
+
+		if (current != MOVE_NONE
+		&& (Random() % 100) >= TRAINER_RANDOM_EXTRA_MOVE_CHANCE)
+			continue; //保留该格等级招式
+
+		//随机挑一个池内招式,不与四格现有招式重复;重试一整圈都不合适则该格保持原样
+		u32 attempt;
+
+		for (attempt = 0; attempt < numPool; ++attempt)
+		{
+			u16 move = pool[Random() % numPool];
+			u8 other;
+
+			for (other = 0; other < MAX_MON_MOVES; ++other)
+			{
+				if (other != slot && GetMonData(mon, MON_DATA_MOVE1 + other, NULL) == move)
+					break;
+			}
+
+			if (other == MAX_MON_MOVES && move != current)
+			{
+				u16 pp = gBattleMoves[move].pp;
+				SetMonData(mon, MON_DATA_MOVE1 + slot, &move);
+				SetMonData(mon, MON_DATA_PP1 + slot, &pp);
+				break;
+			}
+		}
+	}
+}
+
 //随机对战训练家(设置菜单FLAG_TRAINER_RANDOMIZER):队伍构成/等级/携带道具随机化。
-//种族值范围与随机野生遭遇一致(按徽章数查sWildBstCapByBadges);等级先±TRAINER_RANDOM_LEVEL_VARIANCE随机;
+//种族值上限比随机野生遭遇高100(按徽章数查sTrainerBstCapByBadges);等级先±TRAINER_RANDOM_LEVEL_VARIANCE随机;
 //等级达到TRAINER_RANDOM_FULLY_EVOLVED_LEVEL(等级门槛)的宝可梦强制使用完全进化形态(池过稀时放宽);
-//配招清空后按新等级从(可能随机的)升级招式表重建,低等级训练家天然只会弱招式
+//配招清空后按新等级从(可能随机的)升级招式表重建,再按TRAINER_RANDOM_EXTRA_MOVE_CHANCE概率叠加随机可学TM/教学/蛋招式并补满空格
 static void RandomizeTrainerMon(struct Pokemon* mon)
 {
 	u16 newSpecies;
@@ -5174,8 +5304,8 @@ static void RandomizeTrainerMon(struct Pokemon* mon)
 	else if (newLevel > MAX_LEVEL)
 		newLevel = MAX_LEVEL;
 
-	//种族值范围与随机野生遭遇一致:按当前徽章数查sWildBstCapByBadges(队伍每次生成重掷,随徽章进度自然变强)
-	bstCap = sWildBstCapByBadges[CountPlayerBadges()];
+	//种族值上限比随机野生遭遇高100:按当前徽章数查sTrainerBstCapByBadges(队伍每次生成重掷,随徽章进度自然变强)
+	bstCap = sTrainerBstCapByBadges[CountPlayerBadges()];
 	needFullyEvolved = newLevel >= TRAINER_RANDOM_FULLY_EVOLVED_LEVEL;
 
 	//随机物种:排除形态禁表(Mega/极巨化/觉醒/道具变身等);种族值不超徽章上限;达到等级门槛的只取完全进化物种
@@ -5235,9 +5365,10 @@ static void RandomizeTrainerMon(struct Pokemon* mon)
 	SetMonData(mon, MON_DATA_LEVEL, &newLevel);
 	CalculateMonStats(mon);
 
-	//配招按新等级重建(若随机招式表开关同时开启,这里取到的也是随机后的招式,且受等级门槛约束)
+	//配招按新等级重建(若随机招式表开关同时开启,这里取到的也是随机后的招式,且受等级门槛约束),再叠加随机可学TM/教学/蛋招式
 	Memset(mon->moves, 0, sizeof(mon->moves));
 	GiveBoxMonInitialMoveset((void*) mon);
+	RandomizeTrainerMonMoveset(mon);
 
 	//随机携带道具
 	item = sTrainerRandomItems[Random() % ARRAY_COUNT(sTrainerRandomItems)];
