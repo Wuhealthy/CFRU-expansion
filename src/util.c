@@ -206,8 +206,8 @@ bool8 CanSpeciesEvolve(u16 species)
 
 	for (u32 i = 0; i < EVOS_PER_MON; ++i)
 	{
-		if (evolutions[i].method == EVO_NONE) //Most likely end of entries
-			break; //Break now to save time
+		if (evolutions[i].method == EVO_NONE)
+			continue; //空槽跳过,不终止(进化表有效条目可能分散在16槽中)
 		else if (evolutions[i].method != MEGA_EVOLUTION && evolutions[i].method != EVO_GIGANTAMAX)
 			return TRUE;
 	}
@@ -246,8 +246,8 @@ bool8 EvolveSpeciesByLevel(u16* species, u8 level)
 
 	for (u32 i = 0; i < EVOS_PER_MON; ++i)
 	{
-		if (evolutions[i].method == EVO_NONE) //Most likely end of entries
-			break; //Break now to save time
+		if (evolutions[i].method == EVO_NONE)
+			continue; //空槽跳过,不终止(进化表有效条目可能分散在16槽中)
 		else if ((IsLevelUpEvolutionMethod(evolutions[i].method) && level >= evolutions[i].param)
 		||  (IsOtherEvolutionMethod(evolutions[i].method) && level >= 40)
 		||  (IsItemEvolutionMethod(evolutions[i].method) && level >= 45)

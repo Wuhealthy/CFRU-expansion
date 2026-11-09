@@ -4802,23 +4802,6 @@ static const u16 sTrainerRandomItems[] =
 	ITEM_SHELL_BELL, ITEM_WEAKNESS_POLICY, ITEM_SITRUS_BERRY, ITEM_LUM_BERRY,
 };
 
-//随机训练家:判断物种是否还有普通进化(排除Mega/极巨化这类形态登记,它们不算"未完全进化")
-static bool8 SpeciesHasFurtherEvolution(u16 species)
-{
-	u32 k;
-	const struct Evolution* evolutions = gEvolutionTable[species];
-
-	for (k = 0; k < EVOS_PER_MON; ++k)
-	{
-		if (evolutions[k].method == EVO_NONE)
-			continue;
-		if (evolutions[k].method != EVO_MEGA && evolutions[k].method != EVO_GIGANTAMAX)
-			return TRUE;
-	}
-
-	return FALSE;
-}
-
 //随机训练家:收集物种可学的TM/HM+教学+蛋招式池(去重);等级招式不在池内,由GiveBoxMonInitialMoveset按等级给出
 static u16 BuildTrainerRandomExtraMovePool(struct Pokemon* mon, u16* pool)
 {
@@ -4936,7 +4919,7 @@ static void RandomizeTrainerMonMoveset(struct Pokemon* mon)
 
 //随机对战训练家(设置菜单FLAG_TRAINER_RANDOMIZER):队伍构成/等级/携带道具随机化。
 //种族值上限比随机野生遭遇高100(按徽章数查sTrainerBstCapByBadges);等级先±TRAINER_RANDOM_LEVEL_VARIANCE随机;
-//等级达到TRAINER_RANDOM_FULLY_EVOLVED_LEVEL(等级门槛)的宝可梦强制使用完全进化形态(池过稀时放宽);
+//等级达到TRAINER_RANDOM_FULLY_EVOLVED_MIN_BADGES枚徽章的宝可梦强制使用完全进化形态(4徽章时bstCap=560,完全进化池已足够稠密);
 //配招清空后按新等级从(可能随机的)升级招式表重建,再按TRAINER_RANDOM_EXTRA_MOVE_CHANCE概率叠加随机可学TM/教学/蛋招式并补满空格
 static void RandomizeTrainerMon(struct Pokemon* mon)
 {
@@ -4960,10 +4943,14 @@ static void RandomizeTrainerMon(struct Pokemon* mon)
 		newLevel = MAX_LEVEL;
 
 	//种族值上限比随机野生遭遇高100:按当前徽章数查sTrainerBstCapByBadges(队伍每次生成重掷,随徽章进度自然变强)
-	bstCap = sTrainerBstCapByBadges[CountPlayerBadges()];
-	needFullyEvolved = newLevel >= TRAINER_RANDOM_FULLY_EVOLVED_LEVEL;
+	//完全进化门槛:徽章数>=TRAINER_RANDOM_FULLY_EVOLVED_MIN_BADGES(4徽章时bstCap=560,完全进化池已足够稠密)
+	{
+		u8 badgeCount = CountPlayerBadges();
+		bstCap = sTrainerBstCapByBadges[badgeCount];
+		needFullyEvolved = badgeCount >= TRAINER_RANDOM_FULLY_EVOLVED_MIN_BADGES;
+	}
 
-	//随机物种:排除形态禁表(Mega/极巨化/觉醒/道具变身等);种族值不超徽章上限;达到等级门槛的只取完全进化物种
+	//随机物种:排除形态禁表(Mega/极巨化/觉醒/道具变身等);种族值不超徽章上限;徽章达标时强制进化到最终形态
 	for (numAttempts = 0; numAttempts < 100; ++numAttempts)
 	{
 		newSpecies = 1 + (Random() % (NUM_SPECIES - 1));
@@ -4971,29 +4958,16 @@ static void RandomizeTrainerMon(struct Pokemon* mon)
 		//编号0/图鉴编号0(不吃禁表)兜底式再随机
 		if (IsBannedRandomSpecies(newSpecies))
 			continue;
+		//强制完全进化:随机到任意物种后递归进化到最终形态(传MAX_LEVEL满足所有进化条件),不会漏未完全进化形态
+		if (needFullyEvolved)
+			EvolveSpeciesByLevel(&newSpecies, MAX_LEVEL);
+		//进化后可能落入禁表(如某些特殊完全进化形态),再查一次
+		if (IsBannedRandomSpecies(newSpecies))
+			continue;
 		if (GetSpeciesBst(newSpecies) > bstCap)
 			continue; //种族值超出当前徽章数允许的范围
-		if (needFullyEvolved && SpeciesHasFurtherEvolution(newSpecies))
-			continue;
 
 		break;
-	}
-
-	if (numAttempts >= 100 && needFullyEvolved)
-	{
-		//低徽章数时完全进化池在种族值范围内可能过于稀薄:放宽完全进化要求,仅保留种族值范围
-		for (numAttempts = 0; numAttempts < 100; ++numAttempts)
-		{
-			newSpecies = 1 + (Random() % (NUM_SPECIES - 1));
-
-			//编号0/图鉴编号0(不吃禁表)兜底式再随机
-			if (IsBannedRandomSpecies(newSpecies))
-				continue;
-			if (GetSpeciesBst(newSpecies) > bstCap)
-				continue;
-
-			break;
-		}
 	}
 
 	if (numAttempts >= 100) //重掷100次未命中则保持原物种(几乎不可能发生)
