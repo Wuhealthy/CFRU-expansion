@@ -359,6 +359,7 @@ for name, idx in sorted(move_index.items(), key=lambda kv: kv[1]):
         "split": split,
         "target": TARGET_ZH.get(field("target"), ""),
         "desc": move_desc_by_id.get(idx, "").replace("\\n", ""),
+        "effect": field("effect"),
         "sec": num("secondaryEffectChance"),
         "fl": evo_flags,
     })
@@ -434,7 +435,7 @@ MOVE_CAT_DEFS = [
     ("gBallBombMoves", "球弹类招式", "受%s免疫" % abil_zh("ABILITY_BULLETPROOF")),
     ("gDanceMoves", "舞蹈类招式", "受%s影响（连锁发动）" % abil_zh("ABILITY_DANCER")),
     ("gWindMoves", "风类招式", "受%s免疫并提升能力，%s变为蓄电状态" % (abil_zh("ABILITY_WINDRIDER"), abil_zh("ABILITY_WINDPOWER"))),
-    ("gSlicingMoves", "斩击类招式", "受%s影响（威力提升50%%）" % abil_zh("ABILITY_SHARPNESS")),
+    ("gSlicingMoves", "切斩类招式", "受%s影响（威力提升50%%）" % abil_zh("ABILITY_SHARPNESS")),
     ("gMultihitmoves", "连续招式", "多次攻击，受%s影响（每次都判定）" % abil_zh("ABILITY_SKILLLINK")),
     ("gTwoStrikesMoves", "连续招式", "连续攻击2次，受%s影响" % abil_zh("ABILITY_SKILLLINK")),
     ("gTwoToFiveStrikesMoves", "连续招式", "连续攻击2～5次，受%s影响" % abil_zh("ABILITY_SKILLLINK")),
@@ -442,6 +443,7 @@ MOVE_CAT_DEFS = [
     ("gPercent33RecoilMoves", "反作用力类招式", "受%s影响（威力提升20%%），自己也会受到反作用力伤害" % abil_zh("ABILITY_RECKLESS")),
     ("gPercent50RecoilMoves", "反作用力类招式", "受%s影响（威力提升20%%），自己也会受到反作用力伤害" % abil_zh("ABILITY_RECKLESS")),
     ("gHalfMaxHealthRecoilMoves", "反作用力类招式", "自己会损失相当于最大HP一半的体力"),
+    ("@recoilmiss", "反作用力类招式", "招式落空时，自己会损失相当于最大HP一半的体力"),
     ("gChargingMoves", "蓄力类招式", "第一回合蓄力、第二回合攻击"),
     ("gHighCriticalChanceMoves", "易中要害类招式", "更容易击中要害"),
     ("gAlwaysCriticalMoves", "必中要害类招式", "必定击中要害"),
@@ -467,8 +469,14 @@ move_cats.append({"n": "存在追加效果", "d": "除伤害外还带有附加�
 move_cats.append({"n": "存在追加效果", "d": SHEER_NOTE})
 SEC_SHEER_BOTH, SEC_SHEER_ONLY = len(move_cats) - 2, len(move_cats) - 1
 sheer_set = set(special_flags.get("gSheerForceBoostedMoves", []))
+# 连续招式展示范围: 引擎 2 连击表里的招式、EFFECT_DOUBLE_HIT 招式与三张原创表专属招式不计入连续招式
+MULTIHIT_TABLES = ("gMultihitmoves", "gTwoStrikesMoves", "gTwoToFiveStrikesMoves")
+not_multihit = set(special_flags.get("gTwoStrikesMoves", []))
+not_multihit |= {"MOVE_" + m["en"] for m in move_list if m["effect"] == "EFFECT_DOUBLE_HIT"}
+not_multihit |= {"MOVE_SURGINGSTRIKES", "MOVE_TRIPLEDIVE", "MOVE_TRIPLEWATERPULSE"}
 for m in move_list:
     fl = m.pop("fl")
+    effect = m.pop("effect")
     sec = m.pop("sec")
     m["f"] = [("MAKES_CONTACT" in fl), ("PROTECT_AFFECTED" in fl), ("MAGIC_COAT_AFFECTED" in fl),
               ("SNATCH_AFFECTED" in fl), ("MIRROR_MOVE_AFFECTED" in fl),
@@ -488,7 +496,10 @@ for m in move_list:
         hit = ((key == "@priority" and m["priority"] > 0)
                or (key == "@z" and is_z)
                or (key == "@max" and is_max)
+               or (key == "@recoilmiss" and effect == "EFFECT_RECOIL_IF_MISS")
                or (key in special_flags and "MOVE_" + m["en"] in special_flags[key]))
+        if hit and key in MULTIHIT_TABLES and "MOVE_" + m["en"] in not_multihit:
+            hit = False
         if hit and label not in [move_cats[c]["n"] for c in cats]:  # 反作用力/连续多表合并
             cats.append(i)
     m["c"] = cats

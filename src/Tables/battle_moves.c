@@ -11116,7 +11116,7 @@ const struct BattleMove gBattleMoves[] =
 
 	[MOVE_DRAGONDARTS] =
 	{
-		.effect = EFFECT_DOUBLE_HIT,
+		.effect = EFFECT_HIT,
 		.power = 50,
 		.type = TYPE_DRAGON,
 		.accuracy = 100,

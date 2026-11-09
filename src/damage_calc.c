@@ -4394,13 +4394,6 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
     		}
 			break;
 
-		/*case ABILITY_STICKSTICKPASS:
-			if (gSpecialMoveFlags[move].gMultihitmoves)
-    		{
-        		power *= 2;  // 棒棒相传效果：二段攻击威力翻倍
-    		}
-			break;*/
-
 		case ABILITY_HEAVYHAMMER:
 			if (gSpecialMoveFlags[move].gHammerMoves)
     		{
