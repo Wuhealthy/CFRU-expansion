@@ -130,6 +130,15 @@ u8 AIScript_Partner(const u8 bankAtk, const u8 bankAtkPartner, const u16 origina
 				}
 				break;
 
+			case ABILITY_NIGHTVISIONEYE:
+				if ((moveType == TYPE_GHOST || moveType == TYPE_DARK)
+				&&  !IsClassDoublesTotalTeamSupport(partnerClass)
+				&&  AI_STAT_CAN_RISE(bankAtkPartner, STAT_STAGE_ACC))
+				{
+					IncreaseHelpingHandViability(&viability, class);
+				}
+				break;
+
 			// Grass
 			case ABILITY_SAPSIPPER:
 				if (moveType == TYPE_GRASS
@@ -140,6 +149,7 @@ u8 AIScript_Partner(const u8 bankAtk, const u8 bankAtkPartner, const u16 origina
 					IncreaseHelpingHandViability(&viability, class);
 				}
 				break;
+				
 			case ABILITY_WINDRIDER:
 				if (gSpecialMoveFlags[move].gWindMoves
 				&&  !IsClassDoublesTotalTeamSupport(partnerClass)

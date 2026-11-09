@@ -423,6 +423,18 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				}
 				break;
 
+			//Ghost & Dark
+			case ABILITY_NIGHTVISIONEYE:
+				if (moveType == TYPE_GHOST || moveType == TYPE_DARK)
+				{
+					if (!TARGETING_PARTNER)
+					{
+						DECREASE_VIABILITY(20);
+						return viability;
+					}
+				}
+				break;
+
 			//Grass
 			case ABILITY_SAPSIPPER:
 				if (moveType == TYPE_GRASS)

@@ -360,6 +360,7 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_PURIFYINGSALT] = 7,
 	[ABILITY_WELLBAKEDBODY] = 6,
 	[ABILITY_WINDRIDER] = 6,
+	[ABILITY_NIGHTVISIONEYE] = 6,
 	[ABILITY_GUARDDOG] = 5,
 	[ABILITY_ROCKYPAYLOAD] = 5,
 	[ABILITY_WINDPOWER] = 5,
@@ -2599,6 +2600,11 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 				case ABILITY_WINDRIDER:
 					if (gSpecialMoveFlags[move].gWindMoves)
 						effect = 2, statId = STAT_ATK;
+					break;
+
+				case ABILITY_NIGHTVISIONEYE:
+					if (moveType == TYPE_GHOST || moveType == TYPE_DARK)
+						effect = 2, statId = STAT_ACC;
 					break;
 
 				case ABILITY_SILENTGRUDGE:

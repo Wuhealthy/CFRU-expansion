@@ -381,3 +381,4 @@ gAbilityDescriptions:
 .word DESC_LEYLINEGUARD                          @ 370 ABILITY_LEYLINEGUARD
 .word DESC_HIGHVOLTAGE                           @ 371 ABILITY_HIGHVOLTAGE
 .word DESC_NITENICHIRYU                          @ 372 ABILITY_NITENICHIRYU
+.word DESC_NIGHTVISIONEYE                        @ 373 ABILITY_NIGHTVISIONEYE
