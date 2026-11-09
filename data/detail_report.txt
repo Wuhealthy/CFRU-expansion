@@ -1,0 +1,16 @@
+特性详细效果描述生成报告
+========================================
+总特性数: 372
+自动提取: 115
+人工补充: 250
+占位: 7
+覆盖率: 98.1%
+
+占位特性清单 (7):
+  0 NONE 
+  301 EMBODYASPECTTEALMASK 面影辉映
+  302 EMBODYASPECTHEARTHFLAMEMASK 面影辉映
+  303 EMBODYASPECTWELLSPRINGMASK 面影辉映
+  304 EMBODYASPECTCORNERSTONEMASK 面影辉映
+  306 SUPERSWEETSYRUP 甘露之蜜
+  313 EELEVATE 鳗鳗高升
