@@ -1698,6 +1698,17 @@ for move in move_list:
         move["megaChanges"] = changes
 print("Mega 招式替换: %d 条" % len(mega_entries))
 
+# 原创招式 (gen 10) 排序: 按关联的超级进化原物种图鉴编号排 (即招式弹窗「超级进化招式变化」行的第一个物种);
+# 没有超级进化关联的排在最后, 同编号内按招式序号。no 仅用于前端排序, 重新编号不影响其他展示
+gen10_sorted = sorted(
+    (m for m in move_list if m["id"] and m["gen"] == 10),
+    key=lambda m: (min(dex_of.get(c["species"], 1 << 30) for c in m.get("megaChanges", []))
+                   if m.get("megaChanges") else 1 << 30,
+                   m["id"]))
+for i, m in enumerate(gen10_sorted):
+    m["no"] = i
+print("原创招式排序(按关联物种图鉴编号): %s" % [m["zh"] for m in gen10_sorted])
+
 # ---------------------------------------------------------------- 输出
 
 data = {

@@ -939,7 +939,8 @@ D.moves.forEach(m => {
   if (m.id) names.forEach(n => MOVE_CAT_COUNT[n] = (MOVE_CAT_COUNT[n] || 0) + 1);
 });
 D.moveCats.forEach(c => { if (MOVE_CAT_COUNT[c.n] && !MOVE_CAT_ORDER.includes(c.n)) MOVE_CAT_ORDER.push(c.n); });
-/* 世代: 1-9 对照 52poke 招式列表, 10 为原创招式 (排在第九世代后); 世代内按官方编号排序 */
+/* 世代: 1-9 对照 52poke 招式列表, 10 为原创招式 (排在第九世代后, 按关联宝可梦的图鉴编号排, 见 extract_data.py);
+   世代内按官方编号排序 */
 const MOVES_BY_GEN = D.moves.filter(m => m.id).sort((a, b) => a.gen - b.gen || a.no - b.no || a.id - b.id);
 function renderMoves() {
   const typeOpts = TYPES_SHOWN.map(t => `<option value="${t.id}">${esc(t.zh)}</option>`).join("");
@@ -949,7 +950,7 @@ function renderMoves() {
       ${tocHTML(GEN_NAMES.slice(1).map((label, i) => ({ id: "gen-" + (i + 1), label })).concat([{ id: "gen-10", label: "原创招式" }]))}
       <div class="toc-main">
         <div class="page-title">招式图鉴</div>
-        <div class="page-sub">共 ${MOVES_BY_GEN.length} 个招式 · 按世代排序，原创招式在第九世代之后 · 点击行查看详情</div>
+        <div class="page-sub">共 ${MOVES_BY_GEN.length} 个招式 · 按世代排序，原创招式按对应宝可梦的图鉴编号排列 · 点击行查看详情</div>
         <div class="toolbar">
           ${searchBox("mq", "搜索招式名 / 效果…", moveFilter.q)}
           <select id="mtype" class="search-box" style="flex:0 0 140px">
