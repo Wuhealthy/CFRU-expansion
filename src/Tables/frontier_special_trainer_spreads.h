@@ -8626,7 +8626,7 @@ const struct BattleTowerSpread gSpecialTowerSpread_Golche[] =
 			MOVE_CROSSPOISON,
 			MOVE_BRAVEBIRD,
 			MOVE_DOUBLEEDGE,
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 		},
 		.ball = BALL_TYPE_DUSK_BALL,
 		.forSingles = TRUE,
@@ -8650,7 +8650,7 @@ const struct BattleTowerSpread gSpecialTowerSpread_Golche[] =
 		.moves =
 		{
 			MOVE_CROSSPOISON,
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_ZENHEADBUTT,
 			MOVE_TOXIC,
 		},
@@ -16807,7 +16807,7 @@ const struct BattleTowerSpread gLegendaryTowerSpread_BigMo[] =
 		.item = ITEM_ROCKY_HELMET,
 		.moves =
 		{
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_HAMMERARM,
 			MOVE_TOXIC,
 			MOVE_ROOST,

@@ -357,7 +357,7 @@
 #define MOVE_WATERPULSE 0x160//水之波动
 #define MOVE_DOOMDESIRE 0x161//破灭之愿
 #define MOVE_PSYCHOBOOST 0x162//精神突进
-#define MOVE_LEECHFANG 0x163//吸血之牙
+#define MOVE_PHANTOMMIST 0x163//幻影迷障
 #define MOVE_AIRSLASH 0x164//空气之刃
 #define MOVE_AQUAJET 0x165//水流喷射
 #define MOVE_AQUATAIL 0x166//水流尾

@@ -15,6 +15,7 @@ bool8 TrySpitePPReduce(u8 bank, u8 lostPP);
 bool8 CanLastMoveNotBeEncored(u8 bank);
 bool8 SetSunnyWeather(void);
 bool8 SetRainyWeather(void);
+bool8 SetFogWeather(void);
 bool8 SetHailWeather(void);
 bool8 SetSandstormWeather(void);
 bool8 SandstormHurts(u8 bank);

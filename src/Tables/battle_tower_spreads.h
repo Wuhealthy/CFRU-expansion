@@ -2379,7 +2379,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		.item = ITEM_LEFTOVERS,
 		.moves =
 		{
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_LEECHSEED,
 			MOVE_SPORE,
 			MOVE_SUBSTITUTE,
@@ -2407,7 +2407,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		{
 			MOVE_SEEDBOMB,
 			MOVE_THROATCHOP,
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_AGILITY,
 		},
 		.ball = BALL_TYPE_RANDOM,
@@ -2431,7 +2431,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		.item = ITEM_FOCUS_SASH,
 		.moves =
 		{
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_SPORE,
 			MOVE_LEECHSEED,
 			MOVE_ROTOTILLER,
@@ -8983,7 +8983,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		.moves =
 		{
 			MOVE_POISONJAB,
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_SHADOWSNEAK,
 			MOVE_SWORDSDANCE,
 		},
@@ -14974,7 +14974,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		.item = ITEM_GROUNDIUM_Z,
 		.moves =
 		{
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_DUALWINGBEAT,
 			MOVE_DIG,
 			MOVE_SWORDSDANCE,
@@ -28708,7 +28708,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		{
 			MOVE_VOLTTACKLE,
 			MOVE_FLAREBLITZ,
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_THUNDEROUSKICK,
 		},
 		.ball = BALL_TYPE_RANDOM,
@@ -31292,7 +31292,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		.moves =
 		{
 			MOVE_SUCKERPUNCH,
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_LOWKICK,
 			MOVE_SWORDSDANCE,
 		},
@@ -40606,7 +40606,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		.moves =
 		{
 			MOVE_LIQUIDATION,
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_CRUNCH,
 			MOVE_STICKYWEB,
 		},
@@ -40790,7 +40790,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		{
 			MOVE_PETALBLIZZARD,
 			MOVE_SUPERPOWER,
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_PSYCHOCUT,
 		},
 		.ball = BALL_TYPE_RANDOM,
@@ -41543,7 +41543,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		.item = ITEM_SITRUS_BERRY,
 		.moves =
 		{
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_AQUAJET,
 			MOVE_SUCKERPUNCH,
 			MOVE_SWORDSDANCE,
@@ -41571,7 +41571,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		{
 			MOVE_FIRSTIMPRESSION,
 			MOVE_LIQUIDATION,
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_SUCKERPUNCH,
 		},
 		.ball = BALL_TYPE_RANDOM,
@@ -41594,7 +41594,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		.item = ITEM_LEFTOVERS,
 		.moves =
 		{
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_PAINSPLIT,
 			MOVE_TOXIC,
 			MOVE_SPIKES,
@@ -43462,7 +43462,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		.item = ITEM_EXPERT_BELT,
 		.moves =
 		{
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_CLOSECOMBAT,
 			MOVE_EARTHQUAKE,
 			MOVE_POISONJAB,
@@ -43540,7 +43540,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		.item = ITEM_QUICK_CLAW,
 		.moves =
 		{
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_HIGHHORSEPOWER,
 			MOVE_ROCKSLIDE,
 			MOVE_TAUNT,
@@ -46332,7 +46332,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		.moves =
 		{
 			MOVE_FIRELASH,
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_POWERWHIP,
 			MOVE_COIL,
 		},
@@ -46358,7 +46358,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		.moves =
 		{
 			MOVE_RAGINGFURY,
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_THUNDERFANG,
 			MOVE_KNOCKOFF,
 		},
@@ -48725,7 +48725,7 @@ const struct BattleTowerSpread gFrontierSpreads[] =
 		{
 			MOVE_FISHIOUSREND,
 			MOVE_ICEFANG,
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_PROTECT,
 		},
 		.ball = BALL_TYPE_RANDOM,
@@ -64340,7 +64340,7 @@ const struct BattleTowerSpread gMiddleCupSpreads[] =
 		{
 			MOVE_FLAREBLITZ,
 			MOVE_CRUNCH,
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_SWORDSDANCE,
 		},
 		.ball = BALL_TYPE_RANDOM,
@@ -68196,7 +68196,7 @@ const struct BattleTowerSpread gLittleCupSpreads[] =
 		.item = ITEM_EVIOLITE,
 		.moves =
 		{
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_LIQUIDATION,
 			MOVE_CRUNCH,
 			MOVE_STICKYWEB,
@@ -69670,7 +69670,7 @@ const struct BattleTowerSpread gLittleCupSpreads[] =
 		.moves =
 		{
 			MOVE_BULLETSEED,
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_DUALCHOP,
 			MOVE_SWORDSDANCE,
 		},
@@ -72242,7 +72242,7 @@ const struct BattleTowerSpread gLittleCupSpreads[] =
 		.moves =
 		{
 			MOVE_FLAREBLITZ,
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_SHADOWCLAW,
 			MOVE_BULKUP,
 		},
@@ -74490,7 +74490,7 @@ const struct BattleTowerSpread gLittleCupSpreads[] =
 		.item = ITEM_EVIOLITE,
 		.moves =
 		{
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_SEEDBOMB,
 			MOVE_KNOCKOFF,
 			MOVE_SWORDSDANCE,
@@ -77088,7 +77088,7 @@ const struct BattleTowerSpread gLittleCupSpreads[] =
 		.item = ITEM_EVIOLITE,
 		.moves =
 		{
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_RECOVER,
 			MOVE_TOXICSPIKES,
 			MOVE_SPIKES,
@@ -79956,7 +79956,7 @@ const struct BattleTowerSpread gLittleCupSpreads[] =
 		.item = ITEM_BERRY_JUICE,
 		.moves =
 		{
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_ZENHEADBUTT,
 			MOVE_POISONFANG,
 			MOVE_SLEEPPOWDER,
@@ -80310,7 +80310,7 @@ const struct BattleTowerSpread gLittleCupSpreads[] =
 		.item = ITEM_FOCUS_SASH,
 		.moves =
 		{
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_SCALD,
 			MOVE_TAUNT,
 			MOVE_SPIKES,
@@ -82219,7 +82219,7 @@ const struct BattleTowerSpread gLittleCupSpreads[] =
 		.moves =
 		{
 			MOVE_FIRELASH,
-			MOVE_LEECHFANG,
+			MOVE_PHANTOMMIST,
 			MOVE_CRUNCH,
 			MOVE_COIL,
 		},

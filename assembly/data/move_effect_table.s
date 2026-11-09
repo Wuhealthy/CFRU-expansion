@@ -179,7 +179,7 @@ gBattleScriptsForMoveEffects:
 .word BS_160_Stockpile
 .word BS_161_SpitUp
 .word BS_162_Swallow
-.word BS_163_Blank
+.word BS_163_PhantomMist
 .word BS_164_SetHail
 .word BS_165_Torment
 .word BS_166_Flatter

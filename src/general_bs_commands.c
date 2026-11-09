@@ -2695,6 +2695,23 @@ bool8 SetRainyWeather(void)
 	return TRUE;
 }
 
+bool8 SetFogWeather(void)
+{
+	if (gBattleWeather & (WEATHER_FOG_ANY | WEATHER_PRIMAL_ANY | WEATHER_CIRCUS))
+	{
+		gBattleCommunication[MULTISTRING_CHOOSER] = 2;
+		return FALSE;
+	}
+
+	gBattleWeather = WEATHER_FOG_TEMPORARY;
+	gBattleCommunication[MULTISTRING_CHOOSER] = 0;
+
+	gWishFutureKnock.weatherDuration = 5;
+
+	gBattleScripting.animArg1 = B_ANIM_FOG_CONTINUES;
+	return TRUE;
+}
+
 void atk7D_setrain(void)
 {
 	if (!SetRainyWeather())

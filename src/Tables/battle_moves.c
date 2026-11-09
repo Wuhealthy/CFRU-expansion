@@ -5770,19 +5770,19 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_effect = 0
 	},
 
-	[MOVE_LEECHFANG] =
+	[MOVE_PHANTOMMIST] =
 	{
-		.effect = EFFECT_ABSORB,
-		.power = 80,
-		.type = TYPE_BUG,
+		.effect = EFFECT_PHANTOMMIST,
+		.power = 100,
+		.type = TYPE_GHOST,
 		.accuracy = 100,
 		.pp = 10,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
-		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_TRIAGE_AFFECTED,
-		.z_move_power = 160,
-		.split = SPLIT_PHYSICAL,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 180,
+		.split = SPLIT_SPECIAL,
 		.z_move_effect = 0
 	},
 
@@ -16400,7 +16400,7 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_HIGHJUMPKICK] = 95,
 	[MOVE_DREAMEATER] = 130,
 	[MOVE_BARRAGE] = 90,
-	[MOVE_LEECHFANG] = 130,
+	[MOVE_PHANTOMMIST] = 130,
 	#ifdef BUFFED_LEECH_LIFE
 	[MOVE_LEECHLIFE] = 130,
 	#else

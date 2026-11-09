@@ -398,7 +398,7 @@ gMoveAnimations:
 .word 0x81d4a9f		@MOVE_DOOMDESIRE
 .word 0x81d499b		@MOVE_PSYCHOBOOST
 
-.word ANIM_LEECHFANG
+.word ANIM_PHANTOMMIST
 .word ANIM_AIRSLASH
 .word ANIM_AQUAJET
 .word ANIM_AQUATAIL
@@ -2004,29 +2004,9 @@ ANIM_SECRETPOWER:
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
-@Credits to Skeli
-ANIM_LEECHFANG:
-	loadparticle ANIM_TAG_FANG_ATTACK
-	loadparticle ANIM_TAG_ORBS
-	loadparticle ANIM_TAG_BLUE_STAR
-	pokespritetoBG side_target
-	leftopponentbankBG_over_partnerBG 0x1
-	setblends 0x80c
-	pause 0x1
-	playsound2 0x9A SOUND_PAN_TARGET
-	launchtemplate 0x83FEFBC TEMPLATE_TARGET | 2, 0x0
-	pause 0xa
-	launchtask AnimTask_move_bank 0x3 0x5 bank_target 0x3 0x0 0xa 0x1
-	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0xA 0x0
-	call ABSORB_ANIM
-	waitanimation
-	pause 0xf
-	call 0x81D56C9 @HEALING_ANIM
-	waitanimation
-	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0xA 0x0 0x0
-	waitanimation
-	pokespritefromBG side_target
-	resetblends
+@;幻影迷障: 使用影子球的幽灵动画
+ANIM_PHANTOMMIST:
+	goto 0x81d129d	@MOVE_SHADOWBALL
 	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

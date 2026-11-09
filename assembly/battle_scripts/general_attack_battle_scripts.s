@@ -3717,9 +3717,22 @@ BS_162_Swallow:
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-.global BS_163_Blank
-BS_163_Blank:
-	goto BS_STANDARD_HIT
+@;幻影迷障: 攻击后将场上天气变为雾天
+.global BS_163_PhantomMist
+BS_163_PhantomMist:
+	attackcanceler
+	accuracycheck BS_MOVE_MISSED 0x0
+	call STANDARD_DAMAGE
+	jumpifmovehadnoeffect BS_MOVE_END
+	callasm SetFogWeather
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 PhantomMistFogSkip
+	playanimation2 BANK_SCRIPTING ANIM_ARG_1 0x0
+	setword BATTLE_STRING_LOADER gText_FogIsDeep
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	call BS_WEATHER_FORM_CHANGES
+PhantomMistFogSkip:
+	goto BS_MOVE_FAINT
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
