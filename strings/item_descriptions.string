@@ -2192,3 +2192,18 @@ Z力量的结晶。会将卡璞们的自然之\n怒升级成Z招式。
 #org @DESC_DIANCITE
 #org @DESC_RATICATEITE
 让宝可梦携带后，\n在战斗时就能进行超级进化\n的一种神奇超级石。
+
+#org @DESC_EXP_CANDY_XS
+能让宝可梦获得经验值的糖果。\n使用后，1只宝可梦\n能获得100经验值。
+
+#org @DESC_EXP_CANDY_S
+能让宝可梦获得经验值的糖果。\n使用后，1只宝可梦\n能获得800经验值。
+
+#org @DESC_EXP_CANDY_M
+能让宝可梦获得经验值的糖果。\n使用后，1只宝可梦\n能获得3000经验值。
+
+#org @DESC_EXP_CANDY_L
+能让宝可梦获得经验值的糖果。\n使用后，1只宝可梦\n能获得10000经验值。
+
+#org @DESC_EXP_CANDY_XL
+能让宝可梦获得经验值的糖果。\n使用后，1只宝可梦\n能获得30000经验值。

@@ -154,6 +154,7 @@ static void ItemUseCB_NatureMint(u8 taskId, TaskFunc func);
 static void Task_OfferNatureChange(u8 taskId);
 static void Task_HandleNatureChangeYesNoInput(u8 taskId);
 static void Task_ChangeNature(u8 taskId);
+static void ItemUseCB_ExpCandy(u8 taskId, TaskFunc func);
 
 //*highlightedMon = 0 is Player's Pokemon out
 //*highlightedMon = 1 is Link Partner's Pokemon out
@@ -2886,6 +2887,60 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc func)
         {
                 ItemUseCB_RareCandyStep(taskId, func);
         }
+}
+
+extern const u8 gText_ExpCandyUsed[];
+static const u16 sExpCandyValues[] = {100, 800, 3000, 10000, 30000};
+void FieldUseFunc_ExpCandy(u8 taskId)
+{
+        gItemUseCB = ItemUseCB_ExpCandy;
+        SetUpItemUseCallback(taskId);
+}
+
+static void ItemUseCB_ExpCandy(u8 taskId, TaskFunc func)
+{
+        struct Pokemon* mon = &gPlayerParty[gPartyMenu.slotId];
+        u16 item = gSpecialVar_ItemId;
+        u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+        u8 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
+        u32 currExp = GetMonData(mon, MON_DATA_EXP, NULL);
+        u32 expGain = sExpCandyValues[item - ITEM_EXP_CANDY_XS];
+        u8 growthRate = gBaseStats[species].growthRate;
+        u8 newLevel;
+        u32 maxExp;
+
+        PlaySE(SE_SELECT);
+
+        if (species == SPECIES_EGG || level >= MAX_LEVEL)
+        {
+                gPartyMenuUseExitCallback = FALSE;
+                DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+                ScheduleBgCopyTilemapToVram(2);
+                gTasks[taskId].func = func;
+                return;
+        }
+
+        maxExp = gExperienceTables[growthRate][MAX_LEVEL];
+        currExp += expGain;
+        if (currExp > maxExp)
+                currExp = maxExp;
+
+        newLevel = level;
+        while (newLevel < MAX_LEVEL && currExp >= gExperienceTables[growthRate][newLevel + 1])
+                ++newLevel;
+
+        SetMonData(mon, MON_DATA_EXP, &currExp);
+        SetMonData(mon, MON_DATA_LEVEL, &newLevel);
+        CalculateMonStats(mon);
+        UpdateMonDisplayInfoAfterRareCandy(gPartyMenu.slotId, mon);
+
+        RemoveBagItem(item, 1);
+
+        GetMonNickname(mon, gStringVar1);
+        StringExpandPlaceholders(gStringVar4, gText_ExpCandyUsed);
+        DisplayPartyMenuMessage(gStringVar4, TRUE);
+        ScheduleBgCopyTilemapToVram(2);
+        gTasks[taskId].func = Task_ClosePartyMenuAfterText;
 } 
 
 //Functions related to select button for switching mons
