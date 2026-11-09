@@ -318,6 +318,7 @@ bool8 GetSetItemObtained(u16 item, u8 caseId)
 
 u8 ReformatItemDescription(u16 itemId, u8* dest, u8 maxWidth)
 {
+	(void)maxWidth; //折行阈值按字节硬编码(32=16汉字),maxWidth(像素)暂不参与折行
 	//一行最多 16 个汉字 (32 字节), 按字节边界折行; 描述自带的换行符 (0xFE) 直接忽略, 不转成空格或其他字符
 	//Requires dest be memset to 0xFF before calling!
 	u8 numLines = 1;
