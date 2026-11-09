@@ -139,7 +139,7 @@ static const u8 sOptionPageItems[OPT_PAGE_COUNT][11] =
 	{ OPT_RANDOM_WILD_SPECIES, OPT_RANDOM_LEARNSETS, OPT_RANDOM_ABILITIES,
 	  OPT_RANDOM_TRAINERS, OPT_SHINY_ODDS, OPT_WILDLEVELSCALING, OPT_CANCEL },
 };
-static const u8 sOptionPageItemCount[OPT_PAGE_COUNT] = {9, 11, 7};
+static const u8 sOptionPageItemCount[OPT_PAGE_COUNT] = {9, 10, 7}; //第2页实际10项(9选项+取消),多1会在末尾画出零槽位的OPT_TEXTSPEED
 
 #define OPTION_LIST_VISIBLE 7
 
