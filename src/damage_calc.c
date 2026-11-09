@@ -1564,8 +1564,12 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 			return; //Miracle Eye causes normal damage hits
 
 		// 归无之光：龙属性招式无视妖精属性的免疫
-    	if (move == MOVE_NIHILLIGHT && defType == TYPE_FAIRY)
-        	return;
+		if (move == MOVE_NIHILLIGHT && defType == TYPE_FAIRY)
+			return;
+
+		// 母子同心拳：一般属性招式无视幽灵属性的免疫
+		if (move == MOVE_MOTHERCHILDPUNCH && defType == TYPE_GHOST)
+			return;
 	}
 	else if (checkMonDef)
 	{
@@ -1575,7 +1579,11 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 			return; //Scrappy breaks Ghost immunity
 
 		if (move == MOVE_NIHILLIGHT && defType == TYPE_FAIRY)
-        	return;
+			return;
+
+		// 母子同心拳：可打中幽灵属性
+		if (move == MOVE_MOTHERCHILDPUNCH && defType == TYPE_GHOST)
+			return;
 	}
 
 	if (move == MOVE_FREEZEDRY && defType == TYPE_WATER) //Always Super-Effective, even in Inverse Battles

@@ -8110,18 +8110,18 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_effect = 0
 	},
 
-	[MOVE_STEELYHIT] =
+	[MOVE_MOTHERCHILDPUNCH] =
 	{
 		.effect = EFFECT_HIT,
-		.power = 40,
-		.type = TYPE_STEEL,
+		.power = 140,
+		.type = TYPE_NORMAL,
 		.accuracy = 100,
-		.pp = 35,
+		.pp = 5,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
 		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
-		.z_move_power = 100,
+		.z_move_power = 200,
 		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
 	},
@@ -16632,7 +16632,7 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_INCINERATE] = 110,
 	[MOVE_ACROBATICS] = 110,
 	[MOVE_RETALIATE] = 120,
-	[MOVE_STEELYHIT] = 90,
+	[MOVE_MOTHERCHILDPUNCH] = 140,
 	[MOVE_FINALGAMBIT] = 100,
 	[MOVE_INFERNO] = 130,
 	[MOVE_WATERPLEDGE] = 130,

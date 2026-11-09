@@ -633,6 +633,7 @@
 	],
 
 	"gPunchingMoves": [
+		"MOVE_MOTHERCHILDPUNCH",
 		"MOVE_CHAKRAFIST",
 		"MOVE_COMETPUNCH",
 		"MOVE_MEGAPUNCH",

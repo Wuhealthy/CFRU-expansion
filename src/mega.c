@@ -204,6 +204,7 @@ const struct MegaMoveChange gMegaMoveChanges[] =
 	{SPECIES_BLASTOISE_MEGA, MOVE_WAVECRASH, MOVE_TRIPLEWATERPULSE},
 	{SPECIES_ALAKAZAM_MEGA, MOVE_PSYSHOCK, MOVE_PSYCHICSUPPRESSION},
 	{SPECIES_GENGAR_MEGA, MOVE_HEX, MOVE_PHANTOMMIST},
+	{SPECIES_KANGASKHAN_MEGA, MOVE_DOUBLEHIT, MOVE_MOTHERCHILDPUNCH},
 	{SPECIES_VAPOREON_MEGA, MOVE_LASTRESORT, MOVE_MUDDYBARRAGE},
 	{SPECIES_JOLTEON_MEGA, MOVE_YAWN, MOVE_MAGNETICPULSE},
 	{SPECIES_FLAREON_MEGA, MOVE_PROTECT, MOVE_FIERYBARRIER},
@@ -258,7 +259,13 @@ void TryMegaMoveChange(struct Pokemon* mon, u16 species, u8 bank)
 				u16 newMove = gMegaMoveChanges[j].newMove;
 				SetMonData(mon, MON_DATA_MOVE1 + i, &newMove);
 				if (bank < MAX_BATTLERS_COUNT && gBattleMons[bank].moves[i] == gMegaMoveChanges[j].oldMove)
+				{
 					gBattleMons[bank].moves[i] = newMove;
+					//同步本回合已选招式，否则出招时引擎会误判招式被覆盖而
+					//重新随机选目标(双打下玩家选的目标会丢失,见 battle_start_turn_start.c)
+					if (gChosenMovesByBanks[bank] == gMegaMoveChanges[j].oldMove)
+						gChosenMovesByBanks[bank] = newMove;
+				}
 				break;
 			}
 		}

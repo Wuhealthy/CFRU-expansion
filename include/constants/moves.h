@@ -501,7 +501,7 @@
 #define MOVE_SHADOWFORCE 0x1F0//暗影潜袭
 #define MOVE_NUZZLE 0x1F1//蹭蹭脸颊
 #define MOVE_RETALIATE 0x1F2//报仇
-#define MOVE_STEELYHIT 0x1F3//金属猛撞
+#define MOVE_MOTHERCHILDPUNCH 0x1F3//母子同心拳
 #define MOVE_JUDGMENT 0x1F4//制裁光砾
 #define MOVE_FREEZEDRY 0x1F5//冷冻干燥
 #define MOVE_PSYSHOCK 0x1F6//精神冲击
