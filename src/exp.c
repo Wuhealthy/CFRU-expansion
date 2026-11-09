@@ -50,13 +50,6 @@ static bool8 WasWholeTeamSentIn(u8 bank, u8 sentIn);
 static bool8 SomeoneOnTeamGetsExpFromExpShare(u8 bank, u8 sentIn);
 static bool8 MonGetsAffectionBoost(struct Pokemon* mon);
 static bool8 IsAffectedByHardLevelCap(struct Pokemon* mon);
-#ifdef FLAG_EXP_SHARE_CATCH_UP
-static u8 StartExpShareCatchUp(u8 sentIn);
-static bool8 CatchUpWillLevelAgain(u8 monId, u32 remaining);
-static bool8 sExpCatchUpActive = FALSE;    //追赶经验循环进行中
-static u32 sExpCatchUpAmount[PARTY_SIZE];  //每只宝可梦的追赶经验差额
-static s8 sExpCatchUpStatsSaved = -1;      //追赶中已保存升级前能力的monId;-1=未保存
-#endif
 static void EmitExpBarUpdate(u8 a, u8 b, u32 c);
 static void EmitExpTransferBack(u8 bufferId, u8 b, u8 *c);
 static void Task_GiveExpToMon(u8 taskId);
@@ -320,10 +313,6 @@ void atk23_getexp(void)
 		calculatedExp = ExpCalculator(trainerBonus, tradeBonus, baseExp, eggBoost, defLevel, pokeLevel, passPower, affection, evolutionBoost, divisor);
 
 	SKIP_EXP_CALC:
-	#ifdef FLAG_EXP_SHARE_CATCH_UP
-		if (sExpCatchUpActive)
-			calculatedExp = sExpCatchUpAmount[gBattleStruct->expGetterMonId]; //追赶循环:按预计算的升到队内最高等级的差额发放
-	#endif
 		calculatedExp = MathMax(1, calculatedExp);
 		gBattleMoveDamage = calculatedExp;
 
@@ -419,10 +408,6 @@ void atk23_getexp(void)
 		gBattleBufferB[gBattleStruct->expGetterBank][0] = 0;
 		if (gPlayerParty[gBattleStruct->expGetterMonId].hp && gPlayerParty[gBattleStruct->expGetterMonId].level < MAX_LEVEL)
 		{
-			#ifdef FLAG_EXP_SHARE_CATCH_UP
-			//追赶循环:能力弹窗按整段追赶的累计提升显示,同一只只在首轮保存升级前能力
-			if (!sExpCatchUpActive || sExpCatchUpStatsSaved != (s8) gBattleStruct->expGetterMonId)
-			#endif
 			{
 				gBattleResources->statsBeforeLvlUp->hp = gPlayerParty[gBattleStruct->expGetterMonId].maxHP;
 				gBattleResources->statsBeforeLvlUp->atk = gPlayerParty[gBattleStruct->expGetterMonId].attack;
@@ -431,10 +416,6 @@ void atk23_getexp(void)
 				gBattleResources->statsBeforeLvlUp->spAtk = gPlayerParty[gBattleStruct->expGetterMonId].spAttack;
 				gBattleResources->statsBeforeLvlUp->spDef = gPlayerParty[gBattleStruct->expGetterMonId].spDefense;
 			}
-			#ifdef FLAG_EXP_SHARE_CATCH_UP
-			if (sExpCatchUpActive)
-				sExpCatchUpStatsSaved = gBattleStruct->expGetterMonId;
-			#endif
 
 			gActiveBattler = gBattleStruct->expGetterBank;
 			EmitExpBarUpdate(0, gBattleStruct->expGetterMonId, gBattleMoveDamage);
@@ -469,12 +450,6 @@ void atk23_getexp(void)
 			gLeveledUpInBattle |= gBitTable[gBattleStruct->expGetterMonId];
 			gBattleMoveDamage = (gBattleBufferB[gActiveBattler][2] | (gBattleBufferB[gActiveBattler][3] << 8) | (gBattleBufferB[gActiveBattler][4] << 0x10) | (gBattleBufferB[gActiveBattler][5] << 0x18));
 
-			#ifdef FLAG_EXP_SHARE_CATCH_UP
-			//追赶循环:还有后续升级的中间等级只进学招段,最后一次升级才走完整原生脚本(直接显示升到最终等级)
-			if (sExpCatchUpActive && CatchUpWillLevelAgain(gBattleStruct->expGetterMonId, gBattleMoveDamage))
-				gBattlescriptCurrInstr = BattleScript_LevelUpLearnMove;
-			else
-			#endif
 				gBattlescriptCurrInstr = BattleScript_LevelUp;
 
  			AdjustFriendship(&gPlayerParty[gBattleStruct->expGetterMonId], FRIENDSHIP_EVENT_GROW_LEVEL);
@@ -550,34 +525,6 @@ void atk23_getexp(void)
 			else
 		#endif
 			{
-				#ifdef FLAG_EXP_SHARE_CATCH_UP
-				//经验共享循环结束:开启经验追赶时,按差额重新驱动一轮分享循环——
-				//升级走原生逐级流程,跨过的每一级都会正常弹出学招提示
-				if (FlagGet(FLAG_EXP_SHARE) && FlagGet(FLAG_EXP_SHARE_CATCH_UP)
-				&& *expGiveType == GiveExpViaExpShare)
-				{
-					if (!sExpCatchUpActive)
-					{
-						u8 exclude = StartExpShareCatchUp(gNewBS->SentInBackup);
-
-						if (exclude != 0xFF) //队内有需要追赶的宝可梦
-						{
-							sExpCatchUpActive = TRUE;
-							sExpCatchUpStatsSaved = -1;
-							gBattleStruct->sentInPokes = exclude;
-							gBattleStruct->expGetterMonId = 0;
-							gBattleMoveDamage = 0;
-							gBattleScripting.expStateTracker = GetExp_CheckCurrentMonDeserving;
-							break; //进入追赶循环
-						}
-					}
-					else
-					{
-						sExpCatchUpActive = FALSE; //追赶循环结束
-						sExpCatchUpStatsSaved = -1;
-					}
-				}
-				#endif
 				END_EXP_GIVE:
 				gBattleMons[gBankFainted].item = 0;
 				ABILITY(gBankFainted) = 0;
@@ -691,90 +638,6 @@ static bool8 IsAffectedByHardLevelCap(unusedArg struct Pokemon* mon)
 	return FALSE;
 }
 
-#ifdef FLAG_EXP_SHARE_CATCH_UP
-//追赶循环中判断剩余经验是否足以让这只宝可梦再升一级(中间等级只走学招段的依据)
-static bool8 CatchUpWillLevelAgain(u8 monId, u32 remaining)
-{
-	struct Pokemon* mon = &gPlayerParty[monId];
-	u32 level, nextLvlExp;
-
-	if (remaining == 0)
-		return FALSE;
-
-	level = GetMonData(mon, MON_DATA_LEVEL, NULL);
-	if (level >= MAX_LEVEL)
-		return FALSE;
-
-	nextLvlExp = GetExpToLevel(level + 1, gBaseStats[GetMonData(mon, MON_DATA_SPECIES, NULL)].growthRate);
-	if (GetMonData(mon, MON_DATA_EXP, NULL) + remaining < nextLvlExp)
-		return FALSE;
-
-	return TRUE;
-}
-
-//经验共享追赶:计算每只未参战宝可梦升到队内最高等级(尊重等级帽)所需的经验差额,
-//返回追赶分享循环的排除位图(位=1跳过;0xFF表示全队无需追赶)
-static u8 StartExpShareCatchUp(u8 sentIn)
-{
-	u8 i, maxLevel = 0, exclude = 0xFF;
-	u8 cap = MAX_LEVEL;
-
-	#ifdef FLAG_HARD_LEVEL_CAP
-	if (FlagGet(FLAG_HARD_LEVEL_CAP) || VarGet(VAR_GAME_DIFFICULTY) != OPTIONS_EASY_DIFFICULTY)
-		cap = GetCurrentLevelCap();
-	#endif
-
-	for (i = 0; i < PARTY_SIZE; ++i)
-	{
-		struct Pokemon* mon = &gPlayerParty[i];
-
-		if (mon->species == SPECIES_NONE || mon->hp == 0 || GetMonData(mon, MON_DATA_IS_EGG, 0))
-			continue;
-		if (GetMonData(mon, MON_DATA_LEVEL, NULL) > maxLevel)
-			maxLevel = GetMonData(mon, MON_DATA_LEVEL, NULL);
-	}
-
-	if (maxLevel > cap)
-		maxLevel = cap;
-
-	for (i = 0; i < PARTY_SIZE; ++i)
-	{
-		struct Pokemon* mon = &gPlayerParty[i];
-		u32 needed;
-		u8 level;
-
-		sExpCatchUpAmount[i] = 0;
-
-		if (mon->species == SPECIES_NONE || mon->hp == 0 || GetMonData(mon, MON_DATA_IS_EGG, 0))
-			continue;
-		if (sentIn & gBitTable[i]) //参战宝可梦靠自己实战升级
-		{
-			exclude |= gBitTable[i];
-			continue;
-		}
-
-		level = GetMonData(mon, MON_DATA_LEVEL, NULL);
-		if (level >= maxLevel || level >= MAX_LEVEL)
-		{
-			exclude |= gBitTable[i];
-			continue;
-		}
-
-		needed = GetExpToLevel(maxLevel, gBaseStats[mon->species].growthRate)
-		       - GetMonData(mon, MON_DATA_EXP, NULL);
-		if ((s32) needed <= 0) //经验已超高(如先前追赶过或吃下提升道具)
-		{
-			exclude |= gBitTable[i];
-			continue;
-		}
-
-		sExpCatchUpAmount[i] = needed;
-		exclude &= ~gBitTable[i]; //清位=参与追赶循环
-	}
-
-	return exclude;
-}
-#endif
 
 static void EmitExpBarUpdate(u8 a, u8 b, u32 c) //Changed the u16 to a u32 to allow for more exp gain
 {

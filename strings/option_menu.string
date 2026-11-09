@@ -187,12 +187,6 @@ L=登录道具2
 #org @gText_OptionDesc_RandomTrainers
 随机训练家的队伍。
 
-#org @gText_ExpCatchUp
-经验共享升级
-
-#org @gText_OptionDesc_ExpCatchUp
-共享经验使后排升到队内最高等级。
-
 #org @gText_EasyCatch
 容易捕捉
 
