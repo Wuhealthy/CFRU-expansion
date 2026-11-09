@@ -4802,54 +4802,11 @@ static const u16 sTrainerRandomItems[] =
 	ITEM_SHELL_BELL, ITEM_WEAKNESS_POLICY, ITEM_SITRUS_BERRY, ITEM_LUM_BERRY,
 };
 
-//随机训练家:收集物种可学的TM/HM+教学+蛋招式池(去重);等级招式不在池内,由GiveBoxMonInitialMoveset按等级给出
+//随机训练家:收集物种可学的蛋招式池(去重);自学招式(升级招式表)不在池内,由GiveBoxMonInitialMoveset按等级给出
 static u16 BuildTrainerRandomExtraMovePool(struct Pokemon* mon, u16* pool)
 {
 	u16 num = 0;
-	u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
-	u16 dexNum = SpeciesToNationalPokedexNum(species);
 	u32 i, j;
-
-	for (i = 0; i < NUM_TMSHMS; ++i)
-	{
-		if (CanMonLearnTMHM(mon, i))
-		{
-			u16 move = gTMHMMoves[i];
-
-			for (j = 0; j < num && pool[j] != move; ++j)
-				;
-
-			if (j == num && move != MOVE_NONE)
-				pool[num++] = move;
-		}
-	}
-
-	for (i = 0; i < NUM_MOVE_TUTORS; ++i)
-	{
-		#ifdef EXPANDED_MOVE_TUTORS
-		u8 tutRet = CanMonLearnTutorMove(mon, i);
-		#else
-		u8 tutRet = CanLearnTutorMove(species, i);
-		#endif
-		if (tutRet == TRUE
-		|| (tutRet > TRUE && tutRet == dexNum)) //专属教学招式按图鉴编号判定
-		{
-			#ifdef EXPANDED_MOVE_TUTORS
-			u16 move = GetExpandedTutorMove(i);
-			#else
-			u16 move = GetTutorMove(i);
-			#endif
-
-			if (move != MOVE_NONE)
-			{
-				for (j = 0; j < num && pool[j] != move; ++j)
-					;
-
-				if (j == num)
-					pool[num++] = move;
-			}
-		}
-	}
 
 	{
 		u16 eggMoves[EGG_MOVES_ARRAY_COUNT];
@@ -4873,11 +4830,11 @@ static u16 BuildTrainerRandomExtraMovePool(struct Pokemon* mon, u16* pool)
 	return num;
 }
 
-//随机训练家:配招在等级招式基础上叠加随机可学TM/教学/蛋招式——
+//随机训练家:配招在自学招式(升级招式表)基础上叠加随机蛋招式——
 //已有招式的格子按TRAINER_RANDOM_EXTRA_MOVE_CHANCE概率替换为池内随机招式;空格子始终用池内招式补满(低等级训练家配招不再残缺)
 static void RandomizeTrainerMonMoveset(struct Pokemon* mon)
 {
-	u16 pool[EGG_MOVES_ARRAY_COUNT + NUM_TMSHMS + (LAST_TOTAL_TUTOR_NUM + 1)];
+	u16 pool[EGG_MOVES_ARRAY_COUNT];
 	u16 numPool = BuildTrainerRandomExtraMovePool(mon, pool);
 	u8 slot;
 
@@ -4920,7 +4877,7 @@ static void RandomizeTrainerMonMoveset(struct Pokemon* mon)
 //随机对战训练家(设置菜单FLAG_TRAINER_RANDOMIZER):队伍构成/等级/携带道具随机化。
 //种族值上限比随机野生遭遇高100(按徽章数查sTrainerBstCapByBadges);等级先±TRAINER_RANDOM_LEVEL_VARIANCE随机;
 //等级达到TRAINER_RANDOM_FULLY_EVOLVED_MIN_BADGES枚徽章的宝可梦强制使用完全进化形态(4徽章时bstCap=560,完全进化池已足够稠密);
-//配招清空后按新等级从(可能随机的)升级招式表重建,再按TRAINER_RANDOM_EXTRA_MOVE_CHANCE概率叠加随机可学TM/教学/蛋招式并补满空格
+//配招清空后按新等级从(可能随机的)升级招式表重建,再按TRAINER_RANDOM_EXTRA_MOVE_CHANCE概率叠加随机蛋招式并补满空格
 static void RandomizeTrainerMon(struct Pokemon* mon)
 {
 	u16 newSpecies;
@@ -4988,7 +4945,7 @@ static void RandomizeTrainerMon(struct Pokemon* mon)
 	SetMonData(mon, MON_DATA_LEVEL, &newLevel);
 	CalculateMonStats(mon);
 
-	//配招按新等级重建(若随机招式表开关同时开启,这里取到的也是随机后的招式,且受等级门槛约束),再叠加随机可学TM/教学/蛋招式
+	//配招按新等级重建(若随机招式表开关同时开启,这里取到的也是随机后的招式,且受等级门槛约束),再叠加随机蛋招式
 	Memset(mon->moves, 0, sizeof(mon->moves));
 	GiveBoxMonInitialMoveset((void*) mon);
 	RandomizeTrainerMonMoveset(mon);
