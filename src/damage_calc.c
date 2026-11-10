@@ -3345,6 +3345,13 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
         spAttack = highestStat;
     }
 
+//弱点穿刺：物理招式按目标防御与特防中较低一项结算（强化/会心无视等规则已在上面各自生效后取min）
+	if (move == MOVE_WEAKNESSPIERCE)
+	{
+		if (spDefense < defense)
+			defense = spDefense;
+	}
+
 //Actual Calculation
 	if (useMonAtk)
 		damage = (2 * data->monAtk->level) / 5 + 2;

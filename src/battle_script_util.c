@@ -1335,6 +1335,19 @@ void TailwindLuckyChantFunc(void)
 	}
 }
 
+//原始振翼: 无顺风则设顺风(4回合)并让脚本走+1路径; 顺风已开则不重设并让脚本走+2路径
+void TryPrimalWingbeatTailwind(void)
+{
+	if (BankSideHasTailwind(gBankAttacker))
+		gBattleCommunication[MULTISTRING_CHOOSER] = 1;
+	else
+	{
+		gNewBS->TailwindTimers[SIDE(gBankAttacker)] = 4;
+		gBattleStringLoader = TailwindSetString;
+		gBattleCommunication[MULTISTRING_CHOOSER] = 0;
+	}
+}
+
 void TryActivateWindRiderFromTailwind(void)
 {
 	static u8 bank;

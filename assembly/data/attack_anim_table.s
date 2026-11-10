@@ -1057,6 +1057,8 @@ gMoveAnimations:
 .word ANIM_PSYSHOCK	@MOVE_PSYCHICSUPPRESSION
 .word ANIM_XSCISSOR	@MOVE_CRITSNIP
 .word ANIM_AQUATAIL	@MOVE_RAGINGSURGE
+.word ANIM_WINGATTACK	@MOVE_PRIMALWINGBEAT
+.word ANIM_CROSSPOISON	@MOVE_WEAKNESSPIERCE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

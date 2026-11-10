@@ -5568,6 +5568,7 @@ BS_212_DragonDance:
 	jumpifmove MOVE_SHIFTGEAR ShiftGearBS
 	jumpifmove MOVE_SHELLSMASH ShellSmashBS
 	jumpifmove MOVE_FILLETAWAY FilletAwayBS
+	jumpifmove MOVE_PRIMALWINGBEAT PrimalWingbeatBS
 
 DragonDanceBS:
 	jumpifstat BANK_ATTACKER LESSTHAN STAT_ATK STAT_MAX DragonDance_Atk
@@ -5586,6 +5587,61 @@ DragonDance_Atk:
 
 DragonDance_Spd:
 	setstatchanger STAT_SPD | INCREASE_1
+	statbuffchange STAT_ATTACKER | STAT_BS_PTR | STAT_CERTAIN BS_MOVE_END
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BS_MOVE_END
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+	goto BS_MOVE_END
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+@;原始振翼: 自身攻/速提升并在场上刮起顺风; 顺风已开则改为攻/速+2
+PrimalWingbeatBS:
+	jumpifstat BANK_ATTACKER LESSTHAN STAT_ATK STAT_MAX PrimalWingbeat_TailwindCheck
+	jumpifstat BANK_ATTACKER EQUALS STAT_SPD STAT_MAX BattleScript_CantRaiseMultipleStats
+
+PrimalWingbeat_TailwindCheck:
+	callasm TryPrimalWingbeatTailwind
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x0 PrimalWingbeat_Fresh
+	goto PrimalWingbeat_Already
+
+@;顺风新设: +1 并播顺风消息 + Wind Rider 反应
+PrimalWingbeat_Fresh:
+	attackanimation
+	waitanimation
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	callasm TryActivateWindRiderFromTailwind
+	setbyte STAT_ANIM_PLAYED 0x0
+	playstatchangeanimation BANK_ATTACKER, STAT_ANIM_ATK | STAT_ANIM_SPD, STAT_ANIM_UP | STAT_ANIM_IGNORE_ABILITIES
+	setstatchanger STAT_ATK | INCREASE_1
+	statbuffchange STAT_ATTACKER | STAT_BS_PTR | STAT_CERTAIN PrimalWingbeat1_Spd
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 PrimalWingbeat1_Spd
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+
+PrimalWingbeat1_Spd:
+	setstatchanger STAT_SPD | INCREASE_1
+	statbuffchange STAT_ATTACKER | STAT_BS_PTR | STAT_CERTAIN BS_MOVE_END
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BS_MOVE_END
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+	goto BS_MOVE_END
+
+@;顺风已开: +2
+PrimalWingbeat_Already:
+	attackanimation
+	waitanimation
+	setbyte STAT_ANIM_PLAYED 0x0
+	playstatchangeanimation BANK_ATTACKER, STAT_ANIM_ATK | STAT_ANIM_SPD, STAT_ANIM_UP | STAT_ANIM_IGNORE_ABILITIES | STAT_ANIM_BY_TWO
+	setstatchanger STAT_ATK | INCREASE_2
+	statbuffchange STAT_ATTACKER | STAT_BS_PTR | STAT_CERTAIN PrimalWingbeat2_Spd
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 PrimalWingbeat2_Spd
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+
+PrimalWingbeat2_Spd:
+	setstatchanger STAT_SPD | INCREASE_2
 	statbuffchange STAT_ATTACKER | STAT_BS_PTR | STAT_CERTAIN BS_MOVE_END
 	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BS_MOVE_END
 	printfromtable gStatUpStringIds
