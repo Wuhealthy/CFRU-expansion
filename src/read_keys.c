@@ -57,6 +57,14 @@ extern const u8 EventScript_SecondBagItemCanBeRegisteredToL[];
 extern const u8 SystemScript_LButtonMenu[];
 extern const u8 SystemScript_LButtonMenu_Bike[];
 extern const u8 SystemScript_LButtonMenu_Surf[];
+extern const u8 SystemScript_EnableAutoRun[];
+extern const u8 SystemScript_DisableAutoRun[];
+extern const u8 SystemScript_EnableBikeTurboBoost[];
+extern const u8 SystemScript_DisableBikeTurboBoost[];
+extern const u8 SystemScript_EnableSurfTurboBoost[];
+extern const u8 SystemScript_DisableSurfTurboBoost[];
+extern const u8 SystemScript_EnableFastForward[];
+extern const u8 SystemScript_DisableFastForward[];
 extern const u8 SystemScript_PartyMenuFromField[];
 extern const u8 SystemScript_ItemMenuFromField[];
 extern const u8 SystemScript_MiningScan[];
@@ -230,6 +238,37 @@ bool8 StartLButtonFunc(void)
 
 	return FALSE;
 }
+
+#ifdef FLAG_FAST_FORWARD
+//L + R pressed together toggles overworld fast forward
+bool8 TryToggleFastForward(void)
+{
+	if (gSaveBlock2->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
+		return FALSE; //L is A in this mode, so the combo isn't available
+
+	if ((gMain.heldKeysRaw & (L_BUTTON | R_BUTTON)) != (L_BUTTON | R_BUTTON)
+	|| !(gMain.newKeysRaw & (L_BUTTON | R_BUTTON)))
+		return FALSE;
+
+	DismissMapNamePopup();
+	ScriptContext2_Enable();
+
+	if (FF_TOGGLE_STATE)
+	{
+		FF_TOGGLE_STATE = 0;
+		ScriptContext1_SetupScript(SystemScript_DisableFastForward);
+	}
+	else
+	{
+		FF_TOGGLE_STATE = 1;
+		ScriptContext1_SetupScript(SystemScript_EnableFastForward);
+	}
+
+	//Consume the combo so the silent toggle in ShouldSkipVBlankWait (fast_forward.c) doesn't flip it back
+	gMain.newKeysRaw &= ~(L_BUTTON | R_BUTTON);
+	return TRUE;
+}
+#endif
 
 bool8 StartRButtonFunc(void)
 {
