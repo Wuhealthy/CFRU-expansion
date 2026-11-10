@@ -8116,7 +8116,7 @@ const struct BattleMove gBattleMoves[] =
 		.power = 140,
 		.type = TYPE_NORMAL,
 		.accuracy = 100,
-		.pp = 5,
+		.pp = 10,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
@@ -16299,6 +16299,38 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 160,
 		.split = SPLIT_SPECIAL,
 		.z_move_effect = 0
+	},
+
+	[MOVE_CRITSNIP] =
+	{
+		.effect = EFFECT_HIT,
+		.power = 100,
+		.type = TYPE_BUG,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 180,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
+	},
+
+	[MOVE_RAGINGSURGE] =
+	{
+		.effect = EFFECT_HIT,
+		.power = 110,
+		.type = TYPE_DARK,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 185,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
 	}
 };
 
@@ -16905,5 +16937,7 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_ECLIPSEPOISONSTING] = 140,
 	[MOVE_TRIPLEWATERPULSE] = 120,
 	[MOVE_PSYCHICSUPPRESSION] = 130,
+	[MOVE_CRITSNIP] = 130,
+	[MOVE_RAGINGSURGE] = 140,
 };
 #endif

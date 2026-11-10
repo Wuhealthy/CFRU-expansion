@@ -1055,6 +1055,8 @@ gMoveAnimations:
 .word ANIM_ECLIPSE_POISON_STING	@MOVE_ECLIPSEPOISONSTING
 .word ANIM_TRIPLEWATERPULSE	@MOVE_TRIPLEWATERPULSE
 .word ANIM_PSYSHOCK	@MOVE_PSYCHICSUPPRESSION
+.word ANIM_XSCISSOR	@MOVE_CRITSNIP
+.word ANIM_AQUATAIL	@MOVE_RAGINGSURGE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

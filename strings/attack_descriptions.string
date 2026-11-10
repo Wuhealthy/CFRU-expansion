@@ -2749,3 +2749,9 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 
 #org @DESC_PSYCHICSUPPRESSION
 用精神力量攻击对手，\n在对手场上布下精神\n压制。替换上场的非\n恶属性宝可梦会受伤。
+
+#org @DESC_CRITSNIP
+用巨剪般的双角斩击\n对手。容易击中要害，\n若击中要害则会造成\n效果绝佳的伤害。
+
+#org @DESC_RAGINGSURGE
+释放夹杂狂暴水流与\n黑暗能量的猛烈一击。\n该招式的属性会在水\n和恶之间交替变化。

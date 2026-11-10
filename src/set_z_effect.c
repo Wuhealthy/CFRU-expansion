@@ -189,7 +189,8 @@ move_t GetTypeBasedZMove(u16 move, u8 bank)
 {
 	u8 moveType = gBattleMoves[move].type;
 
-	if (move == MOVE_WEATHERBALL || move == MOVE_AURAWHEEL || move == MOVE_TERRAINPULSE)
+	if (move == MOVE_WEATHERBALL || move == MOVE_AURAWHEEL || move == MOVE_TERRAINPULSE
+	|| move == MOVE_RAGINGSURGE)
 		moveType = GetMoveTypeSpecial(bank, move);
 
 	if (moveType < TYPE_FIRE)

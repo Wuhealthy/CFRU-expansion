@@ -389,6 +389,7 @@ void atk4D_switchindataupdate(void)
 
 	CONSUMED_ITEMS(gActiveBattler) = 0;
 	gNewBS->StakeoutCounters[gActiveBattler] = 1;
+	gNewBS->surgeTypeFlipped[gActiveBattler] = 0; //狂澜暗涌: 换入重置为恶相位(出场的第一个回合=本来的恶属性)
 
 	ClearSwitchBytes(gActiveBattler);
 	ClearSwitchBits(gActiveBattler);

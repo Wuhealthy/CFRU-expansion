@@ -1124,6 +1124,7 @@ struct NewBattleStruct
 		const void* megaPotential[MAX_BATTLERS_COUNT]; //aiMegaPotential[bankAtk] - stores evolution data of attacker
 	} ai;
 
+	u8 surgeTypeFlipped[MAX_BATTLERS_COUNT]; //狂澜暗涌: 按bank的属性相位(0=恶; 换入时atk4D重置, ET_End逐bank翻转)
 	struct Pokemon** foePartyBackup; //Pointer to dynamically allocated memory
 };
 

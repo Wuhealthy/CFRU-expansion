@@ -1818,6 +1818,7 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 
 				for (int i = 0; i < gBattlersCount; ++i)
 				{
+					gNewBS->surgeTypeFlipped[i] ^= 1; //狂澜暗涌: 回合结算逐bank交替恶↔水(换入时atk4D重置相位)
 					gNewBS->pickupStack[i] = 0xFF;
 					gNewBS->leftoverHealingDone[i] = FALSE;
 					gNewBS->statRoseThisRound[i] = FALSE;

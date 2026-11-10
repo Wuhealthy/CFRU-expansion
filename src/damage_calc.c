@@ -846,6 +846,7 @@ void atk06_typecalc(void)
             gNewBS->ResultFlags[bankDef] &= ~(MOVE_RESULT_SUPER_EFFECTIVE | MOVE_RESULT_NOT_VERY_EFFECTIVE | MOVE_RESULT_DOESNT_AFFECT_FOE); // Reset for now so damage can be modulated properly
 
 			ApplySTABMultipliers(FALSE);
+			s32 preTypeDamage = gBattleMoveDamage; //STAB后、属性倍率前的基础伤害（供会心一剪的会心覆盖重算）
 
             // Check Special Ground Immunities
             if (moveType == TYPE_GROUND && !CheckGrounding(bankDef) && gCurrentMove != MOVE_THOUSANDARROWS)
@@ -917,6 +918,15 @@ void atk06_typecalc(void)
             {
             RE_ENTER_TYPE_CHECK:
                 TypeDamageModification(atkAbility, bankDef, gCurrentMove, moveType, &gNewBS->ResultFlags[bankDef]);
+            }
+
+            // 会心一剪：击中要害时无视属性相性，伤害变为效果绝佳
+            if (gCurrentMove == MOVE_CRITSNIP
+            && gNewBS->criticalMultiplier[bankDef] > BASE_CRIT_MULTIPLIER)
+            {
+                gNewBS->ResultFlags[bankDef] &= ~(MOVE_RESULT_NOT_VERY_EFFECTIVE | MOVE_RESULT_DOESNT_AFFECT_FOE);
+                gNewBS->ResultFlags[bankDef] |= MOVE_RESULT_SUPER_EFFECTIVE;
+                gBattleMoveDamage = MathMax(1, (preTypeDamage * TYPE_MUL_SUPER_EFFECTIVE) / 10);
             }
 
             if (defAbility == ABILITY_WONDERGUARD
@@ -1960,6 +1970,10 @@ u8 GetExceptionMoveType(u8 bankAtk, u16 move)
 				moveType = TYPE_DARK;
 			#endif
 			break;
+
+		case MOVE_RAGINGSURGE:
+			moveType = gNewBS->surgeTypeFlipped[bankAtk] ? TYPE_WATER : TYPE_DARK;
+			break;
 		
 		case MOVE_IVYCUDGEL:
 			#if (defined SPECIES_OGERPON && SPECIES_OGERPON_WELLSPRING_MASK && SPECIES_OGERPON_HEARTHFLAME_MASK && SPECIES_OGERPON_CORNERSTONE_MASK)
@@ -2087,6 +2101,10 @@ u8 GetMonExceptionMoveType(struct Pokemon* mon, u16 move)
 			else
 			#endif
 				moveType = TYPE_ELECTRIC;
+			break;
+
+		case MOVE_RAGINGSURGE:
+			moveType = TYPE_DARK; //队伍数据变体无bank状态，用基准恶属性
 			break;
 		
 		case MOVE_IVYCUDGEL:
