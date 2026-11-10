@@ -371,7 +371,7 @@ if no_desc_moves:
 # ---------------------------------------------------------------- 招式世代 (对照 52poke 招式列表)
 # tools/move_gen_52poke.json 是 52poke「招式列表」各世代表格 (编号/中文名/英文名), 52poke 有 Cloudflare 防护,
 # 无法在提取时联网, 故存档在仓库。按英文名匹配 (Z/极巨招式的 _P/_S 两个版本对应同一官方招式),
-# 对不上再按中文名; 超极巨招式不在列表里(无全国编号), 归第八世代; 其余对不上的是原创招式 (gen 10)
+# 对不上再按中文名; 超极巨招式不在列表里(无全国编号), 归第八世代; 其余对不上的是超级进化招式 (gen 10)
 move_gen_src = json.load(open(os.path.join(OUT, "tools", "move_gen_52poke.json"), encoding="utf-8"))["moves"]
 norm_en = lambda s: re.sub(r"[^A-Z0-9]", "", s.upper())
 official_by_en, official_by_zh = {}, {}
@@ -430,11 +430,17 @@ MOVE_CAT_DEFS = [
     ("gPunchingMoves", "拳击类招式", "受%s影响（威力提升20%%）、拳击手套（威力提升10%%且变为非接触）" % abil_zh("ABILITY_IRONFIST")),
     ("gBitingMoves", "啃咬类招式", "受%s影响（威力提升50%%）" % abil_zh("ABILITY_STRONGJAW")),
     ("gPulseAuraMoves", "波动／波导类招式", "受%s影响（威力提升50%%）" % abil_zh("ABILITY_MEGALAUNCHER")),
-    ("gSoundMoves", "声音类招式", "受%s免疫，%s使全部招式变为声音类" % (abil_zh("ABILITY_SOUNDPROOF"), abil_zh("ABILITY_SONILATE"))),
-    ("gPowderMoves", "粉末类招式", "受防尘特性／草属性／安全眼镜免疫"),
-    ("gBallBombMoves", "球弹类招式", "受%s免疫" % abil_zh("ABILITY_BULLETPROOF")),
+    # 声音类倍率按引擎实现: 庞克摇滚攻方+30%守方减半(含音浪皮肤转化招式)、沙漠之歌+50%、音浪皮肤全招式转化+20%
+    ("gSoundMoves", "声音类招式",
+     "被%s免疫，被%s减伤50%%（%s转化的招式同样减伤）；%s威力提升30%%，%s威力提升50%%；%s使全部招式变为声音类（威力提升20%%），因此全部招式都会被%s免疫"
+     % (abil_zh("ABILITY_SOUNDPROOF"), abil_zh("ABILITY_PUNKROCK"), abil_zh("ABILITY_SONILATE"),
+        abil_zh("ABILITY_PUNKROCK"), abil_zh("ABILITY_DESERTSONG"),
+        abil_zh("ABILITY_SONILATE"), abil_zh("ABILITY_SOUNDPROOF"))),
+    # 防尘=ABILITY_OVERCOAT 游戏内名; 防尘护目镜=ITEM_SAFETY_GOGGLES 游戏内名 (道具解析在后方, 此处硬编码)
+    ("gPowderMoves", "粉末类招式", "被防尘特性／草属性／防尘护目镜免疫"),
+    ("gBallBombMoves", "球弹类招式", "被%s免疫" % abil_zh("ABILITY_BULLETPROOF")),
     ("gDanceMoves", "舞蹈类招式", "受%s影响（连锁发动）" % abil_zh("ABILITY_DANCER")),
-    ("gWindMoves", "风类招式", "受%s免疫并提升能力，%s变为蓄电状态" % (abil_zh("ABILITY_WINDRIDER"), abil_zh("ABILITY_WINDPOWER"))),
+    ("gWindMoves", "风类招式", "被%s免疫并提升能力，%s受到风类招式攻击时进入充电状态" % (abil_zh("ABILITY_WINDRIDER"), abil_zh("ABILITY_WINDPOWER"))),
     ("gSlicingMoves", "切斩类招式", "受%s影响（威力提升50%%）" % abil_zh("ABILITY_SHARPNESS")),
     ("gMultihitmoves", "连续招式", "多次攻击，受%s影响（每次都判定）" % abil_zh("ABILITY_SKILLLINK")),
     ("gTwoStrikesMoves", "连续招式", "连续攻击2次，受%s影响" % abil_zh("ABILITY_SKILLLINK")),
@@ -1698,7 +1704,7 @@ for move in move_list:
         move["megaChanges"] = changes
 print("Mega 招式替换: %d 条" % len(mega_entries))
 
-# 原创招式 (gen 10) 排序: 按关联的超级进化原物种图鉴编号排 (即招式弹窗「超级进化招式变化」行的第一个物种);
+# 超级进化招式 (gen 10) 排序: 按关联的超级进化原物种图鉴编号排 (即招式弹窗「超级进化招式变化」行的第一个物种);
 # 没有超级进化关联的排在最后, 同编号内按招式序号。no 仅用于前端排序, 重新编号不影响其他展示
 gen10_sorted = sorted(
     (m for m in move_list if m["id"] and m["gen"] == 10),
@@ -1707,7 +1713,7 @@ gen10_sorted = sorted(
                    m["id"]))
 for i, m in enumerate(gen10_sorted):
     m["no"] = i
-print("原创招式排序(按关联物种图鉴编号): %s" % [m["zh"] for m in gen10_sorted])
+print("超级进化招式排序(按关联物种图鉴编号): %s" % [m["zh"] for m in gen10_sorted])
 
 # ---------------------------------------------------------------- 输出
 

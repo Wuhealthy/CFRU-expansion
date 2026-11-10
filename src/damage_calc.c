@@ -1580,6 +1580,10 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 		// 母子同心拳：一般属性招式无视幽灵属性的免疫
 		if (move == MOVE_MOTHERCHILDPUNCH && defType == TYPE_GHOST)
 			return;
+
+		// 电流尾：电属性招式无视地面属性的免疫
+		if (move == MOVE_CURRENTTAIL && defType == TYPE_GROUND)
+			return;
 	}
 	else if (checkMonDef)
 	{
@@ -1593,6 +1597,10 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 
 		// 母子同心拳：可打中幽灵属性
 		if (move == MOVE_MOTHERCHILDPUNCH && defType == TYPE_GHOST)
+			return;
+
+		// 电流尾：可打中地面属性
+		if (move == MOVE_CURRENTTAIL && defType == TYPE_GROUND)
 			return;
 	}
 

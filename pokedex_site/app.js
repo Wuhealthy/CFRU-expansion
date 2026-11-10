@@ -939,7 +939,7 @@ D.moves.forEach(m => {
   if (m.id) names.forEach(n => MOVE_CAT_COUNT[n] = (MOVE_CAT_COUNT[n] || 0) + 1);
 });
 D.moveCats.forEach(c => { if (MOVE_CAT_COUNT[c.n] && !MOVE_CAT_ORDER.includes(c.n)) MOVE_CAT_ORDER.push(c.n); });
-/* 世代: 1-9 对照 52poke 招式列表, 10 为原创招式 (排在第九世代后, 按关联宝可梦的图鉴编号排, 见 extract_data.py);
+/* 世代: 1-9 对照 52poke 招式列表, 10 为超级进化招式 (排在第九世代后, 按关联宝可梦的图鉴编号排, 见 extract_data.py);
    世代内按官方编号排序 */
 const MOVES_BY_GEN = D.moves.filter(m => m.id).sort((a, b) => a.gen - b.gen || a.no - b.no || a.id - b.id);
 function renderMoves() {
@@ -947,10 +947,10 @@ function renderMoves() {
   const catOpts = MOVE_CAT_ORDER.map(n => `<option value="${esc(n)}">${esc(n)}（${MOVE_CAT_COUNT[n]}）</option>`).join("");
   app.innerHTML = `
     <div class="toc-layout">
-      ${tocHTML(GEN_NAMES.slice(1).map((label, i) => ({ id: "gen-" + (i + 1), label })).concat([{ id: "gen-10", label: "原创招式" }]))}
+      ${tocHTML(GEN_NAMES.slice(1).map((label, i) => ({ id: "gen-" + (i + 1), label })).concat([{ id: "gen-10", label: "超级进化招式" }]))}
       <div class="toc-main">
         <div class="page-title">招式图鉴</div>
-        <div class="page-sub">共 ${MOVES_BY_GEN.length} 个招式 · 按世代排序，原创招式按对应宝可梦的图鉴编号排列 · 点击行查看详情</div>
+        <div class="page-sub">共 ${MOVES_BY_GEN.length} 个招式 · 按世代排序，超级进化招式按对应宝可梦的图鉴编号排列 · 点击行查看详情</div>
         <div class="toolbar">
           ${searchBox("mq", "搜索招式名 / 效果…", moveFilter.q)}
           <select id="mtype" class="search-box" style="flex:0 0 140px">
@@ -1001,7 +1001,7 @@ function renderMoveRows() {
     </tr>`;
   $("#mgens").innerHTML = Object.keys(byGen).map(Number).sort((a, b) => a - b).map(g => `
     <section class="gen-sec" id="gen-${g}">
-      <h3 class="gen-h">${GEN_NAMES[g] || "原创招式"}<span class="gen-cnt">${byGen[g].length} 个</span></h3>
+      <h3 class="gen-h">${GEN_NAMES[g] || "超级进化招式"}<span class="gen-cnt">${byGen[g].length} 个</span></h3>
       <div class="card" style="overflow:auto">
         <table class="list-table">
           <thead><tr><th>招式</th><th>属性</th><th>分类</th><th>威力</th><th>命中</th><th>PP</th><th>优先度</th></tr></thead>

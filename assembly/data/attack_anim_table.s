@@ -1059,6 +1059,7 @@ gMoveAnimations:
 .word ANIM_AQUATAIL	@MOVE_RAGINGSURGE
 .word ANIM_WINGATTACK	@MOVE_PRIMALWINGBEAT
 .word ANIM_CROSSPOISON	@MOVE_WEAKNESSPIERCE
+.word ANIM_IRONTAIL	@MOVE_CURRENTTAIL
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
