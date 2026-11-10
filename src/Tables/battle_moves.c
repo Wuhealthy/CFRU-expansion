@@ -16018,12 +16018,12 @@ const struct BattleMove gBattleMoves[] =
 
 	[MOVE_LIGHTNINGBALL] =
 	{
-		.effect = EFFECT_ACCURACY_DOWN_HIT,
-		.power = 120,
+		.effect = EFFECT_PARALYZE_HIT,
+		.power = 140,
 		.type = TYPE_ELECTRIC,
-		.accuracy = 80,
-		.pp = 5,
-		.secondaryEffectChance = 20,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 100,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
 		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
@@ -16052,9 +16052,9 @@ const struct BattleMove gBattleMoves[] =
 	{
 		.effect = EFFECT_RELIC_SONG,
 		.power = 80,
-		.type = TYPE_NORMAL,
+		.type = TYPE_STEEL,
 		.accuracy = 100,
-		.pp = 5,
+		.pp = 10,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
