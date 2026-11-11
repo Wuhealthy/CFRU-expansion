@@ -1066,6 +1066,10 @@ gMoveAnimations:
 .word ANIM_HYDROPUMP	@MOVE_FORTUNEWASH
 .word ANIM_POWERGEM	@MOVE_REFRACTGEM
 .word ANIM_BRAVEBIRD	@MOVE_EXTREMESKYMETEOR
+.word ANIM_PETALBLIZZARD	@MOVE_SUNSHINEMIASMA
+.word ANIM_MAGMASTORM	@MOVE_GEOTHERMALBURST
+.word 0x81ce1ee	@MOVE_RAGINGJAWS
+.word ANIM_IONDELUGE	@MOVE_THUNDERLANCE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

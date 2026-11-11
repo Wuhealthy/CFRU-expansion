@@ -995,7 +995,23 @@ static u8 AtkCanceller_UnableToUseMove(void)
 			break;
 
 		case CANCELLER_MULTIHIT_MOVES:
-			if (gSpecialMoveFlags[gCurrentMove].gTwoToFiveStrikesMoves)
+			if (gCurrentMove == MOVE_THUNDERLANCE)
+			{
+				//雷电枪矛: 1~10次; 自身能力阶级(含命中/闪避)每+1级, 最低次数+1
+				u8 minHits = 1;
+				u32 statIndex;
+
+				for (statIndex = STAT_ATK; statIndex <= STAT_EVASION; ++statIndex)
+				{
+					if (STAT_STAGE(gBankAttacker, statIndex) > 6)
+						minHits += STAT_STAGE(gBankAttacker, statIndex) - 6;
+				}
+				if (minHits > 10)
+					minHits = 10;
+				gMultiHitCounter = minHits + (Random() % (11 - minHits));
+				PREPARE_BYTE_NUMBER_BUFFER(gBattleScripting.multihitString, 2, 0)
+			}
+			else if (gSpecialMoveFlags[gCurrentMove].gTwoToFiveStrikesMoves)
 			{
 				ability_t ability = ABILITY(gBankAttacker);
 

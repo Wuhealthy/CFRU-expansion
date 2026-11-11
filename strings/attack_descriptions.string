@@ -2782,3 +2782,15 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 
 #org @DESC_EXTREMESKYMETEOR
 从大气层外俯冲而下，\n借由坠落的动能撞击\n对手。若自身HP全满，\n威力会变成1.5倍。
+
+#org @DESC_SUNSHINEMIASMA
+散发安神花香攻击对\n手。必定降低对手的\n特攻。日照强烈时，\n威力会变成1.5倍。
+
+#org @DESC_GEOTHERMALBURST
+喷射出地底深处的灼\n热岩浆。能击中空中\n的对手，有时会让对\n手陷入灼伤状态。
+
+#org @DESC_RAGINGJAWS
+张开巨大的下颚，裹\n挟着狂澜咬碎对手。\n必定会降低对手的防\n御。
+
+#org @DESC_THUNDERLANCE
+将枪矛般的雷电刺向\n对手，连续攻击1至10\n次。自身能力提升越\n多，随机次数就越好。

@@ -16471,6 +16471,70 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 185,
 		.split = SPLIT_SPECIAL,
 		.z_move_effect = 0
+	},
+
+	[MOVE_SUNSHINEMIASMA] =
+	{
+		.effect = EFFECT_SPECIAL_ATTACK_DOWN_HIT,
+		.power = 90,
+		.type = TYPE_FAIRY,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 100,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 175,
+		.split = SPLIT_SPECIAL,
+		.z_move_effect = 0
+	},
+
+	[MOVE_GEOTHERMALBURST] =
+	{
+		.effect = EFFECT_BURN_HIT,
+		.power = 100,
+		.type = TYPE_GROUND,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 30,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 180,
+		.split = SPLIT_SPECIAL,
+		.z_move_effect = 0
+	},
+
+	[MOVE_RAGINGJAWS] =
+	{
+		.effect = EFFECT_DEFENSE_DOWN_HIT,
+		.power = 110,
+		.type = TYPE_WATER,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 100,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 185,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
+	},
+
+	[MOVE_THUNDERLANCE] =
+	{
+		.effect = EFFECT_MULTI_HIT,
+		.power = 20,
+		.type = TYPE_ELECTRIC,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 100,
+		.split = SPLIT_SPECIAL,
+		.z_move_effect = 0
 	}
 };
 
@@ -17088,5 +17152,9 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_FORTUNEWASH] = 130,
 	[MOVE_REFRACTGEM] = 130,
 	[MOVE_EXTREMESKYMETEOR] = 140,
+	[MOVE_SUNSHINEMIASMA] = 130,
+	[MOVE_GEOTHERMALBURST] = 130,
+	[MOVE_RAGINGJAWS] = 140,
+	[MOVE_THUNDERLANCE] = 130,
 };
 #endif
