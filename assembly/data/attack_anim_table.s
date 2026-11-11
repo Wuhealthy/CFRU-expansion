@@ -1068,7 +1068,7 @@ gMoveAnimations:
 .word ANIM_BRAVEBIRD	@MOVE_EXTREMESKYMETEOR
 .word ANIM_PETALBLIZZARD	@MOVE_SUNSHINEMIASMA
 .word ANIM_MAGMASTORM	@MOVE_GEOTHERMALBURST
-.word 0x81ce1ee	@MOVE_RAGINGJAWS
+.word ANIM_RAGINGJAWS	@MOVE_RAGINGJAWS
 .word ANIM_THUNDERLANCE	@MOVE_THUNDERLANCE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -31720,6 +31720,48 @@ TWP_WAVE:
 .align 2
 TWP_RING: objtemplate ANIM_TAG_BLUE_RING_2 ANIM_TAG_WATER_ORB OAM_DOUBLE_16x32 gDummySpriteAnimTable 0x0 0x83E3C9C 0x80AC6D9
 TWP_HIT: objtemplate ANIM_TAG_IMPACT ANIM_TAG_WATER_ORB OAM_NORMAL_BLEND_32x32 gDummySpriteAnimTable 0x0 0x83E7BF8 0x80BA561
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+@;狂澜巨颚: 水浪汇聚后突进, 连续三次咬合(呼应必降防的强咬), 终结水花
+.global ANIM_RAGINGJAWS
+ANIM_RAGINGJAWS:
+	loadparticle ANIM_TAG_FANG_ATTACK
+	loadparticle ANIM_TAG_WATER_ORB
+	loadparticle ANIM_TAG_BLUE_RING_2
+	loadparticle ANIM_TAG_IMPACT
+	pokespritetoBG side_target
+	leftbankBG_over_partnerBG bank_target
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_FANG_ATTACK 0x0 0xC 0xC 0x7FFF @;白闪獠牙
+	launchsoundtask SoundTask_LoopSEAdjustPanning 0x7 0x87, 0xFF00 | SOUND_PAN_ATTACKER, SOUND_PAN_TARGET 0x5 0x5 0x0 0x5
+	call RJ_WAVE
+	call RJ_WAVE
+	pause 0xC
+	playsound2 0x9A SOUND_PAN_TARGET
+	launchtask AnimTask_move_bank 0x3 0x5 bank_target 0x3 0x0 0xa 0x1
+	launchtemplate 0x83FEFBC TEMPLATE_TARGET | 2, 0x0 @咬合1
+	pause 0x8
+	playsound2 0x9A SOUND_PAN_TARGET
+	launchtemplate 0x83FEFBC TEMPLATE_TARGET | 2, 0x0 @咬合2
+	pause 0x8
+	playsound2 0x9A SOUND_PAN_TARGET
+	launchtemplate 0x83FEFBC TEMPLATE_TARGET | 2, 0x0 @咬合3
+	pause 0x8
+	playsound2 0x98 SOUND_PAN_TARGET
+	launchtemplate RJ_HIT 0x2 0x4 0x0 0x0 0x1 0x2
+	waitanimation
+	pokespritefromBG side_target
+	endanimation
+
+.align 2
+RJ_WAVE:
+	launchtemplate RJ_RING TEMPLATE_TARGET | 2, 0x4, 0x0 0x0 0x28 0xf
+	pause 0xA
+	return
+
+.align 2
+RJ_RING: objtemplate ANIM_TAG_BLUE_RING_2 ANIM_TAG_WATER_ORB OAM_DOUBLE_16x32 gDummySpriteAnimTable 0x0 0x83E3C9C 0x80AC6D9
+RJ_HIT: objtemplate ANIM_TAG_IMPACT ANIM_TAG_WATER_ORB OAM_NORMAL_BLEND_32x32 gDummySpriteAnimTable 0x0 0x83E7BF8 0x80BA561
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
 .align 2
