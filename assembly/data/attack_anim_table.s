@@ -1061,6 +1061,7 @@ gMoveAnimations:
 .word ANIM_CROSSPOISON	@MOVE_WEAKNESSPIERCE
 .word ANIM_IRONTAIL	@MOVE_CURRENTTAIL
 .word ANIM_HURRICANE	@MOVE_GIANTTORNADO
+.word ANIM_MOONBLAST	@MOVE_MOONFEATHER
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

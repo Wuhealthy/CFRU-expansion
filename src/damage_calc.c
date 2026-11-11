@@ -2666,6 +2666,19 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 
 				TryBoostMonOffensesForTotemBoost(data, bankAtk, TRUE); //Check the Defense Totem Buff
 				break;
+
+			case MOVE_MOONFEATHER: //月羽：用自身特防代替攻击能力值计算伤害
+				if (data->atkImposter)
+				{
+					attack = gBattleMons[imposterBank].spDefense;
+					spAttack = gBattleMons[imposterBank].spDefense;
+				}
+				else
+				{
+					attack = monAtk->spDefense;
+					spAttack = monAtk->spDefense;
+				}
+				break;
 			default:
 				if (data->atkImposter)
 				{
@@ -2709,6 +2722,12 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 	else //Load from bank
 	{
 		switch (move) {
+			case MOVE_MOONFEATHER: //月羽：用自身特防代替攻击能力值（特防的阶段随攻击阶段计入）
+				attack = gBattleMons[bankAtk].spDefense;
+				spAttack = gBattleMons[bankAtk].spDefense;
+				data->atkBuff = STAT_STAGE(bankAtk, STAT_STAGE_SPDEF);
+				data->spAtkBuff = STAT_STAGE(bankAtk, STAT_STAGE_SPDEF);
+				break;
 			case MOVE_BODYPRESS:
 				attack = gBattleMons[bankAtk].defense;
 				spAttack = gBattleMons[bankAtk].spDefense;

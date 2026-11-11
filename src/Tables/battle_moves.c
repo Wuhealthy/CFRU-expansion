@@ -16038,7 +16038,7 @@ const struct BattleMove gBattleMoves[] =
 		.power = 80,
 		.type = TYPE_WATER,
 		.accuracy = 100,
-		.pp = 15,
+		.pp = 10,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
@@ -16134,7 +16134,7 @@ const struct BattleMove gBattleMoves[] =
 		.power = 120,
 		.type = TYPE_FLYING,
 		.accuracy = 100,
-		.pp = 15,
+		.pp = 10,
 		.secondaryEffectChance = 50,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
@@ -16150,7 +16150,7 @@ const struct BattleMove gBattleMoves[] =
 		.power = 140,
 		.type = TYPE_FIRE,
 		.accuracy = 100,
-		.pp = 15,
+		.pp = 10,
 		.secondaryEffectChance = 100,
 		.target = MOVE_TARGET_RANDOM,
 		.priority = 0,
@@ -16166,7 +16166,7 @@ const struct BattleMove gBattleMoves[] =
 		.power = 140,
 		.type = TYPE_GRASS,
 		.accuracy = 100,
-		.pp = 15,
+		.pp = 10,
 		.secondaryEffectChance = 100,
 		.target = MOVE_TARGET_BOTH,
 		.priority = 0,
@@ -16339,7 +16339,7 @@ const struct BattleMove gBattleMoves[] =
 		.power = 0,
 		.type = TYPE_ROCK,
 		.accuracy = 0,
-		.pp = 5,
+		.pp = 10,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_USER,
 		.priority = 0,
@@ -16352,7 +16352,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_WEAKNESSPIERCE] =
 	{
 		.effect = EFFECT_HIT,
-		.power = 100,
+		.power = 120,
 		.type = TYPE_POISON,
 		.accuracy = 100,
 		.pp = 10,
@@ -16394,6 +16394,22 @@ const struct BattleMove gBattleMoves[] =
 		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
 		.z_move_power = 190,
 		.split = SPLIT_SPECIAL,
+		.z_move_effect = 0
+	},
+
+	[MOVE_MOONFEATHER] =
+	{
+		.effect = EFFECT_HIT,
+		.power = 90,
+		.type = TYPE_FLYING,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 175,
+		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
 	}
 };
@@ -17006,5 +17022,6 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_WEAKNESSPIERCE] = 130,
 	[MOVE_CURRENTTAIL] = 130,
 	[MOVE_GIANTTORNADO] = 130,
+	[MOVE_MOONFEATHER] = 130,
 };
 #endif
