@@ -1362,21 +1362,8 @@ function cmDrawBase(ctx, d, regions) {
     ctx.textBaseline = "alphabetic";
     y += 78;
   }
-  /* 招式名与威力说明按 4 行中最宽的引导区(分类徽章+属性图标)统一对齐 */
-  const leadW = Math.max(0, ...moves.map(mv => {
-    const m = MOVE_BY_ID[mv.mid];
-    if (!m) return 0;
-    ctx.font = cmFont(13.5, true);
-    let w = ctx.measureText(cmT(m.split)).width + 15;
-    const t = TYPE_BY_ID[m.type];
-    if (t) {
-      ctx.font = cmFont(11, true);
-      w += 7 + Math.max(22, ctx.measureText(cmT(t.zh)).width + 22 * .7);
-    }
-    return w;
-  }));
-  const nameX = M + 8 + leadW;
-  /* 每行附带招式描述(自动换行); 卡面空间不足时逐级压缩描述行数 */
+  /* 招式名靠左, 分类徽章+属性图标跟在名字右侧 → 描述区更宽, 能容更长文本 */
+  const nameX = M + 8;
   const descMaxW = CARD_W - M - 20 - nameX;
   const descLines = (mv, maxN) => {
     const m = MOVE_BY_ID[mv.mid];
@@ -1384,11 +1371,15 @@ function cmDrawBase(ctx, d, regions) {
     ctx.font = cmFont(12.5);
     return cmWrap(ctx, cmT(m.desc), descMaxW, maxN);
   };
+  /* 底栏高度按实际弱点行数动态算, 不再固定 96, 避免误判空间不足而压缩描述 */
+  const wks = cmWeaknesses(s);
+  const wkRows = Math.max(1, Math.ceil(wks.length / 3));
+  const bottomH = wkRows * 28 + 52;
   let rowHs = moves.map(mv => {
     const n = descLines(mv, 2).length;
     return n ? 50 + n * 16 + 10 : 56;
   });
-  const fits = hs => y + hs.reduce((a, b) => a + b, 0) + 96 <= CARD_H - 30;  // 96 = 底栏最小高度
+  const fits = hs => y + hs.reduce((a, b) => a + b, 0) + bottomH <= CARD_H - 30;
   if (!fits(rowHs)) rowHs = moves.map(mv => {
     const n = descLines(mv, 1).length;
     return n ? 50 + n * 16 + 10 : 56;
@@ -1404,23 +1395,26 @@ function cmDrawBase(ctx, d, regions) {
       ctx.strokeStyle = "rgba(255,255,255,.28)"; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(M + 6, ry + .5); ctx.lineTo(CARD_W - M - 6, ry + .5); ctx.stroke();
     }
-    const split = cmT(m.split);
-    ctx.font = cmFont(13.5, true);
-    const bw = ctx.measureText(split).width + 15;
-    cmRR(ctx, M + 8, ry + 18, bw, 22, 11);   // 分类徽章: 相对招式名略往下
-    ctx.fillStyle = CM_SPLIT_COLOR[m.split] || "#888"; ctx.fill();
-    ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-    ctx.fillText(split, M + 8 + bw / 2, ry + 30);
-    ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
-    const tPill = TYPE_BY_ID[m.type];         // 招式属性图标 (紧随分类徽章)
-    if (tPill) cmTypePill(ctx, tPill, M + 8 + bw + 7, ry + 29, 22);
+    /* 招式名先画(靠左), 分类徽章+属性图标跟在名字右侧 */
     const mvZh = cmT(m.zh);
     ctx.fillStyle = "#fff";
     cmShadowText(ctx, true);
     let ms = 22; ctx.font = cmFont(ms, true);
-    while (ms > 16 && ctx.measureText(mvZh).width > CARD_W - M - 92 - nameX) { ms--; ctx.font = cmFont(ms, true); }
+    const nameMaxW = CARD_W - M - 92 - nameX;   // 右侧留威力数字位
+    while (ms > 16 && ctx.measureText(mvZh).width > nameMaxW) { ms--; ctx.font = cmFont(ms, true); }
     ctx.fillText(mvZh, nameX, ry + 26);
     cmShadowText(ctx, false);
+    let iconX = nameX + ctx.measureText(mvZh).width + 10;
+    const split = cmT(m.split);
+    ctx.font = cmFont(13.5, true);
+    const bw = ctx.measureText(split).width + 15;
+    cmRR(ctx, iconX, ry + 18, bw, 22, 11);
+    ctx.fillStyle = CM_SPLIT_COLOR[m.split] || "#888"; ctx.fill();
+    ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText(split, iconX + bw / 2, ry + 30);
+    ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+    const tPill = TYPE_BY_ID[m.type];         // 招式属性图标 (紧随分类徽章)
+    if (tPill) cmTypePill(ctx, tPill, iconX + bw + 7, ry + 29, 22);
     ctx.font = cmFont(13); ctx.fillStyle = "rgba(255,255,255,.85)";
     ctx.fillText(cmT(`威力 ${fmtPower(m.power)} · 命中 ${m.acc || "—"}`), nameX, ry + 44);
     const lines = descLines(mv, 2);
@@ -1451,8 +1445,7 @@ function cmDrawBase(ctx, d, regions) {
   y += rowHs.reduce((a, b) => a + b, 0) + 6;
 
   /* 底栏: 弱点(全部, 一行最多3个可换行) / 图鉴 / 自制标 + 出处 */
-  const wks = cmWeaknesses(s);
-  const wkRows = Math.max(1, Math.ceil(wks.length / 3));
+  // wks / wkRows 已在招式段提前算好 (底栏高度据此动态估算, 避免误压缩招式描述)
   // 弱点行数多时底栏整体上移, 避免贴到卡底边框
   const fy = Math.max(y + 6, Math.min(CARD_H - 96, CARD_H - 34 - wkRows * 28));
   ctx.strokeStyle = "rgba(255,255,255,.3)"; ctx.lineWidth = 1;
@@ -1486,18 +1479,32 @@ function cmDrawBase(ctx, d, regions) {
   ctx.fillText(cmT("来自火红物语图鉴"), CARD_W - M - 8, fy + 44);
   ctx.textAlign = "left";
 }
-/* 精灵图绘制进图片窗 (像素图整数倍放大) */
+/* 精灵图绘制进图片窗 (像素图整数倍放大) + 防还原滤镜
+   导出 PNG 时精灵图已叠加属性色半透明层与斜向扫描线, 无法还原原始加密像素 */
 function cmDrawSprite(ctx, d, bmp) {
-  if (!bmp) return;
   const AW = CM_ART;
-  const scale = Math.max(2, Math.floor(Math.min((AW.w - 64) / bmp.width, (AW.h - 44) / bmp.height)));
-  const w = bmp.width * scale, h = bmp.height * scale;
   ctx.save();
   cmRR(ctx, AW.x, AW.y, AW.w, AW.h, 18); ctx.clip();
-  ctx.imageSmoothingEnabled = false;
-  ctx.drawImage(bmp, AW.x + (AW.w - w) / 2, AW.y + AW.h - h - 12, w, h);
+  if (bmp) {
+    const scale = Math.max(2, Math.floor(Math.min((AW.w - 64) / bmp.width, (AW.h - 44) / bmp.height)));
+    const w = bmp.width * scale, h = bmp.height * scale;
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(bmp, AW.x + (AW.w - w) / 2, AW.y + AW.h - h - 12, w, h);
+    ctx.imageSmoothingEnabled = true;
+  }
+  const base = (TYPE_BY_ID[d.s.types[0]] || { color: "#8899aa" }).color;
+  ctx.globalCompositeOperation = "source-atop";
+  ctx.fillStyle = cmMix(base, "#ffffff", .5);
+  ctx.globalAlpha = .25; ctx.fillRect(AW.x, AW.y, AW.w, AW.h);
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
+  ctx.strokeStyle = "rgba(255,255,255,.12)"; ctx.lineWidth = 1;
+  for (let ox = -AW.h; ox < AW.w; ox += 4) {
+    ctx.beginPath();
+    ctx.moveTo(AW.x + ox, AW.y + AW.h);
+    ctx.lineTo(AW.x + ox + AW.h, AW.y);
+    ctx.stroke();
+  }
   ctx.restore();
-  ctx.imageSmoothingEnabled = true;
 }
 function cmLoadArt(id) {
   const kind = cardState.shiny ? "front_shiny" : "front";
