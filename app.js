@@ -1374,7 +1374,7 @@ function cmDrawBase(ctx, d, regions) {
   /* 底栏高度按实际弱点行数动态算, 不再固定 96, 避免误判空间不足而压缩描述 */
   const wks = cmWeaknesses(s);
   const wkRows = Math.max(1, Math.ceil(wks.length / 3));
-  const bottomH = wkRows * 28 + 52;
+  const bottomH = wkRows * 28 + 24;   // 底栏内容到 fy+44, 余量 24 足够, 52 太保守致 4 招式描述被误压没
   let rowHs = moves.map(mv => {
     const n = descLines(mv, 2).length;
     return n ? 50 + n * 16 + 10 : 56;
@@ -1408,13 +1408,13 @@ function cmDrawBase(ctx, d, regions) {
     const split = cmT(m.split);
     ctx.font = cmFont(13.5, true);
     const bw = ctx.measureText(split).width + 15;
-    cmRR(ctx, iconX, ry + 18, bw, 22, 11);
+    cmRR(ctx, iconX, ry + 7, bw, 22, 11);   // 分类徽章与招式名同高, 底 ry+29 让出威力/命中行
     ctx.fillStyle = CM_SPLIT_COLOR[m.split] || "#888"; ctx.fill();
     ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-    ctx.fillText(split, iconX + bw / 2, ry + 30);
+    ctx.fillText(split, iconX + bw / 2, ry + 18);
     ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
     const tPill = TYPE_BY_ID[m.type];         // 招式属性图标 (紧随分类徽章)
-    if (tPill) cmTypePill(ctx, tPill, iconX + bw + 7, ry + 29, 22);
+    if (tPill) cmTypePill(ctx, tPill, iconX + bw + 7, ry + 18, 22);
     ctx.font = cmFont(13); ctx.fillStyle = "rgba(255,255,255,.85)";
     ctx.fillText(cmT(`威力 ${fmtPower(m.power)} · 命中 ${m.acc || "—"}`), nameX, ry + 44);
     if (rowHs[i] > 56) {
