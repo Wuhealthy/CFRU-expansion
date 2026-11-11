@@ -1244,7 +1244,7 @@ function cmShadowText(ctx, on) {
   ctx.shadowOffsetY = on ? 1 : 0;
 }
 
-const CM_ART = { x: 34, y: 92, w: 592, h: 318 };
+const CM_ART = { x: 34, y: 92, w: 592, h: 300 };
 /* 卡面主体 (逻辑坐标, 调用前已 setTransform 放大) */
 function cmDrawBase(ctx, d, regions) {
   const { s, moves, ability, hidden } = d;
@@ -1322,37 +1322,36 @@ function cmDrawBase(ctx, d, regions) {
   if (ability) {
     ctx.font = cmFont(15);
     const lines = cmWrap(ctx, cmT(ability.desc), CARD_W - M * 2 - 28, 3);
-    const bh = 12 + 26 + (lines.length ? 10 + lines.length * 21 : 0) + 12;
+    const bh = 10 + 26 + (lines.length ? 8 + lines.length * 20 : 0) + 10;
     cmRR(ctx, M, y, CARD_W - M * 2, bh, 14);
     ctx.fillStyle = "rgba(0,0,0,.3)"; ctx.fill();
-    cmRR(ctx, M + 14, y + 12, 56, 26, 13);
+    cmRR(ctx, M + 14, y + 10, 56, 26, 13);
     ctx.fillStyle = "#b31212"; ctx.fill();
     ctx.font = cmFont(15, true); ctx.fillStyle = "#fff";
     ctx.textAlign = "center"; ctx.textBaseline = "middle";
-    ctx.fillText(cmT("特性"), M + 42, y + 26);
+    ctx.fillText(cmT("特性"), M + 42, y + 24);
     ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
     const abZh = cmT(ability.zh);
     let afs = 22; ctx.font = cmFont(afs, true);
     while (afs > 15 && ctx.measureText(abZh).width > CARD_W - M * 2 - 96 - (hidden ? 92 : 0)) { afs--; ctx.font = cmFont(afs, true); }
-    ctx.fillText(abZh, M + 82, y + 32);
+    ctx.fillText(abZh, M + 82, y + 30);
     if (hidden) {
       ctx.font = cmFont(13, true);
       const hw = ctx.measureText(cmT("隐藏特性")).width + 16;
-      cmRR(ctx, CARD_W - M - 14 - hw, y + 14, hw, 22, 11);
+      cmRR(ctx, CARD_W - M - 14 - hw, y + 12, hw, 22, 11);
       ctx.fillStyle = "rgba(255,255,255,.22)"; ctx.fill();
       ctx.fillStyle = "rgba(255,255,255,.95)";
       ctx.textAlign = "center"; ctx.textBaseline = "middle";
-      ctx.fillText(cmT("隐藏特性"), CARD_W - M - 14 - hw / 2, y + 26);
+      ctx.fillText(cmT("隐藏特性"), CARD_W - M - 14 - hw / 2, y + 24);
       ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
     }
     ctx.font = cmFont(15); ctx.fillStyle = "rgba(255,255,255,.95)";
-    lines.forEach((ln, i) => ctx.fillText(ln, M + 14, y + 12 + 26 + 10 + 15 + i * 21));
+    lines.forEach((ln, i) => ctx.fillText(ln, M + 14, y + 10 + 26 + 8 + 15 + i * 20));
     if (regions) regions.push({ x: M, y, w: CARD_W - M * 2, h: bh, act: "ability" });
     y += bh + 12;
   }
 
-  /* 招式 (最多 4 个) */
-  const rowH = 60;
+  /* 招式 (最多 4 个, 行高随描述行数自适应) */
   if (!moves.length) {
     cmRR(ctx, M, y, CARD_W - M * 2, 66, 14);
     ctx.setLineDash([7, 7]); ctx.lineWidth = 2; ctx.strokeStyle = "rgba(255,255,255,.55)"; ctx.stroke();
