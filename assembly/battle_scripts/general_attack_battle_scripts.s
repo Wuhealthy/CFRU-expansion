@@ -1700,7 +1700,13 @@ IceBurnEffectBS:
 
 .global BS_076_SetConfusionChance
 BS_076_SetConfusionChance:
+	jumpifmove MOVE_GIANTTORNADO GiantTornadoBS
 	jumpifmove MOVE_ALLURINGVOICE AlluringVoice_BS
+	setmoveeffect MOVE_EFFECT_CONFUSION
+	goto BS_STANDARD_HIT
+
+GiantTornadoBS:
+	orword HIT_MARKER HITMARKER_IGNORE_IN_AIR
 	setmoveeffect MOVE_EFFECT_CONFUSION
 	goto BS_STANDARD_HIT
 

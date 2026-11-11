@@ -4733,11 +4733,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_DIVE] =
 	{
 		.effect = EFFECT_SEMI_INVULNERABLE,
-		#ifdef UNBOUND
-		.power = 100,
-		#else
 		.power = 80,
-		#endif
 		.type = TYPE_WATER,
 		.accuracy = 100,
 		.pp = 10,
@@ -16383,12 +16379,12 @@ const struct BattleMove gBattleMoves[] =
 
 	[MOVE_GIANTTORNADO] =
 	{
-		.effect = EFFECT_HIT,
+		.effect = EFFECT_CONFUSE_HIT,
 		.power = 120,
 		.type = TYPE_FLYING,
 		.accuracy = 100,
 		.pp = 10,
-		.secondaryEffectChance = 0,
+		.secondaryEffectChance = 20,
 		.target = MOVE_TARGET_BOTH,
 		.priority = 0,
 		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,

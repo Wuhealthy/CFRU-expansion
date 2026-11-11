@@ -4029,6 +4029,7 @@ static u16 GetBasePower(struct DamageCalc* data)
 
 		case MOVE_GUST:
 		case MOVE_TWISTER:
+		case MOVE_GIANTTORNADO:
 			if (!(data->specialFlags & FLAG_IGNORE_TARGET)
 			&& data->defStatus3 & (STATUS3_IN_AIR | STATUS3_SKY_DROP_ATTACKER | STATUS3_SKY_DROP_TARGET))
 				power *= 2;
