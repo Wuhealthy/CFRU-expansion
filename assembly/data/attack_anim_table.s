@@ -1064,6 +1064,8 @@ gMoveAnimations:
 .word ANIM_MOONBLAST	@MOVE_MOONFEATHER
 .word ANIM_HORNLEECH	@MOVE_ULTIMATESWALLOW
 .word ANIM_HYDROPUMP	@MOVE_FORTUNEWASH
+.word ANIM_POWERGEM	@MOVE_REFRACTGEM
+.word ANIM_BRAVEBIRD	@MOVE_EXTREMESKYMETEOR
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

@@ -3383,6 +3383,24 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			defense = spDefense;
 	}
 
+//折射宝石：将自身速度的50%加成到攻击（atkSpeed来自SpeedCalc,已含能力变化与顺风等修正）
+	if (move == MOVE_REFRACTGEM)
+	{
+		attack += data->atkSpeed / 2;
+	}
+
+//极空陨星：自身满HP时威力提升至1.5倍
+	if (move == MOVE_EXTREMESKYMETEOR)
+	{
+		if (useMonAtk)
+		{
+			if (data->monAtk->hp == data->monAtk->maxHP)
+				power = (power * 15) / 10;
+		}
+		else if (gBattleMons[bankAtk].hp == gBattleMons[bankAtk].maxHP)
+			power = (power * 15) / 10;
+	}
+
 //Actual Calculation
 	if (useMonAtk)
 		damage = (2 * data->monAtk->level) / 5 + 2;

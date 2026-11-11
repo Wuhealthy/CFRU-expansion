@@ -16439,6 +16439,38 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 190,
 		.split = SPLIT_SPECIAL,
 		.z_move_effect = 0
+	},
+
+	[MOVE_REFRACTGEM] =
+	{
+		.effect = EFFECT_HIT,
+		.power = 100,
+		.type = TYPE_PSYCHIC,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 180,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
+	},
+
+	[MOVE_EXTREMESKYMETEOR] =
+	{
+		.effect = EFFECT_HIT,
+		.power = 110,
+		.type = TYPE_FLYING,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_BOTH,
+		.priority = 0,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 185,
+		.split = SPLIT_SPECIAL,
+		.z_move_effect = 0
 	}
 };
 
@@ -17054,5 +17086,7 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_WINDROCKSTRIKE] = 130,
 	[MOVE_ULTIMATESWALLOW] = 140,
 	[MOVE_FORTUNEWASH] = 130,
+	[MOVE_REFRACTGEM] = 130,
+	[MOVE_EXTREMESKYMETEOR] = 140,
 };
 #endif
