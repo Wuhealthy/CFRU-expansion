@@ -2770,3 +2770,6 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 
 #org @DESC_MOONFEATHER
 挥洒沐浴过月光的神\n圣羽翼攻击对手。使\n用自身的特防代替攻\n击来计算伤害。
+
+#org @DESC_ULTIMATESWALLOW
+张开血盆大口吞下对\n手。回复造成伤害一\n半的HP，但防御和特\n防会降低。

@@ -576,3 +576,6 @@
 
 #org @gText_HighVoltageCharge
 [SCRIPTING_BANK]蓄能完毕，\n下一招攻击招式威力将翻倍！
+
+#org @gText_UltimateSwallowDrain
+从[TARGET]身上\n吸取了能量！

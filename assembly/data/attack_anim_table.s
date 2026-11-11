@@ -1062,6 +1062,7 @@ gMoveAnimations:
 .word ANIM_IRONTAIL	@MOVE_CURRENTTAIL
 .word ANIM_HURRICANE	@MOVE_GIANTTORNADO
 .word ANIM_MOONBLAST	@MOVE_MOONFEATHER
+.word ANIM_HORNLEECH	@MOVE_ULTIMATESWALLOW
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

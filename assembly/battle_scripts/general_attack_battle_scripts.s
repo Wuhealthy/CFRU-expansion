@@ -6540,9 +6540,43 @@ PsychicSuppressionSkip:
 	
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-.global BS_250_Blank
-BS_250_Blank:
-	goto BS_STANDARD_HIT
+.global BS_250_UltimateSwallow
+BS_250_UltimateSwallow:
+	attackcanceler
+	accuracycheck BS_MOVE_MISSED 0x0
+	call STANDARD_DAMAGE
+	jumpifmovehadnoeffect UltimateSwallow_Skip
+	jumpiffainted BANK_ATTACKER BS_MOVE_FAINT
+	negativedamage
+	orword HIT_MARKER HITMARKER_IGNORE_SUBSTITUTE
+	jumpifability BANK_TARGET ABILITY_LIQUIDOOZE BattleScript_AbsorbLiquidOoze
+	graphicalhpupdate BANK_ATTACKER
+	datahpupdate BANK_ATTACKER
+	setword BATTLE_STRING_LOADER gText_UltimateSwallowDrain
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+
+UltimateSwallow_Lower:
+	setbyte STAT_ANIM_PLAYED 0x0
+	playstatchangeanimation BANK_ATTACKER, STAT_ANIM_DEF | STAT_ANIM_SPDEF, STAT_ANIM_DOWN | STAT_ANIM_IGNORE_ABILITIES
+	setstatchanger STAT_DEF | DECREASE_1
+	statbuffchange STAT_ATTACKER | STAT_BS_PTR | STAT_CERTAIN UltimateSwallow_LowerSpDef
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 UltimateSwallow_LowerSpDef
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+
+UltimateSwallow_LowerSpDef:
+	setstatchanger STAT_SPDEF | DECREASE_1
+	statbuffchange STAT_ATTACKER | STAT_BS_PTR | STAT_CERTAIN BS_MOVE_FAINT
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 BS_MOVE_FAINT
+	printfromtable gStatUpStringIds
+	waitmessage DELAY_1SECOND
+	goto BS_MOVE_FAINT
+
+UltimateSwallow_Skip:
+	prefaintmoveendeffects 0x0
+	faintpokemonaftermove
+	goto BS_MOVE_END
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
