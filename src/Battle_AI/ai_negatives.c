@@ -2500,7 +2500,7 @@ SKIP_CHECK_TARGET:
 			break;
 
 		case EFFECT_PSYCH_UP:
-			if (move == MOVE_SPECTRALTHIEF)
+			if (move == MOVE_SPECTRALTHIEF || move == MOVE_FORTUNEWASH)
 				goto AI_STANDARD_DAMAGE;
 			else
 				goto AI_HAZE_CHECK;

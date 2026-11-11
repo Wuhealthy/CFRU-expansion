@@ -3259,6 +3259,7 @@ BattleScript_PrintContraryBellyDrumLoweredAttack:
 
 .global BS_143_PsychUp
 BS_143_PsychUp:
+	jumpifmove MOVE_FORTUNEWASH SpectralThiefBS
 	jumpifnotmove MOVE_SPECTRALTHIEF 0x81D7A74
 
 SpectralThiefBS:
@@ -6391,7 +6392,6 @@ BS_243_DamageSetTerrain:
 	faintpokemonaftermove
 	call BattleScript_SetTerrain
 	goto BS_MOVE_END
-
 IceSpinner_BS:
 	accuracycheck BS_MOVE_MISSED 0x0
 	call STANDARD_DAMAGE

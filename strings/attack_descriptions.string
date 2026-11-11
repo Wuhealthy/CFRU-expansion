@@ -2773,3 +2773,6 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 
 #org @DESC_ULTIMATESWALLOW
 张开血盆大口吞下对\n手。回复造成伤害一\n半的HP，但防御和特\n防会降低。
+
+#org @DESC_FORTUNEWASH
+卷起漩涡冲击对手。\n会先夺取对手已提升\n的能力变化，再进行\n攻击。

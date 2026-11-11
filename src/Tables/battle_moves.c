@@ -16423,6 +16423,22 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 190,
 		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
+	},
+
+	[MOVE_FORTUNEWASH] =
+	{
+		.effect = EFFECT_PSYCH_UP,
+		.power = 100,
+		.type = TYPE_WATER,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 190,
+		.split = SPLIT_SPECIAL,
+		.z_move_effect = 0
 	}
 };
 
@@ -17037,5 +17053,6 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_MOONFEATHER] = 130,
 	[MOVE_WINDROCKSTRIKE] = 130,
 	[MOVE_ULTIMATESWALLOW] = 140,
+	[MOVE_FORTUNEWASH] = 130,
 };
 #endif
