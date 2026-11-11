@@ -1138,9 +1138,20 @@ D.tms.forEach(t => { if (TM_LABELS[t.move] == null) TM_LABELS[t.move] = t.label;
 
 const CARD_W = 660, CARD_H = 924, CARD_SCALE = 2;
 const CM_SPLIT_COLOR = { "物理": "#d9534f", "特殊": "#3d7dca", "变化": "#8a8f98" };
-const cardState = { sp: 0, ability: null, moves: [], shiny: false };
+const CM_BGS = [
+  { file: "bg_grass", zh: "草地" }, { file: "bg_longgrass", zh: "长草地" },
+  { file: "bg_forest", zh: "森林" }, { file: "bg_forest_peradon", zh: "佩拉顿森林" },
+  { file: "bg_mountain", zh: "山岳" }, { file: "bg_water", zh: "水域" },
+  { file: "bg_pond", zh: "池塘" }, { file: "bg_sand", zh: "沙地" },
+  { file: "bg_desert", zh: "沙漠" }, { file: "bg_snow", zh: "雪地" },
+  { file: "bg_cave", zh: "洞窟" }, { file: "bg_cave_scalding", zh: "沸热洞窟" },
+  { file: "bg_cave_torma", zh: "托玛洞窟" }, { file: "bg_cave_tormadepths", zh: "托玛深处" },
+  { file: "bg_indoor", zh: "室内" }, { file: "bg_gym", zh: "道馆" },
+  { file: "bg_spooky", zh: "幽灵" },
+];
+const cardState = { sp: 0, ability: null, moves: [], shiny: false, bg: -1 };
 let cmRegions = [], cmSprJob = 0, cmFlashTimer = 0;
-const cmPoolCache = {};
+const cmPoolCache = {}, cmBgCache = {};
 
 function cmDefaultSpecies() {
   return (D.species.find(s => s.en === "GENGAR_MEGA")   // 默认展示超级进化招式自动替换
@@ -1511,6 +1522,28 @@ function cmLoadArt(id) {
   const kind = cardState.shiny ? "front_shiny" : "front";
   return loadSprite(kind, id).catch(() => loadSprite("icon", id).catch(() => null));
 }
+function cmLoadBg() {
+  const idx = cardState.bg;
+  if (idx < 0 || idx >= CM_BGS.length) return Promise.resolve(null);
+  const name = CM_BGS[idx].file;
+  if (cmBgCache[name]) return Promise.resolve(cmBgCache[name]);
+  return new Promise(res => {
+    const img = new Image();
+    img.onload = () => { cmBgCache[name] = img; res(img); };
+    img.onerror = () => res(null);
+    img.src = `data/bg/${name}.png`;
+  });
+}
+function cmDrawBg(ctx, bmp) {
+  if (!bmp) return;
+  const AW = CM_ART;
+  ctx.save();
+  cmRR(ctx, AW.x, AW.y, AW.w, AW.h, 18); ctx.clip();
+  const sc = Math.max(AW.w / bmp.width, AW.h / bmp.height);
+  const dw = bmp.width * sc, dh = bmp.height * sc;
+  ctx.drawImage(bmp, AW.x + (AW.w - dw) / 2, AW.y + (AW.h - dh) / 2, dw, dh);
+  ctx.restore();
+}
 function cmDraw() {
   const cv = $("#cm-card");
   if (!cv || !cardState.sp) return;
@@ -1521,24 +1554,33 @@ function cmDraw() {
   cmDrawBase(ctx, d, regions);
   cmRegions = regions;
   const job = ++cmSprJob;
-  cmLoadArt(d.s.id).then(bmp => { if (job === cmSprJob) cmDrawSprite(ctx, d, bmp); }).catch(() => {});
+  Promise.all([cmLoadArt(d.s.id), cmLoadBg()]).then(([art, bg]) => {
+    if (job !== cmSprJob) return;
+    if (bg) cmDrawBg(ctx, bg);
+    cmDrawSprite(ctx, d, art);
+  }).catch(() => {});
 }
 window.cmDownload = function () {
   const d = cmCardData();
   const cv = document.createElement("canvas");
-  cv.width = CARD_W * CARD_SCALE; cv.height = CARD_H * CARD_SCALE;
+  cv.width = CARD_W; cv.height = CARD_H;   // 等比缩小到 660×924 (原 1320×1848), 文件小很多
   const ctx = cv.getContext("2d");
-  ctx.setTransform(CARD_SCALE, 0, 0, CARD_SCALE, 0, 0);
   cmDrawBase(ctx, d, null);
-  cmLoadArt(d.s.id).then(bmp => {
-    cmDrawSprite(ctx, d, bmp);
-    cv.toBlob(b => {
+  Promise.all([cmLoadArt(d.s.id), cmLoadBg()]).then(([art, bg]) => {
+    if (bg) cmDrawBg(ctx, bg);
+    cmDrawSprite(ctx, d, art);
+    const base = `${speciesName(d.s)}_自制卡牌`;
+    const save = (b, ext) => {
       if (!b) return;
       const a = document.createElement("a");
       a.href = URL.createObjectURL(b);
-      a.download = `${speciesName(d.s)}_自制卡牌.png`;
+      a.download = `${base}.${ext}`;
       a.click();
       setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+    };
+    cv.toBlob(b => {
+      if (b && b.size <= 400 * 1024) { save(b, "png"); return; }
+      cv.toBlob(b2 => save(b2, "jpg"), "image/jpeg", 0.9);   // PNG 超 400KB 自动降 JPEG
     }, "image/png");
   });
 };
@@ -1554,6 +1596,7 @@ window.cmPickSpecies = function (id) {
   cmRefresh();
 };
 window.cmPickAbility = function (aid) { cardState.ability = aid; cmRefresh(); };
+window.cmPickBg = function (i) { cardState.bg = i; cmRefresh(); };
 window.cmToggleMove = function (mid) {
   const i = cardState.moves.indexOf(mid);
   if (i >= 0) cardState.moves.splice(i, 1);
@@ -1620,6 +1663,9 @@ function cmRefresh() {
     notes.push(`<div>✦ ${esc(speciesName(s))}是超级进化宝可梦：招式表中「变化前」的招式在卡面上会自动显示为对应的超级进化招式。</div>`);
   notes.push(`<div>点击卡面：图片切换闪光形态，特性 / 招式区域可查看详情。</div>`);
   $("#cm-note").innerHTML = notes.join("");
+  const bgList = $("#cm-bg-list");
+  if (bgList) bgList.innerHTML = `<button type="button" class="cm-bg-item${cardState.bg === -1 ? " on" : ""}" onclick="cmPickBg(-1)" title="无背景">无</button>` +
+    CM_BGS.map((b, i) => `<img class="cm-bg-item${cardState.bg === i ? " on" : ""}" src="data/bg/${b.file}.png" title="${b.zh}" onclick="cmPickBg(${i})">`).join("");
   mountSprites($("#cm-cur"));
   cmDraw();
 }
@@ -1627,7 +1673,6 @@ function renderCardMaker() {
   if (!cardState.sp || !SPECIES_BY_ID[cardState.sp]) cmSelectSpecies(cmDefaultSpecies());
   app.innerHTML = `
     <div class="page-title">自制卡牌</div>
-    <div class="page-sub">参考 TCG POCKET 风格：自选宝可梦、特性与最多 4 个招式，生成专属卡牌，可保存为图片</div>
     <div class="cardmaker">
       <div class="cm-controls">
         <section>
@@ -1645,6 +1690,10 @@ function renderCardMaker() {
           <div class="cm-chips" id="cm-chips"></div>
           ${searchBox("cm-mq", "在招式表中筛选…", "")}
           <div class="cm-mv-list" id="cm-mv-list"></div>
+        </section>
+        <section>
+          <div class="cm-title">④ 图片窗背景 <span class="cm-count">${CM_BGS.length + 1} 种</span></div>
+          <div class="cm-bg-list" id="cm-bg-list"></div>
         </section>
       </div>
       <div class="cm-preview">
