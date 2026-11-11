@@ -8113,7 +8113,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_MOTHERCHILDPUNCH] =
 	{
 		.effect = EFFECT_HIT,
-		.power = 140,
+		.power = 120,
 		.type = TYPE_NORMAL,
 		.accuracy = 100,
 		.pp = 10,
@@ -16035,7 +16035,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_AQUABLADE] =
 	{
 		.effect = EFFECT_HIT,
-		.power = 80,
+		.power = 90,
 		.type = TYPE_WATER,
 		.accuracy = 100,
 		.pp = 10,
@@ -16288,7 +16288,7 @@ const struct BattleMove gBattleMoves[] =
 	[MOVE_PSYCHICSUPPRESSION] =
 	{
 		.effect = EFFECT_PSYCHIC_SUPPRESSION,
-		.power = 80,
+		.power = 85,
 		.type = TYPE_PSYCHIC,
 		.accuracy = 100,
 		.pp = 10,
@@ -16333,19 +16333,19 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_effect = 0
 	},
 
-	[MOVE_PRIMALWINGBEAT] =
+	[MOVE_WINDROCKSTRIKE] =
 	{
-		.effect = EFFECT_DRAGON_DANCE,
-		.power = 0,
+		.effect = EFFECT_HIT,
+		.power = 90,
 		.type = TYPE_ROCK,
-		.accuracy = 0,
+		.accuracy = 100,
 		.pp = 10,
 		.secondaryEffectChance = 0,
-		.target = MOVE_TARGET_USER,
+		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
-		.flags = FLAG_SNATCH_AFFECTED,
-		.z_move_power = 0,
-		.split = SPLIT_STATUS,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 175,
+		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
 	},
 
@@ -17023,5 +17023,6 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_CURRENTTAIL] = 130,
 	[MOVE_GIANTTORNADO] = 130,
 	[MOVE_MOONFEATHER] = 130,
+	[MOVE_WINDROCKSTRIKE] = 130,
 };
 #endif

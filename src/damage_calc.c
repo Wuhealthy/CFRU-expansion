@@ -3944,6 +3944,11 @@ static u16 GetBasePower(struct DamageCalc* data)
 				power = (power * 15) / 10; //Boosts 1.5x in Electric Terrain
 			break;
 
+		case MOVE_WINDROCKSTRIKE: //风袭岩击：己方场上有顺风时威力1.5倍
+			if (gNewBS->TailwindTimers[SIDE(bankAtk)] > 0)
+				power = (power * 15) / 10;
+			break;
+
 		case MOVE_RAGEFIST:
 		//按个体保留计数（官方语义：换下再上不清零）
 			{

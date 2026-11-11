@@ -2756,8 +2756,8 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 #org @DESC_RAGINGSURGE
 释放夹杂狂暴水流与\n黑暗能量的猛烈一击。\n该招式的属性会在水\n和恶之间交替变化。
 
-#org @DESC_PRIMALWINGBEAT
-拍打双翼卷起顺风。\n提升自身的攻击和速\n度。若场上已刮起顺\n风，改为大幅提升。
+#org @DESC_WINDROCKSTRIKE
+用坚硬的身体极速撞\n击对手。己方场上有\n顺风时，威力会变成\n1.5倍。
 
 #org @DESC_WEAKNESSPIERCE
 以巨大毒针贯穿对手。\n比较对手的防御和特\n防，以其较低的一项\n给予对方伤害。

@@ -59,7 +59,6 @@ void TryExecuteInstruct(void);
 void InitiateInstruct(void);
 void TrySetMagnetRise(void);
 void TailwindLuckyChantFunc(void);
-void TryPrimalWingbeatTailwind(void);
 void TryActivateWindRiderFromTailwind(void);
 void FlameBurstFunc(void);
 void ModifyPostStockpileBoostDecrement(void);
