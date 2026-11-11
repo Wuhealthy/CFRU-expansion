@@ -3413,24 +3413,6 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 		attack += data->atkSpeed / 2;
 	}
 
-//极空陨星：自身满HP时威力提升至1.5倍
-	if (move == MOVE_EXTREMESKYMETEOR)
-	{
-		if (useMonAtk)
-		{
-			if (data->monAtk->hp == data->monAtk->maxHP)
-				power = (power * 15) / 10;
-		}
-		else if (gBattleMons[bankAtk].hp == gBattleMons[bankAtk].maxHP)
-			power = (power * 15) / 10;
-	}
-
-//晴空花瘴：阳光天气下自身受阳光影响时威力提升至1.5倍; 自身具有超级日光特性亦触发
-	if (move == MOVE_SUNSHINEMIASMA
-	&& ((WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY) && AffectedBySun(gBankAttacker))
-		|| data->atkAbility == ABILITY_MEGASOL))
-		power = (power * 15) / 10;
-
 //Actual Calculation
 	if (useMonAtk)
 		damage = (2 * data->monAtk->level) / 5 + 2;
@@ -4992,6 +4974,24 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 				power /= 3;
 			break;
 	}
+
+//极空陨星：自身满HP时威力提升至1.5倍
+	if (move == MOVE_EXTREMESKYMETEOR)
+	{
+		if (data->monAtk != NULL)
+		{
+			if (data->monAtk->hp == data->monAtk->maxHP)
+				power = (power * 15) / 10;
+		}
+		else if (gBattleMons[bankAtk].hp == gBattleMons[bankAtk].maxHP)
+			power = (power * 15) / 10;
+	}
+
+//晴空花瘴：阳光天气下自身受阳光影响时威力提升至1.5倍; 自身具有超级日光特性亦触发
+	if (move == MOVE_SUNSHINEMIASMA
+	&& ((WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY) && AffectedBySun(bankAtk))
+		|| data->atkAbility == ABILITY_MEGASOL))
+		power = (power * 15) / 10;
 
 	return power;
 }
