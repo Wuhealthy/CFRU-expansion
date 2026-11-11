@@ -1149,7 +1149,7 @@ const CM_BGS = [
   { file: "bg_indoor", zh: "室内" }, { file: "bg_gym", zh: "道馆" },
   { file: "bg_spooky", zh: "幽灵" },
 ];
-const cardState = { sp: 0, ability: null, moves: [], shiny: false, bg: 0 };
+const cardState = { sp: 0, ability: null, moves: [], shiny: false, bg: -1 };
 let cmRegions = [], cmSprJob = 0, cmFlashTimer = 0;
 const cmPoolCache = {}, cmBgCache = {};
 
@@ -1498,11 +1498,11 @@ function cmDrawSprite(ctx, d, bmp) {
   ctx.save();
   cmRR(ctx, AW.x, AW.y, AW.w, AW.h, 18); ctx.clip();
   if (bmp) {
-    const scale = Math.max(2, Math.floor(Math.min((AW.w - 64) / bmp.width, (AW.h - 44) / bmp.height)));
+    const scale = Math.min((AW.w - 64) / bmp.width, (AW.h - 44) / bmp.height);
     const w = bmp.width * scale, h = bmp.height * scale;
-    ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(bmp, AW.x + (AW.w - w) / 2, AW.y + AW.h - h - 12, w, h);
     ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(bmp, AW.x + (AW.w - w) / 2, AW.y + AW.h - h - 12, w, h);
   }
   const base = (TYPE_BY_ID[d.s.types[0]] || { color: "#8899aa" }).color;
   ctx.globalCompositeOperation = "source-atop";
@@ -1664,7 +1664,7 @@ function cmRefresh() {
   notes.push(`<div>点击卡面：图片切换闪光形态，特性 / 招式区域可查看详情。</div>`);
   $("#cm-note").innerHTML = notes.join("");
   const bgList = $("#cm-bg-list");
-  if (bgList) bgList.innerHTML =
+  if (bgList) bgList.innerHTML = `<button type="button" class="cm-bg-item${cardState.bg === -1 ? " on" : ""}" onclick="cmPickBg(-1)" title="无背景">无</button>` +
     CM_BGS.map((b, i) => `<img class="cm-bg-item${cardState.bg === i ? " on" : ""}" src="data/bg/${b.file}.png" title="${b.zh}" onclick="cmPickBg(${i})">`).join("");
   mountSprites($("#cm-cur"));
   cmDraw();
