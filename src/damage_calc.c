@@ -1607,6 +1607,10 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 	if (move == MOVE_FREEZEDRY && defType == TYPE_WATER) //Always Super-Effective, even in Inverse Battles
 		multiplier = TYPE_MUL_SUPER_EFFECTIVE;
 
+	//巨型龙卷风：对龙属性也是效果绝佳（连抵抗/中性的龙属性目标都按2倍计）
+	if (move == MOVE_GIANTTORNADO && defType == TYPE_DRAGON)
+		multiplier = TYPE_MUL_SUPER_EFFECTIVE;
+
 	if (atkAbility == ABILITY_WAVEFIST && moveType == TYPE_FIGHTING && (defType == TYPE_FIRE || defType == TYPE_GROUND)) //Always Super-Effective, even in Inverse Battles
 		multiplier = TYPE_MUL_SUPER_EFFECTIVE;
 

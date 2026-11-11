@@ -1060,6 +1060,7 @@ gMoveAnimations:
 .word ANIM_WINGATTACK	@MOVE_PRIMALWINGBEAT
 .word ANIM_CROSSPOISON	@MOVE_WEAKNESSPIERCE
 .word ANIM_IRONTAIL	@MOVE_CURRENTTAIL
+.word ANIM_HURRICANE	@MOVE_GIANTTORNADO
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
