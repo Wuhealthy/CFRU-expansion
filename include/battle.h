@@ -906,6 +906,8 @@ struct NewBattleStruct
 	u8 lastFainted;
 	s8 intimidateActive;
 	ability_t backupAbility;
+	u8 megaMoveOldPP[NUM_BATTLE_SIDES][PARTY_SIZE][MAX_MON_MOVES]; //Mega专属招式替换前各槽位PP备份（[side][队伍序号][槽位]）
+	u8 megaMovePPBackedUp[NUM_BATTLE_SIDES][PARTY_SIZE]; //上表有效性位掩码（bit i = 槽位i已备份）
 	u8 switchOutBankLooper;
 	u8 skipBankStatAnim;
 	u8 maxGoldrushUses;

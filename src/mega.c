@@ -265,10 +265,23 @@ void TryMegaMoveChange(struct Pokemon* mon, u16 species, u8 bank)
 			if (species == gMegaMoveChanges[j].species && mon->moves[i] == gMegaMoveChanges[j].oldMove)
 			{
 				u16 newMove = gMegaMoveChanges[j].newMove;
+				u8 newPP = CalculatePPWithBonus(newMove, GetMonData(mon, MON_DATA_PP_BONUSES, NULL), i);
+
+				//替换前的PP备份到gNewBS（按[side][队伍序号][槽位]），还原时恢复
+				if (bank < MAX_BATTLERS_COUNT)
+				{
+					u8 side = SIDE(bank);
+					u8 partyId = gBattlerPartyIndexes[bank];
+					gNewBS->megaMoveOldPP[side][partyId][i] = GetMonData(mon, MON_DATA_PP1 + i, NULL);
+					gNewBS->megaMovePPBackedUp[side][partyId] |= 1 << i;
+				}
+
 				SetMonData(mon, MON_DATA_MOVE1 + i, &newMove);
+				SetMonData(mon, MON_DATA_PP1 + i, &newPP); //PP随新招式变化
 				if (bank < MAX_BATTLERS_COUNT && gBattleMons[bank].moves[i] == gMegaMoveChanges[j].oldMove)
 				{
 					gBattleMons[bank].moves[i] = newMove;
+					gBattleMons[bank].pp[i] = newPP;
 					//同步本回合已选招式，否则出招时引擎会误判招式被覆盖而
 					//重新随机选目标(双打下玩家选的目标会丢失,见 battle_start_turn_start.c)
 					if (gChosenMovesByBanks[bank] == gMegaMoveChanges[j].oldMove)
@@ -280,9 +293,24 @@ void TryMegaMoveChange(struct Pokemon* mon, u16 species, u8 bank)
 	}
 }
 
-//战斗结束还原形态时，把替换过的招式还原回去
+//战斗结束还原形态时，把替换过的招式还原回去（PP也恢复替换前的值；无备份的异常残留按旧招式重算满PP）
 void RevertMegaMoveChange(struct Pokemon* mon)
 {
+	u8 side, partyId;
+
+	if (mon >= gPlayerParty && mon < &gPlayerParty[PARTY_SIZE])
+	{
+		side = B_SIDE_PLAYER;
+		partyId = mon - gPlayerParty;
+	}
+	else if (mon >= gEnemyParty && mon < &gEnemyParty[PARTY_SIZE])
+	{
+		side = B_SIDE_OPPONENT;
+		partyId = mon - gEnemyParty;
+	}
+	else
+		return; //不属于任一队伍
+
 	for (u8 i = 0; i < MAX_MON_MOVES; ++i)
 	{
 		for (u8 j = 0; j < NELEMS(gMegaMoveChanges); ++j)
@@ -290,7 +318,16 @@ void RevertMegaMoveChange(struct Pokemon* mon)
 			if (mon->species == gMegaMoveChanges[j].species && mon->moves[i] == gMegaMoveChanges[j].newMove)
 			{
 				u16 oldMove = gMegaMoveChanges[j].oldMove;
+				u8 oldPP;
+
+				if (gNewBS->megaMovePPBackedUp[side][partyId] & (1 << i))
+					oldPP = gNewBS->megaMoveOldPP[side][partyId][i]; //恢复替换前的PP
+				else
+					oldPP = CalculatePPWithBonus(oldMove, GetMonData(mon, MON_DATA_PP_BONUSES, NULL), i);
+				gNewBS->megaMovePPBackedUp[side][partyId] &= ~(1 << i);
+
 				SetMonData(mon, MON_DATA_MOVE1 + i, &oldMove);
+				SetMonData(mon, MON_DATA_PP1 + i, &oldPP);
 				break;
 			}
 		}
