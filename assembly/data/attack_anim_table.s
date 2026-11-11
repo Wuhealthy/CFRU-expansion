@@ -1069,7 +1069,7 @@ gMoveAnimations:
 .word ANIM_PETALBLIZZARD	@MOVE_SUNSHINEMIASMA
 .word ANIM_MAGMASTORM	@MOVE_GEOTHERMALBURST
 .word 0x81ce1ee	@MOVE_RAGINGJAWS
-.word ANIM_IONDELUGE	@MOVE_THUNDERLANCE
+.word ANIM_THUNDERLANCE	@MOVE_THUNDERLANCE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -18874,6 +18874,43 @@ THUNDER_CAGE_BOLTS:
 	launchtask AnimTask_ElectricBolt TEMPLATE_TARGET | 2, 0x3, -25, -40, 1
 	pause 0x9
 	launchtask AnimTask_ElectricBolt TEMPLATE_TARGET | 2, 0x3, 0, -40, 1
+	pause 0x9
+	return
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+@;雷电枪矛: 俯冲突进, 两轮电枪从目标上方连刺(呼应1~10连击)
+.global ANIM_THUNDERLANCE
+ANIM_THUNDERLANCE:
+	loadparticle ANIM_TAG_SHOCK_3 @;Thunderbolt Ball
+	loadparticle ANIM_TAG_SPARK @;Electric lines
+	loadparticle ANIM_TAG_SPARK_H @;Thunder Wave
+	pokespritetobg bank_target
+	leftbankBG_over_partnerBG bank_target
+	soundcomplex 0x70 SOUND_PAN_TARGET 0xA 0x9
+	launchtemplate Template_ThunderboltOrb TEMPLATE_TARGET | 3, 0x4, THUNDER_CAGE_BALL_TIME, 0, -30, 0x0
+	launchtask AnimTask_move_bank 0x5 0x5 bank_target 0x3 0x0 0x32 0x1
+	call THUNDERLANCE_BOLTS
+	pause 0x4
+	launchtemplate Template_ThunderWave TEMPLATE_TARGET | 1, 0x2 0xfff0 0xfff0
+	pause 0x4
+	launchtemplate Template_ThunderWave TEMPLATE_TARGET | 1, 0x2 0xfff0 0x0
+	pause 0x4
+	launchtemplate Template_ThunderWave TEMPLATE_TARGET | 1, 0x2 0xfff0 0x10
+	call THUNDERLANCE_BOLTS
+	waitanimation
+	pokespritefrombg bank_target
+	endanimation
+
+THUNDERLANCE_BOLTS:
+	launchtask AnimTask_ElectricBolt TEMPLATE_TARGET | 2, 0x3, 25, -40, 1
+	pause 0x9
+	launchtask AnimTask_ElectricBolt TEMPLATE_TARGET | 2, 0x3, -25, -40, 1
+	pause 0x9
+	launchtask AnimTask_ElectricBolt TEMPLATE_TARGET | 2, 0x3, 20, -20, 1
+	pause 0x9
+	launchtask AnimTask_ElectricBolt TEMPLATE_TARGET | 2, 0x3, -20, -20, 1
 	pause 0x9
 	return
 
