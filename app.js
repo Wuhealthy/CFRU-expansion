@@ -1417,10 +1417,11 @@ function cmDrawBase(ctx, d, regions) {
     if (tPill) cmTypePill(ctx, tPill, iconX + bw + 7, ry + 29, 22);
     ctx.font = cmFont(13); ctx.fillStyle = "rgba(255,255,255,.85)";
     ctx.fillText(cmT(`威力 ${fmtPower(m.power)} · 命中 ${m.acc || "—"}`), nameX, ry + 44);
-    const lines = descLines(mv, 2);
     if (rowHs[i] > 56) {
+      const maxN = rowHs[i] > 86 ? 2 : 1;   // 76=1行(50+16+10), 92=2行, 阈值86区分
+      const lines = descLines(mv, maxN);
       ctx.font = cmFont(12.5); ctx.fillStyle = "rgba(255,255,255,.75)";
-      lines.slice(0, rowHs[i] > 66 ? 2 : 1).forEach((ln, k) => ctx.fillText(ln, nameX, ry + 62 + k * 16));
+      lines.forEach((ln, k) => ctx.fillText(ln, nameX, ry + 62 + k * 16));
     }
     if (mv.from) {  // 超级进化替换标记
       ctx.font = cmFont(12.5, true);
