@@ -1066,7 +1066,7 @@ gMoveAnimations:
 .word ANIM_HYDROPUMP	@MOVE_FORTUNEWASH
 .word ANIM_POWERGEM	@MOVE_REFRACTGEM
 .word ANIM_BRAVEBIRD	@MOVE_EXTREMESKYMETEOR
-.word ANIM_PETALBLIZZARD	@MOVE_SUNSHINEMIASMA
+.word ANIM_SUNSHINEMIASMA	@MOVE_SUNSHINEMIASMA
 .word ANIM_GEOTHERMALBURST	@MOVE_GEOTHERMALBURST
 .word ANIM_RAGINGJAWS	@MOVE_RAGINGJAWS
 .word ANIM_THUNDERLANCE	@MOVE_THUNDERLANCE
@@ -6810,6 +6810,50 @@ PB_TEMPLATE_1: .hword 0x0,0xa,0xfffe,0x0
 PB_OBJPTR_2: .hword 0x0, 0x2000,0x0800,0x0
 PB_OBJPTR_3: .word PB_TEMPLATE_2
 PB_TEMPLATE_2: .byte 0x0,0x0,0x4,0x0,0x4,0x0,0x0,0x0,0xff,0xff,0x0,0x0
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+@;晴空花瘴: 耀眼白光沐浴全场, 花香瘴气随花瓣涌向目标, 粉色星屑连爆, 花瓣安神余韵收场(呼应必降特攻)
+.global ANIM_SUNSHINEMIASMA
+ANIM_SUNSHINEMIASMA:
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_SPARKLE_2
+	loadparticle ANIM_TAG_FLOWER
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_IMPACT 0x0 0xF 0xF 0x7F5F @;粉白冲击
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_SPARKLE_2 0x0 0xC 0xC 0x7ADF @;粉色星屑
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0xF 0x7FFF @;耀眼白光沐浴全场
+	soundcomplex 0xbc 0xc0 0x10 0x3 @妖精铃音
+	call HEALING_STARS @安神星屑飘落
+	waitanimation
+	pokespritetobg bank_target
+	launchtask AnimTask_move_bank 0x5 0x5 bank_target 0x3 0x0 0x16 0x1 @瘴气冲向目标
+	launchtemplate Template_SweetScentPetal 0x2 0x3 0x46 0x1 0x40
+	pause 0x2
+	launchtemplate Template_SweetScentPetal 0x2 0x3 0x50 0x1 0x40
+	pause 0x2
+	launchtemplate Template_SweetScentPetal 0x2 0x3 0x64 0x0 0x78
+	pause 0x2
+	launchtemplate PETALBLIZZARD_OBJ TEMPLATE_TARGET | 2, 0x5 0x73 0x37 0xA 0x3c 0x1e @花漩环绕目标
+	pause 0x3
+	launchtemplate PETALBLIZZARD_OBJ_2 TEMPLATE_TARGET | 2, 0x5 0x64 0x32 0x4 0x32 0x1A
+	pause 0x2
+	launchtemplate Template_Hit 0x83 0x4 0xffe0 0xfff0 0x1 0x3
+	launchtask AnimTask_RapidWhackSound 0x5 0x2 0xd0 SOUND_PAN_TARGET
+	launchtemplate PETALBLIZZARD_OBJ TEMPLATE_TARGET | 2, 0x5 0x69 0x19 0x8 0x3c 0x14
+	pause 0x3
+	launchtemplate Template_Hit 0x83 0x4 0x0 0x0 0x1 0x3
+	launchtask AnimTask_RapidWhackSound 0x5 0x2 0xd0 SOUND_PAN_TARGET
+	launchtemplate PETALBLIZZARD_OBJ_2 TEMPLATE_TARGET | 2, 0x5 0x73 0x28 0xA 0x30 0x1E
+	pause 0x3
+	launchtemplate Template_Hit 0x83 0x4 0x20 0x14 0x1 0x3
+	launchtask AnimTask_RapidWhackSound 0x5 0x2 0xd0 SOUND_PAN_TARGET
+	waitanimation
+	pokespritefromBG bank_target
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0xF 0x0 0x7FFF @白光退散
+	call HEALING_STARS @瘴雾余韵安神飘落
+	waitanimation
+	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
