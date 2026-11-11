@@ -1067,7 +1067,7 @@ gMoveAnimations:
 .word ANIM_POWERGEM	@MOVE_REFRACTGEM
 .word ANIM_BRAVEBIRD	@MOVE_EXTREMESKYMETEOR
 .word ANIM_PETALBLIZZARD	@MOVE_SUNSHINEMIASMA
-.word ANIM_MAGMASTORM	@MOVE_GEOTHERMALBURST
+.word ANIM_GEOTHERMALBURST	@MOVE_GEOTHERMALBURST
 .word ANIM_RAGINGJAWS	@MOVE_RAGINGJAWS
 .word ANIM_THUNDERLANCE	@MOVE_THUNDERLANCE
 
@@ -2821,6 +2821,58 @@ EARTH_POWER_ERUPTION:
 	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_target 0x0 0x8
 	return
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+@;地热喷发: 目标脚下地裂, 火柱环绕喷涌, 灼热岩块从地底冲天而起(呼应可击中空中对手), 岩块四散终结
+.global ANIM_GEOTHERMALBURST
+ANIM_GEOTHERMALBURST:
+	loadparticle ANIM_TAG_SMALL_EMBER
+	loadparticle ANIM_TAG_FIRE_PLUME
+	loadparticle ANIM_TAG_WARM_ROCK
+	loadBG1 BG_FISSURE
+	waitbgfadeout
+	launchtask AnimTask_PositionFissureBgOnBattler 0x5 0x3 0x1 0x5 0xffff
+	soundcomplex 0x8a SOUND_PAN_TARGET 0xb 0x3
+	launchtask AnimTask_move_bank 0x5 0x5 0x1 0x0 0x3 0x19 0x1
+	call GEB_PLUMES
+	pause 0x2
+	playsound2 0x25 SOUND_PAN_TARGET
+	launchtemplate GEB_ROCK 0x3 0x3 0x0 0xffe0 0xf @灼热岩块从地底冲天
+	pause 0x13
+	call GEB_PLUMES
+	pause 0x2
+	playsound2 0x86 SOUND_PAN_TARGET
+	launchtemplate Template_Hit 0x2 0x4 0x0 0xfff8 0x1 0x1
+	launchtemplate Template_RockScatter TEMPLATE_TARGET | 2, 0x4, 0xfff4 0x20 0x3 0x4
+	launchtemplate Template_RockScatter TEMPLATE_TARGET | 2, 0x4, 0x8 0x1f 0x2 0x2
+	launchtemplate Template_RockScatter TEMPLATE_TARGET | 2, 0x4, 0xfffc 0x1c 0x2 0x3
+	launchtemplate Template_RockScatter TEMPLATE_TARGET | 2, 0x4, 0xc 0x1e 0x4 0x3
+	playsound2 0x7C SOUND_PAN_TARGET
+	waitanimation
+	call UNSET_SCROLLING_BG
+	endanimation
+
+GEB_PLUMES:
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_target 0x5 0x0
+	pause 0x1
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_target 0xfff6 0xfff1
+	pause 0x1
+	launchtemplate Template_MiniFirePlume TEMPLATE_TARGET | 2, 0x3, bank_target 0x0 0x19
+	pause 0x1
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_target 0xf 0x5
+	pause 0x1
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_target 0xffe7 0x0
+	pause 0x1
+	launchtemplate Template_MiniFirePlume TEMPLATE_TARGET | 2, 0x3, bank_target 0x1e 0x1e
+	pause 0x1
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_target 0xffe5 0x19
+	pause 0x1
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_target 0x0 0x8
+	return
+
+.align 2
+GEB_ROCK: objtemplate ANIM_TAG_WARM_ROCK ANIM_TAG_WARM_ROCK OAM_OFF_32x32 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable 0x80B0D59
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
 ANIM_ENERGYBALL:
