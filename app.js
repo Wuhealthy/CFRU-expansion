@@ -1498,11 +1498,11 @@ function cmDrawSprite(ctx, d, bmp) {
   ctx.save();
   cmRR(ctx, AW.x, AW.y, AW.w, AW.h, 18); ctx.clip();
   if (bmp) {
-    const scale = Math.min((AW.w - 64) / bmp.width, (AW.h - 44) / bmp.height);
+    const scale = Math.max(2, Math.floor(Math.min((AW.w - 64) / bmp.width, (AW.h - 44) / bmp.height)));
     const w = bmp.width * scale, h = bmp.height * scale;
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = "high";
+    ctx.imageSmoothingEnabled = false;
     ctx.drawImage(bmp, AW.x + (AW.w - w) / 2, AW.y + AW.h - h - 12, w, h);
+    ctx.imageSmoothingEnabled = true;
   }
   const base = (TYPE_BY_ID[d.s.types[0]] || { color: "#8899aa" }).color;
   ctx.globalCompositeOperation = "source-atop";
