@@ -1363,10 +1363,44 @@ function cmDrawBase(ctx, d, regions) {
     ctx.textBaseline = "alphabetic";
     y += 78;
   }
+  /* 招式名与威力说明按 4 行中最宽的引导区(分类徽章+属性图标)统一对齐 */
+  const leadW = Math.max(0, ...moves.map(mv => {
+    const m = MOVE_BY_ID[mv.mid];
+    if (!m) return 0;
+    ctx.font = cmFont(13.5, true);
+    let w = ctx.measureText(cmT(m.split)).width + 15;
+    const t = TYPE_BY_ID[m.type];
+    if (t) {
+      ctx.font = cmFont(11, true);
+      w += 7 + Math.max(22, ctx.measureText(cmT(t.zh)).width + 22 * .7);
+    }
+    return w;
+  }));
+  const nameX = M + 8 + leadW;
+  /* 每行附带招式描述(自动换行); 卡面空间不足时逐级压缩描述行数 */
+  const descMaxW = CARD_W - M - 20 - nameX;
+  const descLines = (mv, maxN) => {
+    const m = MOVE_BY_ID[mv.mid];
+    if (!m || !m.desc) return [];
+    ctx.font = cmFont(12.5);
+    return cmWrap(ctx, cmT(m.desc), descMaxW, maxN);
+  };
+  let rowHs = moves.map(mv => {
+    const n = descLines(mv, 2).length;
+    return n ? 50 + n * 16 + 10 : 56;
+  });
+  const fits = hs => y + hs.reduce((a, b) => a + b, 0) + 96 <= CARD_H - 30;  // 96 = 底栏最小高度
+  if (!fits(rowHs)) rowHs = moves.map(mv => {
+    const n = descLines(mv, 1).length;
+    return n ? 50 + n * 16 + 10 : 56;
+  });
+  if (!fits(rowHs)) rowHs = moves.map(() => 56);  // 仍不够: 不显示描述
+  const rowTops = [];
+  { let ty = y; rowHs.forEach(h => { rowTops.push(ty); ty += h; }); }
   moves.forEach((mv, i) => {
     const m = MOVE_BY_ID[mv.mid];
     if (!m) return;
-    const ry = y + i * rowH;
+    const ry = rowTops[i];
     if (i) {
       ctx.strokeStyle = "rgba(255,255,255,.28)"; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(M + 6, ry + .5); ctx.lineTo(CARD_W - M - 6, ry + .5); ctx.stroke();
@@ -1374,44 +1408,48 @@ function cmDrawBase(ctx, d, regions) {
     const split = cmT(m.split);
     ctx.font = cmFont(13.5, true);
     const bw = ctx.measureText(split).width + 15;
-    cmRR(ctx, M + 8, ry + 21, bw, 22, 11);   // 分类徽章: 相对招式名略往下
+    cmRR(ctx, M + 8, ry + 18, bw, 22, 11);   // 分类徽章: 相对招式名略往下
     ctx.fillStyle = CM_SPLIT_COLOR[m.split] || "#888"; ctx.fill();
     ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-    ctx.fillText(split, M + 8 + bw / 2, ry + 33);
+    ctx.fillText(split, M + 8 + bw / 2, ry + 30);
     ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
-    let nameX = M + 8 + bw + 7;
     const tPill = TYPE_BY_ID[m.type];         // 招式属性图标 (紧随分类徽章)
-    if (tPill) nameX += cmTypePill(ctx, tPill, nameX, ry + 32, 22) + 8;
+    if (tPill) cmTypePill(ctx, tPill, M + 8 + bw + 7, ry + 29, 22);
     const mvZh = cmT(m.zh);
     ctx.fillStyle = "#fff";
     cmShadowText(ctx, true);
-    let ms = 23; ctx.font = cmFont(ms, true);
+    let ms = 22; ctx.font = cmFont(ms, true);
     while (ms > 16 && ctx.measureText(mvZh).width > CARD_W - M - 92 - nameX) { ms--; ctx.font = cmFont(ms, true); }
-    ctx.fillText(mvZh, nameX, ry + 28);
+    ctx.fillText(mvZh, nameX, ry + 26);
     cmShadowText(ctx, false);
-    ctx.font = cmFont(13.5); ctx.fillStyle = "rgba(255,255,255,.85)";
-    ctx.fillText(cmT(`威力 ${fmtPower(m.power)} · 命中 ${m.acc || "—"}`), nameX, ry + 48);
+    ctx.font = cmFont(13); ctx.fillStyle = "rgba(255,255,255,.85)";
+    ctx.fillText(cmT(`威力 ${fmtPower(m.power)} · 命中 ${m.acc || "—"}`), nameX, ry + 44);
+    const lines = descLines(mv, 2);
+    if (rowHs[i] > 56) {
+      ctx.font = cmFont(12.5); ctx.fillStyle = "rgba(255,255,255,.75)";
+      lines.slice(0, rowHs[i] > 66 ? 2 : 1).forEach((ln, k) => ctx.fillText(ln, nameX, ry + 62 + k * 16));
+    }
     if (mv.from) {  // 超级进化替换标记
       ctx.font = cmFont(12.5, true);
       const tag = cmT("超级进化招式");
       const tw = ctx.measureText(tag).width + 14;
-      cmRR(ctx, CARD_W - M - 14 - tw, ry + 39, tw, 19, 9.5);
+      cmRR(ctx, CARD_W - M - 14 - tw, ry + 31, tw, 19, 9.5);
       ctx.fillStyle = "rgba(255,215,80,.95)"; ctx.fill();
       ctx.fillStyle = "#5a3c00";
       ctx.textAlign = "center"; ctx.textBaseline = "middle";
-      ctx.fillText(tag, CARD_W - M - 14 - tw / 2, ry + 49);
+      ctx.fillText(tag, CARD_W - M - 14 - tw / 2, ry + 41);
       ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
     }
     const dmg = m.power === 1 || !m.power ? "—" : String(m.power);
-    ctx.font = cmFont(33, true); ctx.fillStyle = "#fff";
+    ctx.font = cmFont(30, true); ctx.fillStyle = "#fff";
     cmShadowText(ctx, true);
     ctx.textAlign = "right";
-    ctx.fillText(dmg, CARD_W - M - 16, ry + 38);
+    ctx.fillText(dmg, CARD_W - M - 16, ry + 28);
     ctx.textAlign = "left";
     cmShadowText(ctx, false);
-    if (regions) regions.push({ x: M, y: ry, w: CARD_W - M * 2, h: rowH, act: "move", mid: mv.mid });
+    if (regions) regions.push({ x: M, y: ry, w: CARD_W - M * 2, h: rowHs[i], act: "move", mid: mv.mid });
   });
-  y += moves.length * rowH + 6;
+  y += rowHs.reduce((a, b) => a + b, 0) + 6;
 
   /* 底栏: 弱点(全部, 一行最多3个可换行) / 图鉴 / 自制标 + 出处 */
   const wks = cmWeaknesses(s);
@@ -1424,8 +1462,9 @@ function cmDrawBase(ctx, d, regions) {
   const wkLabel = cmT("弱点");
   ctx.fillText(wkLabel, M + 8, fy + 24);
   let wx = M + 8 + ctx.measureText(wkLabel).width + 12, wy = fy + 17, wkRow = 0;
+  const wkFirstX = wx;  // 换行后的行与第一行第一个弱点对齐
   for (const wk of wks) {
-    if (wkRow === 3) { wx = M + 8; wy += 28; wkRow = 0; }  // 一行最多 3 个弱点, 多的换行
+    if (wkRow === 3) { wx = wkFirstX; wy += 28; wkRow = 0; }  // 一行最多 3 个弱点, 多的换行
     ctx.font = cmFont(15, true); ctx.fillStyle = "#fff";
     const mulTxt = "×" + wk.mult;
     const w2 = cmTypePill(ctx, wk.t, wx, wy, 22);
