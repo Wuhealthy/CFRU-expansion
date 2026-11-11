@@ -67,6 +67,7 @@ window.setLang = function (l) {
   document.title = l === "hant" ? toHant(PAGE_TITLE) : PAGE_TITLE;
   document.querySelectorAll(".lang-switch button").forEach(b => b.classList.toggle("on", b.dataset.lang === l));
   localize(document.body);
+  if (document.getElementById("cm-card")) cmDraw();  // 卡面是 canvas 画的, 切繁体后需重绘
 };
 window.setTheme = function (t) {
   document.documentElement.setAttribute("data-theme", t);
@@ -494,6 +495,7 @@ function route() {
   else if (h.startsWith("#/moves")) renderMoves();
   else if (h.startsWith("#/abilities")) renderAbilities();
   else if (h.startsWith("#/items")) renderItems();
+  else if (h.startsWith("#/card")) renderCardMaker();
   else if (h.startsWith("#/types")) renderTypes();
   else renderHome();
   if (saved != null) requestAnimationFrame(() => window.scrollTo({ top: SCROLL_BY_HASH[h] || 0, behavior: "instant" }));
@@ -1124,6 +1126,572 @@ function renderItemRows() {
   tocMark(new Set(Object.keys(byPocket).map(id => "ipocket-" + id)));
 }
 
+/* ---------------- 自制卡牌 (TCG POCKET 风格) ----------------
+   自选宝可梦 / 特性 / 最多 4 个招式, canvas 按 TCG POCKET 版面绘制, 可导出 PNG。
+   超级进化宝可梦 (gMegaMoveChanges): 招式表中「变化前」的招式在卡面上自动显示为对应的超级进化招式 */
+const MEGA_MOVE_MAP = {};   // 物种id -> { 变化前招式id: 超级进化招式id }
+D.moves.forEach(m => (m.megaChanges || []).forEach(c => {
+  (MEGA_MOVE_MAP[c.species] = MEGA_MOVE_MAP[c.species] || {})[c.oldMove] = m.id;
+}));
+const TM_LABELS = {};       // 招式id -> TM/HM 编号
+D.tms.forEach(t => { if (TM_LABELS[t.move] == null) TM_LABELS[t.move] = t.label; });
+
+const CARD_W = 660, CARD_H = 924, CARD_SCALE = 2;
+const CM_SPLIT_COLOR = { "物理": "#d9534f", "特殊": "#3d7dca", "变化": "#8a8f98" };
+const cardState = { sp: 0, ability: null, moves: [], shiny: false };
+let cmRegions = [], cmSprJob = 0, cmFlashTimer = 0;
+const cmPoolCache = {};
+
+function cmDefaultSpecies() {
+  return (D.species.find(s => s.en === "GENGAR_MEGA")   // 默认展示超级进化招式自动替换
+    || D.species.find(s => MEGA_MOVE_MAP[s.id])
+    || D.species.find(s => s.isDefault) || D.species[0]).id;
+}
+function cmSelectSpecies(id) {
+  const s = SPECIES_BY_ID[id];
+  if (!s) return;
+  cardState.sp = id;
+  cardState.ability = s.abilities.concat(s.hidden)[0] ?? null;
+  cardState.moves = [];
+  cardState.shiny = false;
+}
+function cmMovepool(s) {
+  if (cmPoolCache[s.id]) return cmPoolCache[s.id];
+  const seen = new Set(), list = [];
+  const push = (mid, src) => {
+    if (mid && MOVE_BY_ID[mid] && !seen.has(mid)) { seen.add(mid); list.push({ mid, src }); }
+  };
+  s.levelUp.forEach(([lv, mid]) => push(mid, lv === 0 ? "进化时" : lv === 1 ? "初始" : "Lv." + lv));
+  s.tm.forEach(mid => push(mid, TM_LABELS[mid] || "学习器"));
+  s.tutor.forEach(mid => push(mid, "教学"));
+  s.egg.forEach(mid => push(mid, "蛋"));
+  return cmPoolCache[s.id] = list;
+}
+function cmCardData() {
+  const s = SPECIES_BY_ID[cardState.sp];
+  const megaMap = MEGA_MOVE_MAP[s.id] || {};
+  const moves = cardState.moves.slice(0, 4).map(mid => {
+    const to = megaMap[mid];
+    return { mid: to || mid, from: to ? mid : 0 };
+  });
+  return {
+    s, moves,
+    ability: cardState.ability != null ? ABIL_BY_ID[cardState.ability] : null,
+    hidden: cardState.ability != null && s.hidden.includes(cardState.ability),
+  };
+}
+/* 弱点: 全部 ≥2 倍的攻击属性 (倍率高者在前), 卡面底栏逐个列出, 一行最多 3 个 */
+function cmWeaknesses(s) {
+  const list = [];
+  TYPES_SHOWN.forEach(at => {
+    let mul = 1, any = false;
+    s.types.forEach(dt => {
+      const v = (D.typeChart[String(at.id)] || {})[String(dt)];
+      if (v != null) { mul *= v; any = true; }
+    });
+    if (any && mul >= 2) list.push({ t: at, mult: mul });
+  });
+  list.sort((a, b) => b.mult - a.mult || a.t.id - b.t.id);
+  return list;
+}
+
+/* ---- canvas 绘制工具 ---- */
+/* canvas 文字不走 DOM 的繁体转换, 绘制时按当前语言显式转换 (词典语料含全部数据与页面文字) */
+const cmT = s => (LANG === "hant" ? toHant(s) : s);
+function cmFont(size, bold) { return `${bold ? "bold " : ""}${size}px "Segoe UI","Microsoft YaHei","PingFang SC",sans-serif`; }
+function cmMix(hex, hex2, k) {
+  const a = parseInt(hex.slice(1), 16), b = parseInt(hex2.slice(1), 16);
+  const ch = (sa, sb) => Math.round(sa + (sb - sa) * k);
+  return `rgb(${ch(a >> 16, b >> 16)},${ch((a >> 8) & 255, (b >> 8) & 255)},${ch(a & 255, b & 255)})`;
+}
+function cmRR(ctx, x, y, w, h, r) {
+  r = Math.min(r, w / 2, h / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+function cmWrap(ctx, text, maxW, maxLines) {
+  const out = [];
+  let cur = "";
+  for (const ch of String(text || "")) {
+    if (cur && ctx.measureText(cur + ch).width > maxW) {
+      out.push(cur);
+      if (out.length === maxLines) { out[maxLines - 1] = out[maxLines - 1].slice(0, -1) + "…"; return out; }
+      cur = ch;
+    } else cur += ch;
+  }
+  if (cur) out.push(cur);
+  return out;
+}
+function cmTypePill(ctx, t, x, cy, h) {  // 左对齐绘制, 返回宽度
+  const zh = cmT(t.zh);
+  ctx.font = cmFont(Math.max(11, Math.round(h * .52)), true);
+  const w = Math.max(h, ctx.measureText(zh).width + h * .7);
+  cmRR(ctx, x, cy - h / 2, w, h, h / 2);
+  ctx.fillStyle = t.color; ctx.fill();
+  ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillText(zh, x + w / 2, cy + 1);
+  ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+  return w;
+}
+function cmShadowText(ctx, on) {
+  ctx.shadowColor = on ? "rgba(15,25,45,.5)" : "transparent";
+  ctx.shadowBlur = on ? 3 : 0;
+  ctx.shadowOffsetY = on ? 1 : 0;
+}
+
+const CM_ART = { x: 34, y: 92, w: 592, h: 300 };
+/* 卡面主体 (逻辑坐标, 调用前已 setTransform 放大) */
+function cmDrawBase(ctx, d, regions) {
+  const { s, moves, ability, hidden } = d;
+  const M = 34;
+  const base = (TYPE_BY_ID[s.types[0]] || { color: "#8899aa" }).color;
+
+  /* 底色 + 金属边框 + 斜向高光 */
+  const bg = ctx.createLinearGradient(0, 0, 0, CARD_H);
+  bg.addColorStop(0, cmMix(base, "#ffffff", .16));
+  bg.addColorStop(1, cmMix(base, "#000000", .34));
+  cmRR(ctx, 0, 0, CARD_W, CARD_H, 30);
+  ctx.fillStyle = bg; ctx.fill();
+  ctx.lineWidth = 5; cmRR(ctx, 3, 3, CARD_W - 6, CARD_H - 6, 27);
+  ctx.strokeStyle = cmMix(base, "#000000", .5); ctx.stroke();
+  ctx.lineWidth = 2; cmRR(ctx, 11, 11, CARD_W - 22, CARD_H - 22, 20);
+  ctx.strokeStyle = "rgba(255,255,255,.5)"; ctx.stroke();
+  ctx.save();
+  cmRR(ctx, 12, 12, CARD_W - 24, CARD_H - 24, 20); ctx.clip();
+  ctx.fillStyle = "rgba(255,255,255,.05)";
+  ctx.beginPath();
+  ctx.moveTo(CARD_W * .3, 12); ctx.lineTo(CARD_W * .56, 12);
+  ctx.lineTo(CARD_W * .34, CARD_H - 12); ctx.lineTo(CARD_W * .08, CARD_H - 12);
+  ctx.closePath(); ctx.fill();
+  ctx.restore();
+
+  /* 头部: 小图标位 + 名字 | HP + 属性 */
+  ctx.font = cmFont(19, true);
+  ctx.fillStyle = "#fff";
+  cmShadowText(ctx, true);
+  const pills = s.types.map(id => TYPE_BY_ID[id]).filter(Boolean);
+  const PH = 26;
+  ctx.font = cmFont(Math.round(PH * .52), true);
+  const pillWs = pills.map(t => Math.max(PH, ctx.measureText(t.zh).width + PH * .7));
+  let px = CARD_W - M - (pillWs.reduce((a, b) => a + b, 0) + (pillWs.length - 1) * 6);
+  const pillX0 = px;
+  pills.forEach((t, i) => { cmTypePill(ctx, t, px, 47, PH); px += pillWs[i] + 6; });
+  let rx = pillX0 - 14;  // HP 数字画在属性徽章左侧 (px 循环后已越过最后一个徽章, 不能用)
+  ctx.textAlign = "right"; ctx.textBaseline = "alphabetic";
+  const hp = String(s.stats.hp);
+  ctx.font = cmFont(40, true); ctx.fillStyle = "#fff";
+  ctx.fillText(hp, rx, 62); rx -= ctx.measureText(hp).width + 7;
+  ctx.font = cmFont(19, true); ctx.fillText("HP", rx, 62);
+  ctx.textAlign = "left";
+  const name = cmT(speciesName(s));
+  let nfs = 33; ctx.font = cmFont(nfs, true);
+  while (nfs > 20 && ctx.measureText(name).width > rx - 20 - (M + 2)) { nfs--; ctx.font = cmFont(nfs, true); }
+  ctx.fillText(name, M + 2, 62);
+  cmShadowText(ctx, false);
+
+  /* 图片窗 */
+  const AW = CM_ART;
+  const ag = ctx.createLinearGradient(0, AW.y, 0, AW.y + AW.h);
+  ag.addColorStop(0, cmMix(base, "#ffffff", .6));
+  ag.addColorStop(1, cmMix(base, "#ffffff", .22));
+  cmRR(ctx, AW.x, AW.y, AW.w, AW.h, 18);
+  ctx.fillStyle = ag; ctx.fill();
+  ctx.save();
+  cmRR(ctx, AW.x, AW.y, AW.w, AW.h, 18); ctx.clip();
+  const glow = ctx.createRadialGradient(AW.x + AW.w / 2, AW.y + AW.h * .72, 24, AW.x + AW.w / 2, AW.y + AW.h * .72, 210);
+  glow.addColorStop(0, "rgba(255,255,255,.38)");
+  glow.addColorStop(1, "rgba(255,255,255,0)");
+  ctx.fillStyle = glow;
+  ctx.fillRect(AW.x, AW.y, AW.w, AW.h);
+  ctx.font = cmFont(15, true); ctx.fillStyle = "rgba(0,0,0,.4)";
+  ctx.textAlign = "right";
+  ctx.fillText(s.dex != null ? "No." + s.dex : "No.—", AW.x + AW.w - 14, AW.y + AW.h - 12);
+  ctx.textAlign = "left";
+  ctx.restore();
+  ctx.lineWidth = 2; ctx.strokeStyle = "rgba(255,255,255,.65)";
+  cmRR(ctx, AW.x, AW.y, AW.w, AW.h, 18); ctx.stroke();
+  if (regions) regions.push({ x: AW.x, y: AW.y, w: AW.w, h: AW.h, act: "shiny" });
+
+  /* 特性框 */
+  let y = AW.y + AW.h + 18;
+  if (ability) {
+    ctx.font = cmFont(15);
+    const lines = cmWrap(ctx, cmT(ability.desc), CARD_W - M * 2 - 28, 3);
+    const bh = 10 + 26 + (lines.length ? 8 + lines.length * 20 : 0) + 10;
+    cmRR(ctx, M, y, CARD_W - M * 2, bh, 14);
+    ctx.fillStyle = "rgba(0,0,0,.3)"; ctx.fill();
+    cmRR(ctx, M + 14, y + 10, 56, 26, 13);
+    ctx.fillStyle = "#b31212"; ctx.fill();
+    ctx.font = cmFont(15, true); ctx.fillStyle = "#fff";
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText(cmT("特性"), M + 42, y + 24);
+    ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+    const abZh = cmT(ability.zh);
+    let afs = 22; ctx.font = cmFont(afs, true);
+    while (afs > 15 && ctx.measureText(abZh).width > CARD_W - M * 2 - 96 - (hidden ? 92 : 0)) { afs--; ctx.font = cmFont(afs, true); }
+    ctx.fillText(abZh, M + 82, y + 30);
+    if (hidden) {
+      ctx.font = cmFont(13, true);
+      const hw = ctx.measureText(cmT("隐藏特性")).width + 16;
+      cmRR(ctx, CARD_W - M - 14 - hw, y + 12, hw, 22, 11);
+      ctx.fillStyle = "rgba(255,255,255,.22)"; ctx.fill();
+      ctx.fillStyle = "rgba(255,255,255,.95)";
+      ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText(cmT("隐藏特性"), CARD_W - M - 14 - hw / 2, y + 24);
+      ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+    }
+    ctx.font = cmFont(15); ctx.fillStyle = "rgba(255,255,255,.95)";
+    lines.forEach((ln, i) => ctx.fillText(ln, M + 14, y + 10 + 26 + 8 + 15 + i * 20));
+    if (regions) regions.push({ x: M, y, w: CARD_W - M * 2, h: bh, act: "ability" });
+    y += bh + 12;
+  }
+
+  /* 招式 (最多 4 个, 行高随描述行数自适应) */
+  if (!moves.length) {
+    cmRR(ctx, M, y, CARD_W - M * 2, 66, 14);
+    ctx.setLineDash([7, 7]); ctx.lineWidth = 2; ctx.strokeStyle = "rgba(255,255,255,.55)"; ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.font = cmFont(15); ctx.fillStyle = "rgba(255,255,255,.8)";
+    ctx.textBaseline = "middle";
+    ctx.fillText(cmT("在左侧「选择招式」中挑选（最多 4 个）"), M + 18, y + 34);
+    ctx.textBaseline = "alphabetic";
+    y += 78;
+  }
+  /* 招式名靠左, 分类徽章+属性图标跟在名字右侧 → 描述区更宽, 能容更长文本 */
+  const nameX = M + 8;
+  const descMaxW = CARD_W - M - 20 - nameX;
+  const descLines = (mv, maxN) => {
+    const m = MOVE_BY_ID[mv.mid];
+    if (!m || !m.desc) return [];
+    ctx.font = cmFont(12.5);
+    return cmWrap(ctx, cmT(m.desc), descMaxW, maxN);
+  };
+  /* 底栏高度按实际弱点行数动态算, 不再固定 96, 避免误判空间不足而压缩描述 */
+  const wks = cmWeaknesses(s);
+  const wkRows = Math.max(1, Math.ceil(wks.length / 3));
+  const bottomH = wkRows * 28 + 24;   // 底栏内容到 fy+44, 余量 24 足够, 52 太保守致 4 招式描述被误压没
+  let rowHs = moves.map(mv => {
+    const n = descLines(mv, 2).length;
+    return n ? 50 + n * 16 + 10 : 56;
+  });
+  const fits = hs => y + hs.reduce((a, b) => a + b, 0) + bottomH <= CARD_H - 30;
+  if (!fits(rowHs)) rowHs = moves.map(mv => {
+    const n = descLines(mv, 1).length;
+    return n ? 50 + n * 16 + 10 : 56;
+  });
+  if (!fits(rowHs)) rowHs = moves.map(() => 56);  // 仍不够: 不显示描述
+  const rowTops = [];
+  { let ty = y; rowHs.forEach(h => { rowTops.push(ty); ty += h; }); }
+  moves.forEach((mv, i) => {
+    const m = MOVE_BY_ID[mv.mid];
+    if (!m) return;
+    const ry = rowTops[i];
+    if (i) {
+      ctx.strokeStyle = "rgba(255,255,255,.28)"; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(M + 6, ry + .5); ctx.lineTo(CARD_W - M - 6, ry + .5); ctx.stroke();
+    }
+    /* 招式名先画(靠左), 分类徽章+属性图标跟在名字右侧 */
+    const mvZh = cmT(m.zh);
+    ctx.fillStyle = "#fff";
+    cmShadowText(ctx, true);
+    let ms = 22; ctx.font = cmFont(ms, true);
+    const nameMaxW = CARD_W - M - 92 - nameX;   // 右侧留威力数字位
+    while (ms > 16 && ctx.measureText(mvZh).width > nameMaxW) { ms--; ctx.font = cmFont(ms, true); }
+    ctx.fillText(mvZh, nameX, ry + 26);
+    cmShadowText(ctx, false);
+    let iconX = nameX + ctx.measureText(mvZh).width + 10;
+    const split = cmT(m.split);
+    ctx.font = cmFont(13.5, true);
+    const bw = ctx.measureText(split).width + 15;
+    cmRR(ctx, iconX, ry + 7, bw, 22, 11);   // 分类徽章与招式名同高, 底 ry+29 让出威力/命中行
+    ctx.fillStyle = CM_SPLIT_COLOR[m.split] || "#888"; ctx.fill();
+    ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText(split, iconX + bw / 2, ry + 18);
+    ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+    const tPill = TYPE_BY_ID[m.type];         // 招式属性图标 (紧随分类徽章)
+    if (tPill) cmTypePill(ctx, tPill, iconX + bw + 7, ry + 18, 22);
+    ctx.font = cmFont(13); ctx.fillStyle = "rgba(255,255,255,.85)";
+    ctx.fillText(cmT(`威力 ${fmtPower(m.power)} · 命中 ${m.acc || "—"}`), nameX, ry + 44);
+    if (rowHs[i] > 56) {
+      const maxN = rowHs[i] > 86 ? 2 : 1;   // 76=1行(50+16+10), 92=2行, 阈值86区分
+      const lines = descLines(mv, maxN);
+      ctx.font = cmFont(12.5); ctx.fillStyle = "rgba(255,255,255,.75)";
+      lines.forEach((ln, k) => ctx.fillText(ln, nameX, ry + 62 + k * 16));
+    }
+    if (mv.from) {  // 超级进化替换标记
+      ctx.font = cmFont(12.5, true);
+      const tag = cmT("超级进化招式");
+      const tw = ctx.measureText(tag).width + 14;
+      cmRR(ctx, CARD_W - M - 14 - tw, ry + 31, tw, 19, 9.5);
+      ctx.fillStyle = "rgba(255,215,80,.95)"; ctx.fill();
+      ctx.fillStyle = "#5a3c00";
+      ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText(tag, CARD_W - M - 14 - tw / 2, ry + 41);
+      ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+    }
+    const dmg = m.power === 1 || !m.power ? "—" : String(m.power);
+    ctx.font = cmFont(30, true); ctx.fillStyle = "#fff";
+    cmShadowText(ctx, true);
+    ctx.textAlign = "right";
+    ctx.fillText(dmg, CARD_W - M - 16, ry + 28);
+    ctx.textAlign = "left";
+    cmShadowText(ctx, false);
+    if (regions) regions.push({ x: M, y: ry, w: CARD_W - M * 2, h: rowHs[i], act: "move", mid: mv.mid });
+  });
+  y += rowHs.reduce((a, b) => a + b, 0) + 6;
+
+  /* 底栏: 弱点(全部, 一行最多3个可换行) / 图鉴 / 自制标 + 出处 */
+  // wks / wkRows 已在招式段提前算好 (底栏高度据此动态估算, 避免误压缩招式描述)
+  // 弱点行数多时底栏整体上移, 避免贴到卡底边框
+  const fy = Math.max(y + 6, Math.min(CARD_H - 96, CARD_H - 34 - wkRows * 28));
+  ctx.strokeStyle = "rgba(255,255,255,.3)"; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(M + 6, fy + .5); ctx.lineTo(CARD_W - M - 6, fy + .5); ctx.stroke();
+  ctx.font = cmFont(14, true); ctx.fillStyle = "rgba(255,255,255,.92)";
+  const wkLabel = cmT("弱点");
+  ctx.fillText(wkLabel, M + 8, fy + 24);
+  let wx = M + 8 + ctx.measureText(wkLabel).width + 12, wy = fy + 17, wkRow = 0;
+  const wkFirstX = wx;  // 换行后的行与第一行第一个弱点对齐
+  for (const wk of wks) {
+    if (wkRow === 3) { wx = wkFirstX; wy += 28; wkRow = 0; }  // 一行最多 3 个弱点, 多的换行
+    ctx.font = cmFont(15, true); ctx.fillStyle = "#fff";
+    const mulTxt = "×" + wk.mult;
+    const w2 = cmTypePill(ctx, wk.t, wx, wy, 22);
+    ctx.fillText(mulTxt, wx + w2 + 5, wy + 6);
+    wx += w2 + 5 + ctx.measureText(mulTxt).width + 12;
+    wkRow++;
+  }
+  if (!wks.length) {
+    ctx.font = cmFont(15); ctx.fillStyle = "rgba(255,255,255,.85)";
+    ctx.fillText("—", wx, fy + 24);
+  }
+  if (wks.length <= 3) {  // 弱点换行时中段让位, 图鉴编号图窗里已有
+    ctx.font = cmFont(14, true); ctx.fillStyle = "rgba(255,255,255,.92)"; ctx.textAlign = "center";
+    ctx.fillText(s.dex != null ? cmT("图鉴 No.") + s.dex : "火红物语", CARD_W / 2, fy + 24);
+    ctx.textAlign = "left";
+  }
+  ctx.font = cmFont(14, true); ctx.fillStyle = "rgba(255,255,255,.92)"; ctx.textAlign = "right";
+  ctx.fillText(cmT("★ 自制卡牌"), CARD_W - M - 8, fy + 22);
+  ctx.font = cmFont(12); ctx.fillStyle = "rgba(255,255,255,.78)";
+  ctx.fillText(cmT("来自火红物语图鉴"), CARD_W - M - 8, fy + 44);
+  ctx.textAlign = "left";
+}
+/* 精灵图绘制进图片窗 (像素图整数倍放大) + 防还原滤镜
+   导出 PNG 时精灵图已叠加属性色半透明层与斜向扫描线, 无法还原原始加密像素 */
+function cmDrawSprite(ctx, d, bmp) {
+  const AW = CM_ART;
+  ctx.save();
+  cmRR(ctx, AW.x, AW.y, AW.w, AW.h, 18); ctx.clip();
+  if (bmp) {
+    const scale = Math.max(2, Math.floor(Math.min((AW.w - 64) / bmp.width, (AW.h - 44) / bmp.height)));
+    const w = bmp.width * scale, h = bmp.height * scale;
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(bmp, AW.x + (AW.w - w) / 2, AW.y + AW.h - h - 12, w, h);
+    ctx.imageSmoothingEnabled = true;
+  }
+  const base = (TYPE_BY_ID[d.s.types[0]] || { color: "#8899aa" }).color;
+  ctx.globalCompositeOperation = "source-atop";
+  ctx.fillStyle = cmMix(base, "#ffffff", .5);
+  ctx.globalAlpha = .25; ctx.fillRect(AW.x, AW.y, AW.w, AW.h);
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
+  ctx.strokeStyle = "rgba(255,255,255,.12)"; ctx.lineWidth = 1;
+  for (let ox = -AW.h; ox < AW.w; ox += 4) {
+    ctx.beginPath();
+    ctx.moveTo(AW.x + ox, AW.y + AW.h);
+    ctx.lineTo(AW.x + ox + AW.h, AW.y);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+function cmLoadArt(id) {
+  const kind = cardState.shiny ? "front_shiny" : "front";
+  return loadSprite(kind, id).catch(() => loadSprite("icon", id).catch(() => null));
+}
+function cmDraw() {
+  const cv = $("#cm-card");
+  if (!cv || !cardState.sp) return;
+  const d = cmCardData();
+  const ctx = cv.getContext("2d");
+  ctx.setTransform(CARD_SCALE, 0, 0, CARD_SCALE, 0, 0);
+  const regions = [];
+  cmDrawBase(ctx, d, regions);
+  cmRegions = regions;
+  const job = ++cmSprJob;
+  cmLoadArt(d.s.id).then(bmp => { if (job === cmSprJob) cmDrawSprite(ctx, d, bmp); }).catch(() => {});
+}
+window.cmDownload = function () {
+  const d = cmCardData();
+  const cv = document.createElement("canvas");
+  cv.width = CARD_W * CARD_SCALE; cv.height = CARD_H * CARD_SCALE;
+  const ctx = cv.getContext("2d");
+  ctx.setTransform(CARD_SCALE, 0, 0, CARD_SCALE, 0, 0);
+  cmDrawBase(ctx, d, null);
+  cmLoadArt(d.s.id).then(bmp => {
+    cmDrawSprite(ctx, d, bmp);
+    cv.toBlob(b => {
+      if (!b) return;
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(b);
+      a.download = `${speciesName(d.s)}_自制卡牌.png`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+    }, "image/png");
+  });
+};
+window.cmReset = function () {
+  cmSelectSpecies(cmDefaultSpecies());
+  cmRefresh();
+};
+window.cmPickSpecies = function (id) {
+  cmSelectSpecies(id);
+  const q = $("#cm-q");
+  if (q) { q.value = ""; q.dispatchEvent(new Event("input", { bubbles: true })); }
+  $("#cm-sp-list").classList.add("hidden");
+  cmRefresh();
+};
+window.cmPickAbility = function (aid) { cardState.ability = aid; cmRefresh(); };
+window.cmToggleMove = function (mid) {
+  const i = cardState.moves.indexOf(mid);
+  if (i >= 0) cardState.moves.splice(i, 1);
+  else {
+    if (cardState.moves.length >= 4) {
+      const n = $("#cm-note");
+      if (n && !n.querySelector(".cm-warn")) {
+        n.insertAdjacentHTML("afterbegin", `<div class="cm-warn">最多只能选择 4 个招式</div>`);
+        clearTimeout(cmFlashTimer);
+        cmFlashTimer = setTimeout(cmRefresh, 1800);
+      }
+      return;
+    }
+    cardState.moves.push(mid);
+  }
+  cmRefresh();
+};
+function cmRefresh() {
+  const s = SPECIES_BY_ID[cardState.sp];
+  if (!s || !$("#cm-cur")) return;
+  $("#cm-cur").innerHTML = `
+    <div class="cm-cur-box">
+      ${spriteCanvas("icon", s.id)}
+      <div><b>${esc(speciesName(s))}</b>
+        <div class="cm-cur-meta">${fmtDex(s.dex)} ${typePills(s.types, true)}</div>
+      </div>
+    </div>`;
+  const abils = s.abilities.map(a => [a, false]).concat(s.hidden.map(a => [a, true]));
+  $("#cm-ab").innerHTML = abils.length ? abils.map(([aid, hid]) => {
+    const a = ABIL_BY_ID[aid];
+    return `<div class="cm-pick${cardState.ability === aid ? " on" : ""}" onclick="cmPickAbility(${aid})">
+      <b>${esc(a.zh)}</b>${hid ? '<span class="tag">隐藏特性</span>' : ""}
+      <div class="cm-pick-desc">${esc(a.desc || "")}</div>
+    </div>`;
+  }).join("") : '<div class="cm-empty">该宝可梦没有特性</div>';
+  const megaMap = MEGA_MOVE_MAP[s.id] || {};
+  $("#cm-mv-count").textContent = `已选 ${cardState.moves.length} / 4`;
+  $("#cm-chips").innerHTML = cardState.moves.length
+    ? cardState.moves.map((mid, i) => {
+        const disp = MOVE_BY_ID[megaMap[mid] || mid] || MOVE_BY_ID[mid];
+        return `<span class="cm-chip" title="点击移除" onclick="cmToggleMove(${mid})"><i>${i + 1}</i>${esc(disp.zh)}${megaMap[mid] ? " ✦" : ""}<u>✕</u></span>`;
+      }).join("")
+    : '<span class="cm-empty">尚未选择招式</span>';
+  const q = toHans($("#cm-mq").value.trim()).toLowerCase();
+  const rows = cmMovepool(s).filter(({ mid }) => {
+    const m = MOVE_BY_ID[mid];
+    return !q || m.zh.toLowerCase().includes(q) || m.en.toLowerCase().includes(q);
+  });
+  $("#cm-mv-list").innerHTML = rows.map(({ mid, src }) => {
+    const m = MOVE_BY_ID[mid];
+    const to = megaMap[mid];
+    const sel = cardState.moves.indexOf(mid);
+    return `<div class="cm-row${sel >= 0 ? " on" : ""}" onclick="cmToggleMove(${mid})">
+      <span class="cm-ord">${sel >= 0 ? sel + 1 : "+"}</span>
+      <span class="cm-mv-name">${esc(m.zh)}</span>
+      ${typePill(TYPE_BY_ID[m.type] || { zh: "?", color: "#999" }, true)}
+      ${splitBadge(m.split)}
+      <span class="cm-mv-meta">${fmtPower(m.power)} / ${m.acc || "—"} · ${esc(src)}</span>
+      ${to ? `<span class="cm-mega-hint">✦ 超级进化时自动变为「${esc(MOVE_BY_ID[to].zh)}」</span>` : ""}
+    </div>`;
+  }).join("") || '<div class="cm-empty">没有匹配的招式</div>';
+  const notes = [];
+  if (Object.keys(megaMap).length)
+    notes.push(`<div>✦ ${esc(speciesName(s))}是超级进化宝可梦：招式表中「变化前」的招式在卡面上会自动显示为对应的超级进化招式。</div>`);
+  notes.push(`<div>点击卡面：图片切换闪光形态，特性 / 招式区域可查看详情。</div>`);
+  $("#cm-note").innerHTML = notes.join("");
+  mountSprites($("#cm-cur"));
+  cmDraw();
+}
+function renderCardMaker() {
+  if (!cardState.sp || !SPECIES_BY_ID[cardState.sp]) cmSelectSpecies(cmDefaultSpecies());
+  app.innerHTML = `
+    <div class="page-title">自制卡牌</div>
+    <div class="page-sub">参考 TCG POCKET 风格：自选宝可梦、特性与最多 4 个招式，生成专属卡牌，可保存为图片</div>
+    <div class="cardmaker">
+      <div class="cm-controls">
+        <section>
+          <div class="cm-title">① 选择宝可梦</div>
+          <div id="cm-cur"></div>
+          ${searchBox("cm-q", "搜索宝可梦名称 / 编号…", "")}
+          <div class="cm-sp-list hidden" id="cm-sp-list"></div>
+        </section>
+        <section>
+          <div class="cm-title">② 选择特性</div>
+          <div id="cm-ab"></div>
+        </section>
+        <section>
+          <div class="cm-title">③ 选择招式 <span class="cm-count" id="cm-mv-count"></span></div>
+          <div class="cm-chips" id="cm-chips"></div>
+          ${searchBox("cm-mq", "在招式表中筛选…", "")}
+          <div class="cm-mv-list" id="cm-mv-list"></div>
+        </section>
+      </div>
+      <div class="cm-preview">
+        <canvas id="cm-card" width="${CARD_W * CARD_SCALE}" height="${CARD_H * CARD_SCALE}"></canvas>
+        <div class="cm-actions">
+          <button type="button" class="cm-btn" onclick="cmDownload()">⬇ 保存图片</button>
+          <button type="button" class="cm-btn ghost" onclick="cmReset()">重置</button>
+        </div>
+        <div class="cm-note" id="cm-note"></div>
+      </div>
+    </div>`;
+  $("#cm-q").addEventListener("input", debounce(e => {
+    const raw = e.target.value.trim();
+    const q = toHans(raw).toLowerCase();
+    const listEl = $("#cm-sp-list");
+    if (!q) { listEl.classList.add("hidden"); return; }
+    const qNum = raw.replace(/[０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0))
+      .replace(/^[#＃]+/, "").replace(/^0+(?=\d)/, "");
+    const hits = D.species.filter(s =>
+      speciesName(s).toLowerCase().includes(q)
+      || (s.tags && s.tags.includes(raw))
+      || (s.dex != null && qNum && String(s.dex) === qNum)).slice(0, 20);
+    listEl.innerHTML = hits.map(s => `
+      <div class="cm-row" onclick="cmPickSpecies(${s.id})">
+        ${spriteCanvas("icon", s.id)}
+        <span class="cm-mv-name">${esc(speciesName(s))}</span>
+        <span class="cm-mv-meta">${fmtDex(s.dex)}${s.formLabel ? " · " + esc(s.formLabel) : ""}</span>
+      </div>`).join("") || '<div class="cm-empty">没有找到符合条件的宝可梦</div>';
+    listEl.classList.remove("hidden");
+    mountSprites(listEl);
+  }, SEARCH_DEBOUNCE));
+  $("#cm-mq").addEventListener("input", debounce(cmRefresh, SEARCH_DEBOUNCE));
+  $("#cm-card").addEventListener("click", e => {
+    const r = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width * CARD_W, cy = (e.clientY - r.top) / r.height * CARD_H;
+    for (const rg of cmRegions) {
+      if (x >= rg.x && x < rg.x + rg.w && cy >= rg.y && cy < rg.y + rg.h) {
+        if (rg.act === "shiny") { cardState.shiny = !cardState.shiny; cmDraw(); }
+        else if (rg.act === "move") showMovePopup(rg.mid);
+        else if (rg.act === "ability" && cardState.ability != null) showAbilityPopup(cardState.ability);
+        break;
+      }
+    }
+  });
+  cmRefresh();
+}
+
 /* ---------------- 属性相性页 ---------------- */
 function renderTypes() {
   const shown = SPECIES_FILTER_TYPES;
@@ -1175,15 +1743,16 @@ try {
   if (!isLocal) return;
   const dgst = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = (h * 33 ^ s.charCodeAt(i)) >>> 0; return h + ":" + s.length; };
   const base = {};
+  // __bypass: 绕过 Service Worker 的缓存优先拦截, 否则本地开发时轮询永远读到旧文件
   Promise.all([
-    fetch("data/data.js", { cache: "no-store" }).then(r => r.text()),
-    fetch("app.js", { cache: "no-store" }).then(r => r.text()),
+    fetch("data/data.js?__bypass=1", { cache: "no-store" }),
+    fetch("app.js?__bypass=1", { cache: "no-store" }),
   ]).then(([d, a]) => { base.data = dgst(d); base.app = dgst(a); }).catch(() => {});
   setInterval(() => {
     if (!base.data) return;
     Promise.all([
-      fetch("data/data.js", { cache: "no-store" }).then(r => r.text()),
-      fetch("app.js", { cache: "no-store" }).then(r => r.text()),
+      fetch("data/data.js?__bypass=1", { cache: "no-store" }),
+      fetch("app.js?__bypass=1", { cache: "no-store" }),
     ]).then(([d, a]) => {
       const nd = dgst(d), na = dgst(a);
       if (nd !== base.data || na !== base.app) {
