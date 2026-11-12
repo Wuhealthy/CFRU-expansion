@@ -1491,8 +1491,7 @@ function cmDrawBase(ctx, d, regions) {
   ctx.fillText(cmT("来自火红物语图鉴"), CARD_W - M - 8, fy + 44);
   ctx.textAlign = "left";
 }
-/* 精灵图绘制进图片窗 (像素图整数倍放大) + 防还原滤镜
-   导出 PNG 时精灵图已叠加属性色半透明层与斜向扫描线, 无法还原原始加密像素 */
+/* 精灵图绘制进图片窗 (像素图整数倍放大) — 美化滤镜已在加密阶段烘焙进素材本体 */
 function cmDrawSprite(ctx, d, bmp) {
   const AW = CM_ART;
   ctx.save();
@@ -1503,18 +1502,6 @@ function cmDrawSprite(ctx, d, bmp) {
     ctx.imageSmoothingEnabled = false;
     ctx.drawImage(bmp, AW.x + (AW.w - w) / 2, AW.y + AW.h - h - 12, w, h);
     ctx.imageSmoothingEnabled = true;
-  }
-  const base = (TYPE_BY_ID[d.s.types[0]] || { color: "#8899aa" }).color;
-  ctx.globalCompositeOperation = "source-atop";
-  ctx.fillStyle = cmMix(base, "#ffffff", .5);
-  ctx.globalAlpha = .25; ctx.fillRect(AW.x, AW.y, AW.w, AW.h);
-  ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
-  ctx.strokeStyle = "rgba(255,255,255,.12)"; ctx.lineWidth = 1;
-  for (let ox = -AW.h; ox < AW.w; ox += 4) {
-    ctx.beginPath();
-    ctx.moveTo(AW.x + ox, AW.y + AW.h);
-    ctx.lineTo(AW.x + ox + AW.h, AW.y);
-    ctx.stroke();
   }
   ctx.restore();
 }
