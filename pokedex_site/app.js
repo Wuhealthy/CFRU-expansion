@@ -1627,7 +1627,7 @@ function renderCardMaker() {
   if (!cardState.sp || !SPECIES_BY_ID[cardState.sp]) cmSelectSpecies(cmDefaultSpecies());
   app.innerHTML = `
     <div class="page-title">自制卡牌</div>
-    <div class="page-sub">参考 TCG POCKET 风格：自选宝可梦、特性与最多 4 个招式，生成专属卡牌，可保存为图片</div>
+    <div class="page-sub">自选宝可梦、特性与最多 4 个招式，生成专属卡牌，可保存为图片</div>
     <div class="cardmaker">
       <div class="cm-controls">
         <section>
