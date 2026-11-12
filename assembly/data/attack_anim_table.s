@@ -1070,7 +1070,7 @@ gMoveAnimations:
 .word ANIM_GEOTHERMALBURST	@MOVE_GEOTHERMALBURST
 .word ANIM_RAGINGJAWS	@MOVE_RAGINGJAWS
 .word ANIM_THUNDERLANCE	@MOVE_THUNDERLANCE
-.word ANIM_EARTHPOWER	@MOVE_MAGNETICQUAKE
+.word ANIM_MAGNETICQUAKE	@MOVE_MAGNETICQUAKE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -31788,6 +31788,40 @@ ANIM_ECLIPSE_POISON_STING:
 
 .align 2
 ECLIPSE_POISON_CLAW: objtemplate ANIM_TAG_CLAW_SLASH ANIM_TAG_POISON_BUBBLE OAM_OFF_32x32 0x83E359C 0x0 gDummySpriteAffineAnimTable SpriteCB_FlippableSlash
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+@;地磁震荡: 目标脚下地裂+屏震+地底能量喷涌, 随后旋转星星绕头+摇晃目标(眩晕)
+.global ANIM_MAGNETICQUAKE
+ANIM_MAGNETICQUAKE:
+	loadparticle ANIM_TAG_SMALL_EMBER
+	loadparticle ANIM_TAG_FIRE_PLUME
+	loadparticle ANIM_TAG_PAIN_SPLIT
+	loadparticle ANIM_TAG_DUCK
+	loadBG1 BG_FISSURE
+	waitbgfadeout
+	launchtask AnimTask_PositionFissureBgOnBattler 0x5 0x3 0x1 0x5 0xffff
+	launchtask AnimTask_screen_shake 0x5 0x3 0x5 0x2 0x1
+	soundcomplex 0x8a SOUND_PAN_TARGET 0xb 0x3
+	launchtask AnimTask_move_bank 0x5 0x5 0x1 0x0 0x3 0x19 0x1
+	call EARTH_POWER_ERUPTION
+	waitanimation
+	pokespritetoBG bank_target
+	launchtemplate MAGQUAKE_STARS 0x83 0x4 0xfff0 0xfff8 0xa0 0xffe0
+	launchtemplate MAGQUAKE_STARS 0x83 0x4 0xfff0 0xfff8 0xff00 0xffd8
+	launchtemplate MAGQUAKE_STARS 0x83 0x4 0xfff0 0xfff8 0x80 0xfff0
+	playsound2 0x86 SOUND_PAN_TARGET
+	waitanimation
+	launchtask AnimTask_SwayMon 0x5 0x5 0x1 0x18 0xD0 0x1 bank_target
+	waitanimation
+	pokespritefromBG bank_target
+	launchtemplate Template_SlideMonToOriginalPos 0xc2 0x3 0x0 0x0 0x4
+	waitanimation
+	call UNSET_SCROLLING_BG
+	endanimation
+
+.align 2
+MAGQUAKE_STARS: objtemplate ANIM_TAG_PAIN_SPLIT ANIM_TAG_DUCK OAM_OFF_16x16 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable 0x80B0DF1
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
 @Credits to WUHEALTHY
