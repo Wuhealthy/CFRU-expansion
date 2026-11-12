@@ -106,6 +106,7 @@ enum EndTurnEffects
 	ET_Saltcure,
 	ET_SyrupBomb,
 	ET_Opportunist,
+	ET_MagQuake,
 	ET_End
 };
 
@@ -1797,6 +1798,11 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 			case ET_Opportunist: //Copy end turn raises (Speed Boost, Moody, etc.) without a turn delay
 				if (TryConsumeOpportunistBoosts(gActiveBattler, TRUE))
 					effect++;
+				break;
+
+				case ET_MagQuake: //眩晕：3回合内攻/特攻互换（静默倒计时）
+				if (gNewBS->magQuakeTimers[gActiveBattler] > 0)
+					--gNewBS->magQuakeTimers[gActiveBattler];
 				break;
 		case ET_End:
 			END_TURN_SKIP:

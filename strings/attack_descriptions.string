@@ -2794,3 +2794,6 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 
 #org @DESC_THUNDERLANCE
 将枪矛般的雷电刺向\n对手，连续攻击1至10\n次。自身能力提升越\n多，随机次数就越好。
+
+#org @DESC_MAGNETICQUAKE
+引发地磁震荡眩晕对\n手。使其3回合内攻\n击与特攻互换。必定\n能够先制攻击。

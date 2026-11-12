@@ -6586,9 +6586,21 @@ UltimateSwallow_Skip:
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-.global BS_251_Blank
-BS_251_Blank:
-	goto BS_STANDARD_HIT
+.global BS_251_MagneticQuake
+BS_251_MagneticQuake:
+	attackcanceler
+	accuracycheck BS_MOVE_MISSED 0x0
+	call STANDARD_DAMAGE
+	jumpifmovehadnoeffect MagQuake_Skip
+	callasm TryMagneticQuakeDaze
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x0 MagQuake_Skip
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+
+MagQuake_Skip:
+	prefaintmoveendeffects 0x0
+	faintpokemonaftermove
+	goto BS_MOVE_END
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

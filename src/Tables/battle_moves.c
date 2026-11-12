@@ -16535,6 +16535,22 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 100,
 		.split = SPLIT_SPECIAL,
 		.z_move_effect = 0
+	},
+
+	[MOVE_MAGNETICQUAKE] =
+	{
+		.effect = EFFECT_MAGNETIC_QUAKE,
+		.power = 60,
+		.type = TYPE_GROUND,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 1,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 120,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
 	}
 };
 
@@ -17156,5 +17172,6 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_GEOTHERMALBURST] = 130,
 	[MOVE_RAGINGJAWS] = 140,
 	[MOVE_THUNDERLANCE] = 130,
+	[MOVE_MAGNETICQUAKE] = 100,
 };
 #endif

@@ -579,3 +579,6 @@
 
 #org @gText_UltimateSwallowDrain
 从[TARGET]身上\n吸取了能量！
+
+#org @gText_MagQuakeDazed
+[TARGET]陷入了眩晕！\n攻击与特攻能力调转了！

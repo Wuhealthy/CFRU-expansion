@@ -1,6 +1,7 @@
 #include "defines.h"
 
 extern const u8 gText_EmptyString[];
+extern const u8 gText_MagQuakeDazed[];
 u8* StringAppend(u8* dst, const u8* src);
 void __attribute__((long_call)) BattlePutTextOnWindow(const u8* text, u8 windowId);
 #include "defines_battle.h"
@@ -230,6 +231,21 @@ void ResetTargetStats(void)
 void ToggleSpectralThiefByte(void)
 {
 	gNewBS->SpectralThiefActive ^= TRUE;
+}
+
+//地磁震荡：命中后使目标陷入眩晕（3回合内物理攻击与特殊攻击互换；换下场即消失）
+void TryMagneticQuakeDaze(void)
+{
+	gBattleCommunication[MULTISTRING_CHOOSER] = 0;
+
+	if (BATTLER_ALIVE(gBankTarget)
+	&& !(gBattleMons[gBankTarget].status2 & STATUS2_SUBSTITUTE)
+	&& gNewBS->magQuakeTimers[gBankTarget] == 0) //已眩晕则不刷新倒计时
+	{
+		gNewBS->magQuakeTimers[gBankTarget] = 3;
+		gBattleStringLoader = gText_MagQuakeDazed;
+		gBattleCommunication[MULTISTRING_CHOOSER] = 1;
+	}
 }
 
 void ToggleTotemOmniboostByte(void)

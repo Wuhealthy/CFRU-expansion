@@ -1370,6 +1370,7 @@ void ClearSwitchBytes(u8 bank)
 {
 	gNewBS->TelekinesisTimers[bank] = 0;
 	gNewBS->HealBlockTimers[bank] = 0;
+	gNewBS->magQuakeTimers[bank] = 0;
 	gNewBS->LaserFocusTimers[bank] = 0;
 	gNewBS->ThroatChopTimers[bank] = 0;
 	gNewBS->statuses4[bank] = 0;

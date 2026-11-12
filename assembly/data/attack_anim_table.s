@@ -1070,6 +1070,7 @@ gMoveAnimations:
 .word ANIM_GEOTHERMALBURST	@MOVE_GEOTHERMALBURST
 .word ANIM_RAGINGJAWS	@MOVE_RAGINGJAWS
 .word ANIM_THUNDERLANCE	@MOVE_THUNDERLANCE
+.word ANIM_EARTHPOWER	@MOVE_MAGNETICQUAKE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

@@ -3413,6 +3413,14 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 		attack += data->atkSpeed / 4;
 	}
 
+//地磁震荡：眩晕状态下物理攻击与特殊攻击互换（攻按特攻值算、特攻按攻值算）
+	if (gNewBS->magQuakeTimers[bankAtk] > 0)
+	{
+		u32 swapTemp = attack;
+		attack = spAttack;
+		spAttack = swapTemp;
+	}
+
 //Actual Calculation
 	if (useMonAtk)
 		damage = (2 * data->monAtk->level) / 5 + 2;
