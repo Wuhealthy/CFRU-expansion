@@ -90,7 +90,8 @@ body {
   color: var(--ink);
   min-height: 100vh;
 }
-img, canvas { image-rendering: pixelated; }
+img { image-rendering: pixelated; }
+canvas { image-rendering: auto; }  /* 精灵图已烘焙为 192px 平滑卡通图, 缩放走双线性 */
 canvas { -webkit-user-drag: none; }
 a { color: inherit; text-decoration: none; }
 .hidden { display: none !important; }

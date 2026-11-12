@@ -1532,31 +1532,92 @@ for sid, fn in front_map.items():
 print("闪光正面图: %d" % shiny_count)
 
 # ---------------------------------------------------------------- 精灵图加密
-# PNG → XOR 混淆 → base64 → sprites/{front,icon}/NNN.js (页面动态加载后 canvas 解密绘制)
-# 明文 PNG 随即删除, 直接抓取文件得到乱码 (密钥与 app.js 的 SPR_KEY 一致)
+# front/front_shiny: PNG → 平滑卡通滤镜 (非像素风) → WebP → XOR 混淆 → base64 → bundle
+# icon: PNG → 调色板美化 → PNG → XOR 混淆 → base64 → bundle (页面动态加载后 canvas 解密绘制)
+# 明文随即删除, 直接抓取文件得到乱码 (密钥与 app.js 的 SPR_KEY 一致)
 import base64
 import sys
 KEEP_PNG = "--keep-png" in sys.argv
 SPR_KEY = bytes([0x5A, 0xC3, 0x11, 0x9E, 0x37, 0x6B, 0xD2, 0x84,
                  0x1F, 0xA6, 0x48, 0xE0, 0x73, 0xCB, 0x95, 0x2D])
-# 每 64 个编号合并成一个 bundle 文件 (三类图打包在一起, 约 170KB/个, 总共 ~25 个);
+# 每 64 个编号合并成一个 bundle 文件 (三类图打包在一起, 总共 ~25 个);
 # 逐个 4600+ 小文件的网络请求开销太大, 离线预缓存要 4-5 分钟, 合并后请求数降 99%。
 # 必须与 app.js / sw.js 的 SPRITE_CHUNK 一致
 SPRITE_CHUNK = 64
 
+# icon 用调色板级美化 (浓艳高对比, 不动像素索引, 透明索引 0 天然不受影响)。
+SPR_SATURATION = 1.65
+SPR_CONTRAST = 0.50
+SPR_BRIGHTNESS = 1.08
+
+# front/front_shiny 用「去像素」管线: BICUBIC 放大 (色块内部原色清晰, 像素边界变成平滑过渡带)
+# + 轻锐化回轮廓。无模糊 (模糊会糊掉细节)、无调色 (保持原图配色)。
+# WebP q88 保小细节; 256px (64×4) 让卡面 ~2× 放大后依然锐利。
+SPR_SMOOTH_N = 4          # 烘焙分辨率 = 64×N (256px)
+SPR_SMOOTH_QUALITY = 88   # WebP 质量
+SPR_SMOOTH_UNSHARP = 80   # 锐化强度 % (0 = 关闭)
+
+def beautify_sprite(im):
+    """调色板级美化: 饱和度增强 + smoothstep S 曲线对比 + 轻微提亮"""
+    import colorsys
+    pal = im.getpalette()
+    if pal is None:
+        return im
+    for i in range(len(pal) // 3):
+        r, g, b = pal[i * 3] / 255.0, pal[i * 3 + 1] / 255.0, pal[i * 3 + 2] / 255.0
+        h, s, v = colorsys.rgb_to_hsv(r, g, b)
+        s = min(1.0, s * SPR_SATURATION)
+        v = min(1.0, v * SPR_BRIGHTNESS)
+        sm = v * v * (3.0 - 2.0 * v)  # smoothstep: 暗部压暗、亮部提亮
+        v = min(1.0, max(0.0, v + SPR_CONTRAST * (sm - v)))
+        r, g, b = colorsys.hsv_to_rgb(h, s, v)
+        pal[i * 3], pal[i * 3 + 1], pal[i * 3 + 2] = round(r * 255), round(g * 255), round(b * 255)
+    im.putpalette(pal)
+    return im
+
+def smooth_sprite(im, n=SPR_SMOOTH_N):
+    """像素 → 去像素: BICUBIC 放大让色块内部保持原色清晰、像素边界平滑过渡, 轻锐化回轮廓"""
+    from PIL import ImageFilter
+    im = im.convert("RGBA")  # P+透明索引 源图先转 RGBA, 否则取不到 A 通道
+    n_px = 64 * n
+    rgb = im.convert("RGB").resize((n_px, n_px), Image.BICUBIC)
+    if SPR_SMOOTH_UNSHARP:
+        rgb = rgb.filter(ImageFilter.UnsharpMask(radius=1.5, percent=SPR_SMOOTH_UNSHARP, threshold=3))
+    a = im.getchannel("A").resize((n_px, n_px), Image.BICUBIC).point(lambda v: 255 if v > 127 else 0)
+    out = rgb.convert("RGBA")
+    out.putalpha(a)
+    return out
+
 def encrypt_sprites(pdir, kind, kind_id):
+    smooth = kind in ("front", "front_shiny")
     out = []
     for fn in sorted(os.listdir(pdir)):
         if not fn.endswith(".png"):
             continue
         sid = int(fn[:-4])
-        with open(os.path.join(pdir, fn), "rb") as f:
-            raw = f.read()
+        path = os.path.join(pdir, fn)
+        try:  # 先烘焙滤镜再加密; PIL 不可用时退回原样
+            import io as _io
+            from PIL import Image
+            im = Image.open(path)
+            buf = _io.BytesIO()
+            if smooth:
+                smooth_sprite(im).save(buf, "WEBP", quality=SPR_SMOOTH_QUALITY, method=4)
+            else:
+                beautify_sprite(im)
+                if "transparency" in im.info:
+                    im.save(buf, "PNG", transparency=im.info["transparency"])
+                else:
+                    im.save(buf, "PNG")
+            raw = buf.getvalue()
+        except ImportError:
+            with open(path, "rb") as f:
+                raw = f.read()
         seed = (sid * 31 + kind_id * 7) & 0xFF
         enc = bytes(b ^ SPR_KEY[(i + seed) % len(SPR_KEY)] for i, b in enumerate(raw))
         out.append((sid, base64.b64encode(enc).decode()))
         if not KEEP_PNG:
-            os.remove(os.path.join(pdir, fn))
+            os.remove(path)
     return out
 
 n1 = encrypt_sprites(os.path.join(OUT, "sprites", "front"), "front", 0)
