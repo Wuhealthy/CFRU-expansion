@@ -3407,10 +3407,10 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			defense = spDefense;
 	}
 
-//折射宝石：将自身速度的50%加成到攻击（atkSpeed来自SpeedCalc,已含能力变化与顺风等修正）
+//折射宝石：将自身速度的1/4加成到攻击（atkSpeed来自SpeedCalc,已含能力变化与顺风等修正）
 	if (move == MOVE_REFRACTGEM)
 	{
-		attack += data->atkSpeed / 2;
+		attack += data->atkSpeed / 4;
 	}
 
 //Actual Calculation

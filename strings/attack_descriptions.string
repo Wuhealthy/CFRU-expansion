@@ -2778,7 +2778,7 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 卷起漩涡冲击对手。\n会先夺取对手已提升\n的能力变化，再进行\n攻击。
 
 #org @DESC_REFRACTGEM
-将宝石折射出的光芒\n化作利刃射向对手。\n计算伤害时，会加上\n自身速度的一半。
+将宝石折射出的光芒\n化作利刃射向对手。\n计算伤害时，会加上\n自身速度的1/4。
 
 #org @DESC_EXTREMESKYMETEOR
 从大气层外俯冲而下，\n借由坠落的动能撞击\n对手。若自身HP全满，\n威力会变成1.5倍。
