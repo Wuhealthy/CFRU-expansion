@@ -561,6 +561,14 @@ textarea.cm-input { resize: vertical; min-height: 36px; font-family: inherit; }
 .cm-cmv-row textarea.cm-input { margin-bottom: 0; }
 .cm-chip-custom { background: var(--accent); }
 .cm-add-btn { margin-top: 4px; }
+.cm-style-pick { display: flex; gap: 8px; justify-content: center; margin-bottom: 10px; }
+.cm-style-btn {
+  border: 1.5px solid var(--line); border-radius: 999px; padding: 5px 16px;
+  cursor: pointer; background: var(--card); color: var(--text);
+  font: inherit; font-size: 13px; font-weight: 700;
+}
+.cm-style-btn:hover { background: var(--nav-hover); }
+.cm-style-btn.on { border-color: var(--accent); background: var(--accent); color: #fff; }
 @media (max-width: 900px) {
   .cm-preview { position: static; flex-basis: 100%; }
 }

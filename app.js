@@ -1140,7 +1140,7 @@ D.tms.forEach(t => { if (TM_LABELS[t.move] == null) TM_LABELS[t.move] = t.label;
 const CARD_W = 660, CARD_H = 924, CARD_SCALE = 2;
 const CM_SPLIT_COLOR = { "物理": "#d9534f", "特殊": "#3d7dca", "变化": "#8a8f98" };
 const cardState = { sp: 0, ability: null, moves: [], shiny: false,
-  customAbility: null, customMoves: [] };
+  customAbility: null, customMoves: [], style: "normal" };
 let cmRegions = [], cmSprJob = 0, cmFlashTimer = 0;
 const cmPoolCache = {};
 
@@ -1263,23 +1263,66 @@ function cmDrawBase(ctx, d, regions) {
   const M = 34;
   const base = (TYPE_BY_ID[s.types[0]] || { color: "#8899aa" }).color;
 
-  /* 底色 + 金属边框 + 斜向高光 */
-  const bg = ctx.createLinearGradient(0, 0, 0, CARD_H);
-  bg.addColorStop(0, cmMix(base, "#ffffff", .16));
-  bg.addColorStop(1, cmMix(base, "#000000", .34));
-  cmRR(ctx, 0, 0, CARD_W, CARD_H, 30);
-  ctx.fillStyle = bg; ctx.fill();
-  ctx.lineWidth = 5; cmRR(ctx, 3, 3, CARD_W - 6, CARD_H - 6, 27);
-  ctx.strokeStyle = cmMix(base, "#000000", .5); ctx.stroke();
-  ctx.lineWidth = 2; cmRR(ctx, 11, 11, CARD_W - 22, CARD_H - 22, 20);
-  ctx.strokeStyle = "rgba(255,255,255,.5)"; ctx.stroke();
+  /* 底色 + 金属边框 + 斜向高光 (按卡牌风格分支) */
+  const cs = cardState.style || "normal";
+  if (cs === "gold") {
+    const bg = ctx.createLinearGradient(0, 0, 0, CARD_H);
+    bg.addColorStop(0, cmMix("#FFD700", base, .25));
+    bg.addColorStop(.5, cmMix("#DAA520", base, .3));
+    bg.addColorStop(1, cmMix("#8B6914", base, .35));
+    cmRR(ctx, 0, 0, CARD_W, CARD_H, 30);
+    ctx.fillStyle = bg; ctx.fill();
+    ctx.lineWidth = 6; cmRR(ctx, 3, 3, CARD_W - 6, CARD_H - 6, 27);
+    const fg = ctx.createLinearGradient(0, 0, CARD_W, CARD_H);
+    fg.addColorStop(0, "#FFF8DC"); fg.addColorStop(.5, "#FFD700"); fg.addColorStop(1, "#B8860B");
+    ctx.strokeStyle = fg; ctx.stroke();
+    ctx.lineWidth = 2; cmRR(ctx, 11, 11, CARD_W - 22, CARD_H - 22, 20);
+    ctx.strokeStyle = "rgba(255,215,0,.6)"; ctx.stroke();
+  } else {
+    const bg = ctx.createLinearGradient(0, 0, 0, CARD_H);
+    bg.addColorStop(0, cmMix(base, "#ffffff", .16));
+    bg.addColorStop(1, cmMix(base, "#000000", .34));
+    cmRR(ctx, 0, 0, CARD_W, CARD_H, 30);
+    ctx.fillStyle = bg; ctx.fill();
+    if (cs === "holo") {
+      const holo = ctx.createLinearGradient(0, 0, CARD_W, CARD_H);
+      holo.addColorStop(0, "rgba(255,80,80,.18)");
+      holo.addColorStop(.2, "rgba(255,180,40,.16)");
+      holo.addColorStop(.4, "rgba(80,255,120,.14)");
+      holo.addColorStop(.6, "rgba(60,180,255,.16)");
+      holo.addColorStop(.8, "rgba(180,80,255,.18)");
+      holo.addColorStop(1, "rgba(255,80,200,.16)");
+      cmRR(ctx, 0, 0, CARD_W, CARD_H, 30);
+      ctx.fillStyle = holo; ctx.fill();
+    }
+    ctx.lineWidth = 5; cmRR(ctx, 3, 3, CARD_W - 6, CARD_H - 6, 27);
+    if (cs === "holo") {
+      const hg = ctx.createLinearGradient(0, 0, CARD_W, CARD_H);
+      hg.addColorStop(0, "#ff6b6b"); hg.addColorStop(.25, "#ffd93d");
+      hg.addColorStop(.5, "#6bcf7f"); hg.addColorStop(.75, "#4d9dff");
+      hg.addColorStop(1, "#c77dff");
+      ctx.strokeStyle = hg; ctx.stroke();
+    } else {
+      ctx.strokeStyle = cmMix(base, "#000000", .5); ctx.stroke();
+    }
+    ctx.lineWidth = 2; cmRR(ctx, 11, 11, CARD_W - 22, CARD_H - 22, 20);
+    ctx.strokeStyle = cs === "holo" ? "rgba(255,255,255,.7)" : "rgba(255,255,255,.5)";
+    ctx.stroke();
+  }
   ctx.save();
   cmRR(ctx, 12, 12, CARD_W - 24, CARD_H - 24, 20); ctx.clip();
-  ctx.fillStyle = "rgba(255,255,255,.05)";
+  ctx.fillStyle = cs === "gold" ? "rgba(255,215,0,.08)" : "rgba(255,255,255,.05)";
   ctx.beginPath();
   ctx.moveTo(CARD_W * .3, 12); ctx.lineTo(CARD_W * .56, 12);
   ctx.lineTo(CARD_W * .34, CARD_H - 12); ctx.lineTo(CARD_W * .08, CARD_H - 12);
   ctx.closePath(); ctx.fill();
+  if (cs === "holo") {
+    ctx.fillStyle = "rgba(180,100,255,.06)";
+    ctx.beginPath();
+    ctx.moveTo(CARD_W * .6, 12); ctx.lineTo(CARD_W * .85, 12);
+    ctx.lineTo(CARD_W * .7, CARD_H - 12); ctx.lineTo(CARD_W * .45, CARD_H - 12);
+    ctx.closePath(); ctx.fill();
+  }
   ctx.restore();
 
   /* 头部: 小图标位 + 名字 | HP + 属性 */
@@ -1487,7 +1530,7 @@ function cmDrawBase(ctx, d, regions) {
     ctx.textAlign = "left";
   }
   ctx.font = cmFont(14, true); ctx.fillStyle = "rgba(255,255,255,.92)"; ctx.textAlign = "right";
-  ctx.fillText(cmT("★ 自制卡牌"), CARD_W - M - 8, fy + 22);
+  ctx.fillText(cmT(cs === "holo" ? "★ 闪卡" : cs === "gold" ? "★ 金卡" : "★ 自制卡牌"), CARD_W - M - 8, fy + 22);
   ctx.font = cmFont(12); ctx.fillStyle = "rgba(255,255,255,.78)";
   ctx.fillText(cmT("来自火红物语图鉴"), CARD_W - M - 8, fy + 44);
   ctx.textAlign = "left";
@@ -1542,8 +1585,16 @@ window.cmDownload = function () {
 window.cmReset = function () {
   cardState.customAbility = null;
   cardState.customMoves = [];
+  cardState.style = "normal";
   cmSelectSpecies(cmDefaultSpecies());
   cmRefresh();
+};
+window.cmPickStyle = function (st) {
+  cardState.style = st;
+  document.querySelectorAll(".cm-style-btn").forEach(b => {
+    b.classList.toggle("on", b.dataset.style === st);
+  });
+  cmDraw();
 };
 window.cmPickSpecies = function (id) {
   cmSelectSpecies(id);
@@ -1739,6 +1790,11 @@ function renderCardMaker(speciesId) {
         </section>
       </div>
       <div class="cm-preview">
+        <div class="cm-style-pick">
+          <button class="cm-style-btn${cardState.style === "normal" ? " on" : ""}" data-style="normal" onclick="cmPickStyle('normal')">普通</button>
+          <button class="cm-style-btn${cardState.style === "holo" ? " on" : ""}" data-style="holo" onclick="cmPickStyle('holo')">闪卡</button>
+          <button class="cm-style-btn${cardState.style === "gold" ? " on" : ""}" data-style="gold" onclick="cmPickStyle('gold')">金卡</button>
+        </div>
         <canvas id="cm-card" width="${CARD_W * CARD_SCALE}" height="${CARD_H * CARD_SCALE}"></canvas>
         <div class="cm-actions">
           <button type="button" class="cm-btn" onclick="cmDownload()">⬇ 保存图片</button>
