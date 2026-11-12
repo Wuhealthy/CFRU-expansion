@@ -497,6 +497,7 @@ function route() {
   else if (h.startsWith("#/items")) renderItems();
   else if (h.startsWith("#/card")) renderCardMaker(/^#\/card\/(\d+)/.exec(h)?.[1]);
   else if (h.startsWith("#/types")) renderTypes();
+  else if (h.startsWith("#/features")) renderFeatures();
   else renderHome();
   if (saved != null) requestAnimationFrame(() => window.scrollTo({ top: SCROLL_BY_HASH[h] || 0, behavior: "instant" }));
 }
@@ -1865,6 +1866,65 @@ function renderTypes() {
       <span><i style="background:#d9f2d9"></i>效果绝佳 ×2</span>
       <span><i style="background:#fde3e3"></i>效果不好 ×½</span>
       <span><i style="background:#6b7684"></i>无效 ×0</span>
+    </div>`;
+}
+
+function renderFeatures() {
+  app.innerHTML = `
+    <div class="page-title">版本特色</div>
+    <div class="page-sub">火红物语独有系统</div>
+    <div class="feature-card">
+      <div class="feature-header">
+        <span class="feature-icon">✦</span>
+        <h2>觉醒形态系统</h2>
+      </div>
+      <p class="feature-intro">在宝可梦对战中，部分携带特殊道具或招式的宝可梦，在出场时会触发特殊的形态变化。</p>
+      <div class="feature-section">
+        <h3>触发与属性变化</h3>
+        <div class="feature-item">
+          <span class="feature-label">触发条件</span>
+          <p>宝可梦必须携带道具「觉醒能量」或招式「觉醒力量」，且属于可觉醒的物种。</p>
+        </div>
+        <div class="feature-item">
+          <span class="feature-label">属性重构</span>
+          <p>觉醒出场时，宝可梦的【设定属性】变为副属性，当前宝可梦设定的觉醒力量属性变为主属性。</p>
+          <div class="feature-example">例：电属性的觉醒电蜘蛛，若其觉醒属性为水，出场则变为水/电属性</div>
+        </div>
+        <div class="feature-item">
+          <span class="feature-label">持续时间</span>
+          <p>觉醒形态一旦触发，将持续至本场战斗结束（宝可梦替换下场后再次上场，依然保持觉醒形态）。</p>
+        </div>
+      </div>
+      <div class="feature-shots">
+        <div class="feature-shot">
+          <img src="data/features/awaken_before.png" alt="觉醒前">
+          <span>觉醒前</span>
+        </div>
+        <div class="feature-shot">
+          <img src="data/features/awaken_after.png" alt="觉醒后">
+          <span>觉醒后</span>
+        </div>
+      </div>
+      <div class="feature-section">
+        <h3>种族值分配规则</h3>
+        <p class="feature-note">觉醒形态并非单纯的数值膨胀，而是对体内力量的重新分配：</p>
+        <div class="feature-item">
+          <span class="feature-label">HP 种族值</span>
+          <p>在原有基础上 <strong>+15</strong>。</p>
+        </div>
+        <div class="feature-item">
+          <span class="feature-label">五项能力</span>
+          <p>除 HP 外，攻击、防御、特攻、特防、速度这五项种族值合计固定为 <strong>485</strong>。</p>
+        </div>
+      </div>
+      <div class="feature-section">
+        <h3>专属招式强化</h3>
+        <p>处于觉醒形态时，宝可梦对觉醒力量的掌握将发生质变，携带的「觉醒力量」的威力固定提升至 <strong>90</strong>。</p>
+        <div class="feature-item">
+          <span class="feature-label">物理/特殊判定</span>
+          <p>若使用者的【攻击】高于【特攻】，则该招式在结算时自动变为物理招式；反之则为特殊招式。</p>
+        </div>
+      </div>
     </div>`;
 }
 
