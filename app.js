@@ -236,7 +236,7 @@ function loadSprite(kind, id) {
       for (let i = 0; i < bin.length; i++) {
         bytes[i] = bin.charCodeAt(i) ^ SPR_KEY[(i + seed) % SPR_KEY.length];
       }
-      return createImageBitmap(new Blob([bytes], { type: "image/png" }));
+      return createImageBitmap(new Blob([bytes], { type: kind === "icon" ? "image/png" : "image/webp" }));
     }).catch(err => { delete sprCache[key]; throw err; });
   }
   return sprCache[key];
@@ -1480,30 +1480,15 @@ function cmDrawBase(ctx, d, regions) {
   ctx.fillText(cmT("来自火红物语图鉴"), CARD_W - M - 8, fy + 44);
   ctx.textAlign = "left";
 }
-/* 精灵图绘制进图片窗 (像素图整数倍放大) + 防还原滤镜
-   导出 PNG 时精灵图已叠加属性色半透明层与斜向扫描线, 无法还原原始加密像素 */
+/* 精灵图绘制进图片窗 — 素材已是 192px 平滑卡通图, 等比适配缩放 (双线性平滑) */
 function cmDrawSprite(ctx, d, bmp) {
   const AW = CM_ART;
   ctx.save();
   cmRR(ctx, AW.x, AW.y, AW.w, AW.h, 18); ctx.clip();
   if (bmp) {
-    const scale = Math.max(2, Math.floor(Math.min((AW.w - 64) / bmp.width, (AW.h - 44) / bmp.height)));
+    const scale = Math.min((AW.w - 48) / bmp.width, (AW.h - 36) / bmp.height, 4);
     const w = bmp.width * scale, h = bmp.height * scale;
-    ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(bmp, AW.x + (AW.w - w) / 2, AW.y + AW.h - h - 12, w, h);
-    ctx.imageSmoothingEnabled = true;
-  }
-  const base = (TYPE_BY_ID[d.s.types[0]] || { color: "#8899aa" }).color;
-  ctx.globalCompositeOperation = "source-atop";
-  ctx.fillStyle = cmMix(base, "#ffffff", .5);
-  ctx.globalAlpha = .25; ctx.fillRect(AW.x, AW.y, AW.w, AW.h);
-  ctx.globalAlpha = 1; ctx.globalCompositeOperation = "source-over";
-  ctx.strokeStyle = "rgba(255,255,255,.12)"; ctx.lineWidth = 1;
-  for (let ox = -AW.h; ox < AW.w; ox += 4) {
-    ctx.beginPath();
-    ctx.moveTo(AW.x + ox, AW.y + AW.h);
-    ctx.lineTo(AW.x + ox + AW.h, AW.y);
-    ctx.stroke();
+    ctx.drawImage(bmp, AW.x + (AW.w - w) / 2, AW.y + AW.h - h - 10, w, h);
   }
   ctx.restore();
 }
