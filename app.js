@@ -97,6 +97,15 @@ D.species.forEach(s => {
     (ABIL_USERS[a] = ABIL_USERS[a] || []).push(s.id);
   });
 });
+/* 能学该招式的宝可梦 (levelUp/tm/tutor/egg 全部来源一次建索引, 各形态按自身学招表) */
+const MOVE_USERS = {};
+D.species.forEach(s => {
+  const mids = new Set(s.levelUp.map(r => r[1]));
+  s.tm.concat(s.tutor, s.egg).forEach(mid => mids.add(mid));
+  mids.forEach(mid => {
+    if (mid) (MOVE_USERS[mid] = MOVE_USERS[mid] || new Set()).add(s.id);
+  });
+});
 
 /* 进化链: 组件划分 */
 const EVO_MAIN_SKIP = { EVO_MEGA: 1, EVO_GIGANTAMAX: 1, EVO_AWAKEN: 1, EVO_FORM_ABILITY: 1 };
@@ -212,15 +221,31 @@ window.__sprData = function (kind, id, b64) {
 function bundleOf(id) {
   return "sprites/bundle_" + Math.floor(id / SPRITE_CHUNK) + ".js";
 }
+/* bundle 清单: sprites/manifest.json 记录实际生成的 bundle (SW 已预缓存, 离线可用);
+   不存在的 bundle 直接快速失败不发请求, 避免 404 污染控制台; 清单拉取失败降级为直接请求 */
+let manifestReady = null;
+function knownBundles() {
+  if (!manifestReady) {
+    manifestReady = fetch("sprites/manifest.json" + (window.SPRITE_VER ? "?v=" + window.SPRITE_VER : ""))
+      .then(r => r.ok ? r.json() : null)
+      .then(m => new Set((m && m.bundles) || []))
+      .catch(() => { manifestReady = null; return null; });
+  }
+  return manifestReady;
+}
 function ensureBundle(bundle) {
   if (!sprBundleJobs[bundle]) {
-    sprBundleJobs[bundle] = new Promise((resolve, reject) => {
-      const s = document.createElement("script");
-      s.src = bundle + (window.SPRITE_VER ? "?v=" + window.SPRITE_VER : "");
-      s.onload = () => { s.remove(); resolve(); };
-      s.onerror = () => { s.remove(); delete sprBundleJobs[bundle]; reject(new Error("missing " + s.src)); };
-      document.head.appendChild(s);
+    const name = bundle.slice(bundle.lastIndexOf("/") + 1);
+    const job = knownBundles().then(known => {
+      if (known && !known.has(name)) throw new Error("missing bundle " + name);
+      // fetch 加载 (原来用 <script> 注入, 缺失文件的 404 是浏览器原生报错 catch 不掉); SW 对 fetch 同样拦截缓存
+      return fetch(bundle + (window.SPRITE_VER ? "?v=" + window.SPRITE_VER : "")).then(r => {
+        if (!r.ok) throw new Error("missing " + bundle);
+        return r.text();
+      }).then(code => { (0, eval)(code); });
     });
+    sprBundleJobs[bundle] = job;
+    job.catch(() => { delete sprBundleJobs[bundle]; });  // 失败不缓存, 之后进入视口时重试
   }
   return sprBundleJobs[bundle];
 }
@@ -264,7 +289,7 @@ function toggleShiny(cv) {
       cv.width = bmp.width; cv.height = bmp.height;
       cv.getContext("2d").drawImage(bmp, 0, 0);
       cv.style.width = ""; cv.style.height = "";
-    });
+    }).catch(() => { cv.dataset.spr = "front"; });  // 闪光图缺失: 还原状态, 画面保持普通图, 不产生 unhandled rejection
   }
 }
 window.toggleShiny = toggleShiny;
@@ -297,6 +322,8 @@ function fitSprite(cv, bmp, box) {
 }
 function drawSpriteCanvas(cv) {
   const kind = cv.dataset.spr, id = +cv.dataset.id;
+  // 块后半段的精灵进入预加载区时提前拉取下一块 bundle, 减少连续滚动白屏; 失败静默, 到时走正常加载路径
+  if (id % SPRITE_CHUNK >= SPRITE_CHUNK / 2) ensureBundle(bundleOf(id + SPRITE_CHUNK)).catch(() => {});
   loadSprite(kind, id).then(bmp => {
     if (cv.dataset.fit) return fitSprite(cv, bmp, +cv.dataset.fit);
     cv.width = bmp.width; cv.height = bmp.height;
@@ -305,6 +332,8 @@ function drawSpriteCanvas(cv) {
     if (kind === "front") {  // 无正面图时回退图标
       cv.dataset.spr = "icon";
       drawSpriteCanvas(cv);
+    } else if (kind === "front_shiny") {  // 闪光图缺失: 状态还原回普通图, 画面保持不变
+      cv.dataset.spr = "front";
     }
   });
 }
@@ -399,7 +428,51 @@ document.addEventListener("input", e => {
 /* ---------------- 弹窗 ---------------- */
 const mask = $("#popup-mask"), popup = $("#popup");
 mask.addEventListener("click", e => { if (e.target === mask) hidePopup(); });
-document.addEventListener("keydown", e => { if (e.key === "Escape") hidePopup(); });
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") hidePopup();
+  else if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+    // 详情页翻页: 输入类元素聚焦或弹窗打开时不触发
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.isContentEditable) return;
+    if (!mask.classList.contains("hidden")) return;
+    dexStep(e.key === "ArrowLeft" ? -1 : 1);
+  }
+});
+/* 全局序列翻页 (键盘 ←/→ 与移动端滑动共用); hash 非 #/p/数字 时静默不动 */
+function dexStep(dir) {
+  const m = /^#\/p\/(\d+)$/.exec(location.hash);
+  if (!m) return;
+  const cur = SPECIES_BY_ID[+m[1]];
+  const pos = cur && DEX_SEQ_INDEX.get(cur.id);
+  if (pos == null) return;
+  const t = dir < 0 ? DEX_SEQ[pos - 1] : DEX_SEQ[pos + 1];
+  if (t) location.hash = "#/p/" + t.id;
+}
+/* 详情页左右滑动翻页: 水平位移 ≥60px 且明显大于垂直位移才触发; 起点在表格(横滚)或输入区时忽略 */
+let touchStart = null;
+document.addEventListener("touchstart", e => {
+  if (e.touches.length !== 1) { touchStart = null; return; }
+  const t = e.touches[0];
+  touchStart = { x: t.clientX, y: t.clientY, t: Date.now() };
+}, { passive: true });
+document.addEventListener("touchend", e => {
+  if (!touchStart || e.changedTouches.length !== 1) return;
+  const t = e.changedTouches[0];
+  const dx = t.clientX - touchStart.x, dy = t.clientY - touchStart.y, dt = Date.now() - touchStart.t;
+  touchStart = null;
+  if (dt > 900 || Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 2) return;
+  if (!mask.classList.contains("hidden")) return;
+  if (e.target.closest("table, input, textarea")) return;
+  dexStep(dx < 0 ? 1 : -1);   // 左滑下一只, 右滑上一只
+});
+/* 移动端顶栏齿轮菜单: 点齿轮开合, 点击面板外收起 */
+window.toggleTopMenu = function (e) {
+  e.stopPropagation();
+  $("#topbar-extras").classList.toggle("open");
+};
+document.addEventListener("click", e => {
+  if (e.target.closest("#topbar-extras, #menu-toggle")) return;
+  $("#topbar-extras")?.classList.remove("open");
+});
 function showPopup(html) {
   popup.innerHTML = `<button class="close" onclick="hidePopup()">✕</button>` + html;
   mask.classList.remove("hidden");
@@ -471,7 +544,21 @@ window.showAbilityPopup = showAbilityPopup;
 /* ---------------- 路由 ---------------- */
 const app = $("#app");
 $("#back-to-top").addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-let homeState = { q: "", types: new Set(), form: "", sort: { key: "dex", desc: false } };
+let homeState = { q: "", types: new Set(), form: "", sort: { key: "dex", desc: false }, view: localStorage.getItem("pkdx_dex_view") === "list" ? "list" : "card", favOnly: false };
+/* 我的收藏 (localStorage): 精灵 id 集合, 首页卡片/列表行/详情页三处入口同步 */
+const FAV_KEY = "pkdx_favs";
+const favs = new Set(JSON.parse(localStorage.getItem(FAV_KEY) || "[]").map(Number));
+window.toggleFavUI = function (id) {
+  if (favs.has(id)) favs.delete(id); else favs.add(id);
+  localStorage.setItem(FAV_KEY, JSON.stringify([...favs]));
+  document.querySelectorAll(`[data-fav="${id}"]`).forEach(el => el.classList.toggle("on", favs.has(id)));
+  if (homeState.favOnly) renderDexArea();   // 仅看收藏模式下, 取消收藏的卡片实时移出
+};
+window.setFavOnly = function () {
+  homeState.favOnly = !homeState.favOnly;
+  document.querySelectorAll(".fav-chip").forEach(el => el.classList.toggle("on", homeState.favOnly));
+  renderDexArea();
+};
 
 /* 每个 hash 记住离开时的滚动位置: 详情页返回列表回到原位 (内容重渲染后 rAF 再校正一次,
    因为 content-visibility 的占位高度展开后会推偏位置) */
@@ -485,8 +572,9 @@ window.addEventListener("hashchange", () => {
 
 function route() {
   const h = location.hash || "#/";
-  document.querySelectorAll(".nav a").forEach(a =>
+  document.querySelectorAll(".nav a, .menu-nav a").forEach(a =>
     a.classList.toggle("active", a.getAttribute("href") === h || (a.getAttribute("data-nav") === "dex" && h.startsWith("#/p"))));
+  $("#topbar-extras")?.classList.remove("open");  // 移动端菜单: 路由跳转后自动收起
   hidePopup();
   const saved = SCROLL_BY_HASH[h];
   // 恢复必须 instant: 全局 scroll-behavior: smooth 在几万像素的页面上要滚 1~2 秒
@@ -549,6 +637,7 @@ const dexGen = dex => GEN_DEX_END.findIndex((end, g) => g > 0 && dex <= end);
 /* ---------------- 首页 ---------------- */
 function monCard(s, statKey) {
   return `<div class="mon-card" onclick="location.hash='#/p/${s.id}'">
+    <button type="button" class="fav-btn${favs.has(s.id) ? " on" : ""}" data-fav="${s.id}" title="收藏" onclick="event.stopPropagation();toggleFavUI(${s.id})"></button>
     ${spriteCanvas("front", s.id, "mon-spr", null, true)}
     <div class="no">${fmtDex(s.dex)}</div>
     <div class="nm">${esc(speciesName(s))}</div>
@@ -558,6 +647,31 @@ function monCard(s, statKey) {
   </div>`;
 }
 window.monCard = monCard;
+
+/* 列表视图: 编号|名称|属性|特性|种族值总和 (纯表格不加载精灵图, 便于快速查找); 点击行进详情, 特性名弹特性弹窗 */
+function statTotal(s) {
+  return s.stats.hp + s.stats.atk + s.stats.def + s.stats.spa + s.stats.spd + s.stats.spe;
+}
+function abilityCell(aid, hidden) {
+  const a = ABIL_BY_ID[aid];
+  if (!a) return "";
+  return `<span class="list-abil" onclick="event.stopPropagation();showAbilityPopup(${aid})">${esc(a.zh)}${hidden ? `<i class="list-hidden-tag">隐</i>` : ""}</span>`;
+}
+function monRow(s) {
+  return `<tr onclick="location.hash='#/p/${s.id}'">
+    <td class="num">${fmtDex(s.dex)}</td>
+    <td class="mv-name"><button type="button" class="fav-btn${favs.has(s.id) ? " on" : ""}" data-fav="${s.id}" title="收藏" onclick="event.stopPropagation();toggleFavUI(${s.id})"></button>${esc(speciesName(s))}${s.formLabel ? `<i class="list-form-badge">${esc(s.formLabel)}</i>` : ""}</td>
+    <td class="types-td">${typePills(s.types, true)}</td>
+    <td class="abils">${s.abilities.map(a => abilityCell(a, false)).concat(s.hidden.map(a => abilityCell(a, true))).join("")}</td>
+    <td class="num">${statTotal(s)}</td>
+  </tr>`;
+}
+function dexListHTML(items) {
+  return `<div class="dex-list-wrap"><table class="list-table dex-list">
+    <thead><tr><th>编号</th><th>名称</th><th>属性</th><th>特性</th><th>种族值总和</th></tr></thead>
+    <tbody>${items.map(monRow).join("")}</tbody>
+  </table></div>`;
+}
 
 /* 排序: 默认按图鉴编号; 种族值各项默认从高到低, 再点同一项切换升降序 */
 const SORT_KEYS = [["dex", "图鉴编号"], ["hp", "HP"], ["atk", "攻击"], ["def", "防御"], ["spa", "特攻"], ["spd", "特防"], ["spe", "速度"]];
@@ -582,10 +696,15 @@ function renderHome() {
         <div class="page-title">宝可梦图鉴</div>
         <div class="page-sub">默认形态 ${N_DEFAULT} 只 · 含特殊/地区形态共 ${D.species.length} 只 · 按世代排列 · 点击卡片查看详情</div>
         <div class="toolbar">
-          ${searchBox("q", "搜索名称 / 编号 / 形态，如 阿罗拉、超级进化", homeState.q)}
+          ${searchBox("q", "搜索名称 / 编号 / 招式 / 特性，如 十万伏特、威吓", homeState.q)}
+          <div class="type-chips"><span class="pill fav-chip${homeState.favOnly ? " on" : ""}" onclick="setFavOnly()">❤ 仅看收藏</span></div>
           <div class="type-chips">${formChips}</div>
           <div class="type-chips">${chips}</div>
           <div class="type-chips" id="sort-chips">${sortChipsHTML()}</div>
+          <div class="theme-switch" id="view-switch">
+            <button type="button" class="${homeState.view === "card" ? "on" : ""}" onclick="setView('card')">卡片</button>
+            <button type="button" class="${homeState.view === "list" ? "on" : ""}" onclick="setView('list')">列表</button>
+          </div>
           <span class="count-hint" id="cnt"></span>
         </div>
         <div id="dex-area"></div>
@@ -596,7 +715,21 @@ function renderHome() {
   renderDexArea();
 }
 
+/* 搜索词按名字命中招式/特性 (包含匹配, 与名字搜索规则一致; 仅招式名不搜效果描述);
+   每个搜索词只解析一次, 免得 filter 每只精灵重复扫描; 无人学的招式过滤掉保证 MOVE_USERS 取值安全 */
+let searchHitsCache = { q: null, moves: [], abils: new Set() };
+function searchMoveAbilHits(q) {
+  if (searchHitsCache.q === q) return searchHitsCache;
+  const moves = [], abils = new Set();
+  if (q) {
+    D.moves.forEach(m => { if (m.id && m.zh && MOVE_USERS[m.id] && m.zh.toLowerCase().includes(q)) moves.push(m.id); });
+    D.abilities.forEach(a => { if (a.id && a.zh && a.zh.toLowerCase().includes(q)) abils.add(a.id); });
+  }
+  searchHitsCache = { q, moves, abils };
+  return searchHitsCache;
+}
 function matchSpecies(s) {
+  if (homeState.favOnly && !favs.has(s.id)) return false;  // 仅看收藏
   const raw = toHans(homeState.q), q = raw.toLowerCase();  // 繁体输入先转简体
   const searching = !!(q || homeState.types.size);
   // 形态筛选优先; 未选形态时默认只显示默认形态, 搜索/属性筛选命中时特殊与地区形态一并显示
@@ -609,10 +742,13 @@ function matchSpecies(s) {
     // 编号搜索容错: 全角数字转半角、去掉 # 前缀与前导零, 006 / #6 / ６ 都能命中编号 6
     const qNum = raw.replace(/[０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0))
       .replace(/^[#＃]+/, "").replace(/^0+(?=\d)/, "");
-    // 只按名字表里的实际名字(含其中的字母, 不区分大小写)、图鉴编号与形态词搜索, 不匹配内部常量名
+    // 名字/编号/形态词之外, 还按招式名与特性名命中: 搜招式列出能学的宝可梦, 搜特性列出持有的宝可梦 (含隐藏)
+    const hits = searchMoveAbilHits(q);
     const hit = speciesName(s).toLowerCase().includes(q)
       || (s.dex != null && qNum && String(s.dex) === qNum)
-      || (s.tags && s.tags.includes(raw));
+      || (s.tags && s.tags.includes(raw))
+      || (hits.moves.length && hits.moves.some(mid => MOVE_USERS[mid].has(s.id)))
+      || (hits.abils.size && s.abilities.concat(s.hidden).some(a => hits.abils.has(a)));
     if (!hit) return false;
   }
   if (homeState.types.size) {
@@ -634,12 +770,15 @@ function renderDexArea() {
   });
   const hasDex = ordered.filter(s => s.dex > 0);
   const others = ordered.filter(s => !(s.dex > 0));
-  const card = s => monCard(s, byStat ? key : null);
+  // 卡片视图: 网格卡片; 列表视图: 纯表格
+  const block = homeState.view === "list"
+    ? items => dexListHTML(items)
+    : items => `<div class="dex-grid">${items.map(s => monCard(s, byStat ? key : null)).join("")}</div>`;
   let html = "";
   const present = new Set();
   if (hasDex.length && byStat) {
     // 按种族值排序是全体排名, 不分世代
-    html += `<div class="group-h">按${STAT_ZH[key]}排序</div><div class="dex-grid">${hasDex.map(card).join("")}</div>`;
+    html += `<div class="group-h">按${STAT_ZH[key]}排序</div>${block(hasDex)}`;
   } else if (hasDex.length) {
     const byGen = {};
     hasDex.forEach(s => (byGen[dexGen(s.dex)] = byGen[dexGen(s.dex)] || []).push(s));
@@ -647,14 +786,14 @@ function renderDexArea() {
       present.add("pgen-" + g);
       html += `<section class="gen-sec" id="pgen-${g}">
         <h3 class="gen-h">${GEN_NAMES[g]}<span class="gen-cnt">${byGen[g].length} 只</span></h3>
-        <div class="dex-grid">${byGen[g].map(card).join("")}</div>
+        ${block(byGen[g])}
       </section>`;
     });
   }
   if (others.length) {
-    html += `<div class="group-h">其他形态</div><div class="dex-grid">${others.map(card).join("")}</div>`;
+    html += `<div class="group-h">其他形态</div>${block(others)}`;
   }
-  if (!html) html = `<div style="text-align:center;color:var(--muted);padding:60px 0">没有找到符合条件的宝可梦</div>`;
+  if (!html) html = `<div style="text-align:center;color:var(--muted);padding:60px 0">${homeState.favOnly && !favs.size ? "还没有收藏的宝可梦，点击卡片右上角的 ♡ 即可收藏" : "没有找到符合条件的宝可梦"}</div>`;
   $("#dex-area").innerHTML = html;
   tocMark(present, byStat ? "按种族值排序时不分世代，切回「图鉴编号」排序即可按世代跳转" : "");
   mountSprites($("#dex-area"));
@@ -681,8 +820,59 @@ window.setSort = function (k) {
   $("#sort-chips").innerHTML = sortChipsHTML();
   renderDexArea();
 };
+window.setView = function (v) {
+  if (homeState.view === v) return;
+  homeState.view = v;
+  localStorage.setItem("pkdx_dex_view", v);
+  document.querySelectorAll("#view-switch button").forEach(el =>
+    el.classList.toggle("on", el.getAttribute("onclick").includes(`'${v}'`)));
+  renderDexArea();
+};
 
 /* ---------------- 详情页 ---------------- */
+/* 受击相克: 各属性攻击本精灵的伤害倍数 (防御属性逐个从 typeChart 相乘, 与 cmWeaknesses 同模式);
+   只列非 ×1 档, 按 ×4→×2→×½→×¼→×0 排序, 空档不显示 */
+function defMatchupHTML(s) {
+  const groups = {};
+  SPECIES_FILTER_TYPES.forEach(at => {
+    let mul = 1, any = false;
+    s.types.forEach(dt => {
+      const v = (D.typeChart[String(at.id)] || {})[String(dt)];
+      if (v != null) { mul *= v; any = true; }
+    });
+    if (any && mul !== 1) (groups[mul] = groups[mul] || []).push(at);
+  });
+  const order = [[4, "×4", "x4"], [2, "×2", "x2"], [0.5, "×½", "x05"], [0.25, "×¼", "x025"], [0, "×0", "x0"]];
+  const rows = order.map(([mul, label, kind]) => {
+    const ts = groups[mul];
+    if (!ts) return "";
+    return `<div class="mu-row"><span class="mu-label mu-${kind}">${label}</span><div class="mu-types">${ts.map(t => typePill(t, true)).join("")}</div></div>`;
+  }).join("");
+  return rows || `<i style="color:var(--muted)">无特殊相克。</i>`;
+}
+
+/* 全局翻页序列: 有编号按 编号升序+默认形态优先 (与首页排序规则一致, 同编号默认形态排最前),
+   无编号条目 (其他形态) 追加尾部; 各形态在序列中相邻 */
+const DEX_SEQ = D.species.filter(s => s.dex > 0)
+  .sort((a, b) => a.dex - b.dex || (b.isDefault ? 1 : 0) - (a.isDefault ? 1 : 0) || a.id - b.id)
+  .concat(D.species.filter(s => !(s.dex > 0)));
+const DEX_SEQ_INDEX = new Map(DEX_SEQ.map((s, i) => [s.id, i]));
+/* 编号跳转: 容错规则与首页搜索一致 (全角数字/#前缀/前导零); 无匹配输入框短暂红边 */
+window.jumpDexNo = function () {
+  const inp = $("#jump-no");
+  if (!inp) return;
+  const raw = inp.value.trim();
+  const no = raw.replace(/[０-９]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0))
+    .replace(/^[#＃]+/, "").replace(/^0+(?=\d)/, "");
+  const target = no && !isNaN(+no) ? DEX_SEQ.find(s => s.dex === +no) : null;
+  if (!target) {
+    inp.classList.add("jump-err");
+    setTimeout(() => inp.classList.remove("jump-err"), 600);
+    return;
+  }
+  location.hash = "#/p/" + target.id;
+};
+
 function evoChainHTML(s) {
   const compId = evoComp[s.id];
   if (!compId) return `<div style="color:var(--muted);font-size:13.5px">该宝可梦没有进化关系。</div>`;
@@ -839,6 +1029,10 @@ function renderPokemon(id) {
       <div class="ab-desc">${esc(a.desc || "")}</div></div>`;
   }).join("");
 
+  const seqPos = DEX_SEQ_INDEX.get(s.id);
+  const prevS = seqPos > 0 ? DEX_SEQ[seqPos - 1] : null;
+  const nextS = seqPos != null && seqPos < DEX_SEQ.length - 1 ? DEX_SEQ[seqPos + 1] : null;
+
   const tmNames = {};
   D.tms.forEach(t => tmNames[t.move] = tmNames[t.move] || t.label);
   MT_DATA = {
@@ -859,6 +1053,20 @@ function renderPokemon(id) {
         ${s.formLabel ? `<div style="margin-top:6px"><span class="pill small" style="background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.45)">${esc(s.formLabel)}</span></div>` : ""}
         <div class="types">${typePills(s.types)}</div>
         <a class="hero-card-btn" href="#/card/${s.id}">✦ 自制卡牌</a>
+        <button type="button" class="hero-card-btn fav-hero${favs.has(s.id) ? " on" : ""}" data-fav="${s.id}" onclick="toggleFavUI(${s.id})"></button>
+        <button type="button" class="hero-card-btn" onclick="openSharePoster(${s.id})">📤 分享海报</button>
+      </div>
+      <div class="hero-nav">
+        ${prevS
+          ? `<button type="button" class="hero-nav-btn" onclick="location.hash='#/p/${prevS.id}'">← ${fmtDex(prevS.dex)} ${esc(speciesName(prevS))}</button>`
+          : `<button type="button" class="hero-nav-btn" disabled>← 已是第一只</button>`}
+        <div class="hero-jump">
+          <input id="jump-no" type="text" inputmode="numeric" placeholder="编号" onkeydown="if(event.key==='Enter')jumpDexNo()">
+          <button type="button" onclick="jumpDexNo()">跳转</button>
+        </div>
+        ${nextS
+          ? `<button type="button" class="hero-nav-btn" onclick="location.hash='#/p/${nextS.id}'">${fmtDex(nextS.dex)} ${esc(speciesName(nextS))} →</button>`
+          : `<button type="button" class="hero-nav-btn" disabled>已是最后一只 →</button>`}
       </div>
     </div>
 
@@ -905,6 +1113,11 @@ function renderPokemon(id) {
       <section class="card sec full">
         <h3>进化链</h3>
         ${evoChainHTML(s)}
+      </section>
+
+      <section class="card sec full">
+        <h3>属性相克 <span style="color:var(--muted);font-weight:600;font-size:12px">受各属性攻击时的伤害倍数</span></h3>
+        ${defMatchupHTML(s)}
       </section>
 
       <section class="card sec full">
@@ -1158,6 +1371,187 @@ function cmSelectSpecies(id) {
   cardState.moves = [];
   cardState.shiny = false;
 }
+
+/* ---------------- 分享海报 (1080x1440, 复用卡牌 canvas 工具与加密精灵图) ---------------- */
+const POSTER_W = 1080, POSTER_H = 1440, POSTER_SCALE = 2;
+let posterCard = null, posterJob = 0, qrImg;
+function qrReady() {
+  if (qrImg !== undefined) return Promise.resolve(qrImg);
+  return new Promise(res => {
+    const i = new Image();
+    i.onload = () => { qrImg = i; res(i); };
+    i.onerror = () => { qrImg = null; res(null); };  // 二维码加载失败: 海报仍输出, 仅缺二维码
+    i.src = "assets/qr.png";
+  });
+}
+function drawPosterFit(ctx, bmp, cx, cy, box) {
+  const sc = Math.min(box / bmp.width, box / bmp.height);
+  ctx.drawImage(bmp, cx - bmp.width * sc / 2, cy - bmp.height * sc / 2, bmp.width * sc, bmp.height * sc);
+}
+function drawRadar(ctx, cx, cy, R, stats, total) {
+  const keys = ["hp", "atk", "def", "spa", "spd", "spe"];
+  const pt = (i, r) => {
+    const a = -Math.PI / 2 + i * Math.PI / 3;
+    return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  };
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = "rgba(255,255,255,.40)";
+  [1, 2 / 3, 1 / 3].forEach(k => {           // 三圈六边形网格
+    ctx.beginPath();
+    for (let i = 0; i <= 6; i++) {
+      const [x, y] = pt(i % 6, R * k);
+      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+    }
+    ctx.stroke();
+  });
+  keys.forEach((_, i) => {                    // 轴线
+    const [x, y] = pt(i, R);
+    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(x, y); ctx.stroke();
+  });
+  ctx.beginPath();                            // 数值多边形 (种族值上限 160 归一化)
+  keys.forEach((k, i) => {
+    const [x, y] = pt(i, R * Math.min(1, stats[k] / 160));
+    i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+  });
+  ctx.closePath();
+  ctx.fillStyle = "rgba(255,255,255,.28)";
+  ctx.fill();
+  ctx.strokeStyle = "rgba(255,255,255,.95)";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+  ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  keys.forEach((k, i) => {                    // 顶点标签+数值
+    const [x, y] = pt(i, R + 38);
+    ctx.font = cmFont(19, true);
+    ctx.fillStyle = "#fff";
+    ctx.fillText(`${cmT(STAT_ZH[k])} ${stats[k]}`, x, y);
+  });
+  ctx.font = cmFont(15);
+  ctx.fillStyle = "rgba(255,255,255,.85)";
+  ctx.fillText(cmT("总和"), cx, cy - 17);
+  ctx.font = cmFont(32, true);
+  ctx.fillStyle = "#fff";
+  ctx.fillText(total, cx, cy + 12);
+}
+function drawPoster(ctx, s, art) {
+  const t1 = TYPE_BY_ID[s.types[0]], t2 = TYPE_BY_ID[s.types[1]] || t1;
+  const c1 = t1 ? t1.color : "#777", c2 = t2 ? t2.color : c1;
+  const g = ctx.createLinearGradient(0, 0, POSTER_W, POSTER_H);
+  g.addColorStop(0, cmMix(c1, "#000000", .18));
+  g.addColorStop(1, cmMix(c2, "#000000", .38));
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, POSTER_W, POSTER_H);
+  ctx.fillStyle = "rgba(255,255,255,.07)";   // 装饰圆
+  ctx.beginPath(); ctx.arc(POSTER_W - 40, 130, 300, 0, 7); ctx.fill();
+  ctx.beginPath(); ctx.arc(70, POSTER_H - 260, 240, 0, 7); ctx.fill();
+
+  ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+  ctx.fillStyle = "rgba(255,255,255,.85)";
+  ctx.font = cmFont(26, true);
+  ctx.fillText(`#${fmtDex(s.dex)}`, POSTER_W / 2, 74);
+  ctx.fillStyle = "#fff";
+  ctx.font = cmFont(64, true);
+  ctx.shadowColor = "rgba(0,0,0,.30)"; ctx.shadowBlur = 10; ctx.shadowOffsetY = 3;
+  ctx.fillText(cmT(speciesName(s)), POSTER_W / 2, 148);
+  ctx.shadowColor = "transparent"; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+  let px = POSTER_W / 2 - (s.types.length * 150 + (s.formLabel ? 110 : 0)) / 2 + 75;
+  s.types.forEach(tid => {                    // 属性 pills
+    const t = TYPE_BY_ID[tid];
+    ctx.fillStyle = t.color;
+    cmRR(ctx, px - 68, 178, 136, 44, 22); ctx.fill();
+    ctx.fillStyle = "#fff";
+    ctx.font = cmFont(22, true);
+    ctx.fillText(cmT(t.zh), px, 208);
+    px += 150;
+  });
+  if (s.formLabel) {
+    ctx.fillStyle = "rgba(0,0,0,.30)";
+    cmRR(ctx, px - 48, 180, 96, 40, 20); ctx.fill();
+    ctx.fillStyle = "#fff";
+    ctx.font = cmFont(19, true);
+    ctx.fillText(cmT(s.formLabel), px, 207);
+  }
+
+  const slot = (cx, label, bmp, missing) => { // 普通/闪光双立绘
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    if (bmp) drawPosterFit(ctx, bmp, cx, 452, 350);
+    else {
+      ctx.fillStyle = "rgba(255,255,255,.55)";
+      ctx.font = cmFont(24, true);
+      ctx.fillText(cmT(missing), cx, 452);
+    }
+    ctx.fillStyle = "rgba(0,0,0,.30)";
+    cmRR(ctx, cx - 60, 606, 120, 42, 21); ctx.fill();
+    ctx.fillStyle = "#fff";
+    ctx.font = cmFont(20, true);
+    ctx.fillText(cmT(label), cx, 628);
+  };
+  slot(300, "普通", art.front, "暂无图片");
+  slot(780, "闪光", art.shiny, "暂无闪光图");
+
+  drawRadar(ctx, 540, 936, 186, s.stats, s.total);
+
+  ctx.fillStyle = "rgba(0,0,0,.28)";          // 图鉴介绍卡
+  cmRR(ctx, 84, 1156, POSTER_W - 168, 104, 20); ctx.fill();
+  ctx.fillStyle = "rgba(255,255,255,.92)";
+  ctx.font = cmFont(20);
+  ctx.textAlign = "left";
+  const lines = cmWrap(ctx, cmT(s.flavor || "暂无图鉴介绍。"), POSTER_W - 220, 3);
+  lines.forEach((ln, i) => ctx.fillText(ln, 116, 1182 + i * 30));
+
+  ctx.fillStyle = "rgba(255,255,255,.94)";    // 底部信息栏
+  cmRR(ctx, 84, 1288, POSTER_W - 168, 116, 24); ctx.fill();
+  if (art.qr) ctx.drawImage(art.qr, 106, 1298, 96, 96);
+  ctx.fillStyle = "#20242c";
+  ctx.font = cmFont(27, true);
+  ctx.fillText(cmT("火红物语图鉴"), 226, 1322);
+  ctx.fillStyle = "#5a6470";
+  ctx.font = cmFont(19);
+  ctx.fillText("wuhealthy.github.io/CFRU-expansion", 226, 1356);
+  ctx.fillStyle = "#8a94a0";
+  ctx.font = cmFont(17);
+  ctx.fillText(cmT("改版作者：兔砸博士 · 扫码查看完整图鉴"), 226, 1384);
+}
+window.openSharePoster = function (id) {
+  const s = SPECIES_BY_ID[id];
+  if (!s) return;
+  showPopup(`<h2>分享海报</h2>
+    <div class="poster-box" id="poster-box"><i style="color:var(--muted)">海报生成中…</i></div>
+    <div style="margin-top:12px;text-align:center"><button type="button" class="cm-btn" id="poster-dl" onclick="downloadPoster()" disabled>⬇ 保存图片</button></div>`);
+  const cv = document.createElement("canvas");
+  cv.width = POSTER_W * POSTER_SCALE; cv.height = POSTER_H * POSTER_SCALE;
+  const ctx = cv.getContext("2d");
+  ctx.setTransform(POSTER_SCALE, 0, 0, POSTER_SCALE, 0, 0);
+  drawPoster(ctx, s, {});                     // 先出底图, 图片加载完成后二次绘制
+  const job = ++posterJob;
+  Promise.all([
+    loadSprite("front", id).catch(() => null),
+    loadSprite("front_shiny", id).catch(() => null),
+    qrReady(),
+  ]).then(([front, shiny, qr]) => {
+    if (job !== posterJob) return;            // 弹窗期间换了精灵: 丢弃旧结果
+    drawPoster(ctx, s, { front, shiny, qr });
+    const box = $("#poster-box");
+    if (!box) return;
+    box.innerHTML = "";
+    box.appendChild(cv);
+    posterCard = { cv, name: speciesName(s) };
+    const dl = $("#poster-dl");
+    if (dl) dl.disabled = false;
+  });
+};
+window.downloadPoster = function () {
+  if (!posterCard) return;
+  posterCard.cv.toBlob(b => {
+    if (!b) return;
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(b);
+    a.download = `${posterCard.name}_图鉴海报.png`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+  }, "image/png");
+};
+
 function cmMovepool(s) {
   if (cmPoolCache[s.id]) return cmPoolCache[s.id];
   const seen = new Set(), list = [];
