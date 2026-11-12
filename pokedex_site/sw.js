@@ -73,27 +73,37 @@ self.addEventListener("message", event => {
         if (!Array.isArray(manifest.bundles)) throw new Error("Sprite manifest has no bundle list");
 
         const urls = manifest.bundles.map(fn => new URL("sprites/" + fn, SCOPE_URL).href);
-        // 整个清单最多重试 3 次 (网络间歇被重置时, 已缓存的文件靠 cache.match 秒过, 从断点继续)
-        for (let attempt = 1; ; attempt++) {
-          try {
-            for (let offset = 0; offset < urls.length; offset += BUNDLE_BATCH) {
-              const batch = urls.slice(offset, offset + BUNDLE_BATCH);
-              await cacheSpriteBatch(cache, batch);
-              await notifyClients({
-                type: "offline-cache-progress",
-                cached: offset + batch.length,
-                total: urls.length,
-              });
+        // 按编号排序: 前 N 个优先缓存 (快速达到基本离线可用), 剩余后台渐进
+        const PRELOAD_N = 5;
+        const sorted = manifest.bundles.map(fn => ({ fn, n: parseInt(fn.match(/\d+/)[0], 10) }))
+          .sort((a, b) => a.n - b.n).map(o => new URL("sprites/" + o.fn, SCOPE_URL).href);
+        const preloadUrls = sorted.slice(0, PRELOAD_N);
+        const lazyUrls = sorted.slice(PRELOAD_N);
+        const cacheBatched = async (urls, reportProgress) => {
+          for (let attempt = 1; ; attempt++) {
+            try {
+              for (let offset = 0; offset < urls.length; offset += BUNDLE_BATCH) {
+                const batch = urls.slice(offset, offset + BUNDLE_BATCH);
+                await cacheSpriteBatch(cache, batch);
+                if (reportProgress) await notifyClients({
+                  type: "offline-cache-progress",
+                  cached: offset + batch.length,
+                  total: urls.length,
+                });
+              }
+              break;
+            } catch (error) {
+              if (attempt >= 3) throw error;
+              console.error(`Offline cache attempt ${attempt} failed, retrying`, error);
+              await new Promise(resolve => setTimeout(resolve, attempt * 2000));
             }
-            break;
-          } catch (error) {
-            if (attempt >= 3) throw error;
-            console.error(`Offline sprite cache attempt ${attempt} failed, retrying`, error);
-            await new Promise(resolve => setTimeout(resolve, attempt * 2000));
           }
-        }
-
+        };
+        // 第一阶段: 快速缓存前 5 个 bundle (约 7MB, 图鉴前 320 只), 立即报告就绪
+        await cacheBatched(preloadUrls, true);
         await notifyClients({ type: "offline-cache-ready", version: CACHE_NAME });
+        // 第二阶段: 后台渐进缓存剩余 bundle (离线能力持续增强, 不再发进度条)
+        await cacheBatched(lazyUrls, false);
       } catch (error) {
         console.error("Offline sprite cache preparation failed", error);
         await notifyClients({ type: "offline-cache-error" });
