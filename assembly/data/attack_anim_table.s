@@ -1064,6 +1064,12 @@ gMoveAnimations:
 .word ANIM_MOONBLAST	@MOVE_MOONFEATHER
 .word ANIM_HORNLEECH	@MOVE_ULTIMATESWALLOW
 .word ANIM_HYDROPUMP	@MOVE_FORTUNEWASH
+.word ANIM_POWERGEM	@MOVE_REFRACTGEM
+.word ANIM_BRAVEBIRD	@MOVE_EXTREMESKYMETEOR
+.word ANIM_SUNSHINEMIASMA	@MOVE_SUNSHINEMIASMA
+.word ANIM_GEOTHERMALBURST	@MOVE_GEOTHERMALBURST
+.word ANIM_RAGINGJAWS	@MOVE_RAGINGJAWS
+.word ANIM_THUNDERLANCE	@MOVE_THUNDERLANCE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -2815,6 +2821,58 @@ EARTH_POWER_ERUPTION:
 	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_target 0x0 0x8
 	return
 
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+@;地热喷发: 目标脚下地裂, 火柱环绕喷涌, 灼热岩块从地底冲天而起(呼应可击中空中对手), 岩块四散终结
+.global ANIM_GEOTHERMALBURST
+ANIM_GEOTHERMALBURST:
+	loadparticle ANIM_TAG_SMALL_EMBER
+	loadparticle ANIM_TAG_FIRE_PLUME
+	loadparticle ANIM_TAG_WARM_ROCK
+	loadBG1 BG_FISSURE
+	waitbgfadeout
+	launchtask AnimTask_PositionFissureBgOnBattler 0x5 0x3 0x1 0x5 0xffff
+	soundcomplex 0x8a SOUND_PAN_TARGET 0xb 0x3
+	launchtask AnimTask_move_bank 0x5 0x5 0x1 0x0 0x3 0x19 0x1
+	call GEB_PLUMES
+	pause 0x2
+	playsound2 0x25 SOUND_PAN_TARGET
+	launchtemplate GEB_ROCK 0x3 0x3 0x0 0xffe0 0xf @灼热岩块从地底冲天
+	pause 0x13
+	call GEB_PLUMES
+	pause 0x2
+	playsound2 0x86 SOUND_PAN_TARGET
+	launchtemplate Template_Hit 0x2 0x4 0x0 0xfff8 0x1 0x1
+	launchtemplate Template_RockScatter TEMPLATE_TARGET | 2, 0x4, 0xfff4 0x20 0x3 0x4
+	launchtemplate Template_RockScatter TEMPLATE_TARGET | 2, 0x4, 0x8 0x1f 0x2 0x2
+	launchtemplate Template_RockScatter TEMPLATE_TARGET | 2, 0x4, 0xfffc 0x1c 0x2 0x3
+	launchtemplate Template_RockScatter TEMPLATE_TARGET | 2, 0x4, 0xc 0x1e 0x4 0x3
+	playsound2 0x7C SOUND_PAN_TARGET
+	waitanimation
+	call UNSET_SCROLLING_BG
+	endanimation
+
+GEB_PLUMES:
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_target 0x5 0x0
+	pause 0x1
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_target 0xfff6 0xfff1
+	pause 0x1
+	launchtemplate Template_MiniFirePlume TEMPLATE_TARGET | 2, 0x3, bank_target 0x0 0x19
+	pause 0x1
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_target 0xf 0x5
+	pause 0x1
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_target 0xffe7 0x0
+	pause 0x1
+	launchtemplate Template_MiniFirePlume TEMPLATE_TARGET | 2, 0x3, bank_target 0x1e 0x1e
+	pause 0x1
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_target 0xffe5 0x19
+	pause 0x1
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_target 0x0 0x8
+	return
+
+.align 2
+GEB_ROCK: objtemplate ANIM_TAG_WARM_ROCK ANIM_TAG_WARM_ROCK OAM_OFF_32x32 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable 0x80B0D59
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
 ANIM_ENERGYBALL:
@@ -6752,6 +6810,50 @@ PB_TEMPLATE_1: .hword 0x0,0xa,0xfffe,0x0
 PB_OBJPTR_2: .hword 0x0, 0x2000,0x0800,0x0
 PB_OBJPTR_3: .word PB_TEMPLATE_2
 PB_TEMPLATE_2: .byte 0x0,0x0,0x4,0x0,0x4,0x0,0x0,0x0,0xff,0xff,0x0,0x0
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+@;晴空花瘴: 耀眼白光沐浴全场, 花香瘴气随花瓣涌向目标, 粉色星屑连爆, 花瓣安神余韵收场(呼应必降特攻)
+.global ANIM_SUNSHINEMIASMA
+ANIM_SUNSHINEMIASMA:
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_SPARKLE_2
+	loadparticle ANIM_TAG_FLOWER
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_IMPACT 0x0 0xF 0xF 0x7F5F @;粉白冲击
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_SPARKLE_2 0x0 0xC 0xC 0x7ADF @;粉色星屑
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0xF 0x7FFF @;耀眼白光沐浴全场
+	soundcomplex 0xbc 0xc0 0x10 0x3 @妖精铃音
+	call HEALING_STARS @安神星屑飘落
+	waitanimation
+	pokespritetobg bank_target
+	launchtask AnimTask_move_bank 0x5 0x5 bank_target 0x3 0x0 0x16 0x1 @瘴气冲向目标
+	launchtemplate Template_SweetScentPetal 0x2 0x3 0x46 0x1 0x40
+	pause 0x2
+	launchtemplate Template_SweetScentPetal 0x2 0x3 0x50 0x1 0x40
+	pause 0x2
+	launchtemplate Template_SweetScentPetal 0x2 0x3 0x64 0x0 0x78
+	pause 0x2
+	launchtemplate PETALBLIZZARD_OBJ TEMPLATE_TARGET | 2, 0x5 0x73 0x37 0xA 0x3c 0x1e @花漩环绕目标
+	pause 0x3
+	launchtemplate PETALBLIZZARD_OBJ_2 TEMPLATE_TARGET | 2, 0x5 0x64 0x32 0x4 0x32 0x1A
+	pause 0x2
+	launchtemplate Template_Hit 0x83 0x4 0xffe0 0xfff0 0x1 0x3
+	launchtask AnimTask_RapidWhackSound 0x5 0x2 0xd0 SOUND_PAN_TARGET
+	launchtemplate PETALBLIZZARD_OBJ TEMPLATE_TARGET | 2, 0x5 0x69 0x19 0x8 0x3c 0x14
+	pause 0x3
+	launchtemplate Template_Hit 0x83 0x4 0x0 0x0 0x1 0x3
+	launchtask AnimTask_RapidWhackSound 0x5 0x2 0xd0 SOUND_PAN_TARGET
+	launchtemplate PETALBLIZZARD_OBJ_2 TEMPLATE_TARGET | 2, 0x5 0x73 0x28 0xA 0x30 0x1E
+	pause 0x3
+	launchtemplate Template_Hit 0x83 0x4 0x20 0x14 0x1 0x3
+	launchtask AnimTask_RapidWhackSound 0x5 0x2 0xd0 SOUND_PAN_TARGET
+	waitanimation
+	pokespritefromBG bank_target
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0xF 0x0 0x7FFF @白光退散
+	call HEALING_STARS @瘴雾余韵安神飘落
+	waitanimation
+	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -18868,6 +18970,43 @@ THUNDER_CAGE_BOLTS:
 	launchtask AnimTask_ElectricBolt TEMPLATE_TARGET | 2, 0x3, -25, -40, 1
 	pause 0x9
 	launchtask AnimTask_ElectricBolt TEMPLATE_TARGET | 2, 0x3, 0, -40, 1
+	pause 0x9
+	return
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+@;雷电枪矛: 俯冲突进, 两轮电枪从目标上方连刺(呼应1~10连击)
+.global ANIM_THUNDERLANCE
+ANIM_THUNDERLANCE:
+	loadparticle ANIM_TAG_SHOCK_3 @;Thunderbolt Ball
+	loadparticle ANIM_TAG_SPARK @;Electric lines
+	loadparticle ANIM_TAG_SPARK_H @;Thunder Wave
+	pokespritetobg bank_target
+	leftbankBG_over_partnerBG bank_target
+	soundcomplex 0x70 SOUND_PAN_TARGET 0xA 0x9
+	launchtemplate Template_ThunderboltOrb TEMPLATE_TARGET | 3, 0x4, THUNDER_CAGE_BALL_TIME, 0, -30, 0x0
+	launchtask AnimTask_move_bank 0x5 0x5 bank_target 0x3 0x0 0x32 0x1
+	call THUNDERLANCE_BOLTS
+	pause 0x4
+	launchtemplate Template_ThunderWave TEMPLATE_TARGET | 1, 0x2 0xfff0 0xfff0
+	pause 0x4
+	launchtemplate Template_ThunderWave TEMPLATE_TARGET | 1, 0x2 0xfff0 0x0
+	pause 0x4
+	launchtemplate Template_ThunderWave TEMPLATE_TARGET | 1, 0x2 0xfff0 0x10
+	call THUNDERLANCE_BOLTS
+	waitanimation
+	pokespritefrombg bank_target
+	endanimation
+
+THUNDERLANCE_BOLTS:
+	launchtask AnimTask_ElectricBolt TEMPLATE_TARGET | 2, 0x3, 25, -40, 1
+	pause 0x9
+	launchtask AnimTask_ElectricBolt TEMPLATE_TARGET | 2, 0x3, -25, -40, 1
+	pause 0x9
+	launchtask AnimTask_ElectricBolt TEMPLATE_TARGET | 2, 0x3, 20, -20, 1
+	pause 0x9
+	launchtask AnimTask_ElectricBolt TEMPLATE_TARGET | 2, 0x3, -20, -20, 1
 	pause 0x9
 	return
 
@@ -31677,6 +31816,48 @@ TWP_WAVE:
 .align 2
 TWP_RING: objtemplate ANIM_TAG_BLUE_RING_2 ANIM_TAG_WATER_ORB OAM_DOUBLE_16x32 gDummySpriteAnimTable 0x0 0x83E3C9C 0x80AC6D9
 TWP_HIT: objtemplate ANIM_TAG_IMPACT ANIM_TAG_WATER_ORB OAM_NORMAL_BLEND_32x32 gDummySpriteAnimTable 0x0 0x83E7BF8 0x80BA561
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@Credits to WUHEALTHY
+@;狂澜巨颚: 水浪汇聚后突进, 连续三次咬合(呼应必降防的强咬), 终结水花
+.global ANIM_RAGINGJAWS
+ANIM_RAGINGJAWS:
+	loadparticle ANIM_TAG_FANG_ATTACK
+	loadparticle ANIM_TAG_WATER_ORB
+	loadparticle ANIM_TAG_BLUE_RING_2
+	loadparticle ANIM_TAG_IMPACT
+	pokespritetoBG side_target
+	leftbankBG_over_partnerBG bank_target
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_FANG_ATTACK 0x0 0xC 0xC 0x7FFF @;白闪獠牙
+	launchsoundtask SoundTask_LoopSEAdjustPanning 0x7 0x87, 0xFF00 | SOUND_PAN_ATTACKER, SOUND_PAN_TARGET 0x5 0x5 0x0 0x5
+	call RJ_WAVE
+	call RJ_WAVE
+	pause 0xC
+	playsound2 0x9A SOUND_PAN_TARGET
+	launchtask AnimTask_move_bank 0x3 0x5 bank_target 0x3 0x0 0xa 0x1
+	launchtemplate 0x83FEFBC TEMPLATE_TARGET | 2, 0x0 @咬合1
+	pause 0x8
+	playsound2 0x9A SOUND_PAN_TARGET
+	launchtemplate 0x83FEFBC TEMPLATE_TARGET | 2, 0x0 @咬合2
+	pause 0x8
+	playsound2 0x9A SOUND_PAN_TARGET
+	launchtemplate 0x83FEFBC TEMPLATE_TARGET | 2, 0x0 @咬合3
+	pause 0x8
+	playsound2 0x98 SOUND_PAN_TARGET
+	launchtemplate RJ_HIT 0x2 0x4 0x0 0x0 0x1 0x2
+	waitanimation
+	pokespritefromBG side_target
+	endanimation
+
+.align 2
+RJ_WAVE:
+	launchtemplate RJ_RING TEMPLATE_TARGET | 2, 0x4, 0x0 0x0 0x28 0xf
+	pause 0xA
+	return
+
+.align 2
+RJ_RING: objtemplate ANIM_TAG_BLUE_RING_2 ANIM_TAG_WATER_ORB OAM_DOUBLE_16x32 gDummySpriteAnimTable 0x0 0x83E3C9C 0x80AC6D9
+RJ_HIT: objtemplate ANIM_TAG_IMPACT ANIM_TAG_WATER_ORB OAM_NORMAL_BLEND_32x32 gDummySpriteAnimTable 0x0 0x83E7BF8 0x80BA561
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
 .align 2

@@ -2281,6 +2281,8 @@ SystemScript_StopZooming:
 .global SystemScript_DebugMenu
 SystemScript_DebugMenu:
 	lockall
+	preparemsg gText_DebugMenu_WhatToDo
+	waitmsg
 	multichoiceoption gText_DebugMenu_SetFlag 0
 	multichoiceoption gText_DebugMenu_GiveItem 1
 	multichoiceoption gText_DebugMenu_Give 2

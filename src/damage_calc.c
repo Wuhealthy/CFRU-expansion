@@ -421,19 +421,35 @@ u32 SplintersDamageCalc(u8 bankAtk, u8 bankDef, u16 move)
 	return gBattleMoveDamage;
 }
 
-static u8 GetNumHitsBasedOnMove(u16 move, ability_t atkAbility, unusedArg u16 atkSpecies)
+static u8 GetNumHitsBasedOnMove(struct DamageCalc* damageData)
 {
+	u16 move = damageData->move;
 	u8 numHits = 1;
 
 	if (move == MOVE_SURGINGSTRIKES || move == MOVE_TRIPLEDIVE || move == MOVE_TRIPLEWATERPULSE)
 		numHits = 3;
+	else if (move == MOVE_THUNDERLANCE)
+	{
+		//雷电枪矛: 1~10次; 自身能力阶级(含命中/闪避)每+1级最低次数+1; AI按(最低+10)/2的平均次数估算
+		u8 minHits = 1;
+		u32 statIndex;
+
+		for (statIndex = STAT_ATK; statIndex <= STAT_EVASION; ++statIndex)
+		{
+			if (STAT_STAGE(damageData->bankAtk, statIndex) > 6)
+				minHits += STAT_STAGE(damageData->bankAtk, statIndex) - 6;
+		}
+		if (minHits > 10)
+			minHits = 10;
+		numHits = (minHits + 10) / 2;
+	}
 	else if (move == MOVE_POPULATIONBOMB)
 		numHits = 10;
-	else if (move == MOVE_WATERSHURIKEN && atkSpecies == SPECIES_ASHGRENINJA)
+	else if (move == MOVE_WATERSHURIKEN && damageData->atkSpecies == SPECIES_ASHGRENINJA)
 		numHits = 3;
 	else if (gSpecialMoveFlags[move].gTwoToFiveStrikesMoves)
 	{
-		if (atkAbility == ABILITY_SKILLLINK)
+		if (damageData->atkAbility == ABILITY_SKILLLINK)
 			numHits = 5;
 		else
 			numHits = 3; //Three hits on average
@@ -563,7 +579,7 @@ u32 AI_CalcDmg(const u8 bankAtk, const u8 bankDef, const u16 move, struct Damage
 
 	damage = (damage * 93) / 100; //Roll 93% damage - about halfway between min & max damage
 
-	u8 numHits = GetNumHitsBasedOnMove(move, damageData->atkAbility, damageData->atkSpecies);
+	u8 numHits = GetNumHitsBasedOnMove(damageData);
 	u16 multiplier = GetAIParentalBondMultiplierForMove(move, bankAtk, numHits, damageData->atkAbility);
 	if (multiplier != 0) //Move affected by Parental Bond
 		return (damage * multiplier) / 100;
@@ -672,7 +688,7 @@ u32 AI_CalcPartyDmg(u8 bankAtk, u8 bankDef, u16 move, struct Pokemon* monAtk, st
 
 	damage = (damage * 96) / 100; //Roll 96% damage with party mons - be more idealistic
 
-	u8 numHits = GetNumHitsBasedOnMove(move, damageData->atkAbility, damageData->atkSpecies);
+	u8 numHits = GetNumHitsBasedOnMove(damageData);
 	u16 multiplier = GetAIParentalBondMultiplierForMove(move, bankAtk, numHits, damageData->atkAbility);
 	if (multiplier != 0) //Move affected by Parental Bond
 		return (damage * multiplier) / 100;
@@ -785,7 +801,7 @@ u32 AI_CalcMonDefDmg(u8 bankAtk, u8 bankDef, u16 move, struct Pokemon* monDef, s
 
 	damage = (damage * 96) / 100; //Roll 96% damage with party mons - be more idealistic
 
-	u8 numHits = GetNumHitsBasedOnMove(move, damageData->atkAbility, damageData->atkSpecies);
+	u8 numHits = GetNumHitsBasedOnMove(damageData);
 	u16 multiplier = GetAIParentalBondMultiplierForMove(move, bankAtk, numHits, damageData->atkAbility);
 	if (multiplier != 0) //Move affected by Parental Bond
 		return (damage * multiplier) / 100;
@@ -851,7 +867,7 @@ void atk06_typecalc(void)
             // Check Special Ground Immunities
             if (moveType == TYPE_GROUND && !CheckGrounding(bankDef) && gCurrentMove != MOVE_THOUSANDARROWS)
             {
-                if (defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE)
+                if ((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && gCurrentMove != MOVE_GEOTHERMALBURST)
                 {
                     gLastUsedAbility = defAbility;
                     gNewBS->ResultFlags[bankDef] |= (MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE);
@@ -970,7 +986,7 @@ void atk4A_typecalc2(void)
 	//Check Special Ground Immunities
 	if (moveType == TYPE_GROUND && !CheckGrounding(gBankTarget) && gCurrentMove != MOVE_THOUSANDARROWS)
 	{
-		if (defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE)
+		if ((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && gCurrentMove != MOVE_GEOTHERMALBURST)
 		{
 			gLastUsedAbility = atkAbility;
 			gMoveResultFlags |= (MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE);
@@ -1113,7 +1129,7 @@ u8 TypeCalc(u16 move, u8 bankAtk, u8 bankDef, struct Pokemon* monAtk)
 	//Check Special Ground Immunities
 	if (moveType == TYPE_GROUND
 	&& !CheckGrounding(bankDef)
-	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && NO_MOLD_BREAKERS(atkAbility, move))
+	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && move != MOVE_GEOTHERMALBURST && NO_MOLD_BREAKERS(atkAbility, move))
 	 || defEffect == ITEM_EFFECT_AIR_BALLOON
 	 || (gStatuses3[bankDef] & (STATUS3_LEVITATING | STATUS3_TELEKINESIS))
 	 || IsFloatingWithMagnetism(bankDef) || (defAbility == ABILITY_CRESCENTSLUMBER
@@ -1190,7 +1206,7 @@ u8 AI_TypeCalc(u16 move, u8 bankAtk, u8 bankDef, struct Pokemon* monDef) //bankD
 	//Check Special Ground Immunities
 	if (moveType == TYPE_GROUND
 	&& !CheckMonGrounding(monDef)
-	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && NO_MOLD_BREAKERS(atkAbility, move))
+	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && move != MOVE_GEOTHERMALBURST && NO_MOLD_BREAKERS(atkAbility, move))
 	 || (defEffect == ITEM_EFFECT_AIR_BALLOON && defAbility != ABILITY_KLUTZ)
 	 || IsMonFloatingWithMagnetism(monDef) || (defAbility == ABILITY_CRESCENTSLUMBER
 		 && GetMonData(monDef, MON_DATA_STATUS, NULL) & STATUS1_SLEEP
@@ -1267,7 +1283,7 @@ u8 AI_SpecialTypeCalc(u16 move, u8 bankAtk, u8 bankDef)
 	//Check Special Ground Immunities
 	if (moveType == TYPE_GROUND
 	&& !CheckGrounding(bankDef)
-	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && NO_MOLD_BREAKERS(atkAbility, move))
+	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && move != MOVE_GEOTHERMALBURST && NO_MOLD_BREAKERS(atkAbility, move))
 	 || defEffect == ITEM_EFFECT_AIR_BALLOON
 	 || (gStatuses3[bankDef] & (STATUS3_LEVITATING | STATUS3_TELEKINESIS))
 	 || IsFloatingWithMagnetism(bankDef) || (defAbility == ABILITY_CRESCENTSLUMBER
@@ -1356,7 +1372,7 @@ u8 VisualTypeCalc(u16 move, u8 bankAtk, u8 bankDef)
 	else if (moveType == TYPE_GROUND //Check Special Ground Immunities
 	&& SPLIT(move) != SPLIT_STATUS
 	&& !NonInvasiveCheckGrounding(bankDef, defAbility, defType1, defType2, defType3)
-	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && NO_MOLD_BREAKERS(atkAbility, move))
+	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && move != MOVE_GEOTHERMALBURST && NO_MOLD_BREAKERS(atkAbility, move))
 	 || defEffect == ITEM_EFFECT_AIR_BALLOON
 	 || (gStatuses3[bankDef] & (STATUS3_LEVITATING | STATUS3_TELEKINESIS))
 	 || IsFloatingWithMagnetism(bankDef)
@@ -1584,6 +1600,10 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 		// 电流尾：电属性招式无视地面属性的免疫
 		if (move == MOVE_CURRENTTAIL && defType == TYPE_GROUND)
 			return;
+
+		// 地热喷发：地面属性招式无视飞行属性的免疫
+		if (move == MOVE_GEOTHERMALBURST && defType == TYPE_FLYING)
+			return;
 	}
 	else if (checkMonDef)
 	{
@@ -1601,6 +1621,10 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 
 		// 电流尾：可打中地面属性
 		if (move == MOVE_CURRENTTAIL && defType == TYPE_GROUND)
+			return;
+
+		// 地热喷发：可打中飞行属性
+		if (move == MOVE_GEOTHERMALBURST && defType == TYPE_FLYING)
 			return;
 	}
 
@@ -3383,6 +3407,12 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 			defense = spDefense;
 	}
 
+//折射宝石：将自身速度的50%加成到攻击（atkSpeed来自SpeedCalc,已含能力变化与顺风等修正）
+	if (move == MOVE_REFRACTGEM)
+	{
+		attack += data->atkSpeed / 2;
+	}
+
 //Actual Calculation
 	if (useMonAtk)
 		damage = (2 * data->monAtk->level) / 5 + 2;
@@ -4944,6 +4974,24 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 				power /= 3;
 			break;
 	}
+
+//极空陨星：自身满HP时威力提升至1.5倍
+	if (move == MOVE_EXTREMESKYMETEOR)
+	{
+		if (data->monAtk != NULL)
+		{
+			if (data->monAtk->hp == data->monAtk->maxHP)
+				power = (power * 15) / 10;
+		}
+		else if (gBattleMons[bankAtk].hp == gBattleMons[bankAtk].maxHP)
+			power = (power * 15) / 10;
+	}
+
+//晴空花瘴：阳光天气下自身受阳光影响时威力提升至1.5倍; 自身具有超级日光特性亦触发
+	if (move == MOVE_SUNSHINEMIASMA
+	&& ((WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY) && AffectedBySun(bankAtk))
+		|| data->atkAbility == ABILITY_MEGASOL))
+		power = (power * 15) / 10;
 
 	return power;
 }
