@@ -1064,8 +1064,8 @@ gMoveAnimations:
 .word ANIM_MOONBLAST	@MOVE_MOONFEATHER
 .word ANIM_HORNLEECH	@MOVE_ULTIMATESWALLOW
 .word ANIM_HYDROPUMP	@MOVE_FORTUNEWASH
-.word ANIM_POWERGEM	@MOVE_REFRACTGEM
-.word ANIM_BRAVEBIRD	@MOVE_EXTREMESKYMETEOR
+.word ANIM_REFRACTGEM	@MOVE_REFRACTGEM
+.word ANIM_EXTREMESKYMETEOR	@MOVE_EXTREMESKYMETEOR
 .word ANIM_SUNSHINEMIASMA	@MOVE_SUNSHINEMIASMA
 .word ANIM_GEOTHERMALBURST	@MOVE_GEOTHERMALBURST
 .word ANIM_RAGINGJAWS	@MOVE_RAGINGJAWS
@@ -31893,6 +31893,113 @@ RJ_WAVE:
 .align 2
 RJ_RING: objtemplate ANIM_TAG_BLUE_RING_2 ANIM_TAG_WATER_ORB OAM_DOUBLE_16x32 gDummySpriteAnimTable 0x0 0x83E3C9C 0x80AC6D9
 RJ_HIT: objtemplate ANIM_TAG_IMPACT ANIM_TAG_WATER_ORB OAM_NORMAL_BLEND_32x32 gDummySpriteAnimTable 0x0 0x83E7BF8 0x80BA561
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@极空陨星：从大气层外俯冲而下，借由坠落的动能撞击对手
+ANIM_EXTREMESKYMETEOR:
+	loadparticle ANIM_TAG_METEOR @陨星本体
+	loadparticle ANIM_TAG_ROCKS @坠落的陨石
+	loadparticle ANIM_TAG_WATER_GUN @陨星尾焰
+	loadparticle ANIM_TAG_FIRE_PLUME @火柱(Template_MiniFirePlume不自动加载,缺了会画乱码)
+	loadparticle ANIM_TAG_EXPLOSION @爆炸(Template_Explosion不自动加载,缺了会画乱码)
+	loadBG1 BG_COSMIC @大气层外的宇宙背景
+	pokespritetoBG bank_attacker
+	waitbgfadeout
+	launchtask AnimTask_scroll_background 0x5 0x4 0x0 0xFC00 0x1 0xffff @;背景向下滚动，表现俯冲坠落
+	waitbgfadein
+	launchtask AnimTask_AttackerFadeToInvisible 0x5 0x1 0x0 @;攻击方隐身，化作陨星
+	waitanimation
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_ROCKS 0x0 0xC 0xC 0x01DD @;Orange 陨石染成火焰色
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_WATER_GUN 0x0 0xC 0xC 0x01DD @;Orange 尾焰
+	launchtask SoundTask_PlaySE2WithPanning 0x5 0x2 0xe7 0xffc0 @;俯冲音效
+	call DRACO_METEOR_1
+	pause 0x7
+	call DRACO_METEOR_2
+	pause 0x7
+	call DRACO_METEOR_3
+	stopmusic
+	playsound2 0x7C SOUND_PAN_TARGET @;陨星撞击
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x7 0x4 0x2
+	launchtemplate Template_MiniFirePlume TEMPLATE_TARGET | 2, 0x3, bank_target 0x0 0x20
+	launchtemplate GROWING_SUPERPOWER, TEMPLATE_TARGET | 3, 0x1 0x0 @;陨星本体砸向目标
+	launchtask AnimTask_screen_shake 0x5 0x3 0x5 0x5 0x1 @;撞击震屏
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK | PAL_BG 0x1 0x10 0x10 0x7FFF @;Screen flash white
+	pause 0x8
+	playsound2 0xAA SOUND_PAN_TARGET
+	launchtemplate Template_Explosion, TEMPLATE_TARGET | 3, 0x4 0x0 0x0 0x1 0x1
+	launchtemplate Template_Explosion, TEMPLATE_TARGET | 3, 0x4 0x18 0xffe8 0x1 0x1
+	pause 0x14
+	launchtask AnimTask_AttackerFadeFromInvisible 0x5 0x1 0x1 @;攻击方现回原形
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK | PAL_BG 0x1 0x10 0x0 0x7FFF @;Screen revert from white
+	waitanimation
+	pokespritefromBG bank_attacker
+	call UNSET_SKY_BG
+	endanimation
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@折射宝石：将宝石折射出的光芒化作利刃射向对手
+ANIM_REFRACTGEM:
+	loadparticle ANIM_TAG_POWER_GEM @宝石
+	loadparticle ANIM_TAG_PUNISHMENT_BLADES @光刃
+	loadparticle ANIM_TAG_SPARKLE_2 @折射光芒
+	loadparticle ANIM_TAG_AIR_WAVE_2 @光刃配色
+	loadparticle ANIM_TAG_IMPACT @命中弹坑(Template_Hit不自动加载,缺了会画乱码)
+	pokespritetoBG side_target
+	leftopponentbankBG_over_partnerBG 0x1
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0xD 0x0
+	waitanimation
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_AIR_WAVE_2 0x0 0xC 0xC 0x7D7F @;Pinkish purple 心灵系光刃(光刃模板实际用AIR_WAVE_2调色板)
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_SPARKLE_2 0x0 0xC 0xC 0x7F5F @;Pinkish white 折射之光
+	@宝石在攻击方身旁旋转蓄力
+	launchtemplate POWERGEM_WHEEL 0x3 0x4 0x0 0x0 0x38 0x0
+	playsound2 0x5F SOUND_PAN_ATTACKER
+	pause 0x2
+	launchtemplate POWERGEM_WHEEL 0x3 0x4 0x0 0x0 0x38 0x4
+	playsound2 0x5F SOUND_PAN_ATTACKER
+	pause 0x2
+	launchtemplate POWERGEM_WHEEL 0x3 0x4 0x0 0x0 0x38 0x8
+	playsound2 0x5F SOUND_PAN_ATTACKER
+	pause 0x2
+	launchtemplate POWERGEM_WHEEL 0x3 0x4 0x0 0x0 0x38 0xc
+	playsound2 0x5F SOUND_PAN_ATTACKER
+	pause 0x2
+	launchtemplate POWERGEM_WHEEL 0x3 0x4 0x0 0x0 0x38 0xc
+	playsound2 0x5F SOUND_PAN_ATTACKER
+	pause 0x30
+	@宝石折射出耀眼的光芒
+	soundcomplex 0xBC SOUND_PAN_ATTACKER 0x10 0x3
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xF 0x7FFF @;攻击方被白光笼罩
+	call HEALING_STARS @折射星芒
+	waitanimation
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0xF 0x0 0x7FFF @;还原
+	@光芒化作利刃高速射向对手(第一波7道,顺序与Power Gem逐行一致)
+	launchsoundtask SoundTask_LoopSEAdjustPanning 0x7 0x82, 0xFF00 | SOUND_PAN_ATTACKER, SOUND_PAN_TARGET 0x5 0x5 0x0 0x5
+	soundcomplex 0x81 SOUND_PAN_TARGET 0x3 0x5
+	launchtemplate POWERGEM_BLADES 0x81 0x5 0x0 0xa SOUND_PAN_ATTACKER 0xb0 0x28
+	launchtemplate POWERGEM_BLADES 0x81 0x5 0x0 0xa 0xff40 0xf0 0x28
+	launchtemplate POWERGEM_BLADES 0x81 0x5 0x0 0xa 0xff40 0xff60 0x28
+	launchtemplate POWERGEM_BLADES 0x81 0x5 0x0 0xa 0xff40 0xff90 0x28
+	launchtemplate POWERGEM_BLADES 0x81 0x5 0x0 0xa 0xa0 0x30 0x28
+	launchtemplate POWERGEM_BLADES 0x81 0x5 0x0 0xa 0xff20 0xffe0 0x28
+	launchtemplate POWERGEM_BLADES 0x81 0x5 0x0 0xa 0x70 0xff80 0x28
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0xf 0x1
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0xA 0x0 0x1 0x1
+	waitanimation
+	@第二波光刃(等第一波完全消失后再发射,避免精灵资源耗尽卡死)
+	playsound2 0x81 SOUND_PAN_TARGET
+	launchtemplate POWERGEM_BLADES 0x81 0x5 0x0 0xa SOUND_PAN_ATTACKER 0xb0 0x28
+	launchtemplate POWERGEM_BLADES 0x81 0x5 0x0 0xa 0xff40 0xf0 0x28
+	launchtemplate POWERGEM_BLADES 0x81 0x5 0x0 0xa 0xff40 0xff60 0x28
+	launchtemplate POWERGEM_BLADES 0x81 0x5 0x0 0xa 0xa0 0x30 0x28
+	launchtemplate POWERGEM_BLADES 0x81 0x5 0x0 0xa 0xff20 0xffe0 0x28
+	launchtemplate POWERGEM_BLADES 0x81 0x5 0x0 0xa 0x70 0xff80 0x28
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0xFFF6 0xFFF8 0x1 0x1
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0xf 0x1
+	waitanimation
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0xD 0x0 0x0
+	waitanimation
+	pokespritefromBG side_target
+	endanimation
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
 .align 2
