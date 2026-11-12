@@ -125,7 +125,7 @@ if ("serviceWorker" in navigator) {
     } else if (message.type === "offline-cache-ready") {
       // 缓存补齐时页面内容本来就是当前版本 (由当前 SW 提供), 不需要刷新;
       // 真正需要换内容的是 sw-updated (下面那个分支)
-      showOfflineStatus("离线图鉴已准备完成", true);
+      showOfflineStatus("基础离线就绪，浏览更多宝可梦会自动补充精灵图", true);
     } else if (message.type === "offline-cache-error") {
       // 网络闪断: 先自动重试几次 (service worker 内部也会重试, 这里是它彻底失败后的兜底), 再提示手动刷新
       offlineRetryCount += 1;
