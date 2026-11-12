@@ -1800,9 +1800,16 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 					effect++;
 				break;
 
-				case ET_MagQuake: //眩晕：3回合内攻/特攻互换（静默倒计时）
-				if (gNewBS->magQuakeTimers[gActiveBattler] > 0)
-					--gNewBS->magQuakeTimers[gActiveBattler];
+				case ET_MagQuake: //眩晕：3回合内攻/特攻互换，到期解除时提示
+				if (BATTLER_ALIVE(gActiveBattler) && gNewBS->magQuakeTimers[gActiveBattler] > 0)
+				{
+					if (--gNewBS->magQuakeTimers[gActiveBattler] == 0)
+					{
+						gBattleStringLoader = gText_MagQuakeEnded;
+						BattleScriptExecute(BattleScript_PrintCustomStringEnd2);
+						effect++;
+					}
+				}
 				break;
 		case ET_End:
 			END_TURN_SKIP:

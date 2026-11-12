@@ -98,6 +98,7 @@ extern const u8 BattleScript_SyrupBombSpeedDrop[];
 //Strings
 extern const u8 gText_SideStatusWoreOff[];
 extern const u8 gText_SplintersEnded[];
+extern const u8 gText_MagQuakeEnded[];
 extern const u8 gText_TauntWoreOff[];
 extern const u8 gText_RaidBattleKO1[];
 extern const u8 gText_RaidBattleKO2[];

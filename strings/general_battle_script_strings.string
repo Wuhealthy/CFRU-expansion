@@ -582,3 +582,6 @@
 
 #org @gText_MagQuakeDazed
 [TARGET]陷入了眩晕！\n攻击与特攻能力调转了！
+
+#org @gText_MagQuakeEnded
+[ATTACKER]的攻击与特攻\n能力恢复正常了！
