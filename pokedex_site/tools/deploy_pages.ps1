@@ -55,7 +55,7 @@ else { Write-Output "FETCH_FAILED"; exit 1 }
 
 # 镜像同步站点文件 (先清空工作树, 站点中已删除的文件不会残留)
 Get-ChildItem $deploy -Force | Where-Object { $_.Name -ne ".git" } | Remove-Item -Recurse -Force
-Copy-Item (Join-Path $siteSrc "index.html"), (Join-Path $siteSrc "style.css"), (Join-Path $siteSrc "app.js"), (Join-Path $siteSrc "pwa.js"), (Join-Path $siteSrc "sw.js"), (Join-Path $siteSrc "manifest.webmanifest"), (Join-Path $siteSrc "icons"), (Join-Path $siteSrc "data"), (Join-Path $siteSrc "sprites"), (Join-Path $siteSrc "assets"), (Join-Path $siteSrc "README.md") $deploy -Recurse -Force
+Copy-Item (Join-Path $siteSrc "index.html"), (Join-Path $siteSrc "style.css"), (Join-Path $siteSrc "app.js"), (Join-Path $siteSrc "pwa.js"), (Join-Path $siteSrc "sw.js"), (Join-Path $siteSrc "manifest.webmanifest"), (Join-Path $siteSrc "icons"), (Join-Path $siteSrc "data"), (Join-Path $siteSrc "sprites"), (Join-Path $siteSrc "README.md") $deploy -Recurse -Force
 New-Item -ItemType File (Join-Path $deploy ".nojekyll") -Force | Out-Null
 # Give every content update its own cache so the old app stays intact during installation.
 $cacheInputs = "index.html", "style.css", "app.js", "pwa.js", "sw.js", "manifest.webmanifest", "data/data.js", "icons/icon-192.png", "icons/icon-512.png"

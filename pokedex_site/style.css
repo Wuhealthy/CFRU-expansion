@@ -18,6 +18,7 @@
   --chip-blue: #4a7a8c;
   --chip-gray: #5a6b7d;
   --evo-badge: #a17bb8;
+  --evo-chain-bg: #6a9e8f;
   --type-atk0: #6b7684;
   --evo-stage-ink: #12302a;
   --evo-name-bg: rgba(255,255,255,.5);
@@ -45,6 +46,7 @@
   --chip-blue: #3a6a7c;
   --chip-gray: #4a5b6d;
   --evo-badge: #816ba8;
+  --evo-chain-bg: #2e4a42;
   --type-atk0: #5b6674;
   --evo-stage-ink: #d4ebe2;
   --evo-name-bg: rgba(20,30,28,.55);
@@ -72,6 +74,7 @@
   --chip-blue: #5a8a8c;
   --chip-gray: #7a6b5d;
   --evo-badge: #a17b98;
+  --evo-chain-bg: #6a9e8f;
   --type-atk0: #8a7664;
   --evo-stage-ink: #2f4a3a;
   --evo-name-bg: rgba(250,243,224,.55);
@@ -320,7 +323,7 @@ a { color: inherit; text-decoration: none; }
   display: flex; flex-direction: column; align-items: flex-start; gap: 12px;
   width: 100%; min-width: 0; max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain;
   -webkit-overflow-scrolling: touch;
-  background: #6a9e8f; border-radius: 16px; padding: 18px 20px;
+  background: var(--evo-chain-bg); border-radius: 16px; padding: 18px 20px;
 }
 .evo-branch { display: flex; align-items: center; }
 .evo-kids { display: flex; flex-direction: column; gap: 12px; }

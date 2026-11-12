@@ -1374,16 +1374,7 @@ function cmSelectSpecies(id) {
 
 /* ---------------- 分享海报 (1080x1440, 复用卡牌 canvas 工具与加密精灵图) ---------------- */
 const POSTER_W = 1080, POSTER_H = 1440, POSTER_SCALE = 2;
-let posterCard = null, posterJob = 0, qrImg;
-function qrReady() {
-  if (qrImg !== undefined) return Promise.resolve(qrImg);
-  return new Promise(res => {
-    const i = new Image();
-    i.onload = () => { qrImg = i; res(i); };
-    i.onerror = () => { qrImg = null; res(null); };  // 二维码加载失败: 海报仍输出, 仅缺二维码
-    i.src = "assets/qr.png";
-  });
-}
+let posterCard = null, posterJob = 0;
 function drawPosterFit(ctx, bmp, cx, cy, box) {
   const sc = Math.min(box / bmp.width, box / bmp.height);
   ctx.drawImage(bmp, cx - bmp.width * sc / 2, cy - bmp.height * sc / 2, bmp.width * sc, bmp.height * sc);
@@ -1489,7 +1480,7 @@ function drawPoster(ctx, s, art) {
   slot(300, "普通", art.front, "暂无图片");
   slot(780, "闪光", art.shiny, "暂无闪光图");
 
-  drawRadar(ctx, 540, 936, 186, s.stats, s.total);
+  drawRadar(ctx, 540, 896, 168, s.stats, s.total);  // 上移缩小: 底部顶点标签不与介绍卡重叠
 
   ctx.fillStyle = "rgba(0,0,0,.28)";          // 图鉴介绍卡
   cmRR(ctx, 84, 1156, POSTER_W - 168, 104, 20); ctx.fill();
@@ -1499,18 +1490,18 @@ function drawPoster(ctx, s, art) {
   const lines = cmWrap(ctx, cmT(s.flavor || "暂无图鉴介绍。"), POSTER_W - 220, 3);
   lines.forEach((ln, i) => ctx.fillText(ln, 116, 1182 + i * 30));
 
-  ctx.fillStyle = "rgba(255,255,255,.94)";    // 底部信息栏
+  ctx.fillStyle = "rgba(255,255,255,.94)";    // 底部信息栏 (无二维码, 文字居中)
   cmRR(ctx, 84, 1288, POSTER_W - 168, 116, 24); ctx.fill();
-  if (art.qr) ctx.drawImage(art.qr, 106, 1298, 96, 96);
+  ctx.textAlign = "center";
   ctx.fillStyle = "#20242c";
   ctx.font = cmFont(27, true);
-  ctx.fillText(cmT("火红物语图鉴"), 226, 1322);
+  ctx.fillText(cmT("火红物语图鉴"), POSTER_W / 2, 1320);
   ctx.fillStyle = "#5a6470";
   ctx.font = cmFont(19);
-  ctx.fillText("wuhealthy.github.io/CFRU-expansion", 226, 1356);
+  ctx.fillText("wuhealthy.github.io/CFRU-expansion", POSTER_W / 2, 1352);
   ctx.fillStyle = "#8a94a0";
   ctx.font = cmFont(17);
-  ctx.fillText(cmT("改版作者：兔砸博士 · 扫码查看完整图鉴"), 226, 1384);
+  ctx.fillText(cmT("改版作者：兔砸博士"), POSTER_W / 2, 1382);
 }
 window.openSharePoster = function (id) {
   const s = SPECIES_BY_ID[id];
@@ -1527,10 +1518,9 @@ window.openSharePoster = function (id) {
   Promise.all([
     loadSprite("front", id).catch(() => null),
     loadSprite("front_shiny", id).catch(() => null),
-    qrReady(),
-  ]).then(([front, shiny, qr]) => {
+  ]).then(([front, shiny]) => {
     if (job !== posterJob) return;            // 弹窗期间换了精灵: 丢弃旧结果
-    drawPoster(ctx, s, { front, shiny, qr });
+    drawPoster(ctx, s, { front, shiny });
     const box = $("#poster-box");
     if (!box) return;
     box.innerHTML = "";
