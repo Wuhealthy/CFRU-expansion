@@ -9,7 +9,7 @@
 <title>火红物语图鉴</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<link rel="stylesheet" href="style.css?v=28d83564">
+<link rel="stylesheet" href="style.css?v=7ed4225f">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%23ee1515' stroke='%23333' stroke-width='6'/><path d='M4 50a46 46 0 0 1 92 0z' fill='%23f5f5f5'/><circle cx='50' cy='50' r='16' fill='%23f5f5f5' stroke='%23333' stroke-width='6'/><circle cx='50' cy='50' r='8' fill='%23fff' stroke='%23333' stroke-width='4'/></svg>">
 </head>
 <body>
@@ -19,37 +19,62 @@
     <span class="brand-name">火红物语图鉴</span>
     <span class="brand-sub">火红物语</span>
   </a>
-  <a class="author-link" href="https://space.bilibili.com/51253407" target="_blank" rel="noopener">改版作者：兔砸博士</a>
   <nav class="nav">
     <a href="#/" data-nav="dex">图鉴</a>
     <a href="#/moves" data-nav="moves">招式</a>
     <a href="#/abilities" data-nav="abilities">特性</a>
     <a href="#/items" data-nav="items">道具</a>
-    <a href="#/card" data-nav="card">自制卡牌</a>
-    <a href="#/types" data-nav="types">属性相性</a>
-    <a href="#/features" data-nav="features">版本特色</a>
+    <a href="#/card" data-nav="card" class="nav-extra">自制卡牌</a>
+    <a href="#/types" data-nav="types" class="nav-extra">属性相性</a>
+    <a href="#/features" data-nav="features" class="nav-extra">版本特色</a>
   </nav>
-  <button id="install-app-button" class="install-app-button hidden" type="button"></button>
-  <span class="lang-switch" title="简体 / 繁体">
-    <button type="button" data-lang="hans" onclick="setLang('hans')">简</button><button type="button" data-lang="hant" onclick="setLang('hant')">繁</button>
-  </span>
-  <span class="theme-switch" title="日间 / 夜间 / 护眼">
-    <button type="button" data-theme-btn="light" onclick="setTheme('light')">☀</button><button type="button" data-theme-btn="dark" onclick="setTheme('dark')">🌙</button><button type="button" data-theme-btn="sepia" onclick="setTheme('sepia')">🍃</button>
-  </span>
+  <button id="menu-toggle" class="menu-toggle" type="button" aria-label="更多功能" onclick="toggleTopMenu(event)">⚙</button>
+  <div id="topbar-extras" class="topbar-extras">
+    <nav class="menu-nav">
+      <a href="#/card" data-nav="card">自制卡牌</a>
+      <a href="#/types" data-nav="types">属性相性</a>
+      <a href="#/features" data-nav="features">版本特色</a>
+    </nav>
+    <a class="author-link" href="https://space.bilibili.com/51253407" target="_blank" rel="noopener">改版作者：兔砸博士</a>
+    <button id="install-app-button" class="install-app-button hidden" type="button"></button>
+    <div class="extras-row">
+      <span class="lang-switch" title="简体 / 繁体">
+        <button type="button" data-lang="hans" onclick="setLang('hans')">简</button><button type="button" data-lang="hant" onclick="setLang('hant')">繁</button>
+      </span>
+      <span class="theme-switch" title="日间 / 夜间 / 护眼">
+        <button type="button" data-theme-btn="light" onclick="setTheme('light')">☀</button><button type="button" data-theme-btn="dark" onclick="setTheme('dark')">🌙</button><button type="button" data-theme-btn="sepia" onclick="setTheme('sepia')">🍃</button>
+      </span>
+    </div>
+  </div>
 </header>
 <div id="offline-status" class="offline-status hidden" role="status" aria-live="polite"></div>
 <main id="app">
-  <!-- 首访数据下载期间的白屏占位; app.js 启动后 route() 会整体替换 -->
-  <div class="page-title">图鉴加载中…</div>
-  <div class="page-sub">首次打开需要下载数据，之后离线也能秒开</div>
+  <!-- 首访数据下载期间的骨架屏占位; app.js 启动后 route() 会整体替换 -->
+  <div class="skeleton">
+    <div class="page-title">图鉴加载中…</div>
+    <div class="page-sub">首次打开需要下载数据，之后离线也能秒开</div>
+    <div class="sk-bar" style="max-width:420px"></div>
+    <div class="sk-grid">
+      <div class="sk-card"><div class="sk-spr"></div><div class="sk-line w60"></div><div class="sk-line w80"></div></div>
+      <div class="sk-card"><div class="sk-spr"></div><div class="sk-line w60"></div><div class="sk-line w80"></div></div>
+      <div class="sk-card"><div class="sk-spr"></div><div class="sk-line w60"></div><div class="sk-line w80"></div></div>
+      <div class="sk-card"><div class="sk-spr"></div><div class="sk-line w60"></div><div class="sk-line w80"></div></div>
+      <div class="sk-card"><div class="sk-spr"></div><div class="sk-line w60"></div><div class="sk-line w80"></div></div>
+      <div class="sk-card"><div class="sk-spr"></div><div class="sk-line w60"></div><div class="sk-line w80"></div></div>
+      <div class="sk-card"><div class="sk-spr"></div><div class="sk-line w60"></div><div class="sk-line w80"></div></div>
+      <div class="sk-card"><div class="sk-spr"></div><div class="sk-line w60"></div><div class="sk-line w80"></div></div>
+      <div class="sk-card"><div class="sk-spr"></div><div class="sk-line w60"></div><div class="sk-line w80"></div></div>
+      <div class="sk-card"><div class="sk-spr"></div><div class="sk-line w60"></div><div class="sk-line w80"></div></div>
+    </div>
+  </div>
 </main>
 <button id="back-to-top" class="back-to-top" type="button" aria-label="回到页面顶部" title="回到页面顶部">
   <span aria-hidden="true">↑</span>回到顶部
 </button>
 <div id="popup-mask" class="popup-mask hidden"><div id="popup" class="popup"></div></div>
-<script src="data/data.js?v=096553bb"></script>
+<script src="data/data.js?v=94757df2"></script>
 <script>window.SPRITE_VER="9d1bcb35"</script>
-<script src="app.js?v=bfb10ea8"></script>
+<script src="app.js?v=e1d84de7"></script>
 <script src="pwa.js?v=6b8f390d"></script>
 </body>
 </html>
