@@ -495,7 +495,7 @@ function route() {
   else if (h.startsWith("#/moves")) renderMoves();
   else if (h.startsWith("#/abilities")) renderAbilities();
   else if (h.startsWith("#/items")) renderItems();
-  else if (h.startsWith("#/card")) renderCardMaker();
+  else if (h.startsWith("#/card")) renderCardMaker(/^#\/card\/(\d+)/.exec(h)?.[1]);
   else if (h.startsWith("#/types")) renderTypes();
   else renderHome();
   if (saved != null) requestAnimationFrame(() => window.scrollTo({ top: SCROLL_BY_HASH[h] || 0, behavior: "instant" }));
@@ -857,6 +857,7 @@ function renderPokemon(id) {
         <div class="nm">${esc(speciesName(s))}</div>
         ${s.formLabel ? `<div style="margin-top:6px"><span class="pill small" style="background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.45)">${esc(s.formLabel)}</span></div>` : ""}
         <div class="types">${typePills(s.types)}</div>
+        <a class="hero-card-btn" href="#/card/${s.id}">✦ 自制卡牌</a>
       </div>
     </div>
 
@@ -1608,7 +1609,9 @@ function cmRefresh() {
   mountSprites($("#cm-cur"));
   cmDraw();
 }
-function renderCardMaker() {
+function renderCardMaker(speciesId) {
+  // 从详情页「自制卡牌」按钮进入 (#/card/<id>): 显式切到该宝可梦
+  if (speciesId && SPECIES_BY_ID[+speciesId] && +speciesId !== cardState.sp) cmSelectSpecies(+speciesId);
   if (!cardState.sp || !SPECIES_BY_ID[cardState.sp]) cmSelectSpecies(cmDefaultSpecies());
   app.innerHTML = `
     <div class="page-title">自制卡牌</div>
