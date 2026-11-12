@@ -1063,7 +1063,7 @@ gMoveAnimations:
 .word ANIM_HURRICANE	@MOVE_GIANTTORNADO
 .word ANIM_MOONBLAST	@MOVE_MOONFEATHER
 .word ANIM_HORNLEECH	@MOVE_ULTIMATESWALLOW
-.word ANIM_HYDROPUMP	@MOVE_FORTUNEWASH
+.word ANIM_FORTUNEWASH	@MOVE_FORTUNEWASH
 .word ANIM_REFRACTGEM	@MOVE_REFRACTGEM
 .word ANIM_EXTREMESKYMETEOR	@MOVE_EXTREMESKYMETEOR
 .word ANIM_SUNSHINEMIASMA	@MOVE_SUNSHINEMIASMA
@@ -32000,6 +32000,89 @@ ANIM_REFRACTGEM:
 	waitanimation
 	pokespritefromBG side_target
 	endanimation
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@洗来运转：卷起漩涡冲击对手。会先夺取对手已提升的能力变化，再进行攻击。 署名WUHEALTHY
+ANIM_FORTUNEWASH:
+	loadparticle ANIM_TAG_WATER_ORB @水蓝配色
+	loadparticle ANIM_TAG_ORBS @漩涡水环
+	loadparticle ANIM_TAG_FOCUS_ENERGY @夺取的能力星光
+	loadparticle ANIM_TAG_GOLD_STARS @幸运金星配色
+	loadparticle ANIM_TAG_IMPACT @命中弹坑
+	pokespritetoBG side_target
+	leftopponentbankBG_over_partnerBG 0x1
+	setblends 0x80c
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0xD 0x0 @;背景变暗
+	waitanimation
+	@漩涡在对手身上旋转清洗
+	playsoundpanchange 0xc5 SOUND_PAN_TARGET SOUND_PAN_ATTACKER 0xfd 0x0 @;夺走音效(目标→攻击方)
+	pause 0xf
+	launchtemplate FW_WASHCIRCLE TEMPLATE_TARGET | 2, 0x2 0xfff4 0x18
+	pause 0xB
+	waitanimation
+	@夺取对手已提升的能力：金星涌向攻击方
+	playsound2 0xa4 SOUND_PAN_ATTACKER @;能力提升音效
+	call FW_FORTUNE_BUFF
+	pause 0x8
+	launchtask AnimTask_move_bank_2 0x2 0x5 0x0 0x1 0x0 0x20 0x1 @;攻击方前倾蓄势
+	call FW_FORTUNE_BUFF
+	pause 0x8
+	call FW_FORTUNE_BUFF
+	waitanimation
+	@漩涡高速冲击对手
+	stopmusic
+	playsound2 0x9d SOUND_PAN_ATTACKER @;水压音
+	launchtemplate FW_WASHORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0x0 0xFF90 0x10 @;八方向水珠汇聚(原始波涛同款)
+	launchtemplate FW_WASHORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0x5F 0xFF9D 0x10
+	launchtemplate FW_WASHORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0x73 0x0 0x10
+	launchtemplate FW_WASHORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0x4F 0x37 0x10
+	launchtemplate FW_WASHORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0x0 0x53 0x10
+	launchtemplate FW_WASHORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0xFFB0 0x43 0x10
+	launchtemplate FW_WASHORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0xFF60 0x0 0x10
+	launchtemplate FW_WASHORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0xFFAA 0xFF94 0x10
+	pause 0x5
+	launchtemplate FW_WASHORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0x2D 0xFF9D 0x10
+	launchtemplate FW_WASHORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0xDF 0xFF9D 0x10
+	launchtemplate FW_WASHORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0x9F 0x37 0x10
+	launchtemplate FW_WASHORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0x1F 0x37 0x10
+	launchtemplate FW_WASHORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0xFFE0 0x43 0x10
+	launchtemplate FW_WASHORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0xFF60 0x43 0x10
+	launchtemplate FW_WASHORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0xFF2A 0xFFAA 0x10
+	launchtemplate FW_WASHORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0xFFDA 0xFF94 0x10
+	waitanimation
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0xf 0x1
+	launchtemplate FW_WASHHIT 0x83 0x4 0xffb0 0xfff0 0x1 0x1 @;水花命中(原始波涛同款)
+	playsound2 0xaa SOUND_PAN_TARGET
+	pause 0x4
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0xA 0x0 0x1 0x1
+	playsound2 0xaa SOUND_PAN_TARGET
+	pause 0x4
+	launchtemplate FW_WASHHIT 0x83 0x4 0x10 0x10 0x1 0x1
+	waitanimation
+	resetblends
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0xD 0x0 0x0 @;还原背景
+	waitanimation
+	pokespritefromBG side_target
+	endanimation
+
+FW_FORTUNE_BUFF:
+	launchtemplate FW_FORTUNE_STAR 0x2 0x4 0x0 0xffe8 0x1a 0x2
+	pause 0x4
+	launchtemplate FW_FORTUNE_STAR 0x2 0x4 0x0 0xe 0x1c 0x1
+	pause 0x4
+	launchtemplate FW_FORTUNE_STAR 0x2 0x4 0x0 0xfffb 0xa 0x2
+	pause 0x4
+	launchtemplate FW_FORTUNE_STAR 0x2 0x4 0x0 0x1c 0x1a 0x3
+	pause 0x4
+	launchtemplate FW_FORTUNE_STAR 0x2 0x4 0x0 0xfff4 0x0 0x1
+	return
+
+.align 2
+FW_WASHCIRCLE: objtemplate ANIM_TAG_ORBS ANIM_TAG_WATER_ORB OAM_DOUBLE_16x16 0x83E2A40 0x0 0x83E2D4C 0x80A3099
+FW_FORTUNE_STAR: objtemplate ANIM_TAG_FOCUS_ENERGY ANIM_TAG_GOLD_STARS OAM_OFF_16x32 0x83E3600 0x0 gDummySpriteAffineAnimTable 0x80A5AD9
+FW_WASHORB: objtemplate ANIM_TAG_ORBS ANIM_TAG_WATER_ORB OAM_NORMAL_BLEND_16x16 0x83E2A40 0x0 gDummySpriteAffineAnimTable 0x80A4299
+FW_WASHHIT: objtemplate ANIM_TAG_IMPACT ANIM_TAG_WATER_ORB OAM_NORMAL_BLEND_32x32 gDummySpriteAnimTable 0x0 0x83E7BF8 0x80BA561
+
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
 .align 2
