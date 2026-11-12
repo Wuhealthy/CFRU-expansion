@@ -1577,7 +1577,7 @@ def beautify_sprite(im):
 
 def smooth_sprite(im, n=SPR_SMOOTH_N):
     """像素 → 去像素: BICUBIC 放大让色块内部保持原色清晰、像素边界平滑过渡, 轻锐化回轮廓"""
-    from PIL import ImageFilter
+    from PIL import Image, ImageFilter
     im = im.convert("RGBA")  # P+透明索引 源图先转 RGBA, 否则取不到 A 通道
     n_px = 64 * n
     rgb = im.convert("RGB").resize((n_px, n_px), Image.BICUBIC)

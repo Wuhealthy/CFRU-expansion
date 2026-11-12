@@ -1139,7 +1139,8 @@ D.tms.forEach(t => { if (TM_LABELS[t.move] == null) TM_LABELS[t.move] = t.label;
 
 const CARD_W = 660, CARD_H = 924, CARD_SCALE = 2;
 const CM_SPLIT_COLOR = { "物理": "#d9534f", "特殊": "#3d7dca", "变化": "#8a8f98" };
-const cardState = { sp: 0, ability: null, moves: [], shiny: false };
+const cardState = { sp: 0, ability: null, moves: [], shiny: false,
+  customAbility: null, customMoves: [] };
 let cmRegions = [], cmSprJob = 0, cmFlashTimer = 0;
 const cmPoolCache = {};
 
@@ -1171,15 +1172,25 @@ function cmMovepool(s) {
 function cmCardData() {
   const s = SPECIES_BY_ID[cardState.sp];
   const megaMap = MEGA_MOVE_MAP[s.id] || {};
-  const moves = cardState.moves.slice(0, 4).map(mid => {
+  const stockMoves = cardState.moves.slice(0, 4).map(mid => {
     const to = megaMap[mid];
-    return { mid: to || mid, from: to ? mid : 0 };
+    return { mid: to || mid, from: to ? mid : 0, custom: false };
   });
-  return {
-    s, moves,
-    ability: cardState.ability != null ? ABIL_BY_ID[cardState.ability] : null,
-    hidden: cardState.ability != null && s.hidden.includes(cardState.ability),
-  };
+  const customMoves = cardState.customMoves
+    .filter(m => m && m.name.trim())
+    .map(m => ({ mid: 0, from: 0, custom: true, data: {
+      zh: m.name, split: m.split || "物理", type: +m.type || 0,
+      power: +m.power || 0, acc: m.acc ? +m.acc : "—", desc: m.desc || ""
+    }}));
+  const moves = [...stockMoves, ...customMoves].slice(0, 4);
+  let ability = null, hidden = false;
+  if (cardState.customAbility && cardState.customAbility.name.trim()) {
+    ability = { zh: cardState.customAbility.name, desc: cardState.customAbility.desc || "", custom: true };
+  } else if (cardState.ability != null) {
+    ability = ABIL_BY_ID[cardState.ability];
+    hidden = s.hidden.includes(cardState.ability);
+  }
+  return { s, moves, ability, hidden };
 }
 /* 弱点: 全部 ≥2 倍的攻击属性 (倍率高者在前), 卡面底栏逐个列出, 一行最多 3 个 */
 function cmWeaknesses(s) {
@@ -1367,7 +1378,7 @@ function cmDrawBase(ctx, d, regions) {
   const nameX = M + 8;
   const descMaxW = CARD_W - M - 20 - nameX;
   const descLines = (mv, maxN) => {
-    const m = MOVE_BY_ID[mv.mid];
+    const m = mv.custom ? mv.data : MOVE_BY_ID[mv.mid];
     if (!m || !m.desc) return [];
     ctx.font = cmFont(12.5);
     return cmWrap(ctx, cmT(m.desc), descMaxW, maxN);
@@ -1389,7 +1400,7 @@ function cmDrawBase(ctx, d, regions) {
   const rowTops = [];
   { let ty = y; rowHs.forEach(h => { rowTops.push(ty); ty += h; }); }
   moves.forEach((mv, i) => {
-    const m = MOVE_BY_ID[mv.mid];
+    const m = mv.custom ? mv.data : MOVE_BY_ID[mv.mid];
     if (!m) return;
     const ry = rowTops[i];
     if (i) {
@@ -1442,7 +1453,7 @@ function cmDrawBase(ctx, d, regions) {
     ctx.fillText(dmg, CARD_W - M - 16, ry + 28);
     ctx.textAlign = "left";
     cmShadowText(ctx, false);
-    if (regions) regions.push({ x: M, y: ry, w: CARD_W - M * 2, h: rowHs[i], act: "move", mid: mv.mid });
+    if (regions) regions.push({ x: M, y: ry, w: CARD_W - M * 2, h: rowHs[i], act: mv.custom ? "customMove" : "move", mid: mv.mid });
   });
   y += rowHs.reduce((a, b) => a + b, 0) + 6;
 
@@ -1529,6 +1540,8 @@ window.cmDownload = function () {
   });
 };
 window.cmReset = function () {
+  cardState.customAbility = null;
+  cardState.customMoves = [];
   cmSelectSpecies(cmDefaultSpecies());
   cmRefresh();
 };
@@ -1576,13 +1589,17 @@ function cmRefresh() {
     </div>`;
   }).join("") : '<div class="cm-empty">该宝可梦没有特性</div>';
   const megaMap = MEGA_MOVE_MAP[s.id] || {};
-  $("#cm-mv-count").textContent = `已选 ${cardState.moves.length} / 4`;
-  $("#cm-chips").innerHTML = cardState.moves.length
-    ? cardState.moves.map((mid, i) => {
-        const disp = MOVE_BY_ID[megaMap[mid] || mid] || MOVE_BY_ID[mid];
-        return `<span class="cm-chip" title="点击移除" onclick="cmToggleMove(${mid})"><i>${i + 1}</i>${esc(disp.zh)}${megaMap[mid] ? " ✦" : ""}<u>✕</u></span>`;
-      }).join("")
-    : '<span class="cm-empty">尚未选择招式</span>';
+  const customCnt = cardState.customMoves.filter(m => m && m.name.trim()).length;
+  $("#cm-mv-count").textContent = `已选 ${cardState.moves.length + customCnt} / 4`;
+  const chipsParts = cardState.moves.map((mid, i) => {
+    const disp = MOVE_BY_ID[megaMap[mid] || mid] || MOVE_BY_ID[mid];
+    return `<span class="cm-chip" title="点击移除" onclick="cmToggleMove(${mid})"><i>${i + 1}</i>${esc(disp.zh)}${megaMap[mid] ? " ✦" : ""}<u>✕</u></span>`;
+  });
+  cardState.customMoves.forEach((m, i) => {
+    if (!m || !m.name.trim()) return;
+    chipsParts.push(`<span class="cm-chip cm-chip-custom" title="点击移除" onclick="cmRemoveCustomMove(${i})"><i>${cardState.moves.length + i + 1}</i>${esc(m.name)}<u>✕</u></span>`);
+  });
+  $("#cm-chips").innerHTML = chipsParts.length ? chipsParts.join("") : '<span class="cm-empty">尚未选择招式</span>';
   const q = toHans($("#cm-mq").value.trim()).toLowerCase();
   const rows = cmMovepool(s).filter(({ mid }) => {
     const m = MOVE_BY_ID[mid];
@@ -1606,9 +1623,82 @@ function cmRefresh() {
     notes.push(`<div>✦ ${esc(speciesName(s))}是超级进化宝可梦：招式表中「变化前」的招式在卡面上会自动显示为对应的超级进化招式。</div>`);
   notes.push(`<div>点击卡面：图片切换闪光形态，特性 / 招式区域可查看详情。</div>`);
   $("#cm-note").innerHTML = notes.join("");
+  const cabN = $("#cm-cab-name"), cabD = $("#cm-cab-desc");
+  if (cabN && cabD) {
+    const ca = cardState.customAbility;
+    const nv = ca ? ca.name : "", dv = ca ? ca.desc : "";
+    if (cabN.value !== nv) cabN.value = nv;
+    if (cabD.value !== dv) cabD.value = dv;
+  }
+  cmRefreshCustomMoves();
   mountSprites($("#cm-cur"));
   cmDraw();
 }
+function cmRefreshCustomMoves() {
+  const box = $("#cm-custom-mvs");
+  if (!box) return;
+  const typeOpts = TYPES_SHOWN.map(t => `<option value="${t.id}">${esc(t.zh)}</option>`).join("");
+  const splits = ["物理", "特殊", "变化"];
+  box.innerHTML = cardState.customMoves.map((m, i) => `
+    <div class="cm-cmv-row">
+      <div class="cm-cmv-head">
+        <input class="cm-input" placeholder="招式名称" value="${esc(m.name || "")}" oninput="cmEditCustomMove(${i},'name',this.value)">
+        <button type="button" class="cm-btn ghost cm-mini" onclick="cmRemoveCustomMove(${i})">✕</button>
+      </div>
+      <div class="cm-cmv-fields">
+        <select class="cm-input" onchange="cmEditCustomMove(${i},'type',this.value)">
+          <option value="">属性</option>${typeOpts}
+        </select>
+        <select class="cm-input" onchange="cmEditCustomMove(${i},'split',this.value)">
+          <option value="">分类</option>${splits.map(s => `<option value="${s}">${s}</option>`).join("")}
+        </select>
+        <input class="cm-input cm-num" type="number" placeholder="威力" value="${esc(m.power || "")}" oninput="cmEditCustomMove(${i},'power',this.value)">
+        <input class="cm-input cm-num" type="number" placeholder="命中" value="${esc(m.acc || "")}" oninput="cmEditCustomMove(${i},'acc',this.value)">
+      </div>
+      <textarea class="cm-input" placeholder="招式描述" rows="2" oninput="cmEditCustomMove(${i},'desc',this.value)">${esc(m.desc || "")}</textarea>
+    </div>`).join("");
+  cardState.customMoves.forEach((m, i) => {
+    const row = box.children[i];
+    if (!row) return;
+    const sels = row.querySelectorAll("select");
+    if (sels[0] && m.type) sels[0].value = m.type;
+    if (sels[1] && m.split) sels[1].value = m.split;
+  });
+  const addBtn = $("#cm-cmv-add");
+  if (addBtn) addBtn.style.display = cardState.customMoves.length >= 4 ? "none" : "";
+  const cntEl = $("#cm-cmv-count");
+  if (cntEl) cntEl.textContent = `${cardState.customMoves.length} / 4`;
+}
+window.cmOnCustomAbility = function () {
+  const n = $("#cm-cab-name"), d = $("#cm-cab-desc");
+  if (!n || !d) return;
+  const nv = n.value.trim();
+  cardState.customAbility = nv ? { name: nv, desc: d.value } : null;
+  cmDraw();
+};
+window.cmClearCustomAbility = function () {
+  cardState.customAbility = null;
+  const n = $("#cm-cab-name"), d = $("#cm-cab-desc");
+  if (n) n.value = "";
+  if (d) d.value = "";
+  cmDraw();
+};
+window.cmAddCustomMove = function () {
+  if (cardState.customMoves.length >= 4) return;
+  cardState.customMoves.push({ name: "", type: 0, split: "物理", power: 0, acc: "", desc: "" });
+  cmRefreshCustomMoves();
+  cmDraw();
+};
+window.cmRemoveCustomMove = function (i) {
+  cardState.customMoves.splice(i, 1);
+  cmRefreshCustomMoves();
+  cmDraw();
+};
+window.cmEditCustomMove = function (i, field, v) {
+  if (!cardState.customMoves[i]) return;
+  cardState.customMoves[i][field] = v;
+  cmDraw();
+};
 function renderCardMaker(speciesId) {
   // 从详情页「自制卡牌」按钮进入 (#/card/<id>): 显式切到该宝可梦
   if (speciesId && SPECIES_BY_ID[+speciesId] && +speciesId !== cardState.sp) cmSelectSpecies(+speciesId);
@@ -1633,6 +1723,19 @@ function renderCardMaker(speciesId) {
           <div class="cm-chips" id="cm-chips"></div>
           ${searchBox("cm-mq", "在招式表中筛选…", "")}
           <div class="cm-mv-list" id="cm-mv-list"></div>
+        </section>
+        <section>
+          <div class="cm-title">④ 自定义特性 <span class="cm-count">填写后覆盖既有特性</span></div>
+          <div class="cm-custom-ab">
+            <input class="cm-input" id="cm-cab-name" placeholder="特性名称（如：钢铁意志）" oninput="cmOnCustomAbility()">
+            <textarea class="cm-input" id="cm-cab-desc" placeholder="特性描述文本" rows="2" oninput="cmOnCustomAbility()"></textarea>
+            <button type="button" class="cm-btn ghost cm-mini" onclick="cmClearCustomAbility()">清除自定义特性</button>
+          </div>
+        </section>
+        <section>
+          <div class="cm-title">⑤ 自定义招式 <span class="cm-count" id="cm-cmv-count"></span></div>
+          <div id="cm-custom-mvs"></div>
+          <button type="button" class="cm-btn ghost cm-mini cm-add-btn" id="cm-cmv-add" onclick="cmAddCustomMove()">+ 添加自定义招式</button>
         </section>
       </div>
       <div class="cm-preview">
@@ -1672,7 +1775,7 @@ function renderCardMaker(speciesId) {
       if (x >= rg.x && x < rg.x + rg.w && cy >= rg.y && cy < rg.y + rg.h) {
         if (rg.act === "shiny") { cardState.shiny = !cardState.shiny; cmDraw(); }
         else if (rg.act === "move") showMovePopup(rg.mid);
-        else if (rg.act === "ability" && cardState.ability != null) showAbilityPopup(cardState.ability);
+        else if (rg.act === "ability" && cardState.ability != null && !(cardState.customAbility && cardState.customAbility.name.trim())) showAbilityPopup(cardState.ability);
         break;
       }
     }
