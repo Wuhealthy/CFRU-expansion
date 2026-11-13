@@ -10,7 +10,6 @@ const CORE_FILES = [
   "./manifest.webmanifest",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
-  "./data/data.js",
   "./sprites/manifest.json",
 ];
 const BUNDLE_BATCH = 16;  // bundle 数量少 (~25 个) 单个大, 16 个并行加速; github.io 是 HTTP/2 单连接多路复用
@@ -120,10 +119,24 @@ self.addEventListener("fetch", event => {
   if (new URL(request.url).searchParams.has("__bypass")) return;  // 页面的更新检查: 绕过缓存直连网络
 
   const url = new URL(request.url);
+  const isDataJS = url.pathname.endsWith("/data/data.js");
   const isCoreFile = /\.(js|css|html|webmanifest)$/.test(url.pathname);
 
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
+    if (isDataJS) {
+      // data.js (2MB): stale-while-revalidate — 先返回缓存秒开, 后台更新
+      const cached = await cache.match(request, { ignoreSearch: true });
+      if (cached) {
+        fetch(request).then(resp => { if (resp.ok) cache.put(request, resp.clone()); }).catch(() => {});
+        return cached;
+      }
+      try {
+        const response = await fetch(request);
+        if (response.ok) { await cache.put(request, response.clone()); return response; }
+      } catch (e) {}
+      throw new Error("data.js unavailable");
+    }
     if (isCoreFile) {
       try {
         const response = await fetch(request);

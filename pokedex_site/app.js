@@ -2774,6 +2774,32 @@ function gachaRandomRarity() {
   for (const rar of GACHA_RARITIES) { acc += rar.prob; if (r < acc) return rar; }
   return GACHA_RARITIES[0];
 }
+function gachaRarityForSpecies(s) {
+  let maxBst = statTotal(s);
+  for (const eid of (evoAdj[s.id] || [])) {
+    const t = SPECIES_BY_ID[eid];
+    if (t && (t.formKind === "mega" || t.formKind === "giga" || t.formKind === "awaken")) {
+      const bst = statTotal(t);
+      if (bst > maxBst) maxBst = bst;
+    }
+  }
+  if (maxBst >= 680) return "EX";
+  if (maxBst >= 580) return "UR";
+  if (maxBst >= 480) return "SR";
+  if (maxBst >= 380) return "R";
+  return "N";
+}
+function gachaBestFormId(s) {
+  let bestId = s.id, bestBst = statTotal(s);
+  for (const eid of (evoAdj[s.id] || [])) {
+    const t = SPECIES_BY_ID[eid];
+    if (t && (t.formKind === "mega" || t.formKind === "giga" || t.formKind === "awaken")) {
+      const bst = statTotal(t);
+      if (bst > bestBst) { bestBst = bst; bestId = eid; }
+    }
+  }
+  return bestId;
+}
 function gachaRandomSpecies() {
   const pool = DEX_SEQ.filter(s => s.dex > 0 && s.isDefault);
   return pool[Math.floor(Math.random() * pool.length)];
@@ -2782,7 +2808,46 @@ function gachaRandomAbility(s) {
   const all = s.abilities.concat(s.hidden);
   return all.length ? all[Math.floor(Math.random() * all.length)] : null;
 }
-function gachaRandomMoves(s) {
+const GACHA_ABILITY_TYPE_EN = {
+  OVERGROW: "GRASS", BLAZE: "FIRE", TORRENT: "WATER", SWARM: "BUG",
+  DRIZZLE: "WATER", DROUGHT: "FIRE", SNOWWARNING: "ICE", SANDSTREAM: "ROCK",
+  SWIFTSWIM: "WATER", CHLOROPHYLL: "GRASS", SLUSHRUSH: "ICE", SANDRUSH: "GROUND",
+  WATERABSORB: "WATER", VOLTABSORB: "ELECTRIC", FLASHFIRE: "FIRE",
+  AERILATE: "FLYING", PIXILATE: "FAIRY", GALVANIZE: "ELECTRIC", REFRIGERATE: "ICE",
+  IRONFIST: "FIGHTING", SHARPNESS: "STEEL", POISONTOUCH: "POISON",
+  LEAFGUARD: "GRASS", FLOWERGIFT: "GRASS",
+};
+const GACHA_MOVE_COMBOS = [
+  [["SUNNYDAY", "RAINDANCE", "SANDSTORM", "HAIL", "CHILLYRECEPTION"], ["WEATHERBALL"]],
+  [["HYPNOSIS", "SING", "SLEEPPOWDER", "SPORE", "YAWN"], ["SLEEPTALK", "SNORE", "DREAMEATER"]],
+  [["SUBSTITUTE"], ["REVERSAL", "FLAIL", "FOCUSPUNCH"]],
+  [["BELLYDRUM"], ["REVERSAL", "FLAIL", "SHELLSMASH"]],
+  [["CURSE"], ["PAYBACK"]],
+  [["STOCKPILE"], ["SPITOUT", "SWALLOW"]],
+  [["TAILWIND"], ["ACROBATICS"]],
+  [["TRICKROOM"], ["LOWKICK", "GRASSKNOT"]],
+];
+function gachaHasStab(s, moves) {
+  return moves.some(mid => { const m = MOVE_BY_ID[mid]; return m && m.power > 1 && s.types.includes(m.type); });
+}
+function gachaHasAbilityCombo(s, moves, abilityId) {
+  if (!abilityId) return false;
+  const abil = ABIL_BY_ID[abilityId];
+  if (!abil || !abil.en) return false;
+  const typeEn = GACHA_ABILITY_TYPE_EN[abil.en];
+  if (!typeEn) return false;
+  const type = D.types.find(t => t.en === typeEn);
+  if (!type) return false;
+  return moves.some(mid => { const m = MOVE_BY_ID[mid]; return m && m.power > 1 && m.type === type.id; });
+}
+function gachaHasMoveCombo(moves) {
+  const ens = new Set(moves.map(mid => MOVE_BY_ID[mid] && MOVE_BY_ID[mid].en).filter(Boolean));
+  return GACHA_MOVE_COMBOS.some(([as, bs]) => ens.some(e => as.includes(e)) && ens.some(e => bs.includes(e)));
+}
+function gachaMovesOk(s, moves, abilityId) {
+  return gachaHasStab(s, moves) || gachaHasAbilityCombo(s, moves, abilityId) || gachaHasMoveCombo(moves);
+}
+function gachaRandomMoves(s, abilityId) {
   const pool = cmMovepool(s);
   const megaMap = MEGA_MOVE_MAP[s.id] || {};
   const megaKeys = Object.keys(megaMap).map(Number);
@@ -2790,16 +2855,28 @@ function gachaRandomMoves(s) {
   if (megaKeys.length) moves.push(megaKeys[Math.floor(Math.random() * megaKeys.length)]);
   const rest = pool.filter(p => !moves.includes(p.mid)).sort(() => Math.random() - 0.5);
   for (const p of rest) { if (moves.length >= 4) break; moves.push(p.mid); }
+  if (!gachaMovesOk(s, moves, abilityId)) {
+    for (const p of pool) {
+      if (moves.includes(p.mid)) continue;
+      const test = moves.slice(0, -1); test.push(p.mid);
+      if (gachaMovesOk(s, test, abilityId)) { moves[moves.length - 1] = p.mid; break; }
+    }
+  }
   return moves;
 }
 function gachaDrawCount() { return parseInt(localStorage.getItem("pkdx_gacha_" + dailyDateKey()) || "0"); }
 function gachaIncrDrawCount() { localStorage.setItem("pkdx_gacha_" + dailyDateKey(), String(gachaDrawCount() + 1)); }
 function gachaLoadAlbum() { try { return JSON.parse(localStorage.getItem(GACHA_ALBUM_KEY) || "[]"); } catch (e) { return []; } }
 function gachaSaveAlbum(a) { localStorage.setItem(GACHA_ALBUM_KEY, JSON.stringify(a)); }
-function gachaHasDiamond(id) { return gachaLoadAlbum().some(c => c.id === id && c.style === "diamond"); }
-function gachaHasRainbow(id) { return gachaLoadAlbum().some(c => c.id === id && c.style === "rainbow"); }
+const GACHA_REFUND = { N: 1, R: 1, SR: 1, UR: 3, EX: 5 };
+function gachaAlbumMatchDex(id) {
+  const sp = SPECIES_BY_ID[id], dex = sp ? sp.dex : -1;
+  return gachaLoadAlbum().filter(c => { const cs = SPECIES_BY_ID[c.id]; return cs && cs.dex === dex; });
+}
+function gachaHasDiamond(id) { return gachaAlbumMatchDex(id).some(c => c.style === "diamond"); }
+function gachaHasRainbow(id) { return gachaAlbumMatchDex(id).some(c => c.style === "rainbow"); }
 function gachaBestRarity(id) {
-  const cards = gachaLoadAlbum().filter(c => c.id === id);
+  const cards = gachaAlbumMatchDex(id);
   if (!cards.length) return null;
   const order = { EX: 4, UR: 3, SR: 2, R: 1, N: 0 };
   let best = null;
@@ -2931,7 +3008,7 @@ function renderGacha() {
   }
   app.innerHTML = `<div class="gacha-page">
     <div class="page-title">抽卡模拟器</div>
-    <div class="page-sub">每天 ${GACHA_FREE_DAILY} 次免费抽卡，五阶稀有度：⚪N(60%) 🔵R(30%) 🟡SR(8%) 🌈UR(1.5%) 💎EX(0.5%)。抽到彩卡/钻石卡触发全屏特效！</div>
+    <div class="page-sub">每天 ${GACHA_FREE_DAILY} 次免费抽卡，稀有度按种族值判定：💎EX(≥680) 🌈UR(≥580或超进化/超极巨/觉醒) 🟡SR(≥480) 🔵R(≥380) ⚪N(&lt;380)。UR/EX触发全屏特效！</div>
     <div class="gacha-remain">今日剩余 <b>${Math.max(0, remain)}</b> 次 · <a href="#/album">我的卡包 (${gachaLoadAlbum().length})</a></div>
     ${stageHtml}
     ${remain <= 0 && !c && !c10 ? '<div class="gacha-out">今天的机会用完了，明天再来吧！</div>' : ""}
@@ -2951,9 +3028,12 @@ function renderGacha() {
 }
 window.gachaDraw = function () {
   if (gachaDrawCount() >= GACHA_FREE_DAILY) return;
-  const rar = gachaRandomRarity();
   const s = gachaRandomSpecies();
-  gachaCurrent = { spId: s.id, rarity: rar.key, style: rar.style, label: "★ 抽卡获得 · " + rar.label, abilityId: gachaRandomAbility(s), moveIds: gachaRandomMoves(s), revealed: false };
+  const formId = gachaBestFormId(s);
+  const formSp = SPECIES_BY_ID[formId];
+  const rar = GACHA_RARITIES.find(r => r.key === gachaRarityForSpecies(s));
+  const abilityId = gachaRandomAbility(formSp);
+  gachaCurrent = { spId: formId, rarity: rar.key, style: rar.style, label: "★ 抽卡获得 · " + rar.label, abilityId, moveIds: gachaRandomMoves(formSp, abilityId), revealed: false };
   gachaIncrDrawCount();
   renderGacha();
 };
@@ -2994,9 +3074,12 @@ window.gachaDraw10 = function () {
   gachaCurrent = null;
   gachaCurrent10 = [];
   for (let i = 0; i < 10; i++) {
-    const rar = gachaRandomRarity();
     const s = gachaRandomSpecies();
-    gachaCurrent10.push({ spId: s.id, rarity: rar.key, style: rar.style, label: "★ 抽卡获得 · " + rar.label, abilityId: gachaRandomAbility(s), moveIds: gachaRandomMoves(s), revealed: false });
+    const formId = gachaBestFormId(s);
+    const formSp = SPECIES_BY_ID[formId];
+    const rar = GACHA_RARITIES.find(r => r.key === gachaRarityForSpecies(s));
+    const abilityId = gachaRandomAbility(formSp);
+    gachaCurrent10.push({ spId: formId, rarity: rar.key, style: rar.style, label: "★ 抽卡获得 · " + rar.label, abilityId, moveIds: gachaRandomMoves(formSp, abilityId), revealed: false });
     gachaIncrDrawCount();
   }
   renderGacha();
@@ -3154,11 +3237,25 @@ window.gachaAlbumPopup = function (spId, style, rarity) {
       <span class="gacha-rarity gacha-rarity-${rarity}">${rar.icon} ${rar.label}</span>
       <button type="button" class="cm-btn" onclick="gachaAlbumDownload(${spId},'${style}','${rarity}')">⬇ 保存图片</button>
       <button type="button" class="cm-btn ghost" onclick="location.hash='#/p/${spId}'">查看图鉴</button>
+      <button type="button" class="cm-btn ghost" style="color:#d9534f" onclick="gachaAlbumDelete(${spId},'${style}','${rarity}')">🗑 删除（返还 ${GACHA_REFUND[rarity] || 1} 次）</button>
     </div>
   </div>`;
   document.body.appendChild(mask);
   mask.addEventListener("click", e => { if (e.target === mask) mask.remove(); });
   gachaDrawToCanvas(mask.querySelector("#album-popup-canvas"), spId, style, label, abilityId, moveIds);
+};
+window.gachaAlbumDelete = function (spId, style, rarity) {
+  const album = gachaLoadAlbum();
+  const idx = album.findIndex(c => c.id === spId && c.style === style);
+  if (idx < 0) return;
+  album.splice(idx, 1);
+  gachaSaveAlbum(album);
+  const refund = GACHA_REFUND[rarity] || 1;
+  const key = "pkdx_gacha_" + dailyDateKey();
+  localStorage.setItem(key, String(Math.max(0, parseInt(localStorage.getItem(key) || "0") - refund)));
+  const mask = document.querySelector(".album-popup-mask");
+  if (mask) mask.remove();
+  renderAlbum();
 };
 window.gachaAlbumDownload = function (spId, style, rarity) {
   const s = SPECIES_BY_ID[spId];
