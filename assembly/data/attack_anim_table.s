@@ -1060,7 +1060,7 @@ gMoveAnimations:
 .word ANIM_WINGATTACK	@MOVE_WINDROCKSTRIKE
 .word ANIM_CROSSPOISON	@MOVE_WEAKNESSPIERCE
 .word ANIM_IRONTAIL	@MOVE_CURRENTTAIL
-.word ANIM_HURRICANE	@MOVE_GIANTTORNADO
+.word ANIM_GIANTTORNADO	@MOVE_GIANTTORNADO
 .word ANIM_MOONFEATHER	@MOVE_MOONFEATHER
 .word ANIM_ULTIMATESWALLOW	@MOVE_ULTIMATESWALLOW
 .word ANIM_FORTUNEWASH	@MOVE_FORTUNEWASH
@@ -31807,6 +31807,69 @@ ANIM_CRIMSONSKY:
 	pokespritefromBG side_target
 	call UNSET_SCROLLING_BG
 	endanimation
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@;巨型龙卷风: 高速流云下强风卷起目标, 巨型龙卷成形吞没绞杀, 最后把目标砸落命中
+.global ANIM_GIANTTORNADO
+ANIM_GIANTTORNADO:
+	loadparticle ANIM_TAG_TORNADO
+	loadparticle ANIM_TAG_GUST
+	loadparticle ANIM_TAG_WHIRLWIND_LINES
+	loadparticle ANIM_TAG_IMPACT
+	pokespritetoBG side_target
+	leftbankBG_over_partnerBG bank_target
+	setblends 0x80c
+	loadBG1 BG_HIGH_SPEED
+	waitbgfadeout
+	launchtask AnimTask_scroll_background 0x5 0x4 0x1000 0x0 0x1 0xffff
+	waitbgfadein
+	@;强风卷起目标
+	playsound2 0x7d SOUND_PAN_TARGET
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0x40 0x1
+	call GT_GUST
+	pause 0xA
+	call GT_GUST
+	pause 0xA
+	@;巨型龙卷成形, 吞没目标(通用回调按0x80B563D三参格式: x偏移,y偏移,存活帧数, 参数只在启动时读取)
+	playsound2 0xE4 SOUND_PAN_TARGET
+	launchtemplate GT_TORNADO TEMPLATE_TARGET | 2, 0x3, 0x0 0x0 0x50
+	pause 0x18
+	call GT_WHIRL
+	pause 0x8
+	call GT_WHIRL
+	pause 0x8
+	call GT_WHIRL
+	pause 0x2C
+	@;目标砸落命中
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x4 0x48 0x1
+	playsound2 0x96 SOUND_PAN_TARGET
+	pause 0x8
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0x0 0x0 0x1 0x2
+	launchtask AnimTask_screen_shake 0x5 0x3 0x5 0x2 0x1
+	playsound2 0x9F SOUND_PAN_TARGET
+	waitanimation
+	pokespritefromBG side_target
+	resetblends
+	call UNSET_SCROLLING_BG
+	endanimation
+
+.align 2
+GT_TORNADO: objtemplate ANIM_TAG_TORNADO ANIM_TAG_TORNADO OAM_DOUBLE_64x64 gAnimCmdTable_Tornado 0x0 gSpriteAffineAnimTable_GrowingFist 0x80B563D @;通用回调(月之波动能量球/精神之刃同款), MaxWyrmwindTornado是极巨化专属回调,普通对战会闪退
+
+GT_GUST:
+	launchtemplate Template_EllipticalGust TEMPLATE_TARGET | 2, 0x2 0x0 0xfff0
+	launchtask AnimTask_AnimateGustTornadoPalette 0x5 0x2 0x1 0x46
+	return
+
+GT_WHIRL:
+	launchtemplate Template_WhirlwindLine TEMPLATE_TARGET | 3, 0x5 0x0 0xfff8 0x1 0x2c 0x0
+	launchtemplate Template_WhirlwindLine TEMPLATE_TARGET | 3, 0x5 0x0 0x0 0x1 0x3c 0x1
+	launchtemplate Template_WhirlwindLine TEMPLATE_TARGET | 3, 0x5 0x0 0x8 0x1 0x3c 0x2
+	launchtemplate Template_WhirlwindLine TEMPLATE_TARGET | 3, 0x5 0x0 0x10 0x1 0x3c 0x3
+	launchtemplate Template_WhirlwindLine TEMPLATE_TARGET | 3, 0x5 0x0 0x18 0x1 0x3c 0x4
+	launchtemplate Template_WhirlwindLine TEMPLATE_TARGET | 3, 0x5 0x0 0x20 0x1 0x3c 0x0
+	return
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
