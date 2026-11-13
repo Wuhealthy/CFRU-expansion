@@ -973,8 +973,7 @@ textarea.cm-input { resize: vertical; min-height: 36px; font-family: inherit; }
 .mon-card.mon-card-UR {
   border: 2px solid transparent;
   background-clip: padding-box;
-  box-shadow: 0 0 12px #c026d360;
-  border-image: linear-gradient(135deg, #ff0080, #ffa500, #00ff00, #0080ff, #8000ff) 1;
+  box-shadow: 0 0 12px #c026d360, inset 0 0 0 2px #c026d3;
 }
 .mon-card.mon-card-EX {
   border-color: #e0f2fe; box-shadow: 0 0 16px #e0f2fe80, inset 0 0 0 1px #94a3b8;
@@ -1016,6 +1015,4 @@ textarea.cm-input { resize: vertical; min-height: 36px; font-family: inherit; }
 }
 .album-popup-close:hover { background: rgba(255,255,255,.4); }
 .album-popup-info { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; }
-.album-popup-copies { display: inline-flex; align-items: center; gap: 8px; color: #fff; font-size: 14px; }
-.album-popup-copies .cm-btn { padding: 4px 10px; }
 

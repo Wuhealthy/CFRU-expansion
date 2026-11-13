@@ -3089,17 +3089,14 @@ function renderAlbum() {
     gachaDrawToCanvas(cv, it.id, it.style, "★ 抽卡获得 · " + rar.label, abilityId, moveIds);
   });
 }
-window.gachaAlbumPopup = function (spId, style, rarity, idx = 0) {
+window.gachaAlbumPopup = function (spId, style, rarity) {
   const s = SPECIES_BY_ID[spId];
   if (!s) return;
   const album = gachaLoadAlbum();
-  const cards = album.filter(c => c.id === spId && c.style === style);
-  if (!cards.length) return;
-  idx = Math.min(Math.max(idx, 0), cards.length - 1);
-  const card = cards[idx];
+  const card = album.find(c => c.id === spId && c.style === style);
   const rar = GACHA_RARITIES.find(r => r.key === rarity);
-  const abilityId = gachaCardAbility(s, card.abilityId);
-  const moveIds = gachaCardMoves(s, card.moveIds);
+  const abilityId = gachaCardAbility(s, card ? card.abilityId : null);
+  const moveIds = gachaCardMoves(s, card ? card.moveIds : null);
   const label = "★ 抽卡获得 · " + rar.label;
   const mask = document.createElement("div");
   mask.className = "album-popup-mask";
@@ -3108,25 +3105,20 @@ window.gachaAlbumPopup = function (spId, style, rarity, idx = 0) {
     <canvas id="album-popup-canvas" width="${CARD_W * CARD_SCALE}" height="${CARD_H * CARD_SCALE}"></canvas>
     <div class="album-popup-info">
       <span class="gacha-rarity gacha-rarity-${rarity}">${rar.icon} ${rar.label}</span>
-      ${cards.length > 1 ? `<span class="album-popup-copies">第 ${idx + 1}/${cards.length} 张
-        ${idx > 0 ? `<button type="button" class="cm-btn ghost" onclick="gachaAlbumPopup(${spId},'${style}','${rarity}',${idx - 1})">‹ 上一张</button>` : ""}
-        ${idx < cards.length - 1 ? `<button type="button" class="cm-btn ghost" onclick="gachaAlbumPopup(${spId},'${style}','${rarity}',${idx + 1})">下一张 ›</button>` : ""}
-      </span>` : ""}
-      <button type="button" class="cm-btn" onclick="gachaAlbumDownload(${spId},'${style}','${rarity}',${idx})">⬇ 保存图片</button>
+      <button type="button" class="cm-btn" onclick="gachaAlbumDownload(${spId},'${style}','${rarity}')">⬇ 保存图片</button>
       <button type="button" class="cm-btn ghost" onclick="location.hash='#/p/${spId}'">查看图鉴</button>
-      <button type="button" class="cm-btn ghost" style="color:#d9534f" onclick="gachaAlbumDelete(${spId},'${style}','${rarity}',${idx})">🗑 删除此张（返还 ${GACHA_REFUND[rarity] || 1} 次）</button>
+      <button type="button" class="cm-btn ghost" style="color:#d9534f" onclick="gachaAlbumDelete(${spId},'${style}','${rarity}')">🗑 删除（返还 ${GACHA_REFUND[rarity] || 1} 次）</button>
     </div>
   </div>`;
   document.body.appendChild(mask);
   mask.addEventListener("click", e => { if (e.target === mask) mask.remove(); });
   gachaDrawToCanvas(mask.querySelector("#album-popup-canvas"), spId, style, label, abilityId, moveIds);
 };
-window.gachaAlbumDelete = function (spId, style, rarity, idx = 0) {
+window.gachaAlbumDelete = function (spId, style, rarity) {
   const album = gachaLoadAlbum();
-  const cards = album.filter(c => c.id === spId && c.style === style);
-  if (!cards.length) return;
-  idx = Math.min(Math.max(idx, 0), cards.length - 1);
-  album.splice(album.indexOf(cards[idx]), 1);
+  const idx = album.findIndex(c => c.id === spId && c.style === style);
+  if (idx < 0) return;
+  album.splice(idx, 1);
   gachaSaveAlbum(album);
   const refund = GACHA_REFUND[rarity] || 1;
   const key = "pkdx_gacha_" + dailyDateKey();
@@ -3134,19 +3126,15 @@ window.gachaAlbumDelete = function (spId, style, rarity, idx = 0) {
   const mask = document.querySelector(".album-popup-mask");
   if (mask) mask.remove();
   renderAlbum();
-  if (cards.length > 1) gachaAlbumPopup(spId, style, rarity, Math.min(idx, cards.length - 2));
 };
-window.gachaAlbumDownload = function (spId, style, rarity, idx = 0) {
+window.gachaAlbumDownload = function (spId, style, rarity) {
   const s = SPECIES_BY_ID[spId];
   if (!s) return;
   const album = gachaLoadAlbum();
-  const cards = album.filter(c => c.id === spId && c.style === style);
-  if (!cards.length) return;
-  idx = Math.min(Math.max(idx, 0), cards.length - 1);
-  const card = cards[idx];
+  const card = album.find(c => c.id === spId && c.style === style);
   const rar = GACHA_RARITIES.find(r => r.key === rarity);
-  const abilityId = gachaCardAbility(s, card.abilityId);
-  const moveIds = gachaCardMoves(s, card.moveIds);
+  const abilityId = gachaCardAbility(s, card ? card.abilityId : null);
+  const moveIds = gachaCardMoves(s, card ? card.moveIds : null);
   const label = "★ 抽卡获得 · " + rar.label;
   const cv = document.createElement("canvas");
   cv.width = CARD_W * CARD_SCALE; cv.height = CARD_H * CARD_SCALE;
