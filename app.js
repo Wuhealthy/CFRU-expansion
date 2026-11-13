@@ -2775,16 +2775,30 @@ function gachaRandomRarity() {
   return GACHA_RARITIES[0];
 }
 function gachaRarityForSpecies(s) {
-  const bst = statTotal(s);
-  if (bst >= 680) return "EX";
-  const special = (evoAdj[s.id] || []).some(id => {
-    const t = SPECIES_BY_ID[id];
-    return t && (t.formKind === "mega" || t.formKind === "giga" || t.formKind === "awaken");
-  });
-  if (special || bst >= 580) return "UR";
-  if (bst >= 480) return "SR";
-  if (bst >= 380) return "R";
+  let maxBst = statTotal(s);
+  for (const eid of (evoAdj[s.id] || [])) {
+    const t = SPECIES_BY_ID[eid];
+    if (t && (t.formKind === "mega" || t.formKind === "giga" || t.formKind === "awaken")) {
+      const bst = statTotal(t);
+      if (bst > maxBst) maxBst = bst;
+    }
+  }
+  if (maxBst >= 680) return "EX";
+  if (maxBst >= 580) return "UR";
+  if (maxBst >= 480) return "SR";
+  if (maxBst >= 380) return "R";
   return "N";
+}
+function gachaBestFormId(s) {
+  let bestId = s.id, bestBst = statTotal(s);
+  for (const eid of (evoAdj[s.id] || [])) {
+    const t = SPECIES_BY_ID[eid];
+    if (t && (t.formKind === "mega" || t.formKind === "giga" || t.formKind === "awaken")) {
+      const bst = statTotal(t);
+      if (bst > bestBst) { bestBst = bst; bestId = eid; }
+    }
+  }
+  return bestId;
 }
 function gachaRandomSpecies() {
   const pool = DEX_SEQ.filter(s => s.dex > 0 && s.isDefault);
@@ -2855,10 +2869,14 @@ function gachaIncrDrawCount() { localStorage.setItem("pkdx_gacha_" + dailyDateKe
 function gachaLoadAlbum() { try { return JSON.parse(localStorage.getItem(GACHA_ALBUM_KEY) || "[]"); } catch (e) { return []; } }
 function gachaSaveAlbum(a) { localStorage.setItem(GACHA_ALBUM_KEY, JSON.stringify(a)); }
 const GACHA_REFUND = { N: 1, R: 1, SR: 1, UR: 3, EX: 5 };
-function gachaHasDiamond(id) { return gachaLoadAlbum().some(c => c.id === id && c.style === "diamond"); }
-function gachaHasRainbow(id) { return gachaLoadAlbum().some(c => c.id === id && c.style === "rainbow"); }
+function gachaAlbumMatchDex(id) {
+  const sp = SPECIES_BY_ID[id], dex = sp ? sp.dex : -1;
+  return gachaLoadAlbum().filter(c => { const cs = SPECIES_BY_ID[c.id]; return cs && cs.dex === dex; });
+}
+function gachaHasDiamond(id) { return gachaAlbumMatchDex(id).some(c => c.style === "diamond"); }
+function gachaHasRainbow(id) { return gachaAlbumMatchDex(id).some(c => c.style === "rainbow"); }
 function gachaBestRarity(id) {
-  const cards = gachaLoadAlbum().filter(c => c.id === id);
+  const cards = gachaAlbumMatchDex(id);
   if (!cards.length) return null;
   const order = { EX: 4, UR: 3, SR: 2, R: 1, N: 0 };
   let best = null;
@@ -3011,9 +3029,11 @@ function renderGacha() {
 window.gachaDraw = function () {
   if (gachaDrawCount() >= GACHA_FREE_DAILY) return;
   const s = gachaRandomSpecies();
+  const formId = gachaBestFormId(s);
+  const formSp = SPECIES_BY_ID[formId];
   const rar = GACHA_RARITIES.find(r => r.key === gachaRarityForSpecies(s));
-  const abilityId = gachaRandomAbility(s);
-  gachaCurrent = { spId: s.id, rarity: rar.key, style: rar.style, label: "★ 抽卡获得 · " + rar.label, abilityId, moveIds: gachaRandomMoves(s, abilityId), revealed: false };
+  const abilityId = gachaRandomAbility(formSp);
+  gachaCurrent = { spId: formId, rarity: rar.key, style: rar.style, label: "★ 抽卡获得 · " + rar.label, abilityId, moveIds: gachaRandomMoves(formSp, abilityId), revealed: false };
   gachaIncrDrawCount();
   renderGacha();
 };
@@ -3055,9 +3075,11 @@ window.gachaDraw10 = function () {
   gachaCurrent10 = [];
   for (let i = 0; i < 10; i++) {
     const s = gachaRandomSpecies();
+    const formId = gachaBestFormId(s);
+    const formSp = SPECIES_BY_ID[formId];
     const rar = GACHA_RARITIES.find(r => r.key === gachaRarityForSpecies(s));
-    const abilityId = gachaRandomAbility(s);
-    gachaCurrent10.push({ spId: s.id, rarity: rar.key, style: rar.style, label: "★ 抽卡获得 · " + rar.label, abilityId, moveIds: gachaRandomMoves(s, abilityId), revealed: false });
+    const abilityId = gachaRandomAbility(formSp);
+    gachaCurrent10.push({ spId: formId, rarity: rar.key, style: rar.style, label: "★ 抽卡获得 · " + rar.label, abilityId, moveIds: gachaRandomMoves(formSp, abilityId), revealed: false });
     gachaIncrDrawCount();
   }
   renderGacha();
