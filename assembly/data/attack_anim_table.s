@@ -1059,7 +1059,7 @@ gMoveAnimations:
 .word ANIM_AQUATAIL	@MOVE_RAGINGSURGE
 .word ANIM_WINGATTACK	@MOVE_WINDROCKSTRIKE
 .word ANIM_CROSSPOISON	@MOVE_WEAKNESSPIERCE
-.word ANIM_IRONTAIL	@MOVE_CURRENTTAIL
+.word ANIM_CURRENTTAIL	@MOVE_CURRENTTAIL
 .word ANIM_GIANTTORNADO	@MOVE_GIANTTORNADO
 .word ANIM_MOONFEATHER	@MOVE_MOONFEATHER
 .word ANIM_ULTIMATESWALLOW	@MOVE_ULTIMATESWALLOW
@@ -1270,6 +1270,49 @@ ANIM_THUNDERPUNCH:
 	waitanimation
 	launchtask AnimTask_pal_fade 0xa 0x5 PAL_DEF 0x2 0x9 0x0 0x07FE
 	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0xE 0x0 0x0
+	waitanimation
+	pokespritefromBG bank_target
+	resetblends
+	endanimation
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@;电流尾: 攻击方周身蓄起电圈, 后蹲蓄力冲刺, 电光尾巴抽击对手
+.global ANIM_CURRENTTAIL
+ANIM_CURRENTTAIL:
+	loadparticle ANIM_TAG_SPARK_2 @麻痹电花(PARALYZE_CHANCE_ANIM不自动加载,缺了会画乱码)
+	loadparticle ANIM_TAG_CIRCLE_OF_LIGHT
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_SLAM_HIT_2 @电尾横扫(铁尾同款抽击精灵,不自动加载,缺了会画乱码)
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_SLAM_HIT_2 0x2 0xC 0xC 0x079D @;黄光电尾
+	pokespritetoBG bank_target
+	setblends 0x80c
+	@;全身蓄电
+	playsound2 0xCE SOUND_PAN_ATTACKER
+	launchtemplate Template_GrowingShockWaveOrb 0x2 0x0 @周身电圈(狂野伏特同款)
+	pause 0x1e
+	waitanimation
+	soundcomplex 0x71 SOUND_PAN_ATTACKER 0x1c 0x2 @滋滋电流声
+	@;后蹲蓄力
+	playsound2 0x91 SOUND_PAN_ATTACKER
+	launchtemplate Template_VerticalDip 0x2 0x3 0x6 0x1 bank_attacker
+	waitanimation
+	pause 0xb
+	@;冲刺 + 电尾抽击
+	launchtemplate Template_SlideMonToOffset 0x2 0x5 bank_attacker 0x1a 0x0 0x0 0x5
+	pause 0x6
+	playsound2 0x84 SOUND_PAN_TARGET
+	launchtemplate Template_KnockOffStrike TEMPLATE_TARGET | 2, 0x2 0xfff0 0xfff0 @电尾横扫(铁尾同款抽击,染黄)
+	launchtemplate Template_Hit 0x83 0x4 0x0 0x0 0x1 0x1
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0xf 0x1
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_DEF 0x2 0x0 0x9 0x07FE @目标染上麻痹黄
+	pause 0x5
+	call PARALYZE_CHANCE_ANIM
+	waitanimation
+	@;收招归位
+	launchtemplate Template_SlideMonToOriginalPos 0x2 0x3 bank_attacker 0x0 0x5
+	waitanimation
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_DEF 0x2 0x9 0x0 0x07FE
 	waitanimation
 	pokespritefromBG bank_target
 	resetblends
