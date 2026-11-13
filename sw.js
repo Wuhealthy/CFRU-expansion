@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "pkdx-offline-fc33797f9e26";
+const CACHE_NAME = "pkdx-offline-c75d61f482df";
 const CORE_FILES = [
   "./",
   "./index.html",
@@ -119,8 +119,20 @@ self.addEventListener("fetch", event => {
   if (request.method !== "GET" || new URL(request.url).origin !== self.location.origin) return;
   if (new URL(request.url).searchParams.has("__bypass")) return;  // 页面的更新检查: 绕过缓存直连网络
 
+  const url = new URL(request.url);
+  const isCoreFile = /\.(js|css|html|webmanifest)$/.test(url.pathname);
+
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
+    if (isCoreFile) {
+      try {
+        const response = await fetch(request);
+        if (response.ok) { await cache.put(request, response.clone()); return response; }
+      } catch (e) {}
+      const cached = await cache.match(request, { ignoreSearch: true });
+      if (cached) return cached;
+      throw new Error("core file unavailable");
+    }
     const cached = await cache.match(request, { ignoreSearch: true });
     if (cached) return cached;
 
