@@ -965,3 +965,21 @@ textarea.cm-input { resize: vertical; min-height: 36px; font-family: inherit; }
 .nm-diamond {
   color: #e0f2fe; text-shadow: 0 0 4px #e0f2fe, 0 0 8px #94a3b8; font-weight: 700;
 }
+
+/* ---------------- 存档同步 ---------------- */
+.sync-page { max-width: 720px; margin: 0 auto; padding: 8px 0 40px; }
+.sync-page .page-sub { line-height: 1.8; margin-bottom: 20px; }
+.sync-section { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 22px; margin-bottom: 16px; }
+.sync-section-title { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 14px; }
+.sync-summary { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; margin-bottom: 12px; }
+.sync-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; background: var(--nav-hover); border-radius: 10px; }
+.sync-item-label { font-size: 14px; color: var(--muted); }
+.sync-item-val { font-size: 14px; font-weight: 600; color: var(--ink); }
+.sync-extra { font-size: 13px; color: var(--muted); }
+.sync-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.sync-actions label { cursor: pointer; }
+.sync-textarea { width: 100%; border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; font: inherit; font-size: 13px; color: var(--ink); background: var(--bg); resize: vertical; word-break: break-all; }
+.sync-textarea:focus { outline: none; border-color: var(--accent); }
+.sync-msg { margin-top: 10px; font-size: 14px; font-weight: 600; min-height: 20px; }
+.sync-msg.ok { color: #22c55e; }
+.sync-msg.err { color: var(--accent); }

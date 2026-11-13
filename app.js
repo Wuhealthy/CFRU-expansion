@@ -586,6 +586,7 @@ function route() {
   else if (h.startsWith("#/guess")) renderGuess();
   else if (h.startsWith("#/gacha")) renderGacha();
   else if (h.startsWith("#/album")) renderAlbum();
+  else if (h.startsWith("#/sync")) renderSync();
   else if (h.startsWith("#/card")) renderCardMaker(/^#\/card\/(\d+)/.exec(h)?.[1]);
   else if (h.startsWith("#/types")) renderTypes();
   else if (h.startsWith("#/features")) renderFeatures();
@@ -2937,4 +2938,138 @@ function renderAlbum() {
     <div class="album-grid">${gridHtml}</div>
   </div>`;
   mountSprites(app);
+}
+
+/* ---------------- 存档导出/导入 ----------------
+   收集所有 pkdx_ 前缀的 localStorage (收藏/主题/语言/图鉴视图/抽卡收集册/猜猜记录/每日弹窗等),
+   导出为 Base64 文本或下载 .json, 导入时写回 localStorage 实现跨设备同步. */
+const SYNC_PREFIX = "pkdx_";
+function syncCollect() {
+  const data = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && k.startsWith(SYNC_PREFIX)) data[k] = localStorage.getItem(k);
+  }
+  return data;
+}
+function syncExportB64() {
+  const json = JSON.stringify({ v: 1, ts: Date.now(), data: syncCollect() });
+  return btoa(unescape(encodeURIComponent(json)));
+}
+function syncImportB64(b64) {
+  const json = decodeURIComponent(escape(atob(b64.trim())));
+  const obj = JSON.parse(json);
+  if (!obj || !obj.data || typeof obj.data !== "object") throw new Error("存档格式无效");
+  let cnt = 0;
+  for (const [k, v] of Object.entries(obj.data)) {
+    if (k.startsWith(SYNC_PREFIX)) { localStorage.setItem(k, v); cnt++; }
+  }
+  return cnt;
+}
+function renderSync() {
+  const data = syncCollect();
+  const keys = Object.keys(data);
+  const summary = [
+    { k: "pkdx_favs", label: "收藏" },
+    { k: "pkdx_gacha_album", label: "抽卡收集册" },
+    { k: "pkdx_theme", label: "主题" },
+    { k: "pkdx_lang", label: "语言" },
+    { k: "pkdx_dex_view", label: "图鉴视图" },
+  ];
+  const sumHtml = summary.map(s => {
+    const v = data[s.k];
+    let detail = "";
+    if (s.k === "pkdx_favs" && v) detail = `${JSON.parse(v).length} 只`;
+    else if (s.k === "pkdx_gacha_album" && v) detail = `${JSON.parse(v).length} 张卡`;
+    else if (v) detail = v === "hant" ? "繁体" : v === "hans" ? "简体" : v;
+    return `<div class="sync-item"><span class="sync-item-label">${s.label}</span><span class="sync-item-val">${detail || "未设置"}</span></div>`;
+  }).join("");
+  const guessKeys = keys.filter(k => k.startsWith("pkdx_guess_"));
+  const gachaKeys = keys.filter(k => k.startsWith("pkdx_gacha_") && k !== "pkdx_gacha_album");
+  app.innerHTML = `<div class="sync-page">
+    <div class="page-title">存档同步</div>
+    <div class="page-sub">导出收藏、抽卡收集册、主题等所有本地数据，发给朋友或在另一台设备导入即可同步。数据仅存于浏览器本地，不会上传服务器。</div>
+    <div class="sync-section">
+      <div class="sync-section-title">当前存档内容</div>
+      <div class="sync-summary">${sumHtml}</div>
+      <div class="sync-extra">猜猜记录: ${guessKeys.length} 天 · 抽卡次数记录: ${gachaKeys.length} 天 · 共 ${keys.length} 项</div>
+    </div>
+    <div class="sync-section">
+      <div class="sync-section-title">导出存档</div>
+      <div class="sync-actions">
+        <button type="button" class="cm-btn" onclick="syncDownload()">⬇ 下载 .json 文件</button>
+        <button type="button" class="cm-btn ghost" onclick="syncCopyB64()">📋 复制 Base64 码</button>
+      </div>
+      <textarea id="sync-export-box" class="sync-textarea" readonly rows="4" placeholder="点击上方按钮生成存档码…"></textarea>
+    </div>
+    <div class="sync-section">
+      <div class="sync-section-title">导入存档</div>
+      <div class="sync-actions">
+        <label class="cm-btn ghost" for="sync-file-input">📁 选择 .json 文件</label>
+        <input id="sync-file-input" type="file" accept=".json,application/json" class="hidden" onchange="syncUploadFile(event)">
+        <button type="button" class="cm-btn" onclick="syncImportFromBox()">从文本框导入</button>
+      </div>
+      <textarea id="sync-import-box" class="sync-textarea" rows="4" placeholder="粘贴 Base64 存档码或 JSON 文本…"></textarea>
+      <div id="sync-msg" class="sync-msg"></div>
+    </div>
+  </div>`;
+}
+window.syncDownload = function () {
+  const payload = JSON.stringify({ v: 1, ts: Date.now(), data: syncCollect() }, null, 2);
+  const blob = new Blob([payload], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `pokedex_save_${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+  syncShowMsg("已下载存档文件", "ok");
+};
+window.syncCopyB64 = function () {
+  const b64 = syncExportB64();
+  const box = $("#sync-export-box");
+  if (box) box.value = b64;
+  navigator.clipboard?.writeText(b64).then(() => syncShowMsg("已复制到剪贴板", "ok")).catch(() => syncShowMsg("已生成在文本框中，请手动复制", "ok"));
+};
+window.syncImportFromBox = function () {
+  const box = $("#sync-import-box");
+  if (!box || !box.value.trim()) return syncShowMsg("请先粘贴存档码", "err");
+  try {
+    const raw = box.value.trim();
+    let cnt;
+    if (raw.startsWith("{")) {
+      const obj = JSON.parse(raw);
+      if (!obj || !obj.data) throw new Error("格式无效");
+      cnt = 0;
+      for (const [k, v] of Object.entries(obj.data)) { if (k.startsWith(SYNC_PREFIX)) { localStorage.setItem(k, v); cnt++; } }
+    } else {
+      cnt = syncImportB64(raw);
+    }
+    syncShowMsg(`导入成功！已恢复 ${cnt} 项数据，刷新页面生效`, "ok");
+  } catch (e) { syncShowMsg("导入失败：" + e.message, "err"); }
+};
+window.syncUploadFile = function (e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    const box = $("#sync-import-box");
+    if (box) box.value = r.result;
+    try {
+      const obj = JSON.parse(r.result);
+      if (!obj || !obj.data) throw new Error("格式无效");
+      let cnt = 0;
+      for (const [k, v] of Object.entries(obj.data)) { if (k.startsWith(SYNC_PREFIX)) { localStorage.setItem(k, v); cnt++; } }
+      syncShowMsg(`导入成功！已恢复 ${cnt} 项数据，刷新页面生效`, "ok");
+    } catch (err) {
+      try { const cnt = syncImportB64(r.result); syncShowMsg(`导入成功！已恢复 ${cnt} 项数据，刷新页面生效`, "ok"); }
+      catch (e2) { syncShowMsg("文件格式无效：" + e2.message, "err"); }
+    }
+  };
+  r.readAsText(f);
+};
+function syncShowMsg(msg, type) {
+  const el = $("#sync-msg");
+  if (!el) return;
+  el.textContent = msg;
+  el.className = "sync-msg " + (type || "");
 }
