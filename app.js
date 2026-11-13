@@ -584,6 +584,8 @@ function route() {
   else if (h.startsWith("#/abilities")) renderAbilities();
   else if (h.startsWith("#/items")) renderItems();
   else if (h.startsWith("#/guess")) renderGuess();
+  else if (h.startsWith("#/gacha")) renderGacha();
+  else if (h.startsWith("#/album")) renderAlbum();
   else if (h.startsWith("#/card")) renderCardMaker(/^#\/card\/(\d+)/.exec(h)?.[1]);
   else if (h.startsWith("#/types")) renderTypes();
   else if (h.startsWith("#/features")) renderFeatures();
@@ -740,7 +742,7 @@ function monCard(s, statKey) {
     <button type="button" class="fav-btn${favs.has(s.id) ? " on" : ""}" data-fav="${s.id}" title="收藏" onclick="event.stopPropagation();toggleFavUI(${s.id})"></button>
     ${spriteCanvas("front", s.id, "mon-spr", null, true)}
     <div class="no">${fmtDex(s.dex)}</div>
-    <div class="nm">${esc(speciesName(s))}</div>
+    <div class="nm${gachaHasDiamond(s.id) ? " nm-diamond" : gachaHasRainbow(s.id) ? " nm-rainbow" : ""}">${esc(speciesName(s))}</div>
     <div class="types">${typePills(s.types, true)}</div>
     ${statKey ? `<div class="stat-tag">${STAT_ZH[statKey]} <b>${s.stats[statKey]}</b></div>` : ""}
     ${s.formLabel ? `<div class="form-badge">${esc(s.formLabel)}</div>` : ""}
@@ -1456,7 +1458,7 @@ D.tms.forEach(t => { if (TM_LABELS[t.move] == null) TM_LABELS[t.move] = t.label;
 const CARD_W = 660, CARD_H = 924, CARD_SCALE = 2;
 const CM_SPLIT_COLOR = { "物理": "#d9534f", "特殊": "#3d7dca", "变化": "#8a8f98" };
 const cardState = { sp: 0, ability: null, moves: [], shiny: false,
-  customAbility: null, customMoves: [], style: "normal" };
+  customAbility: null, customMoves: [], style: "normal", label: null };
 let cmRegions = [], cmSprJob = 0, cmFlashTimer = 0;
 const cmPoolCache = {};
 
@@ -1765,6 +1767,51 @@ function cmDrawBase(ctx, d, regions) {
     ctx.strokeStyle = fg; ctx.stroke();
     ctx.lineWidth = 2; cmRR(ctx, 11, 11, CARD_W - 22, CARD_H - 22, 20);
     ctx.strokeStyle = "rgba(255,215,0,.6)"; ctx.stroke();
+  } else if (cs === "rainbow") {
+    const bg = ctx.createLinearGradient(0, 0, 0, CARD_H);
+    bg.addColorStop(0, cmMix(base, "#000000", .6));
+    bg.addColorStop(1, "#111111");
+    cmRR(ctx, 0, 0, CARD_W, CARD_H, 30);
+    ctx.fillStyle = bg; ctx.fill();
+    ctx.save();
+    cmRR(ctx, 3, 3, CARD_W - 6, CARD_H - 6, 27); ctx.clip();
+    const rainbow = ctx.createLinearGradient(0, 0, CARD_W, CARD_H);
+    rainbow.addColorStop(0, "rgba(255,0,128,0.4)");
+    rainbow.addColorStop(0.25, "rgba(255,165,0,0.4)");
+    rainbow.addColorStop(0.5, "rgba(0,255,0,0.4)");
+    rainbow.addColorStop(0.75, "rgba(0,128,255,0.4)");
+    rainbow.addColorStop(1, "rgba(128,0,255,0.4)");
+    ctx.fillStyle = rainbow;
+    ctx.globalCompositeOperation = "color-dodge";
+    ctx.fillRect(0, 0, CARD_W, CARD_H);
+    ctx.restore();
+    ctx.globalCompositeOperation = "source-over";
+    ctx.lineWidth = 5; cmRR(ctx, 3, 3, CARD_W - 6, CARD_H - 6, 27);
+    ctx.strokeStyle = "#E5E7EB"; ctx.stroke();
+    ctx.lineWidth = 2; cmRR(ctx, 11, 11, CARD_W - 22, CARD_H - 22, 20);
+    ctx.strokeStyle = "rgba(255,255,255,.5)"; ctx.stroke();
+  } else if (cs === "diamond") {
+    const bg = ctx.createLinearGradient(0, 0, CARD_W, CARD_H);
+    bg.addColorStop(0, "#1a1a24");
+    bg.addColorStop(1, "#0a0a0f");
+    cmRR(ctx, 0, 0, CARD_W, CARD_H, 30);
+    ctx.fillStyle = bg; ctx.fill();
+    ctx.save();
+    cmRR(ctx, 3, 3, CARD_W - 6, CARD_H - 6, 27); ctx.clip();
+    ctx.fillStyle = "rgba(255,255,255,0.08)";
+    ctx.beginPath();
+    ctx.moveTo(CARD_W * 0.2, 0); ctx.lineTo(CARD_W * 0.8, 0);
+    ctx.lineTo(CARD_W, CARD_H * 0.4); ctx.lineTo(CARD_W * 0.6, CARD_H);
+    ctx.lineTo(0, CARD_H * 0.8); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = "rgba(200,230,255,0.2)"; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(CARD_W * 0.5, 0); ctx.lineTo(CARD_W, CARD_H); ctx.stroke();
+    ctx.restore();
+    ctx.lineWidth = 6; cmRR(ctx, 3, 3, CARD_W - 6, CARD_H - 6, 27);
+    const dg = ctx.createLinearGradient(0, 0, CARD_W, CARD_H);
+    dg.addColorStop(0, "#e0f2fe"); dg.addColorStop(0.5, "#ffffff"); dg.addColorStop(1, "#94a3b8");
+    ctx.strokeStyle = dg; ctx.stroke();
+    ctx.lineWidth = 2; cmRR(ctx, 11, 11, CARD_W - 22, CARD_H - 22, 20);
+    ctx.strokeStyle = "rgba(200,230,255,.6)"; ctx.stroke();
   } else {
     const bg = ctx.createLinearGradient(0, 0, 0, CARD_H);
     bg.addColorStop(0, cmMix(base, "#ffffff", .16));
@@ -1798,12 +1845,12 @@ function cmDrawBase(ctx, d, regions) {
   }
   ctx.save();
   cmRR(ctx, 12, 12, CARD_W - 24, CARD_H - 24, 20); ctx.clip();
-  ctx.fillStyle = cs === "gold" ? "rgba(255,215,0,.08)" : "rgba(255,255,255,.05)";
+  ctx.fillStyle = cs === "gold" ? "rgba(255,215,0,.08)" : cs === "rainbow" ? "rgba(180,100,255,.1)" : cs === "diamond" ? "rgba(200,230,255,.08)" : "rgba(255,255,255,.05)";
   ctx.beginPath();
   ctx.moveTo(CARD_W * .3, 12); ctx.lineTo(CARD_W * .56, 12);
   ctx.lineTo(CARD_W * .34, CARD_H - 12); ctx.lineTo(CARD_W * .08, CARD_H - 12);
   ctx.closePath(); ctx.fill();
-  if (cs === "holo") {
+  if (cs === "holo" || cs === "rainbow") {
     ctx.fillStyle = "rgba(180,100,255,.06)";
     ctx.beginPath();
     ctx.moveTo(CARD_W * .6, 12); ctx.lineTo(CARD_W * .85, 12);
@@ -2017,7 +2064,7 @@ function cmDrawBase(ctx, d, regions) {
     ctx.textAlign = "left";
   }
   ctx.font = cmFont(14, true); ctx.fillStyle = "rgba(255,255,255,.92)"; ctx.textAlign = "right";
-  ctx.fillText(cmT(cs === "holo" ? "★ 闪卡" : cs === "gold" ? "★ 金卡" : "★ 自制卡牌"), CARD_W - M - 8, fy + 22);
+  ctx.fillText(cmT(cardState.label || (cs === "holo" ? "★ 闪卡" : cs === "gold" ? "★ 金卡" : cs === "rainbow" ? "★ 彩卡" : cs === "diamond" ? "★ 钻石卡" : "★ 自制卡牌")), CARD_W - M - 8, fy + 22);
   ctx.font = cmFont(12); ctx.fillStyle = "rgba(255,255,255,.78)";
   ctx.fillText(cmT("来自火红物语图鉴"), CARD_W - M - 8, fy + 44);
   ctx.textAlign = "left";
@@ -2281,6 +2328,8 @@ function renderCardMaker(speciesId) {
           <button class="cm-style-btn${cardState.style === "normal" ? " on" : ""}" data-style="normal" onclick="cmPickStyle('normal')">普通</button>
           <button class="cm-style-btn${cardState.style === "holo" ? " on" : ""}" data-style="holo" onclick="cmPickStyle('holo')">闪卡</button>
           <button class="cm-style-btn${cardState.style === "gold" ? " on" : ""}" data-style="gold" onclick="cmPickStyle('gold')">金卡</button>
+          <button class="cm-style-btn${cardState.style === "rainbow" ? " on" : ""}" data-style="rainbow" onclick="cmPickStyle('rainbow')">彩卡</button>
+          <button class="cm-style-btn${cardState.style === "diamond" ? " on" : ""}" data-style="diamond" onclick="cmPickStyle('diamond')">钻石卡</button>
         </div>
         <canvas id="cm-card" width="${CARD_W * CARD_SCALE}" height="${CARD_H * CARD_SCALE}"></canvas>
         <div class="cm-actions">
@@ -2669,3 +2718,223 @@ function guessSubmit() {
   renderGuess();
 }
 window.guessSubmit = guessSubmit;
+
+/* ---------------- 抽卡模拟器 ----------------
+   五阶稀有度: N(60%) R(30%) SR(8%) UR(1.5%) EX(0.5%), 每天免费 3 次.
+   特性从该宝可梦特性随机选, 招式从招式池随机选最多 4 个 (超级进化宝可梦必出超级进化招式).
+   抽到的卡牌带专属标识 "★ 抽卡获得 · 稀有度", 可下载图片, 存入收集册 localStorage.
+   图鉴联动: 抽到钻石卡/彩卡的宝可梦在首页名字变钻石/彩虹字. */
+const GACHA_FREE_DAILY = 3;
+const GACHA_RARITIES = [
+  { key: "N",  label: "N卡",  icon: "⚪", prob: 0.60,  style: "normal",  glow: null },
+  { key: "R",  label: "R卡",  icon: "🔵", prob: 0.30,  style: "holo",    glow: "#3d7dca" },
+  { key: "SR", label: "SR卡", icon: "🟡", prob: 0.08,  style: "gold",    glow: "#FFD700" },
+  { key: "UR", label: "UR卡", icon: "🌈", prob: 0.015, style: "rainbow", glow: "rainbow" },
+  { key: "EX", label: "EX卡", icon: "💎", prob: 0.005, style: "diamond", glow: "#ffffff" },
+];
+const GACHA_ALBUM_KEY = "pkdx_gacha_album";
+let gachaCurrent = null;
+
+function gachaRandomRarity() {
+  const r = Math.random();
+  let acc = 0;
+  for (const rar of GACHA_RARITIES) { acc += rar.prob; if (r < acc) return rar; }
+  return GACHA_RARITIES[0];
+}
+function gachaRandomSpecies() {
+  const pool = DEX_SEQ.filter(s => s.dex > 0 && s.isDefault);
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+function gachaRandomAbility(s) {
+  const all = s.abilities.concat(s.hidden);
+  return all.length ? all[Math.floor(Math.random() * all.length)] : null;
+}
+function gachaRandomMoves(s) {
+  const pool = cmMovepool(s);
+  const megaMap = MEGA_MOVE_MAP[s.id] || {};
+  const megaKeys = Object.keys(megaMap).map(Number);
+  const moves = [];
+  if (megaKeys.length) moves.push(megaKeys[Math.floor(Math.random() * megaKeys.length)]);
+  const rest = pool.filter(p => !moves.includes(p.mid)).sort(() => Math.random() - 0.5);
+  for (const p of rest) { if (moves.length >= 4) break; moves.push(p.mid); }
+  return moves;
+}
+function gachaDrawCount() { return parseInt(localStorage.getItem("pkdx_gacha_" + dailyDateKey()) || "0"); }
+function gachaIncrDrawCount() { localStorage.setItem("pkdx_gacha_" + dailyDateKey(), String(gachaDrawCount() + 1)); }
+function gachaLoadAlbum() { try { return JSON.parse(localStorage.getItem(GACHA_ALBUM_KEY) || "[]"); } catch (e) { return []; } }
+function gachaSaveAlbum(a) { localStorage.setItem(GACHA_ALBUM_KEY, JSON.stringify(a)); }
+function gachaHasDiamond(id) { return gachaLoadAlbum().some(c => c.id === id && c.style === "diamond"); }
+function gachaHasRainbow(id) { return gachaLoadAlbum().some(c => c.id === id && c.style === "rainbow"); }
+
+function gachaDrawToCanvas(canvas, spId, style, label, abilityId, moveIds) {
+  const saved = { sp: cardState.sp, ability: cardState.ability, moves: cardState.moves, shiny: cardState.shiny, style: cardState.style, label: cardState.label, customAbility: cardState.customAbility, customMoves: cardState.customMoves };
+  cardState.sp = spId; cardState.ability = abilityId; cardState.moves = moveIds.slice(0, 4);
+  cardState.shiny = false; cardState.customAbility = null; cardState.customMoves = [];
+  cardState.style = style; cardState.label = label;
+  const d = cmCardData();
+  const ctx = canvas.getContext("2d");
+  ctx.setTransform(CARD_SCALE, 0, 0, CARD_SCALE, 0, 0);
+  ctx.clearRect(0, 0, CARD_W, CARD_H);
+  cmDrawBase(ctx, d, null);
+  const job = ++cmSprJob;
+  const p = cmLoadArt(spId).then(bmp => { if (job === cmSprJob) cmDrawSprite(ctx, d, bmp); }).catch(() => {});
+  Object.assign(cardState, saved);
+  return p;
+}
+
+function gachaParticles(type) {
+  const overlay = document.createElement("div");
+  overlay.className = "gacha-particles";
+  const cv = document.createElement("canvas");
+  cv.width = innerWidth; cv.height = innerHeight;
+  overlay.appendChild(cv);
+  document.body.appendChild(overlay);
+  const ctx = cv.getContext("2d");
+  const colors = type === "ex" ? ["#e0f2fe", "#ffffff", "#94a3b8"] : ["#ff0080", "#ffa500", "#00ff00", "#0080ff", "#8000ff"];
+  const particles = [];
+  for (let i = 0; i < 80; i++) particles.push({
+    x: Math.random() * cv.width, y: -20 - Math.random() * cv.height * 0.5,
+    vy: 1 + Math.random() * 3, vx: (Math.random() - 0.5) * 2,
+    size: 3 + Math.random() * 7, rot: Math.random() * Math.PI * 2,
+    vrot: (Math.random() - 0.5) * 0.1,
+    color: colors[Math.floor(Math.random() * colors.length)],
+  });
+  let frame = 0;
+  (function tick() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    particles.forEach(p => {
+      p.y += p.vy; p.x += p.vx; p.rot += p.vrot;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.beginPath();
+      for (let i = 0; i < 4; i++) { const a = i * Math.PI / 2; ctx.lineTo(Math.cos(a) * p.size, Math.sin(a) * p.size); }
+      ctx.closePath(); ctx.fill();
+      ctx.restore();
+    });
+    if (++frame < 180) requestAnimationFrame(tick); else overlay.remove();
+  })();
+}
+function gachaLegendText(rarity) {
+  const el = document.createElement("div");
+  el.className = "gacha-legend-text " + rarity.toLowerCase();
+  el.textContent = rarity === "EX" ? "✨ 钻石降临 ✨" : "✨ 传说降临 ✨";
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
+function renderGacha() {
+  const remain = GACHA_FREE_DAILY - gachaDrawCount();
+  const c = gachaCurrent;
+  const revealed = c && c.revealed;
+  let stageHtml = "";
+  if (c) {
+    const rar = GACHA_RARITIES.find(r => r.key === c.rarity);
+    const glow = rar.glow === "rainbow"
+      ? "box-shadow: 0 0 30px #ff0080, 0 0 60px #00ff00, 0 0 90px #0080ff;"
+      : rar.glow ? `box-shadow: 0 0 30px ${rar.glow};` : "";
+    stageHtml = `<div class="gacha-stage">
+      <div class="gacha-card-3d ${revealed ? "flipped" : ""}" ${revealed ? "" : 'onclick="gachaReveal()"'}>
+        <div class="gacha-card-inner">
+          <div class="gacha-face gacha-back" style="${glow}">
+            <div class="gacha-ball"></div>
+            <div class="gacha-back-hint">点击翻开</div>
+          </div>
+          <div class="gacha-face gacha-front">
+            <canvas id="gacha-canvas" width="${CARD_W * CARD_SCALE}" height="${CARD_H * CARD_SCALE}"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    if (revealed) stageHtml += `<div class="gacha-result-info">
+      <span class="gacha-rarity gacha-rarity-${rar.key}">${rar.icon} ${rar.label}</span>
+      <span class="gacha-mon-name">${esc(speciesName(SPECIES_BY_ID[c.spId]))}</span>
+      <button type="button" class="cm-btn" onclick="gachaDownload()">⬇ 保存图片</button>
+      <button type="button" class="cm-btn ghost" onclick="gachaViewInDex()">查看图鉴</button>
+    </div>`;
+  } else {
+    stageHtml = `<div class="gacha-stage-idle">
+      <div class="gacha-pack ${remain > 0 ? "" : "disabled"}" ${remain > 0 ? 'onclick="gachaDraw()"' : ""}>
+        <div class="gacha-pack-icon">🎁</div>
+        <div class="gacha-pack-label">${remain > 0 ? "点击抽卡" : "今日次数已用完"}</div>
+      </div>
+    </div>`;
+  }
+  app.innerHTML = `<div class="gacha-page">
+    <div class="page-title">抽卡模拟器</div>
+    <div class="page-sub">每天 ${GACHA_FREE_DAILY} 次免费抽卡，五阶稀有度：⚪N(60%) 🔵R(30%) 🟡SR(8%) 🌈UR(1.5%) 💎EX(0.5%)。抽到彩卡/钻石卡触发全屏特效！</div>
+    <div class="gacha-remain">今日剩余 <b>${Math.max(0, remain)}</b> 次 · <a href="#/album">我的卡包 (${gachaLoadAlbum().length})</a></div>
+    ${stageHtml}
+    ${remain <= 0 && !c ? '<div class="gacha-out">今天的机会用完了，明天再来吧！</div>' : ""}
+  </div>`;
+  if (c && revealed) {
+    const cv = $("#gacha-canvas");
+    if (cv) gachaDrawToCanvas(cv, c.spId, c.style, c.label, c.abilityId, c.moveIds);
+  }
+}
+window.gachaDraw = function () {
+  if (gachaDrawCount() >= GACHA_FREE_DAILY) return;
+  const rar = gachaRandomRarity();
+  const s = gachaRandomSpecies();
+  gachaCurrent = { spId: s.id, rarity: rar.key, style: rar.style, label: "★ 抽卡获得 · " + rar.label, abilityId: gachaRandomAbility(s), moveIds: gachaRandomMoves(s), revealed: false };
+  gachaIncrDrawCount();
+  renderGacha();
+};
+window.gachaReveal = function () {
+  if (!gachaCurrent || gachaCurrent.revealed) return;
+  gachaCurrent.revealed = true;
+  const rar = GACHA_RARITIES.find(r => r.key === gachaCurrent.rarity);
+  const album = gachaLoadAlbum();
+  album.push({ id: gachaCurrent.spId, rarity: gachaCurrent.rarity, style: gachaCurrent.style, ts: Date.now() });
+  gachaSaveAlbum(album);
+  renderGacha();
+  if (rar.key === "UR" || rar.key === "EX") {
+    gachaParticles(rar.key === "EX" ? "ex" : "ur");
+    gachaLegendText(rar.key);
+    if (navigator.vibrate) navigator.vibrate(rar.key === "EX" ? 200 : 100);
+  }
+};
+window.gachaDownload = function () {
+  if (!gachaCurrent) return;
+  const c = gachaCurrent;
+  const cv = document.createElement("canvas");
+  cv.width = CARD_W * CARD_SCALE; cv.height = CARD_H * CARD_SCALE;
+  gachaDrawToCanvas(cv, c.spId, c.style, c.label, c.abilityId, c.moveIds).then(() => {
+    cv.toBlob(b => {
+      if (!b) return;
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(b);
+      a.download = `${speciesName(SPECIES_BY_ID[c.spId])}_${c.rarity}卡.png`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+    }, "image/png");
+  });
+};
+window.gachaViewInDex = function () { if (gachaCurrent) location.hash = "#/p/" + gachaCurrent.spId; };
+
+function renderAlbum() {
+  const album = gachaLoadAlbum();
+  const grouped = {};
+  album.forEach(c => { const k = c.id + "_" + c.style; grouped[k] = (grouped[k] || 0) + 1; });
+  const rarityOrder = { EX: 0, UR: 1, SR: 2, R: 3, N: 4 };
+  const items = Object.entries(grouped).map(([key, count]) => {
+    const [idStr, style] = key.split("_");
+    const s = SPECIES_BY_ID[parseInt(idStr)];
+    if (!s) return null;
+    const rar = GACHA_RARITIES.find(r => r.style === style);
+    return { s, style, rarity: rar ? rar.key : "N", count };
+  }).filter(Boolean).sort((a, b) => rarityOrder[a.rarity] - rarityOrder[b.rarity] || a.s.dex - b.s.dex);
+  const gridHtml = items.length ? items.map(it => {
+    const rar = GACHA_RARITIES.find(r => r.key === it.rarity);
+    return `<div class="album-card album-${it.style}" onclick="location.hash='#/p/${it.s.id}'">
+      ${spriteCanvas("front", it.s.id, "album-spr", null, true)}
+      <div class="album-name">${esc(speciesName(it.s))}</div>
+      <div class="album-rarity">${rar.icon} ${rar.label}${it.count > 1 ? ` ×${it.count}` : ""}</div>
+    </div>`;
+  }).join("") : '<div class="cm-empty">还没有抽到任何卡牌，去<a href="#/gacha">抽卡</a>吧！</div>';
+  app.innerHTML = `<div class="gacha-page">
+    <div class="page-title">我的卡包</div>
+    <div class="page-sub">已收集 ${album.length} 张卡牌，${items.length} 种不同卡面</div>
+    <div class="album-grid">${gridHtml}</div>
+  </div>`;
+  mountSprites(app);
+}
