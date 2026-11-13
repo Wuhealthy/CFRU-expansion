@@ -739,11 +739,12 @@ function maybeShowDailyPopup() {
 
 /* ---------------- 首页 ---------------- */
 function monCard(s, statKey) {
-  return `<div class="mon-card" onclick="location.hash='#/p/${s.id}'">
+  const bestR = gachaBestRarity(s.id);
+  return `<div class="mon-card${bestR ? " mon-card-" + bestR : ""}" onclick="location.hash='#/p/${s.id}'">
     <button type="button" class="fav-btn${favs.has(s.id) ? " on" : ""}" data-fav="${s.id}" title="收藏" onclick="event.stopPropagation();toggleFavUI(${s.id})"></button>
     ${spriteCanvas("front", s.id, "mon-spr", null, true)}
     <div class="no">${fmtDex(s.dex)}</div>
-    <div class="nm${gachaHasDiamond(s.id) ? " nm-diamond" : gachaHasRainbow(s.id) ? " nm-rainbow" : ""}">${esc(speciesName(s))}</div>
+    <div class="nm${bestR === "EX" ? " nm-diamond" : bestR === "UR" ? " nm-rainbow" : ""}">${esc(speciesName(s))}</div>
     <div class="types">${typePills(s.types, true)}</div>
     ${statKey ? `<div class="stat-tag">${STAT_ZH[statKey]} <b>${s.stats[statKey]}</b></div>` : ""}
     ${s.formLabel ? `<div class="form-badge">${esc(s.formLabel)}</div>` : ""}
@@ -2766,6 +2767,14 @@ function gachaLoadAlbum() { try { return JSON.parse(localStorage.getItem(GACHA_A
 function gachaSaveAlbum(a) { localStorage.setItem(GACHA_ALBUM_KEY, JSON.stringify(a)); }
 function gachaHasDiamond(id) { return gachaLoadAlbum().some(c => c.id === id && c.style === "diamond"); }
 function gachaHasRainbow(id) { return gachaLoadAlbum().some(c => c.id === id && c.style === "rainbow"); }
+function gachaBestRarity(id) {
+  const cards = gachaLoadAlbum().filter(c => c.id === id);
+  if (!cards.length) return null;
+  const order = { EX: 4, UR: 3, SR: 2, R: 1, N: 0 };
+  let best = null;
+  for (const c of cards) { if (!best || (order[c.rarity] || 0) > (order[best] || 0)) best = c.rarity; }
+  return best;
+}
 
 function gachaDrawToCanvas(canvas, spId, style, label, abilityId, moveIds) {
   const saved = { sp: cardState.sp, ability: cardState.ability, moves: cardState.moves, shiny: cardState.shiny, style: cardState.style, label: cardState.label, customAbility: cardState.customAbility, customMoves: cardState.customMoves };
