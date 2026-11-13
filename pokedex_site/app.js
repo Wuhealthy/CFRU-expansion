@@ -876,33 +876,63 @@ function renderDexArea() {
   });
   const hasDex = ordered.filter(s => s.dex > 0);
   const others = ordered.filter(s => !(s.dex > 0));
-  // 卡片视图: 网格卡片; 列表视图: 纯表格
-  const block = homeState.view === "list"
-    ? items => dexListHTML(items)
-    : items => `<div class="dex-grid">${items.map(s => monCard(s, byStat ? key : null)).join("")}</div>`;
-  let html = "";
+  const isList = homeState.view === "list";
+  const statKey = byStat ? key : null;
   const present = new Set();
+  // 准备分组: [{id, header, items, isSection}]
+  const groups = [];
   if (hasDex.length && byStat) {
-    // 按种族值排序是全体排名, 不分世代
-    html += `<div class="group-h">按${STAT_ZH[key]}排序</div>${block(hasDex)}`;
+    groups.push({ id: "dg-stat", header: `<div class="group-h">按${STAT_ZH[key]}排序</div>`, items: hasDex, isSection: false });
   } else if (hasDex.length) {
     const byGen = {};
     hasDex.forEach(s => (byGen[dexGen(s.dex)] = byGen[dexGen(s.dex)] || []).push(s));
     Object.keys(byGen).map(Number).sort((a, b) => a - b).forEach(g => {
       present.add("pgen-" + g);
-      html += `<section class="gen-sec" id="pgen-${g}">
-        <h3 class="gen-h">${GEN_NAMES[g]}<span class="gen-cnt">${byGen[g].length} 只</span></h3>
-        ${block(byGen[g])}
-      </section>`;
+      groups.push({ id: `pgen-${g}`, header: `<h3 class="gen-h">${GEN_NAMES[g]}<span class="gen-cnt">${byGen[g].length} 只</span></h3>`, items: byGen[g], isSection: true });
     });
   }
   if (others.length) {
-    html += `<div class="group-h">其他形态</div>${block(others)}`;
+    groups.push({ id: "dg-others", header: `<div class="group-h">其他形态</div>`, items: others, isSection: false });
   }
-  if (!html) html = `<div style="text-align:center;color:var(--muted);padding:60px 0">${homeState.favOnly && !favs.size ? "还没有收藏的宝可梦，点击卡片右上角的 ♡ 即可收藏" : "没有找到符合条件的宝可梦"}</div>`;
+  if (!groups.length) {
+    $("#dex-area").innerHTML = `<div style="text-align:center;color:var(--muted);padding:60px 0">${homeState.favOnly && !favs.size ? "还没有收藏的宝可梦，点击卡片右上角的 ♡ 即可收藏" : "没有找到符合条件的宝可梦"}</div>`;
+    tocMark(present, "");
+    return;
+  }
+  // 分批渲染: 首批 BATCH_FIRST, 后续每批 BATCH_NEXT (仅卡片视图; 列表视图一次性)
+  const BATCH_FIRST = 60, BATCH_NEXT = 120;
+  const pending = [];  // [{id, items}]
+  let html = "";
+  for (const g of groups) {
+    const open = g.isSection ? `<section class="gen-sec" id="${g.id}">${g.header}` : g.header;
+    const close = g.isSection ? `</section>` : "";
+    if (isList) {
+      html += open + dexListHTML(g.items) + close;
+    } else {
+      const first = g.items.slice(0, BATCH_FIRST);
+      const rest = g.items.slice(BATCH_FIRST);
+      html += open + `<div class="dex-grid" data-grid="${g.id}">${first.map(s => monCard(s, statKey)).join("")}</div>` + close;
+      if (rest.length) pending.push({ id: g.id, items: rest });
+    }
+  }
   $("#dex-area").innerHTML = html;
   tocMark(present, byStat ? "按种族值排序时不分世代，切回「图鉴编号」排序即可按世代跳转" : "");
   mountSprites($("#dex-area"));
+  if (!pending.length) return;
+  let pi = 0;
+  function nextBatch() {
+    if (!$("#dex-area") || pi >= pending.length) return;
+    const { id, items } = pending[pi];
+    const grid = $(`[data-grid="${id}"]`);
+    if (!grid) { pi++; nextBatch(); return; }
+    const slice = items.slice(0, BATCH_NEXT);
+    grid.insertAdjacentHTML("beforeend", slice.map(s => monCard(s, statKey)).join(""));
+    mountSprites(grid);
+    if (items.length > BATCH_NEXT) pending[pi] = { id, items: items.slice(BATCH_NEXT) };
+    else pi++;
+    requestAnimationFrame(nextBatch);
+  }
+  requestAnimationFrame(nextBatch);
 }
 window.toggleType = function (tid) {
   if (homeState.types.has(tid)) homeState.types.delete(tid);
@@ -2786,8 +2816,7 @@ function gachaDrawToCanvas(canvas, spId, style, label, abilityId, moveIds) {
   ctx.setTransform(CARD_SCALE, 0, 0, CARD_SCALE, 0, 0);
   ctx.clearRect(0, 0, CARD_W, CARD_H);
   cmDrawBase(ctx, d, null);
-  const job = ++cmSprJob;
-  const p = cmLoadArt(spId).then(bmp => { if (job === cmSprJob) cmDrawSprite(ctx, d, bmp); }).catch(() => {});
+  const p = cmLoadArt(spId).then(bmp => { if (bmp) cmDrawSprite(ctx, d, bmp); }).catch(() => {});
   Object.assign(cardState, saved);
   return p;
 }
