@@ -634,6 +634,105 @@ window.toggleToc = function () {
 const GEN_DEX_END = [0, 151, 251, 386, 493, 649, 721, 809, 905, 1025];
 const dexGen = dex => GEN_DEX_END.findIndex((end, g) => g > 0 && dex <= end);
 
+/* ---------------- 每日宝可梦 ----------------
+   以当天日期字符串为种子确定性选一只: 刷新/回访结果一致, 每天自动轮换;
+   首页顶部横幅可反复点开查看, 每天首次打开站点自动弹一次窗。 */
+const DAILY_SKIP = new Set([
+  // 超人气常驻明星不进每日轮换, 让推荐保持"冷门/特殊"的新鲜感
+  "BULBASAUR", "IVYSAUR", "VENUSAUR", "CHARMANDER", "CHARMELEON", "CHARIZARD",
+  "SQUIRTLE", "WARTORTLE", "BLASTOISE", "PIKACHU", "RAICHU", "EEVEE",
+  "MEW", "MEWTWO", "SNORLAX", "GENGAR",
+  "GYARADOS", "DRAGONITE", "LUGIA", "HO_OH", "LUCARIO", "GRENINJA",
+  "RAYQUAZA", "ARCEUS",
+]);
+const DAILY_STAT_TITLES = { hp: "血量担当", atk: "物理炮台", def: "钢铁壁垒", spa: "特攻利刃", spd: "特防坚盾", spe: "速度之星" };
+const DAILY_INTROS = [
+  "今天的缘分之选是{name}！别看它低调，认真了解后说不定正合你的队伍。",
+  "命运抽签选中了{name}，快去认识一下这位冷门好手。",
+  "{name}今天登上了图鉴头条，它的本事可比名气大。",
+  "今日推荐非{name}莫属，也许你会重新发现它的魅力。",
+  "轮到{name}值班了，它在图鉴里等你很久了。",
+  "{name}悄悄爬上了今日榜单，去看看它有什么独门本领。",
+];
+function dailyDateKey() {
+  const now = new Date();
+  return `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+}
+/* xmur3 字符串散列 + mulberry32: 足够均匀的确定性随机, 无需引入库 */
+function dailyRand(key) {
+  let h = 1779033703 ^ key.length;
+  for (let i = 0; i < key.length; i++) {
+    h = Math.imul(h ^ key.charCodeAt(i), 3432918353);
+    h = (h << 13) | (h >>> 19);
+  }
+  let seed = h >>> 0;
+  return function () {
+    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+let dailyCache = null;
+function dailyPokemon() {
+  const key = dailyDateKey();
+  if (dailyCache && dailyCache.key === key) return dailyCache;
+  const now = new Date();
+  const rand = dailyRand("pkdx-daily-" + key);
+  const pool = D.species.filter(s => s.isDefault && s.dex > 0 && !DAILY_SKIP.has(s.constName));
+  const s = pool[Math.floor(rand() * pool.length)];
+  let top = "hp";
+  for (const k of Object.keys(DAILY_STAT_TITLES)) if (s.stats[k] > s.stats[top]) top = k;
+  const intro = DAILY_INTROS[Math.floor(rand() * DAILY_INTROS.length)].replace("{name}", speciesName(s));
+  const weekday = "日一二三四五六"[now.getDay()];
+  dailyCache = {
+    key, s, top, intro,
+    title: DAILY_STAT_TITLES[top],
+    dateZh: `${now.getMonth() + 1}月${now.getDate()}日 · 周${weekday}`,
+    flavor: s.flavor || `${speciesName(s)}是${s.types.map(id => TYPE_BY_ID[id].zh).join("/")}属性的宝可梦，种族值合计 ${statTotal(s)}，${STAT_ZH[top]}高达 ${s.stats[top]}，是队伍里可靠的${DAILY_STAT_TITLES[top]}。`,
+  };
+  return dailyCache;
+}
+function dailyBannerHTML() {
+  const d = dailyPokemon();
+  const t = TYPE_BY_ID[d.s.types[0]];
+  return `<div class="daily-banner" style="background:linear-gradient(100deg, color-mix(in srgb, ${t ? t.color : "#9299A1"} 24%, var(--card)), var(--card) 72%)" onclick="showDailyPopup()" title="每日宝可梦">
+    ${spriteCanvas("front", d.s.id, "daily-spr")}
+    <div class="daily-banner-info">
+      <div class="daily-banner-tag">📅 每日宝可梦 · ${d.dateZh}</div>
+      <div class="daily-banner-name">${esc(speciesName(d.s))} <span class="daily-banner-no">${fmtDex(d.s.dex)}</span></div>
+      <div class="daily-banner-teaser">「${d.title}」${typePills(d.s.types, true)} · 点击查看今日推荐语</div>
+    </div>
+    <span class="daily-banner-arrow">›</span>
+  </div>`;
+}
+window.showDailyPopup = function () {
+  const d = dailyPokemon();
+  showPopup(`
+    <div class="daily-pop-tag">📅 每日宝可梦 · ${d.dateZh}</div>
+    <h2>${esc(speciesName(d.s))} <span class="daily-pop-no">${fmtDex(d.s.dex)}</span></h2>
+    <div class="daily-pop-body">
+      <div class="daily-pop-spr">${spriteCanvas("front", d.s.id, "", 96, true)}<div class="daily-pop-hint">点击图片切换闪光</div></div>
+      <div class="daily-pop-side">
+        <div class="mv-meta">${typePills(d.s.types)}<span class="pill small" style="background:#5a6b7d">${d.title}</span></div>
+        <div class="daily-pop-intro">${esc(d.intro)}</div>
+        <div class="daily-pop-stat">${STAT_ZH[d.top]} <b>${d.s.stats[d.top]}</b> · 种族值合计 <b>${statTotal(d.s)}</b></div>
+      </div>
+    </div>
+    <div class="mv-desc">${esc(d.flavor)}</div>
+    <div class="daily-pop-actions">
+      <button type="button" onclick="location.hash='#/p/${d.s.id}';hidePopup()">查看详情</button>
+    </div>`);
+  mountSprites(popup);
+};
+/* 每天首次打开自动弹窗: localStorage 记下当天日期, 已弹过则静默 */
+function maybeShowDailyPopup() {
+  const key = dailyDateKey();
+  if (localStorage.getItem("pkdx_daily_seen") === key) return;
+  localStorage.setItem("pkdx_daily_seen", key);
+  window.showDailyPopup();
+}
+
 /* ---------------- 首页 ---------------- */
 function monCard(s, statKey) {
   return `<div class="mon-card" onclick="location.hash='#/p/${s.id}'">
@@ -695,6 +794,7 @@ function renderHome() {
       <div class="toc-main">
         <div class="page-title">宝可梦图鉴</div>
         <div class="page-sub">默认形态 ${N_DEFAULT} 只 · 含特殊/地区形态共 ${D.species.length} 只 · 按世代排列 · 点击卡片查看详情</div>
+        ${dailyBannerHTML()}
         <div class="toolbar">
           ${searchBox("q", "搜索名称 / 编号 / 招式 / 特性，如 十万伏特、威吓", homeState.q)}
           <div class="type-chips"><span class="pill fav-chip${homeState.favOnly ? " on" : ""}" onclick="setFavOnly()">❤ 仅看收藏</span></div>
@@ -713,6 +813,7 @@ function renderHome() {
 
   $("#q").addEventListener("input", debounce(e => { homeState.q = e.target.value.trim(); renderDexArea(); }, SEARCH_DEBOUNCE));
   renderDexArea();
+  mountSprites(app);  // 每日宝可梦横幅的精灵图 (图鉴区已在 renderDexArea 内挂载)
 }
 
 /* 搜索词按名字命中招式/特性 (包含匹配, 与名字搜索规则一致; 仅招式名不搜效果描述);
@@ -2322,6 +2423,7 @@ try {
 } catch (err) {
   app.innerHTML = `<div class="page-title">页面渲染出错</div><pre style="white-space:pre-wrap">${esc(err.stack || err)}</pre>`;
 }
+setTimeout(maybeShowDailyPopup, 600);  // 每天首次打开自动弹窗 (延迟一点等首屏渲染完)
 
 /* ---------------- 离线/本地使用: 文件更新后自动刷新 ----------------
    仅本地 (localhost / 局域网 IP / file:) 生效, 线上站靠版本号即可;
