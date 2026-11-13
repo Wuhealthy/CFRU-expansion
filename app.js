@@ -583,6 +583,7 @@ function route() {
   else if (h.startsWith("#/moves")) renderMoves();
   else if (h.startsWith("#/abilities")) renderAbilities();
   else if (h.startsWith("#/items")) renderItems();
+  else if (h.startsWith("#/guess")) renderGuess();
   else if (h.startsWith("#/card")) renderCardMaker(/^#\/card\/(\d+)/.exec(h)?.[1]);
   else if (h.startsWith("#/types")) renderTypes();
   else if (h.startsWith("#/features")) renderFeatures();
@@ -2455,3 +2456,216 @@ setTimeout(maybeShowDailyPopup, 600);  // 每天首次打开自动弹窗 (延迟
     }).catch(() => { /* 本地服务不可达时静默 */ });
   }, 8000);
 })();
+
+/* ---------------- 猜猜我是谁 (Wordle 玩法) ----------------
+   每天从有编号的默认形态中按日期种子随机抽一只作为答案, 玩家输入宝可梦名称,
+   系统给出属性/编号/进化阶段/身高/体重/蛋组/特性多维线索反馈:
+   绿色=完全命中, 黄色=部分命中, 灰色=未命中. 每天最多 6 次, localStorage 记录当天状态. */
+const GUESS_KEY_PREFIX = "pkdx_guess_";
+const GUESS_MAX = 6;
+const GUESS_EVO_PARENT = new Map();
+D.species.forEach(s => { (s.evolutions || []).forEach(e => GUESS_EVO_PARENT.set(e.to, s.id)); });
+const GUESS_STAGE_ZH = ["未进化", "一阶", "二阶", "三阶", "四阶"];
+function guessEvoStage(s) {
+  let stage = 0, cur = s.id;
+  while (GUESS_EVO_PARENT.has(cur)) { cur = GUESS_EVO_PARENT.get(cur); stage++; }
+  return stage;
+}
+function guessDailyTarget() {
+  const rng = dailyRand("guess-" + dailyDateKey());
+  const pool = DEX_SEQ.filter(s => s.dex > 0 && s.isDefault);
+  return pool[Math.floor(rng() * pool.length)];
+}
+function guessTypeCmp(guessTypes, answerTypes) {
+  const result = Array(guessTypes.length).fill("gray");
+  const usedA = Array(answerTypes.length).fill(false);
+  for (let i = 0; i < guessTypes.length; i++) {
+    if (i < answerTypes.length && guessTypes[i] === answerTypes[i]) {
+      result[i] = "green"; usedA[i] = true;
+    }
+  }
+  for (let i = 0; i < guessTypes.length; i++) {
+    if (result[i] === "green") continue;
+    for (let j = 0; j < answerTypes.length; j++) {
+      if (!usedA[j] && guessTypes[i] === answerTypes[j]) { result[i] = "yellow"; usedA[j] = true; break; }
+    }
+  }
+  return result;
+}
+function guessLoadState(dk) {
+  try { return JSON.parse(localStorage.getItem(GUESS_KEY_PREFIX + dk) || '{"solved":false,"guesses":[]}'); }
+  catch (e) { return { solved: false, guesses: [] }; }
+}
+function guessSaveState(dk, st) { localStorage.setItem(GUESS_KEY_PREFIX + dk, JSON.stringify(st)); }
+let guessTarget = null, guessState = null;
+
+function guessAbilNames(s) {
+  return (s.abilities || []).concat(s.hidden || []).map(aid => { const a = D.abilities[aid]; return a ? a.zh : ""; }).filter(Boolean);
+}
+function guessRenderRow(sp, target) {
+  const typeStatus = guessTypeCmp(sp.types, target.types);
+  const typeCells = sp.types.map((tid, i) => {
+    const t = TYPE_BY_ID[tid];
+    return `<span class="guess-tile guess-${typeStatus[i]}" style="border-color:${t ? t.color : ""}">${esc(t ? t.zh : "?")}</span>`;
+  }).join("");
+  const typePadded = typeCells + (sp.types.length < 2 ? `<span class="guess-tile guess-empty">—</span>` : "");
+
+  const dexHit = sp.dex === target.dex;
+  const dexArrow = dexHit ? "✓" : (sp.dex < target.dex ? "↑" : "↓");
+  const dexCls = dexHit ? "green" : "gray";
+
+  const gStage = guessEvoStage(sp), tStage = guessEvoStage(target);
+  const stageDiff = Math.abs(gStage - tStage);
+  const stageCls = gStage === tStage ? "green" : (stageDiff === 1 ? "yellow" : "gray");
+  const stageHint = gStage === tStage ? "" : (gStage < tStage ? ` (答案更高)` : ` (答案更低)`);
+
+  const hHit = Math.abs(sp.height - target.height) < 0.01;
+  const hArrow = hHit ? "✓" : (sp.height < target.height ? "↑" : "↓");
+  const wHit = Math.abs(sp.weight - target.weight) < 0.01;
+  const wArrow = wHit ? "✓" : (sp.weight < target.weight ? "↑" : "↓");
+
+  const gEggs = sp.eggGroups || [], tEggs = target.eggGroups || [];
+  const eggInter = gEggs.filter(g => tEggs.includes(g));
+  const eggCls = eggInter.length === tEggs.length && eggInter.length === gEggs.length ? "green" : (eggInter.length ? "yellow" : "gray");
+
+  const gAbils = (sp.abilities || []).concat(sp.hidden || []);
+  const tAbils = (target.abilities || []).concat(target.hidden || []);
+  const abilInter = gAbils.filter(a => tAbils.includes(a));
+  const abilCls = abilInter.length === tAbils.length && abilInter.length === gAbils.length ? "green" : (abilInter.length ? "yellow" : "gray");
+  const abilText = abilInter.length + "/" + tAbils.length;
+
+  return `<div class="guess-row">
+    <div class="guess-cell guess-name">${esc(sp.zh)}</div>
+    <div class="guess-cell guess-types">${typePadded}</div>
+    <div class="guess-cell guess-${dexCls}">${dexArrow} ${sp.dex}</div>
+    <div class="guess-cell guess-${stageCls}">${GUESS_STAGE_ZH[gStage] || gStage}${stageHint}</div>
+    <div class="guess-cell guess-${hHit ? "green" : "gray"}">${hArrow} ${sp.height}m</div>
+    <div class="guess-cell guess-${wHit ? "green" : "gray"}">${wArrow} ${sp.weight}kg</div>
+    <div class="guess-cell guess-${eggCls}">${esc(gEggs.join("/"))}</div>
+    <div class="guess-cell guess-${abilCls}">${abilText}</div>
+  </div>`;
+}
+
+function renderGuess() {
+  const dk = dailyDateKey();
+  guessTarget = guessDailyTarget();
+  guessState = guessLoadState(dk);
+  const t = guessTarget;
+  const solved = guessState.solved;
+  const failed = !solved && guessState.guesses.length >= GUESS_MAX;
+  const gameOver = solved || failed;
+
+  const rowsHtml = guessState.guesses.map(id => {
+    const sp = SPECIES_BY_ID[id];
+    return sp ? guessRenderRow(sp, t) : "";
+  }).join("");
+
+  let resultHtml = "";
+  if (solved) {
+    resultHtml = `<div class="guess-result win">
+      <div class="guess-result-icon">🎉</div>
+      <div class="guess-result-text">猜对了！今天的答案是 <b>${esc(t.zh)}</b>（第 ${guessState.guesses.length} 次猜中）</div>
+      <a class="guess-result-link" href="#/p/${t.id}">查看图鉴 →</a>
+    </div>`;
+  } else if (failed) {
+    resultHtml = `<div class="guess-result lose">
+      <div class="guess-result-icon">😅</div>
+      <div class="guess-result-text">机会用完了！今天的答案是 <b>${esc(t.zh)}</b></div>
+      <a class="guess-result-link" href="#/p/${t.id}">查看图鉴 →</a>
+    </div>`;
+  }
+
+  let inputHtml = "";
+  if (!gameOver) {
+    inputHtml = `<div class="guess-input-area">
+      <div class="search-box guess-search">
+        <span>🔍</span>
+        <input id="guess-input" placeholder="输入宝可梦名称…" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <button type="button" class="search-clear hidden" title="清除" onclick="clearSearch('guess-input')">✕</button>
+      </div>
+      <button id="guess-submit" class="guess-submit" type="button" onclick="guessSubmit()">猜！</button>
+      <div id="guess-suggest" class="guess-suggest hidden"></div>
+    </div>`;
+  }
+
+  const remain = GUESS_MAX - guessState.guesses.length;
+  const remainText = gameOver ? "" : `<div class="guess-remain">剩余 <b>${remain}</b> 次机会</div>`;
+
+  app.innerHTML = `<div class="guess-page">
+    <div class="page-title">猜猜我是谁？</div>
+    <div class="page-sub">每天一只神秘宝可梦，靠线索把它找出来！绿色=完全命中，黄色=部分命中，灰色=未命中。↑表示答案更大/更重/更高，↓表示更小/更轻/更矮。</div>
+    ${resultHtml}
+    ${remainText}
+    ${inputHtml}
+    <div class="guess-table-wrap">
+      <div class="guess-table">
+        <div class="guess-row guess-header">
+          <div class="guess-cell">猜测</div>
+          <div class="guess-cell">属性</div>
+          <div class="guess-cell">编号</div>
+          <div class="guess-cell">进化</div>
+          <div class="guess-cell">身高</div>
+          <div class="guess-cell">体重</div>
+          <div class="guess-cell">蛋组</div>
+          <div class="guess-cell">特性</div>
+        </div>
+        ${rowsHtml}
+      </div>
+    </div>
+  </div>`;
+
+  if (!gameOver) {
+    const inp = $("#guess-input");
+    inp.addEventListener("input", guessOnInput);
+    inp.addEventListener("keydown", e => {
+      if (e.key === "Enter") { e.preventDefault(); guessSubmit(); }
+    });
+    inp.focus();
+  }
+}
+
+function guessOnInput(e) {
+  const v = toHans(e.target.value.trim()).toLowerCase();
+  const sug = $("#guess-suggest");
+  if (!v) { sug.classList.add("hidden"); sug.innerHTML = ""; return; }
+  const matches = [];
+  for (const s of DEX_SEQ) {
+    if (s.dex <= 0 || !s.isDefault) continue;
+    if (s.zh.toLowerCase().includes(v) || String(s.dex) === v) {
+      matches.push(s);
+      if (matches.length >= 10) break;
+    }
+  }
+  if (!matches.length) { sug.classList.add("hidden"); return; }
+  sug.classList.remove("hidden");
+  sug.innerHTML = matches.map(s => `<div class="guess-sug-item" onclick="guessPick(${s.id})">${esc(s.zh)} <span class="guess-sug-dex">#${s.dex}</span></div>`).join("");
+}
+window.guessPick = function (id) {
+  const s = SPECIES_BY_ID[id];
+  if (!s) return;
+  const inp = $("#guess-input");
+  if (!inp) return;
+  inp.value = s.zh;
+  $("#guess-suggest").classList.add("hidden");
+  guessSubmit();
+};
+function guessSubmit() {
+  const inp = $("#guess-input");
+  if (!inp) return;
+  const raw = toHans(inp.value.trim());
+  if (!raw) return;
+  let match = null;
+  for (const s of D.species) {
+    if (s.zh === raw && s.dex > 0) { match = s; if (s.isDefault) break; }
+  }
+  if (!match || guessState.guesses.includes(match.id)) {
+    inp.classList.add("guess-input-error");
+    setTimeout(() => inp.classList.remove("guess-input-error"), 600);
+    return;
+  }
+  guessState.guesses.push(match.id);
+  if (match.id === guessTarget.id) guessState.solved = true;
+  guessSaveState(dailyDateKey(), guessState);
+  renderGuess();
+}
+window.guessSubmit = guessSubmit;
