@@ -82,6 +82,33 @@ def iter_designated_blocks(text, key_re):
         body, _end = balanced_block(text, b)
         yield m.group(1), body
 
+def resolve_c_ifdefs(text, defined):
+    """按 defined 宏集解析 C 源码的 #ifdef/#ifndef/#else/#endif, 保留生效分支内容 (删除预处理行);
+    config.h 未定义的宏 (如 UNBOUND) 走 #else 分支"""
+    out = []
+    scopes = []  # 每层 (keep, taken): taken 表示该层已选过分支 (#else 后不再切换)
+    for raw in text.splitlines():
+        s = raw.strip()
+        if s.startswith("#ifdef"):
+            cond = s.split()[1] in defined if len(s.split()) > 1 else False
+            scopes.append((cond, cond))
+            continue
+        if s.startswith("#ifndef"):
+            cond = len(s.split()) > 1 and s.split()[1] not in defined
+            scopes.append((cond, cond))
+            continue
+        if s.startswith("#else"):
+            if scopes:
+                scopes[-1] = (not scopes[-1][1] and not scopes[-1][0], True)
+            continue
+        if s.startswith("#endif"):
+            if scopes:
+                scopes.pop()
+            continue
+        if all(keep for keep, _ in scopes):
+            out.append(raw)
+    return "\n".join(out) + "\n"
+
 # ---------------------------------------------------------------- .string 解析
 
 def parse_string_file(path, macros=()):
@@ -265,7 +292,9 @@ for m in re.finditer(r"#define\s+MOVE_(\w+)\s+(0x[0-9A-Fa-f]+|\d+)\b([^\n]*)", m
     if tail.startswith("//"):
         move_zh_comment[name] = tail[2:].strip()
 
-bm_text = read(os.path.join(CFRU, "src", "Tables", "battle_moves.c"))
+# config.h 中未被注释掉的 #define 即为已定义宏 (//#define 开头的不算)
+config_defines = {m.group(1) for m in re.finditer(r"^\s*#define\s+(\w+)", read(os.path.join(CFRU, "src", "config.h")), re.M)}
+bm_text = resolve_c_ifdefs(read(os.path.join(CFRU, "src", "Tables", "battle_moves.c")), config_defines)
 move_blocks = {k[len("MOVE_"):]: v for k, v in iter_designated_blocks(bm_text, r"\[(MOVE_\w+)\]\s*=\s*\{")}
 
 # 游戏实际招式名: attack_name_table.string 按位置对应招式编号 (标签多为缩写, 不能按名字匹配);

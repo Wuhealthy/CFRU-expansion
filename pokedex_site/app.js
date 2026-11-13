@@ -2766,7 +2766,6 @@ const GACHA_RARITIES = [
 ];
 const GACHA_ALBUM_KEY = "pkdx_gacha_album";
 let gachaCurrent = null;
-let gachaCurrent10 = null;
 
 function gachaRandomRarity() {
   const r = Math.random();
@@ -2942,7 +2941,6 @@ function gachaLegendText(rarity) {
 function renderGacha() {
   const remain = GACHA_FREE_DAILY - gachaDrawCount();
   const c = gachaCurrent;
-  const c10 = gachaCurrent10;
   const revealed = c && c.revealed;
   let stageHtml = "";
   if (c) {
@@ -2970,39 +2968,11 @@ function renderGacha() {
       <button type="button" class="cm-btn ghost" onclick="gachaViewInDex()">查看图鉴</button>
       ${remain > 0 ? '<button type="button" class="cm-btn" onclick="gachaAgain()">再抽一次</button>' : '<button type="button" class="cm-btn ghost" onclick="location.hash=\'#/album\'">查看卡包</button>'}
     </div>`;
-  } else if (c10) {
-    const allRevealed = c10.every(cc => cc.revealed);
-    stageHtml = `<div class="gacha-stage-10">` + c10.map((cc, i) => {
-      const rar = GACHA_RARITIES.find(r => r.key === cc.rarity);
-      const glow = rar.glow === "rainbow"
-        ? "box-shadow: 0 0 12px #ff0080, 0 0 24px #00ff00, 0 0 36px #0080ff;"
-        : rar.glow ? `box-shadow: 0 0 12px ${rar.glow};` : "";
-      return `<div class="gacha-card-3d gacha-card-10 ${cc.revealed ? "flipped" : ""}" data-idx="${i}" ${cc.revealed ? "" : `onclick="gachaRevealOne10(${i})"`}>
-        <div class="gacha-card-inner">
-          <div class="gacha-face gacha-back" style="${glow}">
-            <div class="gacha-ball"></div>
-          </div>
-          <div class="gacha-face gacha-front">
-            <canvas class="gacha-canvas-10" data-idx="${i}" width="${CARD_W * CARD_SCALE}" height="${CARD_H * CARD_SCALE}"></canvas>
-          </div>
-        </div>
-      </div>`;
-    }).join("") + `</div>`;
-    stageHtml += `<div class="gacha-result-info">
-      ${!allRevealed ? '<button type="button" class="cm-btn" onclick="gachaRevealAll10()">全部翻开</button>' : ""}
-      ${allRevealed ? '<button type="button" class="cm-btn" onclick="gachaDownload10()">⬇ 全部保存</button>' : ""}
-      ${allRevealed && remain >= 10 ? '<button type="button" class="cm-btn" onclick="gachaAgain10()">再抽十连</button>' : ""}
-      ${allRevealed && remain < 10 ? '<button type="button" class="cm-btn ghost" onclick="location.hash=\'#/album\'">查看卡包</button>' : ""}
-    </div>`;
   } else {
     stageHtml = `<div class="gacha-stage-idle">
       <div class="gacha-pack ${remain > 0 ? "" : "disabled"}" ${remain > 0 ? 'onclick="gachaDraw()"' : ""}>
-        <div class="gacha-pack-icon">🎁</div>
-        <div class="gacha-pack-label">${remain > 0 ? "单抽 (1次)" : "今日次数已用完"}</div>
-      </div>
-      <div class="gacha-pack gacha-pack-10 ${remain >= 10 ? "" : "disabled"}" ${remain >= 10 ? 'onclick="gachaDraw10()"' : ""}>
-        <div class="gacha-pack-icon">🎁×10</div>
-        <div class="gacha-pack-label">${remain >= 10 ? "十连抽 (10次)" : "剩余不足10次"}</div>
+        <div class="gacha-ball"></div>
+        <div class="gacha-pack-label">${remain > 0 ? `单抽 (剩余 ${remain} 次)` : "今日次数已用完"}</div>
       </div>
     </div>`;
   }
@@ -3011,19 +2981,11 @@ function renderGacha() {
     <div class="page-sub">每天 ${GACHA_FREE_DAILY} 次免费抽卡，稀有度按种族值判定：💎EX(≥680) 🌈UR(≥580或超进化/超极巨/觉醒) 🟡SR(≥480) 🔵R(≥380) ⚪N(&lt;380)。UR/EX触发全屏特效！</div>
     <div class="gacha-remain">今日剩余 <b>${Math.max(0, remain)}</b> 次 · <a href="#/album">我的卡包 (${gachaLoadAlbum().length})</a></div>
     ${stageHtml}
-    ${remain <= 0 && !c && !c10 ? '<div class="gacha-out">今天的机会用完了，明天再来吧！</div>' : ""}
+    ${remain <= 0 && !c ? '<div class="gacha-out">今天的机会用完了，明天再来吧！</div>' : ""}
   </div>`;
   if (c && revealed) {
     const cv = $("#gacha-canvas");
     if (cv) gachaDrawToCanvas(cv, c.spId, c.style, c.label, c.abilityId, c.moveIds);
-  }
-  if (c10) {
-    c10.forEach((cc, i) => {
-      if (cc.revealed) {
-        const cv = $(`.gacha-canvas-10[data-idx="${i}"]`);
-        if (cv) gachaDrawToCanvas(cv, cc.spId, cc.style, cc.label, cc.abilityId, cc.moveIds);
-      }
-    });
   }
 }
 window.gachaDraw = function () {
@@ -3069,98 +3031,6 @@ window.gachaDownload = function () {
 };
 window.gachaViewInDex = function () { if (gachaCurrent) location.hash = "#/p/" + gachaCurrent.spId; };
 window.gachaAgain = function () { gachaCurrent = null; renderGacha(); };
-window.gachaDraw10 = function () {
-  if (gachaDrawCount() + 10 > GACHA_FREE_DAILY) return;
-  gachaCurrent = null;
-  gachaCurrent10 = [];
-  for (let i = 0; i < 10; i++) {
-    const s = gachaRandomSpecies();
-    const formId = gachaBestFormId(s);
-    const formSp = SPECIES_BY_ID[formId];
-    const rar = GACHA_RARITIES.find(r => r.key === gachaRarityForSpecies(s));
-    const abilityId = gachaRandomAbility(formSp);
-    gachaCurrent10.push({ spId: formId, rarity: rar.key, style: rar.style, label: "★ 抽卡获得 · " + rar.label, abilityId, moveIds: gachaRandomMoves(formSp, abilityId), revealed: false });
-    gachaIncrDrawCount();
-  }
-  renderGacha();
-};
-window.gachaRevealOne10 = function (idx) {
-  if (!gachaCurrent10 || !gachaCurrent10[idx] || gachaCurrent10[idx].revealed) return;
-  gachaCurrent10[idx].revealed = true;
-  const cc = gachaCurrent10[idx];
-  const rar = GACHA_RARITIES.find(r => r.key === cc.rarity);
-  const album = gachaLoadAlbum();
-  album.push({ id: cc.spId, rarity: cc.rarity, style: cc.style, ts: Date.now(), abilityId: cc.abilityId, moveIds: cc.moveIds });
-  gachaSaveAlbum(album);
-  renderGacha();
-  if (rar.key === "UR" || rar.key === "EX") {
-    gachaParticles(rar.key === "EX" ? "ex" : "ur");
-    gachaLegendText(rar.key);
-    if (navigator.vibrate) navigator.vibrate(rar.key === "EX" ? 200 : 100);
-  }
-};
-window.gachaRevealAll10 = function () {
-  if (!gachaCurrent10) return;
-  const indices = gachaCurrent10.map((cc, i) => i).filter(i => !gachaCurrent10[i].revealed);
-  const album = gachaLoadAlbum();
-  let step = 0;
-  function next() {
-    if (step >= indices.length) {
-      gachaSaveAlbum(album);
-      renderGacha();
-      const bestRar = indices.map(i => gachaCurrent10[i].rarity).reduce((best, r) => {
-        const order = { N: 0, R: 1, SR: 2, UR: 3, EX: 4 };
-        return (order[r] || 0) > (order[best] || 0) ? r : best;
-      }, "N");
-      if (bestRar === "UR" || bestRar === "EX") {
-        gachaParticles(bestRar === "EX" ? "ex" : "ur");
-        gachaLegendText(bestRar);
-        if (navigator.vibrate) navigator.vibrate(bestRar === "EX" ? 200 : 100);
-      }
-      return;
-    }
-    const idx = indices[step];
-    const cc = gachaCurrent10[idx];
-    cc.revealed = true;
-    album.push({ id: cc.spId, rarity: cc.rarity, style: cc.style, ts: Date.now(), abilityId: cc.abilityId, moveIds: cc.moveIds });
-    const card = document.querySelector(`.gacha-card-10[data-idx="${idx}"]`);
-    if (card) {
-      card.classList.add("flipped");
-      card.removeAttribute("onclick");
-      const cv = card.querySelector("canvas");
-      if (cv) gachaDrawToCanvas(cv, cc.spId, cc.style, cc.label, cc.abilityId, cc.moveIds);
-    }
-    const rar = GACHA_RARITIES.find(r => r.key === cc.rarity);
-    if (rar.key === "UR" || rar.key === "EX") {
-      gachaParticles(rar.key === "EX" ? "ex" : "ur");
-      gachaLegendText(rar.key);
-    }
-    step++;
-    setTimeout(next, 200);
-  }
-  next();
-};
-window.gachaAgain10 = function () { gachaCurrent10 = null; renderGacha(); };
-window.gachaDownload10 = function () {
-  if (!gachaCurrent10) return;
-  gachaCurrent10.forEach((cc, i) => {
-    setTimeout(() => {
-      const cv = document.createElement("canvas");
-      cv.width = CARD_W * CARD_SCALE; cv.height = CARD_H * CARD_SCALE;
-      gachaDrawToCanvas(cv, cc.spId, cc.style, cc.label, cc.abilityId, cc.moveIds).then(() => {
-        cv.toBlob(b => {
-          if (!b) return;
-          const a = document.createElement("a");
-          a.href = URL.createObjectURL(b);
-          a.download = `${speciesName(SPECIES_BY_ID[cc.spId])}_${cc.rarity}卡.png`;
-          a.click();
-          setTimeout(() => URL.revokeObjectURL(a.href), 3000);
-        }, "image/png");
-      });
-    }, i * 300);
-  });
-};
-
 function gachaSeededRand(seed) {
   let s = seed % 233280;
   return () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };

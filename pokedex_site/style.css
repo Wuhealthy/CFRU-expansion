@@ -871,17 +871,17 @@ textarea.cm-input { resize: vertical; min-height: 36px; font-family: inherit; }
 
 .gacha-stage-idle { display: flex; justify-content: center; gap: 32px; padding: 40px 0; flex-wrap: wrap; }
 .gacha-pack {
-  width: 200px; height: 280px; border-radius: 18px; cursor: pointer;
-  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
-  box-shadow: 0 8px 32px var(--shadow-strong); transition: transform 0.2s;
-  border: 3px solid rgba(255,255,255,.2);
+  width: 220px; height: 308px; border-radius: 16px; cursor: pointer;
+  background: linear-gradient(135deg, #2a2a3a, #1a1a2a);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+  box-shadow: 0 8px 32px var(--shadow-strong);
+  border: 3px solid rgba(255,255,255,.15);
+  transition: transform 0.2s;
 }
 .gacha-pack:hover { transform: translateY(-6px) scale(1.03); }
 .gacha-pack:active { transform: translateY(-2px) scale(1.01); }
 .gacha-pack.disabled { opacity: 0.45; cursor: not-allowed; background: var(--line); }
 .gacha-pack.disabled:hover { transform: none; }
-.gacha-pack-icon { font-size: 64px; filter: drop-shadow(0 4px 8px rgba(0,0,0,.3)); }
 .gacha-pack-label { color: #fff; font-size: 18px; font-weight: 700; }
 .gacha-pack.disabled .gacha-pack-label { color: var(--muted); }
 
@@ -970,12 +970,7 @@ textarea.cm-input { resize: vertical; min-height: 36px; font-family: inherit; }
 /* 图鉴卡片稀有度边框联动 */
 .mon-card.mon-card-R { border-color: #3d7dca; box-shadow: 0 0 8px #3d7dca40; }
 .mon-card.mon-card-SR { border-color: #FFD700; box-shadow: 0 0 10px #FFD70060; }
-.mon-card.mon-card-UR {
-  border: 2px solid transparent;
-  background-clip: padding-box;
-  box-shadow: 0 0 12px #c026d360, inset 0 0 0 2px #c026d3;
-  border-image: linear-gradient(135deg, #ff0080, #ffa500, #00ff00, #0080ff, #8000ff) 1;
-}
+.mon-card.mon-card-UR { border-color: #c026d3; box-shadow: 0 0 12px #c026d360; }
 .mon-card.mon-card-EX {
   border-color: #e0f2fe; box-shadow: 0 0 16px #e0f2fe80, inset 0 0 0 1px #94a3b8;
   background: linear-gradient(135deg, var(--card), #e0f2fe08);
@@ -1017,8 +1012,3 @@ textarea.cm-input { resize: vertical; min-height: 36px; font-family: inherit; }
 .album-popup-close:hover { background: rgba(255,255,255,.4); }
 .album-popup-info { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; }
 
-.gacha-stage-10 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; padding: 20px 0; max-width: 900px; margin: 0 auto; }
-.gacha-card-10 { width: 100%; height: auto; aspect-ratio: 220/308; perspective: 600px; }
-.gacha-card-10 .gacha-ball::after { width: 16px; height: 16px; border-width: 3px; }
-.gacha-pack-10 .gacha-pack-icon { font-size: 48px; }
-@media (max-width: 640px) { .gacha-stage-10 { grid-template-columns: repeat(3, 1fr); } }
