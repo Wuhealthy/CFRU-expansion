@@ -1062,7 +1062,7 @@ gMoveAnimations:
 .word ANIM_IRONTAIL	@MOVE_CURRENTTAIL
 .word ANIM_HURRICANE	@MOVE_GIANTTORNADO
 .word ANIM_MOONBLAST	@MOVE_MOONFEATHER
-.word ANIM_HORNLEECH	@MOVE_ULTIMATESWALLOW
+.word ANIM_ULTIMATESWALLOW	@MOVE_ULTIMATESWALLOW
 .word ANIM_FORTUNEWASH	@MOVE_FORTUNEWASH
 .word ANIM_REFRACTGEM	@MOVE_REFRACTGEM
 .word ANIM_EXTREMESKYMETEOR	@MOVE_EXTREMESKYMETEOR
@@ -31857,27 +31857,26 @@ TWP_HIT: objtemplate ANIM_TAG_IMPACT ANIM_TAG_WATER_ORB OAM_NORMAL_BLEND_32x32 g
 @;狂澜巨颚: 水浪汇聚后突进, 连续三次咬合(呼应必降防的强咬), 终结水花
 .global ANIM_RAGINGJAWS
 ANIM_RAGINGJAWS:
-	loadparticle ANIM_TAG_FANG_ATTACK
 	loadparticle ANIM_TAG_WATER_ORB
-	loadparticle ANIM_TAG_BLUE_RING_2
+	loadparticle ANIM_TAG_THIN_RING @水环(Template_Ring不自动加载,缺了会画乱码)
 	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_SHARP_TEETH @巨颚(Template_Teeth不自动加载,缺了会画乱码)
 	pokespritetoBG side_target
 	leftbankBG_over_partnerBG bank_target
-	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_FANG_ATTACK 0x0 0xC 0xC 0x7FFF @;白闪獠牙
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_THIN_RING 0x0 0xC 0xC 0x7F48 @;水蓝 环
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_SHARP_TEETH 0x0 0xC 0xC 0x7F9C @;淡冰蓝 巨颚
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_WATER_ORB 0x0 0xC 0xC 0x7F48 @;水蓝 命中水花
 	launchsoundtask SoundTask_LoopSEAdjustPanning 0x7 0x87, 0xFF00 | SOUND_PAN_ATTACKER, SOUND_PAN_TARGET 0x5 0x5 0x0 0x5
 	call RJ_WAVE
 	call RJ_WAVE
 	pause 0xC
 	playsound2 0x9A SOUND_PAN_TARGET
 	launchtask AnimTask_move_bank 0x3 0x5 bank_target 0x3 0x0 0xa 0x1
-	launchtemplate 0x83FEFBC TEMPLATE_TARGET | 2, 0x0 @咬合1
-	pause 0x8
+	call RJ_BITE @咬合1
 	playsound2 0x9A SOUND_PAN_TARGET
-	launchtemplate 0x83FEFBC TEMPLATE_TARGET | 2, 0x0 @咬合2
-	pause 0x8
+	call RJ_BITE @咬合2
 	playsound2 0x9A SOUND_PAN_TARGET
-	launchtemplate 0x83FEFBC TEMPLATE_TARGET | 2, 0x0 @咬合3
-	pause 0x8
+	call RJ_BITE @咬合3
 	playsound2 0x98 SOUND_PAN_TARGET
 	launchtemplate RJ_HIT 0x2 0x4 0x0 0x0 0x1 0x2
 	waitanimation
@@ -31886,18 +31885,25 @@ ANIM_RAGINGJAWS:
 
 .align 2
 RJ_WAVE:
-	launchtemplate RJ_RING TEMPLATE_TARGET | 2, 0x4, 0x0 0x0 0x28 0xf
+	launchtemplate Template_Ring TEMPLATE_TARGET | 3, 0x4 0x0 0x0 0x0 0x0 @水环扩散
 	pause 0xA
 	return
 
 .align 2
-RJ_RING: objtemplate ANIM_TAG_BLUE_RING_2 ANIM_TAG_WATER_ORB OAM_DOUBLE_16x32 gDummySpriteAnimTable 0x0 0x83E3C9C 0x80AC6D9
+RJ_BITE:
+	launchtemplate Template_Teeth TEMPLATE_TARGET | 2, 0x6 0x0 0xffe0 0x0 0x0 0x333 0xa @上颚
+	launchtemplate Template_Teeth TEMPLATE_TARGET | 2, 0x6 0x0 0x20 0x4 0x0 0xfccd 0xa @下颚
+	pause 0x8
+	return
+
+.align 2
 RJ_HIT: objtemplate ANIM_TAG_IMPACT ANIM_TAG_WATER_ORB OAM_NORMAL_BLEND_32x32 gDummySpriteAnimTable 0x0 0x83E7BF8 0x80BA561
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
 @极空陨星：从大气层外俯冲而下，借由坠落的动能撞击对手
 ANIM_EXTREMESKYMETEOR:
 	loadparticle ANIM_TAG_METEOR @陨星本体
+	loadparticle ANIM_TAG_FAIRY_LOCK_CHAINS @陨石调色板(DRACO_ROCKS不自动加载,缺了会画乱码)
 	loadparticle ANIM_TAG_ROCKS @坠落的陨石
 	loadparticle ANIM_TAG_WATER_GUN @陨星尾焰
 	loadparticle ANIM_TAG_FIRE_PLUME @火柱(Template_MiniFirePlume不自动加载,缺了会画乱码)
@@ -31909,7 +31915,7 @@ ANIM_EXTREMESKYMETEOR:
 	waitbgfadein
 	launchtask AnimTask_AttackerFadeToInvisible 0x5 0x1 0x0 @;攻击方隐身，化作陨星
 	waitanimation
-	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_ROCKS 0x0 0xC 0xC 0x01DD @;Orange 陨石染成火焰色
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_FAIRY_LOCK_CHAINS 0x0 0xC 0xC 0x01DD @;Orange 陨石染成火焰色(染调色板标签)
 	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_WATER_GUN 0x0 0xC 0xC 0x01DD @;Orange 尾焰
 	launchtask SoundTask_PlaySE2WithPanning 0x5 0x2 0xe7 0xffc0 @;俯冲音效
 	call DRACO_METEOR_1
@@ -32082,6 +32088,68 @@ FW_WASHCIRCLE: objtemplate ANIM_TAG_ORBS ANIM_TAG_WATER_ORB OAM_DOUBLE_16x16 0x8
 FW_FORTUNE_STAR: objtemplate ANIM_TAG_FOCUS_ENERGY ANIM_TAG_GOLD_STARS OAM_OFF_16x32 0x83E3600 0x0 gDummySpriteAffineAnimTable 0x80A5AD9
 FW_WASHORB: objtemplate ANIM_TAG_ORBS ANIM_TAG_WATER_ORB OAM_NORMAL_BLEND_16x16 0x83E2A40 0x0 gDummySpriteAffineAnimTable 0x80A4299
 FW_WASHHIT: objtemplate ANIM_TAG_IMPACT ANIM_TAG_WATER_ORB OAM_NORMAL_BLEND_32x32 gDummySpriteAnimTable 0x0 0x83E7BF8 0x80BA561
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@;终极吞噬: 藤蔓缠住猎物, 攻击方张开巨颚猛扑一口咬住, 反复收紧撕咬后将猎物整个吞下消化吸收
+.global ANIM_ULTIMATESWALLOW
+ANIM_ULTIMATESWALLOW:
+	loadparticle ANIM_TAG_SHARP_TEETH	@巨颚
+	loadparticle ANIM_TAG_TENDRILS		@束缚藤蔓
+	loadparticle ANIM_TAG_ORBS		@吸取能量球
+	loadparticle ANIM_TAG_BLUE_STAR		@回血星光
+	loadparticle ANIM_TAG_IMPACT		@命中
+	@;蓄力: 攻击方绿光脉动, 藤蔓缠上猎物
+	playsound2 0x94 SOUND_PAN_ATTACKER
+	launchtask AnimTask_pal_fade_complex 0x2 0x6 PAL_ATK 0x2 0x2 0x0 0xb 0x3E0 @;绿光
+	launchtemplate Template_ConstrictBinding TEMPLATE_TARGET | 4, 0x4, 0x0 0x10 0x0 0x2
+	pause 0x7
+	launchtemplate Template_ConstrictBinding 0x83 0x4, 0x0 0x0 0x0 0x2
+	pause 0x8
+	@;猛扑一口咬住
+	playsound2 0x84 SOUND_PAN_ATTACKER
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x3 0x0 0x6 0x1
+	playsound2 0x9A SOUND_PAN_TARGET
+	launchtemplate Template_Teeth 0x2 0x6 0x0 0xffe0 0x0 0x0 0x333 0xa	@上颚
+	launchtemplate Template_Teeth 0x2 0x6 0x0 0x20 0x4 0x0 0xfccd 0xa	@下颚
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_SHARP_TEETH 0x1 0x0 0xA 0x3E0 @;獠牙泛绿
+	pause 0xA
+	launchtemplate Template_Hit 0x2 0x4 0x0 0x0 0x1 0x2
+	playsound2 0x9F SOUND_PAN_TARGET
+	launchtask AnimTask_screen_shake 0x5 0x3 0x5 0x2 0x1
+	launchtask AnimTask_move_bank 0x5 0x5 bank_target 0x0 0x4 0x7 0x1
+	@;反复收紧撕咬
+	call USW_CHEW
+	call USW_CHEW
+	@;吞入: 藤蔓松开收回(ConstrictBinding必须靠setarg 0x7释放, 否则waitanimation永久卡死), 攻击方滑上前盖住猎物
+	setarg 0x7 0xffff
+	pause 0x10 @留给藤蔓收回的时间
+	playsound2 0x98 SOUND_PAN_TARGET
+	launchtemplate Template_SlideMonToOffset 0x2 0x5 bank_attacker 0x14 0x3 0x0 0x4
+	pause 0x10 @原waitanimation会无限等待滑行精灵, 改为定长等待
+	launchtask AnimTask_ScaleMonAndRestore 0x5 0x5 0xfff8 0xfff8 0xb bank_attacker 0x1 @;鼓咽(缩放增量必须为负)
+	launchtask AnimTask_SwayMon 0x5 0x5 0x0 0x8 0xD0 0x1 bank_attacker @;吞咽蠕动
+	pause 0x18
+	@;消化: 能量从猎物处涌向攻击方
+	pokespritetoBG bank_target
+	call ABSORB_ANIM
+	pause 0x18
+	launchtemplate Template_SlideMonToOriginalPos 0x2 0x3 bank_attacker 0x0 0x5
+	pause 0x8
+	pokespritefromBG bank_target
+	@;饱餐回血
+	call HEALING_ANIM
+	pause 0x18
+	resetblends
+	endanimation
+
+USW_CHEW:
+	launchtemplate Template_Teeth 0x2 0x6 0x0 0xffe8 0x0 0x0 0x333 0x8	@收紧上颚
+	launchtemplate Template_Teeth 0x2 0x6 0x0 0x18 0x4 0x0 0xfccd 0x8	@收紧下颚
+	launchtask AnimTask_move_bank 0x5 0x5 bank_target 0x0 0x3 0x6 0x1
+	playsound2 0x86 SOUND_PAN_TARGET
+	pause 0x8
+	return
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
