@@ -2851,6 +2851,7 @@ function renderGacha() {
       <span class="gacha-mon-name">${esc(speciesName(SPECIES_BY_ID[c.spId]))}</span>
       <button type="button" class="cm-btn" onclick="gachaDownload()">⬇ 保存图片</button>
       <button type="button" class="cm-btn ghost" onclick="gachaViewInDex()">查看图鉴</button>
+      ${remain > 0 ? '<button type="button" class="cm-btn" onclick="gachaAgain()">再抽一次</button>' : '<button type="button" class="cm-btn ghost" onclick="location.hash=\'#/album\'">查看卡包</button>'}
     </div>`;
   } else {
     stageHtml = `<div class="gacha-stage-idle">
@@ -2885,7 +2886,7 @@ window.gachaReveal = function () {
   gachaCurrent.revealed = true;
   const rar = GACHA_RARITIES.find(r => r.key === gachaCurrent.rarity);
   const album = gachaLoadAlbum();
-  album.push({ id: gachaCurrent.spId, rarity: gachaCurrent.rarity, style: gachaCurrent.style, ts: Date.now() });
+  album.push({ id: gachaCurrent.spId, rarity: gachaCurrent.rarity, style: gachaCurrent.style, ts: Date.now(), abilityId: gachaCurrent.abilityId, moveIds: gachaCurrent.moveIds });
   gachaSaveAlbum(album);
   renderGacha();
   if (rar.key === "UR" || rar.key === "EX") {
@@ -2911,6 +2912,31 @@ window.gachaDownload = function () {
   });
 };
 window.gachaViewInDex = function () { if (gachaCurrent) location.hash = "#/p/" + gachaCurrent.spId; };
+window.gachaAgain = function () { gachaCurrent = null; renderGacha(); };
+
+function gachaSeededRand(seed) {
+  let s = seed % 233280;
+  return () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+}
+function gachaCardAbility(s, stored) {
+  if (stored != null) return stored;
+  const rng = gachaSeededRand(s.id * 1000 + 3);
+  const all = s.abilities.concat(s.hidden);
+  return all.length ? all[Math.floor(rng() * all.length)] : null;
+}
+function gachaCardMoves(s, stored) {
+  if (stored && stored.length) return stored;
+  const rng = gachaSeededRand(s.id * 1000 + 7);
+  const pool = cmMovepool(s);
+  const megaMap = MEGA_MOVE_MAP[s.id] || {};
+  const megaKeys = Object.keys(megaMap).map(Number);
+  const moves = [];
+  if (megaKeys.length) moves.push(megaKeys[Math.floor(rng() * megaKeys.length)]);
+  const rest = pool.filter(p => !moves.includes(p.mid));
+  for (let i = rest.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [rest[i], rest[j]] = [rest[j], rest[i]]; }
+  for (const p of rest) { if (moves.length >= 4) break; moves.push(p.mid); }
+  return moves;
+}
 
 function renderAlbum() {
   const album = gachaLoadAlbum();
@@ -2922,23 +2948,76 @@ function renderAlbum() {
     const s = SPECIES_BY_ID[parseInt(idStr)];
     if (!s) return null;
     const rar = GACHA_RARITIES.find(r => r.style === style);
-    return { s, style, rarity: rar ? rar.key : "N", count };
+    return { s, style, rarity: rar ? rar.key : "N", count, id: parseInt(idStr) };
   }).filter(Boolean).sort((a, b) => rarityOrder[a.rarity] - rarityOrder[b.rarity] || a.s.dex - b.s.dex);
-  const gridHtml = items.length ? items.map(it => {
+  const gridHtml = items.length ? items.map((it, i) => {
     const rar = GACHA_RARITIES.find(r => r.key === it.rarity);
-    return `<div class="album-card album-${it.style}" onclick="location.hash='#/p/${it.s.id}'">
-      ${spriteCanvas("front", it.s.id, "album-spr", null, true)}
-      <div class="album-name">${esc(speciesName(it.s))}</div>
+    return `<div class="album-card album-${it.style}" onclick="gachaAlbumPopup(${it.id},'${it.style}','${it.rarity}')">
+      <canvas id="album-cv-${i}" width="${CARD_W * CARD_SCALE}" height="${CARD_H * CARD_SCALE}"></canvas>
       <div class="album-rarity">${rar.icon} ${rar.label}${it.count > 1 ? ` ×${it.count}` : ""}</div>
     </div>`;
   }).join("") : '<div class="cm-empty">还没有抽到任何卡牌，去<a href="#/gacha">抽卡</a>吧！</div>';
   app.innerHTML = `<div class="gacha-page">
     <div class="page-title">我的卡包</div>
-    <div class="page-sub">已收集 ${album.length} 张卡牌，${items.length} 种不同卡面</div>
+    <div class="page-sub">已收集 ${album.length} 张卡牌，${items.length} 种不同卡面 · 点击卡牌放大查看</div>
     <div class="album-grid">${gridHtml}</div>
   </div>`;
-  mountSprites(app);
+  items.forEach((it, i) => {
+    const cv = $("#album-cv-" + i);
+    if (!cv) return;
+    const card = album.find(c => c.id === it.id && c.style === it.style);
+    const abilityId = gachaCardAbility(it.s, card ? card.abilityId : null);
+    const moveIds = gachaCardMoves(it.s, card ? card.moveIds : null);
+    const rar = GACHA_RARITIES.find(r => r.key === it.rarity);
+    gachaDrawToCanvas(cv, it.id, it.style, "★ 抽卡获得 · " + rar.label, abilityId, moveIds);
+  });
 }
+window.gachaAlbumPopup = function (spId, style, rarity) {
+  const s = SPECIES_BY_ID[spId];
+  if (!s) return;
+  const album = gachaLoadAlbum();
+  const card = album.find(c => c.id === spId && c.style === style);
+  const rar = GACHA_RARITIES.find(r => r.key === rarity);
+  const abilityId = gachaCardAbility(s, card ? card.abilityId : null);
+  const moveIds = gachaCardMoves(s, card ? card.moveIds : null);
+  const label = "★ 抽卡获得 · " + rar.label;
+  const mask = document.createElement("div");
+  mask.className = "album-popup-mask";
+  mask.innerHTML = `<div class="album-popup">
+    <button class="album-popup-close" onclick="this.closest('.album-popup-mask').remove()">✕</button>
+    <canvas id="album-popup-canvas" width="${CARD_W * CARD_SCALE}" height="${CARD_H * CARD_SCALE}"></canvas>
+    <div class="album-popup-info">
+      <span class="gacha-rarity gacha-rarity-${rarity}">${rar.icon} ${rar.label}</span>
+      <button type="button" class="cm-btn" onclick="gachaAlbumDownload(${spId},'${style}','${rarity}')">⬇ 保存图片</button>
+      <button type="button" class="cm-btn ghost" onclick="location.hash='#/p/${spId}'">查看图鉴</button>
+    </div>
+  </div>`;
+  document.body.appendChild(mask);
+  mask.addEventListener("click", e => { if (e.target === mask) mask.remove(); });
+  gachaDrawToCanvas(mask.querySelector("#album-popup-canvas"), spId, style, label, abilityId, moveIds);
+};
+window.gachaAlbumDownload = function (spId, style, rarity) {
+  const s = SPECIES_BY_ID[spId];
+  if (!s) return;
+  const album = gachaLoadAlbum();
+  const card = album.find(c => c.id === spId && c.style === style);
+  const rar = GACHA_RARITIES.find(r => r.key === rarity);
+  const abilityId = gachaCardAbility(s, card ? card.abilityId : null);
+  const moveIds = gachaCardMoves(s, card ? card.moveIds : null);
+  const label = "★ 抽卡获得 · " + rar.label;
+  const cv = document.createElement("canvas");
+  cv.width = CARD_W * CARD_SCALE; cv.height = CARD_H * CARD_SCALE;
+  gachaDrawToCanvas(cv, spId, style, label, abilityId, moveIds).then(() => {
+    cv.toBlob(b => {
+      if (!b) return;
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(b);
+      a.download = `${speciesName(s)}_${rarity}卡.png`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+    }, "image/png");
+  });
+};
 
 /* ---------------- 存档导出/导入 ----------------
    收集所有 pkdx_ 前缀的 localStorage (收藏/主题/语言/图鉴视图/抽卡收集册/猜猜记录/每日弹窗等),
