@@ -970,11 +970,7 @@ textarea.cm-input { resize: vertical; min-height: 36px; font-family: inherit; }
 /* 图鉴卡片稀有度边框联动 */
 .mon-card.mon-card-R { border-color: #3d7dca; box-shadow: 0 0 8px #3d7dca40; }
 .mon-card.mon-card-SR { border-color: #FFD700; box-shadow: 0 0 10px #FFD70060; }
-.mon-card.mon-card-UR {
-  border: 2px solid transparent;
-  background-clip: padding-box;
-  box-shadow: 0 0 12px #c026d360, inset 0 0 0 2px #c026d3;
-}
+.mon-card.mon-card-UR { border-color: #c026d3; box-shadow: 0 0 12px #c026d360; }
 .mon-card.mon-card-EX {
   border-color: #e0f2fe; box-shadow: 0 0 16px #e0f2fe80, inset 0 0 0 1px #94a3b8;
   background: linear-gradient(135deg, var(--card), #e0f2fe08);
