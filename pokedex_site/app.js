@@ -447,8 +447,16 @@ function dexStep(dir) {
   const t = dir < 0 ? DEX_SEQ[pos - 1] : DEX_SEQ[pos + 1];
   if (t) location.hash = "#/p/" + t.id;
 }
-/* 详情页左右滑动翻页: 水平位移 ≥60px 且明显大于垂直位移才触发; 起点在表格(横滚)或输入区时忽略 */
+/* 详情页左右滑动翻页: 水平位移 ≥60px 且明显大于垂直位移才触发; 起点在表格(横滚)、输入区或任何可横向滚动的容器(如进化链)时忽略 */
 let touchStart = null;
+/* 起点是否位于横向滚动容器内: overflow-x 为 auto/scroll 且内容确实溢出 (如进化链/图表), 此时滑动应滚动该容器而非翻页 */
+const inHScroller = el => {
+  for (let n = el; n && n !== document.body; n = n.parentElement) {
+    const ox = getComputedStyle(n).overflowX;
+    if ((ox === "auto" || ox === "scroll") && n.scrollWidth > n.clientWidth) return true;
+  }
+  return false;
+};
 document.addEventListener("touchstart", e => {
   if (e.touches.length !== 1) { touchStart = null; return; }
   const t = e.touches[0];
@@ -461,7 +469,7 @@ document.addEventListener("touchend", e => {
   touchStart = null;
   if (dt > 900 || Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 2) return;
   if (!mask.classList.contains("hidden")) return;
-  if (e.target.closest("table, input, textarea")) return;
+  if (e.target.closest("table, input, textarea") || inHScroller(e.target)) return;
   dexStep(dx < 0 ? 1 : -1);   // 左滑下一只, 右滑上一只
 });
 /* 移动端顶栏齿轮菜单: 点齿轮开合, 点击面板外收起 */
