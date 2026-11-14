@@ -1058,7 +1058,7 @@ gMoveAnimations:
 .word ANIM_XSCISSOR	@MOVE_CRITSNIP
 .word ANIM_AQUATAIL	@MOVE_RAGINGSURGE
 .word ANIM_WINGATTACK	@MOVE_WINDROCKSTRIKE
-.word ANIM_CROSSPOISON	@MOVE_WEAKNESSPIERCE
+.word ANIM_WEAKNESSPIERCE	@MOVE_WEAKNESSPIERCE
 .word ANIM_CURRENTTAIL	@MOVE_CURRENTTAIL
 .word ANIM_GIANTTORNADO	@MOVE_GIANTTORNADO
 .word ANIM_MOONFEATHER	@MOVE_MOONFEATHER
@@ -32304,6 +32304,65 @@ USW_CHEW:
 	playsound2 0x86 SOUND_PAN_TARGET
 	pause 0x8
 	return
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@弱点穿刺：以巨大毒针贯穿对手。比较对手的防御和特防，以其较低的一项给予伤害。 署名WUHEALTHY
+ANIM_WEAKNESSPIERCE:
+	loadparticle ANIM_TAG_HORN_LEECH @巨大毒针
+	loadparticle ANIM_TAG_POISON_BUBBLE @毒液泡泡
+	loadparticle ANIM_TAG_PURPLE_RING @毒环弹幕
+	loadparticle ANIM_TAG_IMPACT @命中弹坑
+	setblends 0x80c
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_HORN_LEECH 0x0 0xC 0xC 0x7C1F @;Poison purple 毒针染毒紫
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0xD 0x0 @;背景变暗
+	waitanimation
+	@攻击方前倾蓄势，毒环锁定对手弱点
+	launchtask AnimTask_move_bank_2 0x2 0x5 0x0 0x1 0x0 0x20 0x1 @;攻击方前倾蓄势
+	playsound2 0x9B SOUND_PAN_ATTACKER @;针尖凝聚音
+	pause 0x4
+	launchtemplate WP_RING TEMPLATE_TARGET | 2, 0x6 0x10 0x0 0x0 0x0 0x16 0x03
+	pause 0x2
+	launchtemplate WP_RING TEMPLATE_TARGET | 2, 0x6 0x10 0x0 0x0 0x0 0x16 0x03
+	pause 0x2
+	launchtemplate WP_RING TEMPLATE_TARGET | 2, 0x6 0x10 0x0 0x0 0x0 0x16 0x03
+	waitanimation
+	@巨大毒针突进贯穿
+	stopmusic
+	launchtemplate WP_STINGER TEMPLATE_TARGET | 2, 0x3, 0x0 0x0 0x25 @;巨大毒针突进(角牧同款飞行模板)
+	launchsoundtask SoundTask_LoopSEAdjustPanning 0x7 0x82, 0xFF00 | SOUND_PAN_ATTACKER, SOUND_PAN_TARGET 0x5 0x5 0x0 0x5
+	waitanimation
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0xf 0x1
+	launchtemplate Template_FlashingHit 0x83 0x4 0x0 0x0 0x1 0x1
+	playsound2 0x9F SOUND_PAN_TARGET
+	pause 0x4
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0xA 0x0 0x1 0x1
+	soundcomplex 0x77 SOUND_PAN_TARGET 0x3 0xa
+	call POISON_BUBBLES @;毒液迸溅
+	waitanimation
+	@毒针穿体而出，再度贯穿
+	launchtemplate WP_RING TEMPLATE_TARGET | 2, 0x6 0x10 0x0 0x0 0x0 0x16 0x03
+	pause 0x2
+	launchtemplate WP_RING TEMPLATE_TARGET | 2, 0x6 0x10 0x0 0x0 0x0 0x16 0x03
+	launchtemplate WP_STINGER TEMPLATE_TARGET | 2, 0x3, 0x0 0x0 0x14 @;毒针二连贯穿(更快)
+	launchsoundtask SoundTask_LoopSEAdjustPanning 0x7 0x82, 0xFF00 | SOUND_PAN_ATTACKER, SOUND_PAN_TARGET 0x5 0x5 0x0 0x5
+	waitanimation
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0xf 0x1
+	launchtemplate Template_FlashingHit 0x83 0x4 0x0 0x2 0x1 0x1
+	playsound2 0x9F SOUND_PAN_TARGET
+	pause 0x4
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0xFFF6 0xFFF8 0x1 0x1
+	playsound2 0x81 SOUND_PAN_TARGET
+	call POISON_BUBBLES @;毒液迸溅
+	waitanimation
+	resetblends
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0xD 0x0 0x0 @;还原背景
+	waitanimation
+	endanimation
+
+.align 2
+WP_RING: objtemplate ANIM_TAG_PURPLE_RING ANIM_TAG_PURPLE_RING OAM_DOUBLE_16x32 gDummySpriteAnimTable 0x0 0x83E7604 SpriteCB_TranslateAnimSpriteToTargetMonLocationDestroyMatrix
+WP_STINGER: objtemplate ANIM_TAG_HORN_LEECH ANIM_TAG_HORN_LEECH OAM_NORMAL_32x32 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable 0x80B563D
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
