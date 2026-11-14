@@ -1353,43 +1353,41 @@ void TailwindLuckyChantFunc(void)
 
 void TryActivateWindRiderFromTailwind(void)
 {
-	static u8 bank;
+	//扫描计数器必须是局部变量：旧版 static bank 会跨战斗残留（上局从命中分支 return 后不再清零），
+	//且依赖「return 弹回 callasm 再重入」的递归续扫结构，一旦弹回链断裂即卡死。
+	u8 bank;
 
 	if (!gNewBS->TailwindTimers[SIDE(gBankAttacker)])
         return;
 
-	while (bank < gBattlersCount)
+	for (bank = 0; bank < gBattlersCount; bank++)
 	{
-		u8 windRiderBank = bank++;
-
-		if (SIDE(windRiderBank) == SIDE(gBankAttacker)
-		&& BATTLER_ALIVE(windRiderBank)
-		&& ABILITY(windRiderBank) == ABILITY_WINDRIDER
-		&& STAT_STAGE(windRiderBank, STAT_ATK) < STAT_STAGE_MAX)
+		if (SIDE(bank) == SIDE(gBankAttacker)
+		&& BATTLER_ALIVE(bank)
+		&& ABILITY(bank) == ABILITY_WINDRIDER
+		&& STAT_STAGE(bank, STAT_ATK) < STAT_STAGE_MAX)
 		{
-			gBankTarget = windRiderBank;
-			gBattleScripting.bank = windRiderBank;
+			gBankTarget = bank;
+			gBattleScripting.bank = bank;
 			gBattleScripting.statChanger = STAT_ATK | INCREASE_1;
-			BattleScriptPush(gBattlescriptCurrInstr);
+			BattleScriptPush(gBattlescriptCurrInstr + 5); //同引擎惯例(见 BattleScriptPush(gBattlescriptCurrInstr + 5) 用法)：能力脚本结束后直接回到 callasm 之后
 			gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise - 5;
 			return;
 		}
 
-		if (SIDE(windRiderBank) == SIDE(gBankAttacker)
-		&& BATTLER_ALIVE(windRiderBank)
-		&& (ABILITY(windRiderBank) == ABILITY_WINDPOWER || ABILITY(windRiderBank) == ABILITY_QUICKCHARGE)
-		&& !(gStatuses3[windRiderBank] & STATUS3_CHARGED_UP))
+		if (SIDE(bank) == SIDE(gBankAttacker)
+		&& BATTLER_ALIVE(bank)
+		&& (ABILITY(bank) == ABILITY_WINDPOWER || ABILITY(bank) == ABILITY_QUICKCHARGE)
+		&& !(gStatuses3[bank] & STATUS3_CHARGED_UP))
 		{
-			gStatuses3[windRiderBank] |= STATUS3_CHARGED_UP;
-			gNewBS->ElectroCounter[windRiderBank] = TRUE;
-			gBattleScripting.bank = windRiderBank;
-			BattleScriptPush(gBattlescriptCurrInstr);
+			gStatuses3[bank] |= STATUS3_CHARGED_UP;
+			gNewBS->ElectroCounter[bank] = TRUE;
+			gBattleScripting.bank = bank;
+			BattleScriptPush(gBattlescriptCurrInstr + 5);
 			gBattlescriptCurrInstr = BattleScript_ElectromorphosisActivates - 5;
 			return;
 		}
 	}
-
-	bank = 0;
 }
 
 void FlameBurstFunc(void)

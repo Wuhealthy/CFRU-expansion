@@ -1057,7 +1057,7 @@ gMoveAnimations:
 .word ANIM_PSYSHOCK	@MOVE_PSYCHICSUPPRESSION
 .word ANIM_XSCISSOR	@MOVE_CRITSNIP
 .word ANIM_AQUATAIL	@MOVE_RAGINGSURGE
-.word ANIM_WINGATTACK	@MOVE_WINDROCKSTRIKE
+.word ANIM_WINDROCKSTRIKE	@MOVE_WINDROCKSTRIKE
 .word ANIM_WEAKNESSPIERCE	@MOVE_WEAKNESSPIERCE
 .word ANIM_CURRENTTAIL	@MOVE_CURRENTTAIL
 .word ANIM_GIANTTORNADO	@MOVE_GIANTTORNADO
@@ -32363,6 +32363,74 @@ ANIM_WEAKNESSPIERCE:
 .align 2
 WP_RING: objtemplate ANIM_TAG_PURPLE_RING ANIM_TAG_PURPLE_RING OAM_DOUBLE_16x32 gDummySpriteAnimTable 0x0 0x83E7604 SpriteCB_TranslateAnimSpriteToTargetMonLocationDestroyMatrix
 WP_STINGER: objtemplate ANIM_TAG_HORN_LEECH ANIM_TAG_HORN_LEECH OAM_NORMAL_32x32 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable 0x80B563D
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@风袭岩击：用坚硬的身体极速撞击对手。己方场上有顺风时，威力会变成1.5倍。 署名WUHEALTHY
+ANIM_WINDROCKSTRIKE:
+	loadparticle ANIM_TAG_GUST @风压
+	loadparticle ANIM_TAG_ROCKS @巨岩
+	loadparticle ANIM_TAG_SMALL_ROCK @碎石
+	loadparticle ANIM_TAG_FLYING_DIRT @顺风疾风
+	loadparticle ANIM_TAG_IMPACT @命中弹坑
+	pokespritetoBG side_target
+	leftopponentbankBG_over_partnerBG 0x1
+	setblends 0x80c
+	@起风：狂风横扫战场
+	playsound2 0x7D SOUND_PAN_TARGET @;狂风音
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_FLYING_DIRT 0x0 0x6 0x6 0x7FFF @;疾风染白(顺风同款)
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0x40 0x1 @;目标在风中摇晃
+	call WRS_GUST
+	pause 0xA
+	call WRS_GUST
+	pause 0xA
+	call WRS_GUST
+	waitanimation
+	@卷岩突袭：巨岩随狂风砸落
+	stopmusic
+	launchtemplate Template_HorizontalLunge 0x2 0x2 0x6 0x5 @;攻击方横向突进(瀑布攀同款)
+	launchtemplate Template_FallingRock TEMPLATE_TARGET | 2, 0x4, 0xfffb 0x1 0xfffb 0x1
+	playsound2 0x7C SOUND_PAN_TARGET
+	pause 0x2
+	launchtemplate Template_FallingRock TEMPLATE_TARGET | 2, 0x4, 0x5 0x0 0x6 0x1
+	playsound2 0x7C SOUND_PAN_TARGET
+	pause 0x2
+	launchtemplate Template_FallingRock TEMPLATE_TARGET | 2, 0x4, 0x13 0x1 0xa 0x1
+	playsound2 0x7C SOUND_PAN_TARGET
+	pause 0x2
+	launchtemplate Template_FallingRock TEMPLATE_TARGET | 2, 0x4, 0xffe9 0x2 0xfff6 0x1
+	playsound2 0x7C SOUND_PAN_TARGET
+	waitanimation
+	@撞击：岩崩迸溅
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x5 0x32 0x1
+	launchtask AnimTask_move_bank 0x2 0x5 target_partner 0x0 0x5 0x32 0x1
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0x0 0x0 0x1 0x1
+	playsound2 0x81 SOUND_PAN_TARGET
+	pause 0x4
+	call 0x81C9C23 @;岩崩闪光命中(岩崩同款)
+	call 0x81C9C23
+	launchtemplate WRS_SCATTER TEMPLATE_TARGET | 2, 0x4 0xfff4 0x11 0x2 0x0
+	launchtemplate WRS_SCATTER TEMPLATE_TARGET | 2, 0x4 0x8 0x12 0x3 0x0
+	launchtemplate WRS_SCATTER TEMPLATE_TARGET | 2, 0x4 0xfffc 0x14 0x2 0x0
+	launchtemplate WRS_SCATTER TEMPLATE_TARGET | 2, 0x4 0xc 0xF 0x4 0x0
+	waitanimation
+	@顺风余韵：气旋回旋
+	launchtemplate Template_EllipticalGust TEMPLATE_TARGET | 2, 0x2 0x0 0xfff0
+	launchtask AnimTask_AnimateGustTornadoPalette 0x5 0x2 0x1 0x46
+	pause 0x8
+	launchtemplate Template_EllipticalGust TEMPLATE_TARGET | 2, 0x2 0x0 0xfff0
+	waitanimation
+	pokespritefromBG side_target
+	resetblends
+	endanimation
+
+WRS_GUST:
+	launchtemplate Template_EllipticalGust TEMPLATE_TARGET | 2, 0x2 0x0 0xfff0
+	launchtask AnimTask_AnimateGustTornadoPalette 0x5 0x2 0x1 0x46
+	return
+
+.align 2
+WRS_SCATTER: objtemplate ANIM_TAG_SMALL_ROCK ANIM_TAG_ROCKS OAM_OFF_16x16 gAnimCmdTable_SmallRock 0x0 0x83E7540 0x80B50A1
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
