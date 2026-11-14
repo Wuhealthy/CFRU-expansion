@@ -1056,7 +1056,7 @@ gMoveAnimations:
 .word ANIM_TRIPLEWATERPULSE	@MOVE_TRIPLEWATERPULSE
 .word ANIM_PSYSHOCK	@MOVE_PSYCHICSUPPRESSION
 .word ANIM_XSCISSOR	@MOVE_CRITSNIP
-.word ANIM_AQUATAIL	@MOVE_RAGINGSURGE
+.word ANIM_RAGINGSURGE	@MOVE_RAGINGSURGE
 .word ANIM_WINDROCKSTRIKE	@MOVE_WINDROCKSTRIKE
 .word ANIM_WEAKNESSPIERCE	@MOVE_WEAKNESSPIERCE
 .word ANIM_CURRENTTAIL	@MOVE_CURRENTTAIL
@@ -32431,6 +32431,62 @@ WRS_GUST:
 
 .align 2
 WRS_SCATTER: objtemplate ANIM_TAG_SMALL_ROCK ANIM_TAG_ROCKS OAM_OFF_16x16 gAnimCmdTable_SmallRock 0x0 0x83E7540 0x80B50A1
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@狂澜暗涌：狂暴水流夹杂黑暗能量撕裂对手(水恶通用). 署名WUHEALTHY
+ANIM_RAGINGSURGE:
+	loadparticle ANIM_TAG_CUT @蓝色斩击
+	loadparticle ANIM_TAG_ORBS @狂暴水珠
+	loadparticle ANIM_TAG_WATER_ORB @水蓝配色
+	loadparticle ANIM_TAG_PURPLE_RING @黑暗波环
+	loadparticle ANIM_TAG_IMPACT @命中弹坑
+	pokespritetoBG side_target
+	leftopponentbankBG_over_partnerBG 0x1
+	setblends 0x80c
+	@狂暴水珠八方向汇聚
+	soundcomplex 0x77 SOUND_PAN_TARGET 0x3 0xa
+	launchtemplate RS_ORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0x0 0xFF90 0x10
+	launchtemplate RS_ORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0x5F 0xFF9D 0x10
+	launchtemplate RS_ORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0x73 0x0 0x10
+	launchtemplate RS_ORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0x4F 0x37 0x10
+	launchtemplate RS_ORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0x0 0x53 0x10
+	launchtemplate RS_ORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0xFFB0 0x43 0x10
+	launchtemplate RS_ORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0xFF60 0x0 0x10
+	launchtemplate RS_ORB TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0xFFAA 0xFF94 0x10
+	waitanimation
+	@黑暗波环掠向对手
+	playsound2 0x79 SOUND_PAN_TARGET @;切割音
+	launchtemplate RS_RING TEMPLATE_TARGET | 2, 0x6 0x10 0x0 0x0 0x0 0x16 0x03
+	pause 0x2
+	launchtemplate RS_RING TEMPLATE_TARGET | 2, 0x6 0x10 0x0 0x0 0x0 0x16 0x03
+	waitanimation
+	@水流利爪交错撕裂
+	playsound2 0x79 SOUND_PAN_TARGET
+	launchtemplate RS_WSLASH_L TEMPLATE_TARGET | 2, 0x5, 50, -10, 100, 4 1
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x4 0xA 0x1
+	pause 0x15
+	playsound2 0x79 SOUND_PAN_TARGET
+	launchtemplate RS_WSLASH_R TEMPLATE_TARGET | 2, 0x5, -50, 10, 100, 4 0x0
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x4 0xA 0x1
+	pause 0x8
+	@命中水花
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0xf 0x1
+	launchtemplate RS_WATERHIT 0x83 0x4 0xffb0 0xfff0 0x1 0x1
+	playsound2 0xaa SOUND_PAN_TARGET
+	pause 0x4
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0xFFF6 0xFFF8 0x1 0x1
+	playsound2 0x81 SOUND_PAN_TARGET
+	waitanimation
+	resetblends
+	pokespritefromBG side_target
+	endanimation
+
+RS_ORB: objtemplate ANIM_TAG_ORBS ANIM_TAG_WATER_ORB OAM_NORMAL_BLEND_16x16 0x83E2A40 0x0 gDummySpriteAffineAnimTable 0x80A4299
+RS_RING: objtemplate ANIM_TAG_PURPLE_RING ANIM_TAG_PURPLE_RING OAM_DOUBLE_16x32 gDummySpriteAnimTable 0x0 0x83E7604 SpriteCB_TranslateAnimSpriteToTargetMonLocationDestroyMatrix
+RS_WSLASH_L: objtemplate ANIM_TAG_CUT ANIM_TAG_WATER_ORB OAM_NORMAL_32x32 0x83E3290 0x0 gSpriteAffineAnimTable_NightSlashLeft SpriteCB_HorizontalSlice
+RS_WSLASH_R: objtemplate ANIM_TAG_CUT ANIM_TAG_WATER_ORB OAM_NORMAL_32x32 0x83E3290 0x0 gSpriteAffineAnimTable_NightSlashRight SpriteCB_HorizontalSlice
+RS_WATERHIT: objtemplate ANIM_TAG_IMPACT ANIM_TAG_WATER_ORB OAM_NORMAL_BLEND_32x32 gDummySpriteAnimTable 0x0 0x83E7BF8 0x80BA561
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
