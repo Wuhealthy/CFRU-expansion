@@ -1,5 +1,5 @@
 == 提取警告 ==
-缺少道具中英对照表 c:\Users\HG006790\CFRU-expansion\道具名称_英-中.xlsx, 英文道具名回退 ITEM_ZH
+缺少道具中英对照表 C:\Users\Administrator\Documents\GitHub\CFRU-expansion\道具名称_英-中.xlsx, 英文道具名回退 ITEM_ZH
 招式学习器 100: 文件名招式 Infestation 与 TM_Tutor_Tables.c 的 acidspray 不一致
 招式学习器 111: 文件名招式 Smack Down 与 TM_Tutor_Tables.c 的 fissure 不一致
 招式学习器 114: 文件名招式 Natural Gift 与 TM_Tutor_Tables.c 的 triattack 不一致
