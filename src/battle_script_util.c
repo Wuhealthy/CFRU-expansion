@@ -1353,24 +1353,25 @@ void TailwindLuckyChantFunc(void)
 
 void TryActivateWindRiderFromTailwind(void)
 {
-	//扫描计数器必须是局部变量：旧版 static bank 会跨战斗残留（上局从命中分支 return 后不再清零），
-	//且依赖「return 弹回 callasm 再重入」的递归续扫结构，一旦弹回链断裂即卡死。
-	u8 bank;
+	//扫描进度存 gNewBS->windRiderScanBank（每场战斗 Calloc 清零，不跨战斗残留）。
+	//命中后 push 回 callasm 本身，callasm 重入本函数从上次位置续扫——实现双打多人连续触发。
+	u8 bank = gNewBS->windRiderScanBank;
 
 	if (!gNewBS->TailwindTimers[SIDE(gBankAttacker)])
         return;
 
-	for (bank = 0; bank < gBattlersCount; bank++)
+	for (; bank < gBattlersCount; bank++)
 	{
 		if (SIDE(bank) == SIDE(gBankAttacker)
 		&& BATTLER_ALIVE(bank)
 		&& ABILITY(bank) == ABILITY_WINDRIDER
 		&& STAT_STAGE(bank, STAT_ATK) < STAT_STAGE_MAX)
 		{
+			gNewBS->windRiderScanBank = bank + 1;
 			gBankTarget = bank;
 			gBattleScripting.bank = bank;
 			gBattleScripting.statChanger = STAT_ATK | INCREASE_1;
-			BattleScriptPush(gBattlescriptCurrInstr + 5); //同引擎惯例(见 BattleScriptPush(gBattlescriptCurrInstr + 5) 用法)：能力脚本结束后直接回到 callasm 之后
+			BattleScriptPush(gBattlescriptCurrInstr);
 			gBattlescriptCurrInstr = BattleScript_TargetAbilityStatRaise - 5;
 			return;
 		}
@@ -1383,11 +1384,14 @@ void TryActivateWindRiderFromTailwind(void)
 			gStatuses3[bank] |= STATUS3_CHARGED_UP;
 			gNewBS->ElectroCounter[bank] = TRUE;
 			gBattleScripting.bank = bank;
-			BattleScriptPush(gBattlescriptCurrInstr + 5);
+			gNewBS->windRiderScanBank = bank + 1;
+			BattleScriptPush(gBattlescriptCurrInstr);
 			gBattlescriptCurrInstr = BattleScript_ElectromorphosisActivates - 5;
 			return;
 		}
 	}
+
+	gNewBS->windRiderScanBank = 0;
 }
 
 void FlameBurstFunc(void)

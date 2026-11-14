@@ -1128,6 +1128,7 @@ struct NewBattleStruct
 	} ai;
 
 	u8 surgeTypeFlipped[MAX_BATTLERS_COUNT]; //狂澜暗涌: 按bank的属性相位(0=恶; 换入时atk4D重置, ET_End逐bank翻转)
+	u8 windRiderScanBank; //顺风触发乘风/风力发电: 重入续扫进度(0=未开始; callasm重入时续接)
 	struct Pokemon** foePartyBackup; //Pointer to dynamically allocated memory
 };
 
