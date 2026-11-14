@@ -1,0 +1,285 @@
+#include "src/config.h"
+
+//==== 对战塔训练家台词 (battle_frontier_trainers.c 引用) ====
+//Pre=对战前 Win=玩家获胜 Lose=玩家战败
+//台词风格参考水银对战塔
+
+#org @sTowerName_Pat
+特训家·巴特
+
+#org @sTowerName_Pablo
+特训家·帕布罗
+
+#org @sTowerName_Paula
+特训家·宝拉
+
+#org @sTowerName_Brain1
+塔大君·帕尔
+
+#org @sTowerName_Brain2
+塔大君·帕尔
+
+#org @sTowerText_T01_Pre
+看到我这个年纪的人很惊讶吗？\n我保证，我可不弱。
+
+#org @sTowerText_T01_Win
+看来退学\n确实不太明智[.]
+
+#org @sTowerText_T01_Lose
+嘿，我说过我可不是\n好对付的！
+
+#org @sTowerText_T02_Pre
+捕虫的奥义，就让我\n展示给你看吧！
+
+#org @sTowerText_T02_Win
+愿捕虫之道长存！
+
+#org @sTowerText_T02_Lose
+这就是捕虫少年的\n实力！
+
+#org @sTowerText_T03_Pre
+时尚与实力，\n我全都具备哦！
+
+#org @sTowerText_T03_Win
+看来我的搭配\n还不够时髦呢[.]
+
+#org @sTowerText_T03_Lose
+潮流和胜利，\n今天都属于我！
+
+#org @sTowerText_T04_Pre
+大海的力量，\n可不是浪得虚名！
+
+#org @sTowerText_T04_Win
+你的实力，\n比风暴还要猛烈[.]
+
+#org @sTowerText_T04_Lose
+乘风破浪，\n胜利属于海员！
+
+#org @sTowerText_T05_Pre
+露营锻炼出来的\n可不是虚有其表的实力！
+
+#org @sTowerText_T05_Win
+野营的日子\n果然还磨练不够啊！
+
+#org @sTowerText_T05_Lose
+野外的磨练，\n可是比什么都管用！
+
+#org @sTowerText_T06_Pre
+野餐的心情，\n战斗的觉悟！
+
+#org @sTowerText_T06_Win
+好厉害啊[.]\n下次野餐一起去吧！
+
+#org @sTowerText_T06_Lose
+哎呀，\n实力可是货真价实的哦！
+
+#org @sTowerText_T07_Pre
+登山练就的腿劲\n和宝可梦都不输人！
+
+#org @sTowerText_T07_Win
+看来我还需要\n再爬几座山啊！
+
+#org @sTowerText_T07_Lose
+山一样坚实的实力，\n感觉到了吧！
+
+#org @sTowerText_T08_Pre
+嘿嘿嘿[.]我为宝可梦\n而疯狂！
+
+#org @sTowerText_T08_Win
+呜哇！我对你的实力\n也要开始着迷了！
+
+#org @sTowerText_T08_Lose
+这就是狂热爱好者\n的力量！
+
+#org @sTowerText_T09_Pre
+根据我的计算，\n我方胜率是99%！
+
+#org @sTowerText_T09_Win
+呜！我的计算\n出了差错吗！
+
+#org @sTowerText_T09_Lose
+数据不会说谎，\n这就是结果！
+
+#org @sTowerText_T10_Pre
+钓鱼教会了我耐心，\n也教会了宝可梦！
+
+#org @sTowerText_T10_Win
+唉，这条大鱼\n跑了呀！
+
+#org @sTowerText_T10_Lose
+耐心可是我的\n必杀技哦！
+
+#org @sTowerText_T11_Pre
+游遍四海的强者，\n今天要让你见识一下！
+
+#org @sTowerText_T11_Win
+你的实力，\n如同深海一般可怕！
+
+#org @sTowerText_T11_Lose
+潮流是站在\n胜利者这边的！
+
+#org @sTowerText_T12_Pre
+美丽和强大，\n从来都不矛盾哦！
+
+#org @sTowerText_T12_Win
+真是一场美丽的\n对决啊[.]
+
+#org @sTowerText_T12_Lose
+美丽的胜利，\n才是最完美的！
+
+#org @sTowerText_T13_Pre
+我已经看见你了[.]\n看见你获胜的未来！
+
+#org @sTowerText_T13_Win
+呜哇！我的预知\n竟然失灵了！
+
+#org @sTowerText_T13_Lose
+未来早已注定，\n包括你的失败！
+
+#org @sTowerText_T14_Pre
+我的宝可梦和我\n心意相通！
+
+#org @sTowerText_T14_Win
+你的心，\n比我的念力更强！
+
+#org @sTowerText_T14_Lose
+念力与实力，\n缺一不可哦！
+
+#org @sTowerText_T15_Pre
+让引擎轰鸣吧！\n让战斗开始吧！
+
+#org @sTowerText_T15_Win
+呜哦！你这家伙，\n马力真足！
+
+#org @sTowerText_T15_Lose
+全速前进，\n一路获胜！
+
+#org @sTowerText_T16_Pre
+肉体和宝可梦，\n都经过千锤百炼！
+
+#org @sTowerText_T16_Win
+好！这才是\n真正的强大！
+
+#org @sTowerText_T16_Lose
+这就是修炼的\n成果！
+
+#org @sTowerText_T17_Pre
+能走到这里的训练家，\n都值得我全力以赴！
+
+#org @sTowerText_T17_Win
+不愧是你！\n我甘拜下风！
+
+#org @sTowerText_T17_Lose
+精英的称号，\n可不是白来的！
+
+#org @sTowerText_T18_Pre
+优雅地，\n全力地，上吧！
+
+#org @sTowerText_T18_Win
+好美的战斗[.]\n我输了心服口服！
+
+#org @sTowerText_T18_Lose
+优雅的胜利，\n献给优秀的你！
+
+#org @sTowerText_T19_Pre
+优雅的战斗，\n请多指教。
+
+#org @sTowerText_T19_Win
+精彩的战斗！\n老夫心服口服！
+
+#org @sTowerText_T19_Lose
+胜利女神\n眷顾着老夫呢。
+
+#org @sTowerText_T20_Pre
+高贵又强大，\n说的就是我哦！
+
+#org @sTowerText_T20_Win
+哎呀哎呀，\n真是不留情面呢！
+
+#org @sTowerText_T20_Lose
+优雅的胜利，\n属于贵妇人！
+
+#org @sTowerText_T21_Pre
+经验的差距，\n马上让你见识！
+
+#org @sTowerText_T21_Win
+后生可畏啊！\n姜还是老的辣这句话输给你了！
+
+#org @sTowerText_T21_Lose
+老夫的经验，\n可比你想的深！
+
+#org @sTowerText_T22_Pre
+岁月积累的实力，\n请好好领教！
+
+#org @sTowerText_T22_Win
+年轻的实力，\n真让人欣慰啊！
+
+#org @sTowerText_T22_Lose
+岁月可不是\n白活的哦！
+
+#org @sTowerText_T23_Pre
+龙之力量，\n即将觉醒！
+
+#org @sTowerText_T23_Win
+你竟然[.]\n驯服了龙之力量！
+
+#org @sTowerText_T23_Lose
+与龙共舞，\n胜利而归！
+
+#org @sTowerText_T24_Pre
+空手道的真髓，\n就在这里！
+
+#org @sTowerText_T24_Win
+好痛好痛！\n不过心服口服！
+
+#org @sTowerText_T24_Lose
+空手道的胜利，\n干净利落！
+
+//---- 特训家 ----
+
+#org @sTowerText_Pat_Pre
+我一直在塔顶等着\n值得交手的对手！\p全力以赴吧！
+
+#org @sTowerText_Pat_Win
+好厉害[.]\n今天的胜利是你的！\p塔的深处还有更强的\n对手等着你！
+
+#org @sTowerText_Pat_Lose
+ 特训家的称号\n可不是白来的！\p以你现在的实力，\n还无法触及塔顶！
+
+#org @sTowerText_Pablo_Pre
+嘿嘿嘿！我为宝可梦\n而疯狂！特训家和我，\n谁更狂热呢？\p战斗开始！
+
+#org @sTowerText_Pablo_Win
+连我都着迷了！\n你继续往上爬吧！
+
+#org @sTowerText_Pablo_Lose
+狂热的力量，\n你感受到了吗！
+
+#org @sTowerText_Paula_Pre
+塔顶的风光，\n只有强者才能欣赏哦！\p准备好了吗？
+
+#org @sTowerText_Paula_Win
+看来塔顶的风景，\n适合你欣赏呢！
+
+#org @sTowerText_Paula_Lose
+优雅而强大，\n这就是特训家！
+
+//---- 对战塔大君 ----
+
+#org @sTowerText_Brain1_Pre
+这位客人！\n你的连胜得到了认可！\p我是塔大君·帕尔。作为\n塔的最高掌门人，来领教\n你的实力吧！
+
+#org @sTowerText_Brain1_Win
+精彩！连我的搭档\n都不是你的对手！\p这枚金色印花，\n和BP一起，献给你！
+
+#org @sTowerText_Brain1_Lose
+塔大君的称号，\n可不是随便当上的！\p年轻人，回去\n好好磨练吧！
+
+#org @sTowerText_Brain2_Pre
+又见面了！\n你的连胜比我预想的\n还要出色！\p这次我可不会手下留情！\p让我见识见识，\n你真正的极限吧！
+
+#org @sTowerText_Brain2_Win
+真是一场精彩的\n对决！\p你已经站在了\n整座塔的顶点！\p我以塔大君的名义，\n献上最高的敬意！
+
+#org @sTowerText_Brain2_Lose
+如你所见，\n这才是塔大君！\p连战连胜的记录，\n就到此为止了！

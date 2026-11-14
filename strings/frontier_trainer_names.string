@@ -1,604 +1,604 @@
 #include "src/config.h"
 
 #org @sTrainerName_Liam
-Liam
+小豪
 
 #org @sTrainerName_Noah
-Noah
+小凯
 
 #org @sTrainerName_William
-William
+阿健
 
 #org @sTrainerName_James
-James
+大介
 
 #org @sTrainerName_Logan
-Logan
+海斗
 
 #org @sTrainerName_Benjamin
-Benjamin
+疾风
 
 #org @sTrainerName_Mason
-Mason
+小陆
 
 #org @sTrainerName_Elijah
-Elijah
+铁平
 
 #org @sTrainerName_Oliver
-Oliver
+晓东
 
 #org @sTrainerName_Jacob
-Jacob
+阿杰
 
 #org @sTrainerName_Lucas
-Lucas
+壮壮
 
 #org @sTrainerName_Michael
-Michael
+阿武
 
 #org @sTrainerName_Alexander
-Alexander
+小澈
 
 #org @sTrainerName_Ethan
-Ethan
+凯文
 
 #org @sTrainerName_Daniel
-Daniel
+阿博
 
 #org @sTrainerName_Matthew
-Matthew
+大卫
 
 #org @sTrainerName_Aiden
-Aiden
+小峰
 
 #org @sTrainerName_Henry
-Henry
+阿隆
 
 #org @sTrainerName_Joseph
-Joseph
+志明
 
 #org @sTrainerName_Jackson
-Jackson
+小德
 
 #org @sTrainerName_Samuel
-Samuel
+永强
 
 #org @sTrainerName_Sebastian
-Sebastian
+阿福
 
 #org @sTrainerName_David
-David
+小岛
 
 #org @sTrainerName_Carter
-Carter
+凉介
 
 #org @sTrainerName_Wyatt
-Wyatt
+大辉
 
 #org @sTrainerName_Jayden
-Jayden
+阿南
 
 #org @sTrainerName_John
-John
+小川
 
 #org @sTrainerName_Owen
-Owen
+天马
 
 #org @sTrainerName_Dylan
-Dylan
+阿庆
 
 #org @sTrainerName_Luke
-Luke
+小岭
 
 #org @sTrainerName_Gabriel
-Gabriel
+健太
 
 #org @sTrainerName_Anthony
-Anthony
+阿聪
 
 #org @sTrainerName_Isaac
-Isaac
+小波
 
 #org @sTrainerName_Grayson
-Grayson
+力也
 
 #org @sTrainerName_Jack
-Jack
+阿鹏
 
 #org @sTrainerName_Julian
-Julian
+小郑
 
 #org @sTrainerName_Levi
-Levi
+浩然
 
 #org @sTrainerName_Christopher
-Christopher
+阿虎
 
 #org @sTrainerName_Joshua
-Joshua
+小关
 
 #org @sTrainerName_Andrew
-Andrew
+文太
 
 #org @sTrainerName_Lincoln
-Lincoln
+阿锐
 
 #org @sTrainerName_Mateo
-Mateo
+小楼
 
 #org @sTrainerName_Ryan
-Ryan
+北斗
 
 #org @sTrainerName_Jaxon
-Jaxon
+阿飞
 
 #org @sTrainerName_Nathan
-Nathan
+小汪
 
 #org @sTrainerName_Aaron
-Aaron
+大河
 
 #org @sTrainerName_Isaiah
-Isaiah
+小卫
 
 #org @sTrainerName_Thomas
-Thomas
+阿刚
 
 #org @sTrainerName_Charles
-Charles
+小谷
 
 #org @sTrainerName_Caleb
-Caleb
+翔太
 
 #org @sTrainerName_Josiah
-Josiah
+阿胜
 
 #org @sTrainerName_Christian
-Christian
+小代
 
 #org @sTrainerName_Hunter
-Hunter
+悠斗
 
 #org @sTrainerName_Eli
-Eli
+阿雷
 
 #org @sTrainerName_Jonathan
-Jonathan
+小泉
 
 #org @sTrainerName_Connor
-Connor
+万里
 
 #org @sTrainerName_Landon
-Landon
+阿德
 
 #org @sTrainerName_Adrian
-Adrian
+小柴
 
 #org @sTrainerName_Asher
-Asher
+庆介
 
 #org @sTrainerName_Cameron
-Cameron
+阿蒙
 
 #org @sTrainerName_Leo
-Leo
+小星
 
 #org @sTrainerName_Theodore
-Theodore
+大佑
 
 #org @sTrainerName_Jeremiah
-Jeremiah
+阿坚
 
 #org @sTrainerName_Hudson
-Hudson
+小森
 
 #org @sTrainerName_Robert
-Robert
+拓海
 
 #org @sTrainerName_Easton
-Easton
+隆之
 
 #org @sTrainerName_Nolan
-Nolan
+关吉
 
 #org @sTrainerName_Nicholas
-Nicholas
+阿佑
 
 #org @sTrainerName_Ezra
-Ezra
+小洋
 
 #org @sTrainerName_Colton
-Colton
+大志
 
 #org @sTrainerName_Angel
-Angel
+正树
 
 #org @sTrainerName_Brayden
-Brayden
+英树
 
 #org @sTrainerName_Jordan
-Jordan
+幸雄
 
 #org @sTrainerName_Dominic
-Dominic
+彻
 
 #org @sTrainerName_Austin
-Austin
+学
 
 #org @sTrainerName_Ian
-Ian
+勉
 
 #org @sTrainerName_Adam
-Adam
+丰
 
 #org @sTrainerName_Elias
-Elias
+毅
 
 #org @sTrainerName_Jaxson
-Jaxson
+猛
 
 #org @sTrainerName_Greyson
-Greyson
+连
 
 #org @sTrainerName_Jose
-Jose
+一真
 
 #org @sTrainerName_Ezekiel
-Ezekiel
+二郎
 
 #org @sTrainerName_Carson
-Carson
+三平
 
 #org @sTrainerName_Evan
-Evan
+四乃
 
 #org @sTrainerName_Maverick
-Maverick
+五郎
 
 #org @sTrainerName_Bryson
-Bryson
+六太
 
 #org @sTrainerName_Jace
-Jace
+七海
 
 #org @sTrainerName_Cooper
-Cooper
+八重
 
 #org @sTrainerName_Xavier
-Xavier
+九吾
 
 #org @sTrainerName_Parker
-Parker
+十郎
 
 #org @sTrainerName_Roman
-Roman
+京介
 
 #org @sTrainerName_Jason
-Jason
+左京
 
 #org @sTrainerName_Santiago
-Santiago
+右京
 
 #org @sTrainerName_Chase
-Chase
+早人
 
 #org @sTrainerName_Sawyer
-Sawyer
+光人
 
 #org @sTrainerName_Gavin
-Gavin
+风人
 
 #org @sTrainerName_Leonardo
-Leonardo
+雷人
 
 #org @sTrainerName_Kayden
-Kayden
+月人
 
 #org @sTrainerName_Ayden
-Ayden
+日人
 
 #org @sTrainerName_Jameson
-Jameson
+星人
 
 #org @sTrainerName_Emma
-Emma
+小雅
 
 #org @sTrainerName_Olivia
-Olivia
+小玲
 
 #org @sTrainerName_Ava
-Ava
+小樱
 
 #org @sTrainerName_Isabella
-Isabella
+小惠
 
 #org @sTrainerName_Sophia
-Sophia
+阿珠
 
 #org @sTrainerName_Mia
-Mia
+小蕾
 
 #org @sTrainerName_Charlotte
-Charlotte
+彩香
 
 #org @sTrainerName_Amelia
-Amelia
+小露
 
 #org @sTrainerName_Evelyn
-Evelyn
+芳芳
 
 #org @sTrainerName_Abigail
-Abigail
+小婷
 
 #org @sTrainerName_Harper
-Harper
+小静
 
 #org @sTrainerName_Emily
-Emily
+阿美
 
 #org @sTrainerName_Elizabeth
-Elizabeth
+小桃
 
 #org @sTrainerName_Avery
-Avery
+梨花
 
 #org @sTrainerName_Sofia
-Sofia
+露娜
 
 #org @sTrainerName_Ella
-Ella
+阿香
 
 #org @sTrainerName_Madison
-Madison
+小芸
 
 #org @sTrainerName_Scarlett
-Scarlett
+真白
 
 #org @sTrainerName_Victoria
-Victoria
+小枫
 
 #org @sTrainerName_Aria
-Aria
+阿蓝
 
 #org @sTrainerName_Grace
-Grace
+小葵
 
 #org @sTrainerName_Chloe
-Chloe
+结衣
 
 #org @sTrainerName_Camila
-Camila
+阿宁
 
 #org @sTrainerName_Penelope
-Penelope
+小黛
 
 #org @sTrainerName_Riley
-Riley
+千夏
 
 #org @sTrainerName_Layla
-Layla
+阿绿
 
 #org @sTrainerName_Lillian
-Lillian
+小茜
 
 #org @sTrainerName_Nora
-Nora
+琉璃
 
 #org @sTrainerName_Zoey
-Zoey
+小蕊
 
 #org @sTrainerName_Mila
-Mila
+黛儿
 
 #org @sTrainerName_Aubrey
-Aubrey
+小玫
 
 #org @sTrainerName_Hannah
-Hannah
+安娜
 
 #org @sTrainerName_Lily
-Lily
+小茉
 
 #org @sTrainerName_Addison
-Addison
+茉莉
 
 #org @sTrainerName_Eleanor
-Eleanor
+小翠
 
 #org @sTrainerName_Natalie
-Natalie
+阿绮
 
 #org @sTrainerName_Luna
-Luna
+小杏
 
 #org @sTrainerName_Savannah
-Savannah
+美月
 
 #org @sTrainerName_Brooklyn
-Brooklyn
+桃子
 
 #org @sTrainerName_Leah
-Leah
+阿雪
 
 #org @sTrainerName_Zoe
-Zoe
+小凰
 
 #org @sTrainerName_Stella
-Stella
+百合
 
 #org @sTrainerName_Hazel
-Hazel
+阿绘
 
 #org @sTrainerName_Ellie
-Ellie
+小棠
 
 #org @sTrainerName_Paisley
-Paisley
+红叶
 
 #org @sTrainerName_Audrey
-Audrey
+小薇
 
 #org @sTrainerName_Skylar
-Skylar
+小蓝
 
 #org @sTrainerName_Violet
-Violet
+水莲
 
 #org @sTrainerName_Claire
-Claire
+阿铃
 
 #org @sTrainerName_Bella
-Bella
+小舞
 
 #org @sTrainerName_Aurora
-Aurora
+真纪
 
 #org @sTrainerName_Lucy
-Lucy
+由纪
 
 #org @sTrainerName_Anna
-Anna
+麻衣
 
 #org @sTrainerName_Samantha
-Samantha
+早纪
 
 #org @sTrainerName_Caroline
-Caroline
+千惠
 
 #org @sTrainerName_Genesis
-Genesis
+千寻
 
 #org @sTrainerName_Aaliyah
-Aaliyah
+千鹤
 
 #org @sTrainerName_Kennedy
-Kennedy
+美纪
 
 #org @sTrainerName_Kinsley
-Kinsley
+美纱
 
 #org @sTrainerName_Allison
-Allison
+美绪
 
 #org @sTrainerName_Maya
-Maya
+加奈
 
 #org @sTrainerName_Sarah
-Sarah
+花恋
 
 #org @sTrainerName_Madelyn
-Madelyn
+春香
 
 #org @sTrainerName_Adeline
-Adeline
+夏树
 
 #org @sTrainerName_Alexa
-Alexa
+秋穗
 
 #org @sTrainerName_Ariana
-Ariana
+冬雪
 
 #org @sTrainerName_Elena
-Elena
+月音
 
 #org @sTrainerName_Gabriella
-Gabriella
+风花
 
 #org @sTrainerName_Naomi
-Naomi
+星光
 
 #org @sTrainerName_Alice
-Alice
+阳菜
 
 #org @sTrainerName_Sadie
-Sadie
+杏子
 
 #org @sTrainerName_Hailey
-Hailey
+和子
 
 #org @sTrainerName_Eva
-Eva
+京子
 
 #org @sTrainerName_Emilia
-Emilia
+代子
 
 #org @sTrainerName_Autumn
-Autumn
+悦子
 
 #org @sTrainerName_Quinn
-Quinn
+圭子
 
 #org @sTrainerName_Nevaeh
-Nevaeh
+惠子
 
 #org @sTrainerName_Piper
-Piper
+景子
 
 #org @sTrainerName_Ruby
-Ruby
+庆子
 
 #org @sTrainerName_Serenity
-Serenity
+敬子
 
 #org @sTrainerName_Willow
-Willow
+亚衣
 
 #org @sTrainerName_Everly
-Everly
+亚美
 
 #org @sTrainerName_Cora
-Cora
+亚矢
 
 #org @sTrainerName_Kaylee
-Kaylee
+郁美
 
 #org @sTrainerName_Lydia
-Lydia
+郁惠
 
 #org @sTrainerName_Aubree
-Aubree
+香织
 
 #org @sTrainerName_Arianna
-Arianna
+香穗
 
 #org @sTrainerName_Eliana
-Eliana
+直美
 
 #org @sTrainerName_Peyton
-Peyton
+直子
 
 #org @sTrainerName_Melanie
-Melanie
+奈绪
 
 #org @sTrainerName_Gianna
-Gianna
+理惠
 
 #org @sTrainerName_Isabelle
-Isabelle
+理沙
 
 #org @sTrainerName_Julia
-Julia
+梨纱
 
 #org @sTrainerName_Valentina
-Valentina
+凛
 
 #org @sTrainerName_Nova
-Nova
+凛子
 
 #org @sTrainerName_Clara
-Clara
+铃菜
 
 #org @sTrainerName_Vivian
-Vivian
+零
 
 #org @sTrainerName_Reagan
-Reagan
+玲奈
 
 #org @sTrainerName_Mackenzie
-Mackenzie
+泠
 
 #org @sTrainerName_Madeline
-Madeline
+绫乃
 
 #ifdef UNBOUND
 

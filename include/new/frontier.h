@@ -67,6 +67,15 @@ void sp06E_BufferBattleSandsRecords(void);
 void sp06F_CanTeamParticipateInBattleMine(void);
 u8 sp070_RandomizeBattleMineBattleOptions(void);
 
+//Battle Tower (水银式) save-backed challenge support (called via callasm from battle_tower.s)
+void BackupTowerPartyToSaveBlock(void);
+void RestoreTowerPartyFromSaveBlock(void);
+void SyncTowerStreakToVars(void);
+void SyncTowerStreakFromVars(void);
+void AwardTowerBP(void);
+void TowerPrepareNextBattle(void);
+void TowerCheckMilestone(void);
+
 //Exported Constants
 //#define TOTAL_SPREADS 0x4A0 //sizeof(gFrontierSpreads) / sizeof(struct BattleTowerSpreads)
 

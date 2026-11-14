@@ -2314,6 +2314,139 @@ static void UpdatePlayerPartyCount(void)
 	}
 }
 
+/*
+	Battle Tower (水银式) save-backed challenge support.
+	存档续战三件套: 队伍备份进存档块(safeBackupParty), 连胜镜像进扩展VAR,
+	配合脚本FLAG_TOWER_MID_CHALLENGE实现中断续战/拒绝续战作废。
+*/
+
+//@Details: Backs up the player's full party into gSaveBlock1->safeBackupParty.
+//			Only the persistent 80-byte head+substruct region of each mon is copied
+//			(sizeof(struct BoxPokemon)); HP/stats are recomputed on restore.
+//			Survives save + reload, unlike special 0x27's EWRAM backup.
+void BackupTowerPartyToSaveBlock(void)
+{
+	for (u8 i = 0; i < PARTY_SIZE; ++i)
+		Memcpy(&gSaveBlock1->safeBackupParty[i], &gPlayerParty[i], sizeof(struct BoxPokemon));
+}
+
+//@Details: Restores the party backed up by BackupTowerPartyToSaveBlock.
+//			Stats are recalculated and each mon is fully healed (facility restores between battles anyway).
+void RestoreTowerPartyFromSaveBlock(void)
+{
+	for (u8 i = 0; i < PARTY_SIZE; ++i)
+	{
+		Memcpy(&gPlayerParty[i], &gSaveBlock1->safeBackupParty[i], sizeof(struct BoxPokemon));
+		CalculateMonStats(&gPlayerParty[i]);
+		HealMon(&gPlayerParty[i]);
+	}
+
+	UpdatePlayerPartyCount();
+}
+
+//@Details: Mirrors the current Battle Tower format's current+max streaks into save vars.
+//			Call after every sp055 so the save can resume mid-challenge.
+void SyncTowerStreakToVars(void)
+{
+	u16 curr = GetBattleTowerStreak(CURR_STREAK, 0xFFFF, 0xFFFF, 0xFFFF, 0);
+	u16 max = GetBattleTowerStreak(MAX_STREAK, 0xFFFF, 0xFFFF, 0xFFFF, 0);
+
+	VarSet(VAR_TOWER_STREAK_CURR, curr);
+	if (max > VarGet(VAR_TOWER_STREAK_MAX))
+		VarSet(VAR_TOWER_STREAK_MAX, max);
+}
+
+//@Details: Loads the mirrored streaks from save vars back into the streak table
+//			for the current Battle Tower format (used on resume).
+void SyncTowerStreakFromVars(void)
+{
+	u8 battleStyle = MathMin(VarGet(VAR_BATTLE_FACILITY_BATTLE_TYPE), NUM_TOWER_BATTLE_TYPES);
+	u8 tier = VarGet(VAR_BATTLE_FACILITY_TIER);
+	u8 size = VarGet(VAR_BATTLE_FACILITY_POKE_NUM);
+	u8 level = VarGet(VAR_BATTLE_FACILITY_POKE_LEVEL);
+
+	level = AdjustLevelForTier(level, tier);
+
+	//Replicate LoadProperStreakData's indexing for IN_BATTLE_TOWER
+	u32 i;
+	for (i = 0; i < gNumBattleTowerTiers; ++i)
+	{
+		if (gBattleTowerTiers[i] == tier)
+			break;
+	}
+	if (i == gNumBattleTowerTiers)
+		tier = 0;
+	else
+		tier = i;
+	size = (size < 6) ? 0 : 1;
+	level = (level < 100) ? 0 : 1;
+
+	u16 curr = VarGet(VAR_TOWER_STREAK_CURR);
+	u16 max = VarGet(VAR_TOWER_STREAK_MAX);
+	if (max < curr)
+		max = curr;
+
+	gBattleTowerStreaks[battleStyle][tier][size][level][CURR_STREAK] = curr;
+	gBattleTowerStreaks[battleStyle][tier][size][level][MAX_STREAK] = max;
+}
+
+//@Details: Adds gSpecialVar_LastResult battle points to the BP wallet var and
+//			buffers both numbers for the script to print.
+//			NOTE: gStringVar1 must be filled here -- the script-side buffernumber
+//			(XSE 0x83) does not reliably write gStringVar1 in this engine.
+void AwardTowerBP(void)
+{
+	u16 amount = gSpecialVar_LastResult;
+	u16 total = MathMin(0xFFFF, VarGet(VAR_TOWER_BP) + amount);
+
+	VarSet(VAR_TOWER_BP, total);
+	ConvertIntToDecimalStringN(gStringVar1, amount, STR_CONV_MODE_LEFT_ALIGN, 3);
+	ConvertIntToDecimalStringN(gStringVar2, total, STR_CONV_MODE_LEFT_ALIGN, 5);
+}
+
+//@Details: Decides what the next Battle Tower battle is based on the current streak
+//			and buffers the battle number into gStringVar1.
+//@Returns: gSpecialVar_LastResult: 0 = regular trainer, 2 = frontier brain (sp052's Var8001 input)
+//			Var8002: brain id to use (0 = Palmer team 1 @ streak 20, 1 = Palmer team 2 @ streak 50)
+void TowerPrepareNextBattle(void)
+{
+	u16 streak = GetCurrentBattleTowerStreak();
+	u16 battleNum = streak + 1;
+
+	ConvertIntToDecimalStringN(gStringVar1, battleNum, STR_CONV_MODE_LEFT_ALIGN, 3);
+
+	if (battleNum == 20)
+	{
+		gSpecialVar_LastResult = 2;
+		VarSet(0x8002, 0); //gFrontierBrains[0]
+	}
+	else if (battleNum == 50)
+	{
+		gSpecialVar_LastResult = 2;
+		VarSet(0x8002, 1); //gFrontierBrains[1]
+	}
+	else
+	{
+		gSpecialVar_LastResult = 0;
+		VarSet(0x8002, 0);
+	}
+}
+
+//@Details: After a win, checks if the current streak is a 10-battle milestone.
+//@Returns: gSpecialVar_LastResult: TRUE if milestone; gStringVar3 = streak count
+void TowerCheckMilestone(void)
+{
+	u16 streak = GetCurrentBattleTowerStreak();
+
+	if (streak != 0 && (streak % 10) == 0)
+	{
+		ConvertIntToDecimalStringN(gStringVar3, streak, STR_CONV_MODE_LEFT_ALIGN, 3);
+		gSpecialVar_LastResult = TRUE;
+	}
+	else
+		gSpecialVar_LastResult = FALSE;
+}
+
 //@Details: Buffers details of the opposing team for the Ring Challenge.
 //@Returns: gStringVar1: Opponent Pokemon 1 species
 //			gStringVar2: Opponent Pokemon 2 species

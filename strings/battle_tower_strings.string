@@ -1,0 +1,68 @@
+#include "src/config.h"
+
+//==== 对战塔(水银式)前台文本 ====
+//变量: [BUFFER1]=gStringVar1 [BUFFER2]=gStringVar2 [BUFFER3]=gStringVar3
+//battle_tower.s 引用, C侧 TowerPrepareNextBattle/AwardTowerBP/TowerCheckMilestone 负责填充
+
+#org @gText_TowerWelcome
+欢迎来到对战塔！\n请问需要什么服务呢？
+
+#org @gText_TowerChoiceChallenge
+挑战对战塔
+
+#org @gText_TowerChoiceRecords
+查看连胜记录
+
+#org @gText_TowerChoiceQuit
+离开
+
+#org @gText_TowerResumeAsk
+客人您上次中断了挑战！\n连胜记录仍然保留。\p要从中断的地方继续吗？
+
+#org @gText_TowerResumeWelcome
+那么，请继续您的挑战！
+
+#org @gText_TowerVoided
+客人您上次没有保存记录\n就结束了挑战吧！\p挑战无效了！\p那么，衷心期待\n您的下次光临！
+
+#org @gText_TowerModeAsk
+塔里有4种对战间可供挑战，\n请问您要选择哪一个呢？
+
+#org @gText_TowerModeSingle50
+单打对战（50级·3只）
+
+#org @gText_TowerModeDouble50
+双打对战（50级·4只）
+
+#org @gText_TowerModeSingle100
+单打对战（100级·6只）
+
+#org @gText_TowerModeDouble100
+双打对战（100级·6只）
+
+#org @gText_TowerSelectTeam
+请从您的队伍中选出\n参赛的宝可梦。
+
+#org @gText_TowerRegistrationCancelled
+衷心期待您的下次光临！
+
+#org @gText_TowerNextBattle
+接下来是第[BUFFER1]场！\n准备好了吗？
+
+#org @gText_TowerTrainerDefeated
+没想到我会输！\n下一位对手就拜托你了！
+
+#org @gText_TowerGotBP
+战胜了对手，获得了\n[BUFFER1]点BP！\p现在共有[BUFFER2]点BP。
+
+#org @gText_TowerMilestone
+漂亮地连胜了[BUFFER3]场！\n真是恭喜您了！
+
+#org @gText_TowerContinueAsk
+要继续挑战吗？
+
+#org @gText_TowerQuitDone
+您的挑战到此为止。\p中断前请记得先存档，\n下次才能从连胜记录继续哦。\p期待您的再次挑战！
+
+#org @gText_TowerChallengeFailed
+很遗憾，连胜就此终结了！\p但您的辉煌战绩已经被\n塔内的众人们铭记于心。\p期待您的再次挑战！

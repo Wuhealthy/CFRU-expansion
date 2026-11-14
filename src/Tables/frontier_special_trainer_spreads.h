@@ -79,7 +79,6 @@ structs to edit:
 	gLittleCupTowerSpread_Giovanni
 */
 
-#ifdef UNBOUND
 const struct BattleTowerSpread gSpecialTowerSpread_Palmer1[] =
 {
 	{
@@ -21752,5 +21751,3 @@ const struct BattleTowerSpread gLittleCupTowerSpread_Giovanni[] =
 		.modifyMovesDoubles = FALSE,
 	},
 };
-
-#endif

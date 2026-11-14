@@ -100,6 +100,12 @@ enum //These vars need to be one after the other (hence the enum)
 	VAR_FACILITY_TRAINER_ID_PARTNER, //0x501E	//If your partner is randomized, its Id would be found in this var
 };
 
+/*===== Battle Tower (水银式) Save Data =====*/
+#define VAR_TOWER_BP 0x5163				//BP钱包。前台商店/教学等消耗BP的设施都从这里扣
+#define VAR_TOWER_STREAK_CURR 0x5164	//当前连胜镜像(存档持久化,续战用)
+#define VAR_TOWER_STREAK_MAX 0x5165		//最高连胜镜像(存档持久化)
+#define FLAG_TOWER_MID_CHALLENGE 0x947	//中断挑战标记(存档后可续战;拒绝续战则挑战作废)
+
 /*===== Character Customization Vars =====*/
 #define VAR_PLAYER_WALKRUN 0x501F			//Change walking, running player sprite. 0x4054 in JPAN engine.
 #define VAR_PLAYER_BIKING 0x5020			//Change biking player sprite. 0x4055 in JPAN engine.
