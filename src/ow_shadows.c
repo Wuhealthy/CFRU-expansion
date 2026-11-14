@@ -14,6 +14,7 @@
 #include "../include/new/character_customization.h"
 #include "../include/new/dynamic_ow_pals.h"
 #include "../include/new/follow_me.h"
+#include "../include/new/dynamic_ow_pals.h"
 
 #ifdef OW_SHADOWS
 
@@ -302,6 +303,8 @@ static void ApplyShadowColor(struct EventObject *eventObject)
 				palSlot = LoadSpritePalette(&sShadowSpritePalette); //Returns the existing slot if already loaded
 				if (palSlot != 0xFF)
 				{
+					PalRefDecreaseCount(sprite->oam.paletteNum); //Release the vanilla shadow palette
+					PalRefIncreaseCount(palSlot);                //This shadow sprite now owns the shadow palette
 					sprite->oam.paletteNum = palSlot;
 					sprite->oam.objMode = ST_OAM_OBJ_BLEND;
 					//ST_OAM_OBJ_BLEND 是精灵级半透明模式，只需 BLDALPHA 提供透明度，

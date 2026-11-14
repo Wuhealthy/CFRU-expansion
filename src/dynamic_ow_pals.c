@@ -46,6 +46,7 @@ struct PalRef
 static u16 TintColor(u16 color);
 static u8 GetPalTypeByPalTag(u16 palTag);
 static u8 FindPalTag(u16 PalTag);
+u8 PalRefIncreaseCount(u8 palSlot);
 static void BrightenReflection(u8 palSlot);
 static u8 AddPalTag(u16 palTag);
 static void MaskPaletteIfFadingIn(u8 palSlot);
