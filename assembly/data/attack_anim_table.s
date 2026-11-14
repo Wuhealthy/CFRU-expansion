@@ -1054,8 +1054,8 @@ gMoveAnimations:
 .word ANIM_HEX			@MOVE_PSIONICCRASH
 .word ANIM_ECLIPSE_POISON_STING	@MOVE_ECLIPSEPOISONSTING
 .word ANIM_TRIPLEWATERPULSE	@MOVE_TRIPLEWATERPULSE
-.word ANIM_PSYSHOCK	@MOVE_PSYCHICSUPPRESSION
-.word ANIM_XSCISSOR	@MOVE_CRITSNIP
+.word ANIM_PSYCHICSUPPRESSION	@MOVE_PSYCHICSUPPRESSION
+.word ANIM_CRITSNIP	@MOVE_CRITSNIP
 .word ANIM_RAGINGSURGE	@MOVE_RAGINGSURGE
 .word ANIM_WINDROCKSTRIKE	@MOVE_WINDROCKSTRIKE
 .word ANIM_WEAKNESSPIERCE	@MOVE_WEAKNESSPIERCE
@@ -7424,6 +7424,70 @@ PSYSHOCK_ORB_BLEND:
 PSYSHOCK_ROCKTRAP: objtemplate ANIM_TAG_ORBS ANIM_TAG_ORBS OAM_OFF_16x16 gAnimCmdTable_PsyshockOrb 0x0 0x83E741C 0x80B477D
 PSYSHOCK_ROCKHITS: objtemplate ANIM_TAG_ORBS ANIM_TAG_ORBS OAM_OFF_16x16 gAnimCmdTable_PsyshockOrb 0x0 gDummySpriteAffineAnimTable 0x80A4299
 PSYSHOCK_HITS2: objtemplate ANIM_TAG_IMPACT ANIM_TAG_FLAT_ROCK OAM_NORMAL_BLEND_32x32 gDummySpriteAnimTable 0x0 0x83E63DC 0x80AF3B9
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@;精神压制: 精神能量球环绕目标轰击, 命中后在对手场地上布下精神力场(撒菱式铺设)
+.global ANIM_PSYCHICSUPPRESSION
+ANIM_PSYCHICSUPPRESSION:
+	loadparticle ANIM_TAG_ORBS
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_FLAT_ROCK @;Impact colour
+	call PSYSHOCK_ORB_BLEND
+	pokespritetoBG side_target
+	call SET_PSYCHIC_BG
+	setblends 0x80C
+	playsound2 0xb1 SOUND_PAN_TARGET
+	launchtask AnimTask_move_bank_2 0x2 0x5 bank_attacker 0x1 0x0 0x1C 0x1
+	launchtask AnimTask_pal_fade_complex 0x2 0x6 PAL_ATK 0x4 0x2 0x0 0x8 0x7fff
+	@;精神能量球环绕目标
+	launchtemplate PSYSHOCK_ROCKTRAP TEMPLATE_TARGET | 2, 0x7 0x0 0x1c 0x180 0x32 0x8 0x32 0x1
+	pause 0x1
+	launchtemplate PSYSHOCK_ROCKTRAP TEMPLATE_TARGET | 2, 0x7 0x0 0x20 0xf0 0x28 0xb 0xffd2 0x1
+	pause 0x1
+	launchtemplate PSYSHOCK_ROCKTRAP TEMPLATE_TARGET | 2, 0x7 0x0 0x21 0x1a0 0x28 0x4 0x2a 0x1
+	pause 0x1
+	launchtemplate PSYSHOCK_ROCKTRAP TEMPLATE_TARGET | 2, 0x7 0x0 0x1f 0x120 0x2d 0x6 0xffd6 0x1
+	pause 0x1
+	launchtemplate PSYSHOCK_ROCKTRAP TEMPLATE_TARGET | 2, 0x7 0x0 0x1c 0x1c0 0x2d 0xb 0x2e 0x1
+	pause 0x1
+	launchtemplate PSYSHOCK_ROCKTRAP TEMPLATE_TARGET | 2, 0x7 0x0 0x21 0x1d0 0x32 0xa 0xffce 0x1
+	waitanimation
+	@;精神能量爆发命中
+	playsound2 0x7C SOUND_PAN_TARGET
+	launchtemplate PSYSHOCK_ROCKHITS TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0x0 0xFFE0 0x10 @up
+	pause 0x1
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x2 0x20 0x1
+	playsound2 0x84 SOUND_PAN_TARGET
+	launchtemplate PSYSHOCK_HITS2 TEMPLATE_TARGET | 2, 0x3, 0xfff6 0xfff6 0x0
+	launchtemplate PSYSHOCK_ROCKHITS TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0x14 0x14 0x10 @lowerright
+	launchtemplate PSYSHOCK_ROCKHITS TEMPLATE_TARGET | 2, 0x5 0x1 0x0 0xFFE5 0x0 0x10 @left
+	pause 0x5
+	playsound2 0x84 SOUND_PAN_TARGET
+	launchtemplate PSYSHOCK_HITS2 TEMPLATE_TARGET | 2, 0x3, 0x11 0xfff4 0x0
+	pause 0x5
+	playsound2 0x84 SOUND_PAN_TARGET
+	launchtemplate PSYSHOCK_HITS2 TEMPLATE_TARGET | 2, 0x3, 0x0 0x0 0x0
+	launchtask AnimTask_screen_shake 0x5 0x3 0x5 0x2 0x1
+	pause 0x1e
+	@;布下精神力场(毒菱式铺设, 三个力场核沉入对手场地)
+	playsoundwait 0x9f SOUND_PAN_TARGET 0x1c
+	launchtemplate PSY_FIELD_ORB TEMPLATE_TARGET | 2, 0x5 0x14 0x0 0x0 0x18 0x1e
+	pause 0xa
+	playsoundwait 0x9f SOUND_PAN_TARGET 0x1c
+	launchtemplate PSY_FIELD_ORB TEMPLATE_TARGET | 2, 0x5 0x14 0x0 0xffe8 0x18 0x1e
+	pause 0xa
+	playsoundwait 0x9f SOUND_PAN_TARGET 0x1c
+	launchtemplate PSY_FIELD_ORB TEMPLATE_TARGET | 2, 0x5 0x14 0x0 0x18 0x18 0x1e
+	waitanimation
+	@;收场
+	resetblends
+	call UNSET_SCROLLING_BG
+	pokespritefromBG side_target
+	endanimation
+
+.align 2
+PSY_FIELD_ORB: objtemplate ANIM_TAG_ORBS ANIM_TAG_ORBS OAM_OFF_16x16 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable 0x80DE8B1 @;下坠沉入场地(毒菱TSPIKES同款回调,落定后自毁)
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -32487,6 +32551,51 @@ RS_RING: objtemplate ANIM_TAG_PURPLE_RING ANIM_TAG_PURPLE_RING OAM_DOUBLE_16x32 
 RS_WSLASH_L: objtemplate ANIM_TAG_CUT ANIM_TAG_WATER_ORB OAM_NORMAL_32x32 0x83E3290 0x0 gSpriteAffineAnimTable_NightSlashLeft SpriteCB_HorizontalSlice
 RS_WSLASH_R: objtemplate ANIM_TAG_CUT ANIM_TAG_WATER_ORB OAM_NORMAL_32x32 0x83E3290 0x0 gSpriteAffineAnimTable_NightSlashRight SpriteCB_HorizontalSlice
 RS_WATERHIT: objtemplate ANIM_TAG_IMPACT ANIM_TAG_WATER_ORB OAM_NORMAL_BLEND_32x32 gDummySpriteAnimTable 0x0 0x83E7BF8 0x80BA561
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@会心一剪：巨剪双角交错剪击，容易击中要害。 署名WUHEALTHY
+ANIM_CRITSNIP:
+	loadparticle ANIM_TAG_CUT @金色巨剪
+	loadparticle ANIM_TAG_CROSS_IMPACT @剪断弹坑
+	loadparticle ANIM_TAG_IMPACT @命中弹坑
+	pokespritetoBG bank_target
+	@双刃从两侧张开逼近
+	playsound2 0x79 SOUND_PAN_TARGET
+	launchtemplate CS_BLADE_A TEMPLATE_TARGET | 2, 0x3 0x28 0xffe0 0x0
+	launchtemplate CS_BLADE_B TEMPLATE_TARGET | 2, 0x3 0x28 0xffe0 0x1
+	pause 0x5
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0xa 0x1
+	waitanimation
+	@第一剪：双刃交错剪断
+	playsound2 0x79 SOUND_PAN_TARGET
+	launchtemplate CS_SLASH_L TEMPLATE_TARGET | 2, 0x5, 50, -10, 100, 4 1
+	launchtemplate CS_SLASH_R TEMPLATE_TARGET | 2, 0x5, -50, 10, 100, 4 0x0
+	pause 0x5
+	launchtemplate Template_ComplexPaletteBlend 0x2 0x7 0x1f 0x3 0x1 0x7fff 0xa 0x0 0xa @;剪断瞬间白闪(会心演出)
+	launchtemplate Template_CrossImpact 0x3 0x4 0x0 0x0 0x1 0x14 @;X形剪断弹坑
+	launchtask AnimTask_move_bank 0x5 0x5 0x1 0x7 0x0 0x9 0x1
+	playsound2 0x81 SOUND_PAN_TARGET
+	pause 0x14
+	@第二剪：再度交错
+	playsound2 0x79 SOUND_PAN_TARGET
+	launchtemplate CS_SLASH_R TEMPLATE_TARGET | 2, 0x5, 50, -10, 100, 4 1
+	launchtemplate CS_SLASH_L TEMPLATE_TARGET | 2, 0x5, -50, 10, 100, 4 0x0
+	pause 0x5
+	launchtemplate Template_CrossImpact 0x3 0x4 0x10 0x10 0x1 0x14
+	launchtask AnimTask_move_bank 0x5 0x5 0x1 0x7 0x0 0x9 0x1
+	playsound2 0x81 SOUND_PAN_TARGET
+	pause 0xA
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0xFFF6 0xFFF8 0x1 0x1
+	playsound2 0x9F SOUND_PAN_TARGET
+	waitanimation
+	pokespritefromBG bank_target
+	endanimation
+
+CS_BLADE_A: objtemplate ANIM_TAG_CUT ANIM_TAG_GOLD_STARS OAM_OFF_BLEND_32x32 0x83E3290 0x0 gDummySpriteAffineAnimTable 0x80A44E1
+CS_BLADE_B: objtemplate ANIM_TAG_CUT ANIM_TAG_GOLD_STARS OAM_OFF_BLEND_32x32 0x83E3290 0x0 gDummySpriteAffineAnimTable 0x80A44E1
+CS_SLASH_L: objtemplate ANIM_TAG_CUT ANIM_TAG_GOLD_STARS OAM_NORMAL_32x32 0x83E3290 0x0 gSpriteAffineAnimTable_NightSlashLeft SpriteCB_HorizontalSlice
+CS_SLASH_R: objtemplate ANIM_TAG_CUT ANIM_TAG_GOLD_STARS OAM_NORMAL_32x32 0x83E3290 0x0 gSpriteAffineAnimTable_NightSlashRight SpriteCB_HorizontalSlice
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
