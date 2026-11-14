@@ -108,7 +108,7 @@ D.species.forEach(s => {
 });
 
 /* 进化链: 组件划分 */
-const EVO_MAIN_SKIP = { EVO_MEGA: 1, EVO_GIGANTAMAX: 1, EVO_AWAKEN: 1, EVO_FORM_ABILITY: 1 };
+const EVO_MAIN_SKIP = { EVO_MEGA: 1, EVO_GIGANTAMAX: 1, EVO_AWAKEN: 1, EVO_FORM_ABILITY: 1, EVO_FORM_ITEM: 1 };
 const FORM_KIND_ZH = { awaken: "觉醒形态", mega: "超级进化", giga: "超极巨化", primal: "原始回归", regional: "地区形态", alt: "特殊形态" };
 const FORM_ABILITY_TRANSITIONS = [
   { from: "DARMANITAN", to: "DARMANITANZEN", ability: "ZENMODE", note: "HP≤最大HP的一半时变为达摩模式；HP高于一半时恢复原形。" },
@@ -157,8 +157,33 @@ const FORM_ABILITY_EDGES = FORM_ABILITY_TRANSITIONS.flatMap(({ from, to, ability
     };
   })
 ).filter(Boolean);
+/* 道具形态变化 (CFRU party_menu.c ItemUseCB_FormChangeItem): 对指定物种使用道具后变为另一形态。
+   只画「默认形态 → 异形」方向 (与超级进化表存储方向一致, 双向都画会让全员无根画不出树);
+   互变关系在 note 里说明。合体类道具需另一只宝可梦参与, 一并画出并在 note 写明同伴。 */
+const FORM_ITEM_TRANSITIONS = [
+  { item: "葛拉西蒂亚花", from: "SHAYMIN", to: "SHAYMIN_SKY", note: "仅白天可使用（夜晚无效）；天空形态在夜晚或进出盒子时恢复陆上形态。" },
+  { item: "现形镜", from: "TORNADUS", to: "TORNADUS_THERIAN", note: "化身形态与灵兽形态可互相转换。" },
+  { item: "现形镜", from: "THUNDURUS", to: "THUNDURUS_THERIAN", note: "化身形态与灵兽形态可互相转换。" },
+  { item: "现形镜", from: "LANDORUS", to: "LANDORUS_THERIAN", note: "化身形态与灵兽形态可互相转换。" },
+  { item: "现形镜", from: "ENAMORUS", to: "ENAMORUS_THERIAN", note: "化身形态与灵兽形态可互相转换。" },
+  { item: "惩戒之壶", from: "HOOPA", to: "HOOPA_UNBOUND", note: "约束形态与解放形态可互相转换。" },
+  { item: "金黄色花蜜", from: "ORICORIO", to: "ORICORIO_Y" },
+  { item: "桃粉色花蜜", from: "ORICORIO", to: "ORICORIO_P" },
+  { item: "兰紫色花蜜", from: "ORICORIO", to: "ORICORIO_S" },
+  { item: "基因之楔", from: "KYUREM", to: "KYUREM_BLACK", note: "与捷克罗姆合体；分离后恢复原形。" },
+  { item: "基因之楔", from: "KYUREM", to: "KYUREM_WHITE", note: "与莱希拉姆合体；分离后恢复原形。" },
+  { item: "索尔合体器", from: "NECROZMA", to: "NECROZMA_DUSK_MANE", note: "与索尔迦雷欧合体；分离后恢复原形。" },
+  { item: "露奈合体器", from: "NECROZMA", to: "NECROZMA_DAWN_WINGS", note: "与露奈雅拉合体；分离后恢复原形。" },
+];
+const FORM_ITEM_EDGES = FORM_ITEM_TRANSITIONS.flatMap(({ item, from, to, note }) => {
+  const source = D.species.find(s => s.en === from);
+  const target = D.species.find(s => s.en === to);
+  if (!source || !target) return [];
+  return [{ from: source.id, edge: { to: target.id, method: "EVO_FORM_ITEM", text: `使用${item}`, note: note || "" } }];
+});
 const speciesEvolutions = id => (SPECIES_BY_ID[id].evolutions || []).concat(
-  FORM_ABILITY_EDGES.filter(x => x.from === id).map(x => x.edge)
+  FORM_ABILITY_EDGES.filter(x => x.from === id).map(x => x.edge),
+  FORM_ITEM_EDGES.filter(x => x.from === id).map(x => x.edge)
 );
 /* 形态筛选: chip 值 -> 该 chip 显示的 formKind 集合 ("特殊形态"含原始回归) */
 const FORM_FILTER = {
@@ -370,12 +395,27 @@ const SPECIES_NAME_SUFFIX = {
   PALAFIN_HERO: "（英雄形态）",
   CALYREX_ICE_RIDER: "（骑白马形态）",
   CALYREX_SHADOW_RIDER: "（骑黑马形态）",
+  SHAYMIN_SKY: "（天空形态）",
+  TORNADUS_THERIAN: "（灵兽形态）",
+  THUNDURUS_THERIAN: "（灵兽形态）",
+  LANDORUS_THERIAN: "（灵兽形态）",
+  ENAMORUS_THERIAN: "（灵兽形态）",
+  HOOPA_UNBOUND: "（解放形态）",
+  ORICORIO: "（热辣热辣风格）",
+  ORICORIO_Y: "（啪滋啪滋风格）",
+  ORICORIO_P: "（呼拉呼拉风格）",
+  ORICORIO_S: "（轻盈轻盈风格）",
+  NECROZMA_DUSK_MANE: "（黄昏之鬃）",
+  NECROZMA_DAWN_WINGS: "（拂晓之翼）",
 };
 const MEGA_BASE_SPECIES = {
   ZYGARDE_MEGA: "ZYGARDE_COMPLETE",
   ZYGARDE50_MEGA: "ZYGARDE",
 };
+/* 官方译名整体替换 (后缀拼不出的独立物种名, 如暗黑酋雷姆/焰白酋雷姆) */
+const SPECIES_FULL_NAME = { KYUREM_BLACK: "暗黑酋雷姆", KYUREM_WHITE: "焰白酋雷姆" };
 function speciesName(s) {
+  if (SPECIES_FULL_NAME[s.en]) return SPECIES_FULL_NAME[s.en];
   const typeForm = /^(ARCEUS|SILVALLY)_/.test(s.en) && TYPE_BY_ID[s.types[0]]
     ? `（${TYPE_BY_ID[s.types[0]].zh}属性）` : "";
   return (SPECIES_NAME_PREFIX[s.formKind] || "") + s.zh + (SPECIES_NAME_SUFFIX[s.en] || "") + typeForm;
@@ -1078,8 +1118,10 @@ function evoChainHTML(s) {
   const arrow = (from, to) => `<div class="evo-arrow">${speciesEvolutions(from).filter(e => e.to === to)
     .map(e => `<div class="cond">${esc(e.text)}</div>${e.note ? `<div class="note">${esc(e.note)}</div>` : ""}`)
     .join('<div class="or">或</div>')}<div class="arr">→</div></div>`;
-  // 阶段: 起点为「未进化」, 每经一次普通进化 +1 阶; 特殊形态写其方式 (超级进化/超极巨化/觉醒形态…)
-  const stageOf = (e, depth) => EVO_MAIN_SKIP[e.method] ? [e.text, depth] : [`${depth + 1}阶进化`, depth + 1];
+  // 阶段: 起点为「未进化」, 每经一次普通进化 +1 阶; 特殊形态写其方式 (超级进化/超极巨化/觉醒形态/道具形态变化…)
+  const stageOf = (e, depth) => EVO_MAIN_SKIP[e.method]
+    ? [e.method === "EVO_FORM_ITEM" ? "形态变化" : e.text, depth]
+    : [`${depth + 1}阶进化`, depth + 1];
   const seen = new Set();
   const branch = (id, stage, depth) => {
     seen.add(id);
