@@ -14,6 +14,7 @@ void __attribute__((long_call)) UpdateAutomaticFollowerMon(void);
 bool8 __attribute__((long_call)) HasLeadFollowerMon(void);
 struct Pokemon* GetFirstValidPartyMon(void);
 void SetFollowerMonSpeciesVar(void);
+void ShowFollowerEmote(void);
 
 //跟随宝可梦开关(设置菜单)
 bool8 __attribute__((long_call)) IsFollowerMonEnabled(void);
