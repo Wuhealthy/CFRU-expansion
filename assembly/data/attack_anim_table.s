@@ -1052,7 +1052,7 @@ gMoveAnimations:
 .word ANIM_MUDBOMB		@MOVE_MUDDYBARRAGE
 .word ANIM_FLASHCANNON		@MOVE_MAGNETICPULSE
 .word ANIM_HEX			@MOVE_PSIONICCRASH
-.word ANIM_ECLIPSE_POISON_STING	@MOVE_ECLIPSEPOISONSTING
+.word ANIM_ECLIPSEPOISONSTING	@MOVE_ECLIPSEPOISONSTING
 .word ANIM_TRIPLEWATERPULSE	@MOVE_TRIPLEWATERPULSE
 .word ANIM_PSYCHICSUPPRESSION	@MOVE_PSYCHICSUPPRESSION
 .word ANIM_CRITSNIP	@MOVE_CRITSNIP
@@ -5940,6 +5940,46 @@ ANIM_MOONFEATHER:
 	@;收场: 蓝光褪去, 同时收掉长驻的月亮(月系动画标准结尾, 参照ANIM_LUNAR_BLESSING)
 	launchtask AnimTask_FadeScreenBlue 0x2 0x0
 	pause 0x10
+	resetblends
+	endanimation
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@;蚀月毒刺: 紫月浮现于目标上空, 毒液利爪交错撕裂, 毒泡四溢(毒菱铺设由战斗脚本EclipsePoisonSting_BS的ANIM_TOXICSPIKES2负责)
+.global ANIM_ECLIPSEPOISONSTING
+ANIM_ECLIPSEPOISONSTING:
+	loadparticle ANIM_TAG_MOON
+	loadparticle ANIM_TAG_CLAW_SLASH
+	loadparticle ANIM_TAG_POISON_BUBBLE @毒泡(POISON_BUBBLES不自动加载,缺了会画乱码)
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_MOON 0x0 0xA 0xA 0x681A @;紫月(月蚀)
+	pokespritetoBG bank_target
+	setblends 0x80c
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0x8 0x0 @;夜幕降临
+	launchtemplate Template_Moon TEMPLATE_TARGET | 0, 0x2 0x20 0x15 @紫月浮现
+	launchtask AnimTask_AlphaFadeIn 0x3 0x5 0x0 0x10 0x10 0x0 0x1
+	playsound2 0xCC 0x0
+	pause 0x38
+	@;毒液利爪交错撕裂
+	playsound2 0x81 SOUND_PAN_TARGET
+	launchtemplate ECLIPSE_POISON_CLAW TEMPLATE_TARGET | 2, 0x4, 8, 0, FALSE, FALSE
+	pause 0x4
+	playsound2 0x81 SOUND_PAN_TARGET
+	launchtemplate ECLIPSE_POISON_CLAW TEMPLATE_TARGET | 2, 0x4, -8, -8, TRUE, FALSE
+	pause 0x4
+	playsound2 0x81 SOUND_PAN_TARGET
+	launchtemplate ECLIPSE_POISON_CLAW TEMPLATE_TARGET | 2, 0x4, -8, 0, TRUE, TRUE
+	pause 0x4
+	playsound2 0x81 SOUND_PAN_TARGET
+	launchtemplate ECLIPSE_POISON_CLAW TEMPLATE_TARGET | 2, 0x4, 8, -8, FALSE, TRUE
+	pause 0x8
+	@;毒泡四溢, 目标后仰
+	call POISON_BUBBLES
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0x10 0x1
+	pause 0x30
+	@;收场: 蓝光褪去, 同时收掉长驻的紫月(月系动画标准结尾)
+	launchtask AnimTask_FadeScreenBlue 0x2 0x0
+	pause 0x10
+	pokespritefromBG bank_target
 	resetblends
 	endanimation
 
