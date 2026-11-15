@@ -10,6 +10,11 @@
 #include "../include/script.h"
 #include "../include/follower_mon_pal.h"
 #include "../include/new/character_customization.h"
+#include "../include/new/follower_emotes.h"
+#include "../include/field_weather.h"
+#include "../include/trainer_pokemon_sprites.h"
+#include "../include/window.h"
+#include "../include/field_effect.h"
 
 
 extern u8 SparkleTiles[];
@@ -313,6 +318,12 @@ void ShowFollowerEmote(void)
     if (follower->invisible)
         return;
 
+    if (Var8005 >= FOLLOWER_EMOTE_FIRST)
+    {
+        CreateFollowerEmote(Var8005 - FOLLOWER_EMOTE_FIRST);
+        return;
+    }
+
     gFieldEffectArguments[0] = follower->localId;
     gFieldEffectArguments[1] = follower->mapNum;
     gFieldEffectArguments[2] = follower->mapGroup;
@@ -352,6 +363,12 @@ struct Pokemon* GetFirstValidPartyMon(void)
     }
 
     return NULL;
+}
+
+//上游消息系统使用的入口: 含跟随黑名单检查(黑名单机制在未合并的提交里, 本地等价取首只可用宝可梦)
+struct Pokemon* GetFollowerPartyMon(void)
+{
+    return GetFirstValidPartyMon();
 }
 
 bool8 IsFollowerMonEnabled(void)
