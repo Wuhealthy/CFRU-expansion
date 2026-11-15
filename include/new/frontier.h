@@ -75,6 +75,9 @@ void SyncTowerStreakFromVars(void);
 void AwardTowerBP(void);
 void TowerPrepareNextBattle(void);
 void TowerCheckMilestone(void);
+void BufferTowerBP(void);
+void BufferTutorMoveName(void);
+void SpendTowerBP(void);
 
 //Exported Constants
 //#define TOTAL_SPREADS 0x4A0 //sizeof(gFrontierSpreads) / sizeof(struct BattleTowerSpreads)

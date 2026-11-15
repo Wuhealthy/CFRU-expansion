@@ -40,6 +40,8 @@
 
 #include "../include/gba/m4a_internal.h"
 
+#include "Tables/tutor_move_names.h"
+
 #include "../include/new/battle_strings.h"
 #include "../include/new/build_pokemon.h"
 #include "../include/new/bw_summary_screen.h"
@@ -3040,6 +3042,7 @@ const struct ScrollingMulti gScrollingSets[] =
 {
 	{sMultichoiceSet1, ARRAY_COUNT(sMultichoiceSet1)},   // 0x8000 = 0
     {sMultichoiceSet2, ARRAY_COUNT(sMultichoiceSet2)},   // 0x8000 = 1
+	{sTutorMoveNameList, ARRAY_COUNT(sTutorMoveNameList)}, // 0x8000 = 2 (对战开拓区教学NPC: 80教学招式)
 };
 
 //Link number of opts shown at once to the box height

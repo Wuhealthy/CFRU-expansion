@@ -66,3 +66,122 @@
 
 #org @gText_TowerChallengeFailed
 很遗憾，连胜就此终结了！\p但您的辉煌战绩已经被\n塔内的众人们铭记于心。\p期待您的再次挑战！
+
+//==== 对战开拓区大厅(map 2.7)七个NPC文本 ====
+//塔前台(npc0) / 宫殿前台(npc1) / 矿山前台(npc2) / 马戏团前台(npc3) / 记录(npc4) / 教学(npc5) / BP商店(npc6)
+
+#org @gText_FrontierChoiceChallenge
+挑战对战设施
+
+#org @gText_FrontierChoiceLeave
+离开
+
+#org @gText_FrontierSeeYou
+衷心期待您的下次光临！
+
+#org @gText_PalaceIntro
+欢迎来到对战宫殿！\p宫殿的对战由您的宝可梦自行发挥，
+训练家不能下达指令。\p每场对战开始前，双方都会随机
+获得一些增益效果。\p要挑战吗？
+
+#org @gText_MineIntro
+欢迎来到对战矿山！\p矿山的每场对战的等级、规则
+和规模都是随机的！\p看您的挑战能坚持到什么程度。\p要挑战吗？
+
+#org @gText_MineFormatAsk
+矿山里有三种规则，
+请问要挑战哪一种呢？
+
+#org @gText_MineFormat1
+规则一（标准）
+
+#org @gText_MineFormat2
+规则二（体型杯）
+
+#org @gText_MineFormat3
+规则三（低龄杯）
+
+#org @gText_MineCantParticipate
+您的队伍还不满足
+参加矿山的条件。
+
+#org @gText_CircusIntro
+欢迎来到对战马戏团！\p马戏团的每场对战都会附加一个
+随机的场地效果！\p看您的挑战能坚持到什么程度。\p要挑战吗？
+
+#org @gText_CircusEffectNotice
+本场地效果：[BUFFER3]！
+
+#org @gText_RecordsAsk
+想查看哪里的连胜记录呢？
+
+#org @gText_RecordsTower
+对战塔记录
+
+#org @gText_RecordsPalace
+对战宫殿记录
+
+#org @gText_RecordsMine
+对战矿山记录
+
+#org @gText_RecordsCircus
+对战马戏团记录
+
+#org @gText_RecordsStyleAsk
+想查看单打还是双打的记录？
+
+#org @gText_TutorIntro
+哼哼……
+老夫是道破仙君。\p只要你交出30点BP，老夫就可以将
+绝技传授给你的宝可梦。\p你现在共有[BUFFER1]点BP。\p想学哪一招？
+
+#org @gText_TutorConfirm
+[BUFFER1]……
+要花30点BP学习吗？
+
+#org @gText_TutorBroke
+呃呃，
+你的BP似乎不够。
+
+#org @gText_TutorLearned
+[BUFFER1]学会了！
+连老夫都为你高兴！
+
+#org @gText_ShopIntro
+欢迎光临！
+这里是用BP兑换道具的柜台！\p你现在共有[BUFFER1]点BP。
+想换些什么呢？
+
+#org @gText_ShopItem1
+气势披带 10BP
+
+#org @gText_ShopItem2
+达人带 10BP
+
+#org @gText_ShopItem3
+讲究头带 15BP
+
+#org @gText_ShopItem4
+讲究眼镜 15BP
+
+#org @gText_ShopItem5
+讲究围巾 15BP
+
+#org @gText_ShopItem6
+吃剩的东西 20BP
+
+#org @gText_ShopItem7
+助推背心 20BP
+
+#org @gText_ShopBroke
+不好意思，
+您的BP不够。
+
+#org @gText_ShopGot
+获得了[BUFFER1]！
+请收好。
+
+#org @gText_ShopBalance
+您现在共有[BUFFER1]点BP。
+还需要些什么吗？
+

@@ -1,16 +1,19 @@
 ## Pallet Town
 npc 3 0 0 EventScript_Pallet_LittleGirl
 npc 3 0 1 EventScript_Pallet_FatGuy_CoinGame
-## npc 4 3 0 EventScript_BattleTowerReceptionMenu
-## npc 4 3 1 SystemScript_DebugMenu
-## npc 4 3 2 EventScript_ChangeHiddenPowerTypeNPC
+## npc 4 3 0 EventScript_ChangeHiddenPowerTypeNPC
 ## npc 4 3 0 EventScript_Pallet_AideGuy
 
-## Battle Tower Salon
-## npc 2 7 0 EventScript_BattleTowerReception
-
-## 对战塔前台(占位: 原测试位 map 4.3 NPC 0, 用户确认地图后改这行即可)
-npc 4 3 0 EventScript_BattleTowerReceptionMenu
+## 对战开拓区大厅(map 2.7) — 七个NPC + 新游戏出生图脚本
+## NPC模板表由bytereplacement在0x71A300重建(7个), 脚本指针在此回填
+npc 2 7 0 EventScript_BattleTowerReceptionMenu
+npc 2 7 1 EventScript_FrontierPalaceReception
+npc 2 7 2 EventScript_FrontierMineReception
+npc 2 7 3 EventScript_FrontierCircusReception
+npc 2 7 4 EventScript_FrontierRecordsNPC
+npc 2 7 5 EventScript_FrontierTutorNPC
+npc 2 7 6 EventScript_FrontierShopNPC
+map 3 2 EventScript_TowerSpawnMapScripts
 
 ## Viridian City
 ## npc 3 1 3 EventScript_ChangeTeraTypeNPC

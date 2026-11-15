@@ -2447,6 +2447,41 @@ void TowerCheckMilestone(void)
 		gSpecialVar_LastResult = FALSE;
 }
 
+//@Details: Buffers the BP wallet total into gStringVar1.
+//			(script-side buffernumber/XSE 0x83 does not reliably write gStringVar1.)
+void BufferTowerBP(void)
+{
+	ConvertIntToDecimalStringN(gStringVar1, VarGet(VAR_TOWER_BP), STR_CONV_MODE_LEFT_ALIGN, 5);
+}
+
+//@Details: Buffers the name of the tutor move indexed by gSpecialVar_LastResult
+//			(index into gTutorMoves) into gStringVar1.
+#define gTutorMoves ((const u16*) *((u32*) 0x8120BE4))	//same as include/new/item.h
+extern u8 gMoveNames[][MOVE_NAME_LENGTH + 1];
+
+void BufferTutorMoveName(void)
+{
+	u16 move = gTutorMoves[gSpecialVar_LastResult];
+
+	StringCopy(gStringVar1, gMoveNames[move]);
+}
+
+//@Details: Spends the price held in Var8006 from the BP wallet.
+//@Returns: gSpecialVar_LastResult: TRUE if the wallet covered the price and was deducted.
+void SpendTowerBP(void)
+{
+	u16 cost = VarGet(0x8006);
+
+	if (VarGet(VAR_TOWER_BP) < cost)
+	{
+		gSpecialVar_LastResult = FALSE;
+		return;
+	}
+
+	VarSet(VAR_TOWER_BP, VarGet(VAR_TOWER_BP) - cost);
+	gSpecialVar_LastResult = TRUE;
+}
+
 //@Details: Buffers details of the opposing team for the Ring Challenge.
 //@Returns: gStringVar1: Opponent Pokemon 1 species
 //			gStringVar2: Opponent Pokemon 2 species
