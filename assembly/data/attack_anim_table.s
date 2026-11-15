@@ -542,7 +542,7 @@ gMoveAnimations:
 .word ANIM_SHADOWFORCE
 .word ANIM_NUZZLE
 .word ANIM_RETALIATE
-.word 0x81c7ced @MOVE_MOTHERCHILDPUNCH
+.word ANIM_MOTHERCHILDPUNCH @MOVE_MOTHERCHILDPUNCH
 .word ANIM_JUDGMENT
 .word ANIM_FREEZEDRY
 .word ANIM_PSYSHOCK
@@ -5116,6 +5116,40 @@ ANIM_DOUBLEHIT:
 	launchtemplate Template_Hit 0x2 0x4 0x0 0x0 0x1 0x1
 	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x3 0x0 0x6 0x1
 	playsound2 0x84 SOUND_PAN_TARGET
+	pause 0x8
+	waitanimation
+	pokespritefromBG bank_target
+	resetblends
+	endanimation
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@;母子同心拳: 母亲突进重拳, 育儿袋中的宝宝从低位补拳, 幽灵白影被击穿(无视幽灵特性)
+.global ANIM_MOTHERCHILDPUNCH
+ANIM_MOTHERCHILDPUNCH:
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_HANDS_AND_FEET @拳头(Template_Fist需要)
+	loadparticle ANIM_TAG_WHITE_SHADOW @幽灵白影(命运绑定同款)
+	pokespritetoBG bank_target
+	setblends 0x80c
+	@;第一拳: 母亲的重拳
+	playsound2 0x91 SOUND_PAN_ATTACKER
+	launchtemplate Template_HorizontalLunge 0x2 0x2 0x6 0x6
+	pause 0x6
+	playsound2 0x84 SOUND_PAN_TARGET
+	launchtemplate Template_Fist 0x84 0x5 0x0 0x0 0x8 0x1 0x0 @母亲重拳(电流尾同款拳头模板)
+	launchtemplate Template_Hit 0x83 0x4 0x0 0x0 0x1 0x1
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x3 0x0 0x8 0x1
+	waitanimation
+	@;第二拳: 宝宝从育儿袋低位补拳, 幽灵白影被击穿
+	playsound2 0x91 SOUND_PAN_ATTACKER
+	launchtemplate Template_HorizontalLunge 0x2 0x2 0x4 0x4
+	pause 0x6
+	launchtask AnimTask_DestinyBondWhiteShadow 0x5 0x2 0x0 0x14 @幽灵白影浮现(拍落同款,缩短时长)
+	playsound2 0x7f SOUND_PAN_TARGET
+	launchtemplate Template_Fist 0x84 0x5 0x0 0xa 0x8 0x1 0x0 @宝宝补拳(位置更低)
+	launchtemplate Template_Hit 0x83 0x4 0x0 0x0 0x1 0x1
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x3 0x0 0x10 0x1
 	pause 0x8
 	waitanimation
 	pokespritefromBG bank_target
