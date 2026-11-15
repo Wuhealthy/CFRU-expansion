@@ -1049,7 +1049,7 @@ gMoveAnimations:
 .word ANIM_FRENZYBLAZE
 .word ANIM_CRIMSONSKY
 .word 0x81c8f55
-.word ANIM_MUDBOMB		@MOVE_MUDDYBARRAGE
+.word ANIM_MUDDYBARRAGE	@MOVE_MUDDYBARRAGE
 .word ANIM_MAGNETICPULSE	@MOVE_MAGNETICPULSE
 .word ANIM_PSIONICCRASH		@MOVE_PSIONICCRASH
 .word ANIM_ECLIPSEPOISONSTING	@MOVE_ECLIPSEPOISONSTING
@@ -32218,6 +32218,42 @@ TWP_WAVE:
 .align 2
 TWP_RING: objtemplate ANIM_TAG_BLUE_RING_2 ANIM_TAG_WATER_ORB OAM_DOUBLE_16x32 gDummySpriteAnimTable 0x0 0x83E3C9C 0x80AC6D9
 TWP_HIT: objtemplate ANIM_TAG_IMPACT ANIM_TAG_WATER_ORB OAM_NORMAL_BLEND_32x32 gDummySpriteAnimTable 0x0 0x83E7BF8 0x80BA561
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@;浊流连弹: 浑浊水泥弹接续飞掷两发(对应二连击), 每发泥水四溅, 终结大水花+目标后仰
+.global ANIM_MUDDYBARRAGE
+ANIM_MUDDYBARRAGE:
+	loadparticle ANIM_TAG_MUD_BOMB @水泥弹球体
+	loadparticle ANIM_TAG_POISON_BUBBLE @泥浆精灵(BROWNSLUDGE/DRIPS需要)
+	loadparticle ANIM_TAG_BROWN_ORB @泥浆调色板(BROWNSLUDGE/DRIPS需要)
+	loadparticle ANIM_TAG_WATER_ORB @命中水花调色板(TWP_HIT需要)
+	loadparticle ANIM_TAG_IMPACT
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_MUD_BOMB 0x0 0x8 0x8 0x32D4 @;浑浊土黄水弹
+	pokespritetoBG side_target
+	leftbankBG_over_partnerBG bank_target
+	launchsoundtask SoundTask_LoopSEAdjustPanning 0x7 0x87, 0xFF00 | SOUND_PAN_ATTACKER, SOUND_PAN_TARGET 0x5 0x5 0x0 0x5
+	@;第一发浊水弹(注: 动画脚本的call栈只有一个槽位, 严禁子程序嵌套call, 只能线性内联)
+	launchtemplate MUD_BOMB_BALL TEMPLATE_TARGET | 2, 0x6, 0 0, 0x38 0x1, 0 0 @泥弹弧线飞掷(泥弹雨同款,自管理)
+	pause 0x38
+	playsound2 0x77 SOUND_PAN_TARGET
+	launchtemplate BROWNDRIPS TEMPLATE_TARGET | 2, 0x5 0x0 0xFFF8 0x0 0xf 0x37
+	launchtemplate BROWNDRIPS TEMPLATE_TARGET | 2, 0x5 0xf 0xFFF5 0x0 0xf 0x32
+	launchtemplate BROWNSLUDGE TEMPLATE_TARGET | 2, 0x6 0x0 0x5 0x14 0xFFE8 0xE 0x2
+	launchtemplate BROWNSLUDGE TEMPLATE_TARGET | 2, 0x6 0xFFFB 0x0 0xFFEC 0xFFE8 0xE 0x2
+	pause 0x10
+	@;终结: 大水花 + 目标后仰 + 泥浆挂落
+	playsound2 0x98 SOUND_PAN_TARGET
+	launchtemplate TWP_HIT 0x2 0x4 0x0 0x0 0x1 0x2
+	launchtask AnimTask_move_bank 0x3 0x5 bank_target 0x0 0x4 0x14 0x1
+	launchtemplate BROWNDRIPS TEMPLATE_TARGET | 2, 0x5 0x0 0xFFF8 0x0 0xf 0x37
+	launchtemplate BROWNDRIPS TEMPLATE_TARGET | 2, 0x5 0xf 0xFFF5 0x0 0xf 0x32
+	launchtemplate BROWNSLUDGE TEMPLATE_TARGET | 2, 0x6 0x0 0x5 0x14 0xFFE8 0xE 0x2
+	launchtemplate BROWNSLUDGE TEMPLATE_TARGET | 2, 0x6 0xFFFB 0x0 0xFFEC 0xFFE8 0xE 0x2
+	waitanimation
+	pokespritefromBG side_target
+	endanimation
+
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
 @Credits to WUHEALTHY
