@@ -1806,6 +1806,7 @@ void TryPsychoReboundTerrain(void)
 
 	if (holder >= MAX_BATTLERS_COUNT
 	|| !BATTLER_ALIVE(holder)
+	|| ABILITY(holder) != ABILITY_PSYCHOREBOUND //记录后特性被改走（烦恼种子等）则不再触发
 	|| (gHitMarker & HITMARKER_UNABLE_TO_USE_MOVE)) //招式未能使用则不触发
 		return;
 

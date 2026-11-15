@@ -1050,7 +1050,7 @@ gMoveAnimations:
 .word ANIM_CRIMSONSKY
 .word 0x81c8f55
 .word ANIM_MUDBOMB		@MOVE_MUDDYBARRAGE
-.word ANIM_FLASHCANNON		@MOVE_MAGNETICPULSE
+.word ANIM_MAGNETICPULSE	@MOVE_MAGNETICPULSE
 .word ANIM_PSIONICCRASH		@MOVE_PSIONICCRASH
 .word ANIM_ECLIPSEPOISONSTING	@MOVE_ECLIPSEPOISONSTING
 .word ANIM_TRIPLEWATERPULSE	@MOVE_TRIPLEWATERPULSE
@@ -5473,6 +5473,50 @@ FLAG_CANNON_CHARGE_TOP_LEFT_BOTTOM_RIGHT:
 FLASH_CANNON_CHARGE_BALLS: objtemplate ANIM_TAG_ELECTRIC_ORBS ANIM_TAG_ELECTRIC_ORBS OAM_NORMAL_8x8 0x83E6118 0x0 gDummySpriteAffineAnimTable SpriteCB_MoongeistCharge
 FLASH_CANNON_CHARGE: objtemplate ANIM_TAG_CIRCLE_OF_LIGHT ANIM_TAG_HANDS_AND_FEET OAM_NORMAL_BLEND_64x64 gDummySpriteAnimTable 0x0 0x83E61C8 0x80AE71D
 FLASH_CANNON_BALL: objtemplate ANIM_TAG_FLASH_CANNON_BALL ANIM_TAG_FLASH_CANNON_BALL OAM_NORMAL_32x32 gDummySpriteAnimTable 0x0 0x83E7604 0x80B563D
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@;钢磁脉冲: 四方电流汇入充能, 压缩成钢铁电磁球射向对手, 命中钢铁化闪光+电花四溅
+.global ANIM_MAGNETICPULSE
+ANIM_MAGNETICPULSE:
+	loadparticle ANIM_TAG_ELECTRIC_ORBS @汇聚电流(保持原电系色,不染灰)
+	loadparticle ANIM_TAG_CIRCLE_OF_LIGHT @充能圈
+	loadparticle ANIM_TAG_HANDS_AND_FEET @FLASH_CANNON_CHARGE的调色板标签(不自动加载,缺了会画乱码)
+	loadparticle ANIM_TAG_FLASH_CANNON_BALL @钢磁能量球
+	loadparticle ANIM_TAG_SPARK_2 @命中电花(PARALYZE_CHANCE_ANIM需要)
+	loadparticle ANIM_TAG_IMPACT
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_HANDS_AND_FEET 0x0 0xF 0xF 0x7FFC @;充能圈染钢蓝
+	pokespritetoBG bank_attacker
+	setblends 0x80D
+	soundcomplex 0xce SOUND_PAN_ATTACKER 0x7 0x14 @高压电流汇聚声
+	launchtemplate FLASH_CANNON_CHARGE 0x2 0x1 0x0 @充能圈成形
+	call FLAG_CANNON_CHARGE_TOP_RIGHT_BOTTOM_LEFT
+	call FLAG_CANNON_CHARGE_TOP_BOTTOM
+	call FLAG_CANNON_CHARGE_LEFT_RIGHT
+	call FLAG_CANNON_CHARGE_TOP_LEFT_BOTTOM_RIGHT
+	call FLAG_CANNON_CHARGE_TOP_RIGHT_BOTTOM_LEFT
+	call FLAG_CANNON_CHARGE_TOP_BOTTOM
+	call FLAG_CANNON_CHARGE_LEFT_RIGHT
+	call FLAG_CANNON_CHARGE_TOP_LEFT_BOTTOM_RIGHT
+	call FLAG_CANNON_CHARGE_TOP_RIGHT_BOTTOM_LEFT
+	call FLAG_CANNON_CHARGE_TOP_BOTTOM
+	waitanimation
+	stopmusic @静默蓄压
+	@;钢铁电磁束射出
+	playsound2 0xA7 SOUND_PAN_ATTACKER
+	launchtemplate FLASH_CANNON_BALL TEMPLATE_TARGET | 2, 0x3, 0x0 0x0 0x15
+	pokespritefromBG bank_attacker
+	waitanimation
+	@;钢铁电磁命中
+	playsound2 0xB9 SOUND_PAN_TARGET
+	launchtask AnimTask_flash_anim 0x2 0x0 @白闪
+	launchtask AnimTask_steel_sprite 0x5 0x3 0x0 0x0 0x0 @目标钢铁化灰阶闪
+	launchtask AnimTask_pal_fade 0xa 0x5 0x4 0x1 0x10 0x0 0x1f @全屏白闪(闪光加农炮同款,任务自动恢复)
+	launchtask AnimTask_move_bank_2 0x2 0x5 0x1 0x2 0x0 0xf 0x1 @目标倒仰
+	call PARALYZE_CHANCE_ANIM @电花四溅
+	waitanimation
+	pokespritefromBG bank_target
+	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
