@@ -1039,7 +1039,7 @@ gMoveAnimations:
 .word ANIM_SUPERCELLSLAM
 .word ANIM_LIGHTNINGBALL
 .word ANIM_AQUABLADE
-.word ANIM_LULLABY
+.word ANIM_LULLABYBELLS
 .word ANIM_NIHILLIGHT
 .word ANIM_UNIVERSALRADIANCE
 .word ANIM_PSYCHICNOISE
@@ -31912,6 +31912,50 @@ ANIM_LULLABY:
 	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@;催眠铃声: 风铃鸣响涟漪扩散全场, 钢蓝音符飘向对手, 命中后昏昏欲睡(摇晃+Z字)
+.global ANIM_LULLABYBELLS
+ANIM_LULLABYBELLS:
+	loadparticle ANIM_TAG_MUSIC_NOTES @圆润音符
+	loadparticle ANIM_TAG_THIN_RING @钟声涟漪(Template_UproarRing需要)
+	loadparticle ANIM_TAG_IMPACT
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_MUSIC_NOTES 0x0 0xD 0xD 0x567A @;钢蓝音符
+	pokespritetoBG side_target
+	@;风铃鸣响, 三圈涟漪自攻击方扩散
+	playsoundpanchange 0x1DF SOUND_PAN_ATTACKER SOUND_PAN_TARGET 0x2 0x0
+	launchtemplate Template_UproarRing 0x3 0x6 0x0 0x0 0x0 0x0 0x1f 0x8
+	pause 0xc
+	launchtemplate Template_UproarRing 0x3 0x6 0x0 0x0 0x0 0x0 0x1f 0x8
+	pause 0xc
+	launchtask AnimTask_UproarDistortion 0x2 0x1 bank_attacker
+	launchtemplate Template_UproarRing 0x3 0x6 0x0 0x0 0x0 0x0 0x1f 0x8
+	pause 0xa
+	@;钢蓝音符飘向对手
+	launchtemplate MUSIC_FLOAT_TARGET 0x2 0x4 0x1 0xFFF4 bank_target 0x1
+	pause 0x7
+	launchtemplate MUSIC_FLOAT_TARGET 0x2 0x4 0x1 0x0 bank_target 0x1
+	pause 0x7
+	launchtemplate MUSIC_FLOAT_TARGET 0x2 0x4 0x1 0xc bank_target 0x1
+	pause 0x8
+	@;铃声命中
+	playsound2 0x84 SOUND_PAN_TARGET
+	launchtemplate Template_Hit 0x83 0x4 0x0 0x0 0x1 0x2
+	@;昏昏欲睡: 目标侧缓慢摇晃 + Z字浮现
+	launchtask AnimTask_SwayMon 0x5 0x5 0x1 0x18 0xD0 0x1 bank_target
+	launchtemplate 0x83E3880 TEMPLATE_TARGET | 2, 0x3, 0x7 0x0 0xc @Z字(催眠铃声同款)
+	pause 0x5
+	launchtemplate 0x83E3880 TEMPLATE_TARGET | 2, 0x3, 0x6 0x1 0xc
+	pause 0x5
+	launchtemplate Template_Hit 0x83 0x4 0x14 0x10 0x1 0x2
+	playsound2 0x84 SOUND_PAN_TARGET
+	pause 0x8
+	waitanimation
+	@;收场
+	pokespritefromBG side_target
+	resetblends
+	endanimation
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
 @Credits to WUHEALTHY
 ANIM_LIGHTNINGBALL:
