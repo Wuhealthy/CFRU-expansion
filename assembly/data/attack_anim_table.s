@@ -1051,7 +1051,7 @@ gMoveAnimations:
 .word 0x81c8f55
 .word ANIM_MUDBOMB		@MOVE_MUDDYBARRAGE
 .word ANIM_FLASHCANNON		@MOVE_MAGNETICPULSE
-.word ANIM_HEX			@MOVE_PSIONICCRASH
+.word ANIM_PSIONICCRASH		@MOVE_PSIONICCRASH
 .word ANIM_ECLIPSEPOISONSTING	@MOVE_ECLIPSEPOISONSTING
 .word ANIM_TRIPLEWATERPULSE	@MOVE_TRIPLEWATERPULSE
 .word ANIM_PSYCHICSUPPRESSION	@MOVE_PSYCHICSUPPRESSION
@@ -7528,6 +7528,71 @@ ANIM_PSYCHICSUPPRESSION:
 
 .align 2
 PSY_FIELD_ORB: objtemplate ANIM_TAG_ORBS ANIM_TAG_ORBS OAM_OFF_16x16 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable 0x80DE8B1 @;下坠沉入场地(毒菱TSPIKES同款回调,落定后自毁)
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@;灵能倾泻: 精神能量四向汇聚充能, 高速灵能连射倾泻对手, 最后旋转星纹绕头+摇晃(必定混乱)
+.global ANIM_PSIONICCRASH
+ANIM_PSIONICCRASH:
+	loadparticle ANIM_TAG_ELECTRIC_ORBS @汇聚能量
+	loadparticle ANIM_TAG_CIRCLE_OF_LIGHT
+	loadparticle ANIM_TAG_ORBS @灵能弹
+	loadparticle ANIM_TAG_WATER_GUN @灵能弹颜色1
+	loadparticle ANIM_TAG_ASSURANCE_HAND @灵能弹颜色2
+	loadparticle ANIM_TAG_PAIN_SPLIT @眩晕星
+	loadparticle ANIM_TAG_DUCK @星颜色
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_ELECTRIC_ORBS 0x0 0xF 0xF 0x681A @;紫(灵能)
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_CIRCLE_OF_LIGHT 0x0 0xF 0xF 0x7C7F @;粉紫
+	setblends 0x808
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0x10 0x0 @;暗幕
+	call SET_PSYCHIC_BG
+	playsound2 0x85 SOUND_PAN_TARGET
+	@;灵能汇聚(月蚀之枪同款四向汇入)
+	call GEIST_CHARGING
+	call GEIST_CHARGING
+	call GEIST_CHARGING
+	call GEIST_CHARGING
+	launchtemplate Template_GrowingChargeOrb 0x2 0x1 0x0 @;灵能充能
+	call GEIST_CHARGING
+	pause 0x20
+	@;灵能倾泻: 高速连射
+	launchsoundtask SoundTask_LoopSEAdjustPanning 0x7 0xCC, 0xFF00 | SOUND_PAN_ATTACKER, SOUND_PAN_TARGET 0x1 0xf 0x0 0x5
+	launchtask AnimTask_move_bank 0x2 0x5 bank_attacker 0x0 0x4 0x32 0x1
+	launchtask AnimTask_FlashAnimTagWithColor 0x2 0x7 ANIM_TAG_ORBS 0x1 0xc 0x1f 0x10 0x0 0x0
+	call GEIST_HYPER_BEAM_PARTICLES
+	call GEIST_HYPER_BEAM_PARTICLES
+	call GEIST_HYPER_BEAM_PARTICLES
+	call GEIST_HYPER_BEAM_PARTICLES
+	call GEIST_HYPER_BEAM_PARTICLES
+	call GEIST_HYPER_BEAM_PARTICLES
+	call GEIST_HYPER_BEAM_PARTICLES
+	call GEIST_HYPER_BEAM_PARTICLES
+	@;目标被轰得倒仰, 染上精神紫
+	launchtask AnimTask_move_bank_2 0x2 0x5 0x1 0x4 0x0 0x32 0x1
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_DEF 0x2 0x0 0xb 0x6739
+	call GEIST_HYPER_BEAM_PARTICLES
+	call GEIST_HYPER_BEAM_PARTICLES
+	call GEIST_HYPER_BEAM_PARTICLES
+	call GEIST_HYPER_BEAM_PARTICLES
+	call GEIST_HYPER_BEAM_PARTICLES
+	call GEIST_HYPER_BEAM_PARTICLES
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_DEF 0x2 0xb 0x0 0x6739
+	pause 0x1A
+	@;必定混乱: 旋转星纹绕头+摇晃(地磁震荡同款眩晕, 参照ANIM_MAGNETICQUAKE)
+	pokespritetoBG bank_target
+	launchtemplate MAGQUAKE_STARS 0x83 0x4 0xfff0 0xfff8 0xa0 0xffe0
+	launchtemplate MAGQUAKE_STARS 0x83 0x4 0xfff0 0xfff8 0xff00 0xffd8
+	launchtemplate MAGQUAKE_STARS 0x83 0x4 0xfff0 0xfff8 0x80 0xfff0
+	playsound2 0x86 SOUND_PAN_TARGET
+	launchtask AnimTask_SwayMon 0x5 0x5 0x1 0x18 0xD0 0x1 bank_target
+	waitanimation
+	@;收场: 目标归位, 暗幕淡出(pal_fade必须等其任务跑完, 否则调色板会留在闪光中间态)
+	pokespritefromBG bank_target
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x10 0x0 0x0
+	waitanimation
+	resetblends
+	call UNSET_SCROLLING_BG
+	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
