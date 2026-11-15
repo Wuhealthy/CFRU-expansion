@@ -1043,7 +1043,7 @@ gMoveAnimations:
 .word ANIM_NIHILLIGHT
 .word ANIM_UNIVERSALRADIANCE
 .word ANIM_PSYCHICNOISE
-.word ANIM_BURNUP
+.word ANIM_SUPERBURN
 .word ANIM_CHAKRAFIST
 .word ANIM_DESPERATEBLOOM
 .word ANIM_FRENZYBLAZE
@@ -5217,6 +5217,58 @@ FLAME_BURST_SPREAD:
 	launchtemplate Template_FireSpread, TEMPLATE_TARGET | 5, 0x5, 0, 0, 112, -128, 40
 	launchtemplate Template_FireSpread, TEMPLATE_TARGET | 5, 0x5, 0, 0, -112, -128, 40
 	return
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@;超级燃烧: 全身烈焰缠身, 火焰背景铺开后烈焰冲撞, 火浪扩散+必定灼伤, 终结时火焰耗尽自身褪灰(火属性消失, 烧尽同款签名)
+.global ANIM_SUPERBURN
+ANIM_SUPERBURN:
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_SMALL_EMBER @火焰(FLAME_BUFF/火浪扩散/BURN_CHANCE_ANIM需要)
+	pokespritetoBG bank_target
+	setblends 0x80C
+	@;全身燃起烈焰
+	playsound2 0xA4 SOUND_PAN_ATTACKER
+	call FLAME_BUFF
+	pause 0x4
+	launchtask AnimTask_pal_fade_complex 0x2 0x6 PAL_ATK 0x1 0x2 0x0 0xB 0x001F @;Red(烈焰缠身)
+	launchtask AnimTask_move_bank_2 0x2 0x5 0x0 0x1 0x0 0x15 0x1
+	call FLAME_BUFF
+	pause 0x4
+	call FLAME_BUFF
+	@;火焰背景铺开
+	loadbg1 BG_FIRE
+	waitbgfadeout
+	launchtask AnimTask_scroll_background 0x5 0x4 0x1000 0x0 0x0 0xFFFF
+	waitbgfadein
+	@;后蹲蓄势 → 烈焰冲撞
+	playsound2 0x91 SOUND_PAN_ATTACKER
+	launchtemplate Template_VerticalDip 0x2 0x3 0x6 0x1 bank_attacker
+	pause 0x19
+	launchtemplate Template_SlideMonToOffset 0x2 0x5 bank_attacker 0x2a 0x0 0x0 0x5
+	pause 0x2
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0x20 0x1
+	call FLARE_BLITZ_HITS
+	playsound2 0x8C SOUND_PAN_TARGET
+	call FLAME_BURST_SPREAD @火浪全面扩散(150BP大招感)
+	waitanimation
+	@;必定灼伤
+	call BURN_CHANCE_ANIM
+	playsound2 0x8C SOUND_PAN_TARGET
+	waitanimation
+	@;火焰耗尽, 自身染上灰白再褪回(火属性消失的余韵)
+	@;注: 烧尽的0x80BBE3D任务依赖0x80BBE11/0x80BBE6D一串初始化, 单独用会挂住waitanimation, 故不复用
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x0 0x0 0xd 0x4a52 @;染灰白(烧尽同款上色方向)
+	waitanimation
+	pause 0x14
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x0 0xd 0x0 0x4a52 @;褪回本色
+	waitanimation
+	launchtemplate Template_SlideMonToOriginalPos 0x2 0x3 bank_attacker 0x0 0x5
+	waitanimation
+	resetblends
+	pokespritefromBG bank_target
+	call UNSET_SCROLLING_BG
+	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
