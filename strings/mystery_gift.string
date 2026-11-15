@@ -1,53 +1,53 @@
 #org @gText_MG_Title
-MYSTERY GIFT
+神秘礼物
 
 #org @gText_MG_Prompt
-Enter the gift code
+请输入礼物码
 
 #org @gText_MG_Hint
-A: select   B: erase   START: OK
+A:选择  B:删除  START:确定
 
 #org @gText_MG_Invalid
-Invalid code!
+礼物码无效！
 
 #org @gText_MG_Used
-This gift was already claimed!
+这个礼物已经被领取过了！
 
 #org @gText_MG_Empty
-Enter a code first!
+请先输入礼物码！
 
 #org @gText_MG_NoRoom
-No room! Free a slot in the PC.
+没有空位！请先整理电脑。
 
 #org @gText_MG_Arrived1
-A mysterious gift
+神秘的礼物
 
 #org @gText_MG_Arrived2
-has arrived for you!
+已经送达给你！
 
 #org @gText_MG_Received
-You received 
+你获得了 
 
 #org @gText_MG_Bang
-!
+！
 
 #org @gText_MG_GoodLuck
-Take good care of it!
+请好好照顾它！
 
 #org @gText_MG_SentToPC
-It was sent to the PC.
+它被送到了电脑里。
 
 #org @gText_MG_BagFull
-Bag is full! Make some room.
+包包满了！请先腾出空间。
 
 #org @gText_MG_StoredBag
-Stored in your bag.
+已收进包包里。
 
 #org @gText_MG_KeyDel
-DEL
+删除
 
 #org @gText_MG_KeyOk
-OK
+确定
 
 #org @gText_MG_TimesX
  x

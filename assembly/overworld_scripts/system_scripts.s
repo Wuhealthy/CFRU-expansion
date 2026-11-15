@@ -104,12 +104,14 @@ SystemScript_LButtonMenu:
 	multichoiceoption gText_LButtonMenu_DayNight 1
 	multichoiceoption gText_LButtonMenu_PokemonTraining 2
 	multichoiceoption gText_LButtonMenu_OnlineShop 3
-	multichoice 0x0 0x0 FOUR_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_MysteryGift 4
+	multichoice 0x0 0x0 FIVE_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleAutoRun
 	case 1, SystemScript_LButtonMenu_DayNight
 	case 2, SystemScript_LButtonMenu_Training
 	case 3, SystemScript_LButtonMenu_OnlineShop
+	case 4, SystemScript_LButtonMenu_MysteryGift
 	releaseall
 	end
 
@@ -124,12 +126,14 @@ SystemScript_LButtonMenu_Bike:
 	multichoiceoption gText_LButtonMenu_DayNight 1
 	multichoiceoption gText_LButtonMenu_PokemonTraining 2
 	multichoiceoption gText_LButtonMenu_OnlineShop 3
-	multichoice 0x0 0x0 FOUR_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_MysteryGift 4
+	multichoice 0x0 0x0 FIVE_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleBikeTurbo
 	case 1, SystemScript_LButtonMenu_DayNight
 	case 2, SystemScript_LButtonMenu_Training
 	case 3, SystemScript_LButtonMenu_OnlineShop
+	case 4, SystemScript_LButtonMenu_MysteryGift
 	releaseall
 	end
 
@@ -144,12 +148,22 @@ SystemScript_LButtonMenu_Surf:
 	multichoiceoption gText_LButtonMenu_DayNight 1
 	multichoiceoption gText_LButtonMenu_PokemonTraining 2
 	multichoiceoption gText_LButtonMenu_OnlineShop 3
-	multichoice 0x0 0x0 FOUR_MULTICHOICE_OPTIONS 0x0
+	multichoiceoption gText_LButtonMenu_MysteryGift 4
+	multichoice 0x0 0x0 FIVE_MULTICHOICE_OPTIONS 0x0
 	switch LASTRESULT
 	case 0, SystemScript_LButtonMenu_ToggleSurfTurbo
 	case 1, SystemScript_LButtonMenu_DayNight
 	case 2, SystemScript_LButtonMenu_Training
 	case 3, SystemScript_LButtonMenu_OnlineShop
+	case 4, SystemScript_LButtonMenu_MysteryGift
+	releaseall
+	end
+
+@ 神秘礼物：打开礼物码输入画面（src/mystery_gift.c），结束后回到田野继续。
+@ 上层菜单已 lockall，这里照搬上游 MysteryGift_Script 的 callasm+waitstate 时序。
+SystemScript_LButtonMenu_MysteryGift:
+	callasm MysteryGift_Start
+	waitstate
 	releaseall
 	end
 
