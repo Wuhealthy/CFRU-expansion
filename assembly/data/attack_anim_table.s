@@ -1048,7 +1048,7 @@ gMoveAnimations:
 .word ANIM_DESPERATEBLOOM
 .word ANIM_FRENZYBLAZE
 .word ANIM_CRIMSONSKY
-.word 0x81c8f55
+.word ANIM_FIERYBARRIER
 .word ANIM_MUDDYBARRAGE	@MOVE_MUDDYBARRAGE
 .word ANIM_MAGNETICPULSE	@MOVE_MAGNETICPULSE
 .word ANIM_PSIONICCRASH		@MOVE_PSIONICCRASH
@@ -2063,9 +2063,46 @@ ANIM_SECRETPOWER:
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
-@;幻影迷障: 使用影子球的幽灵动画
+@;幻影迷障: 背景染紫, 幽灵漩涡汇聚, 浓雾涌出包裹自身, 幽灵雾弹连射目标(场上浓雾由战斗脚本BS_163_PhantomMist负责)
 ANIM_PHANTOMMIST:
-	goto 0x81d129d	@MOVE_SHADOWBALL
+	loadparticle ANIM_TAG_GHOSTLY_SPIRIT @幽灵漩涡(POLTERGEIST_GHOST需要)
+	loadparticle ANIM_TAG_ORBS @紫色能量
+	loadparticle ANIM_TAG_PINK_CLOUD @浓雾(CORROSIVE_GAS_SMOKE需要)
+	loadparticle ANIM_TAG_IMPACT @命中(SHADOWSNEAK_HITS需要)
+	loadparticle ANIM_TAG_QUICK_GUARD_HAND @SHADOWSNEAK_HITS的调色板标签(不自动加载,缺了会画乱码)
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_ORBS 0x0 0xA 0xA 0x7D74 @;Pinkish Purple
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_PINK_CLOUD 0x0 0xE 0xE 0x7D74 @;幽灵紫雾
+	pokespritetoBG bank_attacker
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x2 0x0 0xA 0x4022 @;To Purple
+	playsound2 0x72 SOUND_PAN_ATTACKER
+	@;幽灵漩涡汇聚(异兽瑟雷娜同款)
+	call GHOST_SWIRL
+	call RECOVER_LOAD_PARTICLES
+	call GHOST_SWIRL
+	call RECOVER_LOAD_PARTICLES
+	pause 0x7
+	@;浓雾涌出包裹自身(腐蚀气体同款五朵雾云,染幽灵紫)
+	launchtemplate CORROSIVE_GAS_SMOKE 0x7a 0x4 0x3 0xfff2 0x12 0x2e
+	launchtemplate CORROSIVE_GAS_SMOKE 0x79 0x4 0x3 0xe 0xfff2 0x2e
+	launchtemplate CORROSIVE_GAS_SMOKE 0x78 0x4 0x3 0xfff4 0xfff6 0x2e
+	launchtemplate CORROSIVE_GAS_SMOKE 0x77 0x4 0x3 0xe 0xe 0x2e
+	launchtemplate CORROSIVE_GAS_SMOKE 0x76 0x4 0x3 0x0 0x0 0x2e
+	pause 0x18
+	@;幽灵雾弹连射目标
+	playsound2 0x7f SOUND_PAN_TARGET
+	launchtemplate SHADOWSNEAK_HITS TEMPLATE_TARGET | 2, 0x3, 0, 0, 0x0
+	pause 0x4
+	playsound2 0x7f SOUND_PAN_TARGET
+	launchtemplate SHADOWSNEAK_HITS TEMPLATE_TARGET | 2, 0x3, 5, 10, 0x0
+	pause 0x4
+	playsound2 0x7f SOUND_PAN_TARGET
+	launchtemplate SHADOWSNEAK_HITS TEMPLATE_TARGET | 2, 0x3, -10, 5, 0x0
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x4 0x0 0x19 0x1 @目标后仰
+	soundcomplex 0xb6 SOUND_PAN_TARGET 0x1A 0x6 @鬼魂回响
+	waitanimation
+	@;收场: 紫幕褪去(异兽瑟雷娜同款结尾)
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0xA 0x0 0x4022 @;From Purple
+	pokespritefromBG bank_attacker
 	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -31300,6 +31337,50 @@ ANIM_BURNINGBULWARK:
 
 .align 2
 BULWARK_FLAMES: objtemplate ANIM_TAG_SMALL_EMBER ANIM_TAG_SMALL_EMBER OAM_NORMAL_32x32 0x83E5C50 0x0 gDummySpriteAffineAnimTable 0x80AB309
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@;炽炎障壁: 守护环成形, 前方火焰壁墙逐列升腾, 八方烈焰环绕(接触回血由战斗脚本ANIM_HEALING_SPARKLES负责)
+.global ANIM_FIERYBARRIER
+ANIM_FIERYBARRIER:
+	loadparticle ANIM_TAG_PROTECT @护环(0x83E3354需要)
+	loadparticle ANIM_TAG_SMALL_EMBER @火苗(BULWARK_FLAMES需要)
+	loadparticle ANIM_TAG_FIRE_PLUME @火柱(Template_MiniFirePlume需要)
+	pokespritetoBG side_attacker
+	leftbankBG_over_partnerBG bank_attacker
+	setblends 0x80c
+	playsoundwait 0xC8 SOUND_PAN_ATTACKER 0x10
+	launchtemplate 0x83E3354 0x2 0x3 0x18 0x0 0x5a @守护环成形(燃烧壁垒同款,自毁)
+	pause 0x14
+	@;火焰壁墙自左向右逐列升腾(大地之力火柱同款)
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_attacker 0xffe8 0x10
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_attacker 0xfff0 0x10
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_attacker 0xfff8 0x10
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_attacker 0x0 0x10
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_attacker 0x8 0x10
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_attacker 0x10 0x10
+	launchtemplate Template_MiniFirePlume 0xc2 0x3 bank_attacker 0x18 0x10
+	soundcomplex 0x8a SOUND_PAN_ATTACKER 0xb 0x3 @岩层隆起式轰鸣(大地之力同款,改到攻击方声道)
+	@;壁墙上八方烈焰环绕(燃烧壁垒同款)
+	launchtemplate BULWARK_FLAMES 0x2 0x4 0xa 0xa 0x19 0x0
+	pause 0x4
+	launchtemplate BULWARK_FLAMES 0x2 0x4 0xfff1 0x0 0x19 0x0
+	pause 0x4
+	launchtemplate BULWARK_FLAMES 0x2 0x4 0x14 0xa 0x19 0x0
+	pause 0x4
+	launchtemplate BULWARK_FLAMES 0x2 0x4 0x0 0xfff6 0x19 0x0
+	pause 0x4
+	launchtemplate BULWARK_FLAMES 0x2 0x4 0xfff6 0xf 0x19 0x0
+	pause 0x4
+	launchtemplate BULWARK_FLAMES 0x2 0x4 0x19 0x14 0x19 0x0
+	pause 0x4
+	launchtemplate BULWARK_FLAMES 0x2 0x4 0xffec 0x14 0x19 0x0
+	pause 0x4
+	launchtemplate BULWARK_FLAMES 0x2 0x4 0xc 0x0 0x19 0x0
+	waitanimation
+	pokespritefromBG side_attacker
+	resetblends
+	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
