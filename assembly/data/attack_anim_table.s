@@ -1071,6 +1071,9 @@ gMoveAnimations:
 .word ANIM_RAGINGJAWS	@MOVE_RAGINGJAWS
 .word ANIM_THUNDERLANCE	@MOVE_THUNDERLANCE
 .word ANIM_MAGNETICQUAKE	@MOVE_MAGNETICQUAKE
+.word ANIM_CRAZYFREEZE	@MOVE_CRAZYFREEZE
+.word ANIM_SNIPINGBOLT	@MOVE_SNIPINGBOLT
+.word ANIM_FLAMEWING	@MOVE_FLAMEWING
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -5306,6 +5309,63 @@ ANIM_SUPERBURN:
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
+@;烈火之翼: 烈焰羽翼缠身, 火焰背景铺开后振翅横扫, 火浪扩散, 终结火焰能量化作绿光环绕自身(吸血回复, 50%/100%由atk88_negativedamage处理)
+.global ANIM_FLAMEWING
+ANIM_FLAMEWING:
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_SMALL_EMBER @火焰(FLAME_BUFF/FLARE_BLITZ_HITS/FLAME_BURST_SPREAD需要)
+	loadparticle ANIM_TAG_GREEN_SPARKLE @回复星光
+	pokespritetoBG bank_target
+	setblends 0x80C
+	@;烈焰羽翼缠身
+	playsound2 0xA4 SOUND_PAN_ATTACKER
+	call FLAME_BUFF
+	call FLAME_BUFF
+	pause 0x4
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xB 0x001F @;染红(归无之光同款格式)
+	launchtask AnimTask_move_bank_2 0x2 0x5 0x0 0x1 0x0 0x15 0x1 @前倾振翅
+	call FLAME_BUFF
+	@;火焰背景铺开(超级燃烧同款)
+	loadbg1 BG_FIRE
+	waitbgfadeout
+	launchtask AnimTask_scroll_background 0x5 0x4 0x1000 0x0 0x0 0xFFFF
+	waitbgfadein
+	@;后蹲蓄势 → 烈焰横扫(超级燃烧同款)
+	playsound2 0x91 SOUND_PAN_ATTACKER
+	launchtemplate Template_VerticalDip 0x2 0x3 0x6 0x1 bank_attacker
+	pause 0x19
+	launchtemplate Template_SlideMonToOffset 0x2 0x5 bank_attacker 0x2a 0x0 0x0 0x5
+	pause 0x2
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0x20 0x1
+	call FLARE_BLITZ_HITS
+	playsound2 0x8C SOUND_PAN_TARGET
+	call FLAME_BURST_SPREAD @火浪全面扩散(140BP)
+	waitanimation
+	@;烈焰汲取: 火焰能量化作绿光环绕自身(攻击方周身回复星光, 燃烧壁垒同款定位写法)
+	playsound2 0xAC SOUND_PAN_ATTACKER @回复音(花之礼同款治疗音)
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xc 0x7e5f @;染回复绿
+	launchtemplate FLAMEWING_HEAL 0x2 0x4 0xa 0xa 0x19 0x0
+	pause 0x4
+	launchtemplate FLAMEWING_HEAL 0x2 0x4 0xfff1 0x0 0x19 0x0
+	pause 0x4
+	launchtemplate FLAMEWING_HEAL 0x2 0x4 0x14 0xa 0x19 0x0
+	pause 0x4
+	launchtemplate FLAMEWING_HEAL 0x2 0x4 0x0 0xfff6 0x19 0x0
+	pause 0x4
+	launchtemplate FLAMEWING_HEAL 0x2 0x4 0x8 0x0 0x19 0x0
+	waitanimation
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x0 0xc 0x0 0x7e5f @;绿光褪回
+	waitanimation
+	launchtemplate Template_SlideMonToOriginalPos 0x2 0x3 bank_attacker 0x0 0x5
+	waitanimation
+	resetblends
+	pokespritefromBG bank_target
+	call UNSET_SCROLLING_BG
+	endanimation
+
+.align 2
+FLAMEWING_HEAL: objtemplate ANIM_TAG_GREEN_SPARKLE ANIM_TAG_GREEN_SPARKLE OAM_OFF_16x16 0x83E3760 0x0 gDummySpriteAffineAnimTable 0x80AA2B1
+
 @Credits to Skeli
 ANIM_UTURN:
 	loadparticle ANIM_TAG_SMALL_BUBBLES
@@ -8800,6 +8860,86 @@ ANIM_DIAMONDSTORM:
 BLIZDIAMOND1: objtemplate ANIM_TAG_ICE_CRYSTALS ANIM_TAG_ICE_CRYSTALS OAM_OFF_8x8 0x83E6328 0x0 gDummySpriteAffineAnimTable 0x80AF469
 BLIZDIAMOND2: objtemplate ANIM_TAG_ICE_CRYSTALS ANIM_TAG_ICE_CRYSTALS OAM_OFF_16x16 0x83E632C 0x0 gDummySpriteAffineAnimTable 0x80AF6D9
 DIAMOND: objtemplate ANIM_TAG_ICE_CRYSTALS ANIM_TAG_ICE_CRYSTALS OAM_NORMAL_BLEND_8x16 0x83E6320 0x0 0x83E7540 0x80A2D11
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@;疯狂冰冻: 寒幕降临, 冰晶风暴浪扫过+冰晶弹幕倾泻, 三连重击后目标被冻住+冻气四溅(10%冻结; 特防伤害由damage_calc处理)
+.global ANIM_CRAZYFREEZE
+ANIM_CRAZYFREEZE:
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_ICE_CRYSTALS @冰晶(BLIZDIAMOND/DIAMOND与FREEZE_CHANCE_ANIM需要)
+	loadparticle ANIM_TAG_ICE_CUBE @冻结冰块(AnimTask_CentredFrozenIceCube需要)
+	pokespritetoBG side_target
+	leftbankBG_over_partnerBG bank_target
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0xA 0x3C00 @;Royal Blue(雪矛同款寒幕)
+	waitanimation
+	@;极寒风暴: 冰晶风暴浪扫过(钻石风暴同款, 保留冰蓝本色不染色)
+	playsoundpanchange 0x92 SOUND_PAN_ATTACKER SOUND_PAN_TARGET 0x2 0x0
+	launchtemplate BLIZDIAMOND1 0x28 0x6 0x0 0xfff6 0x0 0xfff6 0x48 0x1
+	launchtemplate BLIZDIAMOND2 0x28 0x8 0x0 0x0 0x0 0x0 0x50 0x0 0x0 0x1
+	pause 0x3
+	launchtemplate BLIZDIAMOND1 0x28 0x6 0x0 0xfff1 0x0 0xfff1 0x48 0x1
+	launchtemplate BLIZDIAMOND2 0x28 0x8 0x0 0xfff6 0x0 0xfff6 0x50 0x0 0x0 0x1
+	pause 0x3
+	launchtemplate BLIZDIAMOND1 0x28 0x6 0x0 0xfffb 0x0 0xfffb 0x48 0x1
+	launchtemplate BLIZDIAMOND2 0x28 0x8 0x0 0xa 0x0 0xa 0x50 0x0 0x0 0x1
+	pause 0x3
+	launchtemplate BLIZDIAMOND1 0x28 0x6 0x0 0xfff6 0x0 0xfff6 0x48 0x1
+	launchtemplate BLIZDIAMOND2 0x28 0x8 0x0 0xffec 0x0 0xffec 0x50 0x0 0x0 0x1
+	pause 0x3
+	launchtemplate BLIZDIAMOND1 0x28 0x6 0x0 0xffec 0x0 0xffec 0x48 0x1
+	launchtemplate BLIZDIAMOND2 0x28 0x8 0x0 0xf 0x0 0xf 0x50 0x0 0x0 0x1
+	pause 0x3
+	@;冰晶弹幕砸向目标(钻石风暴同款)
+	playsound2 0xE4 SOUND_PAN_TARGET
+	launchtemplate DIAMOND TEMPLATE_TARGET | 2, 0x5 0x78 0x46 0x5 0x46 0x1e
+	pause 0x1
+	launchtemplate DIAMOND TEMPLATE_TARGET | 2, 0x5 0x73 0x37 0x6 0x3c 0x19
+	pause 0x1
+	launchtemplate DIAMOND TEMPLATE_TARGET | 2, 0x5 0x73 0x3c 0x7 0x3c 0x1e
+	launchtemplate DIAMOND TEMPLATE_TARGET | 2, 0x5 0x73 0x37 0xa 0x3c 0x1e
+	pause 0x3
+	launchtemplate DIAMOND TEMPLATE_TARGET | 2, 0x5 0x64 0x32 0x4 0x32 0x1a
+	pause 0x1
+	launchtemplate DIAMOND TEMPLATE_TARGET | 2, 0x5 0x69 0x19 0x8 0x3c 0x14
+	pause 0x1
+	launchtemplate DIAMOND TEMPLATE_TARGET | 2, 0x5 0x73 0x28 0xa 0x30 0x1e
+	pause 0x3
+	launchtemplate DIAMOND TEMPLATE_TARGET | 2, 0x5 0x78 0x1e 0x6 0x2d 0x19
+	launchtemplate DIAMOND TEMPLATE_TARGET | 2, 0x5 0x73 0x23 0xa 0x3c 0x1e
+	pause 0x3
+	launchtemplate DIAMOND TEMPLATE_TARGET | 2, 0x5 0x69 0x14 0x8 0x28 0x0
+	pause 0x3
+	launchtemplate DIAMOND TEMPLATE_TARGET | 2, 0x5 0x14 0xff 0xf 0x20 0x0
+	launchtemplate DIAMOND TEMPLATE_TARGET | 2, 0x5 0x6e 0xa 0x8 0x20 0x14
+	waitanimation
+	@;终结三连击(钻石风暴同款)
+	launchtemplate Template_Hit 0x83 0x4 0xffe0 0xfff0 0x1 0x3
+	playsound2 0x82 SOUND_PAN_TARGET
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 0x1 0x3 0x0 0xc 0x1
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 0x3 0x3 0x0 0xc 0x1
+	pause 0x4
+	launchtemplate Template_LusterPurgeHits 0x83 0x2 0x1 0x3
+	playsound2 0x82 SOUND_PAN_TARGET
+	pause 0x4
+	launchtemplate Template_LusterPurgeHits 0x83 0x2 0x1 0x3
+	playsound2 0x82 SOUND_PAN_TARGET
+	pause 0x4
+	launchtemplate Template_Hit 0x83 0x4 0x20 0x14 0x1 0x3
+	playsound2 0x82 SOUND_PAN_TARGET
+	waitanimation
+	@;冰冻伏笔: 目标被冰块冻住(雪矛同款)再冻气四溅(10%冻结)
+	playsound2 0xEB SOUND_PAN_TARGET
+	launchtask AnimTask_CentredFrozenIceCube TEMPLATE_TARGET | 2, 0x0
+	pause 0x3c @冰块冻结展示期(雪矛同款节奏, 保证冰块在waitanimation前自毁)
+	call FREEZE_CHANCE_ANIM
+	waitanimation
+	@;寒幕褪去
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x0 0xA 0x0 0x3C00 @;From Royal Blue
+	waitanimation
+	pokespritefromBG side_target
+	resetblends
+	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -32028,6 +32168,70 @@ LOR_YELLOWEXPLOSION: objtemplate ANIM_TAG_EXPLOSION ANIM_TAG_SPARK_2 OAM_OFF_32x
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
+@;狙击闪电: 聚光锁定框锁死目标, 高空雷球蓄能+电弧聚拢, 三道精准落雷, 终结毁灭性巨雷+全面放电+爆雷
+@;(无视看我嘛重定向由battle_util.c IsMoveRedirectionPrevented处理, 无视能力变化由move_tables.json的gIgnoreStatChangesMoves处理)
+.global ANIM_SNIPINGBOLT
+ANIM_SNIPINGBOLT:
+	loadparticle ANIM_TAG_SPOTLIGHT @锁定标记(Template_SpotlightTarget/聚光任务需要)
+	loadparticle ANIM_TAG_SHOCK_3 @雷球(Template_ThunderboltOrb需要)
+	loadparticle ANIM_TAG_SPARK @电弧(AnimTask_ElectricBolt需要)
+	loadparticle ANIM_TAG_SPARK_H @电波(Template_ThunderWave与LOR_*调色板需要)
+	loadparticle ANIM_TAG_IMPACT @命中(Template_Hit需要)
+	loadparticle ANIM_TAG_ELECTRICITY @放电(LOR_YELLOWDISCHARGE需要)
+	loadparticle ANIM_TAG_EXPLOSION @爆雷(LOR_YELLOWEXPLOSION需要)
+	pokespritetoBG bank_target
+	leftbankBG_over_partnerBG bank_target
+	setblends 0x80d
+	@;锁定: 聚光灯+目标锁定框(魅惑之声同款聚光)
+	launchtask AnimTask_CreateSpotlight 0x2 0x0
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x0 0x8 0x07FE @;染电黄(闪电球同款)
+	waitanimation
+	launchtemplate Template_SpotlightTarget 0x82 0x3 0x0 0xFFF8 0x54 @锁定框,自毁
+	pause 0x14
+	@;高空蓄能: 雷球在目标上方凝聚+电弧聚拢(雷枪矛同款)
+	playsound2 0x85 SOUND_PAN_ATTACKER
+	launchtemplate Template_ThunderboltOrb TEMPLATE_TARGET | 3, 0x4, THUNDER_CAGE_BALL_TIME, 0, -30, 0x0
+	launchtask AnimTask_ElectricBolt TEMPLATE_TARGET | 2, 0x3, 25, -40, 1
+	pause 0x9
+	launchtask AnimTask_ElectricBolt TEMPLATE_TARGET | 2, 0x3, -25, -40, 1
+	pause 0x9
+	launchtask AnimTask_ElectricBolt TEMPLATE_TARGET | 2, 0x3, 20, -20, 1
+	pause 0x9
+	launchtask AnimTask_ElectricBolt TEMPLATE_TARGET | 2, 0x3, -20, -20, 1
+	waitanimation
+	@;三道精准落雷
+	soundcomplex 0x70 SOUND_PAN_TARGET 0xA 0x9
+	launchtemplate Template_ThunderWave TEMPLATE_TARGET | 1, 0x2 0xfff0 0xfff0
+	launchtemplate Template_Hit 0x83 0x4 0x18 0x18 0x1 0x2
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 0x1 0x3 0x0 0xc 0x1
+	pause 0x14
+	soundcomplex 0x70 SOUND_PAN_TARGET 0xA 0x9
+	launchtemplate Template_ThunderWave TEMPLATE_TARGET | 1, 0x2 0xfff0 0x0
+	launchtemplate Template_Hit 0x83 0x4 0xfff0 0x10 0x1 0x2
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 0x3 0x3 0x0 0xc 0x1
+	pause 0x14
+	@;终结: 毁灭性巨雷+全面放电+爆雷(闪电球同款组件)
+	soundcomplex 0x70 SOUND_PAN_TARGET 0xA 0x9
+	launchtemplate Template_ThunderWave TEMPLATE_TARGET | 1, 0x2 0xfff0 0x10
+	launchtemplate Template_Hit 0x83 0x4 0x0 0x0 0x1 0x3
+	launchtask AnimTask_move_bank 0x3 0x5 bank_target 0x0 0x4 0x20 0x1
+	playsound2 0xab SOUND_PAN_ATTACKER
+	launchtemplate LOR_YELLOWDISCHARGE 0x2 0x3 0x1 0x10 0x10
+	pause 0x2
+	launchtemplate LOR_YELLOWDISCHARGE 0x2 0x3 0x1 0xfff0 0xfff0
+	pause 0x5
+	launchtemplate LOR_YELLOWEXPLOSION 0x3 0x4 0x0 0x0 0x1 0x1
+	pause 0x10
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x10 0x0 0x7FFF @全屏白闪(闪电球同款,任务恢复)
+	waitanimation
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ALL_BANKS 0x1 0x0 0x0 0x0
+	waitanimation
+	@;收场: 聚光灯熄灭, 目标归位
+	launchtask AnimTask_RemoveSpotlight 0x2 0x0
+	pokespritefromBG bank_target
+	resetblends
+	endanimation
+
 @Credits to Skeli & WUHEALTHY
 ANIM_NIHILLIGHT:
 	@; 归无之光：超级基格尔德巨炮炮口蓄能 -> 光环 -> 圆形粗光束

@@ -2797,3 +2797,12 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 
 #org @DESC_MAGNETICQUAKE
 引发地磁震荡眩晕对\n手。使其3回合内攻\n击与特攻互换。必定\n能够先制攻击。
+
+#org @DESC_CRAZYFREEZE
+释放极寒风暴攻击对\n手。使用自身的特防\n代替特攻计算伤害，\n有时会冻伤对手。
+
+#org @DESC_SNIPINGBOLT
+从高空降下精准的落\n雷。无视看我嘛等吸\n引效果锁定对手，并\n无视其能力阶级变化。
+
+#org @DESC_FLAMEWING
+挥动火焰羽翼攻击对\n手。回复造成伤害的\n一半，HP低于一半时，\n回复量翻倍。

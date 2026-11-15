@@ -2974,6 +2974,13 @@ void atk87_stockpiletohpheal(void)
 void atk88_negativedamage(void) {
 	if (gCurrentMove == MOVE_OBLIVIONWING || gCurrentMove == MOVE_DRAININGKISS)
 		gBattleMoveDamage = (75 * gHpDealt) / 100;
+	else if (gCurrentMove == MOVE_FLAMEWING) //烈火之翼：回复伤害的50%，HP低于一半时回复全部伤害
+	{
+		if (gBattleMons[gBankAttacker].hp < gBattleMons[gBankAttacker].maxHP / 2)
+			gBattleMoveDamage = gHpDealt;
+		else
+			gBattleMoveDamage = (gHpDealt / 2);
+	}
 	else
 		gBattleMoveDamage = (gHpDealt / 2);
 

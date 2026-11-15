@@ -889,6 +889,7 @@ bool8 IsMoveRedirectedByFollowMe(u16 move, u8 bankAtk, u8 defSide)
 bool8 IsMoveRedirectionPrevented(u16 move, ability_t atkAbility)
 {
 	return move == MOVE_SNIPESHOT
+		|| move == MOVE_SNIPINGBOLT //狙击闪电：无视看我嘛等吸引效果
 		|| (move != MOVE_NONE && gBattleMoves[move].effect == EFFECT_SKY_DROP)
 		#ifdef ABILITY_PROPELLERTAIL
 		|| atkAbility == ABILITY_PROPELLERTAIL

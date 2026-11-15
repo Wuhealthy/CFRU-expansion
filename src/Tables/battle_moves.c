@@ -16551,6 +16551,54 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 120,
 		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
+	},
+
+	[MOVE_CRAZYFREEZE] =
+	{
+		.effect = EFFECT_FREEZE_HIT,
+		.power = 90,
+		.type = TYPE_ICE,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 10,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 160,
+		.split = SPLIT_SPECIAL,
+		.z_move_effect = 0
+	},
+
+	[MOVE_SNIPINGBOLT] =
+	{
+		.effect = EFFECT_HIT,
+		.power = 150,
+		.type = TYPE_ELECTRIC,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 190,
+		.split = SPLIT_SPECIAL,
+		.z_move_effect = 0
+	},
+
+	[MOVE_FLAMEWING] =
+	{
+		.effect = EFFECT_ABSORB,
+		.power = 140,
+		.type = TYPE_FIRE,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 180,
+		.split = SPLIT_SPECIAL,
+		.z_move_effect = 0
 	}
 };
 
@@ -17173,5 +17221,8 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_RAGINGJAWS] = 140,
 	[MOVE_THUNDERLANCE] = 130,
 	[MOVE_MAGNETICQUAKE] = 100,
+	[MOVE_CRAZYFREEZE] = 120,
+	[MOVE_SNIPINGBOLT] = 150,
+	[MOVE_FLAMEWING] = 130,
 };
 #endif

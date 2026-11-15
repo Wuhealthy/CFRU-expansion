@@ -2703,6 +2703,19 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 					spAttack = monAtk->spDefense;
 				}
 				break;
+
+			case MOVE_CRAZYFREEZE: //疯狂冰冻：用自身特防代替特攻计算伤害
+				if (data->atkImposter)
+				{
+					attack = gBattleMons[imposterBank].spDefense;
+					spAttack = gBattleMons[imposterBank].spDefense;
+				}
+				else
+				{
+					attack = monAtk->spDefense;
+					spAttack = monAtk->spDefense;
+				}
+				break;
 			default:
 				if (data->atkImposter)
 				{
@@ -2747,6 +2760,12 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 	{
 		switch (move) {
 			case MOVE_MOONFEATHER: //月羽：用自身特防代替攻击能力值（特防的阶段随攻击阶段计入）
+				attack = gBattleMons[bankAtk].spDefense;
+				spAttack = gBattleMons[bankAtk].spDefense;
+				data->atkBuff = STAT_STAGE(bankAtk, STAT_STAGE_SPDEF);
+				data->spAtkBuff = STAT_STAGE(bankAtk, STAT_STAGE_SPDEF);
+				break;
+			case MOVE_CRAZYFREEZE: //疯狂冰冻：用自身特防代替特攻计算伤害（特防的阶段随攻击阶段计入）
 				attack = gBattleMons[bankAtk].spDefense;
 				spAttack = gBattleMons[bankAtk].spDefense;
 				data->atkBuff = STAT_STAGE(bankAtk, STAT_STAGE_SPDEF);
