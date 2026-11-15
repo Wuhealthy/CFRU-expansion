@@ -6,84 +6,84 @@ extern u8 gMoveNames[][13];
 
 static const u8* const sTutorMoveNameList[TUTOR_MOVE_COUNT] =
 {
-	&gMoveNames[MOVE_FIREPUNCH],           //0
-	&gMoveNames[MOVE_ICEPUNCH],            //1
-	&gMoveNames[MOVE_THUNDERPUNCH],        //2
-	&gMoveNames[MOVE_SNORE],               //3
-	&gMoveNames[MOVE_HEALBELL],            //4
-	&gMoveNames[MOVE_ELECTROWEB],          //5
-	&gMoveNames[MOVE_LOWKICK],             //6
-	&gMoveNames[MOVE_UPROAR],              //7
-	&gMoveNames[MOVE_BIND],                //8
-	&gMoveNames[MOVE_HELPINGHAND],         //9
-	&gMoveNames[MOVE_BLOCK],               //10
-	&gMoveNames[MOVE_WORRYSEED],           //11
-	&gMoveNames[MOVE_COVET],               //12
-	&gMoveNames[MOVE_BUGBITE],             //13
-	&gMoveNames[MOVE_SNATCH],              //14
-	&gMoveNames[MOVE_SPITE],               //15
-	&gMoveNames[MOVE_AFTERYOU],            //16
-	&gMoveNames[MOVE_SYNTHESIS],           //17
-	&gMoveNames[MOVE_SIGNALBEAM],          //18
-	&gMoveNames[MOVE_GRAVITY],             //19
-	&gMoveNames[MOVE_IRONDEFENSE],         //20
-	&gMoveNames[MOVE_TELEKINESIS],         //21
-	&gMoveNames[MOVE_MAGNETRISE],          //22
-	&gMoveNames[MOVE_BOUNCE],              //23
-	&gMoveNames[MOVE_ROLEPLAY],            //24
-	&gMoveNames[MOVE_IRONHEAD],            //25
-	&gMoveNames[MOVE_AQUATAIL],            //26
-	&gMoveNames[MOVE_PAINSPLIT],           //27
-	&gMoveNames[MOVE_TAILWIND],            //28
-	&gMoveNames[MOVE_ENDEAVOR],            //29
-	&gMoveNames[MOVE_ICYWIND],             //30
-	&gMoveNames[MOVE_ZENHEADBUTT],         //31
-	&gMoveNames[MOVE_SEEDBOMB],            //32
-	&gMoveNames[MOVE_LASERFOCUS],          //33
-	&gMoveNames[MOVE_TRICK],               //34
-	&gMoveNames[MOVE_DRILLRUN],            //35
-	&gMoveNames[MOVE_MAGICCOAT],           //36
-	&gMoveNames[MOVE_MAGICROOM],           //37
-	&gMoveNames[MOVE_WONDERROOM],          //38
-	&gMoveNames[MOVE_LIQUIDATION],         //39
-	&gMoveNames[MOVE_GASTROACID],          //40
-	&gMoveNames[MOVE_FOULPLAY],            //41
-	&gMoveNames[MOVE_SUPERFANG],           //42
-	&gMoveNames[MOVE_OUTRAGE],             //43
-	&gMoveNames[MOVE_SKYATTACK],           //44
-	&gMoveNames[MOVE_THROATCHOP],          //45
-	&gMoveNames[MOVE_STOMPINGTANTRUM],     //46
-	&gMoveNames[MOVE_EARTHPOWER],          //47
-	&gMoveNames[MOVE_GUNKSHOT],            //48
-	&gMoveNames[MOVE_DUALCHOP],            //49
-	&gMoveNames[MOVE_HEATWAVE],            //50
-	&gMoveNames[MOVE_HYPERVOICE],          //51
-	&gMoveNames[MOVE_SUPERPOWER],          //52
-	&gMoveNames[MOVE_KNOCKOFF],            //53
-	&gMoveNames[MOVE_PSYCHUP],             //54
-	&gMoveNames[MOVE_VACUUMWAVE],          //55
-	&gMoveNames[MOVE_LASTRESORT],          //56
-	&gMoveNames[MOVE_CONFIDE],             //57
-	&gMoveNames[MOVE_GRASSPLEDGE],         //58
-	&gMoveNames[MOVE_FIREPLEDGE],          //59
-	&gMoveNames[MOVE_WATERPLEDGE],         //60
-	&gMoveNames[MOVE_FRENZYPLANT],         //61
-	&gMoveNames[MOVE_BLASTBURN],           //62
-	&gMoveNames[MOVE_HYDROCANNON],         //63
-	&gMoveNames[MOVE_FOCUSENERGY],         //64
-	&gMoveNames[MOVE_COSMICPOWER],         //65
-	&gMoveNames[MOVE_BATONPASS],           //66
-	&gMoveNames[MOVE_ENCORE],              //67
-	&gMoveNames[MOVE_SCREECH],             //68
-	&gMoveNames[MOVE_FAKETEARS],           //69
-	&gMoveNames[MOVE_SCARYFACE],           //70
-	&gMoveNames[MOVE_VENOMDRENCH],         //71
-	&gMoveNames[MOVE_SPIKES],              //72
-	&gMoveNames[MOVE_TOXICSPIKES],         //73
-	&gMoveNames[MOVE_DRAGONDANCE],         //74
-	&gMoveNames[MOVE_AGILITY],             //75
-	&gMoveNames[MOVE_NASTYPLOT],           //76
-	&gMoveNames[MOVE_GRASSYTERRAIN],       //77
-	&gMoveNames[MOVE_MISTYTERRAIN],        //78
-	&gMoveNames[MOVE_ELECTRICTERRAIN],     //79
+	(const u8 *)&gMoveNames[MOVE_FIREPUNCH],           //0
+	(const u8 *)&gMoveNames[MOVE_ICEPUNCH],            //1
+	(const u8 *)&gMoveNames[MOVE_THUNDERPUNCH],        //2
+	(const u8 *)&gMoveNames[MOVE_SNORE],               //3
+	(const u8 *)&gMoveNames[MOVE_HEALBELL],            //4
+	(const u8 *)&gMoveNames[MOVE_ELECTROWEB],          //5
+	(const u8 *)&gMoveNames[MOVE_LOWKICK],             //6
+	(const u8 *)&gMoveNames[MOVE_UPROAR],              //7
+	(const u8 *)&gMoveNames[MOVE_BIND],                //8
+	(const u8 *)&gMoveNames[MOVE_HELPINGHAND],         //9
+	(const u8 *)&gMoveNames[MOVE_BLOCK],               //10
+	(const u8 *)&gMoveNames[MOVE_WORRYSEED],           //11
+	(const u8 *)&gMoveNames[MOVE_COVET],               //12
+	(const u8 *)&gMoveNames[MOVE_BUGBITE],             //13
+	(const u8 *)&gMoveNames[MOVE_SNATCH],              //14
+	(const u8 *)&gMoveNames[MOVE_SPITE],               //15
+	(const u8 *)&gMoveNames[MOVE_AFTERYOU],            //16
+	(const u8 *)&gMoveNames[MOVE_SYNTHESIS],           //17
+	(const u8 *)&gMoveNames[MOVE_SIGNALBEAM],          //18
+	(const u8 *)&gMoveNames[MOVE_GRAVITY],             //19
+	(const u8 *)&gMoveNames[MOVE_IRONDEFENSE],         //20
+	(const u8 *)&gMoveNames[MOVE_TELEKINESIS],         //21
+	(const u8 *)&gMoveNames[MOVE_MAGNETRISE],          //22
+	(const u8 *)&gMoveNames[MOVE_BOUNCE],              //23
+	(const u8 *)&gMoveNames[MOVE_ROLEPLAY],            //24
+	(const u8 *)&gMoveNames[MOVE_IRONHEAD],            //25
+	(const u8 *)&gMoveNames[MOVE_AQUATAIL],            //26
+	(const u8 *)&gMoveNames[MOVE_PAINSPLIT],           //27
+	(const u8 *)&gMoveNames[MOVE_TAILWIND],            //28
+	(const u8 *)&gMoveNames[MOVE_ENDEAVOR],            //29
+	(const u8 *)&gMoveNames[MOVE_ICYWIND],             //30
+	(const u8 *)&gMoveNames[MOVE_ZENHEADBUTT],         //31
+	(const u8 *)&gMoveNames[MOVE_SEEDBOMB],            //32
+	(const u8 *)&gMoveNames[MOVE_LASERFOCUS],          //33
+	(const u8 *)&gMoveNames[MOVE_TRICK],               //34
+	(const u8 *)&gMoveNames[MOVE_DRILLRUN],            //35
+	(const u8 *)&gMoveNames[MOVE_MAGICCOAT],           //36
+	(const u8 *)&gMoveNames[MOVE_MAGICROOM],           //37
+	(const u8 *)&gMoveNames[MOVE_WONDERROOM],          //38
+	(const u8 *)&gMoveNames[MOVE_LIQUIDATION],         //39
+	(const u8 *)&gMoveNames[MOVE_GASTROACID],          //40
+	(const u8 *)&gMoveNames[MOVE_FOULPLAY],            //41
+	(const u8 *)&gMoveNames[MOVE_SUPERFANG],           //42
+	(const u8 *)&gMoveNames[MOVE_OUTRAGE],             //43
+	(const u8 *)&gMoveNames[MOVE_SKYATTACK],           //44
+	(const u8 *)&gMoveNames[MOVE_THROATCHOP],          //45
+	(const u8 *)&gMoveNames[MOVE_STOMPINGTANTRUM],     //46
+	(const u8 *)&gMoveNames[MOVE_EARTHPOWER],          //47
+	(const u8 *)&gMoveNames[MOVE_GUNKSHOT],            //48
+	(const u8 *)&gMoveNames[MOVE_DUALCHOP],            //49
+	(const u8 *)&gMoveNames[MOVE_HEATWAVE],            //50
+	(const u8 *)&gMoveNames[MOVE_HYPERVOICE],          //51
+	(const u8 *)&gMoveNames[MOVE_SUPERPOWER],          //52
+	(const u8 *)&gMoveNames[MOVE_KNOCKOFF],            //53
+	(const u8 *)&gMoveNames[MOVE_PSYCHUP],             //54
+	(const u8 *)&gMoveNames[MOVE_VACUUMWAVE],          //55
+	(const u8 *)&gMoveNames[MOVE_LASTRESORT],          //56
+	(const u8 *)&gMoveNames[MOVE_CONFIDE],             //57
+	(const u8 *)&gMoveNames[MOVE_GRASSPLEDGE],         //58
+	(const u8 *)&gMoveNames[MOVE_FIREPLEDGE],          //59
+	(const u8 *)&gMoveNames[MOVE_WATERPLEDGE],         //60
+	(const u8 *)&gMoveNames[MOVE_FRENZYPLANT],         //61
+	(const u8 *)&gMoveNames[MOVE_BLASTBURN],           //62
+	(const u8 *)&gMoveNames[MOVE_HYDROCANNON],         //63
+	(const u8 *)&gMoveNames[MOVE_FOCUSENERGY],         //64
+	(const u8 *)&gMoveNames[MOVE_COSMICPOWER],         //65
+	(const u8 *)&gMoveNames[MOVE_BATONPASS],           //66
+	(const u8 *)&gMoveNames[MOVE_ENCORE],              //67
+	(const u8 *)&gMoveNames[MOVE_SCREECH],             //68
+	(const u8 *)&gMoveNames[MOVE_FAKETEARS],           //69
+	(const u8 *)&gMoveNames[MOVE_SCARYFACE],           //70
+	(const u8 *)&gMoveNames[MOVE_VENOMDRENCH],         //71
+	(const u8 *)&gMoveNames[MOVE_SPIKES],              //72
+	(const u8 *)&gMoveNames[MOVE_TOXICSPIKES],         //73
+	(const u8 *)&gMoveNames[MOVE_DRAGONDANCE],         //74
+	(const u8 *)&gMoveNames[MOVE_AGILITY],             //75
+	(const u8 *)&gMoveNames[MOVE_NASTYPLOT],           //76
+	(const u8 *)&gMoveNames[MOVE_GRASSYTERRAIN],       //77
+	(const u8 *)&gMoveNames[MOVE_MISTYTERRAIN],        //78
+	(const u8 *)&gMoveNames[MOVE_ELECTRICTERRAIN],     //79
 };
