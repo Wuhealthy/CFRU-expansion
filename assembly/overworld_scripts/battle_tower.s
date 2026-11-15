@@ -79,6 +79,8 @@ EventScript_BattleTowerMain:
 	end
 
 EventScript_BattleTowerShowRecords:
+	@sp057的面板对战形式读Var8000(0=单打,1=双打);不设置会残留multichoice杂散值,显示到从未写入的槽位
+	copyvar 0x8000, VAR_FACILITY_BATTLE_TYPE
 	special 0x57
 	waitstate
 	return
@@ -125,6 +127,7 @@ EventScript_BattleTowerSetSingle100:
 
 @---- 登记队伍 ----
 EventScript_BattleTowerStartRegistration:
+	setvar VAR_FACILITY_NUM, 0			@IN_BATTLE_TOWER(0x403A是存档VAR,显式归零防杂散值)
 	setvar VAR_FACILITY_TIER, 0
 	setflag FLAG_BATTLE_FACILITY
 	callasm BackupTowerPartyToSaveBlock
