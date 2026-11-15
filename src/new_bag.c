@@ -82,12 +82,11 @@
 #define NB_TAG_TABSEL     0xB603
 #define NB_TAG_THUMB      0xB604
 
-#define gNB (*((struct NewBag**) 0x203AD10)) //sBagMenuDisplay
+#define gNB (*((struct NewBag**) 0x203AD10))
 #define gNBLastTab (*((u8*) 0x203E0C7))      //Free byte in CFRU's RAM map
 
 
 #ifdef NEWBAG_PROFILE
-//Test only: cycles/64 spent in a piece of code, stored for the emulator harness to read
 #define NB_PROF_BEGIN() do { *(vu16*) 0x400010E = 0; *(vu16*) 0x400010C = 0; *(vu16*) 0x400010E = 0x81; } while (0)
 #define NB_PROF_END(slot) (*(vu16*) (0x203FF00 + (slot) * 2) = *(vu16*) 0x400010C)
 #else
@@ -107,10 +106,9 @@ enum
 	NB_WIN_DETAIL,
 	NB_WIN_MONEY,
 	NB_WIN_POPUP,
-	NB_WIN_LIST, //Hidden dummy window (BG1) that hosts the vanilla list-menu task needed by the exit pipeline
+	NB_WIN_LIST,
 };
 
-//Palette 15 colour indexes (text + small boxes)
 enum
 {
 	C_TRANSPARENT,
@@ -155,7 +153,7 @@ enum
 	NB_KIND_LABEL,
 	NB_KIND_ROW,
 	NB_KIND_DETAIL,
-	NB_KIND_PREP, //Not text: wraps the description and queues its lines
+	NB_KIND_PREP,
 };
 
 enum
@@ -190,7 +188,6 @@ struct NewBag
 	u8 nItems[3];                //0x0A
 	u8 maxShowed[3];             //0x0D
 	u8 data[4];                  //0x10
-	//---- New bag data ----
 	u8 tab;
 	u8 loc;
 	u8 itemIconSprite;
@@ -206,17 +203,17 @@ struct NewBag
 	u8 detailTimer;
 	u8 moneyShown;
 	u8 popupShown;
-	u8 qHead;         //Text chunk queue (text printing is slow: it is drawn a few glyphs per frame)
+	u8 qHead;
 	u8 qCount;
-	u8 detailPrep;    //Description still has to be wrapped and queued
+	u8 detailPrep;
 	struct NBChunk queue[NB_QUEUE_SIZE];
 	u8 dirty;         //Bit per window whose pixels must be copied to VRAM (done in VBlank)
 	u8 descLines;
 	u8 descLine[3][96];
 	u16 count;
-	u16 top;      //First visible entry
-	u16 sel;      //Highlighted entry (== count means CANCEL)
-	u16 qty;      //Quantity picked for toss / sell / deposit
+	u16 top;
+	u16 sel;
+	u16 qty;
 	u16 tabSel[NB_TABS];
 	u16 tabTop[NB_TABS];
 	void (*followUp)(u8);
@@ -286,7 +283,6 @@ extern const u8 NB_Tab6Pal[];
 extern const u8 NB_Tab7Tiles[];
 extern const u8 NB_Tab7Pal[];
 
-//Strings (strings/new_bag.string)
 extern const u8 gText_NB_TabLabel0[];
 extern const u8 gText_NB_TabLabel1[];
 extern const u8 gText_NB_TabLabel2[];
@@ -340,7 +336,6 @@ static const u8* const sTabLabels[NB_TABS] =
 	gText_NB_TabLabel4, gText_NB_TabLabel5, gText_NB_TabLabel6, gText_NB_TabLabel7,
 };
 
-//Colour triples {background, foreground, shadow}. Background 0 = transparent (shows the BG art / sprites below).
 static const u8 sColWhite[3]   = {C_TRANSPARENT, C_WHITE, C_SHADOW};
 static const u8 sColGrey[3]    = {C_TRANSPARENT, C_LIGHTGREY, C_TRANSPARENT};
 static const u8 sColDim[3]     = {C_TRANSPARENT, C_MIDGREY, C_TRANSPARENT};
@@ -351,19 +346,19 @@ static const u8 sColPopupSel[3]= {C_SEL_FILL, C_WHITE, C_SHADOW};
 
 static const u16 sNBTextPal[16] =
 {
-	NB_RGB(31, 0, 31),   //0 transparent
-	NB_RGB(30, 30, 31),  //1 white
-	NB_RGB(3, 3, 5),     //2 shadow
-	NB_RGB(22, 23, 26),  //3 light grey
-	NB_RGB(5, 6, 9),     //4 card fill
-	NB_RGB(11, 13, 19),  //5 card border
-	NB_RGB(9, 4, 6),     //6 selected fill
-	NB_RGB(28, 7, 7),    //7 red
-	NB_RGB(30, 24, 9),   //8 gold
-	NB_RGB(14, 16, 22),  //9 mid grey
-	NB_RGB(3, 4, 8),     //10 panel fill
-	NB_RGB(11, 21, 29),  //11 blue
-	NB_RGB(16, 4, 4),    //12 dark red
+	NB_RGB(31, 0, 31),
+	NB_RGB(30, 30, 31),
+	NB_RGB(3, 3, 5),
+	NB_RGB(22, 23, 26),
+	NB_RGB(5, 6, 9),
+	NB_RGB(11, 13, 19),
+	NB_RGB(9, 4, 6),
+	NB_RGB(28, 7, 7),
+	NB_RGB(30, 24, 9),
+	NB_RGB(14, 16, 22),
+	NB_RGB(3, 4, 8),
+	NB_RGB(11, 21, 29),
+	NB_RGB(16, 4, 4),
 	NB_RGB(4, 6, 12),
 	NB_RGB(6, 7, 11),
 	NB_RGB(17, 19, 25),
@@ -372,7 +367,7 @@ static const u16 sNBTextPal[16] =
 static const struct BgTemplate sNBBgTemplates[] =
 {
 	{.bg = 0, .charBaseIndex = 0, .mapBaseIndex = 31, .screenSize = 0, .paletteMode = 0, .priority = 0, .baseTile = 0},
-	{.bg = 1, .charBaseIndex = 0, .mapBaseIndex = 29, .screenSize = 0, .paletteMode = 0, .priority = 3, .baseTile = 0}, //Never shown
+	{.bg = 1, .charBaseIndex = 0, .mapBaseIndex = 29, .screenSize = 0, .paletteMode = 0, .priority = 3, .baseTile = 0},
 	{.bg = 3, .charBaseIndex = 2, .mapBaseIndex = 30, .screenSize = 0, .paletteMode = 0, .priority = 3, .baseTile = 0},
 };
 
@@ -436,7 +431,6 @@ SPR_TEMPLATE(sSelMTemplate, NB_TAG_SEL_M, NB_TAG_SEL_PAL, &sOam32x16);
 SPR_TEMPLATE(sSelRTemplate, NB_TAG_SEL_R, NB_TAG_SEL_PAL, &sOam32x16);
 SPR_TEMPLATE(sTabSelTemplate, NB_TAG_TABSEL, NB_TAG_SEL_PAL, &sOam32x16);
 SPR_TEMPLATE(sThumbTemplate, NB_TAG_THUMB, NB_TAG_SEL_PAL, &sOam8x16);
-//Backpack: the sheet has 6 poses (64 tiles each). Each tab shows the pose where that kind of item is kept, like the original bag.
 #define NB_BAG_FRAME(n) ANIMCMD_FRAME((n) * 64, 0)
 static const union AnimCmd sBagAnim0[] = {NB_BAG_FRAME(3), ANIMCMD_END}; //POTIONS: main compartment (flap open)
 static const union AnimCmd sBagAnim1[] = {NB_BAG_FRAME(4), ANIMCMD_END}; //BALLS: front ball pockets
@@ -451,7 +445,6 @@ static const union AnimCmd* const sBagAnims[NB_TABS] =
 	sBagAnim0, sBagAnim1, sBagAnim2, sBagAnim3, sBagAnim4, sBagAnim5, sBagAnim6, sBagAnim7,
 };
 
-//Little hop every time the pose changes
 static void SpriteCB_NBBag(struct Sprite* sprite)
 {
 	static const s8 sHop[] = {-6, -9, -9, -7, -4, -2, 0};
@@ -506,7 +499,6 @@ static const struct CompressedSpriteSheet sSelSheetR = {NB_SelRTiles, 256, NB_TA
 static const struct CompressedSpriteSheet sTabSelSheet = {NB_TabSelTiles, 256, NB_TAG_TABSEL};
 static const struct CompressedSpriteSheet sThumbSheet = {NB_ThumbTiles, 64, NB_TAG_THUMB};
 
-//This file's functions
 static void CB2_NewBag(void);
 static void CB2_NewBagRun(void);
 static void VBlankCB_NewBag(void);
@@ -566,7 +558,6 @@ extern NB_FAR u32 NBv_AddPCItem(u32 item, u32 count);
 #define NB_POCKET(i)              ((u8) NBv_Pocket(i))
 #define NB_ADD_PC_ITEM(i, n)      ((u8) NBv_AddPCItem(i, n))
 
-//Mail can't be given/written while linked (vanilla rule); every other item is fine
 static bool8 NB_MailAllowed(u16 item)
 {
 	return !NB_ITEM_IS_MAIL(item) || !(NB_LINK_ACTIVE() || NB_IN_UNION_ROOM());
@@ -593,7 +584,7 @@ static u8 NB_TabForRegularItem(u16 item)
 	if (t == ITEM_TYPE_EVOLUTION_STONE || t == ITEM_TYPE_EVOLUTION_ITEM)
 		return 5;
 	if (t >= ITEM_TYPE_FULL_RESTORE && t <= ITEM_TYPE_PP_RECOVERY)
-		return 0; //Health recovery, status recovery, PP recovery
+		return 0;
 	return 2;
 }
 
@@ -610,13 +601,12 @@ static void NB_AddSlots(struct NewBag* bag, const struct ItemSlot* slots, u32 am
 		if (onlyTab >= 0 && NB_TabForRegularItem(item) != onlyTab)
 			continue;
 
-		//TM Case / Berry Pouch only make sense in the overworld: TMs and berries are listed directly here
 		if (skipCases && (item == ITEM_TM_CASE || item == ITEM_BERRY_POUCH))
 			continue;
 
 		bag->ids[bag->count] = item;
 		bag->qtys[bag->count] = GetBagItemQuantity((u16*) &slots[i].quantity);
-		bag->isBerry[bag->count] = berry; //0 normal, 1 berry, 2 TM/HM
+		bag->isBerry[bag->count] = berry;
 		++bag->count;
 	}
 }
@@ -692,11 +682,6 @@ static void NB_SortTMs(struct NewBag* bag)
 	}
 }
 
-//---------------------------------------------------------------------------------------------------
-// Drawing
-//---------------------------------------------------------------------------------------------------
-//The vanilla window copy goes through a DMA queue that only moves a couple of KB per frame (a tab switch took ~8
-//frames). The text boxes here are static in VRAM, so their pixels are copied straight into VRAM instead.
 //The vanilla window copy goes through a DMA queue that only moves ~1.5KB per frame. The windows here are static
 //in VRAM, so their pixels are copied straight into VRAM inside the VBlank handler (no tearing, no waiting).
 static void NB_CopyWindowGfx(u8 win)
@@ -711,7 +696,6 @@ static void NB_MarkDirty(u8 win)
 	gNB->dirty |= (1 << win);
 }
 
-//First time a window appears (also copies its tilemap)
 static void NB_ShowWindow(u8 win)
 {
 	PutWindowTilemap(win);
@@ -790,10 +774,10 @@ static void NB_WrapText(u8* dst, const u8* src, u8 font, u16 maxWidth, u32 dstSi
 			*p = ch;
 			if (w > maxWidth && lastSpace != NULL)
 			{
-				*lastSpace = 0xFE; //Newline
+				*lastSpace = 0xFE;
 				lineStart = lastSpace + 1;
 				lastSpace = NULL;
-				continue; //Test this same position again with the new line start
+				continue;
 			}
 			if (ch == EOS)
 				break;
@@ -825,7 +809,6 @@ static void NB_PrintWrapped(u8 win, u8 font, u16 x, u16 y, u8 lineH, u8 maxLines
 	}
 }
 
-//Draw (or redraw) one tab label. Returns a glyph-count cost estimate
 static const u8* NB_ColorPtr(u8 id)
 {
 	switch (id) {
@@ -898,7 +881,6 @@ static void NB_QueueText(u8 kind, u8 idx, u8 win, u8 font, u16 x, u16 y, u8 colo
 	}
 }
 
-//Removes the pending chunks of a kind (idx 0xFF = every idx)
 static void NB_DropChunks(u8 kind, u8 idx)
 {
 	struct NewBag* bag = gNB;
@@ -983,7 +965,7 @@ static void NB_UpdateTabVisuals(u8 oldTab)
 	if (bag->bagSprite != 0 && gSprites[bag->bagSprite].inUse) //(bagSprite is created after the first call)
 	{
 		StartSpriteAnim(&gSprites[bag->bagSprite], bag->tab);
-		gSprites[bag->bagSprite].data[0] = 6; //Start the hop
+		gSprites[bag->bagSprite].data[0] = 6;
 	}
 }
 
@@ -1023,7 +1005,7 @@ static void NB_QueueRow(u8 r)
 		}
 		else
 		{
-			buf[0] = 0xB9; //x
+			buf[0] = 0xB9;
 			ConvertIntToDecimalStringN(buf + 1, bag->qtys[idx], STR_CONV_MODE_RIGHT_ALIGN, 3);
 			AddTextPrinterParameterized3(NB_WIN_ROWS, 2, 154 - GetStringWidth(2, buf, 0), y + 1, NB_ColorPtr(NB_COL_GREY), 0, buf);
 		}
@@ -1047,7 +1029,6 @@ static void NB_QueueLabelsFor(u8 a, u8 b)
 		NB_QueueLabel(b);
 }
 
-//When the rows scroll, text that is still waiting to be drawn moves with its row
 static void NB_ShiftRowChunks(s8 delta)
 {
 	struct NewBag* bag = gNB;
@@ -1062,7 +1043,7 @@ static void NB_ShiftRowChunks(s8 delta)
 		{
 			s16 r = (s16) ch->idx + delta;
 			if (r < 0 || r >= NB_ROWS)
-				continue; //That row left the list
+				continue;
 			tmp[n] = *ch;
 			tmp[n].idx = r;
 			tmp[n].y += delta * 16;
@@ -1077,16 +1058,15 @@ static void NB_ShiftRowChunks(s8 delta)
 	bag->qCount = n;
 }
 
-//Scrolling by exactly one row: shift the rows that are already drawn and only draw the one that appears
 static void NB_ScrollRows(s8 dir)
 {
 	u8* data = (u8*) GetWindowAttribute(NB_WIN_ROWS, WINDOW_TILE_DATA);
-	u32 rowBytes = 2 * 21 * 32; //Two tile rows = 16 pixels
+	u32 rowBytes = 2 * 21 * 32;
 	u32 words = rowBytes / 4;
 	vu32 *dst, *src; //volatile: keeps the compiler from turning these loops into a memcpy call
 	u32 i;
 
-	if (dir > 0) //List moves up: a new row appears at the bottom
+	if (dir > 0)
 	{
 		dst = (vu32*) data;
 		src = (vu32*) (data + rowBytes);
@@ -1095,7 +1075,7 @@ static void NB_ScrollRows(s8 dir)
 		NB_ShiftRowChunks(-1);
 		NB_QueueRow(NB_ROWS - 1);
 	}
-	else //List moves down: a new row appears at the top
+	else
 	{
 		dst = (vu32*) (data + rowBytes);
 		src = (vu32*) data;
@@ -1123,7 +1103,6 @@ static void NB_UpdateSelectionSprites(void)
 		gSprites[bag->thumbSprite].pos1.y = 41;
 	gSprites[bag->thumbSprite].invisible = (total <= NB_ROWS);
 
-	//Remember the position for the next time the bag opens (slot 1 is the vanilla key-item pocket memory: harmless)
 	gBagMenuState.cursorPos[1] = bag->sel;
 	gBagMenuState.itemsAbove[1] = bag->top;
 }
@@ -1165,7 +1144,6 @@ static void NB_QueueDetail(void)
 	NB_MarkDirty(NB_WIN_DETAIL);
 	NB_UpdateItemIcon(item);
 
-	//Wrapping + category are queued afterwards (they are not cheap either)
 	if (bag->qCount < NB_QUEUE_SIZE)
 	{
 		struct NBChunk* ch = &bag->queue[(bag->qHead + bag->qCount) % NB_QUEUE_SIZE];
@@ -1175,18 +1153,13 @@ static void NB_QueueDetail(void)
 	}
 }
 
-//One step of the description box (name, category, then one description line per step).
-//Returns a glyph-count cost estimate
-
-//Bounded amount of text rendering per call (printing costs ~10k cycles per glyph) so input is never blocked
-//for more than a fraction of a frame
 
 
-//Messages replace the description box text
+
 static void NB_PrintText(const u8* str)
 {
 	FillWindowPixelBuffer(NB_WIN_DETAIL, PIXEL_FILL(0));
-	NB_DropChunks(NB_KIND_DETAIL, 0xFF); //Cancel any pending description
+	NB_DropChunks(NB_KIND_DETAIL, 0xFF);
 	NB_DropChunks(NB_KIND_PREP, 0xFF);
 	gNB->detailTimer = 0;
 	NB_PrintWrapped(NB_WIN_DETAIL, 2, 4, 4, 14, 3, sColWhite, str, 188);
@@ -1203,7 +1176,7 @@ static void NB_DrawMoney(void)
 
 	FillWindowPixelBuffer(NB_WIN_MONEY, PIXEL_FILL(0));
 	NB_Box(NB_WIN_MONEY, 0, 0, 70, 16, C_CARD_BORDER, C_PANEL);
-	buf[0] = 0xB7; //Pokedollar
+	buf[0] = 0xB7;
 	ConvertIntToDecimalStringN(buf + 1, GetMoney(&gSaveBlock1->money), STR_CONV_MODE_LEFT_ALIGN, 7);
 	AddTextPrinterParameterized3(NB_WIN_MONEY, 2, 68 - GetStringWidth(2, buf, 0), 1, sColGold, 0, buf);
 	if (!bag->moneyShown)
@@ -1300,7 +1273,6 @@ static u32 NB_RunPrep(void)
 	return 8;
 }
 
-//Draws queued text until the budget (in glyphs; ~10k cycles each) is used up
 static void NB_RunWork(s32 budget)
 {
 	struct NewBag* bag = gNB;
@@ -1359,7 +1331,7 @@ static void NB_SetSelection(s32 newSel, bool8 sound)
 	NB_UpdateSelectionSprites();
 	NB_DropChunks(NB_KIND_DETAIL, 0xFF);
 	NB_DropChunks(NB_KIND_PREP, 0xFF);
-	bag->detailTimer = 2; //Description is drawn once the cursor rests for a moment
+	bag->detailTimer = 2;
 }
 
 static void NB_ClampPosition(void)
@@ -1437,9 +1409,6 @@ static void NB_Exit(u8 taskId)
 	ItemMenu_StartFadeToExitCallback(taskId);
 }
 
-//---------------------------------------------------------------------------------------------------
-// Pop-up menu
-//---------------------------------------------------------------------------------------------------
 static const u8* NB_ActionName(u8 action)
 {
 	switch (action) {
@@ -1464,7 +1433,6 @@ static void NB_DrawMenuRow(u8 i)
 	NB_MarkDirty(NB_WIN_POPUP);
 }
 
-//Full draw when the pop-up opens
 static void NB_DrawMenu(void)
 {
 	struct NewBag* bag = gNB;
@@ -1482,7 +1450,6 @@ static void NB_DrawMenu(void)
 	NB_MarkDirty(NB_WIN_POPUP);
 }
 
-//Moves the pop-up cursor: only the two rows that change are redrawn
 static void NB_MoveMenuCursor(s8 dir)
 {
 	struct NewBag* bag = gNB;
@@ -1500,7 +1467,7 @@ static void NB_CloseMenu(void)
 	gNB->popupShown = FALSE;
 	ClearWindowTilemap(NB_WIN_POPUP);
 	CopyWindowToVram(NB_WIN_POPUP, COPYWIN_MAP);
-	PutWindowTilemap(NB_WIN_ROWS); //Restores the row tiles that were covered by the pop-up
+	PutWindowTilemap(NB_WIN_ROWS);
 	CopyWindowToVram(NB_WIN_ROWS, COPYWIN_MAP);
 }
 
@@ -1571,9 +1538,6 @@ static void Task_NB_Menu(u8 taskId)
 	}
 }
 
-//---------------------------------------------------------------------------------------------------
-// Messages and returning to the list
-//---------------------------------------------------------------------------------------------------
 static void NB_ShowMessage(u8 taskId, const u8* str, void (*followUp)(u8))
 {
 	gNB->followUp = followUp;
@@ -1590,7 +1554,6 @@ static void Task_NB_WaitMessage(u8 taskId)
 	}
 }
 
-//Used both by our own flows and as the vanilla "return to bag" hook
 static void NB_RebuildAndReturn(u8 taskId)
 {
 	struct NewBag* bag = gNB;
@@ -1608,9 +1571,6 @@ static void Task_NB_ReturnToList(u8 taskId)
 	NB_RebuildAndReturn(taskId);
 }
 
-//---------------------------------------------------------------------------------------------------
-// Quantity picker (toss / sell / deposit) and Yes/No
-//---------------------------------------------------------------------------------------------------
 static void NB_DrawQty(void)
 {
 	struct NewBag* bag = gNB;
@@ -1739,7 +1699,7 @@ static void NB_StartYesNo(u8 taskId)
 	bag->menuActions[0] = NB_ACT_YES;
 	bag->menuActions[1] = NB_ACT_NO;
 	bag->menuCount = 2;
-	bag->menuCursor = 0; //YES is the default for selling, NO is safer for tossing
+	bag->menuCursor = 0;
 	if (bag->qMode == NB_Q_TOSS)
 		bag->menuCursor = 1;
 	NB_DrawMenu();
@@ -1881,7 +1841,6 @@ static void NB_DepositStart(u8 taskId, u16 item)
 		NB_StartQty(taskId, NB_Q_DEPOSIT, have, gText_NB_DepositHowMany);
 }
 
-//Give the item to a Pokemon (bag opened from the party menu / PC box, or "GIVE" in the overworld)
 static void NB_GiveToMon(u8 taskId, u16 item)
 {
 	struct NewBag* bag = gNB;
@@ -1891,7 +1850,7 @@ static void NB_GiveToMon(u8 taskId, u16 item)
 	else if (bag->tab == 3 || NB_IMPORTANCE(item) != 0)
 		NB_ShowMessage(taskId, gText_NB_CantHold, Task_NB_ReturnToList);
 	else
-		ItemMenu_StartFadeToExitCallback(taskId); //Leaves with gSpecialVar_ItemId set; the vanilla callback gives it
+		ItemMenu_StartFadeToExitCallback(taskId);
 }
 
 static void NB_DoAction(u8 taskId, u8 action)
@@ -1958,7 +1917,7 @@ static void NB_DoAction(u8 taskId, u8 action)
 			NB_RebuildAndReturn(taskId);
 			break;
 
-		default: //Cancel
+		default:
 			NB_RebuildAndReturn(taskId);
 			break;
 	}
@@ -1988,7 +1947,6 @@ static void NB_UseTM(u8 taskId)
 
 //---------------------------------------------------------------------------------------------------
 // Main input task
-//---------------------------------------------------------------------------------------------------
 //Give / sell / PC-box give of TMs and berries goes through the TM CASE / BERRY POUCH screens, like the vanilla bag
 static void NB_ReturnFromSubmenu(void)
 {
@@ -2037,7 +1995,7 @@ static void NB_OnSelect(u8 taskId, u16 item)
 		case NB_LOC_ITEMPC:
 			NB_DepositStart(taskId, item);
 			break;
-		default: //Field and battle
+		default:
 			NB_OpenMenu(taskId, item);
 			break;
 	}
@@ -2054,7 +2012,6 @@ static void Task_NB_InputMain(u8 taskId)
 	if (bag->detailTimer != 0 && --bag->detailTimer == 0)
 		NB_QueueDetail();
 
-	//Input first, then a bounded slice of text rendering
 	if (JOY_NEW(L_BUTTON) || JOY_NEW(DPAD_LEFT))
 	{
 		NB_SwitchTab(-1);
@@ -2103,12 +2060,9 @@ static void Task_NB_Input(u8 taskId)
 		return;
 	Task_NB_InputMain(taskId);
 	if (gTasks[taskId].func == Task_NB_Input)
-		NB_RunWork(18); //~1/2 frame of text rendering
+		NB_RunWork(18);
 }
 
-//---------------------------------------------------------------------------------------------------
-// Screen set up
-//---------------------------------------------------------------------------------------------------
 //Whatever screen opened the bag (overworld, battle, party menu...) can leave the blend / window / mosaic registers dirty.
 //With alpha blending left on, the OBJ layer (backpack, tabs, icons) is mixed 50% with the background and looks washed out.
 static void NB_ResetGpuEffects(void)
@@ -2159,7 +2113,6 @@ static void NB_LoadSprites(void)
 	u8 gender = gSaveBlock2->playerGender ? 1 : 0;
 	struct SpritePalette pal;
 
-	//Selection pieces share one palette
 	pal.data = (const u16*) NB_SelMPal;
 	pal.tag = NB_TAG_SEL_PAL;
 	LoadSpritePalette(&pal);
@@ -2185,7 +2138,6 @@ static void NB_LoadSprites(void)
 	bag->bagSprite = CreateSprite(&sBagTemplate, 36, 72, 2);
 	StartSpriteAnim(&gSprites[bag->bagSprite], bag->tab);
 
-	//Selection bar: left cap, 3 middle pieces, right cap (covers the 160px wide row card)
 	bag->selSprites[0] = CreateSprite(&sSelLTemplate, 90, 40, 3);
 	bag->selSprites[1] = CreateSprite(&sSelMTemplate, 122, 40, 3);
 	bag->selSprites[2] = CreateSprite(&sSelMTemplate, 154, 40, 3);
@@ -2195,7 +2147,6 @@ static void NB_LoadSprites(void)
 	bag->itemIconSprite = 0xFF;
 }
 
-//Vanilla exit pipeline needs a list-menu task id in data[0]; it is never used for input
 static void NB_CreateDummyList(u8 taskId)
 {
 	struct ListMenuTemplate t;
@@ -2208,7 +2159,7 @@ static void NB_CreateDummyList(u8 taskId)
 		sBagListMenuItems = NULL;
 	}
 	sBagListMenuItems = Malloc(sizeof(struct ListMenuItem));
-	sBagListMenuItems[0].name = sText_Space + 1; //Empty string (EOS)
+	sBagListMenuItems[0].name = sText_Space + 1;
 	sBagListMenuItems[0].id = 0;
 	(void) sDummyItem;
 	(void) emptyName;
@@ -2230,7 +2181,7 @@ static void NB_CreateDummyList(u8 taskId)
 	t.itemVerticalPadding = 0;
 	t.scrollMultiple = LIST_NO_MULTIPLE_SCROLL;
 	t.fontId = 2;
-	t.cursorKind = 1; //No cursor
+	t.cursorKind = 1;
 	gTasks[taskId].data[0] = ListMenuInit(&t, 0, 0);
 }
 
@@ -2244,7 +2195,6 @@ static void NB_FinishSetup(void)
 	bag->tab = tab;
 	bag->sel = gBagMenuState.cursorPos[1];
 	bag->top = gBagMenuState.itemsAbove[1];
-	//Window pixel buffers are not cleared by the game: start from fully transparent so no garbage shows through
 	FillWindowPixelBuffer(NB_WIN_TABS, PIXEL_FILL(0));
 	FillWindowPixelBuffer(NB_WIN_ROWS, PIXEL_FILL(0));
 	FillWindowPixelBuffer(NB_WIN_DETAIL, PIXEL_FILL(0));
@@ -2261,7 +2211,7 @@ static void NB_FinishSetup(void)
 	taskId = CreateTask(Task_NB_Input, 0);
 	NB_CreateDummyList(taskId);
 	NB_RefreshAll();
-	NB_FlushWork(); //First frame is complete before the fade-in starts
+	NB_FlushWork();
 	NB_DrawMoney();
 }
 
@@ -2305,7 +2255,7 @@ static void CB2_NewBag(void)
 			CpuFastFill16(0, (void*) BG_CHAR_ADDR(0), BG_CHAR_SIZE * 4);
 			DecompressAndCopyTileDataToVram(3, NB_BGTiles, 0, 0, 0);
 			LZDecompressWram(NB_BGMap, sBagBgTilemapBuffer);
-			LoadPalette(NB_BGPal, 0, 0x40); //32 colours: palette 0 + palette 1
+			LoadPalette(NB_BGPal, 0, 0x40);
 			LoadPalette(sNBTextPal, 0xF0, 0x20);
 			++gMain.state;
 			break;
@@ -2336,9 +2286,6 @@ static void CB2_NewBag(void)
 	}
 }
 
-//---------------------------------------------------------------------------------------------------
-// Entry point: hook for vanilla GoToBagMenu(location, pocket, bagCallback)
-//---------------------------------------------------------------------------------------------------
 //Runs the ORIGINAL instructions the hook overwrote, then continues in the vanilla function. Used for the
 //bag screens this file does not replace (Old Man / Teachy TV tutorials, script "select item", ...).
 __attribute__((naked)) static void NB_Vanilla_GoToBagMenu(u8 location, u8 pocket, MainCallback bagCallback)
@@ -2367,7 +2314,7 @@ void NewBag_GoToBagMenu(u8 location, u8 pocket, MainCallback bagCallback)
 	loc = 99;
 	#endif
 
-	if (loc > NB_LOC_BATTLE) //Tutorials, TTV, select-item...: leave to the vanilla code
+	if (loc > NB_LOC_BATTLE)
 	{
 		NB_Vanilla_GoToBagMenu(location, pocket, bagCallback);
 		return;
@@ -2388,7 +2335,7 @@ void NewBag_GoToBagMenu(u8 location, u8 pocket, MainCallback bagCallback)
 		gBagMenuState.location = location;
 	if (bagCallback != NULL)
 		gBagMenuState.bagCallback = bagCallback;
-	gBagMenuState.pocket = 0; //Keep the vanilla index valid for the vanilla exit code
+	gBagMenuState.pocket = 0;
 	(void) pocket;
 
 	gNB = bag;
@@ -2438,8 +2385,6 @@ void NewBag_GoToBagMenu(u8 location, u8 pocket, MainCallback bagCallback)
 	SetMainCallback2(CB2_NewBag);
 }
 
-//Hooks for the vanilla message / return helpers used by item-use code (item_use.c).
-//When the new bag is not the active screen, execution continues in the ORIGINAL vanilla code.
 __attribute__((naked)) static void NB_Vanilla_DisplayItemMessageInBag(u8 taskId, u8 fontId, const u8* str, void (*followUp)(u8))
 {
 	(void) taskId; (void) fontId; (void) str; (void) followUp;
@@ -2480,8 +2425,6 @@ void NewBag_ReturnToBagFromContextMenu(u8 taskId)
 		NB_Vanilla_ReturnToBagFromContextMenu(taskId);
 }
 
-//Using a berry makes the vanilla item-use code call the BERRY POUCH screen's own exit helpers (it assumes the pouch
-//is open). When the new bag is the active screen they are redirected to the bag's equivalents.
 __attribute__((naked)) static void NB_Vanilla_BerryPouchStartFade(u8 taskId)
 {
 	(void) taskId;
