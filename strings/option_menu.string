@@ -229,3 +229,9 @@ AI代替你指挥宝可梦自动对战。
 #org @gText_OptionPageRandomizer
 随机设置
 
+#org @gText_FollowerMon
+跟随宝可梦
+
+#org @gText_OptionDesc_FollowerMon
+开启后队伍中的宝可梦会在身后跟随。
+

@@ -334,6 +334,11 @@ struct Pokemon* GetFirstValidPartyMon(void)
     return NULL;
 }
 
+bool8 IsFollowerMonEnabled(void)
+{
+    return VarGet(VAR_FOLLOWER_MON_ENABLED) == 0; //0=开启(默认), 1=关闭
+}
+
 void SetFollowerMonSpeciesVar(void)
 {
     struct Pokemon *mon = GetFirstValidPartyMon();

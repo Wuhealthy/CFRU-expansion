@@ -1841,6 +1841,9 @@ void RemoveFollowerBeforeBattle(void)
 
 void RestoreFollowerAfterBattle(void)
 {
+	if (!IsFollowerMonEnabled()) //设置菜单关闭了跟随
+		return;
+
 	UpdateAutomaticFollowerMon();
 	if (IsFollowerPokemon())
 	{
@@ -1874,7 +1877,20 @@ void RestoreFollowerAfterMenu(void)
 void UpdateAutomaticFollowerMon(void)
 {
 #ifdef ENABLE_FOLLOWER_POKEMON
-	u16 followerMonGfx = GetFollowerMonSprite();
+	u16 followerMonGfx;
+
+	// 设置菜单里关闭了跟随: 清掉跟随对象
+	if (!IsFollowerMonEnabled())
+	{
+		if (IsFollowerPokemon())
+		{
+			RemoveEventObject(&gEventObjects[gFollowerState.objId]);
+			gFollowerState.inProgress = FALSE;
+		}
+		return;
+	}
+
+	followerMonGfx = GetFollowerMonSprite();
 
 	// Never replace a scripted NPC follower.
 	if (gFollowerState.inProgress && !IsFollowerPokemon())

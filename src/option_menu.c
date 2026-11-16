@@ -121,6 +121,7 @@ enum
     OPT_EASY_CATCH,
     OPT_BATTLE_MONEY_MULTIPLIER,
     OPT_AI_BATTLE,
+    OPT_FOLLOWER_MON,
     OPT_CANCEL,
     OPT_COUNT,
 };
@@ -131,7 +132,8 @@ static const u8 sOptionPageItems[OPT_PAGE_COUNT][11] =
 {
 	//第1页:一般设置
 	{ OPT_TEXTSPEED, OPT_SOUND, OPT_BUTTONMODE, OPT_FRAMETYPE, OPT_RBUTTONMODE,
-	  OPT_AUTOSORTBAG, OPT_BATTLEMUSIC, OPT_NO_RANDOM_WILD_ENCOUNTERS, OPT_CANCEL },
+	  OPT_AUTOSORTBAG, OPT_BATTLEMUSIC, OPT_FOLLOWER_MON,
+	  OPT_NO_RANDOM_WILD_ENCOUNTERS, OPT_CANCEL },
 	//第2页:对战设置
 	{ OPT_BATTLESCENE, OPT_BATTLESTYLE, OPT_INVERSE_BATTLE, OPT_DOUBLE_BATTLE,
 	  OPT_DAMAGE_DISPLAY, OPT_EASY_CATCH, OPT_BATTLE_MONEY_MULTIPLIER, OPT_AI_BATTLE, OPT_GAME_DIFFICULTY, OPT_CANCEL },
@@ -139,7 +141,7 @@ static const u8 sOptionPageItems[OPT_PAGE_COUNT][11] =
 	{ OPT_RANDOM_WILD_SPECIES, OPT_RANDOM_LEARNSETS, OPT_RANDOM_ABILITIES,
 	  OPT_RANDOM_TRAINERS, OPT_SHINY_ODDS, OPT_WILDLEVELSCALING, OPT_CANCEL },
 };
-static const u8 sOptionPageItemCount[OPT_PAGE_COUNT] = {9, 10, 7}; //第2页实际10项(9选项+取消),多1会在末尾画出零槽位的OPT_TEXTSPEED
+static const u8 sOptionPageItemCount[OPT_PAGE_COUNT] = {10, 10, 7}; //第2页实际10项(9选项+取消),多1会在末尾画出零槽位的OPT_TEXTSPEED
 
 #define OPTION_LIST_VISIBLE 7
 
@@ -171,6 +173,7 @@ struct OptionMenu
     /*0x??*/ u16 easyCatch;           //容易捕捉开关,存于FLAG_EASY_CATCH
     /*0x??*/ u16 battleMoneyMultiplier; //对战金钱倍率,存于VAR_BATTLE_MONEY_MULTIPLIER
     /*0x??*/ u16 aiBattle;            //AI对战开关,存于FLAG_AI_CONTROL_BATTLE
+    /*0x??*/ u16 followerMon;         //跟随宝可梦开关,存于VAR_FOLLOWER_MON_ENABLED。0=开启 1=关闭
 };
 
 extern struct OptionMenu *sOptionMenuPtr;
@@ -203,6 +206,7 @@ extern const u8 gText_MoneyMultX2[];
 extern const u8 gText_MoneyMultX3[];
 extern const u8 gText_MoneyMultX5[];
 extern const u8 gText_MoneyMultX10[];
+extern const u8 gText_FollowerMon[];
 
 extern const u8 gText_OptionDesc_TextSpeed[];
 extern const u8 gText_OptionDesc_BattleScene[];
@@ -228,6 +232,7 @@ extern const u8 gText_OptionDesc_RandomTrainers[];
 extern const u8 gText_OptionDesc_EasyCatch[];
 extern const u8 gText_OptionDesc_BattleMoneyMultiplier[];
 extern const u8 gText_OptionDesc_AIBattle[];
+extern const u8 gText_OptionDesc_FollowerMon[];
 
 extern const u8 gText_TextSpeedSlow[];
 extern const u8 gText_TextSpeedMid[];
@@ -408,6 +413,12 @@ static const u8 *const sBattleMoneyMultiplierOptions[] =
 	gText_MoneyMultX5,
 	gText_MoneyMultX10
 };
+//跟随开关: 0=开启(默认, 老存档VAR为0时保持跟随) 1=关闭
+static const u8 *const sFollowerMonOptions[] =
+{
+	gText_OnOption,
+	gText_OffOption
+};
 // Description shown in the top text box for each unified list item
 static const u8 *const sOptionDescriptions[OPT_COUNT] =
 {
@@ -434,6 +445,7 @@ static const u8 *const sOptionDescriptions[OPT_COUNT] =
     [OPT_EASY_CATCH]                = gText_OptionDesc_EasyCatch,
     [OPT_BATTLE_MONEY_MULTIPLIER]   = gText_OptionDesc_BattleMoneyMultiplier,
     [OPT_AI_BATTLE]                 = gText_OptionDesc_AIBattle,
+    [OPT_FOLLOWER_MON]              = gText_OptionDesc_FollowerMon,
     [OPT_CANCEL]                    = gText_OptionDesc_Cancel,
 };
 
@@ -468,6 +480,7 @@ static const u8 * GetOptionItemName(u16 item)
     case OPT_EASY_CATCH:                  return gText_EasyCatch;
     case OPT_BATTLE_MONEY_MULTIPLIER:     return gText_BattleMoneyMultiplier;
     case OPT_AI_BATTLE:                   return gText_AIBattle;
+    case OPT_FOLLOWER_MON:                return gText_FollowerMon;
     default:                              return gText_OptionMenuCancel;
     }
 }
@@ -500,6 +513,7 @@ static u16 * GetOptionItemValuePtr(u16 item)
     case OPT_EASY_CATCH:                  return &sOptionMenuPtr->easyCatch;
     case OPT_BATTLE_MONEY_MULTIPLIER:     return &sOptionMenuPtr->battleMoneyMultiplier;
     case OPT_AI_BATTLE:                   return &sOptionMenuPtr->aiBattle;
+    case OPT_FOLLOWER_MON:                return &sOptionMenuPtr->followerMon;
     default:                              return NULL;
     }
 }
@@ -531,6 +545,7 @@ static u16 GetOptionItemCount(u16 item)
     case OPT_EASY_CATCH:                  return 2;
     case OPT_BATTLE_MONEY_MULTIPLIER:     return 5;
     case OPT_AI_BATTLE:                   return 2;
+    case OPT_FOLLOWER_MON:                return 2;
     default:                              return 0;
     }
 }
@@ -577,6 +592,7 @@ static const u8 * GetOptionItemValueString(u16 item)
     case OPT_EASY_CATCH:                  return sEasyCatchOptions[*value];
     case OPT_BATTLE_MONEY_MULTIPLIER:     return sBattleMoneyMultiplierOptions[*value];
     case OPT_AI_BATTLE:                   return sAIBattleOptions[*value];
+    case OPT_FOLLOWER_MON:                return sFollowerMonOptions[*value];
     default:                              return NULL;
     }
 }
@@ -616,6 +632,7 @@ void CB2_OptionsMenuFromStartMenu(void)
     sOptionMenuPtr->easyCatch = FlagGet(FLAG_EASY_CATCH);
     sOptionMenuPtr->battleMoneyMultiplier = ClampOptionEnum(VarGet(VAR_BATTLE_MONEY_MULTIPLIER), 5);
     sOptionMenuPtr->aiBattle = FlagGet(FLAG_AI_CONTROL_BATTLE);
+    sOptionMenuPtr->followerMon = ClampOptionEnum(VarGet(VAR_FOLLOWER_MON_ENABLED), 2);
 
     for (i = 0; i < MENUITEM_COUNT - 1; i++)
     {
@@ -734,6 +751,7 @@ void CloseAndSaveOptionMenu(u8 taskId)
     else
         FlagClear(FLAG_AI_CONTROL_BATTLE);
     VarSet(VAR_BATTLE_MONEY_MULTIPLIER, sOptionMenuPtr->battleMoneyMultiplier);
+    VarSet(VAR_FOLLOWER_MON_ENABLED, sOptionMenuPtr->followerMon);
     SetPokemonCryStereo(gSaveBlock2->optionsSound);
     FREE_AND_SET_NULL(sOptionMenuPtr);
     DestroyTask(taskId);
