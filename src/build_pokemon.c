@@ -4646,7 +4646,7 @@ bool8 IsBannedRandomSpecies(u16 species)
 	|| species == SPECIES_MINIOR_RED || species == SPECIES_MINIOR_BLUE
 	|| species == SPECIES_MINIOR_ORANGE || species == SPECIES_MINIOR_YELLOW
 	|| species == SPECIES_MINIOR_INDIGO || species == SPECIES_MINIOR_GREEN
-	|| species == SPECIES_MINIOR_VIOLET
+	|| species == SPECIES_MINIOR_VIOLET || species == SPECIES_VELUZA_J
 	|| SpeciesToNationalPokedexNum(species) == 0; //完整形态禁表:「?」占位/Mega/超极巨化/觉醒/道具变身/randomizerBan全量
 }
 
