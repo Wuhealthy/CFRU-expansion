@@ -1676,7 +1676,7 @@ function drawPoster(ctx, s, art) {
   const lines = cmWrap(ctx, cmT(s.flavor || "暂无图鉴介绍。"), POSTER_W - 220, 3);
   lines.forEach((ln, i) => ctx.fillText(ln, 116, 1182 + i * 30));
 
-  ctx.fillStyle = "rgba(255,255,255,.94)";    // 底部信息栏 (无二维码, 文字居中)
+  ctx.fillStyle = "rgba(255,255,255,.94)";    // 底部信息栏 (右侧含站点二维码, 文字居中)
   cmRR(ctx, 84, 1288, POSTER_W - 168, 116, 24); ctx.fill();
   ctx.textAlign = "center";
   ctx.fillStyle = "#20242c";
@@ -1688,6 +1688,7 @@ function drawPoster(ctx, s, art) {
   ctx.fillStyle = "#8a94a0";
   ctx.font = cmFont(17);
   ctx.fillText(cmT("改版作者：兔砸博士"), POSTER_W / 2, 1382);
+  cmDrawQR(ctx, 888, 1298, 96, false);        // 站点二维码: 扫码直达图鉴 (白底信息栏兼静区)
 }
 window.openSharePoster = function (id) {
   const s = SPECIES_BY_ID[id];
@@ -1825,6 +1826,53 @@ function cmShadowText(ctx, on) {
   ctx.shadowColor = on ? "rgba(15,25,45,.5)" : "transparent";
   ctx.shadowBlur = on ? 3 : 0;
   ctx.shadowOffsetY = on ? 1 : 0;
+}
+
+/* 站点二维码: https://wuhealthy.github.io/CFRU-expansion/ (segno 生成 33×33 矩阵, 纠错 Q; 换链接需重新生成) */
+const QR_MATRIX = [
+    "111111101001000001111101001111111",
+    "100000100001000001000100001000001",
+    "101110100010110001101110101011101",
+    "101110100011101100000010101011101",
+    "101110101100101101100001001011101",
+    "100000101000000110100110101000001",
+    "111111101010101010101010101111111",
+    "000000000100100100100100100000000",
+    "011111110100100011001010100110001",
+    "110001011010000110011011001101101",
+    "000011111000111100101010000010110",
+    "011010010000010010000100001011101",
+    "110101101100101010110010010001011",
+    "111010011101110010000111010000011",
+    "100101110101010010101110111111110",
+    "110111000010001010011100111001100",
+    "111000110111110101010011110110001",
+    "000010011001000000011101011101101",
+    "001010100100100100101000110110100",
+    "000101000111110001011110110111101",
+    "001010101100110100000011000101000",
+    "100101011010110010110001001001001",
+    "100001110101001110100100010011010",
+    "100100000000110010011100011100111",
+    "101110110101011001110010111110001",
+    "000000001110111101111010100010101",
+    "111111101110101011000101101010110",
+    "100000101111100001011111100011110",
+    "101110101011101011110010111111010",
+    "101110101101101001111001110011001",
+    "101110101100000110001101111101000",
+    "100000101010010001011110011011100",
+    "111111100110000011110001110100110",
+];
+/* 在 (x,y) 画 size×size 的站点二维码; plate 为真时先铺白色圆角底板 (兼作静区) */
+function cmDrawQR(ctx, x, y, size, plate) {
+  const n = QR_MATRIX.length, quiet = 2, u = size / (n + quiet * 2);
+  if (plate) { cmRR(ctx, x, y, size, size, size * .18); ctx.fillStyle = "#fff"; ctx.fill(); }
+  ctx.fillStyle = "#000";
+  ctx.beginPath();
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++)
+    if (QR_MATRIX[r][c] === "1") ctx.rect(x + (quiet + c) * u, y + (quiet + r) * u, u + .4, u + .4);
+  ctx.fill();
 }
 
 const CM_ART = { x: 34, y: 92, w: 592, h: 300 };
@@ -2146,9 +2194,10 @@ function cmDrawBase(ctx, d, regions) {
     ctx.textAlign = "left";
   }
   ctx.font = cmFont(14, true); ctx.fillStyle = "rgba(255,255,255,.92)"; ctx.textAlign = "right";
-  ctx.fillText(cmT(cardState.label || (cs === "holo" ? "★ 闪卡" : cs === "gold" ? "★ 金卡" : cs === "rainbow" ? "★ 彩卡" : cs === "diamond" ? "★ 钻石卡" : "★ 自制卡牌")), CARD_W - M - 8, fy + 22);
+  ctx.fillText(cmT(cardState.label || (cs === "holo" ? "★ 闪卡" : cs === "gold" ? "★ 金卡" : cs === "rainbow" ? "★ 彩卡" : cs === "diamond" ? "★ 钻石卡" : "★ 自制卡牌")), CARD_W - M - 76, fy + 22);
   ctx.font = cmFont(12); ctx.fillStyle = "rgba(255,255,255,.78)";
-  ctx.fillText(cmT("来自火红物语图鉴"), CARD_W - M - 8, fy + 44);
+  ctx.fillText(cmT("来自火红物语图鉴"), CARD_W - M - 76, fy + 44);
+  cmDrawQR(ctx, CARD_W - M - 68, fy, 60, true);   // 站点二维码: 白底板兼静区, 右缘与原文字边距对齐
   ctx.textAlign = "left";
 }
 /* 精灵图绘制进图片窗 — 素材已是 192px 平滑卡通图, 等比适配缩放 (双线性平滑) */
