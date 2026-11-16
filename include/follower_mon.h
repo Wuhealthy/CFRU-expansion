@@ -5,7 +5,7 @@
 
 void __attribute__((long_call)) CreateSparkleSprite(void);
 u16 __attribute__((long_call)) GetFollowerMonSprite(void);
-void __attribute__((long_call)) CreateFollowerMonObject(void);
+bool8 __attribute__((long_call)) CreateFollowerMonObject(void);
 void __attribute__((long_call)) FollowerMonFacePlayer(void);
 void __attribute__((long_call)) TurnFollowerMonToPlayer(void);
 void __attribute__((long_call)) ShowFollowerMon(void);

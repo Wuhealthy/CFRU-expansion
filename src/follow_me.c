@@ -1918,12 +1918,15 @@ void UpdateAutomaticFollowerMon(void)
 
 	if (!gFollowerState.inProgress)
 	{
-		CreateFollowerMonObject();
+		// 读档后存档模板会自动生成一个 0xFE 对象，此时只重新绑定、不播放闪光特效，
+		// 避免跟随宝可梦看起来像重新生成了一次
+		bool8 created = CreateFollowerMonObject();
 		TurnNPCIntoFollower(DEFAULT_FOLLOWER_LOCAL_ID, 0xFD);
 		if (gFollowerState.inProgress)
 		{
 			TurnFollowerMonToPlayer();
-			TryCreateFollowerSparkle();
+			if (created)
+				TryCreateFollowerSparkle();
 		}
 	}
 	else if (gFollowerState.gfxId != followerMonGfx)

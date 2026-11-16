@@ -139,11 +139,11 @@ bool8 HasLeadFollowerMon(void)
     return GetFirstValidPartyMon() != NULL;
 }
 
-void CreateFollowerMonObject(void)
+bool8 CreateFollowerMonObject(void)
 {
     u16 sprite = GetFollowerMonSprite();
     if (sprite == 0)  // If there is no valid Pokémon, do not create the follower
-        return;
+        return FALSE;
     struct EventObject *playerObj = &gEventObjects[gPlayerAvatar->eventObjectId];
  
          s16 posX = playerObj->currentCoords.x - 7;
@@ -162,7 +162,7 @@ void CreateFollowerMonObject(void)
      for (u8 i = 0; i < MAP_OBJECTS_COUNT; i++)
      {
          if (gEventObjects[i].localId == DEFAULT_FOLLOWER_LOCAL_ID && gEventObjects[i].active)
-             return;  // There is already a follower, so don't create another one
+             return FALSE;  // There is already a follower, so don't create another one
     }
 
     struct EventObjectTemplate followerObj =
@@ -181,6 +181,7 @@ void CreateFollowerMonObject(void)
     };
 
     SpawnSpecialEventObject(&followerObj);
+    return TRUE;
 }
 
 void FollowerMonFacePlayer(void)
