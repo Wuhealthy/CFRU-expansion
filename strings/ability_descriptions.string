@@ -1096,3 +1096,6 @@ HP全满时受到的伤害变为效果不好
 
 #org @DESC_NIGHTVISIONEYE
 受到幽灵或恶属性招式攻击时，\n不会受到伤害，而是命中率提升1级。
+
+#org @DESC_OVERCLOCK
+HP越少，使出招式的威力就越高。\n最高可达2倍。

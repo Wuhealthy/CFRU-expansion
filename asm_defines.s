@@ -1701,6 +1701,7 @@
 .equ MOVE_CRAZYFREEZE, 0x401
 .equ MOVE_SNIPINGBOLT, 0x402
 .equ MOVE_FLAMEWING, 0x403
+.equ MOVE_ECOLOGICALPURGE, 0x404
 
 @weather
 .equ weather_rain, 0x1

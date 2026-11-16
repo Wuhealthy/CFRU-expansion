@@ -2890,6 +2890,28 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 
 //Attacker Ability Checks
 	switch(data->atkAbility) {
+		case ABILITY_OVERCLOCK:
+		//核频超限：血量越少威力越高——满血 1 倍，濒死时最高 2 倍（线性）。
+		//作用在威力上，物理/特殊招式都生效；AI 预测走同一函数，结果一致。
+		{
+			u32 atkHP, atkMaxHP;
+
+			if (data->monAtk != NULL) //AI后备兽预设计算：直接读队伍里那只的 HP
+			{
+				atkHP = data->monAtk->hp;
+				atkMaxHP = data->monAtk->maxHP;
+			}
+			else
+			{
+				atkHP = gBattleMons[bankAtk].hp;
+				atkMaxHP = gBattleMons[bankAtk].maxHP;
+			}
+
+			if (atkMaxHP != 0 && atkHP < atkMaxHP)
+				power = (power * (2 * atkMaxHP - atkHP)) / atkMaxHP;
+			break;
+		}
+
 		case ABILITY_HUGEPOWER:
 		case ABILITY_PUREPOWER:
 		//2x Boost

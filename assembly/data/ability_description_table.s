@@ -382,3 +382,4 @@ gAbilityDescriptions:
 .word DESC_HIGHVOLTAGE                           @ 371 ABILITY_HIGHVOLTAGE
 .word DESC_NITENICHIRYU                          @ 372 ABILITY_NITENICHIRYU
 .word DESC_NIGHTVISIONEYE                        @ 373 ABILITY_NIGHTVISIONEYE
+.word DESC_OVERCLOCK                             @ 374 ABILITY_OVERCLOCK

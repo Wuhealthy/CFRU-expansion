@@ -377,5 +377,6 @@
 #define ABILITY_HIGHVOLTAGE                          371 // 高压蓄能
 #define ABILITY_NITENICHIRYU                         372 // 二天一流
 #define ABILITY_NIGHTVISIONEYE                       373 // 夜视之眼
+#define ABILITY_OVERCLOCK                            374 // 核频超限
 
-#define ABILITIES_COUNT (ABILITY_NIGHTVISIONEYE + 1)
+#define ABILITIES_COUNT (ABILITY_OVERCLOCK + 1)

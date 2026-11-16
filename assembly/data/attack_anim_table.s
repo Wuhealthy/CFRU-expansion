@@ -1074,6 +1074,7 @@ gMoveAnimations:
 .word ANIM_CRAZYFREEZE	@MOVE_CRAZYFREEZE
 .word ANIM_SNIPINGBOLT	@MOVE_SNIPINGBOLT
 .word ANIM_FLAMEWING	@MOVE_FLAMEWING
+.word ANIM_ECOLOGICALPURGE	@MOVE_ECOLOGICALPURGE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -5365,6 +5366,99 @@ ANIM_FLAMEWING:
 
 .align 2
 FLAMEWING_HEAL: objtemplate ANIM_TAG_GREEN_SPARKLE ANIM_TAG_GREEN_SPARKLE OAM_OFF_16x16 0x83E3760 0x0 gDummySpriteAffineAnimTable 0x80AA2B1
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@;生态肃清: 草木龙气缠身, 绿金龙气呼啸贯穿目标, 撞击后绿光把目标身上的强化强行剥离(无视并清除能力阶级)
+.global ANIM_ECOLOGICALPURGE
+ANIM_ECOLOGICALPURGE:
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_LEAF
+	loadparticle ANIM_TAG_GREEN_SPARKLE
+	loadparticle ANIM_TAG_DRAGON_PULSE_RING
+	loadparticle ANIM_TAG_FLASH_CANNON_BALL
+	pokespritetoBG bank_target
+	setblends 0x80C
+	@;草木龙气缠身(攻击方染绿金)
+	playsound2 0xA4 SOUND_PAN_ATTACKER
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xB 0x7e5f
+	call ECO_AURA_SWIRL
+	@;绿意背景铺开(叶风暴同款)
+	loadBG1 BG_LEAF_STORM
+	waitbgfadeout
+	launchtask AnimTask_scroll_background 0x5 0x4 0xF000 0x0 0x0 0xffff
+	waitbgfadein
+	@;后蹲蓄势 → 前冲贯穿(烈火之翼同款)
+	playsound2 0x91 SOUND_PAN_ATTACKER
+	launchtemplate Template_VerticalDip 0x2 0x3 0x6 0x1 bank_attacker
+	pause 0x19
+	launchtemplate Template_SlideMonToOffset 0x2 0x5 bank_attacker 0x2a 0x0 0x0 0x5
+	pause 0x2
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0x20 0x1
+	playsound2 0xb6 SOUND_PAN_ATTACKER
+	call ECO_DRAGON_SURGE
+	playsound2 0x8C SOUND_PAN_TARGET
+	call FLARE_BLITZ_HITS @贯穿撞击五连(通用)
+	@;肃清: 绿光从目标身上剥离飞散, 最后一记重击收尾
+	soundcomplex 0x7f SOUND_PAN_TARGET 0xb 0x3
+	call ECO_PURGE_WIPE
+	waitanimation
+	@;收回: 染色褪回, 移回原位
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x0 0xB 0x0 0x7e5f
+	waitanimation
+	launchtemplate Template_SlideMonToOriginalPos 0x2 0x3 bank_attacker 0x0 0x5
+	waitanimation
+	resetblends
+	pokespritefromBG bank_target
+	call UNSET_SCROLLING_BG
+	endanimation
+
+@;草木之气自下而上环绕攻击方(烈焰缠身同款, 换成叶片)
+ECO_AURA_SWIRL:
+	launchtemplate ECO_LEAF TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0xffe8 0x1a 0x2 0x16
+	pause 0x4
+	launchtemplate ECO_LEAF TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0xe 0x1c 0x1 0x16
+	pause 0x4
+	launchtemplate ECO_LEAF TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0xfffb 0xa 0x2 0x16
+	pause 0x4
+	launchtemplate ECO_LEAF TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0x1c 0x1a 0x3 0x16
+	pause 0x4
+	launchtemplate ECO_LEAF TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0xfff4 0x0 0x1 0x16
+	return
+
+@;龙气弹连环射向目标(龙之波动同款)
+ECO_DRAGON_SURGE:
+	launchtemplate ECO_RING TEMPLATE_TARGET | 2, 0x6 0x10 0x0 0x0 0x0 0x16 0x0
+	pause 0x1
+	launchtemplate ECO_BALL TEMPLATE_TARGET | 2, 0x6 0x10 0x0 0x0 0x0 0x16 0x0
+	pause 0x1
+	launchtemplate ECO_RING TEMPLATE_TARGET | 2, 0x6 0x10 0x0 0x0 0x0 0x16 0x0
+	pause 0x1
+	return
+
+@;肃清: 绿色星光从目标身上剥离飞散
+ECO_PURGE_WIPE:
+	launchtemplate ECO_SPARK TEMPLATE_TARGET | 2, 0x6 0x14 0x0 0x0 0x0 0x16 0x0
+	pause 0x3
+	launchtemplate ECO_SPARK TEMPLATE_TARGET | 2, 0x6 0x14 0x0 0x0 0x0 0x16 0x0
+	pause 0x3
+	launchtemplate ECO_SPARK TEMPLATE_TARGET | 2, 0x6 0x14 0x0 0x0 0x0 0x16 0x0
+	pause 0x3
+	launchtemplate ECO_SPARK TEMPLATE_TARGET | 2, 0x6 0x14 0x0 0x0 0x0 0x16 0x0
+	pause 0x3
+	launchtemplate ECO_SPARK TEMPLATE_TARGET | 2, 0x6 0x14 0x0 0x0 0x0 0x16 0x0
+	pause 0x3
+	launchtemplate ECO_SPARK TEMPLATE_TARGET | 2, 0x6 0x14 0x0 0x0 0x0 0x16 0x0
+	pause 0x4
+	launchtemplate Template_Hit TEMPLATE_TARGET | 0, 0x4, 0, 0, bank_target 0x0
+	playsound2 0x7f SOUND_PAN_TARGET
+	return
+
+.align 2
+ECO_LEAF: objtemplate ANIM_TAG_LEAF ANIM_TAG_LEAF OAM_OFF_16x16 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable SpriteCB_MoveSpriteUpwardsForDuration
+ECO_RING: objtemplate ANIM_TAG_DRAGON_PULSE_RING ANIM_TAG_DRAGON_PULSE_RING OAM_NORMAL_32x32 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable Callback_TranslateAnimSpriteToTargetMonLocation
+ECO_BALL: objtemplate ANIM_TAG_FLASH_CANNON_BALL ANIM_TAG_FLASH_CANNON_BALL OAM_NORMAL_32x32 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable Callback_TranslateAnimSpriteToTargetMonLocation
+ECO_SPARK: objtemplate ANIM_TAG_GREEN_SPARKLE ANIM_TAG_GREEN_SPARKLE OAM_NORMAL_16x16 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable Callback_TranslateAnimSpriteToTargetMonLocation
 
 @Credits to Skeli
 ANIM_UTURN:
