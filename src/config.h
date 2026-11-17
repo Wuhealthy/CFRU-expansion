@@ -416,7 +416,6 @@ enum //These vars need to be one after the other (hence the enum)
 /* New Battle Textbox */
 #define NEW_BATTLE_TEXTBOX //Dark UI for the battle message box, action menu (FIGHT/BAG/POKEMON/RUN), move menu and Yes/No box. Comment out to use the vanilla look.
 #define BW_HEALTHBOX_UI //XY风格对战血条UI (数据逐字节取自 "XY-Styled Battle Boxes, HP Bars and Battle Textbox" IPS 补丁, 排除文本框区). 血框图集/血条/状态标签/调色板/升级横幅, 纯数据替换无代码改动. 注释掉恢复原版样式.
-#define BW_PARTY_SCREEN_UI //BW派对界面UI (数据逐字节取自 "BW Patch Collection FR/6. BW Party Screen.gba" 成品ROM diff, 以US原版为基准). 开启时 functionrewrites 中 Task_HandleChooseMonInput/PartyMenuButtonHandler 两个重写自动失效 (BW补丁在这两个函数体内有改动字节, CFRU的C实现按原版布局驱动BW状态机会导致道具菜单乱码/野指针崩溃). 注释掉恢复原版样式.
 #define BW_SAVING_SCREEN //Makes the saving menu BW style and fullscreen.
 
 /* SideQuest Menu */
