@@ -5489,9 +5489,13 @@ ANIM_COREGLOW:
 	launchtemplate CGO_ORB TEMPLATE_TARGET | 2, 0x0
 	launchtemplate CGO_ORB TEMPLATE_TARGET | 2, 0x0
 	playsound2 0x86 SOUND_PAN_TARGET
-	launchtemplate Template_Hit 0x2 0x4 0x0 0xfff8 0x1 0x1
+	launchtemplate Template_Hit TEMPLATE_TARGET | 1, 0x4, 0x0 0x0 bank_target 0x2
 	launchtask AnimTask_move_bank 0x5 0x5 0x1 0x0 0x3 0x19 0x1
 	waitanimation
+	@;两连击会重播本动画: 结束前必须卸载粒子释放槽位, 否则第二遍重复加载会溢出粒子显存出乱码块
+	unloadparticle ANIM_TAG_ORBS
+	unloadparticle ANIM_TAG_VERTICAL_HEX
+	unloadparticle ANIM_TAG_ZYGARDE_HEXES
 	endanimation
 
 @;金色六边形从攻击方脚下升起入空(千箭齐发同款)
