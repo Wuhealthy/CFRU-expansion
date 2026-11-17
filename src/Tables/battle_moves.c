@@ -16667,6 +16667,23 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 100,
 		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
+	},
+
+	//巨角狂欢：固定攻击5次；攻击途中击倒目标时剩余攻击转移给对手的同伴（cmd49 多击循环处理）
+	[MOVE_HORNPARTY] =
+	{
+		.effect = EFFECT_MULTI_HIT,
+		.power = 25,
+		.type = TYPE_FIGHTING,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 100,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
 	}
 };
 
@@ -17296,5 +17313,6 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_COREGLOW] = 150,
 	[MOVE_INFERNOBLAZE] = 100,
 	[MOVE_STEELFLASH] = 90,
+	[MOVE_HORNPARTY] = 130,
 };
 #endif

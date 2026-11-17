@@ -843,8 +843,18 @@ void atk49_moveend(void) //All the effects that happen after a move is used
 						gBankTarget = PARTNER(gBankTarget); //Target the partner is doubles for second hit.
 						PressurePPLose(gBankTarget, gBankAttacker, gChosenMove);
 					}
+					else if (gCurrentMove == MOVE_HORNPARTY
+					&&  BATTLER_ALIVE(gBankAttacker)
+					&& !BATTLER_ALIVE(gBankTarget) //巨角狂欢：目标在攻击途中倒下
+					&&  gBattleStruct->moveTarget[gBankAttacker] == gBankTarget //Haven't already changed targets
+					&&  CanTargetPartner(gBankTarget)
+					&&  !TargetFullyImmuneToCurrMove(PARTNER(gBankTarget)))
+					{
+						gBankTarget = PARTNER(gBankTarget); //剩余攻击转移给对手的同伴
+						PressurePPLose(gBankTarget, gBankAttacker, gChosenMove);
+					}
 
-					if (gCurrentMove == MOVE_POPULATIONBOMB 
+					if (gCurrentMove == MOVE_POPULATIONBOMB
         				&& ABILITY(gBankAttacker) != ABILITY_SKILLLINK
 						&& ITEM_EFFECT(gBankAttacker) != ITEM_EFFECT_LOADED_DICE
         				&& gMultiHitCounter > 0)

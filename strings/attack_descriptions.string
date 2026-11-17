@@ -2817,4 +2817,7 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 吐出宛如来自地狱的\n猛烈火焰。视为在大\n晴天使出，获得天气\n加成并触发相关特性。
 
 #org @DESC_STEELFLASH
-以极快的速度挥动锋\n利的钢钳先制攻击。\n若在出场后立刻使出，\n会连续攻击2次。
+必定能够先制攻击。\n若在出场后立刻使出，\n会额外攻击一次。额\n外的攻击伤害减半。
+
+#org @DESC_HORNPARTY
+连续攻击2至5次。若\n攻击途中击倒对手，\n剩下的攻击会落向对\n手的同伴。

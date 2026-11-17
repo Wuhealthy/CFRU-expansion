@@ -1020,6 +1020,10 @@ static u8 AtkCanceller_UnableToUseMove(void)
 				{
 					gMultiHitCounter = 3;
 				}
+				else if (gCurrentMove == MOVE_HORNPARTY) //巨角狂欢：固定攻击5次
+				{
+					gMultiHitCounter = 5;
+				}
 				else if (ability == ABILITY_BATTLEBOND
 				&& gCurrentMove == MOVE_WATERSHURIKEN
 				&& SPECIES(gBankAttacker) == SPECIES_ASHGRENINJA)

@@ -1078,6 +1078,7 @@ gMoveAnimations:
 .word ANIM_COREGLOW	@MOVE_COREGLOW
 .word ANIM_INFERNOBLAZE	@MOVE_INFERNOBLAZE
 .word ANIM_STEELFLASH	@MOVE_STEELFLASH
+.word ANIM_HORNPARTY	@MOVE_HORNPARTY
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -5451,6 +5452,27 @@ ANIM_STEELFLASH:
 	waitanimation
 	pokespritefromBG bank_target
 	resetblends
+	endanimation
+
+.pool
+@;巨角狂欢: 犄角低伏蓄势后猛击冲刺撞顶(单次动画, 多击系统每击自动重播; 中途击倒转移目标由cmd49处理)
+.global ANIM_HORNPARTY
+ANIM_HORNPARTY:
+	loadparticle ANIM_TAG_IMPACT
+	@;犄角低伏蓄势(铁头同款结构)
+	playsound2 0x71 SOUND_PAN_ATTACKER
+	launchtemplate Template_BowMon 0x2 0x1 0x0
+	playsound2 0x9b SOUND_PAN_ATTACKER
+	waitanimation
+	pause 0x2
+	@;猛击冲刺撞顶
+	launchtemplate Template_BowMon 0x2 0x1 0x1
+	waitanimation
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 0x0 0x2 0x0 0x4 0x1
+	launchtask AnimTask_move_bank 0x2 0x5 0x1 0x5 0x0 0x6 0x1
+	launchtemplate Template_FlashingHit 0x83 0x4 0x0 0x0 0x1 0x1
+	playsound2 0x74 SOUND_PAN_TARGET
+	waitanimation
 	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
