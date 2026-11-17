@@ -16650,6 +16650,23 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 170,
 		.split = SPLIT_SPECIAL,
 		.z_move_effect = 0
+	},
+
+	//钢刃闪击：先制攻击；出场后立刻使出时攻击2次，第二次伤害减半（attackcanceler 复用亲子爱机制）
+	[MOVE_STEELFLASH] =
+	{
+		.effect = EFFECT_HIT,
+		.power = 55,
+		.type = TYPE_STEEL,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 1,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 100,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
 	}
 };
 
@@ -17278,5 +17295,6 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_FORESTWAVE] = 120,
 	[MOVE_COREGLOW] = 150,
 	[MOVE_INFERNOBLAZE] = 100,
+	[MOVE_STEELFLASH] = 90,
 };
 #endif

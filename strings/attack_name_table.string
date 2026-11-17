@@ -3086,11 +3086,14 @@ Z-Move 53
 #org @NAME_FLAMEWING
 烈火之翼
 
-#org @NAME_INFERNOBLAZE
-地狱犬闪焰
-
 #org @NAME_FORESTWAVE
 森之波动
 
 #org @NAME_COREGLOW
 地核耀光
+
+#org @NAME_INFERNOBLAZE
+地狱犬闪焰
+
+#org @NAME_STEELFLASH
+钢刃闪击

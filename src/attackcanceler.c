@@ -140,7 +140,8 @@ void atk00_attackcanceler(void)
 	&& gNewBS->OriginalAttackerTargetCount == 0
 	&& !(gAbsentBattlerFlags & gBitTable[gBankTarget])
 	&& ((ABILITY(gBankAttacker) == ABILITY_PARENTALBOND && IsMoveAffectedByParentalBond(gCurrentMove, gBankAttacker))
-	 || (ABILITY(gBankAttacker) == ABILITY_NITENICHIRYU && IsMoveAffectedByNitenIchiryu(gCurrentMove, gBankAttacker))))
+	 || (ABILITY(gBankAttacker) == ABILITY_NITENICHIRYU && IsMoveAffectedByNitenIchiryu(gCurrentMove, gBankAttacker))
+	 || (gCurrentMove == MOVE_STEELFLASH && gDisableStructs[gBankAttacker].isFirstTurn))) //钢刃闪击：出场后立刻使出时攻击2次，第二次伤害减半
 	{
 		gNewBS->ParentalBondOn = 2; //二天一流复用亲子爱的第二击机制
 		gMultiHitCounter = 2;

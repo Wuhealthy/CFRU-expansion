@@ -1077,6 +1077,7 @@ gMoveAnimations:
 .word ANIM_FORESTWAVE	@MOVE_FORESTWAVE
 .word ANIM_COREGLOW	@MOVE_COREGLOW
 .word ANIM_INFERNOBLAZE	@MOVE_INFERNOBLAZE
+.word ANIM_STEELFLASH	@MOVE_STEELFLASH
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -5409,6 +5410,47 @@ ANIM_INFERNOBLAZE:
 	resetblends
 	pokespritefromBG bank_target
 	call UNSET_SCROLLING_BG
+	endanimation
+
+.pool
+@;钢刃闪击: 极速钢灰残影突进, 两连钢钳斩击(出场首回合才会攻击2次, 二次减半由attackcanceler复用亲子爱机制)
+.global ANIM_STEELFLASH
+ANIM_STEELFLASH:
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_HANDS_AND_FEET @钢钳(BULLET_FIST需要)
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_IMPACT 0x2 0xE 0xE 0x0 @;Black
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_HANDS_AND_FEET 0x2 0xC 0xC 0x639C @;Beige(钢灰残影)
+	pokespritetoBG bank_target
+	setblends 0x80c
+	@;极速突进(子弹拳同款)
+	playsound2 0x71 SOUND_PAN_ATTACKER
+	launchtask 0x80b86ed 0x5 0x3 0x0 0x0 0x0
+	pause 0x1C
+	launchtask AnimTask_AttackerPunchWithTrace 0x2 0x2 0x62F8 0xE @;Gray
+	playsound2 0x88 0xc0
+	pause 0x2
+	@;第一斩
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x3 0x0 0x15 0x1
+	playsound2 0x74 SOUND_PAN_TARGET
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0xA 0x0 0x1 0x1
+	pause 0x1
+	launchtemplate BULLET_FIST TEMPLATE_TARGET | 3, 0x5 0xA 0x0 0x8 0x1 0x0
+	pause 0x6
+	@;第二斩: 交叉换位再斩
+	launchtask AnimTask_AttackerPunchWithTrace 0x2 0x2 0x62F8 0xE @;Gray
+	playsound2 0x88 0xc0
+	playsound2 0x74 SOUND_PAN_TARGET
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0xFFF0 0x10 0x1 0x1
+	pause 0x1
+	launchtemplate BULLET_FIST TEMPLATE_TARGET | 3, 0x5 0xFFF0 0x10 0x8 0x1 0x0
+	pause 0x6
+	@;终结: 双斩交错
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0x0 0x8 0x1 0x1
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x3 0x0 0x15 0x1
+	playsound2 0x74 SOUND_PAN_TARGET
+	waitanimation
+	pokespritefromBG bank_target
+	resetblends
 	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
