@@ -1,8 +1,12 @@
 #include "src/config.h"
 
 ##
+## BW_PARTY_SCREEN_UI 开启时不能用这两个重写: BW派对补丁在这两个函数体内有改动字节
+## (0x11F790/0x11FFA6), CFRU 的 C 实现按原版菜单布局驱动 BW 状态机会导致道具菜单乱码/野指针崩溃。
+#ifndef BW_PARTY_SCREEN_UI
 Task_HandleChooseMonInput 0x0811fb28 1 0
 PartyMenuButtonHandler 0x0811fefc 1 1
+#endif
 GetEventObjectIdByLocalIdAndMap 0x0805df60 0 1
 DoJumpAnimStep 0x08065000 0 1
 RemoveEventObjectsOutsideView 0x0805ed10 0 1
