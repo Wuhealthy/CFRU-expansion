@@ -34,6 +34,20 @@ REGIONS = [
     ("barslot-revert",0xD02364, 0xD02460),
     ("before-bar",    0xE7BB04, 0xE7BB70),
 ]
+
+# 与 convert_ips_healthbox.py 相同的 BTB 配色重映射
+import struct
+RECOLOR = True
+BOX_PAL_MAP = {1: 0x7BDE, 2: 0x1063, 3: 0x0421, 4: 0x1063, 5: 0x0842, 6: 0x0842, 7: 0x0842, 8: 0x0421, 9: 0x1063}
+BAR_PAL_MAP = {1: 0x7BDE, 2: 0x1063, 5: 0x0C63, 6: 0x0842, 7: 0x0842, 8: 0x0421}
+def apply_recolor(buf, base=0):
+    out = bytearray(buf)
+    for pal_off, m in ((0xD11B84, BOX_PAL_MAP), (0xD11BA4, BAR_PAL_MAP)):
+        if base <= pal_off < base + len(buf):
+            for idx, val in m.items():
+                struct.pack_into("<H", out, pal_off - base + idx * 2, val)
+    return bytes(out)
+
 allok = True
 for name, s, e in REGIONS:
     buf = bytearray(van[s:e])
@@ -41,7 +55,8 @@ for name, s, e in REGIONS:
         if s <= off < e:
             i = off - s
             buf[i:i+len(p)] = p
-    ok = bytes(buf) == test[s:e]
+    expected = apply_recolor(bytes(buf), s) if not name.startswith("barslot") else bytes(buf)
+    ok = expected == test[s:e]
     allok &= ok
     print(f"{name}: {'OK' if ok else 'MISMATCH'}")
 print("ALL OK" if allok else "FAILED")

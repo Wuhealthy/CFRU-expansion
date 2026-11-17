@@ -65,10 +65,49 @@ REGIONS = [
     ("BattleBeforeBar(转场条)",    0xE7BB04, 0xE7BB70, False),
 ]
 
+# ---------------------------------------------------------------- 调色板重映射: 匹配 NEW_BATTLE_TEXTBOX 主题
+# BTB 主题色 (src/battle_textbox_data.h):
+#   面板填充 0x1063 RGB(24,24,32) 深藏青 / 描边 0x7BDE 银白 / 阴影 0x0421 RGB(8,8,8)
+RECOLOR = True
+BOX_PAL_MAP = {  # 血框调色板 D11B84 (框图仅用索引1,2,3,6; 10/11为HP数字动态色保留)
+    1: 0x7BDE,  # 白边框+昵称文字 -> BTB 银白描边
+    2: 0x1063,  # 框体橄榄色 -> BTB 面板深藏青
+    3: 0x0421,  # 黑描边/文字阴影 -> BTB 阴影
+    4: 0x1063,  # (框图未用) 统一
+    5: 0x0842,  # (框图未用) 藏青暗部
+    6: 0x0842,  # 框体暗部渐变 -> 藏青暗部
+    7: 0x0842,  # (未用)
+    8: 0x0421,  # (未用)
+    9: 0x1063,  # (未用)
+}
+BAR_PAL_MAP = {  # 血条调色板 D11BA4 (绿10/11 黄12/13 红14/15 语义色保留)
+    1: 0x7BDE,  # 血条底白 -> 银白 (与框边框一致)
+    2: 0x1063,  # 条槽轨道灰/HP数字色 -> 深藏青 (数字变藏青, 同文本框文字风格)
+    5: 0x0C63,  # 中灰(条状态暗部/球图标灰) -> 藏青暗部
+    6: 0x0842,  # 深灰 -> 藏青更暗部
+    7: 0x0842,  # 深灰 -> 藏青暗部
+    8: 0x0421,  # 深灰 -> BTB 阴影
+}
+
+def apply_recolor(buf, base=0):
+    """对缓冲区应用调色板重映射; base = 缓冲区首字节对应的 ROM 文件偏移"""
+    if not RECOLOR:
+        return bytes(buf)
+    out = bytearray(buf)
+    for pal_off, m in ((0xD11B84, BOX_PAL_MAP), (0xD11BA4, BAR_PAL_MAP)):
+        if not (base <= pal_off < base + len(buf)):
+            continue
+        for idx, val in m.items():
+            i = pal_off - base + idx * 2
+            struct.pack_into("<H", out, i, val)
+    return bytes(out)
+
 entries = []
 test = open(os.path.join(ROOT, "test.gba"), "rb").read()
 for name, s, e, revert in REGIONS:
     expected = van[s:e] if revert else patch_region(s, e)
+    if not revert:
+        expected = apply_recolor(expected, s)
     n = 0
     for i in range(0, e - s, 16):
         chunk = expected[i:i+16]
@@ -117,11 +156,58 @@ open(BR, "w", encoding="utf-8", newline="\n").write(br + text)
 print(f"bytereplacement updated: {len(entries)} entries, block lines={len(text.splitlines())}")
 
 # ---------------------------------------------------------------- 自校验
-# 模拟补丁应用结果, 确认每个区域与补丁 ROM 期望一致
+# 模拟补丁应用结果, 确认每个区域与补丁 ROM 期望一致 (含重映射)
 sim = bytearray(van)
 for off, p in recs:
     sim[off:off+len(p)] = p
+sim = apply_recolor(bytes(sim), 0)
 for name, s, e, revert in REGIONS:
-    exp = van[s:e] if revert else patch_region(s, e)
+    exp = van[s:e] if revert else apply_recolor(patch_region(s, e), s)
     assert bytes(sim[s:e]) == exp, name
 print("patch simulation check: OK")
+
+# ---------------------------------------------------------------- 配色预览
+def _lz_decomp(data, pos):
+    size = (data[pos+1] << 16) | (data[pos+2] << 8) | data[pos+3]
+    out = bytearray(); p = pos + 4
+    while len(out) < size:
+        flags = data[p]; p += 1
+        for i in range(8):
+            if len(out) >= size: break
+            if flags & (0x80 >> i):
+                b = data[p]; p += 1
+                ln = (b >> 4) + 3
+                disp = ((b & 0xF) << 8) + data[p] + 1; p += 1
+                for _ in range(ln): out.append(out[-disp])
+            else:
+                out.append(data[p]); p += 1
+    return bytes(out)
+
+from PIL import Image
+
+def render(tiles, pal, tw, th, path, scale=3):
+    rgb = [((w & 31)*8, ((w >> 5) & 31)*8, ((w >> 10) & 31)*8)
+           for w in struct.unpack("<%dH" % (len(pal)//2), pal)]
+    img = Image.new("RGB", (tw*8*scale, th*8*scale), (96, 160, 96))
+    px = img.load()
+    for y in range(th*8):
+        for x in range(tw*8):
+            t = (y//8)*tw + (x//8)
+            val = tiles[t*32 + (y % 8)*4 + ((x % 8) >> 1)]
+            c = (val >> (4*(x % 2))) & 0xF
+            if c: px[x, y] = rgb[c]
+    if scale != 1:
+        img = img.resize((tw*8*scale, th*8*scale), Image.NEAREST)
+    img.save(path)
+
+new_pal = apply_recolor(patch_region(0xD11B84, 0xD11BC4), 0xD11B84)
+pal_box, pal_bar = new_pal[:32], new_pal[32:64]
+sim_b = bytes(sim)
+tiles01 = _lz_decomp(sim_b[0xD1F340:0xD1F604], 0)[:4096]
+tiles02 = _lz_decomp(sim_b[0xD1F604:0xD1F794], 0)[:2048]
+render(tiles01, pal_box, 8, 16, os.path.join(ROOT, "useful_scripts", "recolor_01_player.png"))
+render(tiles02, pal_box, 8, 8, os.path.join(ROOT, "useful_scripts", "recolor_02_enemy.png"))
+render(sim_b[0xD11BC4:0xD12ABC], pal_bar, 59, 2,
+       os.path.join(ROOT, "useful_scripts", "recolor_iface.png"), 2)
+print("recolor previews written")
+
