@@ -1074,7 +1074,7 @@ gMoveAnimations:
 .word ANIM_CRAZYFREEZE	@MOVE_CRAZYFREEZE
 .word ANIM_SNIPINGBOLT	@MOVE_SNIPINGBOLT
 .word ANIM_FLAMEWING	@MOVE_FLAMEWING
-.word ANIM_ECOLOGICALPURGE	@MOVE_ECOLOGICALPURGE
+.word ANIM_FORESTWAVE	@MOVE_FORESTWAVE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -5369,9 +5369,9 @@ FLAMEWING_HEAL: objtemplate ANIM_TAG_GREEN_SPARKLE ANIM_TAG_GREEN_SPARKLE OAM_OF
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
-@;生态肃清: 草木龙气缠身, 绿金龙气呼啸贯穿目标, 撞击后绿光把目标身上的强化强行剥离(无视并清除能力阶级)
-.global ANIM_ECOLOGICALPURGE
-ANIM_ECOLOGICALPURGE:
+@;森之波动: 草木龙气缠身, 绿金龙气呼啸贯穿目标, 撞击后绿光把目标身上的强化强行剥离(无视并清除能力阶级)
+.global ANIM_FORESTWAVE
+ANIM_FORESTWAVE:
 	loadparticle ANIM_TAG_IMPACT
 	loadparticle ANIM_TAG_LEAF
 	loadparticle ANIM_TAG_GREEN_SPARKLE

@@ -16601,11 +16601,11 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_effect = 0
 	},
 
-	//生态肃清：无视对手能力阶级变化，命中后清除其能力阶级变化
-	[MOVE_ECOLOGICALPURGE] =
+	//森之波动：无视对手能力阶级变化，命中后清除其能力阶级变化
+	[MOVE_FORESTWAVE] =
 	{
 		.effect = EFFECT_REMOVE_TARGET_STAT_CHANGES,
-		.power = 150,
+		.power = 120,
 		.type = TYPE_DRAGON,
 		.accuracy = 100,
 		.pp = 10,
@@ -17241,6 +17241,6 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_CRAZYFREEZE] = 120,
 	[MOVE_SNIPINGBOLT] = 150,
 	[MOVE_FLAMEWING] = 130,
-	[MOVE_ECOLOGICALPURGE] = 150,
+	[MOVE_FORESTWAVE] = 120,
 };
 #endif
