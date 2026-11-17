@@ -9,7 +9,16 @@ import os
 from pathlib import Path
 import subprocess
 import sys
-from string import StringFileConverter
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# NOTE: 部分环境下标准库 string 会在解释器启动时被预加载进 sys.modules，
+# 遮蔽本目录的 string.py。这里显式从文件加载本地的 StringFileConverter。
+import importlib.util as _ilu
+_str_spec = _ilu.spec_from_file_location(
+    "cfru_string", os.path.join(os.path.dirname(os.path.abspath(__file__)), "string.py"))
+_str_mod = _ilu.module_from_spec(_str_spec)
+sys.modules["cfru_string"] = _str_mod
+_str_spec.loader.exec_module(_str_mod)
+StringFileConverter = _str_mod.StringFileConverter
 from make import ChangeFileLine
 from charmap_cn import ExpandCNInFile
 import platform

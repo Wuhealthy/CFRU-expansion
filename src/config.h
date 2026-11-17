@@ -415,6 +415,7 @@ enum //These vars need to be one after the other (hence the enum)
 #define NEW_BAG_UI_EXPANSION //If defined, will use the new bag UI made by us. It also adds new pockets to bag increasing overall capacity. Highly recommended!
 /* New Battle Textbox */
 #define NEW_BATTLE_TEXTBOX //Dark UI for the battle message box, action menu (FIGHT/BAG/POKEMON/RUN), move menu and Yes/No box. Comment out to use the vanilla look.
+#define BW_HEALTHBOX_UI //XY风格对战血条UI (数据逐字节取自 "XY-Styled Battle Boxes, HP Bars and Battle Textbox" IPS 补丁, 排除文本框区). 血框图集/血条/状态标签/调色板/升级横幅, 纯数据替换无代码改动. 注释掉恢复原版样式.
 #define BW_SAVING_SCREEN //Makes the saving menu BW style and fullscreen.
 
 /* SideQuest Menu */
