@@ -16606,15 +16606,15 @@ const struct BattleMove gBattleMoves[] =
 	{
 		.effect = EFFECT_REMOVE_TARGET_STAT_CHANGES,
 		.power = 120,
-		.type = TYPE_DRAGON,
+		.type = TYPE_GRASS,
 		.accuracy = 100,
 		.pp = 10,
 		.secondaryEffectChance = 0,
 		.target = MOVE_TARGET_SELECTED,
 		.priority = 0,
-		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
 		.z_move_power = 190,
-		.split = SPLIT_PHYSICAL,
+		.split = SPLIT_SPECIAL,
 		.z_move_effect = 0
 	},
 
