@@ -16684,6 +16684,23 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 100,
 		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
+	},
+
+	//天崩地裂：岩石属性招式，使出时视为地面属性计算（可击中浮空，damage_calc 免疫豁免处理）
+	[MOVE_TYRANTQUAKE] =
+	{
+		.effect = EFFECT_HIT,
+		.power = 100,
+		.type = TYPE_ROCK,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 140,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
 	}
 };
 
@@ -17314,5 +17331,6 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_INFERNOBLAZE] = 100,
 	[MOVE_STEELFLASH] = 90,
 	[MOVE_HORNPARTY] = 130,
+	[MOVE_TYRANTQUAKE] = 130,
 };
 #endif

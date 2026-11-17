@@ -324,6 +324,15 @@ void atk05_damagecalc(void)
 	++gBattlescriptCurrInstr;
 }
 
+//可击中浮空宝可梦的地面系招式（无视漂浮特性/气球/磁浮/念力浮空等一切地面免疫判定；新增此类招式只需在此追加）
+bool8 IgnoresGroundImmunities(u16 move)
+{
+	return move == MOVE_THOUSANDARROWS //千箭齐发
+		|| move == MOVE_TYRANTQUAKE //天崩地裂
+		|| move == MOVE_GEOTHERMALBURST //地热喷发
+		|| move == MOVE_COREGLOW; //地核耀光
+}
+
 static bool8 IsFutureSightAttackerOnField(u8 bankDef, u8 possibleUser)
 {
 	u8 monIndexAttacker = gWishFutureKnock.futureSightPartyIndex[bankDef];
@@ -865,9 +874,9 @@ void atk06_typecalc(void)
 			s32 preTypeDamage = gBattleMoveDamage; //STAB后、属性倍率前的基础伤害（供会心一剪的会心覆盖重算）
 
             // Check Special Ground Immunities
-            if (moveType == TYPE_GROUND && !CheckGrounding(bankDef) && gCurrentMove != MOVE_THOUSANDARROWS)
+            if (moveType == TYPE_GROUND && !CheckGrounding(bankDef) && !IgnoresGroundImmunities(gCurrentMove))
             {
-                if ((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && gCurrentMove != MOVE_GEOTHERMALBURST && gCurrentMove != MOVE_COREGLOW)
+                if (defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE)
                 {
                     gLastUsedAbility = defAbility;
                     gNewBS->ResultFlags[bankDef] |= (MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE);
@@ -984,9 +993,9 @@ void atk4A_typecalc2(void)
 	u8 defEffect = ITEM_EFFECT(gBankTarget);
 
 	//Check Special Ground Immunities
-	if (moveType == TYPE_GROUND && !CheckGrounding(gBankTarget) && gCurrentMove != MOVE_THOUSANDARROWS)
+	if (moveType == TYPE_GROUND && !CheckGrounding(gBankTarget) && !IgnoresGroundImmunities(gCurrentMove))
 	{
-		if ((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && gCurrentMove != MOVE_GEOTHERMALBURST && gCurrentMove != MOVE_COREGLOW)
+		if (defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE)
 		{
 			gLastUsedAbility = atkAbility;
 			gMoveResultFlags |= (MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE);
@@ -1129,13 +1138,13 @@ u8 TypeCalc(u16 move, u8 bankAtk, u8 bankDef, struct Pokemon* monAtk)
 	//Check Special Ground Immunities
 	if (moveType == TYPE_GROUND
 	&& !CheckGrounding(bankDef)
-	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && move != MOVE_GEOTHERMALBURST && move != MOVE_COREGLOW && NO_MOLD_BREAKERS(atkAbility, move))
+	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && NO_MOLD_BREAKERS(atkAbility, move))
 	 || defEffect == ITEM_EFFECT_AIR_BALLOON
 	 || (gStatuses3[bankDef] & (STATUS3_LEVITATING | STATUS3_TELEKINESIS))
 	 || IsFloatingWithMagnetism(bankDef) || (defAbility == ABILITY_CRESCENTSLUMBER
 		 && gBattleMons[bankDef].status1 & STATUS1_SLEEP
 		 && NO_MOLD_BREAKERS(atkAbility, move)))
-	&& move != MOVE_THOUSANDARROWS)
+	&& !IgnoresGroundImmunities(move))
 	{
 		flags |= (MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE);
 	}
@@ -1206,12 +1215,12 @@ u8 AI_TypeCalc(u16 move, u8 bankAtk, u8 bankDef, struct Pokemon* monDef) //bankD
 	//Check Special Ground Immunities
 	if (moveType == TYPE_GROUND
 	&& !CheckMonGrounding(monDef)
-	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && move != MOVE_GEOTHERMALBURST && move != MOVE_COREGLOW && NO_MOLD_BREAKERS(atkAbility, move))
+	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && NO_MOLD_BREAKERS(atkAbility, move))
 	 || (defEffect == ITEM_EFFECT_AIR_BALLOON && defAbility != ABILITY_KLUTZ)
 	 || IsMonFloatingWithMagnetism(monDef) || (defAbility == ABILITY_CRESCENTSLUMBER
 		 && GetMonData(monDef, MON_DATA_STATUS, NULL) & STATUS1_SLEEP
 		 && NO_MOLD_BREAKERS(atkAbility, move)))
-	&& move != MOVE_THOUSANDARROWS)
+	&& !IgnoresGroundImmunities(move))
 	{
 		flags = MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE;
 	}
@@ -1283,13 +1292,13 @@ u8 AI_SpecialTypeCalc(u16 move, u8 bankAtk, u8 bankDef)
 	//Check Special Ground Immunities
 	if (moveType == TYPE_GROUND
 	&& !CheckGrounding(bankDef)
-	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && move != MOVE_GEOTHERMALBURST && move != MOVE_COREGLOW && NO_MOLD_BREAKERS(atkAbility, move))
+	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && NO_MOLD_BREAKERS(atkAbility, move))
 	 || defEffect == ITEM_EFFECT_AIR_BALLOON
 	 || (gStatuses3[bankDef] & (STATUS3_LEVITATING | STATUS3_TELEKINESIS))
 	 || IsFloatingWithMagnetism(bankDef) || (defAbility == ABILITY_CRESCENTSLUMBER
 		 && gBattleMons[bankDef].status1 & STATUS1_SLEEP
 		 && NO_MOLD_BREAKERS(atkAbility, move)))
-	&& move != MOVE_THOUSANDARROWS)
+	&& !IgnoresGroundImmunities(move))
 	{
 		flags |= (MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE);
 	}
@@ -1372,7 +1381,7 @@ u8 VisualTypeCalc(u16 move, u8 bankAtk, u8 bankDef)
 	else if (moveType == TYPE_GROUND //Check Special Ground Immunities
 	&& SPLIT(move) != SPLIT_STATUS
 	&& !NonInvasiveCheckGrounding(bankDef, defAbility, defType1, defType2, defType3)
-	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && move != MOVE_GEOTHERMALBURST && move != MOVE_COREGLOW && NO_MOLD_BREAKERS(atkAbility, move))
+	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && NO_MOLD_BREAKERS(atkAbility, move))
 	 || defEffect == ITEM_EFFECT_AIR_BALLOON
 	 || (gStatuses3[bankDef] & (STATUS3_LEVITATING | STATUS3_TELEKINESIS))
 	 || IsFloatingWithMagnetism(bankDef)
@@ -1380,7 +1389,7 @@ u8 VisualTypeCalc(u16 move, u8 bankAtk, u8 bankDef)
 	 || (defAbility == ABILITY_CRESCENTSLUMBER
 	 && gBattleMons[bankDef].status1 & STATUS1_SLEEP
 	 && NO_MOLD_BREAKERS(atkAbility, move))) //Needed because ModulateDamageByType doesn't take Illusion into account - will still cause a mistake if Flying-type mon has Illusion, but that case is so rare it doesn't matter
-	&& move != MOVE_THOUSANDARROWS)
+	&& !IgnoresGroundImmunities(move))
 	{
 		flags |= MOVE_RESULT_DOESNT_AFFECT_FOE;
 	}
@@ -1601,12 +1610,8 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 		if (move == MOVE_CURRENTTAIL && defType == TYPE_GROUND)
 			return;
 
-		// 地热喷发：地面属性招式无视飞行属性的免疫
-		if (move == MOVE_GEOTHERMALBURST && defType == TYPE_FLYING)
-			return;
-
-		// 地核耀光：可打中飞行属性（浮空目标）
-		if (move == MOVE_COREGLOW && defType == TYPE_FLYING)
+		// 地热喷发/地核耀光：可打中飞行属性（浮空目标）
+		if (IgnoresGroundImmunities(move) && defType == TYPE_FLYING)
 			return;
 	}
 	else if (checkMonDef)
@@ -1627,12 +1632,8 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 		if (move == MOVE_CURRENTTAIL && defType == TYPE_GROUND)
 			return;
 
-		// 地热喷发：可打中飞行属性
-		if (move == MOVE_GEOTHERMALBURST && defType == TYPE_FLYING)
-			return;
-
-		// 地核耀光：可打中飞行属性（浮空目标）
-		if (move == MOVE_COREGLOW && defType == TYPE_FLYING)
+		// 地热喷发/地核耀光：可打中飞行属性
+		if (IgnoresGroundImmunities(move) && defType == TYPE_FLYING)
 			return;
 	}
 
@@ -1670,9 +1671,9 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 	{
 		if (multiplier == TYPE_MUL_NO_EFFECT && GetMonItemEffect(monDef) == ITEM_EFFECT_RING_TARGET)
 			multiplier = TYPE_MUL_NORMAL;
-		else if (multiplier == TYPE_MUL_NO_EFFECT && moveType == TYPE_GROUND)
+		else 		if (multiplier == TYPE_MUL_NO_EFFECT && moveType == TYPE_GROUND)
 		{
-			if (move == MOVE_THOUSANDARROWS)
+			if (IgnoresGroundImmunities(move)) //千箭齐发/天崩地裂等可击中浮空
 				multiplier = TYPE_MUL_NORMAL;
 			else if (!gMain.inBattle) //Eg. when called from the Frontier overworld
 			{
@@ -1694,7 +1695,7 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 		{
 			if (CheckGrounding(bankDef))
 				multiplier = TYPE_MUL_NORMAL;
-			else if (move == MOVE_THOUSANDARROWS)
+			else if (IgnoresGroundImmunities(move)) //千箭齐发/天崩地裂等可击中浮空
 			{
 				multiplier = TYPE_MUL_NORMAL;
 
@@ -1918,6 +1919,10 @@ u8 GetExceptionMoveType(u8 bankAtk, u16 move)
 				moveType = hiddenPowerType - 1;
 			break;
 
+		case MOVE_TYRANTQUAKE: //天崩地裂：使出时视为地面属性（可击中浮空，见各免疫豁免点）
+			moveType = TYPE_GROUND;
+			break;
+
 		case MOVE_WEATHERBALL:
 			if (ABILITY(bankAtk) == ABILITY_MEGASOL)
 				moveType = TYPE_FIRE;
@@ -2085,6 +2090,10 @@ u8 GetMonExceptionMoveType(struct Pokemon* mon, u16 move)
 	switch (move) {
 		case MOVE_HIDDENPOWER:
 			moveType = CalcMonHiddenPowerType(mon);
+			break;
+
+		case MOVE_TYRANTQUAKE: //天崩地裂：使出时视为地面属性（AI估算同款）
+			moveType = TYPE_GROUND;
 			break;
 
 		case MOVE_WEATHERBALL:

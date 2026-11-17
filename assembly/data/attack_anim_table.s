@@ -1079,6 +1079,7 @@ gMoveAnimations:
 .word ANIM_INFERNOBLAZE	@MOVE_INFERNOBLAZE
 .word ANIM_STEELFLASH	@MOVE_STEELFLASH
 .word ANIM_HORNPARTY	@MOVE_HORNPARTY
+.word ANIM_TYRANTQUAKE	@MOVE_TYRANTQUAKE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -5473,6 +5474,66 @@ ANIM_HORNPARTY:
 	launchtemplate Template_FlashingHit 0x83 0x4 0x0 0x0 0x1 0x1
 	playsound2 0x74 SOUND_PAN_TARGET
 	waitanimation
+	endanimation
+
+.pool
+@;天崩地裂: 大地染土黄, 地裂尖刺连喷+全程震屏, 双侧冲击波重击, 巨型尖刺冲顶+落石四溅(视为地面属性/击中浮空由damage_calc处理)
+.global ANIM_TYRANTQUAKE
+ANIM_TYRANTQUAKE:
+	loadparticle ANIM_TAG_LARGE_SPIKE @地裂尖刺(PRECIPICE_SPIKE需要)
+	loadparticle ANIM_TAG_ROCKS @落石(SEISMIC_TOSS_ROCK_SCATTER需要)
+	loadparticle ANIM_TAG_IMPACT
+	pokespritetoBG side_target
+	setblends 0x80c
+	@;地裂背景+全程震屏(断崖之剑同款)
+	loadBG1 0x15
+	waitbgfadeout
+	launchtask AnimTask_PositionFissureBgOnBattler 0x5 0x3 0x1 0x5 0xffff
+	launchtask AnimTask_screen_shake 0x5 0x3 0x5 0xa 0x5
+	launchtask AnimTask_screen_shake 0x5 0x3 0x4 0xa 0x5
+	playsound2 0xe3 0x0
+	launchtask AnimTask_IsTargetPlayerSide 0x2 0x0
+	jumpifargmatches 0x7 bank_target TYRANTQUAKE_OPPONENT_ATTACK
+	@;攻击方侧: 地裂尖刺连喷(断崖之剑同款)
+	launchtemplate PRECIPICE_SPIKE TEMPLATE_ATTACKER | 3, 0x5, bank_attacker, -45, 5, 145 0x0
+	pause 10
+	launchtemplate PRECIPICE_SPIKE TEMPLATE_ATTACKER | 3, 0x5, bank_attacker, 10, 7, 135 0x0
+	pause 10
+	launchtemplate PRECIPICE_SPIKE TEMPLATE_ATTACKER | 4, 0x5, bank_attacker, -30, 15, 125 0x0
+	pause 5
+	launchtemplate PRECIPICE_SPIKE TEMPLATE_ATTACKER | 5, 0x5, bank_attacker, -10, 17, 120 0x0
+	goto TYRANTQUAKE_REJOIN
+TYRANTQUAKE_OPPONENT_ATTACK:
+	launchtemplate PRECIPICE_SPIKE TEMPLATE_ATTACKER | 0x43, 0x5, bank_attacker, 35, -5, 145 0x0
+	pause 10
+	launchtemplate PRECIPICE_SPIKE TEMPLATE_ATTACKER | 0x43, 0x5, bank_attacker, -20, -7, 135 0x0
+	pause 10
+	launchtemplate PRECIPICE_SPIKE TEMPLATE_ATTACKER | 0x44, 0x5, bank_attacker, 20, -15, 125 0x0
+	pause 5
+	launchtemplate PRECIPICE_SPIKE TEMPLATE_ATTACKER | 0x45, 0x5, bank_attacker, 0, -17, 120 0x0
+TYRANTQUAKE_REJOIN:
+	@;双侧冲击波重击
+	pause 0x10
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0xfff0 0x10 0x1 0x2
+	playsound2 0x74 SOUND_PAN_TARGET
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 0x1 0x3 0x0 0xc 0x1
+	pause 0x14
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0x10 0x10 0x1 0x2
+	playsound2 0x74 SOUND_PAN_TARGET
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 0x3 0x3 0x0 0xc 0x1
+	@;终结: 巨型尖刺冲顶+目标倒仰+落石四溅
+	stopmusic
+	playsound2 0xCF SOUND_PAN_TARGET
+	launchtemplate LARGE_PRECIPICE_SPIKE TEMPLATE_TARGET | 2, 0x5, bank_target, 0, -25, 40, 0x0
+	pause 0x6
+	launchtemplate Template_SlideMonToOffset TEMPLATE_TARGET | 2, 0x5, bank_target, -20 0 0x6 0x1
+	pause 0x22
+	launchtemplate Template_SlideMonToOriginalPos TEMPLATE_TARGET | 2, 0x3 bank_target 0x0 0x6
+	call SEISMIC_TOSS_ROCK_SCATTER_1
+	waitanimation
+	call UNSET_SCROLLING_BG
+	pokespritefromBG side_target
+	resetblends
 	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

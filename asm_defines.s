@@ -1706,6 +1706,7 @@
 .equ MOVE_INFERNOBLAZE, 0x406
 .equ MOVE_STEELFLASH, 0x407
 .equ MOVE_HORNPARTY, 0x408
+.equ MOVE_TYRANTQUAKE, 0x409
 
 @weather
 .equ weather_rain, 0x1
