@@ -1076,6 +1076,7 @@ gMoveAnimations:
 .word ANIM_FLAMEWING	@MOVE_FLAMEWING
 .word ANIM_FORESTWAVE	@MOVE_FORESTWAVE
 .word ANIM_COREGLOW	@MOVE_COREGLOW
+.word ANIM_INFERNOBLAZE	@MOVE_INFERNOBLAZE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -5367,6 +5368,48 @@ ANIM_FLAMEWING:
 
 .align 2
 FLAMEWING_HEAL: objtemplate ANIM_TAG_GREEN_SPARKLE ANIM_TAG_GREEN_SPARKLE OAM_OFF_16x16 0x83E3760 0x0 gDummySpriteAffineAnimTable 0x80AA2B1
+
+.pool
+@;地狱犬闪焰: 地狱火苗缠身, 灰暗火焰背景铺开, 连喷两轮地狱火浪吞噬目标(晴天加成与特性触发由damage_calc处理)
+.global ANIM_INFERNOBLAZE
+ANIM_INFERNOBLAZE:
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_SMALL_EMBER @火焰(FLAME_BUFF/FLARE_BLITZ_HITS/FLAME_BURST_SPREAD需要)
+	pokespritetoBG bank_target
+	setblends 0x80C
+	@;地狱火蓄势: 火苗缠身+染红+前倾张口
+	playsound2 0xA4 SOUND_PAN_ATTACKER
+	call FLAME_BUFF
+	pause 0x4
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xB 0x001F @;染红(烈焰缠身同款)
+	launchtask AnimTask_move_bank_2 0x2 0x5 0x0 0x1 0x0 0x15 0x1
+	call FLAME_BUFF
+	@;地狱火焰背景铺开(超级燃烧同款)
+	loadbg1 BG_FIRE
+	waitbgfadeout
+	launchtask AnimTask_scroll_background 0x5 0x4 0x1000 0x0 0x0 0xFFFF
+	waitbgfadein
+	@;第一轮: 地狱火浪喷发
+	playsound2 0x91 SOUND_PAN_ATTACKER
+	pause 0x14
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0x20 0x1
+	playsound2 0x8C SOUND_PAN_TARGET
+	call FLAME_BURST_SPREAD
+	pause 0x8
+	call FLARE_BLITZ_HITS
+	@;第二轮: 猛烈收尾
+	playsound2 0xA4 SOUND_PAN_ATTACKER
+	pause 0x4
+	call FLAME_BURST_SPREAD
+	playsound2 0x8C SOUND_PAN_TARGET
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 0x1 0x3 0x0 0xc 0x1
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 0x3 0x3 0x0 0xc 0x1
+	waitanimation
+	@;收场
+	resetblends
+	pokespritefromBG bank_target
+	call UNSET_SCROLLING_BG
+	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

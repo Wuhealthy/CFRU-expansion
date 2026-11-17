@@ -1703,6 +1703,7 @@
 .equ MOVE_FLAMEWING, 0x403
 .equ MOVE_FORESTWAVE, 0x404
 .equ MOVE_COREGLOW, 0x405
+.equ MOVE_INFERNOBLAZE, 0x406
 
 @weather
 .equ weather_rain, 0x1

@@ -2958,8 +2958,9 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 
 		case ABILITY_FLOWERGIFT:
 		//1.5x Boost
-			if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
+			if ((WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
 			&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect))
+			|| move == MOVE_INFERNOBLAZE) //地狱犬闪焰：视为大晴天
 				attack = (attack * 15) / 10;
 			break;
 
@@ -2984,15 +2985,17 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 
 		case ABILITY_SOLARPOWER:
 		//1.5x Boost
-			if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
+			if ((WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
 			&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect))
+			|| move == MOVE_INFERNOBLAZE) //地狱犬闪焰：视为大晴天
 				spAttack = (spAttack * 15) / 10;
 			break;
 
 		case ABILITY_ORICHALCUMPULSE:
 			//4/3x Boost
-			if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
+			if ((WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
 			&& !ItemEffectIgnoresSunAndRain(data->atkItemEffect))
+			|| move == MOVE_INFERNOBLAZE) //地狱犬闪焰：视为大晴天
 				attack = (attack * 4) / 3;
 			break;
 		
@@ -3105,16 +3108,18 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 
 	switch (data->atkPartnerAbility) {
 		case ABILITY_FLOWERGIFT:
-			if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
+			if ((WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
 			&& !ItemEffectIgnoresSunAndRain(ITEM_EFFECT(PARTNER(bankAtk))))
+			|| move == MOVE_INFERNOBLAZE) //地狱犬闪焰：视为大晴天
 				attack = (attack * 15) / 10;
 			break;
 	}
 
 	switch (data->defPartnerAbility) {
     	case ABILITY_FLOWERGIFT:
-        	if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
+        	if ((WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
         	&& !ItemEffectIgnoresSunAndRain(ITEM_EFFECT(PARTNER(bankDef))))
+        	|| move == MOVE_INFERNOBLAZE) //地狱犬闪焰：视为大晴天
             	spDefense = (spDefense * 15) / 10;
         	break;
 	}
@@ -3136,8 +3141,9 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 
 		case ABILITY_FLOWERGIFT:
 		//1.5x Boost
-			if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
+			if ((WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_SUN_ANY)
         	&& !ItemEffectIgnoresSunAndRain(data->defItemEffect))
+        	|| move == MOVE_INFERNOBLAZE) //地狱犬闪焰：视为大晴天
 				spDefense = (spDefense * 15) / 10;
 			break;
 
@@ -3623,7 +3629,8 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 		}
 	}
 
-	if (ABILITY(data->bankAtk) == ABILITY_MEGASOL)
+	if (ABILITY(data->bankAtk) == ABILITY_MEGASOL
+	|| move == MOVE_INFERNOBLAZE) //地狱犬闪焰：视为在大晴天使用，获得晴天加成（雨天不减半）
 		{
 			switch (data->moveType) {
 				case TYPE_FIRE:
