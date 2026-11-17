@@ -16616,6 +16616,23 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 190,
 		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
+	},
+
+	//地核耀光：可击中浮空的宝可梦，连续攻击2次
+	[MOVE_COREGLOW] =
+	{
+		.effect = EFFECT_DOUBLE_HIT,
+		.power = 100,
+		.type = TYPE_GROUND,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 190,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
 	}
 };
 
@@ -17242,5 +17259,6 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_SNIPINGBOLT] = 150,
 	[MOVE_FLAMEWING] = 130,
 	[MOVE_FORESTWAVE] = 120,
+	[MOVE_COREGLOW] = 150,
 };
 #endif

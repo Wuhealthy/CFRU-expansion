@@ -1075,6 +1075,7 @@ gMoveAnimations:
 .word ANIM_SNIPINGBOLT	@MOVE_SNIPINGBOLT
 .word ANIM_FLAMEWING	@MOVE_FLAMEWING
 .word ANIM_FORESTWAVE	@MOVE_FORESTWAVE
+.word ANIM_COREGLOW	@MOVE_COREGLOW
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -5459,6 +5460,59 @@ ECO_LEAF: objtemplate ANIM_TAG_LEAF ANIM_TAG_LEAF OAM_OFF_16x16 gDummySpriteAnim
 ECO_RING: objtemplate ANIM_TAG_DRAGON_PULSE_RING ANIM_TAG_DRAGON_PULSE_RING OAM_NORMAL_32x32 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable Callback_TranslateAnimSpriteToTargetMonLocation
 ECO_BALL: objtemplate ANIM_TAG_FLASH_CANNON_BALL ANIM_TAG_FLASH_CANNON_BALL OAM_NORMAL_32x32 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable Callback_TranslateAnimSpriteToTargetMonLocation
 ECO_SPARK: objtemplate ANIM_TAG_GREEN_SPARKLE ANIM_TAG_GREEN_SPARKLE OAM_NORMAL_16x16 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable Callback_TranslateAnimSpriteToTargetMonLocation
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@;地核耀光: 基格尔德六边形绿色升腾入空(呼应可击中浮空), 破坏光线式绿色能量束连射贯穿目标
+@;注意: 招式攻击两次, 引擎会重播本动画, 脚本必须简短; 粒子保持最少, 防止双打显存溢出花屏
+.global ANIM_COREGLOW
+ANIM_COREGLOW:
+	loadparticle ANIM_TAG_ORBS @破坏光线同款能量粒子
+	loadparticle ANIM_TAG_VERTICAL_HEX
+	loadparticle ANIM_TAG_ZYGARDE_HEXES
+	@;能量束与六边形统一染金(GOLD_RING调色板替换到ORBS会索引错位变黑, 故用BlendParticle染金)
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_ORBS 0x0 0xC 0xC 0x079D
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_ZYGARDE_HEXES 0x0 0x8 0x8 0x079D
+	call CGO_HEX_RISE
+	@;破坏光线式绿色能量束连射
+	playsound2 0x64 SOUND_PAN_ATTACKER
+	launchtask AnimTask_screen_shake 0x5 0x3 0x4 0x1 0x1A
+	launchtemplate CGO_ORB TEMPLATE_TARGET | 2, 0x0
+	launchtemplate CGO_ORB TEMPLATE_TARGET | 2, 0x0
+	pause 0x1
+	launchtemplate CGO_ORB TEMPLATE_TARGET | 2, 0x0
+	launchtemplate CGO_ORB TEMPLATE_TARGET | 2, 0x0
+	pause 0x1
+	launchtemplate CGO_ORB TEMPLATE_TARGET | 2, 0x0
+	launchtemplate CGO_ORB TEMPLATE_TARGET | 2, 0x0
+	pause 0x1
+	launchtemplate CGO_ORB TEMPLATE_TARGET | 2, 0x0
+	launchtemplate CGO_ORB TEMPLATE_TARGET | 2, 0x0
+	playsound2 0x86 SOUND_PAN_TARGET
+	launchtemplate Template_Hit 0x2 0x4 0x0 0xfff8 0x1 0x1
+	launchtask AnimTask_move_bank 0x5 0x5 0x1 0x0 0x3 0x19 0x1
+	waitanimation
+	endanimation
+
+@;金色六边形从攻击方脚下升起入空(千箭齐发同款)
+CGO_HEX_RISE:
+	launchtemplate CGO_HEX TEMPLATE_TARGET | 2, 0x3, bank_attacker 0xfffc 0xfff0
+	playsound2 0xa8 SOUND_PAN_ATTACKER
+	pause 0x2
+	launchtemplate CGO_HEX TEMPLATE_TARGET | 2, 0x3, bank_attacker 0x100D 0xfff0
+	playsound2 0xa8 SOUND_PAN_ATTACKER
+	pause 0x2
+	launchtemplate CGO_HEX TEMPLATE_TARGET | 2, 0x3, bank_attacker 0x4 0xfff4
+	playsound2 0xa8 SOUND_PAN_ATTACKER
+	pause 0x2
+	launchtemplate CGO_HEX TEMPLATE_TARGET | 2, 0x3, bank_attacker 0xfff0 0xfff0
+	playsound2 0xa8 SOUND_PAN_ATTACKER
+	pause 0x2
+	return
+
+.align 2
+CGO_ORB: objtemplate ANIM_TAG_ORBS ANIM_TAG_ORBS OAM_OFF_8x8 0x83E2A20 0x0 gDummySpriteAffineAnimTable 0x80A25ED
+CGO_HEX: objtemplate ANIM_TAG_VERTICAL_HEX ANIM_TAG_ZYGARDE_HEXES OAM_OFF_16x16 0x83E2C00 0x0 gDummySpriteAffineAnimTable SpriteCB_Geyser
 
 @Credits to Skeli
 ANIM_UTURN:

@@ -867,7 +867,7 @@ void atk06_typecalc(void)
             // Check Special Ground Immunities
             if (moveType == TYPE_GROUND && !CheckGrounding(bankDef) && gCurrentMove != MOVE_THOUSANDARROWS)
             {
-                if ((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && gCurrentMove != MOVE_GEOTHERMALBURST)
+                if ((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && gCurrentMove != MOVE_GEOTHERMALBURST && gCurrentMove != MOVE_COREGLOW)
                 {
                     gLastUsedAbility = defAbility;
                     gNewBS->ResultFlags[bankDef] |= (MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE);
@@ -986,7 +986,7 @@ void atk4A_typecalc2(void)
 	//Check Special Ground Immunities
 	if (moveType == TYPE_GROUND && !CheckGrounding(gBankTarget) && gCurrentMove != MOVE_THOUSANDARROWS)
 	{
-		if ((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && gCurrentMove != MOVE_GEOTHERMALBURST)
+		if ((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && gCurrentMove != MOVE_GEOTHERMALBURST && gCurrentMove != MOVE_COREGLOW)
 		{
 			gLastUsedAbility = atkAbility;
 			gMoveResultFlags |= (MOVE_RESULT_MISSED | MOVE_RESULT_DOESNT_AFFECT_FOE);
@@ -1129,7 +1129,7 @@ u8 TypeCalc(u16 move, u8 bankAtk, u8 bankDef, struct Pokemon* monAtk)
 	//Check Special Ground Immunities
 	if (moveType == TYPE_GROUND
 	&& !CheckGrounding(bankDef)
-	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && move != MOVE_GEOTHERMALBURST && NO_MOLD_BREAKERS(atkAbility, move))
+	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && move != MOVE_GEOTHERMALBURST && move != MOVE_COREGLOW && NO_MOLD_BREAKERS(atkAbility, move))
 	 || defEffect == ITEM_EFFECT_AIR_BALLOON
 	 || (gStatuses3[bankDef] & (STATUS3_LEVITATING | STATUS3_TELEKINESIS))
 	 || IsFloatingWithMagnetism(bankDef) || (defAbility == ABILITY_CRESCENTSLUMBER
@@ -1206,7 +1206,7 @@ u8 AI_TypeCalc(u16 move, u8 bankAtk, u8 bankDef, struct Pokemon* monDef) //bankD
 	//Check Special Ground Immunities
 	if (moveType == TYPE_GROUND
 	&& !CheckMonGrounding(monDef)
-	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && move != MOVE_GEOTHERMALBURST && NO_MOLD_BREAKERS(atkAbility, move))
+	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && move != MOVE_GEOTHERMALBURST && move != MOVE_COREGLOW && NO_MOLD_BREAKERS(atkAbility, move))
 	 || (defEffect == ITEM_EFFECT_AIR_BALLOON && defAbility != ABILITY_KLUTZ)
 	 || IsMonFloatingWithMagnetism(monDef) || (defAbility == ABILITY_CRESCENTSLUMBER
 		 && GetMonData(monDef, MON_DATA_STATUS, NULL) & STATUS1_SLEEP
@@ -1283,7 +1283,7 @@ u8 AI_SpecialTypeCalc(u16 move, u8 bankAtk, u8 bankDef)
 	//Check Special Ground Immunities
 	if (moveType == TYPE_GROUND
 	&& !CheckGrounding(bankDef)
-	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && move != MOVE_GEOTHERMALBURST && NO_MOLD_BREAKERS(atkAbility, move))
+	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && move != MOVE_GEOTHERMALBURST && move != MOVE_COREGLOW && NO_MOLD_BREAKERS(atkAbility, move))
 	 || defEffect == ITEM_EFFECT_AIR_BALLOON
 	 || (gStatuses3[bankDef] & (STATUS3_LEVITATING | STATUS3_TELEKINESIS))
 	 || IsFloatingWithMagnetism(bankDef) || (defAbility == ABILITY_CRESCENTSLUMBER
@@ -1372,7 +1372,7 @@ u8 VisualTypeCalc(u16 move, u8 bankAtk, u8 bankDef)
 	else if (moveType == TYPE_GROUND //Check Special Ground Immunities
 	&& SPLIT(move) != SPLIT_STATUS
 	&& !NonInvasiveCheckGrounding(bankDef, defAbility, defType1, defType2, defType3)
-	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && move != MOVE_GEOTHERMALBURST && NO_MOLD_BREAKERS(atkAbility, move))
+	&& (((defAbility == ABILITY_LEVITATE || defAbility == ABILITY_EELEVATE) && move != MOVE_GEOTHERMALBURST && move != MOVE_COREGLOW && NO_MOLD_BREAKERS(atkAbility, move))
 	 || defEffect == ITEM_EFFECT_AIR_BALLOON
 	 || (gStatuses3[bankDef] & (STATUS3_LEVITATING | STATUS3_TELEKINESIS))
 	 || IsFloatingWithMagnetism(bankDef)
@@ -1604,6 +1604,10 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 		// 地热喷发：地面属性招式无视飞行属性的免疫
 		if (move == MOVE_GEOTHERMALBURST && defType == TYPE_FLYING)
 			return;
+
+		// 地核耀光：可打中飞行属性（浮空目标）
+		if (move == MOVE_COREGLOW && defType == TYPE_FLYING)
+			return;
 	}
 	else if (checkMonDef)
 	{
@@ -1625,6 +1629,10 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 
 		// 地热喷发：可打中飞行属性
 		if (move == MOVE_GEOTHERMALBURST && defType == TYPE_FLYING)
+			return;
+
+		// 地核耀光：可打中飞行属性（浮空目标）
+		if (move == MOVE_COREGLOW && defType == TYPE_FLYING)
 			return;
 	}
 
