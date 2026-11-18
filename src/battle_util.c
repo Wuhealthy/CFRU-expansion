@@ -1565,6 +1565,8 @@ bool8 IsAffectedByPowderByDetails(u8 type1, u8 type2, u8 type3, ability_t abilit
 bool8 MoveIgnoresSubstitutes(u16 move, ability_t atkAbility)
 {
 	return IsSoundMoveByAbility(move, atkAbility)
+		|| atkAbility == ABILITY_STALWART
+		|| atkAbility == ABILITY_PROPELLERTAIL
 		|| (BypassesScreens(atkAbility) && move != MOVE_TRANSFORM && gBattleMoves[move].effect != EFFECT_SKY_DROP)
 		|| gSpecialMoveFlags[move].gSubstituteBypassMoves;
 }

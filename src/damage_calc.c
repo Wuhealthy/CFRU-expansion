@@ -3061,9 +3061,12 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 
 		case ABILITY_FLASHFIRE:
 		//1.5x Boost
-			if (!useMonAtk && data->moveType == TYPE_FIRE
+			if (data->moveType == TYPE_FIRE
 			&& (gBattleResources->flags->flags[bankAtk] & RESOURCE_FLAG_FLASH_FIRE))
+			{
+				attack = (attack * 15) / 10;
 				spAttack = (spAttack * 15) / 10;
+			}
 			break;
 
 		case ABILITY_OVERGROW:

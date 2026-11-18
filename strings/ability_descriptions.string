@@ -55,7 +55,7 @@ HP全满时，不会被一击打倒
 不会变为中毒状态
 
 #org @DESC_FLASHFIRE
-受到火属性的招式攻击会变强
+受到火属性的招式攻击时，吸收火焰，\n自己使出的火属性招式会变强。
 
 #org @DESC_SHIELDDUST
 不会受到招式的追加效果影响
@@ -701,7 +701,7 @@ HP全满时，受到的伤害会变少
 
 #org @DESC_STALWART
 #org @DESC_PROPELLERTAIL
-无视具有吸引效果的特性或招式
+无视具有吸引招式效果的特性或招式，\n并能无视对手的替身使用招式。
 
 #org @DESC_MIRRORARMOR
 只反弹自己受到的能力降低效果
