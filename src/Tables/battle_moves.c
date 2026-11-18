@@ -16701,6 +16701,40 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 140,
 		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
+	},
+
+	//幻想之力：一般属性特殊招式，对方全体，对超能力属性效果绝佳（Mega沙奈朵的魔法闪耀使出时即为此招式）
+	[MOVE_FANTASYFORCE] =
+	{
+		.effect = EFFECT_HIT,
+		.power = 110,
+		.type = TYPE_NORMAL,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_BOTH,
+		.priority = 0,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 175,
+		.split = SPLIT_SPECIAL,
+		.z_move_effect = 0
+	},
+
+	//越咬越烈：钢属性接触招式，对手本回合准备使用攻击招式则先制攻击，否则失败（偷袭机制）；连续成功使用每次威力+20%，最多+100%（Mega大嘴娃的铁头使出时即为此招式）
+	[MOVE_BITEHARDER] =
+	{
+		.effect = EFFECT_SUCKER_PUNCH,
+		.power = 90,
+		.type = TYPE_STEEL,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 1,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 140,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
 	}
 };
 
@@ -17332,5 +17366,7 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_STEELFLASH] = 90,
 	[MOVE_HORNPARTY] = 130,
 	[MOVE_TYRANTQUAKE] = 130,
+	[MOVE_FANTASYFORCE] = 175,
+	[MOVE_BITEHARDER] = 140,
 };
 #endif

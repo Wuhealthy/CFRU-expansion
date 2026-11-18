@@ -2824,3 +2824,9 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 
 #org @DESC_TYRANTQUAKE
 引发天崩地裂般的震\n动攻击对手。在沙暴\n下威力提高50%，能\n对所有对手造成伤害。
+
+#org @DESC_FANTASYFORCE
+释放出强大的精神幻\n想能量攻击对手。对\n超能力属性的宝可梦\n会造成效果绝佳伤害。
+
+#org @DESC_BITEHARDER
+预判对手的行动并抢\n先咬碎。对手若不使\n出攻击招式则会失败。\n连续使用威力会提高。

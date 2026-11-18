@@ -1080,6 +1080,8 @@ gMoveAnimations:
 .word ANIM_STEELFLASH	@MOVE_STEELFLASH
 .word ANIM_HORNPARTY	@MOVE_HORNPARTY
 .word ANIM_TYRANTQUAKE	@MOVE_TYRANTQUAKE
+.word ANIM_FANTASYFORCE	@MOVE_FANTASYFORCE
+.word ANIM_BITEHARDER	@MOVE_BITEHARDER
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -5538,6 +5540,85 @@ TYRANTQUAKE_REJOIN:
 	pokespritefromBG side_target
 	resetblends
 	endanimation
+
+@;幻想之力: Mega沙奈朵的专属精神幻想能量, 粉白能量环绕身蓄势, 幻想光波环扫向全场, 左右两处光辉命中(对方全体, 对超能力效果绝佳)
+.global ANIM_FANTASYFORCE
+ANIM_FANTASYFORCE:
+	loadparticle ANIM_TAG_ORBS
+	loadparticle ANIM_TAG_FLAT_ROCK @;命中闪光的调色板参照(PSYSHOCK同款机制)
+	loadparticle ANIM_TAG_DRAGON_PULSE_RING
+	loadparticle ANIM_TAG_IMPACT
+	call PSYSHOCK_ORB_BLEND @;能量粒染粉紫(精神压制同款)
+	launchtask AnimTask_BlendParticle 0x2 0x5 ANIM_TAG_DRAGON_PULSE_RING 0x0 0x9 0x9 0x7C7F @;光波环染粉
+	@;幻想能量环绕攻击方蓄势
+	playsound2 0xb1 SOUND_PAN_ATTACKER
+	launchtemplate PSYSHOCK_ROCKTRAP TEMPLATE_ATTACKER | 2, 0x7 0x0 0x1c 0x180 0x32 0x8 0x32 0x1
+	pause 0x1
+	launchtemplate PSYSHOCK_ROCKTRAP TEMPLATE_ATTACKER | 2, 0x7 0x0 0x20 0xf0 0x28 0xb 0xffd2 0x1
+	pause 0x1
+	launchtemplate PSYSHOCK_ROCKTRAP TEMPLATE_ATTACKER | 2, 0x7 0x0 0x1f 0x120 0x28 0x6 0xffd6 0x1
+	pause 0x1
+	launchtemplate PSYSHOCK_ROCKTRAP TEMPLATE_ATTACKER | 2, 0x7 0x0 0x1c 0x1c0 0x2d 0xb 0x2e 0x1
+	waitanimation
+	@;幻想光波环扫向所有对手
+	playsound2 0xb6 SOUND_PAN_ATTACKER
+	launchtemplate ECO_RING TEMPLATE_TARGET | 2, 0x6 0x10 0x0 0x0 0x0 0x16 0x0
+	pause 0x1
+	launchtemplate ECO_RING TEMPLATE_TARGET | 2, 0x6 0x10 0x0 0x0 0x0 0x16 0x0
+	pause 0x1
+	launchtemplate ECO_RING TEMPLATE_TARGET | 2, 0x6 0x10 0x0 0x0 0x0 0x16 0x0
+	pause 0x4
+	@;左右两处光辉命中(对方全体)
+	playsound2 0x8C SOUND_PAN_TARGET
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4, 0x18 0x8 bank_target 0x0
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4, 0xffe8 0x8 bank_target 0x0
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 bank_target 0x1 0x0 0xc 0x1
+	pause 0x6
+	playsound2 0x8C SOUND_PAN_TARGET
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4, 0x10 0x10 bank_target 0x0
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4, 0xfff0 0x10 bank_target 0x0
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 bank_target 0x3 0x0 0xc 0x1
+	waitanimation
+	endanimation
+
+@;越咬越烈: 巨颚三段咬合越咬越狠(对应威力连击提升), 最后一记重咬+震屏收尾(Mega大嘴娃专属)
+.global ANIM_BITEHARDER
+ANIM_BITEHARDER:
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_SHARP_TEETH @巨颚(Template_Teeth不自动加载,缺了会画乱码)
+	pokespritetoBG side_target
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_SHARP_TEETH 0x0 0xB 0xB 0x7FFF @;巨颚染银白(钢属性)
+	@;蓄势: 攻击方前倾张口
+	playsound2 0x91 SOUND_PAN_ATTACKER
+	launchtemplate Template_VerticalDip 0x2 0x3 0x6 0x1 bank_attacker
+	pause 0x14
+	@;咬合1(轻)
+	playsound2 0x9A SOUND_PAN_TARGET
+	call BH_BITE
+	pause 0x4
+	@;咬合2(中, 目标被咬得摇晃)
+	playsound2 0x9A SOUND_PAN_TARGET
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 bank_target 0x1 0x0 0x8 0x1
+	call BH_BITE
+	pause 0x4
+	@;咬合3(重, 震屏+目标后仰)
+	stopmusic
+	playsound2 0x98 SOUND_PAN_TARGET
+	launchtask AnimTask_screen_shake 0x5 0x3 0x4 0x8 0x2
+	launchtemplate Template_Teeth TEMPLATE_TARGET | 2, 0x5 0x0 0xffd8 0x0 0x0 0x333 0xc @上颚(更大口)
+	launchtemplate Template_Teeth TEMPLATE_TARGET | 2, 0x5 0x0 0x28 0x4 0x0 0xfccd 0xc @下颚
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0x0 0x0 bank_target 0x0
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0x14 0x1 @目标被咬飞后仰
+	waitanimation
+	pokespritefromBG side_target
+	endanimation
+
+.align 2
+BH_BITE:
+	launchtemplate Template_Teeth TEMPLATE_TARGET | 2, 0x6 0x0 0xffe0 0x0 0x0 0x333 0xa @上颚
+	launchtemplate Template_Teeth TEMPLATE_TARGET | 2, 0x6 0x0 0x20 0x4 0x0 0xfccd 0xa @下颚
+	pause 0x8
+	return
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool

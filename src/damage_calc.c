@@ -1643,6 +1643,10 @@ static void ModulateDmgByType(u8 multiplier, const u16 move, const u8 moveType, 
 	if (move == MOVE_GIANTTORNADO && defType == TYPE_DRAGON)
 		multiplier = TYPE_MUL_SUPER_EFFECTIVE;
 
+	//幻想之力：对超能力属性效果绝佳（Mega沙奈朵的魔法闪耀使出时已在canceler转换为本招式）
+	if (move == MOVE_FANTASYFORCE && defType == TYPE_PSYCHIC)
+		multiplier = TYPE_MUL_SUPER_EFFECTIVE;
+
 	if (atkAbility == ABILITY_WAVEFIST && moveType == TYPE_FIGHTING && (defType == TYPE_FIRE || defType == TYPE_GROUND)) //Always Super-Effective, even in Inverse Battles
 		multiplier = TYPE_MUL_SUPER_EFFECTIVE;
 
@@ -4453,6 +4457,25 @@ static u16 GetBasePower(struct DamageCalc* data)
 		case MOVE_TYRANTQUAKE: //天崩地裂：沙暴天气威力1.5倍(广域战力同款加成幅度), 双打同时击中所有对手由GetBaseMoveTarget处理
 			if (gBattleWeather & WEATHER_SANDSTORM_ANY && WEATHER_HAS_EFFECT)
 				power = (power * 15) / 10;
+			break;
+
+		case MOVE_BITEHARDER: //越咬越烈: 连续使用每次威力+20%, 最多+100%(复用MetronomeCounter, 菜单预览按下一次使用的威力显示)
+			if (!useMonAtk)
+			{
+				u16 boost;
+
+				if (data->specialFlags & FLAG_CHECKING_FROM_MENU)
+				{
+					if (move == gLastPrintedMoves[bankAtk]) //查看的正是上回合用过的同一招
+						boost = MathMin(200, 100 + gNewBS->MetronomeCounter[bankAtk] + 20);
+					else
+						break;
+				}
+				else
+					boost = MathMin(200, 100 + gNewBS->MetronomeCounter[bankAtk]);
+
+				power = (power * boost) / 100;
+			}
 			break;
 
 		case MOVE_PSIONICCRASH:
