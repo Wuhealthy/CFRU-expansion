@@ -203,7 +203,7 @@
 [BUFFER1]\n打了个哈欠……\l听起来像是在说早上好！
 
 #org @gText_FollowerMon_Test
-[BUFFER1] eagerly looks around, \nready for adventure!
+[BUFFER1] 迫不及待地环顾四周，\n准备开始冒险！
 
 #org @sText_FM_Idle_4
 [BUFFER1]\n抬头看看你，又看看路。

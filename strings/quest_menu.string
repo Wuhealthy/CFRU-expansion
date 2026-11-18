@@ -2,7 +2,7 @@
 #ifdef SIDEQUEST_MENU
 
 #org @gText_ItemDescriptionNotAvailable
-Description not available[.]
+暂无描述[.]
 
 #org @sText_Dash
 -------------
@@ -14,52 +14,52 @@ Description not available[.]
 %
 
 #org @gText_QuestGift
-Info
+详情
 
 #org @gText_QuestDone
-Done
+完成
 
 #org @gText_MenuTitle
-Main Quests
+主线任务
 
 #org @gText_MenuTitle2
-Side Quests
+支线任务
 
 #org @gText_LText
-[L_BUTTON] Left
+[L_BUTTON] 左
 
 #org @gText_RText
-[R_BUTTON] Right
+[R_BUTTON] 右
 
 #org @gText_GetText
-[A_BUTTON] Get Info
+[A_BUTTON] 查看详情
 
 #org @gText_CloseText
-[B_BUTTON] Close
+[B_BUTTON] 关闭
 
 // Quest Items
 #org @gText_QuestItem_1
-Get Pokedex
+获得图鉴
 
 #org @gText_QuestItem_2
-Boulder Badge
+灰色徽章
 
 #org @gText_QuestItem_3
-Cascade Badge
+蓝色徽章
 
 #org @gText_QuestItem_4
-Thunder Badge
+橙色徽章
 
 // Quest Descriptions
 #org @gText_QuestDesc_1
-Location : Pallet Town\nBring Brendan a Mudkip.
+地点：真新镇\n给小优一只水跃鱼。
 
 #org @gText_QuestDesc_2
-Quest Description 2
+任务描述 2
 
 #org @gText_QuestDesc_3
-Quest Description 3
+任务描述 3
 
 #org @gText_QuestDesc_4
-Quest Description 4
+任务描述 4
 #endif
