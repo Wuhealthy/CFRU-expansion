@@ -13,6 +13,7 @@
 
 #include "../include/new/character_customization.h"
 #include "../include/new/dynamic_ow_pals.h"
+#include "../include/new/follow_me.h"
 
 #ifdef OW_SHADOWS
 
@@ -180,7 +181,7 @@ static bool8 ShadowsMayWriteBldAlpha(void)
 		&& REG_BLDCNT & (BLDCNT_TGT1_BG0 | BLDCNT_TGT1_BG1 | BLDCNT_TGT1_BG2 | BLDCNT_TGT1_BG3 | BLDCNT_TGT1_BD));
 }
 
-void SetEventObjectShadowVisibility(struct EventObject *eventObject, bool8 invisible)
+static struct Sprite *GetEventObjectShadowSprite(struct EventObject *eventObject)
 {
 	u8 i, j;
 
@@ -197,12 +198,49 @@ void SetEventObjectShadowVisibility(struct EventObject *eventObject, bool8 invis
 		for (j = FLDEFFOBJ_SHADOW_S; j <= FLDEFFOBJ_SHADOW_XL; ++j)
 		{
 			if (sprite->template == gFieldEffectObjectTemplatePointers[j])
-			{
-				sprite->invisible = invisible;
-				return;
-			}
+				return sprite;
 		}
 	}
+
+	return NULL;
+}
+
+void SetEventObjectShadowVisibility(struct EventObject *eventObject, bool8 invisible)
+{
+	struct Sprite *shadow = GetEventObjectShadowSprite(eventObject);
+
+	if (shadow != NULL)
+		shadow->invisible = invisible;
+}
+
+//Makes sure a visible event object has a shadow sprite.
+//Shadows are normally only created by the ground effect triggers (spawn/begin step/finish step).
+//An object that is respawned or revealed outside of those (e.g. the follower after surfing)
+//would otherwise stay shadowless until it happens to take a step - or forever if a stale
+//hasShadow flag is blocking GetGroundEffectFlags_Shadow.
+void EnsureEventObjectShadow(struct EventObject *eventObject)
+{
+	u32 flags = 0;
+
+	if (!eventObject->active)
+		return;
+
+	struct Sprite *shadow = GetEventObjectShadowSprite(eventObject);
+
+	if (shadow != NULL)
+	{
+		eventObject->hasShadow = TRUE;
+		if (!eventObject->invisible)
+			shadow->invisible = FALSE; //Shadow left hidden by HideFollower
+		return;
+	}
+
+	eventObject->hasShadow = FALSE; //Stale flag with no sprite behind it
+	EventObjectUpdateMetatileBehaviors(eventObject);
+	GetGroundEffectFlags_Shadow(eventObject, &flags);
+
+	if (flags & GROUND_EFFECT_FLAG_SHADOW)
+		GroundEffect_Shadow(eventObject, &gSprites[eventObject->spriteId]);
 }
 
 static void GetGroundEffectFlags_Shadow(struct EventObject *eventObject, u32 *flags)
@@ -368,6 +406,27 @@ static void OwShadows_RefreshPalette(void)
 	}
 }
 
+//A field reload (e.g. the follower being restored after surfing) destroys every shadow sprite
+//but leaves hasShadow set on the objects, and GetGroundEffectFlags_Shadow bails out while it is set.
+//Clear such stale flags (one object per frame) so the ground effects can rebuild the shadow, and
+//rebuild the Pokemon follower's shadow right away instead of waiting for its first step.
+static void HealStaleShadows(void)
+{
+	static u8 sNextObject;
+	struct EventObject *eventObject = &gEventObjects[sNextObject];
+
+	if (++sNextObject >= EVENT_OBJECTS_COUNT)
+		sNextObject = 0;
+
+	if (eventObject->active && eventObject->hasShadow && GetEventObjectShadowSprite(eventObject) == NULL)
+		eventObject->hasShadow = FALSE;
+
+	if (IsFollowerPokemon()
+	&& gFollowerState.objId < EVENT_OBJECTS_COUNT
+	&& !gEventObjects[gFollowerState.objId].invisible)
+		EnsureEventObjectShadow(&gEventObjects[gFollowerState.objId]);
+}
+
 void Task_WeatherMainHook(u8 taskId)
 {
 	u8 i;
@@ -396,6 +455,7 @@ void Task_WeatherMainHook(u8 taskId)
 	}
 
 	gWeatherPalStateFuncs[gWeatherPtr->palProcessingState]();
+	HealStaleShadows();
 	OwShadows_RefreshPalette();
 }
 
