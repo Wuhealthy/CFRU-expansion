@@ -328,7 +328,6 @@ void atk05_damagecalc(void)
 bool8 IgnoresGroundImmunities(u16 move)
 {
 	return move == MOVE_THOUSANDARROWS //千箭齐发
-		|| move == MOVE_TYRANTQUAKE //天崩地裂
 		|| move == MOVE_GEOTHERMALBURST //地热喷发
 		|| move == MOVE_COREGLOW; //地核耀光
 }
@@ -1919,10 +1918,6 @@ u8 GetExceptionMoveType(u8 bankAtk, u16 move)
 				moveType = hiddenPowerType - 1;
 			break;
 
-		case MOVE_TYRANTQUAKE: //天崩地裂：使出时视为地面属性（可击中浮空，见各免疫豁免点）
-			moveType = TYPE_GROUND;
-			break;
-
 		case MOVE_WEATHERBALL:
 			if (ABILITY(bankAtk) == ABILITY_MEGASOL)
 				moveType = TYPE_FIRE;
@@ -2090,10 +2085,6 @@ u8 GetMonExceptionMoveType(struct Pokemon* mon, u16 move)
 	switch (move) {
 		case MOVE_HIDDENPOWER:
 			moveType = CalcMonHiddenPowerType(mon);
-			break;
-
-		case MOVE_TYRANTQUAKE: //天崩地裂：使出时视为地面属性（AI估算同款）
-			moveType = TYPE_GROUND;
 			break;
 
 		case MOVE_WEATHERBALL:
@@ -4453,6 +4444,11 @@ static u16 GetBasePower(struct DamageCalc* data)
 
 		case MOVE_EXPANDINGFORCE:
 			if (gTerrainType == PSYCHIC_TERRAIN && data->atkIsGrounded)
+				power = (power * 15) / 10;
+			break;
+
+		case MOVE_TYRANTQUAKE: //天崩地裂：沙暴天气威力1.5倍(广域战力同款加成幅度), 双打同时击中所有对手由GetBaseMoveTarget处理
+			if (gBattleWeather & WEATHER_SANDSTORM_ANY && WEATHER_HAS_EFFECT)
 				power = (power * 15) / 10;
 			break;
 

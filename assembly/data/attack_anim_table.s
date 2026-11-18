@@ -5480,7 +5480,7 @@ ANIM_HORNPARTY:
 	endanimation
 
 .pool
-@;天崩地裂: 大地染土黄, 地裂尖刺连喷+全程震屏, 双侧冲击波重击, 巨型尖刺冲顶+落石四溅(视为地面属性/击中浮空由damage_calc处理)
+@;天崩地裂: 大地染土黄, 地裂尖刺连喷+全程震屏, 双侧冲击波重击, 巨型尖刺冲顶+落石四溅(沙暴下双打同时命中所有对手, 由GetBaseMoveTarget扩散)
 .global ANIM_TYRANTQUAKE
 ANIM_TYRANTQUAKE:
 	loadparticle ANIM_TAG_LARGE_SPIKE @地裂尖刺(PRECIPICE_SPIKE需要)

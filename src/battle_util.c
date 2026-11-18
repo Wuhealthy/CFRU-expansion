@@ -1064,7 +1064,13 @@ u8 GetBaseMoveTarget(u16 move, u8 bankAtk)
 	&& gTerrainType == PSYCHIC_TERRAIN
 	&& CheckGrounding(bankAtk))
 		return MOVE_TARGET_BOTH; //Special property of Expanding Force in Doubles
-	
+
+	if (move == MOVE_TYRANTQUAKE //天崩地裂：沙暴天气下双打同时击中所有对手(广域战力同款机制)
+	&& IS_DOUBLE_BATTLE
+	&& gBattleWeather & WEATHER_SANDSTORM_ANY
+	&& WEATHER_HAS_EFFECT)
+		return MOVE_TARGET_BOTH;
+
 	return GetBaseMoveTargetByAbility(move, ABILITY(bankAtk));
 }
 
@@ -1075,6 +1081,12 @@ u8 GetBaseMoveTargetByGrounding(u16 move, bool8 atkIsGrounded, ability_t atkAbil
 	&& gTerrainType == PSYCHIC_TERRAIN
 	&& atkIsGrounded)
 		return MOVE_TARGET_BOTH; //Special property of Expanding Force in Doubles
+
+	if (move == MOVE_TYRANTQUAKE //天崩地裂：沙暴天气下双打同时击中所有对手(广域战力同款机制)
+	&& IS_DOUBLE_BATTLE
+	&& gBattleWeather & WEATHER_SANDSTORM_ANY
+	&& WEATHER_HAS_EFFECT)
+		return MOVE_TARGET_BOTH;
 
 	return GetBaseMoveTargetByAbility(move, atkAbility);
 }

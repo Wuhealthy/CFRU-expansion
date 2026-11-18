@@ -16686,7 +16686,7 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_effect = 0
 	},
 
-	//天崩地裂：岩石属性招式，使出时视为地面属性计算（可击中浮空，damage_calc 免疫豁免处理）
+	//天崩地裂：岩石属性招式，沙暴天气威力1.5倍且双打击中所有对手（广域战力同款机制，天气版）
 	[MOVE_TYRANTQUAKE] =
 	{
 		.effect = EFFECT_HIT,

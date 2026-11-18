@@ -2570,13 +2570,17 @@ static u32 BoostSpeedInWeather(ability_t ability, u8 itemEffect, u32 speed, u8 b
 		}
 
 		// 大晴天：草属性宝可梦速度 ×4/3
-		if (gBattleWeather & WEATHER_SUN_ANY
-		&& !ItemEffectIgnoresSunAndRain(itemEffect)
-		&& bank < gBattlersCount
-		&& (gBattleMons[bank].type1 == TYPE_GRASS
-		 || gBattleMons[bank].type2 == TYPE_GRASS
-		 || gBattleMons[bank].type3 == TYPE_GRASS))
-			speed = (speed * 4) / 3;
+		//超级日光特性视为常驻晴天, 无需真实晴天也享受该加成(与成长/大地滋补等同款语义)
+		if ((gBattleWeather & WEATHER_SUN_ANY
+		&& !ItemEffectIgnoresSunAndRain(itemEffect))
+		|| ability == ABILITY_MEGASOL)
+		{
+			if (bank < gBattlersCount
+			&& (gBattleMons[bank].type1 == TYPE_GRASS
+			 || gBattleMons[bank].type2 == TYPE_GRASS
+			 || gBattleMons[bank].type3 == TYPE_GRASS))
+				speed = (speed * 4) / 3;
+		}
 	}
 
 	return speed;
