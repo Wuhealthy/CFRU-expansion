@@ -3331,7 +3331,8 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 	if (gBattleWeather & WEATHER_SANDSTORM_ANY && WEATHER_HAS_EFFECT)
 	{
     // 攻击方拥有 MEGASOL 特性时，岩石/地面系不会获得特防加成
-    	if (ABILITY(data->bankAtk) != ABILITY_MEGASOL)
+    // 地狱犬闪焰：凝聚烈日之力，同样无视天气带来的防御加成
+    	if (ABILITY(data->bankAtk) != ABILITY_MEGASOL && move != MOVE_INFERNOBLAZE)
     	{
         	if ((!useMonDef && IsOfType(bankDef, TYPE_ROCK)) || (useMonDef && IsMonOfType(data->monDef, TYPE_ROCK)))
             	spDefense = (15 * spDefense) / 10;
@@ -3345,7 +3346,7 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
     if (WEATHER_HAS_EFFECT && (gBattleWeather & WEATHER_HAIL_ANY)
         && ((!useMonDef && IsOfType(bankDef, TYPE_ICE)) || (useMonDef && IsMonOfType(data->monDef, TYPE_ICE))))
 	{
-        if (ABILITY(data->bankAtk) != ABILITY_MEGASOL)
+        if (ABILITY(data->bankAtk) != ABILITY_MEGASOL && move != MOVE_INFERNOBLAZE) //地狱犬闪焰同样无视冰雹/雪天防御加成
 			defense = (defense * 15) / 10;
 	}
 
