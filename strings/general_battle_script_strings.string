@@ -79,6 +79,9 @@
 #org @gText_MimicryReturnedToNormal
 [SCRIPTING_BANK]的属性\n恢复原状了！
 
+#org @gText_FormlessTypeVanished
+[ATTACKER]的\n超能力属性消失了！
+
 #org @FairyLockString
 [ATTACKER]锁住了战场，\n所有宝可梦将无法逃走！
 

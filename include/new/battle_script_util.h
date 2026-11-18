@@ -172,6 +172,7 @@ bool8 IsSpringtideStormSpDefDown(u8 bank);
 void ChooseMoveEffectForSpringtideStorm(void);
 void FailShedTailIfLowHP(void);
 void DoubleShockFunc(void);
+void FormlessFunc(void);
 void TrySetAlluringVoiceMoveEffect(void);
 void PSHealBlockTimer(void);
 void CudChewBerryEat(void);

@@ -16786,6 +16786,23 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 170,
 		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
+	},
+
+	//无我：使用后本回合自身失去超能力属性（EFFECT_BURN_UP 效果脚本 + FormlessFunc 处理）
+	[MOVE_SELFLESS] =
+	{
+		.effect = EFFECT_BURN_UP,
+		.power = 150,
+		.type = TYPE_PSYCHIC,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 170,
+		.split = SPLIT_SPECIAL,
+		.z_move_effect = 0
 	}
 };
 
@@ -17422,5 +17439,6 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_LIGHTNINGSURGE] = 140,
 	[MOVE_DARKCLAW] = 140,
 	[MOVE_FORMLESS] = 130,
+	[MOVE_SELFLESS] = 130,
 };
 #endif

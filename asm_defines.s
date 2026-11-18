@@ -1712,6 +1712,7 @@
 .equ MOVE_LIGHTNINGSURGE, 0x40C
 .equ MOVE_DARKCLAW, 0x40D
 .equ MOVE_FORMLESS, 0x40E
+.equ MOVE_SELFLESS, 0x40F
 
 @weather
 .equ weather_rain, 0x1

@@ -2296,7 +2296,7 @@ bool8 IsDamagingMoveUnusable(u16 move, u8 bankAtk, u8 bankDef)
 				return TRUE;
 			break;
 		case EFFECT_BURN_UP:
-			if (!IsOfType(bankAtk, TYPE_FIRE))
+			if (!IsOfType(bankAtk, gBattleMoves[move].type)) //热燃烧/超级燃烧需火系、双电击需电系、无我需超能力系（按招式自身属性通用判定）
 				return TRUE;
 			break;
 		case EFFECT_POLTERGEIST:
@@ -2416,7 +2416,7 @@ bool8 IsDamagingMoveUnusableByMon(u16 move, struct Pokemon* monAtk, u8 bankDef)
 	switch (gBattleMoves[move].effect)
 	{
 		case EFFECT_BURN_UP:
-			if (!IsMonOfType(monAtk, TYPE_FIRE))
+			if (!IsMonOfType(monAtk, gBattleMoves[move].type)) //热燃烧/超级燃烧需火系、双电击需电系、无我需超能力系（按招式自身属性通用判定）
 				return TRUE;
 			break;
 		case EFFECT_POLTERGEIST:

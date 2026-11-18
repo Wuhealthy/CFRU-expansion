@@ -2393,7 +2393,7 @@ SKIP_CHECK_TARGET:
 			break;
 
 		case EFFECT_BURN_UP:
-			if (!IsOfType(bankAtk, TYPE_FIRE))
+			if (!IsOfType(bankAtk, gBattleMoves[move].type)) //热燃烧/超级燃烧需火系、双电击需电系、无我需超能力系（按招式自身属性通用判定）
 				DECREASE_VIABILITY(10);
 			else
 				goto AI_STANDARD_DAMAGE;

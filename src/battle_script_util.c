@@ -1692,6 +1692,26 @@ void DoubleShockFunc(void)
 		gBattleMons[gBankAttacker].type3 = TYPE_BLANK;
 }
 
+void FormlessFunc(void) //无我：使用后本回合自身失去超能力属性（回合末由 ET_Restore_TypeVanished 恢复）
+{
+	u8 bank = gBankAttacker;
+
+	//备份原属性供回合末恢复
+	gNewBS->origType1[bank] = gBattleMons[bank].type1;
+	gNewBS->origType2[bank] = gBattleMons[bank].type2;
+	gNewBS->origType3[bank] = gBattleMons[bank].type3;
+	gNewBS->typeVanishedThisTurn[bank] = TRUE;
+
+	if (gBattleMons[bank].type1 == TYPE_PSYCHIC)
+		gBattleMons[bank].type1 = TYPE_MYSTERY;
+
+	if (gBattleMons[bank].type2 == TYPE_PSYCHIC)
+		gBattleMons[bank].type2 = TYPE_MYSTERY;
+
+	if (gBattleMons[bank].type3 == TYPE_PSYCHIC)
+		gBattleMons[bank].type3 = TYPE_BLANK;
+}
+
 void SetBrokenClawSubstitute(void)
 {
     u8 bank = gBankTarget;

@@ -107,6 +107,7 @@ enum EndTurnEffects
 	ET_SyrupBomb,
 	ET_Opportunist,
 	ET_MagQuake,
+	ET_Restore_TypeVanished,
 	ET_End
 };
 
@@ -1811,6 +1812,22 @@ u8 TurnBasedEffects(u16 move, u8 bank, struct Pokemon* monAtk)
 					}
 				}
 				break;
+
+			case ET_Restore_TypeVanished: //无我：回合结束恢复失去的超能力属性
+				if (gNewBS->typeVanishedThisTurn[gActiveBattler])
+				{
+					if (BATTLER_ALIVE(gActiveBattler)
+					&& !IS_TRANSFORMED(gActiveBattler)
+					&& gBattleMons[gActiveBattler].type1 == TYPE_MYSTERY) //守卫：防止中途换人后错误还原到新宝可梦
+					{
+						gBattleMons[gActiveBattler].type1 = gNewBS->origType1[gActiveBattler];
+						gBattleMons[gActiveBattler].type2 = gNewBS->origType2[gActiveBattler];
+						gBattleMons[gActiveBattler].type3 = gNewBS->origType3[gActiveBattler];
+					}
+					gNewBS->typeVanishedThisTurn[gActiveBattler] = FALSE; //无论是否恢复都清标志，不残留到下回合
+				}
+				break;
+
 		case ET_End:
 			END_TURN_SKIP:
 				gBattleStruct->turnEffectsBank = gBattlersCount;

@@ -2711,6 +2711,7 @@ BS_125_BurnUp:
 	attackcanceler
 	jumpiftype BANK_ATTACKER TYPE_FIRE DoBurnUp
 	jumpiftype BANK_ATTACKER TYPE_ELECTRIC DoDoubleShock
+	jumpiftype BANK_ATTACKER TYPE_PSYCHIC DoFormless @;无我：使用后本回合自身失去超能力属性
 	goto FAILED_PRE
 
 DoBurnUp:
@@ -2755,6 +2756,25 @@ DoDoubleShock:
 	waitmessage DELAY_1SECOND
 
 DoubleShockEnd:
+	end
+
+@;无我：命中后自身失去超能力属性（FormlessFunc 处理，超梦Y专属）
+DoFormless:
+	accuracycheck BS_MOVE_MISSED 0x0
+	call STANDARD_DAMAGE
+	seteffectwithchancetarget
+	prefaintmoveendeffects 0x0
+	faintpokemonaftermove
+	jumpifmovehadnoeffect BS_MOVE_END
+	setbyte CMD49_STATE 0x0
+	cmd49 0x0 0x0
+	jumpiffainted BANK_ATTACKER FormlessEnd	
+	callasm FormlessFunc
+	setword BATTLE_STRING_LOADER gText_FormlessTypeVanished
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+
+FormlessEnd:
 	end
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

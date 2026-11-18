@@ -665,7 +665,7 @@
 		"MOVE_JETPUNCH",
 		"MOVE_RAGEFIST",
 		"MOVE_DOUBLESHOCK",
-		"MOVE_FORMLESS"//无式
+		"MOVE_FORMLESS"
 	],
 
 	"gPulseAuraMoves": [

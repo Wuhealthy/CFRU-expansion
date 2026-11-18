@@ -909,6 +909,10 @@ struct NewBattleStruct
 	u8 megaMoveOldPP[NUM_BATTLE_SIDES][PARTY_SIZE][MAX_MON_MOVES]; //Mega专属招式替换前各槽位PP备份（[side][队伍序号][槽位]）
 	u8 megaMovePPBackedUp[NUM_BATTLE_SIDES][PARTY_SIZE];
 	u8 magQuakeTimers[MAX_BATTLERS_COUNT]; //地磁震荡：眩晕剩余回合数（0=无） //上表有效性位掩码（bit i = 槽位i已备份）
+	bool8 typeVanishedThisTurn[MAX_BATTLERS_COUNT]; //无我：本回合失去了属性的宝可梦（回合末恢复）
+	u8 origType1[MAX_BATTLERS_COUNT]; //无我：失去属性前的原属性1备份
+	u8 origType2[MAX_BATTLERS_COUNT]; //无我：失去属性前的原属性2备份
+	u8 origType3[MAX_BATTLERS_COUNT]; //无我：失去属性前的原属性3备份
 	u8 switchOutBankLooper;
 	u8 skipBankStatAnim;
 	u8 maxGoldrushUses;

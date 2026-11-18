@@ -1085,6 +1085,7 @@ gMoveAnimations:
 .word ANIM_LIGHTNINGSURGE	@MOVE_LIGHTNINGSURGE
 .word ANIM_DARKCLAW	@MOVE_DARKCLAW
 .word ANIM_FORMLESS	@MOVE_FORMLESS
+.word ANIM_SELFLESS	@MOVE_SELFLESS
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -5732,6 +5733,52 @@ ANIM_FORMLESS:
 	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x10 0x0 0x7FFF @全屏白闪(闪电球同款恢复对)
 	waitanimation
 	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ALL_BANKS 0x1 0x0 0x0 0x0
+	waitanimation
+	pokespritefromBG bank_target
+	resetblends
+	endanimation
+
+.pool
+@;无我: 舍弃自我, 全部精神能量化作粉紫湮灭冲击(幻想之力同款组件), 攻击方紫色褪回本色对应失去超能力属性(BurnUp效果脚本+FormlessFunc处理)
+.global ANIM_SELFLESS
+ANIM_SELFLESS:
+	loadparticle ANIM_TAG_ORBS
+	loadparticle ANIM_TAG_DRAGON_PULSE_RING
+	loadparticle ANIM_TAG_IMPACT
+	call PSYSHOCK_ORB_BLEND @;能量粒染粉紫(精神压制同款)
+	launchtask AnimTask_BlendParticle 0x2 0x5 ANIM_TAG_DRAGON_PULSE_RING 0x0 0x9 0x9 0x7C7F @;光波环染粉
+	@;舍弃蓄势: 精神能量环绕攻击方(染粉紫)
+	playsound2 0xb1 SOUND_PAN_ATTACKER
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xB 0x7C7F @;染粉紫
+	launchtemplate PSYSHOCK_ROCKTRAP TEMPLATE_ATTACKER | 2, 0x7 0x0 0x1c 0x180 0x32 0x8 0x32 0x1
+	pause 0x1
+	launchtemplate PSYSHOCK_ROCKTRAP TEMPLATE_ATTACKER | 2, 0x7 0x0 0x20 0xf0 0x28 0xb 0xffd2 0x1
+	pause 0x1
+	launchtemplate PSYSHOCK_ROCKTRAP TEMPLATE_ATTACKER | 2, 0x7 0x0 0x1f 0x120 0x28 0x6 0xffd6 0x1
+	pause 0x1
+	launchtemplate PSYSHOCK_ROCKTRAP TEMPLATE_ATTACKER | 2, 0x7 0x0 0x1c 0x1c0 0x2d 0xb 0x2e 0x1
+	waitanimation
+	@;湮灭冲击: 双光波环横扫+目标倒仰
+	playsound2 0xb6 SOUND_PAN_ATTACKER
+	launchtemplate ECO_RING TEMPLATE_TARGET | 2, 0x6 0x10 0x0 0x0 0x0 0x16 0x0
+	pause 0x1
+	launchtemplate ECO_RING TEMPLATE_TARGET | 2, 0x6 0x10 0x0 0x0 0x0 0x16 0x0
+	launchtask AnimTask_move_bank 0x3 0x5 bank_target 0x0 0x4 0x20 0x1 @目标倒仰
+	pause 0x3
+	@;光辉命中
+	playsound2 0x8C SOUND_PAN_TARGET
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4, 0x18 0x8 bank_target 0x0
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4, 0xffe8 0x8 bank_target 0x0
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 bank_target 0x3 0x0 0xc 0x1
+	pause 0x6
+	@;终结: 重击+全屏白闪
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0x0 0x8 0x1 0x1
+	launchtask AnimTask_screen_shake 0x5 0x3 0x5 0xa 0x5
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x10 0x0 0x7FFF @全屏白闪
+	waitanimation
+	@;属性消失: 攻击方粉紫褪回本色(失去超能力属性的可视化)
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ALL_BANKS 0x1 0x0 0x0 0x0
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x0 0xB 0x0 0x7C7F @;紫光褪回
 	waitanimation
 	pokespritefromBG bank_target
 	resetblends

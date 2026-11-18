@@ -773,7 +773,7 @@ u32 AI_CalcMonDefDmg(u8 bankAtk, u8 bankDef, u16 move, struct Pokemon* monDef, s
 				return 0;
 			return monDef->hp - finalHp;
 		case EFFECT_BURN_UP:
-			if (!IsOfType(bankAtk, TYPE_FIRE))
+			if (!IsOfType(bankAtk, gBattleMoves[move].type)) //热燃烧/超级燃烧需火系、双电击需电系、无我需超能力系（按招式自身属性通用判定）
 				return 0;
 			break;
 		case EFFECT_POLTERGEIST:
