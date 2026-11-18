@@ -16735,6 +16735,40 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 140,
 		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
+	},
+
+	//闪电暴冲：电属性特殊接触招式，对手每有一项能力阶级下降1级威力+20%，最多+100%（Mega雷电兽的放电使出时即为此招式）
+	[MOVE_LIGHTNINGSURGE] =
+	{
+		.effect = EFFECT_HIT,
+		.power = 100,
+		.type = TYPE_ELECTRIC,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 140,
+		.split = SPLIT_SPECIAL,
+		.z_move_effect = 0
+	},
+
+	//暗黑爪：恶属性物理切割招式，可穿透光墙等壁障与替身（锋锐/二天一流加成；Mega阿勃梭鲁Z的暗袭要害使出时即为此招式）
+	[MOVE_DARKCLAW] =
+	{
+		.effect = EFFECT_HIT,
+		.power = 90,
+		.type = TYPE_DARK,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 140,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
 	}
 };
 
@@ -17368,5 +17402,7 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_TYRANTQUAKE] = 130,
 	[MOVE_FANTASYFORCE] = 175,
 	[MOVE_BITEHARDER] = 140,
+	[MOVE_LIGHTNINGSURGE] = 140,
+	[MOVE_DARKCLAW] = 140,
 };
 #endif

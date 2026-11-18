@@ -736,6 +736,20 @@ u8 CountBoosts(u8 bank)
 	return sum;
 }
 
+//统计对手能力阶级下降的总级数（闪电暴冲威力加成用, 罚则CountBoosts的反向版）
+u8 CountLowerings(u8 bank)
+{
+	u8 sum = 0;
+
+	for (u8 i = STAT_STAGE_ATK; i < BATTLE_STATS_NO; ++i)
+	{
+		if (STAT_STAGE(bank, i) < 6)
+			sum += 6 - STAT_STAGE(bank, i);
+	}
+
+	return sum;
+}
+
 bool8 AreDefensesHigherThanOffenses(u8 bank)
 {
 	u16 atk = gBattleMons[bank].attack;

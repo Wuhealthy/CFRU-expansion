@@ -72,6 +72,7 @@ bool8 MainStatsMinned(u8 bank);
 bool8 AnyStatGreaterThan(u8 bank, u8 amount);
 bool8 AreDefensesHigherThanOffenses(u8 bank);
 u8 CountBoosts(u8 bank);
+u8 CountLowerings(u8 bank); //能力阶级下降总级数(闪电暴冲)
 u8 CheckMoveLimitations(u8 bank, u8 unusableMoves, u8 check);
 bool8 IsUnusableMove(u16 move, u8 bank, u8 check, u8 pp, ability_t ability, u8 holdEffect, u16 choicedMove);
 u8 CheckMoveLimitationsFromParty(struct Pokemon* mon, u8 unusableMoves, u8 check);

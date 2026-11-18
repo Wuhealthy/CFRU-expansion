@@ -3802,7 +3802,8 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 	}
 
 	//Screen Resistance
-	if (gBattleMoves[move].effect != EFFECT_BRICK_BREAK) //Shatters the screens
+	//暗黑爪：锐利暗爪撕裂壁障, 无视光墙/反射壁/极光幕的伤害减免
+	if (gBattleMoves[move].effect != EFFECT_BRICK_BREAK && move != MOVE_DARKCLAW)
 	{
 		switch (data->moveSplit) {
 			case SPLIT_PHYSICAL:
@@ -4476,6 +4477,11 @@ static u16 GetBasePower(struct DamageCalc* data)
 
 				power = (power * boost) / 100;
 			}
+			break;
+
+		case MOVE_LIGHTNINGSURGE: //闪电暴冲: 对手每有一项能力阶级下降1级威力+20%, 最多+100%(罚则反向同款)
+			if (!(data->specialFlags & FLAG_IGNORE_TARGET) && !useMonDef)
+				power = MathMin(200, 100 + 20 * CountLowerings(bankDef));
 			break;
 
 		case MOVE_PSIONICCRASH:

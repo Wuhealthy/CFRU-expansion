@@ -2830,3 +2830,9 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 
 #org @DESC_BITEHARDER
 预判对手的行动并抢\n先咬碎。对手若不使\n出攻击招式则会失败。\n连续使用威力会提高。
+
+#org @DESC_LIGHTNINGSURGE
+化作雷光暴冲攻击对\n手。对手的能力降低\n得越多，威力就越大。
+
+#org @DESC_DARKCLAW
+用锐利的爪子撕裂对\n手。可以无视对手的\n壁障或替身直接造成\n伤害。

@@ -1082,6 +1082,8 @@ gMoveAnimations:
 .word ANIM_TYRANTQUAKE	@MOVE_TYRANTQUAKE
 .word ANIM_FANTASYFORCE	@MOVE_FANTASYFORCE
 .word ANIM_BITEHARDER	@MOVE_BITEHARDER
+.word ANIM_LIGHTNINGSURGE	@MOVE_LIGHTNINGSURGE
+.word ANIM_DARKCLAW	@MOVE_DARKCLAW
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -5619,6 +5621,85 @@ BH_BITE:
 	launchtemplate Template_Teeth TEMPLATE_TARGET | 2, 0x6 0x0 0x20 0x4 0x0 0xfccd 0xa @下颚
 	pause 0x8
 	return
+
+@;闪电暴冲: 电球缠身蓄势, 攻击方化作雷光前冲暴冲连射, 落雷爆闪收尾(威力随对手能力下降提升, Mega雷电兽专属)
+.global ANIM_LIGHTNINGSURGE
+ANIM_LIGHTNINGSURGE:
+	loadparticle ANIM_TAG_ELECTRIC_ORBS
+	loadparticle ANIM_TAG_ORBS
+	loadparticle ANIM_TAG_ELECTRICITY
+	loadparticle ANIM_TAG_IMPACT
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_ELECTRIC_ORBS 0x0 0xC 0xC 0x07FE @;闪电黄
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_ORBS 0x0 0xC 0xC 0x07FE @;闪电黄
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_ELECTRICITY 0x0 0xC 0xC 0x07FE @;闪电黄
+	@;蓄势: 电球环绕攻击方+染闪电黄
+	playsound2 0xc2 SOUND_PAN_ATTACKER
+	launchtask AnimTask_ChargeBalls 0x2 0x4 bank_attacker 0x14 0x0 0x2
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xF 0x07FE @;攻击方染闪电黄
+	waitanimation
+	@;暴冲: 后蹲前冲+雷光连射
+	playsound2 0x91 SOUND_PAN_ATTACKER
+	launchtemplate Template_VerticalDip 0x2 0x3 0x6 0x1 bank_attacker
+	pause 0xA
+	launchtemplate Template_SlideMonToOffset 0x2 0x5 bank_attacker 0x2a 0x0 0x0 0x5
+	playsoundpanchange 0xc2 SOUND_PAN_ATTACKER SOUND_PAN_TARGET 0x2 0x0
+	call LS_ELECTRIC_RUSH
+	call LS_ELECTRIC_RUSH
+	pause 0x2
+	@;命中: 落雷爆闪+目标被冲飞后仰
+	playsound2 0xab SOUND_PAN_TARGET
+	launchtemplate LOR_YELLOWDISCHARGE 0x2 0x3 0x1 0x0 0x0
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0x0 0x0 bank_target 0x0
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0x14 0x1 @目标后仰
+	launchtask AnimTask_screen_shake 0x5 0x3 0x4 0x6 0x2
+	pause 0xA
+	call LS_ELECTRIC_RUSH
+	waitanimation
+	@;收场: 染色褪回+攻击方归位
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x10 0x0 0x7FFF
+	waitanimation
+	launchtemplate Template_SlideMonToOriginalPos 0x2 0x3 bank_attacker 0x0 0x5
+	waitanimation
+	endanimation
+
+.align 2
+LS_ELECTRIC_RUSH:
+	launchtemplate LOR_YELLOWPARTICLES TEMPLATE_TARGET | 2, 0x0
+	launchtemplate LOR_YELLOWPARTICLES TEMPLATE_TARGET | 2, 0x0
+	pause 0x2
+	return
+
+@;暗黑爪: 化作暗影疾冲近身, 双道金色爪痕交错撕裂壁障, X形剪断弹坑收尾(可穿透壁障与替身, Mega阿勃梭鲁Z专属)
+.global ANIM_DARKCLAW
+ANIM_DARKCLAW:
+	loadparticle ANIM_TAG_CUT @爪痕(CS_SLASH模板)
+	loadparticle ANIM_TAG_CROSS_IMPACT @X形剪断弹坑
+	loadparticle ANIM_TAG_IMPACT
+	@;暗影疾冲近身
+	playsound2 0x91 SOUND_PAN_ATTACKER
+	launchtemplate Template_SlideMonToOffset 0x2 0x5 bank_attacker 0x1e 0x0 0x0 0x3
+	pause 0x2
+	@;第一爪: 双道爪痕交错撕裂
+	playsound2 0x79 SOUND_PAN_TARGET
+	launchtemplate CS_SLASH_L TEMPLATE_TARGET | 2, 0x5, 50, -10, 100, 4 1
+	launchtemplate CS_SLASH_R TEMPLATE_TARGET | 2, 0x5, -50, 10, 100, 4 0x0
+	pause 0x5
+	launchtemplate Template_CrossImpact 0x3 0x4 0x0 0x0 0x1 0x14 @X形剪断弹坑
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0x10 0x1 @目标被撕得后仰
+	pause 0xA
+	@;第二爪: 反向交错+撕裂火花
+	playsound2 0x79 SOUND_PAN_TARGET
+	launchtemplate CS_SLASH_R TEMPLATE_TARGET | 2, 0x5, 50, -10, 100, 4 1
+	launchtemplate CS_SLASH_L TEMPLATE_TARGET | 2, 0x5, -50, 10, 100, 4 0x0
+	pause 0x5
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0x8 0x0 bank_target 0x0
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0xFFF8 0x8 bank_target 0x0
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 bank_target 0x1 0x0 0xc 0x1
+	playsound2 0x81 SOUND_PAN_TARGET
+	waitanimation
+	launchtemplate Template_SlideMonToOriginalPos 0x2 0x3 bank_attacker 0x0 0x5
+	waitanimation
+	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
