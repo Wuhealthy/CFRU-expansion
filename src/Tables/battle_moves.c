@@ -16769,6 +16769,23 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 140,
 		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
+	},
+
+	//无式：无视对手的保护类招式（ProtectAffects 处理，极巨防守除外）；无视自身的攻击等级下降（damage_calc 处理）
+	[MOVE_FORMLESS] =
+	{
+		.effect = EFFECT_HIT,
+		.power = 150,
+		.type = TYPE_PSYCHIC,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 170,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
 	}
 };
 
@@ -17404,5 +17421,6 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_BITEHARDER] = 140,
 	[MOVE_LIGHTNINGSURGE] = 140,
 	[MOVE_DARKCLAW] = 140,
+	[MOVE_FORMLESS] = 130,
 };
 #endif

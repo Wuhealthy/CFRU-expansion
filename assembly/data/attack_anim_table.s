@@ -1084,6 +1084,7 @@ gMoveAnimations:
 .word ANIM_BITEHARDER	@MOVE_BITEHARDER
 .word ANIM_LIGHTNINGSURGE	@MOVE_LIGHTNINGSURGE
 .word ANIM_DARKCLAW	@MOVE_DARKCLAW
+.word ANIM_FORMLESS	@MOVE_FORMLESS
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -5699,6 +5700,41 @@ ANIM_DARKCLAW:
 	waitanimation
 	launchtemplate Template_SlideMonToOriginalPos 0x2 0x3 bank_attacker 0x0 0x5
 	waitanimation
+	endanimation
+
+.pool
+@;无式: 静立蓄势后毫无预兆的极速冲拳, 单点重击+目标倒仰+全屏震动白闪(无视保护由ProtectAffects处理, 无视自身攻击下降由damage_calc处理)
+.global ANIM_FORMLESS
+ANIM_FORMLESS:
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_HANDS_AND_FEET @残影拳(AnimTask_AttackerPunchWithTrace/BULLET_FIST需要)
+	pokespritetoBG bank_target
+	setblends 0x80C
+	@;静立蓄势: 毫无多余动作
+	pause 0x14
+	playsound2 0x71 SOUND_PAN_ATTACKER
+	@;极速冲拳(子弹拳同款突进)
+	launchtask 0x80b86ed 0x5 0x3 0x0 0x0 0x0
+	waitanimation
+	launchtask AnimTask_AttackerPunchWithTrace 0x2 0x2 0x62F8 0xE @;Gray
+	playsound2 0x88 0xc0
+	pause 0x2
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x3 0x0 0x15 0x1
+	playsound2 0x74 SOUND_PAN_TARGET
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0x8 0x0 0x1 0x1
+	pause 0x1
+	launchtemplate BULLET_FIST TEMPLATE_TARGET | 3, 0x5 0x8 0x0 0x8 0x1 0x0
+	pause 0x8
+	@;终极重拳: 目标倒仰+全屏震动+白闪
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0x0 0x8 0x1 0x1
+	launchtask AnimTask_move_bank 0x3 0x5 bank_target 0x0 0x4 0x20 0x1
+	launchtask AnimTask_screen_shake 0x5 0x3 0x5 0xa 0x5
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x10 0x0 0x7FFF @全屏白闪(闪电球同款恢复对)
+	waitanimation
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ALL_BANKS 0x1 0x0 0x0 0x0
+	waitanimation
+	pokespritefromBG bank_target
+	resetblends
 	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

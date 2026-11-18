@@ -200,6 +200,9 @@ bool8 ProtectAffects(u16 move, u8 bankAtk, u8 bankDef, bool8 set)
 	if (protectFlag && move == MOVE_HYPERDRILL)
 		protectFlag = FALSE;
 
+	if (protectFlag && move == MOVE_FORMLESS) //无式：无视对手的守住等保护类招式（极巨防守除外）
+		protectFlag = FALSE;
+
 	if (ProtectedByMaxGuard(bankDef, move))
 	{
 		effect = 1;

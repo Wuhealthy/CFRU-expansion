@@ -3397,6 +3397,9 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 	#endif
 
 //Stat Buffs - Attacker
+	if (move == MOVE_FORMLESS && data->atkBuff < 6) //无式：无视自身的攻击等级下降变化（负阶段按0阶计）
+		data->atkBuff = 6;
+
 	if (data->defAbility != ABILITY_UNAWARE
 	&& (data->atkBuff != 6 || data->spAtkBuff != 6)) //No point in wasting time with these calcs if mon has regular stats
 	{
