@@ -117,6 +117,10 @@ static void PrintMenuItemDescription(const struct QuestInfo *quest);
 static void PrintMenuControls(const struct PageStats *stats);
 static void PrintMenuGUI(void);
 static u8 FindSortedPageIndex(const u8 *sortedPages, u8 count, u8 page);
+
+//从新开始菜单打开时,关闭任务菜单应回到开始菜单而不是田野
+static bool8 sQuestMenuFromNewStartMenu = FALSE;
+void NewStartMenuReturnToFieldWithOpenMenuHook(void);
 static void DestroyQuestOverworldSprite(void);
 static bool8 CreateQuestOverworldSprite(u16 graphicsId);
 static void UpdateQuestOverworldSprite(const struct QuestInfo *quest);
@@ -581,7 +585,21 @@ static void Task_QuestMenuFadeOut(u8 taskId)
         gMain.state = MENU_STATE_INIT;
 
         PlaySE(SE_PC_OFF);
-        SetMainCallback2(CB2_ReturnToFieldContinueScript);
+
+        if (sQuestMenuFromNewStartMenu)
+        {
+            //从新开始菜单打开:走图鉴退出同款 hook,由其检查返回标志后回到新开始菜单
+            sQuestMenuFromNewStartMenu = FALSE;
+            ResetSpriteData();
+            FreeAllSpritePalettes();
+            FreeAllWindowBuffers();
+            SetMainCallback2(NewStartMenuReturnToFieldWithOpenMenuHook);
+        }
+        else
+        {
+            SetMainCallback2(CB2_ReturnToFieldContinueScript);
+        }
+
         DestroyTask(taskId);
     }
 }
@@ -940,6 +958,13 @@ void ShowQuestMenu(void)
 
     gMain.state = MENU_STATE_INIT;
     SetMainCallback2(CB2_QuestMenu);
+}
+
+// Public entry point for the new start menu: closing the menu returns to the start menu
+void ShowQuestMenuFromStartMenu(void)
+{
+    sQuestMenuFromNewStartMenu = TRUE;
+    ShowQuestMenu();
 }
 
 #endif

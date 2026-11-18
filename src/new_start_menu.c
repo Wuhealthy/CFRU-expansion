@@ -69,7 +69,6 @@ void Task_HandleChooseMonInput(u8 taskId);
 #define NEW_START_MENU_PALETTE_BYTES 32
 #define NEW_START_MENU_ICON_FONT 1
 #define NEW_START_MENU_MONEY_DIGITS 6
-#define NEW_START_MENU_POKENAV_SCRIPT ((const u8 *)0x0871F5B0)
 #define NEW_START_MENU_CURSOR_BOB_SPEED 8
 #define NEW_START_MENU_LAST_ACTION_NONE 0xFF
 #define NEW_START_MENU_LAST_ACTION_VALID 0x80
@@ -218,13 +217,15 @@ bool8 __attribute__((long_call)) StartMenuLinkModePlayerCallback(void);
 void __attribute__((long_call)) SaveQuestLogData(void);
 void __attribute__((long_call)) DestroySafariZoneStatsWindow(void);
 void __attribute__((long_call)) ScriptContext2_Disable(void);
+#ifdef SIDEQUEST_MENU
+void ShowQuestMenuFromStartMenu(void);
+#endif
 
 static void Task_NewStartMenu(u8 taskId);
 static void CleanupNewStartMenuResources(struct NewStartMenuState *state);
 static void HideNewStartMenuInternal(struct NewStartMenuState *state);
 static void CloseNewStartMenuForFieldScript(struct NewStartMenuState *state);
 static void RestoreWeatherAfterNewStartMenu(void);
-static void LaunchNewStartMenuFieldScript(u8 taskId, struct NewStartMenuState *state, const u8 *script);
 static void SpriteCB_NewStartMenuArrow(struct Sprite *sprite);
 static bool8 FieldCB2_OpenNewStartMenuFromReturn(void);
 void CB2_ReturnToFieldWithOpenMenuFromNewStartMenu(void);
@@ -236,6 +237,7 @@ static bool8 NewStartMenuPokemonCallback(void);
 static bool8 NewStartMenuBagCallback(void);
 static bool8 NewStartMenuPlayerCallback(void);
 static bool8 NewStartMenuDexNavCallback(void);
+static bool8 NewStartMenuQuestCallback(void);
 void NewStartMenuReturnToFieldWithOpenMenuHook(void);
 
 static const s16 sNewStartMenuIconX[NEW_START_MENU_VISIBLE_ICONS] = {21, 54, 87, 120, 153, 186, 219};
@@ -682,6 +684,25 @@ static bool8 NewStartMenuDexNavCallback(void)
     return StartMenuDexNavCallback();
 }
 
+static bool8 NewStartMenuQuestCallback(void)
+{
+    if (!gPaletteFade->active)
+    {
+        PlayRainStoppingSoundEffect();
+        CleanupOverworldWindowsAndTilemaps();
+#ifdef SIDEQUEST_MENU
+        //与图鉴一致:打开前置位返回标志,退出时经 NewStartMenuReturnToFieldWithOpenMenuHook 回到本菜单
+        ArmReturnToNewStartMenuHook();
+        ShowQuestMenuFromStartMenu();
+#else
+        SetMainCallback2(CB2_ReturnToFieldWithOpenMenu);
+#endif
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
 static bool8 ShouldShowNewStartMenuAction(u8 action)
 {
     bool8 isSafariZone = GetSafariZoneFlag();
@@ -713,7 +734,8 @@ static bool8 ShouldShowNewStartMenuAction(u8 action)
         return TRUE;
 #endif
     case NEW_MENU_ACTION_POKENAV:
-        return !isSafariZone && FlagGet(FLAG_POKENAV);
+        //支线任务菜单:与背包一样开局常驻
+        return TRUE;
     case NEW_MENU_ACTION_PLAYER:
         if (isSafariZone)
         {
@@ -1822,6 +1844,8 @@ static bool8 (*GetNewStartMenuActionCallback(u8 action))(void)
         return NewStartMenuPlayerCallback;
     case NEW_MENU_ACTION_DEXNAV:
         return NewStartMenuDexNavCallback;
+    case NEW_MENU_ACTION_POKENAV:
+        return NewStartMenuQuestCallback;
     case NEW_MENU_ACTION_OPTION:
         return StartMenuOptionCallback;
     default:
@@ -1843,12 +1867,6 @@ static void BeginNewStartMenuAction(u8 taskId, struct NewStartMenuState *state)
         Free(state);
         DestroyTask(taskId);
         SafariZoneRetirePrompt_();
-        return;
-    }
-
-    if (action == NEW_MENU_ACTION_POKENAV)
-    {
-        LaunchNewStartMenuFieldScript(taskId, state, NEW_START_MENU_POKENAV_SCRIPT);
         return;
     }
 
@@ -1995,15 +2013,6 @@ static void CleanupNewStartMenuResources(struct NewStartMenuState *state)
         RemoveWindow(state->infoWindowId);
         state->infoWindowId = NEW_START_MENU_WINDOW_NONE;
     }
-}
-
-static void LaunchNewStartMenuFieldScript(u8 taskId, struct NewStartMenuState *state, const u8 *script)
-{
-    CloseNewStartMenuForFieldScript(state);
-    ScriptContext2_Enable();
-    ScriptContext1_SetupScript(script);
-    Free(state);
-    DestroyTask(taskId);
 }
 
 static void CloseNewStartMenuForFieldScript(struct NewStartMenuState *state)

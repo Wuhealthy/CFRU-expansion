@@ -108,4 +108,7 @@ extern const u16 Menu_BGMap[];
 // Main entry point function to launch the quest menu UI
 void ShowQuestMenu(void);
 
+// Entry point used by the new start menu (exit returns to the start menu)
+void ShowQuestMenuFromStartMenu(void);
+
 #endif // GUARD_QUEST_MENU_H

@@ -2,7 +2,7 @@
 npc 3 0 0 EventScript_Pallet_LittleGirl
 npc 3 0 1 EventScript_Pallet_FatGuy_CoinGame
 ## npc 4 3 0 EventScript_ChangeHiddenPowerTypeNPC
-## npc 4 3 0 EventScript_Pallet_AideGuy
+npc 4 3 0 EventScript_Pallet_AideGuy
 
 ## 对战开拓区大厅(map 2.7) — 七个NPC + 新游戏出生图脚本
 ## NPC模板表由bytereplacement在0x71A300重建(7个), 脚本指针在此回填
