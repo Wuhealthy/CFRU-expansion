@@ -56,7 +56,7 @@
 #define FLAG_AUTO_RUN 0x914 //Flag to enable auto-run (toggled by L-button). If this feature is used, L=A will not work. Comment out this line for it to work again.
 //#define FLAG_RUNNING_ENABLED 0x82F //The player can only run if this flag is set. If commented, the player will start the game with running shoes.
 #define FLAG_BIKE_TURBO_BOOST 0x91F //The bike moves extra fast if this flag is set or if the player holds B.
-#define FLAG_FAST_FORWARD 0x92C //Toggled by pressing L + R together in the overworld. Speeds up the overworld (never battles) while set. Comment out to remove the feature.
+#define FLAG_FAST_FORWARD 0x92C //快进开关，由选项菜单控制（存档 flag 持久化）。游戏逻辑每真实帧运行多次，音乐保持原速。Comment out to remove the feature.
 #define FLAG_SURF_TURBO_BOOST 0x929 //The Surf blob moves extra fast if set
 #define FLAG_DISABLE_BAG 0x915 //The bag can't be used in-battle if this flag is set
 #define FLAG_MOVE_RELEARNER_IGNORE_LEVEL 0x916 //When set, the move relearner shows all level-up moves up to MAX_LEVEL

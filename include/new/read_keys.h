@@ -11,7 +11,6 @@
 //Exported Functions
 bool8 StartLButtonFunc(void);
 bool8 StartRButtonFunc(void);
-bool8 TryToggleFastForward(void);
 struct FieldInput;
 u8 HandleDeferredLRActions(struct FieldInput* input);
 #ifdef DEBUG_OVERWORLD_MENU
@@ -35,9 +34,5 @@ struct KeypadSetter
 
 #define gKeypadSetter ((struct KeypadSetter*) 0x203B7B0)
 
-//Fast forward toggle (L + R). Lives outside the save block so New Game doesn't wipe it.
-//0x203E0C7 is used by new_bag.c, so 0x203E0C8 is the free byte (limit is 0x203E0D4 for BTS).
-#define FF_TOGGLE_STATE (*(vu8*) 0x203E0C8)
-
-//Pending single L / R presses (bit 0 = L, bit 1 = R), see HandleDeferredLRActions. 0x203E0C9 is free as well.
+//Pending single L / R presses (bit 0 = L, bit 1 = R), see HandleDeferredLRActions. 0x203E0C8 is free.
 #define FF_LR_PENDING (*(vu8*) 0x203E0C9)

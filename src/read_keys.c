@@ -64,8 +64,6 @@ extern const u8 SystemScript_EnableBikeTurboBoost[];
 extern const u8 SystemScript_DisableBikeTurboBoost[];
 extern const u8 SystemScript_EnableSurfTurboBoost[];
 extern const u8 SystemScript_DisableSurfTurboBoost[];
-extern const u8 SystemScript_EnableFastForward[];
-extern const u8 SystemScript_DisableFastForward[];
 extern const u8 SystemScript_PartyMenuFromField[];
 extern const u8 SystemScript_ItemMenuFromField[];
 extern const u8 SystemScript_MiningScan[];
@@ -241,33 +239,6 @@ bool8 StartLButtonFunc(void)
 }
 
 #ifdef FLAG_FAST_FORWARD
-bool8 TryToggleFastForward(void)
-{
-	if (gSaveBlock2->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
-		return FALSE;
-
-	if ((gMain.heldKeysRaw & (L_BUTTON | R_BUTTON)) != (L_BUTTON | R_BUTTON)
-	|| !(gMain.newKeysRaw & (L_BUTTON | R_BUTTON)))
-		return FALSE;
-
-	DismissMapNamePopup();
-	ScriptContext2_Enable();
-
-	if (FF_TOGGLE_STATE)
-	{
-		FF_TOGGLE_STATE = 0;
-		ScriptContext1_SetupScript(SystemScript_DisableFastForward);
-	}
-	else
-	{
-		FF_TOGGLE_STATE = 1;
-		ScriptContext1_SetupScript(SystemScript_EnableFastForward);
-	}
-
-	gMain.newKeysRaw &= ~(L_BUTTON | R_BUTTON);
-	return TRUE;
-}
-
 u8 HandleDeferredLRActions(struct FieldInput* input)
 {
 	u8 actions = 0;

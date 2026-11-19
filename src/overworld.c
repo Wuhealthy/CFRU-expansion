@@ -2913,12 +2913,6 @@ bool8 ProcessNewFieldPlayerInput(struct FieldInput* input)
 	}
 	#endif
 
-	#ifdef FLAG_FAST_FORWARD
-	if (!ScriptContext2_IsEnabled() && !gPaletteFade->active && !InUnionRoom()
-	&& TryToggleFastForward())
-		return TRUE;
-	#endif
-
 	if (input->pressedSelectButton && UseRegisteredKeyItemOnField())
     {
         gInputToStoreInQuestLogMaybe.pressedSelectButton = TRUE;
