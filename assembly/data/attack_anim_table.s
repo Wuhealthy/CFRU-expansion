@@ -5792,8 +5792,6 @@ ANIM_SELFLESS:
 ANIM_MASTERBLADE:
 	loadparticle ANIM_TAG_IMPACT
 	loadparticle ANIM_TAG_WHITE_FEATHER
-	pokespritetoBG side_target @;目标贴图移入BG(白闪期间不闪烁)
-	setblends 0x80c
 	launchtask AnimTask_GrayscaleParticle 0x5 0x1 ANIM_TAG_IMPACT @;命中闪光灰白化(钢系同款)
 	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_WHITE_FEATHER 0x2 0xE 0xE 0x5672 @;银羽染银(钢翼同款)
 	soundcomplex 0x71 SOUND_PAN_ATTACKER 0x1c 0x2 @;钢系出鞘音(铁头同款)
@@ -5804,8 +5802,10 @@ ANIM_MASTERBLADE:
 	playsound2 0x9b SOUND_PAN_ATTACKER
 	waitanimation
 	pause 0x2
-	launchtemplate Template_BowMon 0x2 0x1 0x2 @;冲刺斩击帧
+	launchtemplate Template_BowMon 0x2 0x1 0x1 @;攻击方移进(铁头同款)
+	waitanimation
 	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x3 0x0 0xa 0x1 @目标被斩歪
+	launchtemplate Template_BowMon 0x2 0x1 0x2 @;攻击方回位(铁头同款)
 	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4, -30, 0xa bank_target 0x1 @斜向斩击命中
 	playsound2 0x96 SOUND_PAN_TARGET @金属斩击声(钢翼同款)
 	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 0x1 0x3 0x0 0xc 0x1
@@ -5816,8 +5816,6 @@ ANIM_MASTERBLADE:
 	waitanimation
 	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ALL_BANKS 0x1 0x0 0x0 0x0
 	waitanimation
-	pokespritefromBG side_target
-	resetblends
 	endanimation
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
