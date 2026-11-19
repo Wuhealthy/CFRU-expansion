@@ -5710,7 +5710,6 @@ ANIM_DARKCLAW:
 ANIM_FORMLESS:
 	loadparticle ANIM_TAG_IMPACT
 	loadparticle ANIM_TAG_HANDS_AND_FEET @残影拳(AnimTask_AttackerPunchWithTrace/BULLET_FIST需要)
-	pokespritetoBG bank_target
 	setblends 0x80C
 	@;静立蓄势: 毫无多余动作
 	pause 0x14
@@ -5730,12 +5729,10 @@ ANIM_FORMLESS:
 	@;终极重拳: 目标倒仰+全屏震动+白闪
 	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0x0 0x8 0x1 0x1
 	launchtask AnimTask_move_bank 0x3 0x5 bank_target 0x0 0x4 0x20 0x1
-	launchtask AnimTask_screen_shake 0x5 0x3 0x5 0xa 0x5
 	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x10 0x0 0x7FFF @全屏白闪(闪电球同款恢复对)
 	waitanimation
 	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ALL_BANKS 0x1 0x0 0x0 0x0
 	waitanimation
-	pokespritefromBG bank_target
 	resetblends
 	endanimation
 
