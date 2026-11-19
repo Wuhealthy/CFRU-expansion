@@ -913,6 +913,8 @@ struct NewBattleStruct
 	u8 origType1[MAX_BATTLERS_COUNT]; //无我：失去属性前的原属性1备份
 	u8 origType2[MAX_BATTLERS_COUNT]; //无我：失去属性前的原属性2备份
 	u8 origType3[MAX_BATTLERS_COUNT]; //无我：失去属性前的原属性3备份
+	u8 critBladeHitThisTurn[MAX_BATTLERS_COUNT]; //名刀斩：本回合该宝可梦的名刀斩出过暴击（回合末转正）
+	u8 nextAttackCritBoost[MAX_BATTLERS_COUNT]; //名刀斩：下次攻击威力翻倍（实际攻击时消耗）
 	u8 switchOutBankLooper;
 	u8 skipBankStatAnim;
 	u8 maxGoldrushUses;

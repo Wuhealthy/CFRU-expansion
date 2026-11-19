@@ -1049,3 +1049,4 @@ gMoveDescriptions:
 .word DESC_DARKCLAW
 .word DESC_FORMLESS
 .word DESC_SELFLESS
+.word DESC_MASTERBLADE

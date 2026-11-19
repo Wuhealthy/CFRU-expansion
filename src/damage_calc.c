@@ -165,6 +165,9 @@ void atk04_critcalc(void)
 
 		gNewBS->criticalMultiplier[bankDef] = gCritMultiplier;
 
+		if (confirmedCrit && gCurrentMove == MOVE_MASTERBLADE) //名刀斩：记录本回合暴击事件，回合末转正为下次攻击威力翻倍
+			gNewBS->critBladeHitThisTurn[gBankAttacker] = TRUE;
+
 		if (!calcSpreadMove)
 			break; //Only 1 target
 	}
@@ -4531,6 +4534,22 @@ static u16 GetBasePower(struct DamageCalc* data)
 					power = gBattleScripting.tripleKickPower;
 			}
 			break;
+	}
+
+	//名刀斩：暴击后下一次攻击威力翻倍（菜单/AI 预估显示翻倍但不消耗）
+	if (gNewBS->nextAttackCritBoost[bankAtk])
+	{
+		power *= 2;
+		if (!(data->specialFlags & (FLAG_CHECKING_FROM_MENU | FLAG_AI_CALC)))
+			gNewBS->nextAttackCritBoost[bankAtk] = FALSE;
+	}
+
+	//名刀斩：本击伤害算完后把暴击事件转正——第二击即可享受翻倍（仅实际战斗；菜单/AI 预估不置位）
+	if (gNewBS->critBladeHitThisTurn[bankAtk]
+	&& !(data->specialFlags & (FLAG_CHECKING_FROM_MENU | FLAG_AI_CALC)))
+	{
+		gNewBS->nextAttackCritBoost[bankAtk] = TRUE;
+		gNewBS->critBladeHitThisTurn[bankAtk] = FALSE;
 	}
 
 	gBattleMovePower = power;

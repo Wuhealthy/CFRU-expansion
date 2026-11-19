@@ -2841,4 +2841,7 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 挥出毫无多余动作的\n一拳。无视对手的守\n住等保护招式和自身\n的攻击等级下降变化。
 
 #org @DESC_SELFLESS
-舍弃自我，将全部的\n精神能量化作毁灭性\n的冲击。使用后，本\n回合自身的超能力属\n性会消失。
+将全部的精神能量化\n作毁灭性的冲击。使\n用后，本回合自身的\n超能力属性会消失。
+
+#org @DESC_MASTERBLADE
+连续挥出两次斩击，\n容易击中要害。击中\n要害会使下一次攻击\n的威力翻倍。

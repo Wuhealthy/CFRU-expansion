@@ -16803,6 +16803,23 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 170,
 		.split = SPLIT_SPECIAL,
 		.z_move_effect = 0
+	},
+
+	//名刀斩：固定攻击2次 + 高暴击率（gHighCriticalChanceMoves）；暴击后下次攻击威力翻倍（damage_calc + end_turn 转正处理）
+	[MOVE_MASTERBLADE] =
+	{
+		.effect = EFFECT_DOUBLE_HIT,
+		.power = 50,
+		.type = TYPE_STEEL,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 100,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
 	}
 };
 
@@ -17440,5 +17457,6 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_DARKCLAW] = 140,
 	[MOVE_FORMLESS] = 130,
 	[MOVE_SELFLESS] = 130,
+	[MOVE_MASTERBLADE] = 130,
 };
 #endif

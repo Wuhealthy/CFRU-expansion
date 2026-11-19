@@ -1086,6 +1086,7 @@ gMoveAnimations:
 .word ANIM_DARKCLAW	@MOVE_DARKCLAW
 .word ANIM_FORMLESS	@MOVE_FORMLESS
 .word ANIM_SELFLESS	@MOVE_SELFLESS
+.word ANIM_MASTERBLADE	@MOVE_MASTERBLADE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -5781,6 +5782,41 @@ ANIM_SELFLESS:
 	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x0 0xB 0x0 0x7C7F @;紫光褪回
 	waitanimation
 	pokespritefromBG bank_target
+	resetblends
+	endanimation
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+.pool
+@;名刀斩: 攻击方银白化如出鞘名刀, 单次出鞘斜劈+银羽散落+暴击白闪(固定2次攻击由多击循环重播动画, 高暴击由gHighCriticalChanceMoves, 暴击后下次攻击翻倍由damage_calc处理)
+.global ANIM_MASTERBLADE
+ANIM_MASTERBLADE:
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_WHITE_FEATHER
+	pokespritetoBG side_target @;目标贴图移入BG(白闪期间不闪烁)
+	setblends 0x80c
+	launchtask AnimTask_GrayscaleParticle 0x5 0x1 ANIM_TAG_IMPACT @;命中闪光灰白化(钢系同款)
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_WHITE_FEATHER 0x2 0xE 0xE 0x5672 @;银羽染银(钢翼同款)
+	soundcomplex 0x71 SOUND_PAN_ATTACKER 0x1c 0x2 @;钢系出鞘音(铁头同款)
+	launchtask AnimTask_steel_sprite 0x5 0x3 0x0 0x0 0x0 @;攻击方银白化(钢翼同款)
+	waitanimation
+	@;出鞘斜劈(多击招式每击循环重播本段)
+	launchtemplate Template_BowMon 0x2 0x1 0x0 @;攻击方蓄势(铁头同款)
+	playsound2 0x9b SOUND_PAN_ATTACKER
+	waitanimation
+	pause 0x2
+	launchtemplate Template_BowMon 0x2 0x1 0x2 @;冲刺斩击帧
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x3 0x0 0xa 0x1 @目标被斩歪
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4, -30, 0xa bank_target 0x1 @斜向斩击命中
+	playsound2 0x96 SOUND_PAN_TARGET @金属斩击声(钢翼同款)
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 0x1 0x3 0x0 0xc 0x1
+	call WING_ATTACK_SCATTER_FEATHERS @;银羽散落(钢翼同款)
+	waitanimation
+	@;暴击白闪(易击中要害的可视化)
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_BG 0x1 0x10 0x0 0x7FFF @全屏白闪
+	waitanimation
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ALL_BANKS 0x1 0x0 0x0 0x0
+	waitanimation
+	pokespritefromBG side_target
 	resetblends
 	endanimation
 
