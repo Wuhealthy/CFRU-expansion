@@ -41,6 +41,7 @@ static void PokeSum_CreateWindows(void);
 static u8 PSS_LoadTilesAndMap(void);
 static void PokeSum_PrintMonTypeIcons(void);
 static void HideShowShinyStar(bool8 invisible);
+static void SpriteCB_ShinyStar(struct Sprite *sprite);
 static void PokeSum_DrawPageProgressTiles(void);
 static void CB2_SetUpPSS(void);
 static void PokeSum_CopyNewBgTilemapBeforePageFlip_2(void);
@@ -843,6 +844,36 @@ static void HideShowShinyStar(bool8 invisible)
     {
         sShinyStarObjData->sprite->pos1.x = 166;
         sShinyStarObjData->sprite->pos1.y = 50;
+    }
+}
+
+/* 每帧按当前页 + 是否闪光重设星星的位置和可见性。
+   修复: 切换宝可梦/翻页后星星残留上一页坐标 (lib 的 ShowShinyStarObjIfMonShiny 只切可见性,
+   而部分翻页任务没有覆盖全部页面, 导致星星沿用 MOVES_INFO 页的坐标出现在 INFO 页)。 */
+static void SpriteCB_ShinyStar(struct Sprite *sprite)
+{
+    if (IsMonShiny(&sMonSummaryScreen->currentMon) == TRUE
+        && !sMonSummaryScreen->isEgg
+        && (sMonSummaryScreen->curPageIndex == PSS_PAGE_INFO
+        || sMonSummaryScreen->curPageIndex == PSS_PAGE_SKILLS
+        || sMonSummaryScreen->curPageIndex == PSS_PAGE_MOVES
+        || sMonSummaryScreen->curPageIndex == PSS_PAGE_MOVES_INFO))
+    {
+        sprite->invisible = FALSE;
+        if (sMonSummaryScreen->curPageIndex == PSS_PAGE_MOVES_INFO)
+        {
+            sprite->pos1.x = 126;
+            sprite->pos1.y = 20;
+        }
+        else
+        {
+            sprite->pos1.x = 166;
+            sprite->pos1.y = 50;
+        }
+    }
+    else
+    {
+        sprite->invisible = TRUE;
     }
 }
 
@@ -2801,7 +2832,7 @@ static void CreateShinyStarObj(u16 tileTag, u16 palTag)
             .anims = sStarObjAnimTable,
             .images = NULL,
             .affineAnims = gDummySpriteAffineAnimTable,
-            .callback = SpriteCallbackDummy,
+            .callback = SpriteCB_ShinyStar,
         };
 
         LoadSpriteSheet(&sheet);
