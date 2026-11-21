@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "pkdx-offline-c9ee71b3663a";
+const CACHE_NAME = "pkdx-offline-3ccbe85b8a2b";
 const CORE_FILES = [
   "./",
   "./index.html",
@@ -11,6 +11,8 @@ const CORE_FILES = [
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./sprites/manifest.json",
+  "./data/features/awaken_before.png",
+  "./data/features/awaken_after.png",
 ];
 const BUNDLE_BATCH = 16;  // bundle 数量少 (~25 个) 单个大, 16 个并行加速; github.io 是 HTTP/2 单连接多路复用
 const SCOPE_URL = self.registration.scope;

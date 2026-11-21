@@ -2565,11 +2565,11 @@ function renderFeatures() {
       </div>
       <div class="feature-shots">
         <div class="feature-shot">
-          <img src="data/features/awaken_before.png" alt="觉醒前">
+          <img src="data/features/awaken_before.png" alt="觉醒前" width="240" height="160" loading="lazy">
           <span>觉醒前</span>
         </div>
         <div class="feature-shot">
-          <img src="data/features/awaken_after.png" alt="觉醒后">
+          <img src="data/features/awaken_after.png" alt="觉醒后" width="240" height="160" loading="lazy">
           <span>觉醒后</span>
         </div>
       </div>
