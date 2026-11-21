@@ -4,6 +4,7 @@
 从 CFRU-expansion 与 Dynamic-Pokemon-Expansion-Gen-9 两个仓库的源码
 提取宝可梦/招式/特性/属性等数据，生成 pokedex_site/data/data.js 与精灵图
 """
+import hashlib
 import json
 import os
 import re
@@ -1673,8 +1674,13 @@ for sub in ("front", "icon", "front_shiny"):  # 按个体 .js 不再产出, 清�
         if fn.endswith(".js"):
             os.remove(os.path.join(d, fn))
 manifest_path = os.path.join(OUT, "sprites", "manifest.json")
+bundle_ver = {}
+for chunk in sorted(chunks):  # 按内容哈希做版本号: 图没改 → 哈希不变 → URL 不变 → SW 缓存/迁移副本直接命中, 不重拉
+    fn = "bundle_%d.js" % chunk
+    with open(os.path.join(bundle_dir, fn), "rb") as bf:
+        bundle_ver[fn] = hashlib.sha1(bf.read()).hexdigest()[:10]
 with open(manifest_path, "w") as mf:
-    json.dump({"bundles": sorted("bundle_%d.js" % c for c in chunks), "chunk": SPRITE_CHUNK}, mf)
+    json.dump({"bundles": sorted("bundle_%d.js" % c for c in chunks), "chunk": SPRITE_CHUNK, "ver": bundle_ver}, mf)
 print("加密精灵图: front %d, icon %d, front_shiny %d → %d 个 bundle%s" % (len(n1), len(n2), len(n3), len(chunks), " (保留明文PNG)" if KEEP_PNG else ", 明文PNG已删除"))
 print("精灵图清单: %d 个 bundle → sprites/manifest.json" % len(chunks))
 

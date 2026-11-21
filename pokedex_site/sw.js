@@ -87,12 +87,13 @@ self.addEventListener("message", event => {
         if (!manifestResponse) throw new Error("Sprite manifest is missing");
         const manifest = await manifestResponse.json();
         if (!Array.isArray(manifest.bundles)) throw new Error("Sprite manifest has no bundle list");
+        const ver = manifest.ver || {};  // 页面按 ?v=内容哈希 请求 bundle, 预缓存必须用同样的 URL 才能命中
 
-        const urls = manifest.bundles.map(fn => new URL("sprites/" + fn, SCOPE_URL).href);
+        const urls = manifest.bundles.map(fn => new URL("sprites/" + fn + "?v=" + (ver[fn] || ""), SCOPE_URL).href);
         // 按编号排序: 前 N 个优先缓存 (快速达到基本离线可用), 剩余后台渐进
         const PRELOAD_N = 5;
         const sorted = manifest.bundles.map(fn => ({ fn, n: parseInt(fn.match(/\d+/)[0], 10) }))
-          .sort((a, b) => a.n - b.n).map(o => new URL("sprites/" + o.fn, SCOPE_URL).href);
+          .sort((a, b) => a.n - b.n).map(o => new URL("sprites/" + o.fn + "?v=" + (ver[o.fn] || ""), SCOPE_URL).href);
         const preloadUrls = sorted.slice(0, PRELOAD_N);
         const lazyUrls = sorted.slice(PRELOAD_N);
         const cacheBatched = async (urls, reportProgress) => {
