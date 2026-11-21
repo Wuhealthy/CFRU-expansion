@@ -1,65 +1,601 @@
 #include "./src/config.h"
 #ifdef SIDEQUEST_MENU
 
-#org @gText_ItemDescriptionNotAvailable
-暂无描述[.]
+#org @gText_SideQuestName_1
+大木博士的请求
 
-#org @sText_Dash
--------------
+#org @gText_SideQuestDesc_1
+大木博士需要你\n帮忙完成图鉴，\n去完成全部任务吧！
 
-#org @sText_Slash
-/
+#org @gText_SideQuestDoneDesc_1
+大木博士对你的\n研究成果十分满意，\n非常感谢！
 
-#org @sText_Percent
-%
+#org @gText_SideQuestMap_1
+真新镇
 
-#org @gText_QuestGift
-详情
+#org @gText_SideQuestName_2
+道馆挑战
 
-#org @gText_QuestDone
+#org @gText_SideQuestDesc_2
+打败关都全部八位\n道馆馆主，\n集齐所有徽章。
+
+#org @gText_SideQuestDoneDesc_2
+八枚徽章已经集齐，\n联盟在等着你！
+
+#org @gText_SideQuestMap_2
+关都
+
+#org @gText_SideQuestName_3
+包裹递送
+
+#org @gText_SideQuestDesc_3
+去宝可梦商店\n取回包裹，\n并交给大木博士。
+
+#org @gText_SideQuestDoneDesc_3
+包裹平安送达了\n大木博士手中，\n干得漂亮！
+
+#org @gText_SideQuestMap_3
+常青市
+
+#org @gText_SideQuestName_4
+化石猎人
+
+#org @gText_SideQuestDesc_4
+去月见山寻找\n古代化石，\n并拿给科学家看。
+
+#org @gText_SideQuestDoneDesc_4
+化石被成功复活了，\n太厉害了！
+
+#org @gText_SideQuestMap_4
+尼比市
+
+#org @gText_SideQuestName_5
+出海的船票
+
+#org @gText_SideQuestDesc_5
+弄到一张圣安奴号\n的船票，并与船上\n的船长见面。
+
+#org @gText_SideQuestDoneDesc_5
+你享受了航行，\n还帮助了船长。
+
+#org @gText_SideQuestMap_5
+枯叶市
+
+#org @gText_SideQuestName_6
+火箭队骚动
+
+#org @gText_SideQuestDesc_6
+火箭队藏在游戏城\n的地下基地里，\n去阻止他们的阴谋！
+
+#org @gText_SideQuestDoneDesc_6
+火箭队的基地\n已经被捣毁了。
+
+#org @gText_SideQuestMap_6
+玉虹市
+
+#org @gText_SideQuestName_7
+发电厂传闻
+
+#org @gText_SideQuestDesc_7
+似乎有什么东西\n在偷走发电厂的电力，\n去调查一下。
+
+#org @gText_SideQuestDoneDesc_7
+你找到了原因，\n竟然是传说的鸟！
+
+#org @gText_SideQuestMap_7
+10号道路
+
+#org @gText_SideQuestName_8
+伊布的馈赠
+
+#org @gText_SideQuestDesc_8
+一位善良的训练家\n想送出稀有的伊布。\n证明你能好好照顾它。
+
+#org @gText_SideQuestDoneDesc_8
+伊布在你这里\n找到了充满爱的家。
+
+#org @gText_SideQuestMap_8
+玉虹市
+
+#org @gText_SideQuestName_9
+卡比兽挡路
+
+#org @gText_SideQuestDesc_9
+一只巨大的宝可梦\n睡在道路上，\n想办法叫醒它。
+
+#org @gText_SideQuestDoneDesc_9
+道路畅通了，\n卡比兽离开了。
+
+#org @gText_SideQuestMap_9
+12号道路
+
+#org @gText_SideQuestName_10
+遗失的假牙
+
+#org @gText_SideQuestDesc_10
+馆长把假牙丢在了\n野生原野区，\n帮他找回来。
+
+#org @gText_SideQuestDoneDesc_10
+馆长终于又能\n口齿清楚地说话了！
+
+#org @gText_SideQuestMap_10
+浅红市
+
+#org @gText_SideQuestName_11
+钓鱼大师
+
+#org @gText_SideQuestDesc_11
+用每种钓竿都\n钓起鲤鱼王，\n证明你的实力。
+
+#org @gText_SideQuestDoneDesc_11
+你获得了超级钓竿，\n去钓鱼吧！
+
+#org @gText_SideQuestMap_11
+枯叶市
+
+#org @gText_SideQuestName_12
+传说的洞窟
+
+#org @gText_SideQuestDesc_12
+据说洞窟深处\n栖息着强大的\n宝可梦。
+
+#org @gText_SideQuestDoneDesc_12
+你已经直面了\n华蓝洞窟的传说。
+
+#org @gText_SideQuestMap_12
+华蓝洞窟
+
+#org @gText_SideQuestName_13
+预留任务13
+
+#org @gText_SideQuestDesc_13
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_13
+敬请期待！
+
+#org @gText_SideQuestMap_13
+关都
+
+#org @gText_SideQuestName_14
+预留任务14
+
+#org @gText_SideQuestDesc_14
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_14
+敬请期待！
+
+#org @gText_SideQuestMap_14
+关都
+
+#org @gText_SideQuestName_15
+预留任务15
+
+#org @gText_SideQuestDesc_15
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_15
+敬请期待！
+
+#org @gText_SideQuestMap_15
+关都
+
+#org @gText_SideQuestName_16
+预留任务16
+
+#org @gText_SideQuestDesc_16
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_16
+敬请期待！
+
+#org @gText_SideQuestMap_16
+关都
+
+#org @gText_SideQuestName_17
+预留任务17
+
+#org @gText_SideQuestDesc_17
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_17
+敬请期待！
+
+#org @gText_SideQuestMap_17
+关都
+
+#org @gText_SideQuestName_18
+预留任务18
+
+#org @gText_SideQuestDesc_18
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_18
+敬请期待！
+
+#org @gText_SideQuestMap_18
+关都
+
+#org @gText_SideQuestName_19
+预留任务19
+
+#org @gText_SideQuestDesc_19
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_19
+敬请期待！
+
+#org @gText_SideQuestMap_19
+关都
+
+#org @gText_SideQuestName_20
+预留任务20
+
+#org @gText_SideQuestDesc_20
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_20
+敬请期待！
+
+#org @gText_SideQuestMap_20
+关都
+
+#org @gText_SideQuestName_21
+预留任务21
+
+#org @gText_SideQuestDesc_21
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_21
+敬请期待！
+
+#org @gText_SideQuestMap_21
+关都
+
+#org @gText_SideQuestName_22
+预留任务22
+
+#org @gText_SideQuestDesc_22
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_22
+敬请期待！
+
+#org @gText_SideQuestMap_22
+关都
+
+#org @gText_SideQuestName_23
+预留任务23
+
+#org @gText_SideQuestDesc_23
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_23
+敬请期待！
+
+#org @gText_SideQuestMap_23
+关都
+
+#org @gText_SideQuestName_24
+预留任务24
+
+#org @gText_SideQuestDesc_24
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_24
+敬请期待！
+
+#org @gText_SideQuestMap_24
+关都
+
+#org @gText_SideQuestName_25
+预留任务25
+
+#org @gText_SideQuestDesc_25
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_25
+敬请期待！
+
+#org @gText_SideQuestMap_25
+关都
+
+#org @gText_SideQuestName_26
+预留任务26
+
+#org @gText_SideQuestDesc_26
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_26
+敬请期待！
+
+#org @gText_SideQuestMap_26
+关都
+
+#org @gText_SideQuestName_27
+预留任务27
+
+#org @gText_SideQuestDesc_27
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_27
+敬请期待！
+
+#org @gText_SideQuestMap_27
+关都
+
+#org @gText_SideQuestName_28
+预留任务28
+
+#org @gText_SideQuestDesc_28
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_28
+敬请期待！
+
+#org @gText_SideQuestMap_28
+关都
+
+#org @gText_SideQuestName_29
+预留任务29
+
+#org @gText_SideQuestDesc_29
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_29
+敬请期待！
+
+#org @gText_SideQuestMap_29
+关都
+
+#org @gText_SideQuestName_30
+预留任务30
+
+#org @gText_SideQuestDesc_30
+敬请期待！
+
+#org @gText_SideQuestDoneDesc_30
+敬请期待！
+
+#org @gText_SideQuestMap_30
+关都
+
+#org @gText_SubQuest1_Name1
+捕捉波波
+
+#org @gText_SubQuest1_Desc1
+去1号道路的草丛里\n寻找波波。
+
+#org @gText_SubQuest1_Map1
+1号道路
+
+#org @gText_SubQuest1_Name2
+捕捉小拉达
+
+#org @gText_SubQuest1_Desc2
+小拉达藏在常青市\n附近的草丛里。
+
+#org @gText_SubQuest1_Map2
+2号道路
+
+#org @gText_SubQuest1_Name3
+捕捉绿毛虫
+
+#org @gText_SubQuest1_Desc3
+常青森林里\n虫属性宝可梦很多。
+
+#org @gText_SubQuest1_Map3
+常青森林
+
+#org @gText_SubQuest1_Name4
+捕捉独角虫
+
+#org @gText_SubQuest1_Desc4
+小心，它的毒针\n有毒！
+
+#org @gText_SubQuest1_Map4
+常青森林
+
+#org @gText_SubQuest1_Name5
+捕捉皮卡丘
+
+#org @gText_SubQuest1_Desc5
+一只稀有的黄色\n鼠宝可梦藏在树林里。
+
+#org @gText_SubQuest1_Map5
+常青森林
+
+#org @gText_SubQuest1_Name6
+捕捉尼多朗
+
+#org @gText_SubQuest1_Desc6
+去尼比市那边的\n草丛里找找看。
+
+#org @gText_SubQuest1_Map6
+3号道路
+
+#org @gText_SubQuest1_Name7
+捕捉超音蝠
+
+#org @gText_SubQuest1_Desc7
+超音蝠在漆黑的\n洞窟里飞来飞去。
+
+#org @gText_SubQuest1_Map7
+月见山
+
+#org @gText_SubQuest1_Name8
+捕捉小拳石
+
+#org @gText_SubQuest1_Desc8
+别踩到石头，\n那可能是小拳石！
+
+#org @gText_SubQuest1_Map8
+月见山
+
+#org @gText_SubQuest1_Name9
+捕捉走路草
+
+#org @gText_SubQuest1_Desc9
+走路草会在夜里\n出来闲逛。
+
+#org @gText_SubQuest1_Map9
+5号道路
+
+#org @gText_SubQuest1_Name10
+捕捉皮皮
+
+#org @gText_SubQuest1_Desc10
+皮皮会在满月下\n翩翩起舞。
+
+#org @gText_SubQuest1_Map10
+月见山
+
+#org @gText_SubQuest2_Name1
+打败小刚
+
+#org @gText_SubQuest2_Desc1
+打败小刚获得\n灰色徽章。
+
+#org @gText_SubQuest2_Map1
+尼比市
+
+#org @gText_SubQuest2_Name2
+打败小霞
+
+#org @gText_SubQuest2_Desc2
+打败小霞获得\n蓝色徽章。
+
+#org @gText_SubQuest2_Map2
+华蓝市
+
+#org @gText_SubQuest2_Name3
+打败马志士
+
+#org @gText_SubQuest2_Desc3
+打败马志士获得\n橙色徽章。
+
+#org @gText_SubQuest2_Map3
+枯叶市
+
+#org @gText_SubQuest2_Name4
+打败莉佳
+
+#org @gText_SubQuest2_Desc4
+打败莉佳获得\n彩虹徽章。
+
+#org @gText_SubQuest2_Map4
+玉虹市
+
+#org @gText_SubQuest2_Name5
+打败阿桔
+
+#org @gText_SubQuest2_Desc5
+打败阿桔获得\n金色徽章。
+
+#org @gText_SubQuest2_Map5
+浅红市
+
+#org @gText_SubQuest2_Name6
+打败娜姿
+
+#org @gText_SubQuest2_Desc6
+打败娜姿获得\n粉色徽章。
+
+#org @gText_SubQuest2_Map6
+金黄市
+
+#org @gText_SubQuest2_Name7
+打败夏伯
+
+#org @gText_SubQuest2_Desc7
+打败夏伯获得\n红色徽章。
+
+#org @gText_SubQuest2_Map7
+红莲岛
+
+#org @gText_SubQuest2_Name8
+打败坂木
+
+#org @gText_SubQuest2_Desc8
+打败坂木获得\n绿色徽章。
+
+#org @gText_SubQuest2_Map8
+常青市
+
+#org @gText_QuestUnknown
+??????
+
+#org @gText_QuestStateReward
+可领奖
+
+#org @gText_QuestStateDone
 完成
 
-#org @gText_MenuTitle
-主线任务
+#org @gText_QuestStateActive
+进行中
 
-#org @gText_MenuTitle2
-支线任务
+#org @gText_QuestClose
+关闭
 
-#org @gText_LText
-[L_BUTTON] 左
+#org @gText_QuestLocation
+地点：
 
-#org @gText_RText
-[R_BUTTON] 右
+#org @gText_QuestNotStarted
+尚未开始。
 
-#org @gText_GetText
-[A_BUTTON] 查看详情
+#org @gText_QuestReturnForReward
+回到[BUFFER2]\n领取奖励吧！
 
-#org @gText_CloseText
-[B_BUTTON] 关闭
+#org @gText_QuestNumberDisplay
+[BUFFER1]/[BUFFER2]
 
-// Quest Items
-#org @gText_QuestItem_1
-获得图鉴
+#org @gText_QuestSubButton
+ [A_BUTTON]
 
-#org @gText_QuestItem_2
-灰色徽章
+#org @gText_QuestSubSpace
 
-#org @gText_QuestItem_3
-蓝色徽章
 
-#org @gText_QuestItem_4
-橙色徽章
+#org @gText_QuestSubNumberSep
+.
 
-// Quest Descriptions
-#org @gText_QuestDesc_1
-地点：真新镇\n给小优一只水跃鱼。
+#org @gText_QuestColorGreen
+[GREEN]
 
-#org @gText_QuestDesc_2
-任务描述 2
+#org @gText_QuestHeaderAll
+全部任务
 
-#org @gText_QuestDesc_3
-任务描述 3
+#org @gText_QuestHeaderInactive
+未开始任务
 
-#org @gText_QuestDesc_4
-任务描述 4
+#org @gText_QuestHeaderActive
+进行中任务
+
+#org @gText_QuestHeaderReward
+可领奖励
+
+#org @gText_QuestHeaderDone
+已完成任务
+
+#org @gText_QuestHeaderSub
+子任务
+
+#org @gText_QuestSortAZ
+[R_BUTTON] A-Z
+
+#org @gText_QuestSortAll
+[R_BUTTON] 全部
+
+#org @gText_QuestSortInactive
+[R_BUTTON] 未开始
+
+#org @gText_QuestSortActive
+[R_BUTTON] 进行中
+
+#org @gText_QuestSortReward
+[R_BUTTON] 领奖
+
+#org @gText_QuestSortDone
+[R_BUTTON] 完成
+
 #endif
