@@ -1068,6 +1068,7 @@ textarea.cm-input { resize: vertical; min-height: 36px; font-family: inherit; }
 .breed-pick { position: relative; flex: 1; min-width: 0; }
 .breed-pick .breed-input { width: 100%; box-sizing: border-box; }
 .breed-pick-list { position: absolute; z-index: 30; left: 0; right: 0; top: 100%; background: var(--card); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); max-height: 240px; overflow-y: auto; }
+.breed-import-list { max-height: 340px; overflow-y: auto; }
 .home-drag-ghost { position: fixed; z-index: 9999; pointer-events: none; background: var(--card); border: 1px solid var(--accent); color: var(--ink); border-radius: 999px; padding: 4px 12px; font-size: 13px; font-weight: 600; box-shadow: var(--shadow); }
 @media (max-width: 700px) {
   .home-panels { grid-template-columns: 1fr; }
