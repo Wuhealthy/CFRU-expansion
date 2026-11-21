@@ -201,8 +201,8 @@ static void DestroyIcon(void);
 static void ShowIcon(u16 sprite, u8 type);
 
 //从新开始菜单打开时,关闭任务菜单应回到开始菜单而不是田野
-static bool8 sQuestMenuFromNewStartMenu = FALSE;
-void NewStartMenuReturnToFieldWithOpenMenuHook(void);
+//标志用固定EWRAM字节(ram_locs.h),不用链接器.bss:.bss落在ROM总线地址,部分环境写入不可靠会恒为FALSE
+void CB2_ReturnToFieldWithOpenMenuHook(void);
 
 // ---------------------------------------------------------------------------
 // Saved state. Quest bits come first, sub quest bits follow them.
@@ -902,11 +902,15 @@ static void Task_QuestMenuExit(u8 taskId)
 
     if (sQuestMenuFromNewStartMenu)
     {
-        //从新开始菜单打开:走图鉴退出同款 hook,由其检查返回标志后回到新开始菜单
+        //从新开始菜单打开:走存档界面同款返回(实测可用)。
+        //CB2_ReturnToFieldFromDiploma 路径不执行 gFieldCallback2,开始菜单不会重开;
+        //必须走 CB2_ReturnToFieldWithOpenMenuHook,回田野后由 ReturnFieldOpenedMenuWithFollowerPalette
+        //检查 sReturnToNewStartMenu 并 ShowNewStartMenu
         sQuestMenuFromNewStartMenu = FALSE;
+        SetVBlankCallback(NULL);
         ResetSpriteData();
         FreeAllSpritePalettes();
-        SetMainCallback2(NewStartMenuReturnToFieldWithOpenMenuHook);
+        SetMainCallback2(CB2_ReturnToFieldWithOpenMenuHook);
     }
     else
     {

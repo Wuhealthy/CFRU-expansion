@@ -185,9 +185,9 @@ extern bool8 gInShop; //0x203E043
 #define gCurrentDexNavChain (*((u8*) 0x203E051))
 #define gDexNavStartedBattle (*((bool8*) 0x203E052))
 //#define sItemDescriptionPocket (*((bool8*) 0x203E053))
-//#define sStartMenuOpen (*((bool8*) 0x203E054))
+#define sQuestMenuFromNewStartMenu (*((bool8*) 0x203E054)) //Quest Menu:任务菜单从新开始菜单打开的标志(占用原sStartMenuOpen槽位,勿再用链接器.bss存此类标志)
 //#define sPrintedRTCWarning (*((bool8*) 0x203E055))
-extern u16 gLastFishingSpecies; //0x203E056
+extern u16 gLastFishingSpecies; //0x203E056 高位字节0x203E057与sReturnToNewStartMenu(new_start_menu.c)重叠:钓鱼会冲掉开始菜单返回标志,待迁移
 extern u8 gFishingStreak; //0x203E058
 //#define sLocked (*((bool8*) 0x203E059))
 //#define sRTCErrorStatus (*((u16*) 0x203E05A))
