@@ -1087,6 +1087,8 @@ gMoveAnimations:
 .word ANIM_FORMLESS	@MOVE_FORMLESS
 .word ANIM_SELFLESS	@MOVE_SELFLESS
 .word ANIM_MASTERBLADE	@MOVE_MASTERBLADE
+.word ANIM_SWAMPMUDHAMMER	@MOVE_SWAMPMUDHAMMER
+.word ANIM_GRUMPYSNOOZE	@MOVE_GRUMPYSNOOZE
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -5816,6 +5818,112 @@ ANIM_MASTERBLADE:
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
+@;沼泥重锤: 泥沼包裹巨拳蓄势, 腾空重锤砸落+泥浆四溅震屏, 吸取的体力化作绿光环绕自身(吸血回复, 50%由atk88_negativedamage处理)
+.global ANIM_SWAMPMUDHAMMER
+ANIM_SWAMPMUDHAMMER:
+	loadparticle ANIM_TAG_MUD_SAND
+	loadparticle ANIM_TAG_ROCKS
+	loadparticle ANIM_TAG_GREEN_SPARKLE @回复星光
+	@;泥沼包裹巨拳(攻击方染泥褐, 泥块缠身)
+	playsound2 0xA4 SOUND_PAN_ATTACKER
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xB 0x112C @;染泥褐(轮转犁地同款色)
+	call MUD_BUFF
+	call MUD_BUFF
+	pause 0x4
+	@;后蹲蓄势 → 腾空砸落(烈火之翼同款起手)
+	playsound2 0x91 SOUND_PAN_ATTACKER
+	launchtemplate Template_VerticalDip 0x2 0x3 0x6 0x1 bank_attacker
+	pause 0x19
+	launchtemplate Template_SlideMonToOffset 0x2 0x5 bank_attacker 0x2a 0x0 0x0 0x5
+	pause 0x2
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0x20 0x1
+	soundcomplex 0x86 SOUND_PAN_TARGET 0x2 0x5 @;重锤砸落声
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4, 0x0, 0xfff8 bank_target 0x1 @;纵向重砸
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 0x1 0x3 0x0 0xc 0x1 @;目标倒仰震动
+	@;泥浆四溅(地热喷发同款落石散射, 泥块四散)
+	launchtemplate Template_RockScatter TEMPLATE_TARGET | 2, 0x4, 0xfff4 0x20 0x3 0x4
+	launchtemplate Template_RockScatter TEMPLATE_TARGET | 2, 0x4, 0x8 0x1f 0x2 0x2
+	launchtemplate Template_RockScatter TEMPLATE_TARGET | 2, 0x4, 0xfffc 0x1c 0x2 0x3
+	launchtemplate Template_RockScatter TEMPLATE_TARGET | 2, 0x4, 0xc 0x1e 0x4 0x3
+	playsound2 0x7C SOUND_PAN_TARGET
+	waitanimation
+	@;沼泥汲取: 吸取的体力化作绿光环绕自身(烈火之翼同款)
+	playsound2 0xAC SOUND_PAN_ATTACKER @回复音
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xc 0x7e5f @;染回复绿
+	launchtemplate SWAMPMUD_HEAL 0x2 0x4 0xa 0xa 0x19 0x0
+	pause 0x4
+	launchtemplate SWAMPMUD_HEAL 0x2 0x4 0xfff1 0x0 0x19 0x0
+	pause 0x4
+	launchtemplate SWAMPMUD_HEAL 0x2 0x4 0x14 0xa 0x19 0x0
+	pause 0x4
+	launchtemplate SWAMPMUD_HEAL 0x2 0x4 0x0 0xfff6 0x19 0x0
+	pause 0x4
+	launchtemplate SWAMPMUD_HEAL 0x2 0x4 0x8 0x0 0x19 0x0
+	waitanimation
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x0 0xc 0x0 0x7e5f @;绿光褪回
+	waitanimation
+	launchtemplate Template_SlideMonToOriginalPos 0x2 0x3 bank_attacker 0x0 0x5
+	waitanimation
+	endanimation
+
+.align 2
+SWAMPMUD_HEAL: objtemplate ANIM_TAG_GREEN_SPARKLE ANIM_TAG_GREEN_SPARKLE OAM_OFF_16x16 0x83E3760 0x0 gDummySpriteAffineAnimTable 0x80AA2B1
+
+.align 2
+MUD_BUFF:
+	launchtemplate MUD_BUFF_PART TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0xffe8 0x1a 0x2 0x16
+	pause 0x4
+	launchtemplate MUD_BUFF_PART TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0xe 0x1c 0x1 0x16
+	pause 0x4
+	launchtemplate MUD_BUFF_PART TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0xfffb 0xa 0x2 0x16
+	pause 0x4
+	launchtemplate MUD_BUFF_PART TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0x1c 0x1a 0x3 0x16
+	pause 0x4
+	launchtemplate MUD_BUFF_PART TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0xfff4 0x0 0x1 0x16
+	return
+
+.align 2
+MUD_BUFF_PART: objtemplate ANIM_TAG_MUD_SAND ANIM_TAG_MUD_SAND OAM_OFF_32x32 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable SpriteCB_MoveSpriteUpwardsForDuration
+
+.pool
+@;狂暴起床气: 攻击方染怒红, 带着起床气的猛冲重击, 命中后Z字睡意从目标头顶飘出(特性变为贪睡由脚本弹窗+文本)
+.global ANIM_GRUMPYSNOOZE
+ANIM_GRUMPYSNOOZE:
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_SNORE_Z
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_SNORE_Z 0x0 0xB 0xB 0x57F3 @;Z字染浅绿(打鼾同款)
+	@;起床气: 攻击方染怒红
+	playsound2 0xA4 SOUND_PAN_ATTACKER
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xB 0x001F @;染红
+	pause 0x14
+	@;蓄势 → 猛冲砸击(烈火之翼同款起手)
+	playsound2 0x91 SOUND_PAN_ATTACKER
+	launchtemplate Template_VerticalDip 0x2 0x3 0x6 0x1 bank_attacker
+	pause 0x19
+	launchtemplate Template_SlideMonToOffset 0x2 0x5 bank_attacker 0x2a 0x0 0x0 0x5
+	pause 0x2
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0x20 0x1
+	soundcomplex 0x86 SOUND_PAN_TARGET 0x2 0x5 @;重击声
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4, 0x0, 0xfff8 bank_target 0x1
+	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 0x1 0x3 0x0 0xc 0x1
+	waitanimation
+	@;Z字睡意从目标头顶飘出(魂窃同款Z粒子)
+	playsound2 0x80 SOUND_PAN_TARGET
+	launchtemplate GRUMPY_Z TEMPLATE_TARGET | 2, 0x4, 0x0 0x0 0x1 0x24
+	pause 0x10
+	launchtemplate GRUMPY_Z TEMPLATE_TARGET | 2, 0x4, 0x0 0x0 0x1 0x24
+	waitanimation
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x0 0xc 0x0 0x001F @;红褪回
+	waitanimation
+	launchtemplate Template_SlideMonToOriginalPos 0x2 0x3 bank_attacker 0x0 0x5
+	waitanimation
+	endanimation
+
+.align 2
+GRUMPY_Z: objtemplate ANIM_TAG_SNORE_Z ANIM_TAG_SNORE_Z OAM_OFF_BLEND_32x32 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable 0x80BA739
+
+.pool
+
 @;森之波动: 草木龙气缠身, 绿金龙气呼啸贯穿目标, 撞击后绿光把目标身上的强化强行剥离(无视并清除能力阶级)
 .global ANIM_FORESTWAVE
 ANIM_FORESTWAVE:

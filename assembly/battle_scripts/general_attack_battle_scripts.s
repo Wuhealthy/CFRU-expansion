@@ -6624,9 +6624,34 @@ MagQuake_Skip:
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-.global BS_252_Blank
-BS_252_Blank:
-	goto BS_STANDARD_HIT
+.global BS_252_GrumpySnooze
+BS_252_GrumpySnooze:
+	attackcanceler
+	accuracycheck BS_MOVE_MISSED 0x0
+	call STANDARD_DAMAGE
+	seteffectwithchancetarget
+	prefaintmoveendeffects 0x0
+	faintpokemonaftermove
+	jumpifmovehadnoeffect BS_MOVE_END
+	setbyte CMD49_STATE 0x0
+	cmd49 0x0 0x0
+	jumpiffainted BANK_ATTACKER GrumpySnoozeEnd
+	callasm GrumpySnoozeChangeFunc @;狂暴起床气：命中后把对手特性变为贪睡(不可换时只保留伤害, MULTISTRING_CHOOSER=0)
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x0 GrumpySnoozeEnd
+	copyarray BATTLE_SCRIPTING_BANK TARGET_BANK 0x1
+	playanimation BANK_SCRIPTING ANIM_LOAD_ABILITY_POP_UP 0x0
+	call BattleScript_AbilityPopUpRevert
+	call BattleScript_AbilityPopUp
+	pause DELAY_HALFSECOND
+	call BattleScript_AbilityPopUpRevert
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	copyarray BATTLE_SCRIPTING_BANK TARGET_BANK 0x1
+	call BattleScript_TryRemoveIllusion
+	callasm TryRemovePrimalWeatherAfterAbilityChange
+	call 0x81D92DC @;Try to revert Cherrim and Castform
+GrumpySnoozeEnd:
+	end
 	
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

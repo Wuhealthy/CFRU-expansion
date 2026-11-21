@@ -16820,6 +16820,40 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 100,
 		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
+	},
+
+	//沼泥重锤：Mega巨沼怪专属。泥沼包裹巨拳重击并吸取体力（EFFECT_ABSORB=BS_003_DrainHP，atk88_negativedamage默认回复50%）
+	[MOVE_SWAMPMUDHAMMER] =
+	{
+		.effect = EFFECT_ABSORB,
+		.power = 110,
+		.type = TYPE_GROUND,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED | FLAG_TRIAGE_AFFECTED,
+		.z_move_power = 175,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
+	},
+
+	//狂暴起床气：Mega请假王专属。攻击命中后把对手特性变为贪睡#365（GrumpySnoozeChangeFunc 处理；特性不可换/替身/极巨化时只保留伤害）
+	[MOVE_GRUMPYSNOOZE] =
+	{
+		.effect = EFFECT_GRUMPY_SNOOZE,
+		.power = 110,
+		.type = TYPE_NORMAL,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 175,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
 	}
 };
 
@@ -17458,5 +17492,7 @@ const u8 gDynamaxMovePowers[MOVES_COUNT] =
 	[MOVE_FORMLESS] = 130,
 	[MOVE_SELFLESS] = 130,
 	[MOVE_MASTERBLADE] = 130,
+	[MOVE_SWAMPMUDHAMMER] = 175,
+	[MOVE_GRUMPYSNOOZE] = 175,
 };
 #endif

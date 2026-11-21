@@ -2272,6 +2272,14 @@ u8 AIScript_Positives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 			}
 			break;
 
+		case EFFECT_GRUMPY_SNOOZE: //狂暴起床气：攻击后把对手特性变为贪睡（伤害走默认评分）
+			if (!TARGETING_PARTNER
+			&& gAbilityRatings[defAbility] >= 5 //对手特性越好越值得换掉
+			&& !IsAbilitySuppressed(bankDef)
+			&& ABILITY(bankDef) != ABILITY_SNOOZE)
+				INCREASE_STATUS_VIABILITY(2);
+			break;
+
 		case EFFECT_IMPRISON:
 			if (MoveInMoveset(predictedMove, bankAtk)) //The attacker knows the move the opponent is about to use
 				INCREASE_STATUS_VIABILITY(3);

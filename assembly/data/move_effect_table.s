@@ -268,7 +268,7 @@ gBattleScriptsForMoveEffects:
 .word BS_249_PsychicSuppression
 .word BS_250_UltimateSwallow
 .word BS_251_MagneticQuake
-.word BS_252_Blank
+.word BS_252_GrumpySnooze
 .word BS_253_MaxMove
 .word BS_254_Blank
 .word BS_255_Blank

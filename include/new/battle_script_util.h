@@ -173,6 +173,7 @@ void ChooseMoveEffectForSpringtideStorm(void);
 void FailShedTailIfLowHP(void);
 void DoubleShockFunc(void);
 void FormlessFunc(void);
+void GrumpySnoozeChangeFunc(void);
 void TrySetAlluringVoiceMoveEffect(void);
 void PSHealBlockTimer(void);
 void CudChewBerryEat(void);

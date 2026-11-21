@@ -2845,3 +2845,9 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 
 #org @DESC_MASTERBLADE
 连续挥出两次斩击，\n容易击中要害。击中\n要害会使下一次攻击\n的威力翻倍。
+
+#org @DESC_SWAMPMUDHAMMER
+将坚硬的泥沼包裹在\n拳头上重击对手，并\n吸取其体力。会回复\n造成伤害一半的HP。
+
+#org @DESC_GRUMPYSNOOZE
+用满腔起床气猛击对\n手。会把对手的特性\n变为贪睡。

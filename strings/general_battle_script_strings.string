@@ -588,3 +588,6 @@
 
 #org @gText_MagQuakeEnded
 [ATTACKER]的攻击与特攻\n能力恢复正常了！
+
+#org @GrumpySnoozeString
+[TARGET]染上了\n贪睡特性！

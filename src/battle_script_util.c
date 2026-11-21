@@ -2,6 +2,7 @@
 
 extern const u8 gText_EmptyString[];
 extern const u8 gText_MagQuakeDazed[];
+extern const u8 GrumpySnoozeString[];
 u8* StringAppend(u8* dst, const u8* src);
 void __attribute__((long_call)) BattlePutTextOnWindow(const u8* text, u8 windowId);
 #include "defines_battle.h"
@@ -1710,6 +1711,37 @@ void FormlessFunc(void) //无我：使用后本回合自身失去超能力属性
 
 	if (gBattleMons[bank].type3 == TYPE_PSYCHIC)
 		gBattleMons[bank].type3 = TYPE_BLANK;
+}
+
+void GrumpySnoozeChangeFunc(void) //狂暴起床气：攻击命中后把对手特性变为贪睡#365（不可换时只保留伤害，MULTISTRING_CHOOSER=0 供脚本跳过弹窗）
+{
+	if (gBattleExecBuffer)
+	{
+		gBattlescriptCurrInstr -= 5;
+		return;
+	}
+
+	u8 bankDef = gBankTarget;
+	ability_t defAbility = *GetAbilityLocation(bankDef);
+
+	gBattleCommunication[MULTISTRING_CHOOSER] = 0; //默认：特性未变
+
+	if (gBattleMons[bankDef].status2 & STATUS2_SUBSTITUTE //替身阻挡特性变化
+	|| IsDynamaxed(bankDef)
+	|| gStatuses3[bankDef] & STATUS3_ABILITY_SUPPRESS //被胃酸封锁时不叠加
+	|| defAbility == ABILITY_NONE
+	|| defAbility == ABILITY_SNOOZE //已是贪睡
+	|| gSpecialAbilityFlags[defAbility].gWorrySeedBannedAbilities) //与无忧种子同一禁换表
+		return;
+
+	gNewBS->backupAbility = defAbility;
+	*GetAbilityLocation(bankDef) = ABILITY_SNOOZE;
+	ResetTookAbilityFrom(bankDef);
+	gLastUsedAbility = defAbility; //原特性
+	ResetVarsForAbilityChange(bankDef);
+	TransferAbilityPopUp(bankDef, ABILITY_SNOOZE);
+	gBattleStringLoader = GrumpySnoozeString;
+	gBattleCommunication[MULTISTRING_CHOOSER] = 1; //已改特性
 }
 
 void SetBrokenClawSubstitute(void)
