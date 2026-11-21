@@ -2905,6 +2905,24 @@ window.homeClearHome = function () {
   renderPkHome();
   homeShowMsg("HOME 盒子已清空", "ok");
 };
+/* 删除 HOME 里的单只宝可梦 (仅 HOME 侧可选; 存档侧不动) */
+window.homeDeleteAsk = function () {
+  const sel = homeUI.sel;
+  if (!sel || sel.side !== "home") return;
+  const info = homeMonInfo(homeGetMon(sel.side, sel.box, sel.slot));
+  if (!info) return;
+  showPopup(`<h2>删除 HOME 宝可梦</h2><div class="mv-desc">将从 HOME 盒子 ${sel.box + 1} 第 ${sel.slot + 1} 格删除「${esc(info.name)}」，删除后无法恢复（除非先用「存档同步」备份过）。确定？</div>
+    <div class="home-popup-actions"><button type="button" class="cm-btn" onclick="hidePopup()">取消</button>
+    <button type="button" class="cm-btn ghost home-danger" onclick="homeDelete()">确认删除</button></div>`);
+};
+window.homeDelete = function () {
+  const sel = homeUI.sel;
+  if (!sel || sel.side !== "home") return;
+  homeSetMon("home", sel.box, sel.slot, null);
+  homeUI.sel = null;
+  hidePopup();
+  renderPkHome();
+};
 window.homeUploadFile = function (e) {
   const f = e.target.files[0];
   e.target.value = "";  // 允许重复选择同一文件
@@ -3074,6 +3092,7 @@ function homeDetailHtml() {
       <div class="home-detail-actions">
         ${sel.side === "game" ? `<button type="button" class="cm-btn" onclick="homeSendToHome()">存入 HOME</button>` : ""}
         ${sel.side === "home" && homeSave ? `<button type="button" class="cm-btn" onclick="homeTakeToGame()">取出到游戏</button>` : ""}
+        ${sel.side === "home" ? `<button type="button" class="cm-btn ghost home-danger" onclick="homeDeleteAsk()">🗑 删除</button>` : ""}
         <button type="button" class="cm-btn ghost" onclick="homeDeselect()">取消选择</button>
       </div>
     </div>
@@ -3163,7 +3182,7 @@ function breedEncodeName(str, maxBytes) {
     const c = BREED_REV.get(ch);
     if (c === undefined) continue;
     const need = c <= 0xFF ? 1 : 2;
-    if (out.length + need > maxBytes - 1) break;  // 留 1 字节给 0xFF 结束符
+    if (out.length + need > maxBytes) break;  // 满 10 字节也可 (引擎 GetBoxMonData 按固定 10 字节读取再补 EOS), 未满用 0xFF 补尾
     if (c <= 0xFF) out.push(c); else out.push(c >> 8, c & 0xFF);
   }
   while (out.length < maxBytes) out.push(0xFF);
@@ -3358,25 +3377,58 @@ function breedShowMsg(msg, type) {
   el.innerHTML = msg;
   el.className = "sync-msg " + (type || "");
 }
-/* ---------------- 培养屋渲染 ---------------- */
-function breedMoveOptions(f, i) {
-  const s = SPECIES_BY_ID[f.sp];
-  const { lvMap, pool } = breedLearnset(s);
-  const sel = id => f.moves[i] === id ? " selected" : "";
-  const lvOpts = Object.keys(lvMap).map(Number).sort((a, b) => lvMap[a] - lvMap[b])
-    .map(id => `<option value="${id}"${sel(id)}>${esc(MOVE_BY_ID[id].zh)} (Lv.${lvMap[id]})</option>`).join("");
-  const tmOpts = [...pool].filter(id => lvMap[id] === undefined).sort((a, b) => a - b)
-    .map(id => `<option value="${id}"${sel(id)}>${esc(MOVE_BY_ID[id].zh)}</option>`).join("");
-  const rest = D.moves.filter(m => m.id <= 1023 && !pool.has(m.id)).sort((a, b) => a.id - b.id)
-    .map(m => `<option value="${m.id}"${sel(m.id)}>${esc(m.zh)}</option>`).join("");
-  return `<option value="0"${sel(0)}>— 空 —</option><optgroup label="可学会">${lvOpts}${tmOpts}</optgroup><optgroup label="全部招式">${rest}</optgroup>`;
+/* ---------------- 培养屋渲染 ----------------
+   招式/道具/球用打字搜索选择器; 招式仅可学会 (升级/招式机/教学), 10bit 放不下的新招式已在池里过滤 */
+function breedPickHtml(kind, idx, text, placeholder) {
+  return `<div class="breed-pick" data-kind="${kind}" data-idx="${idx}">
+    <input class="breed-input" value="${esc(text)}" placeholder="${esc(placeholder)}"
+      oninput="breedPickInput(this)" onfocus="breedPickInput(this)" onblur="breedPickBlur(this)">
+    <div class="breed-pick-list hidden"></div></div>`;
 }
-function breedItemOptions(f, pockets) {
-  const sel = id => (f.item === id && !pockets) || (pockets && f.ball === id) ? " selected" : "";
-  if (pockets) return pockets.map(p => `<optgroup label="${esc(p[1])}">${D.items.filter(it => it.pocket === p[0]).map(it => `<option value="${it.id}"${sel(it.id)}>${esc(it.zh)}</option>`).join("")}</optgroup>`).join("");
-  return `<option value="0"${f.item === 0 ? " selected" : ""}>无</option>` +
-    [[1, "道具"], [3, "精灵球"], [5, "树果"]].map(p => `<optgroup label="${esc(p[1])}">${D.items.filter(it => it.pocket === p[0]).map(it => `<option value="${it.id}"${sel(it.id)}>${esc(it.zh)}</option>`).join("")}</optgroup>`).join("");
+function breedMoveLabel(id, lvMap) {
+  const m = MOVE_BY_ID[id];
+  return m ? m.zh + (lvMap[id] !== undefined ? " (Lv." + lvMap[id] + ")" : "") : "";
 }
+function breedPickInput(inp) {
+  const wrap = inp.closest(".breed-pick");
+  const kind = wrap.dataset.kind, idx = +wrap.dataset.idx;
+  const q = toHans(inp.value.trim().toLowerCase());
+  let hits = [];
+  if (kind === "move") {
+    const { lvMap, pool } = breedLearnset(SPECIES_BY_ID[breedForm.sp]);
+    hits = [...pool].map(id => ({ id, label: breedMoveLabel(id, lvMap), zh: MOVE_BY_ID[id].zh }))
+      .filter(x => !q || toHans(x.zh.toLowerCase()).includes(q) || String(x.id) === q)
+      .sort((a, b) => (lvMap[a.id] || 999) - (lvMap[b.id] || 999) || a.id - b.id);
+  } else {
+    const pockets = kind === "ball" ? [3] : [1, 3, 5];
+    hits = D.items.filter(it => pockets.includes(it.pocket))
+      .filter(it => !q || toHans(it.zh.toLowerCase()).includes(q) || String(it.id) === q)
+      .sort((a, b) => a.id - b.id)
+      .map(it => ({ id: it.id, label: it.zh }));
+  }
+  const list = wrap.querySelector(".breed-pick-list");
+  list.innerHTML = hits.slice(0, 30).map(x =>
+    `<div class="breed-sp-item" onmousedown="breedPickChoose('${kind}',${idx},${x.id})">${esc(x.label)}</div>`).join("")
+    + (hits.length > 30 ? `<div class="breed-sp-item muted">共 ${hits.length} 条,继续输入可缩小范围</div>` : "")
+    + (hits.length ? "" : `<div class="breed-sp-item muted">没有匹配</div>`);
+  list.classList.remove("hidden");
+}
+window.breedPickChoose = function (kind, idx, id) {
+  if (kind === "move") breedForm.moves[idx] = id;
+  else if (kind === "item") breedForm.item = id;
+  else if (kind === "ball") breedForm.ball = id;
+  breedPersist();
+  renderBreed();
+};
+window.breedPickBlur = function (inp) {
+  /* 打了字没选中就还原当前值; 建议项用 onmousedown 选中 (先于 blur 触发), 不受影响 */
+  const wrap = inp.closest(".breed-pick");
+  const kind = wrap.dataset.kind, idx = +wrap.dataset.idx;
+  const cur = kind === "move" ? (breedForm.moves[idx] ? MOVE_BY_ID[breedForm.moves[idx]].zh || "" : "")
+    : kind === "item" ? (breedForm.item ? (HOME_ITEM_BY_ID[breedForm.item] || {}).zh || "" : "")
+    : (HOME_ITEM_BY_ID[breedForm.ball] || {}).zh || "";
+  if (inp.value !== cur) inp.value = cur;
+};
 function breedSpRowHtml() {
   const s = SPECIES_BY_ID[breedForm.sp];
   return `<div class="breed-row"><label>宝可梦</label><div class="breed-sp">
@@ -3408,7 +3460,7 @@ function breedFormHtml() {
     ${genderCtl}</div></div>
   <div class="breed-row"><label>昵称</label><div class="breed-ctl">
     <input class="breed-input" value="${esc(f.nick)}" placeholder="留空则用 species 名" onchange="breedSetField('nick',this.value)">
-    <span class="muted small">${breedEncodeName(f.nick, 10).findIndex(x => x === 0xFF) < 0 ? "9" : breedEncodeName(f.nick, 10).findIndex(x => x === 0xFF)}/9 字节</span></div></div>
+    <span class="muted small">${(() => { const e = breedEncodeName(f.nick, 10); const i = e.indexOf(0xFF); return i < 0 ? 10 : i; })()}/10 字节 (双字节汉字最多 5 个)</span></div></div>
   <div class="breed-row"><label>闪光</label><div class="breed-ctl">
     <label class="breed-check"><input type="checkbox" ${f.shiny ? "checked" : ""} onchange="breedSetField('shiny',this.checked)"${homeSave ? "" : " disabled"}> ✨ 闪光</label>
     ${homeSave ? "" : `<span class="muted small">需先在 HOME 页读取存档 (闪光与训练家 ID 绑定)</span>`}</div></div>
@@ -3420,11 +3472,11 @@ function breedFormHtml() {
     ${[0, 1, 2, 3, 4, 5].map(i => statRow("ev", i, ["HP", "攻击", "防御", "速度", "特攻", "特防"][i])).join("")}
     <span class="muted small${evSum > 510 ? " over" : ""}">合计 ${evSum}/510</span></div></div>
   <div class="breed-row"><label>招式</label><div class="breed-ctl col">
-    ${[0, 1, 2, 3].map(i => `<select onchange="breedSetMove(${i},this.value)">${breedMoveOptions(f, i)}</select>`).join("")}
-    <span class="muted small">招式表已过滤 id≥1024 的新招式 (盒子 10bit 字段放不下)</span></div></div>
+    ${[0, 1, 2, 3].map(i => breedPickHtml("move", i, f.moves[i] ? MOVE_BY_ID[f.moves[i]].zh || "" : "", "输入搜索可学会招式…")).join("")}
+    <span class="muted small">仅可学会的招式 (升级 / 招式机 / 教学); id≥1024 的新招式放不进盒子, 已过滤</span></div></div>
   <div class="breed-row"><label>道具 / 球</label><div class="breed-ctl col">
-    <select onchange="breedSetField('item',this.value)">${breedItemOptions(f, null)}</select>
-    <div class="breed-ctl"><span class="muted" style="width:auto">精灵球</span><select onchange="breedSetField('ball',this.value)">${breedItemOptions(f, [[3, "精灵球"]])}</select></div></div></div>
+    ${breedPickHtml("item", 0, f.item ? (HOME_ITEM_BY_ID[f.item] || {}).zh || "" : "", "输入搜索道具…")}
+    <div class="breed-ctl"><span class="muted" style="width:auto">精灵球</span>${breedPickHtml("ball", 0, (HOME_ITEM_BY_ID[f.ball] || {}).zh || "", "输入搜索…")}</div></div></div>
   <div class="breed-row"><label>亲密度</label><div class="breed-ctl">
     <input class="breed-input num" type="number" min="0" max="255" value="${f.friend}" onchange="breedSetField('friend',this.value)"></div></div>`;
 }
@@ -3439,7 +3491,7 @@ function breedPreviewHtml() {
     <div class="breed-preview-main">
       <div class="home-detail-name">${esc(f.nick || speciesName(s))}${s ? typePills(s.types, true) : ""}</div>
       <div class="muted small">Lv.${f.lv} · ${natZh} · ${abZh ? esc(abZh.zh) + (f.ab === "h" ? " (梦特)" : "") : "—"}</div>
-      <div class="breed-stats">${["hp", "atk", "def", "spe", "spa", "spd"].map(k => statBar(k, st[k])).join("")}</div>
+      <div class="breed-stats">${["hp", "atk", "def", "spa", "spd", "spe"].map(k => statBar(k, st[k])).join("")}</div>
       <div class="home-detail-moves">${f.moves.filter(Boolean).map(id => `<a class="pill small mv" onclick="showMovePopup(${id})">${esc(MOVE_BY_ID[id].zh)}</a>`).join("")}</div>
       <div class="muted small">个体 ${f.ivs.join("/")}${f.ab === "h" ? " · 梦特位" : ""} · 努力 ${f.evs.join("/")} · 亲密 ${f.friend}</div>
     </div>
