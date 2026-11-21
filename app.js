@@ -647,6 +647,7 @@ function route() {
   else if (h.startsWith("#/team")) renderTeamTools();
   else if (h.startsWith("#/card")) renderCardMaker(/^#\/card\/(\d+)/.exec(h)?.[1]);
   else if (h.startsWith("#/types")) renderTypes();
+  else if (h.startsWith("#/trainers")) renderTrainers();
   else if (h.startsWith("#/features")) renderFeatures();
   else renderHome();
   if (saved != null) requestAnimationFrame(() => window.scrollTo({ top: SCROLL_BY_HASH[h] || 0, behavior: "instant" }));
@@ -4352,6 +4353,115 @@ function renderTeamTools() {
   $("#team-sp-q")?.addEventListener("input", debounce(e => teamSpInput(e.target.value), 120));
 }
 window.renderTeamTools = renderTeamTools;
+
+/* ---------------- 训练家图鉴 (数据来自仓库源码提取: trainers.party Showdown 覆盖 + C 头部/队伍) ----------------
+   o=1 表示该训练家在 trainers.party 里被重制过 (阵容备注 nt 也来自那里的块尾注释);
+   ab 特性槽: Hidden / Ability_1 / Ability_2 / Ability_Random12 / Ability_RandomAll */
+var trainerFilter = { q: "", cls: -1, remade: "all", limit: 120 };
+function trainerAbZh(ab) {
+  return { Hidden: "梦特", Ability_1: "特性1", Ability_2: "特性2", Ability_Random12: "随机 1/2", Ability_RandomAll: "随机任意" }[ab] || ab;
+}
+function trainerClassName(cid) {
+  const c = (D.trainerClasses || []).find(x => x.id === cid);
+  return c && c.zh ? c.zh : "";
+}
+function trainerFallbackName(t) {
+  return t.n || trainerClassName(t.c) || t.k.replace(/^TRAINER_/, "").replace(/_/g, " ").toLowerCase().replace(/\b\w/g, ch => ch.toUpperCase());
+}
+function trainerVisibleList() {
+  const q = gspNorm(trainerFilter.q.trim());
+  return D.trainers.filter(t => {
+    if (trainerFilter.cls >= 0 && t.c !== trainerFilter.cls) return false;
+    if (trainerFilter.remade === "o" && !t.o) return false;
+    if (trainerFilter.remade === "raw" && t.o) return false;
+    if (q) {
+      const hit = gspNorm(t.n || "").includes(q) || gspNorm(t.nt || "").includes(q)
+        || gspNorm(trainerClassName(t.c)).includes(q)
+        || t.p.some(m => { const s = SPECIES_BY_ID[m.s]; return s && (gspNorm(s.zh).includes(q) || s.en.toLowerCase().includes(q)); });
+      if (!hit) return false;
+    }
+    return true;
+  });
+}
+function trainerPartyRow(m) {
+  const s = SPECIES_BY_ID[m.s];
+  const bits = [];
+  if (m.l != null) bits.push("Lv." + m.l);
+  if (m.it && HOME_ITEM_BY_ID[m.it]) bits.push("持 " + esc(HOME_ITEM_BY_ID[m.it].zh));
+  if (m.nat != null && BREED_NATURES[m.nat]) bits.push(esc(BREED_NATURES[m.nat].zh));
+  if (m.ab) bits.push(esc(trainerAbZh(m.ab)));
+  if (m.te && TYPE_BY_ID[m.te]) bits.push("太晶 " + esc(TYPE_BY_ID[m.te].zh));
+  if (m.hp && TYPE_BY_ID[m.hp]) bits.push("觉醒力量 " + esc(TYPE_BY_ID[m.hp].zh));
+  if (m.ivs) bits.push("个体 " + m.ivs.join("/"));
+  if (m.evs) bits.push("努力 " + m.evs.join("/"));
+  if (m.iv) bits.push("个体 " + m.iv);
+  return `${s ? spriteCanvas("icon", s.id) : `<span class="home-q">?</span>`}
+    <div class="pm-info"><div class="pm-name">${esc(s ? speciesName(s) : "?")}${s && s.formLabel ? ` <span class="muted small">${esc(s.formLabel)}</span>` : ""}</div>
+    <div class="pm-lv">${bits.join(" · ") || "—"}</div>
+    ${m.mv && m.mv.filter(Boolean).length ? `<div class="trn-moves">${m.mv.filter(Boolean).map(id => { const mv = MOVE_BY_ID[id]; return mv ? `<a class="pill small mv" onclick="showMovePopup(${id})">${esc(mv.zh)}</a>` : ""; }).join("")}</div>` : ""}</div>`;
+}
+function trainerDetailHtml(t) {
+  const cls = trainerClassName(t.c);
+  return `<h2>${esc(trainerFallbackName(t))}${cls && t.n ? ` <span class="pill small" style="background:#5a6b7d">${esc(cls)}</span>` : ""}${t.d ? ` <span class="pill small">双打</span>` : ""}${t.o ? ` <span class="pill small" style="background:#c0392b">✦ 已重制</span>` : ""}</h2>
+    ${t.nt ? `<div class="mv-desc">📝 ${esc(t.nt)}</div>` : ""}
+    ${t.ai ? `<div class="muted small">AI: ${esc(t.ai.map(a => a.replace(/^AI_SCRIPT_/, "")).join(" / "))}</div>` : ""}
+    ${t.it && t.it.length ? `<div class="muted small">携带: ${t.it.map(id => HOME_ITEM_BY_ID[id] ? esc(HOME_ITEM_BY_ID[id].zh) : "").filter(Boolean).join(" / ")}</div>` : ""}
+    <div class="trn-detail">${t.p.map(m => `<div class="trn-mon">${trainerPartyRow(m)}</div>`).join("")}</div>
+    <div class="home-popup-actions"><button type="button" class="cm-btn ghost" onclick="hidePopup()">关闭</button></div>`;
+}
+window.trainerClick = function (key) {
+  const t = D.trainers.find(x => x.k === key);
+  if (!t) return;
+  showPopup(trainerDetailHtml(t));
+  mountSprites(popup);
+};
+function trainerCardHtml(t) {
+  const cls = trainerClassName(t.c);
+  return `<div class="trn-card" onclick="trainerClick('${t.k}')" title="点击查看阵容详情">
+    <div class="trn-head">
+      <b class="trn-name">${esc(trainerFallbackName(t))}</b>
+      ${cls && t.n ? `<span class="pill small" style="background:#5a6b7d">${esc(cls)}</span>` : ""}
+      ${t.d ? `<span class="pill small">2v2</span>` : ""}
+      ${t.o ? `<span class="pill small trn-remade">✦ 重制</span>` : ""}
+    </div>
+    ${t.nt ? `<div class="trn-note">${esc(t.nt)}</div>` : ""}
+    ${t.it && t.it.length ? `<div class="trn-items">${t.it.map(id => HOME_ITEM_BY_ID[id] ? `<span class="pill small" style="background:#8a6d3b">${esc(HOME_ITEM_BY_ID[id].zh)}</span>` : "").join("")}</div>` : ""}
+    <div class="trn-party">${t.p.map(m => { const s = SPECIES_BY_ID[m.s]; return `<span class="trn-mon-s">${s ? spriteCanvas("icon", s.id) : ""}<i>${m.l != null ? "L" + m.l : ""}</i></span>`; }).join("")}</div>
+  </div>`;
+}
+function trainerRenderList() {
+  const list = trainerVisibleList();
+  const el = $("#trn-list");
+  if (el) el.innerHTML = list.slice(0, trainerFilter.limit).map(trainerCardHtml).join("") || `<div class="muted small">没有符合条件的训练家</div>`;
+  const more = document.getElementById("trn-more-wrap");
+  if (more) more.innerHTML = list.length > trainerFilter.limit ? `<button type="button" class="cm-btn ghost" onclick="trainerMore()">显示更多（还有 ${list.length - trainerFilter.limit} 位）</button>` : "";
+  mountSprites(el);
+}
+function renderTrainers() {
+  const classes = [...(D.trainerClasses || [])].filter(c => c.zh).sort((a, b) => a.zh.localeCompare(b.zh, "zh"));
+  const clsOpts = [`<option value="-1"${trainerFilter.cls === -1 ? " selected" : ""}>全部类别</option>`]
+    .concat(classes.map(c => `<option value="${c.id}"${trainerFilter.cls === c.id ? " selected" : ""}>${esc(c.zh)}</option>`));
+  const chip = (v, label) => `<span class="pill ana-fchip${trainerFilter.remade === v ? " on" : ""}" onclick="trainerSetRemade('${v}')">${label}</span>`;
+  const remadeN = D.trainers.filter(t => t.o).length;
+  app.innerHTML = `<div class="team-page">
+    <div class="page-title">训练家图鉴</div>
+    <div class="page-sub">本作 ${D.trainers.length} 位训练家的阵容一览（等级 / 道具 / 性格 / 个体努力 / 自定义招式）。标「✦ 重制」的是重新制作过的阵容。按游戏数据顺序排列。</div>
+    <div class="sync-section">
+      <div class="ana-fchips">${chip("all", "全部")} ${chip("o", "✦ 已重制")} ${chip("raw", "原始阵容")}<span class="muted small">共 ${D.trainers.length} 位 · 已重制 ${remadeN} 位</span></div>
+      ${searchBox("trn-q", "搜训练家名 / 备注 / 宝可梦 / 类别…", trainerFilter.q)}
+      <div class="trn-cls-row"><select id="trn-cls" onchange="trainerSetCls(this.value)">${clsOpts.join("")}</select></div>
+      <div id="trn-list" class="trn-list"></div>
+      <div id="trn-more-wrap" class="sync-actions"></div>
+    </div>
+  </div>`;
+  trainerRenderList();
+  $("#trn-q")?.addEventListener("input", debounce(e => trainerSetQ(e.target.value), 150));
+}
+window.trainerSetQ = function (v) { trainerFilter.q = v; trainerFilter.limit = 120; trainerRenderList(); };
+window.trainerSetCls = function (v) { trainerFilter.cls = +v; trainerFilter.limit = 120; trainerRenderList(); };
+window.trainerSetRemade = function (v) { trainerFilter.remade = v; trainerFilter.limit = 120; trainerRenderList(); };
+window.trainerMore = function () { trainerFilter.limit += 120; trainerRenderList(); };
+window.renderTrainers = renderTrainers;
 
 /* ---------------- 全局搜索 (Ctrl+K / 顶栏 🔍): 宝可梦/招式/特性/道具 一次搜完 ---------------- */
 var gspFlat = [], gspSel = 0;
