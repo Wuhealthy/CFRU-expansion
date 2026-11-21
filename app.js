@@ -4179,16 +4179,17 @@ window.renderAnalyze = renderAnalyze;
 /* ---------------- 队伍工具 (属性弱点矩阵 + 进攻覆盖 + 双招式学习查询) ----------------
    相性按纯属性计算 (不含特性/招式修正); 进攻覆盖 = 能对纵列属性打出效果绝佳的成员数 */
 const TEAM_KEY = "pkdx_team_chart";
-var teamState = null;  // { mons: [speciesId], a, b: 招式 id }
+var teamState = null;  // { mons: [speciesId], mvs: [招式 id ×4] }
 function teamInit() {
   if (teamState) return;
-  teamState = { mons: [], a: 0, b: 0 };
+  teamState = { mons: [], mvs: [0, 0, 0, 0] };
   try {
     const v = JSON.parse(localStorage.getItem(TEAM_KEY) || "null");
     if (v && Array.isArray(v.mons)) {
       teamState.mons = v.mons.filter(id => SPECIES_BY_ID[id]).slice(0, 6);
-      teamState.a = v.a > 0 && v.a <= 1023 && MOVE_BY_ID[v.a] ? v.a : 0;
-      teamState.b = v.b > 0 && v.b <= 1023 && MOVE_BY_ID[v.b] ? v.b : 0;
+      const ok = id => id > 0 && id <= 1023 && MOVE_BY_ID[id] ? id : 0;
+      if (Array.isArray(v.mvs)) teamState.mvs = [0, 1, 2, 3].map(i => ok(v.mvs[i]));
+      else teamState.mvs = [ok(v.a), ok(v.b), 0, 0];  // 旧版双招式数据迁移
     }
   } catch (e) {}
 }
@@ -4281,9 +4282,10 @@ function teamMatrixHtml() {
     <tbody>${rows}<tr class="team-cov"><th>进攻覆盖</th>${cov}<td></td></tr></tbody></table></div>
     <div class="legend"><span><i style="background:#c0392b"></i>×4</span><span><i style="background:#e05a5a"></i>×2 弱点</span><span><i style="background:#7ec84a"></i>½ 抗性</span><span><i style="background:#1f7a3d"></i>¼</span><span><i style="background:#6b7684"></i>✕ 免疫</span><span><i class="team-cov-i"></i>进攻覆盖 = 能对纵列属性打出效果绝佳的成员数</span></div>`;
 }
-function teamMovePick(k, id) {
-  return `<div class="breed-pick" data-k="${k}">
-    <input class="breed-input" value="${id ? esc((MOVE_BY_ID[id] || {}).zh || "") : ""}" placeholder="输入招式名搜索…" oninput="teamMoveInput(this)" onfocus="teamMoveInput(this)" onblur="teamMoveBlur(this)">
+function teamMovePick(k) {
+  const id = teamState.mvs[k];
+  return `<div class="breed-pick team-move-pick" data-k="${k}">
+    <input class="breed-input" value="${id ? esc((MOVE_BY_ID[id] || {}).zh || "") : ""}" placeholder="招式 ${k + 1}…" oninput="teamMoveInput(this)" onfocus="teamMoveInput(this)" onblur="teamMoveBlur(this)">
     <div class="breed-pick-list hidden"></div></div>`;
 }
 window.teamMoveInput = function (inp) {
@@ -4292,34 +4294,35 @@ window.teamMoveInput = function (inp) {
   const hits = D.moves.filter(m => !q || toHans(m.zh.toLowerCase()).includes(q) || m.en.toLowerCase().includes(q) || String(m.id) === q)
     .sort((a, b) => (toHans(a.zh.toLowerCase()).startsWith(q) ? -1 : 0) - (toHans(b.zh.toLowerCase()).startsWith(q) ? -1 : 0) || a.id - b.id);
   const list = wrap.querySelector(".breed-pick-list");
-  list.innerHTML = hits.slice(0, 30).map(m =>
-    `<div class="breed-sp-item" onmousedown="teamMoveChoose('${wrap.dataset.k}',${m.id})">${esc(m.zh)}<span class="muted small"> ${esc((TYPE_BY_ID[m.type] || {}).zh || "")}${m.power ? " · 威力" + fmtPower(m.power) : ""}</span></div>`).join("")
+  list.innerHTML = (teamState.mvs[+wrap.dataset.k] ? `<div class="breed-sp-item" onmousedown="teamMoveChoose(${wrap.dataset.k},0)">🚫 清除此槽位</div>` : "")
+    + hits.slice(0, 30).map(m =>
+    `<div class="breed-sp-item" onmousedown="teamMoveChoose(${wrap.dataset.k},${m.id})">${esc(m.zh)}<span class="muted small"> ${esc((TYPE_BY_ID[m.type] || {}).zh || "")}${m.power ? " · 威力" + fmtPower(m.power) : ""}</span></div>`).join("")
     + (hits.length > 30 ? `<div class="breed-sp-item muted">共 ${hits.length} 条，继续输入可缩小范围</div>` : "")
     + (hits.length ? "" : `<div class="breed-sp-item muted">没有匹配</div>`);
   list.classList.remove("hidden");
 };
 window.teamMoveChoose = function (k, id) {
   teamInit();
-  teamState[k] = id;
+  teamState.mvs[k] = id;
   teamPersist();
   renderTeamTools();
 };
 window.teamMoveBlur = function (inp) {
   const wrap = inp.closest(".breed-pick");
-  const cur = teamState[wrap.dataset.k];
+  const cur = teamState.mvs[+wrap.dataset.k];
   const want = cur ? (MOVE_BY_ID[cur] || {}).zh || "" : "";
   if (inp.value !== want) inp.value = want;
 };
 function teamComboResultHtml() {
-  const { a, b } = teamState;
-  if (!a && !b) return `<div class="muted small">选 1~2 个招式，列出能同时学会它们的宝可梦。</div>`;
+  const mvs = teamState.mvs.filter(Boolean);
+  if (!mvs.length) return `<div class="muted small">选 1~4 个招式，列出能同时学会它们的宝可梦。</div>`;
   const res = dexDefaultMons().filter(s => {
     const p = teamPool(s.id).pool;
-    return (!a || p.has(a)) && (!b || p.has(b));
+    return mvs.every(id => p.has(id));
   });
-  if (!res.length) return `<div class="muted small">没有默认形态的宝可梦能学会所选招式组合。</div>`;
+  if (!res.length) return `<div class="muted small">没有默认形态的宝可梦能同时学会全部所选招式（试试减少一个）。</div>`;
   const tiles = res.slice(0, 200).map(s => `<a class="ana-tile" href="#/p/${s.id}" title="${esc(speciesName(s))} #${s.dex}">${spriteCanvas("icon", s.id)}<span class="no">${s.dex}</span></a>`).join("");
-  return `<div class="ana-dex-count">共 <b>${res.length}</b> 只${res.length > 200 ? "（显示前 200 只）" : ""}</div><div class="ana-dexgrid">${tiles}</div>`;
+  return `<div class="ana-dex-count">同时学会 ${mvs.map(id => esc((MOVE_BY_ID[id] || {}).zh || "?")).join(" + ")}：<b>${res.length}</b> 只${res.length > 200 ? "（显示前 200 只）" : ""}</div><div class="ana-dexgrid">${tiles}</div>`;
 }
 function renderTeamTools() {
   teamInit();
@@ -4339,10 +4342,10 @@ function renderTeamTools() {
       ${teamState.mons.length ? teamMatrixHtml() : ""}
     </div>
     <div class="card team-card">
-      <div class="home-section-title">双招式学习查询</div>
-      <div class="team-combo-row">${teamMovePick("a", teamState.a)}<span class="team-plus">＋</span>${teamMovePick("b", teamState.b)}</div>
+      <div class="home-section-title">多招式学习查询（最多 4 个）</div>
+      <div class="team-combo-row">${[0, 1, 2, 3].map(k => teamMovePick(k)).join("")}</div>
       <div id="team-combo-wrap">${teamComboResultHtml()}</div>
-      <div class="muted small">含升级 / 招式机 / 教学 / 蛋招式；只列默认形态。</div>
+      <div class="muted small">含升级 / 招式机 / 教学 / 蛋招式；只列默认形态。点了招式的槽位可在下拉里选「🚫 清除此槽位」。</div>
     </div>
   </div>`;
   mountSprites(app);
@@ -4408,15 +4411,15 @@ function gspBuild() {
   document.body.appendChild(mask);
   mask.addEventListener("mousedown", e => { if (e.target === mask) gspClose(); });
   $("#gsp-q").addEventListener("input", e => gspInput(e.target.value));
-  const nav = document.querySelector(".topbar .nav");
-  if (nav) {
+  const mt = document.getElementById("menu-toggle");
+  if (mt) {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "gsp-btn";
     btn.title = "全局搜索 (Ctrl+K)";
     btn.textContent = "🔍";
     btn.onclick = gspOpen;
-    nav.insertAdjacentElement("afterend", btn);
+    mt.insertAdjacentElement("afterend", btn);
   }
 }
 function gspOpen() {
