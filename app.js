@@ -3346,7 +3346,6 @@ window.breedSetField = function (k, v) {
   else if (k === "ab") breedForm.ab = v;
   else if (k === "sex") breedForm.sex = v;
   else if (k === "item") breedForm.item = +v;
-  else if (k === "ball") breedForm.ball = +v;
   else if (k === "friend") breedForm.friend = Math.max(0, Math.min(255, +v | 0));
   else if (k === "nick") { breedForm.nick = String(v); breedForm.nickDirty = true; }
   else if (k === "shiny") { breedForm.shiny = !!v; breedForm.pidDirty = true; }
@@ -3466,7 +3465,7 @@ function breedPickInput(inp) {
       .filter(x => !q || toHans(x.zh.toLowerCase()).includes(q) || String(x.id) === q)
       .sort((a, b) => (lvMap[a.id] || 999) - (lvMap[b.id] || 999) || a.id - b.id);
   } else {
-    const pockets = kind === "ball" ? [3] : [1, 3, 5];
+    const pockets = [1, 3, 5];
     hits = D.items.filter(it => pockets.includes(it.pocket))
       .filter(it => !q || toHans(it.zh.toLowerCase()).includes(q) || String(it.id) === q)
       .sort((a, b) => a.id - b.id)
@@ -3482,7 +3481,6 @@ function breedPickInput(inp) {
 window.breedPickChoose = function (kind, idx, id) {
   if (kind === "move") breedForm.moves[idx] = id;
   else if (kind === "item") breedForm.item = id;
-  else if (kind === "ball") breedForm.ball = id;
   breedPersist();
   renderBreed();
 };
@@ -3492,7 +3490,7 @@ window.breedPickBlur = function (inp) {
   const kind = wrap.dataset.kind, idx = +wrap.dataset.idx;
   const cur = kind === "move" ? (breedForm.moves[idx] ? MOVE_BY_ID[breedForm.moves[idx]].zh || "" : "")
     : kind === "item" ? (breedForm.item ? (HOME_ITEM_BY_ID[breedForm.item] || {}).zh || "" : "")
-    : (HOME_ITEM_BY_ID[breedForm.ball] || {}).zh || "";
+    : "";
   if (inp.value !== cur) inp.value = cur;
 };
 function breedSpRowHtml() {
@@ -3543,9 +3541,8 @@ function breedFormHtml() {
   <div class="breed-row"><label>招式</label><div class="breed-ctl col">
     ${[0, 1, 2, 3].map(i => breedPickHtml("move", i, f.moves[i] ? MOVE_BY_ID[f.moves[i]].zh || "" : "", "输入搜索可学会招式…")).join("")}
     <span class="muted small">仅可学会的招式 (升级 / 招式机 / 教学); id≥1024 的新招式放不进盒子, 已过滤</span></div></div>
-  <div class="breed-row"><label>道具 / 球</label><div class="breed-ctl col">
-    ${breedPickHtml("item", 0, f.item ? (HOME_ITEM_BY_ID[f.item] || {}).zh || "" : "", "输入搜索道具…")}
-    <div class="breed-ctl"><span class="muted" style="width:auto">精灵球</span>${breedPickHtml("ball", 0, (HOME_ITEM_BY_ID[f.ball] || {}).zh || "", "输入搜索…")}</div></div></div>
+  <div class="breed-row"><label>道具</label><div class="breed-ctl col">
+    ${breedPickHtml("item", 0, f.item ? (HOME_ITEM_BY_ID[f.item] || {}).zh || "" : "", "输入搜索道具…")}</div></div>
   <div class="breed-row"><label>亲密度</label><div class="breed-ctl">
     <input class="breed-input num" type="number" min="0" max="255" value="${f.friend}" onchange="breedSetField('friend',this.value)"></div></div>`;
 }
