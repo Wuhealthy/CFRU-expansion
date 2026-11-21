@@ -635,6 +635,7 @@ function route() {
   else if (h.startsWith("#/gacha")) renderGacha();
   else if (h.startsWith("#/album")) renderAlbum();
   else if (h.startsWith("#/sync")) renderSync();
+  else if (h.startsWith("#/breed")) renderBreed();
   else if (h.startsWith("#/home")) renderPkHome();
   else if (h.startsWith("#/card")) renderCardMaker(/^#\/card\/(\d+)/.exec(h)?.[1]);
   else if (h.startsWith("#/types")) renderTypes();
@@ -2714,6 +2715,7 @@ function homeMonInfo(b) {
     ball: b[0x26],
     friend: b[0x25],
     moves: [0, 1, 2, 3].map(i => Math.floor(mv / Math.pow(2, 10 * i)) & 0x3FF),
+    evs: [0, 1, 2, 3, 4, 5].map(i => b[0x2C + i]),  // 努力值 (顺序: HP/攻/防/速/特攻/特防)
     ivs: [0, 1, 2, 3, 4, 5].map(i => (ivs >>> (5 * i)) & 31),
     ha: (ivs >>> 31) === 1,
   };
@@ -3046,14 +3048,18 @@ function homeDetailHtml() {
   const abId = info.ha ? (s && s.hidden || [])[0] : (s && s.abilities || [])[abIdx] ?? (s && s.abilities || [])[0];
   const abil = s ? ABIL_BY_ID[abId] : null;
   const item = HOME_ITEM_BY_ID[info.item], ball = HOME_ITEM_BY_ID[info.ball];
+  const nat = BREED_NATURES[info.pid % 25];
+  const natZh = (nat.u || nat.d) ? esc(nat.zh) + " (+" + BREED_NAT_STAT_ZH[nat.u] + " -" + BREED_NAT_STAT_ZH[nat.d] + ")" : esc(nat.zh);
   const rows = [
     ["等级", info.egg ? "蛋" : "Lv." + info.lvl],
     ["性别", info.gender || "—"],
+    ["性格", natZh],
     ["特性", abil ? esc(abil.zh) + (info.ha ? "（梦特）" : "") : "—"],
     ["道具", item ? esc(item.zh) : "无"],
     ["精灵球", ball ? esc(ball.zh) : "—"],
     ["亲密度", info.friend],
     ["个体值", info.ivs.join(" / ")],
+    ["努力值", info.evs.join(" / ")],
     ["经验", info.exp],
     ["训练家", info.ot ? esc(info.ot) + " (" + (info.otid % 65536) + ")" : String(info.otid % 65536)],
   ];
@@ -3122,6 +3128,347 @@ function renderPkHome() {
 }
 window.renderPkHome = renderPkHome;
 
+/* ---------------- 培养屋 (配置宝可梦 → 生成 CompressedPokemon → 送入 HOME → 经 HOME 传入存档) ----------------
+   HOME 模块负责「解析/写回」, 本模块负责「正向生成」:
+   - PID 按约束搜索: 性格 = pid%25; 常规特性槽 = (pid>>16)&1; 性别 = (pid&0xFF) 与性别阈值比较;
+     闪光 = (pid>>16 ^ pid&0xFFFF ^ otid>>16 ^ otid&0xFFFF) < 16 —— 与训练家 ID 绑定, 必须先读取存档
+   - 经验查 HOME_EXP_TABLES 成长曲线表 (与游戏同源); 昵称用 HOMECN 反查编码 (双字节大端, 0xFF 结尾)
+   - metInfo/lang/otName 等直接抄本作存档里游戏写的值: metGame=4, lang=2, metLocation=88
+   - 招式字段只有 10bit (≤1023): id≥1024 的新招式放不进 PC 盒子, 选项里一律过滤 */
+const BREED_KEY = "pkdx_breed_form";
+/* u/d = 上升/下降能力 (Gen3 标准表, 顺序 = pid%25 索引) */
+const BREED_NATURES = [
+  { zh: "勤奋", u: 0, d: 0 }, { zh: "孤独", u: 1, d: 2 }, { zh: "勇敢", u: 1, d: 3 },
+  { zh: "固执", u: 1, d: 4 }, { zh: "顽皮", u: 1, d: 5 }, { zh: "大胆", u: 2, d: 1 },
+  { zh: "坦率", u: 0, d: 0 }, { zh: "悠闲", u: 2, d: 3 }, { zh: "淘气", u: 2, d: 4 },
+  { zh: "乐天", u: 2, d: 5 }, { zh: "胆小", u: 3, d: 1 }, { zh: "性急", u: 3, d: 2 },
+  { zh: "认真", u: 0, d: 0 }, { zh: "开朗", u: 3, d: 4 }, { zh: "天真", u: 3, d: 5 },
+  { zh: "内敛", u: 4, d: 1 }, { zh: "慢吞吞", u: 4, d: 2 }, { zh: "冷静", u: 4, d: 3 },
+  { zh: "害羞", u: 0, d: 0 }, { zh: "马虎", u: 4, d: 5 }, { zh: "温和", u: 5, d: 1 },
+  { zh: "温柔", u: 5, d: 2 }, { zh: "自大", u: 5, d: 3 }, { zh: "慎重", u: 5, d: 4 },
+  { zh: "浮躁", u: 0, d: 0 },
+];
+const BREED_NAT_STAT_ZH = { 1: "攻击", 2: "防御", 3: "速度", 4: "特攻", 5: "特防" };  // 性格表 u/d 编号 → 名称
+const BREED_REV = (() => {  // 字符 → 最小码 (单字符表项; 优先单字节码)
+  const m = new Map();
+  Object.keys(HOMECN).map(Number).sort((a, b) => a - b).forEach(c => {
+    const ch = HOMECN[c];
+    if (ch.length === 1 && !m.has(ch)) m.set(ch, c);
+  });
+  return m;
+})();
+function breedEncodeName(str, maxBytes) {
+  const out = [];
+  for (const ch of String(str || "")) {
+    const c = BREED_REV.get(ch);
+    if (c === undefined) continue;
+    const need = c <= 0xFF ? 1 : 2;
+    if (out.length + need > maxBytes - 1) break;  // 留 1 字节给 0xFF 结束符
+    if (c <= 0xFF) out.push(c); else out.push(c >> 8, c & 0xFF);
+  }
+  while (out.length < maxBytes) out.push(0xFF);
+  return Uint8Array.from(out);
+}
+function breedCalcStats(s, lv, ivs, evs, nat) {
+  const b = s.stats, st = {};
+  const keys = ["hp", "atk", "def", "spe", "spa", "spd"];  // ivs/evs 数组顺序与此一致
+  const base = k => {
+    const i = keys.indexOf(k);
+    return Math.floor((2 * b[k] + ivs[i] + Math.floor(evs[i] / 4)) * lv / 100);
+  };
+  st.hp = b.hp === 1 ? 1 : base("hp") + lv + 10;
+  const nk = { atk: 1, def: 2, spe: 3, spa: 4, spd: 5 };  // 性格表 u/d 用这套数字编号
+  ["atk", "def", "spe", "spa", "spd"].forEach(k => {
+    const m = nk[k] === nat.u ? 1.1 : nk[k] === nat.d ? 0.9 : 1;
+    st[k] = Math.floor((base(k) + 5) * m);
+  });
+  return st;
+}
+function breedSearchSp(q) {
+  const raw = toHans(String(q || "").trim().toLowerCase());
+  if (!raw) return [];
+  return D.species.filter(x =>
+    toHans((x.zh || "").toLowerCase()).includes(raw) ||
+    (x.en || "").toLowerCase().includes(raw) ||
+    String(x.dex) === raw);
+}
+function breedLearnset(s) {
+  const lvMap = {};
+  (s.levelUp || []).forEach(e => { if (e[1] <= 1023 && (lvMap[e[1]] === undefined || e[0] < lvMap[e[1]])) lvMap[e[1]] = e[0]; });
+  const pool = new Set(Object.keys(lvMap).map(Number));
+  (s.tm || []).forEach(id => { if (id <= 1023 && MOVE_BY_ID[id]) pool.add(id); });
+  (s.tutor || []).forEach(id => { if (id <= 1023 && MOVE_BY_ID[id]) pool.add(id); });
+  return { lvMap, pool };
+}
+function breedDefaultMoves(s, lv) {
+  const { lvMap } = breedLearnset(s);
+  const byLv = Object.keys(lvMap).map(Number).filter(id => lvMap[id] <= lv).sort((a, b) => lvMap[a] - lvMap[b]);
+  const picks = byLv.slice(-4);
+  for (let i = 0; picks.length < 4 && i < byLv.length; i++) picks.unshift(byLv[i]);  // 招式不足 4 个时从头补
+  return [picks[0] || 0, picks[1] || 0, picks[2] || 0, picks[3] || 0];
+}
+function breedDefaultForm(sp) {
+  const s = SPECIES_BY_ID[sp];
+  return { sp, lv: 50, nat: 0, ab: (s && s.hidden && s.hidden.length) ? "h" : "0", sex: "m",
+           ivs: [31, 31, 31, 31, 31, 31], evs: [0, 0, 0, 0, 0, 0],
+           moves: s ? breedDefaultMoves(s, 50) : [0, 0, 0, 0],
+           item: 0, ball: 4, friend: (s && s.friendship) || 70, nick: "", shiny: false };
+}
+var breedForm = null;  // 与 HOME 状态同样用 var + 惰性初始化 (启动 route() 可能先执行)
+function breedInitForm() {
+  if (breedForm) return;
+  try {
+    const v = JSON.parse(localStorage.getItem(BREED_KEY) || "null");
+    if (v && SPECIES_BY_ID[v.sp]) {
+      v.ivs = (v.ivs || []).map(x => Math.max(0, Math.min(31, +x | 0)));
+      v.evs = (v.evs || []).map(x => Math.max(0, Math.min(252, +x | 0)));
+      v.moves = [0, 1, 2, 3].map(i => (v.moves || [])[i] <= 1023 && MOVE_BY_ID[v.moves[i]] ? v.moves[i] : 0);
+      breedForm = v;
+      return;
+    }
+  } catch (e) {}
+  breedForm = breedDefaultForm(25);
+}
+function breedPersist() { localStorage.setItem(BREED_KEY, JSON.stringify(breedForm)); }
+/* 生成 58 字节 CompressedPokemon; 无存档时 otid=0 / OT="HOME" (进游戏后视为交换来的宝可梦) */
+function breedMakeMon(f) {
+  const s = SPECIES_BY_ID[f.sp];
+  const t = HOME_EXP_TABLES[HOME_GROWTH_MAP[s.growth] || ""] || HOME_EXP_TABLES.GROWTH_MEDIUM_FAST;
+  const lv = Math.max(1, Math.min(100, f.lv | 0));
+  const exp = t[lv] || 0;
+  const otid = homeSave ? homeSave.player.tid : 0;
+  const otName = homeSave
+    ? new Uint8Array(homeSave.buf, homeSave.chunks[0].fileOff, 7).slice()
+    : breedEncodeName("HOME", 7);
+  const thr = s.genderF >= 100 ? 256 : s.genderF < 0 ? -1 : Math.floor(s.genderF * 2.55);
+  const wantF = f.sex === "f";
+  const wantAbSlot = f.ab === "h" ? null : (f.ab === "1" ? 1 : 0);
+  let pid = 0;
+  for (let i = 0; i < 4000000; i++) {
+    pid = (Math.random() * 4294967296) >>> 0;
+    if (pid % 25 !== f.nat) continue;
+    if (wantAbSlot !== null && ((pid >>> 16) & 1) !== wantAbSlot) continue;
+    if (thr > 0 && thr < 256 && ((pid & 0xFF) < thr) !== wantF) continue;
+    if (f.shiny && (((pid >>> 16) ^ (pid & 0xFFFF) ^ (otid >>> 16) ^ (otid & 0xFFFF)) >= 16)) continue;
+    break;
+  }
+  const b = new Uint8Array(58);
+  const w8 = (o, v) => { b[o] = v & 0xFF; };
+  const w16 = (o, v) => { b[o] = v & 0xFF; b[o + 1] = (v >>> 8) & 0xFF; };
+  const w32 = (o, v) => { b[o] = v & 0xFF; b[o + 1] = (v >>> 8) & 0xFF; b[o + 2] = (v >>> 16) & 0xFF; b[o + 3] = (v >>> 24) & 0xFF; };
+  w32(0, pid);
+  w32(4, otid);
+  b.set(breedEncodeName(f.nick, 10), 8);
+  w8(0x12, 2);            // 语言: 本作一律写 2
+  w8(0x13, 0x02);         // hasSpecies
+  b.set(otName.subarray(0, 7), 0x14);
+  w8(0x1B, 0);            // 标记
+  w16(0x1C, f.sp);
+  w16(0x1E, f.item || 0);
+  w32(0x20, exp);
+  w8(0x24, 0);            // PP 加成
+  w8(0x25, Math.max(0, Math.min(255, f.friend | 0)));
+  w8(0x26, f.ball || 4);
+  let mv = 0;
+  for (let i = 0; i < 4; i++) { const id = (f.moves[i] || 0) <= 1023 ? (f.moves[i] || 0) : 0; mv += id * Math.pow(2, 10 * i); }
+  for (let i = 0; i < 5; i++) b[0x27 + i] = Math.floor(mv / Math.pow(2, 8 * i)) & 0xFF;
+  for (let i = 0; i < 6; i++) w8(0x2C + i, Math.max(0, Math.min(252, f.evs[i] | 0)));
+  w8(0x32, 0);            // 宝可病毒
+  w8(0x33, 88);           // 相遇地点: 与游戏给初始宝可梦写的一致
+  w16(0x34, (lv & 0x7F) | (4 << 7) | ((homeSave && homeSave.player.gender === 1 ? 1 : 0) << 15));
+  let ivs32 = 0;
+  for (let i = 0; i < 6; i++) ivs32 += Math.max(0, Math.min(31, f.ivs[i] | 0)) * Math.pow(2, 5 * i);
+  if (f.ab === "h") ivs32 += 0x80000000;  // 隐藏能力位
+  w32(0x36, ivs32);
+  return b;
+}
+/* ---------------- 培养屋交互 ---------------- */
+window.breedSpInput = function (v) {
+  const list = $("#breed-sp-list");
+  if (!list) return;
+  const hits = breedSearchSp(v).slice(0, 12);
+  list.innerHTML = hits.length ? hits.map(s => `
+    <div class="breed-sp-item" onclick="breedSetSp(${s.id})">
+      ${spriteCanvas("icon", s.id)}<span class="nm">${esc(speciesName(s))}</span>
+      <span class="muted">#${s.dex}${s.formLabel ? " · " + esc(s.formLabel) : ""}</span>
+    </div>`).join("") : `<div class="breed-sp-item muted">没有匹配的宝可梦</div>`;
+  list.classList.toggle("hidden", !v);
+  mountSprites(list);
+};
+window.breedSpPickerOpen = function () {
+  const inp = $("#breed-sp-q");
+  inp.value = "";
+  $("#breed-sp-list").classList.add("hidden");
+  $("#breed-sp-picker").classList.toggle("hidden");
+  inp.focus();
+};
+window.breedSetSp = function (id) {
+  breedForm = breedDefaultForm(+id);
+  breedPersist();
+  renderBreed();
+};
+window.breedSetField = function (k, v) {
+  breedInitForm();
+  if (k === "lv") breedForm.lv = Math.max(1, Math.min(100, +v || 1));
+  else if (k === "nat") breedForm.nat = +v;
+  else if (k === "ab") breedForm.ab = v;
+  else if (k === "sex") breedForm.sex = v;
+  else if (k === "item") breedForm.item = +v;
+  else if (k === "ball") breedForm.ball = +v;
+  else if (k === "friend") breedForm.friend = Math.max(0, Math.min(255, +v | 0));
+  else if (k === "nick") breedForm.nick = String(v);
+  else if (k === "shiny") breedForm.shiny = !!v;
+  breedPersist();
+  renderBreed();
+};
+window.breedSetStat = function (kind, i, v) {
+  breedInitForm();
+  const cap = kind === "iv" ? 31 : 252;
+  breedForm[kind + "s"][i] = Math.max(0, Math.min(cap, +v | 0));
+  breedPersist();
+  renderBreed();
+};
+window.breedRandIvs = function (max) {
+  breedInitForm();
+  breedForm.ivs = max ? [31, 31, 31, 31, 31, 31] : Array.from({ length: 6 }, () => (Math.random() * 32) | 0);
+  breedPersist();
+  renderBreed();
+};
+window.breedSetMove = function (i, v) {
+  breedInitForm();
+  breedForm.moves[i] = +v || 0;
+  breedPersist();
+  renderBreed();
+};
+window.breedSend = function () {
+  breedInitForm();
+  homeInitState();
+  if (breedForm.shiny && !homeSave) return breedShowMsg("闪光与训练家 ID 绑定：请先到「HOME」页读取存档再生成闪光宝可梦", "err");
+  const bytes = breedMakeMon(breedForm);
+  const to = homeFindFree("home", homeUI.homeBox);
+  if (!to) return breedShowMsg("HOME 盒子已满，请先清理或传进存档", "err");
+  homeUI.homeBox = to.box;
+  homeSetMon("home", to.box, to.slot, bytes);
+  const info = homeMonInfo(bytes);
+  breedShowMsg(`「${info.name}」(${info.lvl != null ? "Lv." + info.lvl : "?"}) 已送入 HOME 盒子 ${to.box + 1} 第 ${to.slot + 1} 格 —— 到 <a href="#/home">HOME</a> 页即可传进游戏存档`, "ok");
+};
+function breedShowMsg(msg, type) {
+  const el = $("#breed-msg");
+  if (!el) return;
+  el.innerHTML = msg;
+  el.className = "sync-msg " + (type || "");
+}
+/* ---------------- 培养屋渲染 ---------------- */
+function breedMoveOptions(f, i) {
+  const s = SPECIES_BY_ID[f.sp];
+  const { lvMap, pool } = breedLearnset(s);
+  const sel = id => f.moves[i] === id ? " selected" : "";
+  const lvOpts = Object.keys(lvMap).map(Number).sort((a, b) => lvMap[a] - lvMap[b])
+    .map(id => `<option value="${id}"${sel(id)}>${esc(MOVE_BY_ID[id].zh)} (Lv.${lvMap[id]})</option>`).join("");
+  const tmOpts = [...pool].filter(id => lvMap[id] === undefined).sort((a, b) => a - b)
+    .map(id => `<option value="${id}"${sel(id)}>${esc(MOVE_BY_ID[id].zh)}</option>`).join("");
+  const rest = D.moves.filter(m => m.id <= 1023 && !pool.has(m.id)).sort((a, b) => a.id - b.id)
+    .map(m => `<option value="${m.id}"${sel(m.id)}>${esc(m.zh)}</option>`).join("");
+  return `<option value="0"${sel(0)}>— 空 —</option><optgroup label="可学会">${lvOpts}${tmOpts}</optgroup><optgroup label="全部招式">${rest}</optgroup>`;
+}
+function breedItemOptions(f, pockets) {
+  const sel = id => (f.item === id && !pockets) || (pockets && f.ball === id) ? " selected" : "";
+  if (pockets) return pockets.map(p => `<optgroup label="${esc(p[1])}">${D.items.filter(it => it.pocket === p[0]).map(it => `<option value="${it.id}"${sel(it.id)}>${esc(it.zh)}</option>`).join("")}</optgroup>`).join("");
+  return `<option value="0"${f.item === 0 ? " selected" : ""}>无</option>` +
+    [[1, "道具"], [3, "精灵球"], [5, "树果"]].map(p => `<optgroup label="${esc(p[1])}">${D.items.filter(it => it.pocket === p[0]).map(it => `<option value="${it.id}"${sel(it.id)}>${esc(it.zh)}</option>`).join("")}</optgroup>`).join("");
+}
+function breedSpRowHtml() {
+  const s = SPECIES_BY_ID[breedForm.sp];
+  return `<div class="breed-row"><label>宝可梦</label><div class="breed-sp">
+    <div class="breed-sp-sel">${spriteCanvas("icon", s.id)}<b>${esc(speciesName(s))}</b>
+      <span class="muted">#${s.dex}${s.formLabel ? " · " + esc(s.formLabel) : ""}</span>
+      <button type="button" class="cm-btn ghost small" onclick="breedSpPickerOpen()">换一只</button></div>
+    <div id="breed-sp-picker" class="hidden">
+      <input id="breed-sp-q" class="breed-input" placeholder="名字 / 编号 / 英文名…" oninput="breedSpInput(this.value)">
+      <div id="breed-sp-list" class="breed-sp-list hidden"></div>
+    </div>
+  </div></div>`;
+}
+function breedFormHtml() {
+  const f = breedForm, s = SPECIES_BY_ID[f.sp];
+  const abOpts = [];
+  (s.abilities || []).forEach((id, i) => { const a = ABIL_BY_ID[id]; if (a && i < 2) abOpts.push(`<option value="${i}"${f.ab === String(i) ? " selected" : ""}>${esc(a.zh)}</option>`); });
+  const hasHa = s.hidden && s.hidden.length && ABIL_BY_ID[s.hidden[0]];
+  const statRow = (kind, i, zh) => `<span class="breed-stat"><i>${zh}</i><input type="number" min="0" max="${kind === "iv" ? 31 : 252}" value="${breedForm[kind + "s"][i]}" onchange="breedSetStat('${kind}',${i},this.value)"></span>`;
+  const genderCtl = s.genderF >= 100 ? `<span class="muted">固定 ♀</span>`
+    : s.genderF < 0 ? `<span class="muted">无性别</span>`
+    : `<select onchange="breedSetField('sex',this.value)"><option value="m"${f.sex !== "f" ? " selected" : ""}>♂</option><option value="f"${f.sex === "f" ? " selected" : ""}>♀</option></select>`;
+  const evSum = f.evs.reduce((a, b) => a + b, 0);
+  return `${breedSpRowHtml()}
+  <div class="breed-row"><label>等级 / 性格</label><div class="breed-ctl">
+    <input class="breed-input num" type="number" min="1" max="100" value="${f.lv}" onchange="breedSetField('lv',this.value)">
+    <select onchange="breedSetField('nat',this.value)">${BREED_NATURES.map((n, i) => `<option value="${i}"${f.nat === i ? " selected" : ""}>${esc(n.zh)}</option>`).join("")}</select></div></div>
+  <div class="breed-row"><label>特性 / 性别</label><div class="breed-ctl">
+    <select onchange="breedSetField('ab',this.value)">${abOpts.join("")}${hasHa ? `<option value="h"${f.ab === "h" ? " selected" : ""}>梦特 · ${esc(hasHa.zh)}</option>` : ""}</select>
+    ${genderCtl}</div></div>
+  <div class="breed-row"><label>昵称</label><div class="breed-ctl">
+    <input class="breed-input" value="${esc(f.nick)}" placeholder="留空则用 species 名" onchange="breedSetField('nick',this.value)">
+    <span class="muted small">${breedEncodeName(f.nick, 10).findIndex(x => x === 0xFF) < 0 ? "9" : breedEncodeName(f.nick, 10).findIndex(x => x === 0xFF)}/9 字节</span></div></div>
+  <div class="breed-row"><label>闪光</label><div class="breed-ctl">
+    <label class="breed-check"><input type="checkbox" ${f.shiny ? "checked" : ""} onchange="breedSetField('shiny',this.checked)"${homeSave ? "" : " disabled"}> ✨ 闪光</label>
+    ${homeSave ? "" : `<span class="muted small">需先在 HOME 页读取存档 (闪光与训练家 ID 绑定)</span>`}</div></div>
+  <div class="breed-row"><label>个体值</label><div class="breed-ctl wrap">
+    ${[0, 1, 2, 3, 4, 5].map(i => statRow("iv", i, ["HP", "攻击", "防御", "速度", "特攻", "特防"][i])).join("")}
+    <button type="button" class="cm-btn ghost small" onclick="breedRandIvs(0)">随机</button>
+    <button type="button" class="cm-btn ghost small" onclick="breedRandIvs(1)">全满</button></div></div>
+  <div class="breed-row"><label>努力值</label><div class="breed-ctl wrap">
+    ${[0, 1, 2, 3, 4, 5].map(i => statRow("ev", i, ["HP", "攻击", "防御", "速度", "特攻", "特防"][i])).join("")}
+    <span class="muted small${evSum > 510 ? " over" : ""}">合计 ${evSum}/510</span></div></div>
+  <div class="breed-row"><label>招式</label><div class="breed-ctl col">
+    ${[0, 1, 2, 3].map(i => `<select onchange="breedSetMove(${i},this.value)">${breedMoveOptions(f, i)}</select>`).join("")}
+    <span class="muted small">招式表已过滤 id≥1024 的新招式 (盒子 10bit 字段放不下)</span></div></div>
+  <div class="breed-row"><label>道具 / 球</label><div class="breed-ctl col">
+    <select onchange="breedSetField('item',this.value)">${breedItemOptions(f, null)}</select>
+    <div class="breed-ctl"><span class="muted" style="width:auto">精灵球</span><select onchange="breedSetField('ball',this.value)">${breedItemOptions(f, [[3, "精灵球"]])}</select></div></div></div>
+  <div class="breed-row"><label>亲密度</label><div class="breed-ctl">
+    <input class="breed-input num" type="number" min="0" max="255" value="${f.friend}" onchange="breedSetField('friend',this.value)"></div></div>`;
+}
+function breedPreviewHtml() {
+  const f = breedForm, s = SPECIES_BY_ID[f.sp];
+  const nat = BREED_NATURES[f.nat] || BREED_NATURES[0];
+  const st = breedCalcStats(s, f.lv, f.ivs, f.evs, nat);
+  const natZh = (nat.u || nat.d) ? `${esc(nat.zh)} (+${BREED_NAT_STAT_ZH[nat.u]} -${BREED_NAT_STAT_ZH[nat.d]})` : esc(nat.zh);
+  const abZh = f.ab === "h" ? ABIL_BY_ID[(s.hidden || [])[0]] : ABIL_BY_ID[(s.abilities || [])[+f.ab] ?? (s.abilities || [])[0]];
+  return `<div class="breed-preview">
+    <div class="breed-preview-spr">${spriteCanvas(f.shiny ? "front_shiny" : "front", s.id)}${f.shiny ? `<div class="home-shiny-tag">✨ 闪光</div>` : ""}</div>
+    <div class="breed-preview-main">
+      <div class="home-detail-name">${esc(f.nick || speciesName(s))}${s ? typePills(s.types, true) : ""}</div>
+      <div class="muted small">Lv.${f.lv} · ${natZh} · ${abZh ? esc(abZh.zh) + (f.ab === "h" ? " (梦特)" : "") : "—"}</div>
+      <div class="breed-stats">${["hp", "atk", "def", "spe", "spa", "spd"].map(k => statBar(k, st[k])).join("")}</div>
+      <div class="home-detail-moves">${f.moves.filter(Boolean).map(id => `<a class="pill small mv" onclick="showMovePopup(${id})">${esc(MOVE_BY_ID[id].zh)}</a>`).join("")}</div>
+      <div class="muted small">个体 ${f.ivs.join("/")}${f.ab === "h" ? " · 梦特位" : ""} · 努力 ${f.evs.join("/")} · 亲密 ${f.friend}</div>
+    </div>
+  </div>`;
+}
+function renderBreed() {
+  breedInitForm();
+  homeInitState();
+  const f = breedForm;
+  app.innerHTML = `<div class="breed-page">
+    <div class="page-title">培养屋</div>
+    <div class="page-sub">按你的想法培养一只宝可梦，「送入 HOME」后会放进浏览器的 HOME 盒子，再到 <a href="#/home">HOME</a> 页即可传进游戏存档。数据同样只在本地生成。</div>
+    <div class="breed-grid">
+      <div class="breed-form">${breedFormHtml()}
+        <div class="breed-send">
+          <button type="button" class="cm-btn" onclick="breedSend()">🎁 送入 HOME</button>
+          <span class="muted small">HOME 已存 ${homeBoxes.flat().filter(Boolean).length} 只</span>
+        </div>
+        <div class="muted small" style="margin-top:6px">${homeSave
+          ? `培养的宝可梦将属于你：${esc(homeSave.player.name || "???")} (${homeSave.player.tid % 65536})，可生成闪光`
+          : `尚未读取存档：宝可梦会以 HOME 的名义持有（进游戏后显示为交换获得）。先在 <a href="#/home">HOME</a> 页读取存档，宝可梦就会属于你，且可生成闪光`}</div>
+        <div id="breed-msg" class="sync-msg"></div>
+      </div>
+      <div class="breed-side">${breedPreviewHtml()}</div>
+    </div>
+  </div>`;
+  mountSprites(app);
+}
+window.renderBreed = renderBreed;
 /* ---------------- 启动 ---------------- */
 window.addEventListener("error", e => {
   console.error(e.message);
@@ -3809,6 +4156,7 @@ function renderSync() {
     { k: "pkdx_favs", label: "收藏" },
     { k: "pkdx_gacha_album", label: "抽卡收集册" },
     { k: "pkdx_home_boxes", label: "HOME盒子" },
+    { k: "pkdx_breed_form", label: "培养屋配置" },
     { k: "pkdx_theme", label: "主题" },
     { k: "pkdx_lang", label: "语言" },
     { k: "pkdx_dex_view", label: "图鉴视图" },
@@ -3819,6 +4167,7 @@ function renderSync() {
     if (s.k === "pkdx_favs" && v) detail = `${JSON.parse(v).length} 只`;
     else if (s.k === "pkdx_gacha_album" && v) detail = `${JSON.parse(v).length} 张卡`;
     else if (s.k === "pkdx_home_boxes" && v) detail = `${JSON.parse(v).boxes.flat().filter(Boolean).length} 只`;
+    else if (s.k === "pkdx_breed_form" && v) detail = SPECIES_BY_ID[JSON.parse(v).sp] ? esc(speciesName(SPECIES_BY_ID[JSON.parse(v).sp])) : "已保存";
     else if (v) detail = v === "hant" ? "繁体" : v === "hans" ? "简体" : v;
     return `<div class="sync-item"><span class="sync-item-label">${s.label}</span><span class="sync-item-val">${detail || "未设置"}</span></div>`;
   }).join("");

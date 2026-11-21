@@ -1072,3 +1072,49 @@ textarea.cm-input { resize: vertical; min-height: 36px; font-family: inherit; }
   .home-box-name { min-width: 0; }
 }
 
+/* ---------------- 培养屋 ---------------- */
+.breed-page { max-width: 960px; margin: 0 auto; padding: 8px 0 40px; }
+.breed-page .page-sub { line-height: 1.8; margin-bottom: 16px; }
+.breed-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+.breed-form { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 20px; }
+.breed-row { display: flex; gap: 10px; padding: 9px 0; border-bottom: 1px dashed var(--line); align-items: flex-start; }
+.breed-row:last-child { border-bottom: none; }
+.breed-row > label { flex: none; width: 74px; font-size: 13px; color: var(--muted); padding-top: 6px; }
+.breed-ctl { display: flex; gap: 8px; align-items: center; flex: 1; min-width: 0; flex-wrap: wrap; }
+.breed-ctl.col { flex-direction: column; align-items: stretch; }
+.breed-ctl.wrap { flex-wrap: wrap; }
+.breed-input, .breed-ctl select { border: 1px solid var(--line); border-radius: 8px; padding: 5px 10px; font: inherit; font-size: 13px; color: var(--ink); background: var(--bg); min-width: 0; }
+.breed-ctl select { flex: 1; }
+.breed-input:focus, .breed-ctl select:focus { outline: none; border-color: var(--accent); }
+.breed-input.num { width: 72px; flex: none; }
+.breed-stat { display: inline-flex; align-items: center; gap: 4px; }
+.breed-stat i { font-style: normal; font-size: 11px; color: var(--muted); width: 30px; text-align: right; }
+.breed-stat input { width: 52px; }
+.breed-check { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink); cursor: pointer; }
+.muted { color: var(--muted); }
+.muted.small { font-size: 12px; }
+.muted.over { color: var(--accent); font-weight: 700; }
+.breed-sp { flex: 1; min-width: 0; }
+.breed-sp-sel { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 14px; }
+.breed-sp-sel canvas { width: 32px; height: 32px; image-rendering: pixelated; }
+.breed-sp-sel .small { font-size: 12px; padding: 3px 10px; }
+#breed-sp-picker { margin-top: 8px; }
+#breed-sp-q { width: 100%; box-sizing: border-box; }
+.breed-sp-list { background: var(--card); border: 1px solid var(--line); border-radius: 10px; margin-top: 6px; overflow: hidden; box-shadow: var(--shadow); }
+.breed-sp-item { display: flex; align-items: center; gap: 8px; padding: 6px 12px; cursor: pointer; font-size: 13px; color: var(--ink); }
+.breed-sp-item:hover { background: var(--nav-hover); }
+.breed-sp-item canvas { width: 28px; height: 28px; image-rendering: pixelated; }
+.breed-sp-item .muted { margin-left: auto; font-size: 12px; }
+.breed-send { display: flex; align-items: center; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
+.breed-preview { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 20px; position: sticky; top: 70px; }
+.breed-preview-spr { text-align: center; }
+.breed-preview-spr canvas { width: 108px; height: 108px; image-rendering: pixelated; }
+.breed-preview-main { margin-top: 6px; }
+.breed-stats { margin: 10px 0; }
+.breed-stats .stat-row { padding: 2px 0; }
+@media (max-width: 800px) {
+  .breed-grid { grid-template-columns: 1fr; }
+  .breed-preview { position: static; }
+  .breed-row > label { width: 62px; }
+}
+
