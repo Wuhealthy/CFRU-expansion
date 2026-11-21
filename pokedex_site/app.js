@@ -2565,11 +2565,11 @@ function renderFeatures() {
       </div>
       <div class="feature-shots">
         <div class="feature-shot">
-          <img src="data/features/awaken_before.png" alt="觉醒前">
+          <img src="data/features/awaken_before.png" alt="觉醒前" width="240" height="160" loading="lazy">
           <span>觉醒前</span>
         </div>
         <div class="feature-shot">
-          <img src="data/features/awaken_after.png" alt="觉醒后">
+          <img src="data/features/awaken_after.png" alt="觉醒后" width="240" height="160" loading="lazy">
           <span>觉醒后</span>
         </div>
       </div>
@@ -2905,6 +2905,64 @@ window.homeClearHome = function () {
   renderPkHome();
   homeShowMsg("HOME 盒子已清空", "ok");
 };
+/* ---------------- 联机交换码 (纯前端: 码 = HOME1. + 58 字节宝可梦的 Base64, 聊天工具传码即交换) ---------------- */
+function homeTradeCodeExport(bytes) {
+  return "HOME1." + homeB64(bytes);
+}
+function homeTradeCodeImport(text) {
+  let t = String(text || "").trim().replace(/\s|　/g, "");
+  if (t.startsWith("HOME1.")) t = t.slice(6);
+  if (!/^[A-Za-z0-9+/=]+$/.test(t)) return null;
+  try {
+    const b = homeUnb64(t);
+    if (b.length !== HOME_CP) return null;
+    return homeMonInfo(b) ? b : null;  // 物种非法的码直接拒收
+  } catch (e) { return null; }
+}
+window.homeTradeExportAsk = function () {
+  const sel = homeUI.sel;
+  if (!sel) return;
+  const bytes = homeGetMon(sel.side, sel.box, sel.slot);
+  const info = homeMonInfo(bytes);
+  if (!info) return;
+  showPopup(`<h2>宝可梦交换码 · ${esc(info.name)}</h2>
+    <div class="mv-desc">把下面的码发给朋友，对方在「HOME」页点「粘贴导入交换码」即可收到这只宝可梦。码里只含这只宝可梦本身，不经过任何服务器。</div>
+    <textarea id="trade-export-box" class="sync-textarea" readonly rows="3" onclick="this.select()">${homeTradeCodeExport(bytes)}</textarea>
+    <div id="trade-msg" class="sync-msg"></div>
+    <div class="home-popup-actions"><button type="button" class="cm-btn" onclick="homeTradeCopy()">📋 复制</button>
+    <button type="button" class="cm-btn ghost" onclick="hidePopup()">关闭</button></div>`);
+};
+window.homeTradeCopy = function () {
+  const el = $("#trade-export-box");
+  const m = $("#trade-msg");
+  const ok = () => { if (m) { m.textContent = "已复制到剪贴板"; m.className = "sync-msg ok"; } };
+  const fail = () => { if (m) { m.textContent = "复制失败，请长按/全选手动复制"; m.className = "sync-msg err"; } };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(el.value).then(ok).catch(() => { el.select(); fail(); });
+  else { el.select(); fail(); }
+};
+window.homeTradeImportAsk = function () {
+  showPopup(`<h2>导入交换码</h2>
+    <div class="mv-desc">粘贴朋友发来的交换码，宝可梦会放进你浏览器 HOME 的第一个空位，之后到对应盒子里即可传进游戏存档。</div>
+    <textarea id="trade-import-box" class="sync-textarea" rows="3" placeholder="HOME1.xxxxxxxx…"></textarea>
+    <div id="trade-import-msg" class="sync-msg"></div>
+    <div class="home-popup-actions"><button type="button" class="cm-btn" onclick="homeTradeImport()">📥 导入到 HOME</button>
+    <button type="button" class="cm-btn ghost" onclick="hidePopup()">取消</button></div>`);
+};
+window.homeTradeImport = function () {
+  const box = $("#trade-import-box");
+  const m = $("#trade-import-msg");
+  const show = (msg, type) => { if (m) { m.textContent = msg; m.className = "sync-msg " + type; } };
+  const bytes = homeTradeCodeImport(box ? box.value : "");
+  if (!bytes) return show("不是有效的交换码：请完整粘贴朋友发来的 HOME1. 开头的码", "err");
+  homeInitState();
+  const to = homeFindFree("home", homeUI.homeBox);
+  if (!to) return show("HOME 盒子已满，请先清理或传进存档", "err");
+  homeSetMon("home", to.box, to.slot, bytes);
+  const info = homeMonInfo(bytes);
+  hidePopup();
+  renderPkHome();
+  homeShowMsg(`已导入「${info.name}」到 HOME 盒子 ${to.box + 1} 第 ${to.slot + 1} 格`, "ok");
+};
 /* 删除 HOME 里的单只宝可梦 (仅 HOME 侧可选; 存档侧不动) */
 window.homeDeleteAsk = function () {
   const sel = homeUI.sel;
@@ -3093,6 +3151,7 @@ function homeDetailHtml() {
         ${sel.side === "game" ? `<button type="button" class="cm-btn" onclick="homeSendToHome()">存入 HOME</button>` : ""}
         ${sel.side === "home" && homeSave ? `<button type="button" class="cm-btn" onclick="homeTakeToGame()">取出到游戏</button>` : ""}
         ${sel.side === "home" ? `<button type="button" class="cm-btn ghost home-danger" onclick="homeDeleteAsk()">🗑 删除</button>` : ""}
+        <button type="button" class="cm-btn ghost" onclick="homeTradeExportAsk()">📋 导出交换码</button>
         <button type="button" class="cm-btn ghost" onclick="homeDeselect()">取消选择</button>
       </div>
     </div>
@@ -3134,6 +3193,7 @@ function renderPkHome() {
         <input id="home-file-input" type="file" accept=".sav,.srm,.bin" class="hidden" onchange="homeUploadFile(event)">
         ${homeSave ? `<button type="button" class="cm-btn${homeSave.dirty ? "" : " ghost"}" onclick="homeDownload()">⬇ 下载修改后的存档${homeSave.dirty ? " ●" : ""}</button>` : ""}
         ${homeSave && homeSave.dirty ? `<button type="button" class="cm-btn ghost" onclick="homeDiscard()">放弃修改</button>` : ""}
+        <button type="button" class="cm-btn ghost" onclick="homeTradeImportAsk()">📥 粘贴导入交换码</button>
         <button type="button" class="cm-btn ghost" onclick="homeClearHomeAsk()">🗑 清空 HOME</button>
       </div>
       <div class="home-save-line">${saveLine}</div>

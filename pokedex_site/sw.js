@@ -11,6 +11,8 @@ const CORE_FILES = [
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./sprites/manifest.json",
+  "./data/features/awaken_before.png",
+  "./data/features/awaken_after.png",
 ];
 const BUNDLE_BATCH = 16;  // bundle 数量少 (~25 个) 单个大, 16 个并行加速; github.io 是 HTTP/2 单连接多路复用
 const SCOPE_URL = self.registration.scope;
@@ -52,9 +54,24 @@ self.addEventListener("install", event => {
 self.addEventListener("activate", event => {
   event.waitUntil((async () => {
     const names = await caches.keys();
-    await Promise.all(names
-      .filter(name => name.startsWith("pkdx-offline-") && name !== CACHE_NAME)
-      .map(name => caches.delete(name)));
+    const oldNames = names.filter(name => name.startsWith("pkdx-offline-") && name !== CACHE_NAME);
+    // 迁移旧缓存到新版本缓存: 更新后首屏直接用旧 data.js/精灵图秒开 (data.js 走 SWR 后台拉新,
+    // 精灵图 cache-first 命中旧副本), 而不是清空缓存后对着骨架屏等 2MB 重拉
+    await Promise.all(oldNames.map(async name => {
+      try {
+        const oldCache = await caches.open(name);
+        const newCache = await caches.open(CACHE_NAME);
+        const keys = await oldCache.keys();
+        await Promise.all(keys.map(async req => {
+          if (await newCache.match(req)) return;
+          const resp = await oldCache.match(req);
+          if (resp) await newCache.put(req, resp.clone());
+        }));
+      } catch (error) {
+        console.error("Cache migration failed", error);  // 迁移失败不影响激活, 大不了全量重拉
+      }
+    }));
+    await Promise.all(oldNames.map(name => caches.delete(name)));
     await self.clients.claim();
   })());
 });
