@@ -3294,12 +3294,13 @@ function breedDefaultMoves(s, lv) {
   for (let i = 0; picks.length < 4 && i < byLv.length; i++) picks.unshift(byLv[i]);  // 招式不足 4 个时从头补
   return [picks[0] || 0, picks[1] || 0, picks[2] || 0, picks[3] || 0];
 }
+function breedDefaultNick(s) { return (s && s.zh) || "???"; }  // 昵称默认值 = 图鉴种类名 (不带形态前缀)
 function breedDefaultForm(sp) {
   const s = SPECIES_BY_ID[sp];
   return { sp, lv: 50, nat: 0, ab: (s && s.hidden && s.hidden.length) ? "h" : "0", sex: "m",
            ivs: [31, 31, 31, 31, 31, 31], evs: [0, 0, 0, 0, 0, 0],
            moves: s ? breedDefaultMoves(s, 50) : [0, 0, 0, 0],
-           item: 0, ball: 4, friend: (s && s.friendship) || 70, nick: "", shiny: false,
+           item: 0, ball: 4, friend: (s && s.friendship) || 70, nick: breedDefaultNick(s), shiny: false,
            editSrc: null, orig: null, pidDirty: false, nickDirty: false };
 }
 var breedForm = null;  // 与 HOME 状态同样用 var + 惰性初始化 (启动 route() 可能先执行)
@@ -3315,6 +3316,10 @@ function breedInitForm() {
       v.ivs = (v.ivs || []).map(x => Math.max(0, Math.min(31, +x | 0)));
       v.evs = (v.evs || []).map(x => Math.max(0, Math.min(252, +x | 0)));
       v.moves = [0, 1, 2, 3].map(i => (v.moves || [])[i] <= 1023 && MOVE_BY_ID[v.moves[i]] ? v.moves[i] : 0);
+      if (!String(v.nick || "").trim()) {  // 旧数据/被清空的昵称: 回填图鉴种类名 (禁止留空)
+        v.nick = breedDefaultNick(SPECIES_BY_ID[v.sp]);
+        if (v.editSrc) v.nickDirty = true;  // 编辑模式下原昵称为空, 写回时按新昵称重编码
+      }
       breedForm = v;
       return;
     }
@@ -3358,7 +3363,14 @@ function breedMakeMon(f) {
   const w32 = (o, v) => { b[o] = v & 0xFF; b[o + 1] = (v >>> 8) & 0xFF; b[o + 2] = (v >>> 16) & 0xFF; b[o + 3] = (v >>> 24) & 0xFF; };
   w32(0, pid);
   w32(4, otid);
-  b.set(editing && !f.nickDirty ? homeUnb64(f.orig.nickBytes) : breedEncodeName(f.nick, 10), 8);
+  {  // 昵称禁止留空: 编辑模式沿用原昵称, 但原昵称为空时仍补宝可梦名
+    let nb = breedEncodeName(f.nick || breedDefaultNick(s), 10);
+    if (editing && !f.nickDirty) {
+      const ob = homeUnb64(f.orig.nickBytes);
+      if (!ob.every(x => x === 0xFF || x === 0x00)) nb = ob;
+    }
+    b.set(nb, 8);
+  }
   w8(0x12, 2);            // 语言: 本作一律写 2
   w8(0x13, 0x02);         // hasSpecies
   b.set(otName.subarray(0, 7), 0x14);
@@ -3415,7 +3427,7 @@ window.breedSetField = function (k, v) {
   else if (k === "sex") breedForm.sex = v;
   else if (k === "item") breedForm.item = +v;
   else if (k === "friend") breedForm.friend = Math.max(0, Math.min(255, +v | 0));
-  else if (k === "nick") { breedForm.nick = String(v); breedForm.nickDirty = true; }
+  else if (k === "nick") { breedForm.nick = String(v).trim() || breedDefaultNick(SPECIES_BY_ID[breedForm.sp]); breedForm.nickDirty = true; }  // 禁止留空: 清空则回填图鉴种类名
   else if (k === "shiny") { breedForm.shiny = !!v; breedForm.pidDirty = true; }
   if (k === "nat" || k === "ab" || k === "sex") breedForm.pidDirty = true;  // 编辑模式: 动了性格/特性/性别才重搜 PID
   breedPersist();
@@ -3487,10 +3499,10 @@ window.breedImportFrom = function (i, j) {
     sex: info.s.genderF >= 100 ? "f" : ((info.pid & 0xFF) < Math.floor(Math.max(0, info.s.genderF) * 2.55) ? "f" : "m"),
     ivs: info.ivs.slice(), evs: info.evs.slice(),
     moves: [0, 1, 2, 3].map(k => info.moves[k] || 0),
-    item: info.item, ball: info.ball, friend: info.friend, nick: info.nick, shiny: info.shiny,
+    item: info.item, ball: info.ball, friend: info.friend, nick: info.nick || breedDefaultNick(info.s), shiny: info.shiny,  // 无昵称的宝可梦回填图鉴种类名 (禁止留空)
     editSrc: { box: i, slot: j },
     orig: { pid: info.pid, otid: info.otid, nickBytes: homeB64(b.slice(8, 18)), otName: homeB64(b.slice(0x14, 0x1B)) },
-    pidDirty: false, nickDirty: false,
+    pidDirty: false, nickDirty: !info.nick,
   };
   breedPersist();
   hidePopup();
@@ -3596,7 +3608,7 @@ function breedFormHtml() {
     <select onchange="breedSetField('ab',this.value)">${abOpts.join("")}${hasHa ? `<option value="h"${f.ab === "h" ? " selected" : ""}>梦特 · ${esc(hasHa.zh)}</option>` : ""}</select>
     ${genderCtl}</div></div>
   <div class="breed-row"><label>昵称</label><div class="breed-ctl">
-    <input class="breed-input" value="${esc(f.nick)}" placeholder="留空则用 species 名" onchange="breedSetField('nick',this.value)">
+    <input class="breed-input" value="${esc(f.nick)}" placeholder="昵称不能留空" onchange="breedSetField('nick',this.value)">
     <span class="muted small">${(() => { const e = breedEncodeName(f.nick, 10); const i = e.indexOf(0xFF); return i < 0 ? 10 : i; })()}/10 字节 (双字节汉字最多 5 个)</span></div></div>
   <div class="breed-row"><label>闪光</label><div class="breed-ctl">
     <label class="breed-check"><input type="checkbox" ${f.shiny ? "checked" : ""} onchange="breedSetField('shiny',this.checked)"${homeSave || f.editSrc ? "" : " disabled"}> ✨ 闪光</label>
