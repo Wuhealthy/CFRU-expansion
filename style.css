@@ -1220,29 +1220,3 @@ textarea.cm-input { resize: vertical; min-height: 36px; font-family: inherit; }
   .ana-pdetail { flex-direction: column; }
   .team-combo-row { grid-template-columns: repeat(2, 1fr); }
 }
-
-/* ---------------- 训练家图鉴 ---------------- */
-.trn-cls-row { max-width: 320px; margin: 10px 0; }
-.trn-cls-row select { width: 100%; padding: 9px 12px; border: 1px solid var(--line);
-  border-radius: 10px; background: var(--card); color: var(--ink); font-size: 14px; }
-.trn-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; margin-top: 10px; }
-.trn-card { background: var(--nav-hover); border: 1px solid var(--line); border-radius: 12px;
-  padding: 10px 12px; cursor: pointer; }
-.trn-card:hover { border-color: var(--accent); }
-.trn-head { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-.trn-name { font-size: 14px; }
-.trn-remade { background: #c0392b; }
-.trn-note { color: var(--muted); font-size: 12px; margin-top: 4px; }
-.trn-items { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
-.trn-party { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-.trn-mon-s { display: inline-flex; align-items: center; gap: 3px; }
-.trn-mon-s canvas { width: 30px; height: 30px; image-rendering: pixelated; }
-.trn-mon-s i { font-style: normal; font-size: 11px; color: var(--muted); }
-.trn-detail { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; max-height: 46vh; overflow: auto; }
-.trn-mon { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px;
-  background: var(--nav-hover); border-radius: 10px; }
-.trn-mon canvas { width: 40px; height: 40px; image-rendering: pixelated; flex: none; }
-.trn-mon .pm-info { flex: 1; min-width: 0; }
-.trn-mon .pm-name { font-size: 14px; font-weight: 600; }
-.trn-mon .pm-lv { font-size: 12px; color: var(--muted); margin-top: 2px; }
-.trn-moves { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
