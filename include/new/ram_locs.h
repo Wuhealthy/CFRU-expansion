@@ -185,10 +185,10 @@ extern bool8 gInShop; //0x203E043
 #define gCurrentDexNavChain (*((u8*) 0x203E051))
 #define gDexNavStartedBattle (*((bool8*) 0x203E052))
 //#define sItemDescriptionPocket (*((bool8*) 0x203E053))
-#define sQuestMenuFromNewStartMenu (*((bool8*) 0x203E054)) //Quest Menu:任务菜单从新开始菜单打开的标志(占用原sStartMenuOpen槽位,勿再用链接器.bss存此类标志)
+extern u8 sStartMenuOpen; //0x203E054 (start_menu.c, BPRE.ld解析) — 勿挪作他用
 //#define sPrintedRTCWarning (*((bool8*) 0x203E055))
-extern u16 gLastFishingSpecies; //0x203E056 高位字节0x203E057与sReturnToNewStartMenu(new_start_menu.c)重叠:钓鱼会冲掉开始菜单返回标志,待迁移
-extern u8 gFishingStreak; //0x203E058
+extern u16 gLastFishingSpecies; //0x203E0D6 (原E056高位字节E057与sReturnToNewStartMenu重叠,已迁出)
+extern u8 gFishingStreak; //0x203E0D5 (原E058与sLastNewStartMenuAction冲突,已迁出)
 //#define sLocked (*((bool8*) 0x203E059))
 //#define sRTCErrorStatus (*((u16*) 0x203E05A))
 //#define sRTCSavedIme (*((u16*) 0x203E05C))
@@ -202,7 +202,8 @@ extern u16 gLastDexNavSpecies; //0x203E086
 //extern struct ListMenuItem[7] gMultiChoice; //0x203E088 - up to 7 pointers, 8 bytes each
 //extern u8 gPartyPresetTeamIndices[PARTY_SIZE]; //0x203E0C0
 extern u8 gScored3CritsInBattle; //0x203E0C6
-//FREE: 0x203E0C7
+//0x203E0C7: gNBLastTab (new_bag.c宏声明,勿在此extern同名)
+#define sQuestMenuFromNewStartMenu (*((bool8*) 0x203E0C8)) //Quest Menu:任务菜单从新开始菜单打开的标志(勿再用链接器.bss存此类标志)
 //0x203E0CA - 0x203E0CD: last follower texts (follower_mon_messages.c)
 
 //DON'T GO PAST 0x203E0D4 for BTS!
