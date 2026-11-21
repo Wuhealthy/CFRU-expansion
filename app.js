@@ -3217,7 +3217,9 @@ function breedLearnset(s) {
   const pool = new Set(Object.keys(lvMap).map(Number));
   (s.tm || []).forEach(id => { if (id <= 1023 && MOVE_BY_ID[id]) pool.add(id); });
   (s.tutor || []).forEach(id => { if (id <= 1023 && MOVE_BY_ID[id]) pool.add(id); });
-  return { lvMap, pool };
+  (s.egg || []).forEach(id => { if (id <= 1023 && MOVE_BY_ID[id]) pool.add(id); });  // 蛋招式也要进可学池
+  const eggSet = new Set((s.egg || []).filter(id => id <= 1023 && MOVE_BY_ID[id]));
+  return { lvMap, pool, eggSet };
 }
 function breedDefaultMoves(s, lv) {
   const { lvMap } = breedLearnset(s);
@@ -3450,9 +3452,11 @@ function breedPickHtml(kind, idx, text, placeholder) {
       oninput="breedPickInput(this)" onfocus="breedPickInput(this)" onblur="breedPickBlur(this)">
     <div class="breed-pick-list hidden"></div></div>`;
 }
-function breedMoveLabel(id, lvMap) {
+function breedMoveLabel(id, lvMap, eggSet) {
   const m = MOVE_BY_ID[id];
-  return m ? m.zh + (lvMap[id] !== undefined ? " (Lv." + lvMap[id] + ")" : "") : "";
+  if (!m) return "";
+  if (lvMap[id] !== undefined) return m.zh + " (Lv." + lvMap[id] + ")";
+  return m.zh + (eggSet && eggSet.has(id) ? " (蛋招式)" : "");
 }
 function breedPickInput(inp) {
   const wrap = inp.closest(".breed-pick");
@@ -3461,7 +3465,7 @@ function breedPickInput(inp) {
   let hits = [];
   if (kind === "move") {
     const { lvMap, pool } = breedLearnset(SPECIES_BY_ID[breedForm.sp]);
-    hits = [...pool].map(id => ({ id, label: breedMoveLabel(id, lvMap), zh: MOVE_BY_ID[id].zh }))
+    hits = [...pool].map(id => ({ id, label: breedMoveLabel(id, lvMap, eggSet), zh: MOVE_BY_ID[id].zh }))
       .filter(x => !q || toHans(x.zh.toLowerCase()).includes(q) || String(x.id) === q)
       .sort((a, b) => (lvMap[a.id] || 999) - (lvMap[b.id] || 999) || a.id - b.id);
   } else {
