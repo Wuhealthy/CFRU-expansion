@@ -3464,7 +3464,7 @@ function breedPickInput(inp) {
   const q = toHans(inp.value.trim().toLowerCase());
   let hits = [];
   if (kind === "move") {
-    const { lvMap, pool } = breedLearnset(SPECIES_BY_ID[breedForm.sp]);
+    const { lvMap, pool, eggSet } = breedLearnset(SPECIES_BY_ID[breedForm.sp]);
     hits = [...pool].map(id => ({ id, label: breedMoveLabel(id, lvMap, eggSet), zh: MOVE_BY_ID[id].zh }))
       .filter(x => !q || toHans(x.zh.toLowerCase()).includes(q) || String(x.id) === q)
       .sort((a, b) => (lvMap[a.id] || 999) - (lvMap[b.id] || 999) || a.id - b.id);
