@@ -154,9 +154,9 @@ if ("serviceWorker" in navigator) {
   // 离线图鉴更新后自动刷新: 新版 service worker 安装完成后广播 "sw-updated"
   // (见 sw.js), 上面的 message 监听收到后整页刷新; 这里只维护刷新去重标志
   const checkForUpdate = () => { if (swRegistration) swRegistration.update().catch(() => {}); };
-  // 长期开着的页面: 回到前台 / 每 30 分钟检查一次有没有新版本
+  // 长期开着的页面: 回到前台 / 每 5 分钟检查一次有没有新版本 (PWA 窗口长开不导航也要能拿到新版)
   document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") checkForUpdate(); });
-  setInterval(checkForUpdate, 30 * 60 * 1000);
+  setInterval(checkForUpdate, 5 * 60 * 1000);
 
   window.addEventListener("load", () => {
     const swUrl = `sw.js${pwaVersion ? `?v=${encodeURIComponent(pwaVersion)}` : ""}`;
