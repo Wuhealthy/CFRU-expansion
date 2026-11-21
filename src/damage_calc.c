@@ -3840,7 +3840,10 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
 		#ifdef OLD_PARENTAL_BOND_DAMAGE
 			damage /= 2;
 		#else
-			damage /= 4;
+			if (move == MOVE_STEELFLASH) //钢刃闪击：第二击减半（亲子爱本身保持Gen7的25%）
+				damage /= 2;
+			else
+				damage /= 4;
 		#endif
 	}
 
