@@ -1124,3 +1124,96 @@ textarea.cm-input { resize: vertical; min-height: 36px; font-family: inherit; }
   .breed-row > label { width: 62px; }
 }
 
+
+/* ---------------- 全局搜索 (Ctrl+K) ---------------- */
+.gsp-btn { margin-left: 8px; border: 1px solid var(--line); background: var(--card); border-radius: 8px;
+  padding: 4px 9px; cursor: pointer; font-size: 14px; color: var(--ink); }
+.gsp-btn:hover { border-color: var(--accent); }
+#gsp-mask { position: fixed; inset: 0; background: rgba(8, 12, 18, 0.55); z-index: 240;
+  display: flex; align-items: flex-start; justify-content: center; padding: 10vh 16px 16px; }
+#gsp-mask.hidden { display: none; }
+#gsp { width: min(560px, 100%); max-height: 72vh; display: flex; flex-direction: column;
+  background: var(--card); border-radius: 14px; box-shadow: 0 18px 60px rgba(0, 0, 0, 0.45); overflow: hidden; }
+#gsp-q { margin: 10px; padding: 11px 14px; font-size: 15px; border: 1px solid var(--line);
+  border-radius: 10px; background: var(--bg, #f6f7fa); color: inherit; outline: none; }
+#gsp-q:focus { border-color: var(--accent); }
+#gsp-list { overflow-y: auto; padding: 0 6px 6px; }
+.gsp-cat { font-size: 11px; color: var(--muted); padding: 8px 10px 2px; letter-spacing: 2px; }
+.gsp-item { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 9px; cursor: pointer; }
+.gsp-item canvas { width: 32px; height: 32px; image-rendering: pixelated; }
+.gsp-item:hover, .gsp-item.sel { background: var(--nav-hover); }
+.gsp-nm { font-size: 14px; }
+.gsp-sub { margin-left: auto; font-size: 12px; }
+.gsp-empty { padding: 18px; text-align: center; }
+.gsp-hint { padding: 8px 12px; font-size: 11px; color: var(--muted); border-top: 1px solid var(--line); }
+
+/* ---------------- 存档分析 ---------------- */
+.ana-page { max-width: 1080px; margin: 0 auto; padding: 18px 16px 60px; }
+.ana-card { padding: 14px 16px; margin-bottom: 14px; }
+.ana-hint { color: var(--muted); font-size: 14px; }
+.ana-stat-row { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
+.ana-badges { display: inline-flex; align-items: center; gap: 3px; }
+.ana-badge { width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center;
+  justify-content: center; font-size: 12px; border: 1px solid var(--line); color: var(--muted); }
+.ana-badge.on { background: #f4c542; border-color: #d8a412; color: #5b4000; }
+.ana-badges > i { font-style: normal; margin-left: 6px; color: var(--muted); font-size: 13px; }
+.ana-stat { display: inline-flex; flex-direction: column; }
+.ana-stat b { font-size: 15px; }
+.ana-stat i { font-style: normal; color: var(--muted); font-size: 11px; }
+.ana-dex-count { margin-top: 10px; color: var(--muted); font-size: 13px; }
+.ana-dex-count b { color: var(--ink); }
+.ana-fchips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.ana-fchip { cursor: pointer; }
+.ana-fchip.on { outline: 2px solid var(--accent); outline-offset: -1px; }
+.ana-dexgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(58px, 1fr)); gap: 6px; margin-top: 10px; }
+.ana-tile { display: flex; flex-direction: column; align-items: center; padding: 6px 2px 4px;
+  border-radius: 10px; border-bottom: 3px solid transparent; background: var(--nav-hover); position: relative; }
+.ana-tile canvas { width: 40px; height: 40px; image-rendering: pixelated; }
+.ana-tile .no { font-size: 10px; color: var(--muted); }
+.ana-tile.c { border-bottom-color: #3ec76a; }
+.ana-tile.s { border-bottom-color: #e8c93e; }
+.ana-tile:hover { background: var(--card); }
+.ana-slot.append { cursor: pointer; align-items: center; justify-content: center; display: flex; }
+.ana-add { color: var(--muted); font-size: 13px; }
+.ana-click { cursor: pointer; }
+.ana-pdetail { display: flex; gap: 18px; margin-top: 4px; }
+.ana-pspr { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+.ana-pspr canvas { image-rendering: pixelated; }
+.ana-pinfo { flex: 1; min-width: 0; }
+.ana-pinfo .home-detail-kv { margin-top: 6px; }
+
+/* ---------------- 队伍工具 ---------------- */
+.team-page { max-width: 1080px; margin: 0 auto; padding: 18px 16px 60px; }
+.team-card { padding: 14px 16px; margin-bottom: 14px; }
+.team-add-row { max-width: 480px; }
+.team-chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+.team-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 6px;
+  background: var(--nav-hover); border: 1px solid var(--line); border-radius: 999px; }
+.team-chip canvas { width: 28px; height: 28px; image-rendering: pixelated; }
+.team-chip .x { cursor: pointer; color: var(--muted); font-size: 12px; }
+.team-chip .x:hover { color: var(--accent); }
+.team-matrix th, .team-matrix td { min-width: 34px; padding: 4px 5px; font-size: 11px; }
+.team-matrix thead th { font-weight: 600; }
+.team-matrix .team-mon { min-width: 92px; font-weight: 500; text-align: left; white-space: nowrap; }
+.team-matrix .team-mon canvas { width: 26px; height: 26px; image-rendering: pixelated; vertical-align: middle; margin-right: 4px; }
+.team-matrix .team-sum { min-width: 76px; color: var(--muted); font-size: 11px; white-space: nowrap; }
+.team-matrix td.t4 { background: #c0392b; color: #fff; font-weight: 800; }
+.team-matrix td.t2 { background: var(--chart-atk2-bg, #fde3e3); color: var(--chart-atk2-ink, #a33); font-weight: 800; }
+.team-matrix td.t05 { background: var(--chart-atk05-bg, #d9f2d9); color: var(--chart-atk05-ink, #2c7a3f); font-weight: 700; }
+.team-matrix td.t25 { background: #1f7a3d; color: #fff; font-weight: 800; }
+.team-matrix td.t0 { background: var(--type-atk0, #6b7684); color: #fff; }
+.team-matrix tr.team-cov td { color: #fff; font-weight: 700; }
+.team-matrix tr.team-cov td.t05 { color: var(--chart-atk05-ink, #2c7a3f); }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; color: var(--muted); font-size: 12px; align-items: center; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 4px; vertical-align: -1px; }
+.legend .team-cov-i { border: 1px dashed var(--muted); background: transparent; }
+.team-combo-row { display: flex; gap: 10px; align-items: center; max-width: 640px; }
+.team-plus { color: var(--muted); }
+#team-combo-wrap { margin-top: 10px; }
+.team-card .breed-pick { flex: 1; }
+
+@media (max-width: 720px) {
+  .ana-pdetail { flex-direction: column; }
+  .team-combo-row { flex-direction: column; align-items: stretch; }
+  .team-plus { text-align: center; }
+}

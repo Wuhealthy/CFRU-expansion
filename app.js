@@ -643,6 +643,8 @@ function route() {
   else if (h.startsWith("#/sync")) renderSync();
   else if (h.startsWith("#/breed")) renderBreed();
   else if (h.startsWith("#/home")) renderPkHome();
+  else if (h.startsWith("#/analyze")) renderAnalyze();
+  else if (h.startsWith("#/team")) renderTeamTools();
   else if (h.startsWith("#/card")) renderCardMaker(/^#\/card\/(\d+)/.exec(h)?.[1]);
   else if (h.startsWith("#/types")) renderTypes();
   else if (h.startsWith("#/features")) renderFeatures();
@@ -3114,6 +3116,7 @@ function homePanelHtml(side) {
         <button type="button" onclick="homeNavBox('${side}',-1)">‹</button>
         <span class="home-box-name">${esc(name)} ${cur + 1}/${HOME_BOX_N} · ${used}/${HOME_SLOT_N}</span>
         <button type="button" onclick="homeNavBox('${side}',1)">›</button>
+        ${isGame && !homeSave ? "" : `<button type="button" class="home-box-clear" title="清空此盒" onclick="homeClearBoxAsk('${side}',${cur})">🗑</button>`}
       </div>
     </div>
     <div class="home-grid">${Array.from({ length: HOME_SLOT_N }, (_, j) => homeCellHtml(side, cur, j)).join("")}</div>
@@ -3201,6 +3204,9 @@ function renderPkHome() {
         ${homeSave && homeSave.dirty ? `<button type="button" class="cm-btn ghost" onclick="homeDiscard()">放弃修改</button>` : ""}
         <button type="button" class="cm-btn ghost" onclick="homeTradeImportAsk()">📥 粘贴导入交换码</button>
         <button type="button" class="cm-btn ghost" onclick="homeClearHomeAsk()">🗑 清空 HOME</button>
+        <button type="button" class="cm-btn ghost" onclick="homeCompactAsk()">🧹 一键整理</button>
+        <button type="button" class="cm-btn ghost" onclick="homeBackupExport()">📦 备份 HOME</button>
+        <button type="button" class="cm-btn ghost" onclick="homeBackupImportAsk()">📥 导入备份</button>
       </div>
       <div class="home-save-line">${saveLine}</div>
       <div id="home-msg" class="sync-msg"></div>
@@ -3212,6 +3218,100 @@ function renderPkHome() {
   mountSprites(app);
 }
 window.renderPkHome = renderPkHome;
+/* ---------------- HOME 批量操作 (整理 / 单盒清空 / JSON 备份) ---------------- */
+window.homeCompactAsk = function () {
+  homeInitState();
+  const n = homeBoxes.flat().filter(Boolean).length;
+  if (!n) return homeShowMsg("HOME 盒子是空的，无需整理", "ok");
+  showPopup(`<h2>一键整理 HOME</h2><div class="mv-desc">把 ${n} 只宝可梦按现有顺序压到最前面的盒子，不删除任何一只。确认？</div>
+    <div class="home-popup-actions"><button type="button" class="cm-btn" onclick="hidePopup()">取消</button>
+    <button type="button" class="cm-btn ghost" onclick="homeCompact()">确认整理</button></div>`);
+};
+window.homeCompact = function () {
+  homeInitState();
+  const mons = [];
+  for (let i = 0; i < HOME_BOX_N; i++) for (let j = 0; j < HOME_SLOT_N; j++) {
+    const b = homeBoxes[i][j];
+    if (b) { mons.push(b); homeBoxes[i][j] = null; }
+  }
+  for (let k = 0; k < mons.length; k++) homeBoxes[(k / HOME_SLOT_N) | 0][k % HOME_SLOT_N] = mons[k];
+  homePersist();
+  homeUI.homeBox = 0;
+  homeUI.sel = null;
+  hidePopup();
+  renderPkHome();
+  homeShowMsg(`已整理 ${mons.length} 只宝可梦`, "ok");
+};
+window.homeBackupExport = function () {
+  homeInitState();
+  const payload = JSON.stringify({ v: 1, ts: Date.now(), boxes: homeBoxes });
+  const blob = new Blob([payload], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `home_backup_${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+  homeShowMsg("已导出 HOME 备份 (JSON)", "ok");
+};
+function homeBackupApply(obj) {
+  if (!obj || obj.v !== 1 || !Array.isArray(obj.boxes) || obj.boxes.length !== HOME_BOX_N) return "不是有效的 HOME 备份（应为 25 盒 × 30 格的 JSON）";
+  for (const b of obj.boxes) {
+    if (!Array.isArray(b) || b.length !== HOME_SLOT_N) return "备份结构无效";
+    for (const s of b) if (s != null && typeof s !== "string") return "备份结构无效";
+  }
+  homeBoxes = obj.boxes.map(b => b.map(s => s || null));
+  homePersist();
+  homeUI.homeBox = 0;
+  homeUI.sel = null;
+  return null;
+}
+window.homeBackupImportAsk = function () {
+  showPopup(`<h2>导入 HOME 备份</h2><div class="mv-desc">粘贴之前「📦 备份 HOME」导出的 JSON（或选择文件），将<b>整体覆盖</b>此浏览器里现在的 HOME 盒子。</div>
+    <input id="home-backup-file" type="file" accept=".json,application/json" class="hidden" onchange="homeBackupFile(event)">
+    <textarea id="home-backup-box" class="sync-textarea" rows="4" placeholder="粘贴备份 JSON…"></textarea>
+    <div id="home-backup-msg" class="sync-msg"></div>
+    <div class="home-popup-actions"><label class="cm-btn ghost" for="home-backup-file">📁 选择文件</label>
+    <button type="button" class="cm-btn" onclick="homeBackupImport()">导入并覆盖</button>
+    <button type="button" class="cm-btn ghost" onclick="hidePopup()">取消</button></div>`);
+};
+window.homeBackupFile = function (e) {
+  const f = e.target.files[0];
+  e.target.value = "";
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => { const el = $("#home-backup-box"); if (el) el.value = r.result; };
+  r.readAsText(f);
+};
+window.homeBackupImport = function () {
+  homeInitState();
+  const el = $("#home-backup-box"), m = $("#home-backup-msg");
+  const show = (msg, t) => { if (m) { m.textContent = msg; m.className = "sync-msg " + t; } };
+  let obj = null;
+  try { obj = JSON.parse((el ? el.value : "").trim()); } catch (e) {}
+  const err = homeBackupApply(obj);
+  if (err) return show(err, "err");
+  hidePopup();
+  renderPkHome();
+  homeShowMsg("已导入 HOME 备份并覆盖当前盒子", "ok");
+};
+window.homeClearBoxAsk = function (side, box) {
+  homeInitState();
+  if (side === "game" && !homeSave) return;
+  const n = Array.from({ length: HOME_SLOT_N }, (_, j) => homeGetMon(side, box, j)).filter(Boolean).length;
+  if (!n) return homeShowMsg("这一盒本来就是空的", "ok");
+  const nm = (side === "game" ? "游戏盒子" : "HOME 盒子") + " " + (box + 1);
+  showPopup(`<h2>清空${nm}</h2><div class="mv-desc">将删除这一盒的 ${n} 只宝可梦${side === "game" ? "（写回存档并下载后生效，请先备份原存档）" : "（HOME 里删除后无法恢复，除非先「📦 备份 HOME」）"}。确认？</div>
+    <div class="home-popup-actions"><button type="button" class="cm-btn" onclick="hidePopup()">取消</button>
+    <button type="button" class="cm-btn ghost home-danger" onclick="homeClearBox('${side}',${box})">确认清空</button></div>`);
+};
+window.homeClearBox = function (side, box) {
+  homeInitState();
+  for (let j = 0; j < HOME_SLOT_N; j++) homeSetMon(side, box, j, null);
+  homeUI.sel = null;
+  hidePopup();
+  renderPkHome();
+  homeShowMsg(`已清空${side === "game" ? "游戏" : "HOME"}盒子 ${box + 1}`, "ok");
+};
 
 /* ---------------- 培养屋 (配置宝可梦 → 生成 CompressedPokemon → 送入 HOME → 经 HOME 传入存档) ----------------
    HOME 模块负责「解析/写回」, 本模块负责「正向生成」:
@@ -3671,6 +3771,713 @@ function renderBreed() {
   mountSprites(app);
 }
 window.renderBreed = renderBreed;
+
+/* ---------------- 存档分析 (进度概览 + 图鉴完成度 + 队伍查看/编辑) ----------------
+   存档布局依 include/global.h 的 SaveBlock1/2，已用 test.sav 实证 (8 徽章档徽章位全命中,
+   caught 位全部 ⊆ 盒内宝可梦):
+   - SB1 (chunk 1-4): 金钱 0x290 u32, 游戏币 0x294 u16, 图鉴 seen 0x310 / caught 0x3C6
+     (各 182 字节, 位 = 图鉴号-1, LSB 优先), 徽章等 flag 数组 0xEE0 (FLAG_BADGE01_GET = 0x820,
+     位序 LSB), 队伍数量 0x34, 队伍 0x38+i*100
+   - SB2 (chunk 0): 游戏时长 0x0E u16 时 / 0x10 分 / 0x11 秒
+   struct Pokemon (100 字节) 关键偏移: 物种 0x20, 道具 0x22, 经验 0x24, PP 加成 0x28,
+   亲密度 0x29, 球 0x2A, 招式 u16[4] 0x2C, 当前 PP 0x34, 努力值 0x38, 病毒 0x44,
+   相遇地点 0x45, 相遇信息 0x46, 个体值 u32 0x48 (5bit×6+蛋位30+梦特位31), 状态 0x50,
+   等级 0x54, HP 0x56 / 最大 0x58 / 攻 0x5A / 防 0x5C / 速 0x5E / 特攻 0x60 / 特防 0x62 */
+var anaState = { filter: "all", q: "" };
+var dexDefaultMonsCache = null;
+function dexDefaultMons() {
+  if (!dexDefaultMonsCache) dexDefaultMonsCache = D.species.filter(s => s.isDefault && s.dex > 0).sort((a, b) => a.dex - b.dex);
+  return dexDefaultMonsCache;
+}
+function anaReadBytes(u8, map, region, off, len) {
+  const out = new Uint8Array(len);
+  for (let i = 0; i < len; i++) {
+    const fo = map(region, off + i);
+    if (fo < 0) return null;
+    out[i] = u8[fo];
+  }
+  return out;
+}
+function anaDexFlags() {
+  const u8 = new Uint8Array(homeSave.buf), map = homeSave.map;
+  return {
+    seen: anaReadBytes(u8, map, "sb1", 0x310, 182),
+    caught: anaReadBytes(u8, map, "sb1", 0x3C6, 182),
+  };
+}
+const anaDexHas = (arr, dex) => !!(arr && dex >= 1 && dex <= arr.length * 8 && ((arr[(dex - 1) >> 3] >> ((dex - 1) & 7)) & 1));
+function anaReadParty() {
+  const u8 = new Uint8Array(homeSave.buf), map = homeSave.map;
+  const cfo = map("sb1", 0x34);
+  const count = cfo < 0 ? 0 : Math.min(6, u8[cfo]);
+  const slots = [];
+  for (let i = 0; i < 6; i++) slots.push(anaReadBytes(u8, map, "sb1", 0x38 + i * 100, 100));
+  return { count, slots };
+}
+/* struct Pokemon 100 字节 → 展示信息 (比 HOME 的 CompressedPokemon 多: 当前 PP / 各项实值 / 状态) */
+function anaPokeInfo(b) {
+  if (!b) return null;
+  const sp = b[0x20] | b[0x21] << 8;
+  if (!sp) return null;
+  const s = SPECIES_BY_ID[sp];
+  const pid = (b[0] | b[1] << 8 | b[2] << 16 | b[3] << 24) >>> 0;
+  const otid = (b[4] | b[5] << 8 | b[6] << 16 | b[7] << 24) >>> 0;
+  const ivs32 = (b[0x48] | b[0x49] << 8 | b[0x4A] << 16 | b[0x4B] << 24) >>> 0;
+  const ivs = [0, 1, 2, 3, 4, 5].map(k => (ivs32 >>> (5 * k)) & 31);
+  const ha = (ivs32 >>> 31) === 1;
+  const g16 = (pid >>> 16) & 1;
+  let gender = "";
+  if (s && s.genderF >= 100) gender = "♀";
+  else if (s && s.genderF >= 0) gender = ((pid & 0xFF) < Math.floor(s.genderF * 2.55)) ? "♀" : "♂";
+  return {
+    sp, s, pid, otid, ivs, ha,
+    shiny: (((pid >>> 16) ^ (pid & 0xFFFF) ^ (otid >>> 16) ^ (otid & 0xFFFF)) >>> 0) < 16,
+    egg: (b[0x13] & 4) !== 0 || ((ivs32 >>> 30) & 1) === 1,
+    evs: [0, 1, 2, 3, 4, 5].map(k => b[0x38 + k]),
+    ability: ha ? (s && s.hidden || [])[0] : (s && s.abilities || [])[g16] ?? (s && s.abilities || [])[0],
+    nick: homeCnStr(b.subarray(8, 18)), ot: homeCnStr(b.subarray(0x14, 0x1B)),
+    lvl: b[0x54], hp: b[0x56] | b[0x57] << 8, max: b[0x58] | b[0x59] << 8,
+    stats: { atk: b[0x5A] | b[0x5B] << 8, def: b[0x5C] | b[0x5D] << 8, spe: b[0x5E] | b[0x5F] << 8,
+             spa: b[0x60] | b[0x61] << 8, spd: b[0x62] | b[0x63] << 8 },
+    status: (b[0x50] | b[0x51] << 8 | b[0x52] << 16 | b[0x53] << 24) >>> 0,
+    exp: (b[0x24] | b[0x25] << 8 | b[0x26] << 16 | b[0x27] << 24) >>> 0,
+    item: b[0x22] | b[0x23] << 8, ball: b[0x2A], friend: b[0x29], ppBonus: b[0x28],
+    moves: [0, 1, 2, 3].map(k => b[0x2C + 2 * k] | b[0x2D + 2 * k] << 8),
+    pp: [0, 1, 2, 3].map(k => b[0x34 + k]),
+    gender,
+  };
+}
+/* CompressedPokemon (58B) → struct Pokemon (100B), 能力值/等级/PP 按引擎公式重算, 满血满 PP 清状态 */
+function anaCpToPokemon(cp) {
+  const sp = cp[0x1C] | cp[0x1D] << 8;
+  const s = SPECIES_BY_ID[sp];
+  const b = new Uint8Array(100);
+  const u16 = (o, v) => { b[o] = v & 0xFF; b[o + 1] = (v >>> 8) & 0xFF; };
+  const u32 = (o, v) => { b[o] = v & 0xFF; b[o + 1] = (v >>> 8) & 0xFF; b[o + 2] = (v >>> 16) & 0xFF; b[o + 3] = (v >>> 24) & 0xFF; };
+  b.set(cp.subarray(0, 0x1C), 0);  // pid / otid / 昵称 / 语言 / 标志 / OT 名 / 标记
+  u16(0x20, sp);                   // backupSpecies 0x1C / teraType 0x1E 保持 0 (新建态)
+  u16(0x22, cp[0x1E] | cp[0x1F] << 8);
+  u32(0x24, (cp[0x20] | cp[0x21] << 8 | cp[0x22] << 16 | cp[0x23] << 24) >>> 0);
+  b[0x28] = cp[0x24];
+  b[0x29] = cp[0x25];
+  b[0x2A] = cp[0x26];
+  const mv = ((cp[0x27] | cp[0x28] << 8 | cp[0x29] << 16 | cp[0x2A] << 24) >>> 0) + cp[0x2B] * 0x100000000;
+  const pps = cp[0x24];
+  for (let i = 0; i < 4; i++) {
+    const id = Math.floor(mv / Math.pow(2, 10 * i)) & 0x3FF;
+    u16(0x2C + 2 * i, id);
+    b[0x34 + i] = Math.min(255, ((MOVE_BY_ID[id] || {}).pp || 1) * (1 + ((pps >> (2 * i)) & 3)));  // 满 PP
+  }
+  b.set(cp.subarray(0x2C, 0x32), 0x38);  // 努力值
+  b[0x44] = cp[0x32];                    // 宝可病毒
+  b[0x45] = cp[0x33];                    // 相遇地点
+  b[0x46] = cp[0x34]; b[0x47] = cp[0x35];
+  b.set(cp.subarray(0x36, 0x3A), 0x48);  // 个体值 u32
+  const info = homeMonInfo(cp);
+  const lv = info.egg ? 1 : homeLevelOf(info.exp, s);
+  b[0x54] = lv;
+  if (s) {
+    const st = breedCalcStats(s, lv, info.ivs, info.evs, BREED_NATURES[info.pid % 25] || BREED_NATURES[0]);
+    const w = { hp: 0x58, atk: 0x5A, def: 0x5C, spe: 0x5E, spa: 0x60, spd: 0x62 };
+    for (const k in w) u16(w[k], st[k] || 1);
+    u16(0x56, st.hp || 1);  // 满血写入
+  }
+  return b;
+}
+/* struct Pokemon (100B) → CompressedPokemon (58B), 供「存入 HOME」 */
+function anaPartyToCp(b) {
+  const cp = new Uint8Array(HOME_CP);
+  const u16 = (o, v) => { cp[o] = v & 0xFF; cp[o + 1] = (v >>> 8) & 0xFF; };
+  const u32 = (o, v) => { cp[o] = v & 0xFF; cp[o + 1] = (v >>> 8) & 0xFF; cp[o + 2] = (v >>> 16) & 0xFF; cp[o + 3] = (v >>> 24) & 0xFF; };
+  cp.set(b.subarray(0, 0x1C), 0);
+  u16(0x1C, b[0x20] | b[0x21] << 8);
+  u16(0x1E, b[0x22] | b[0x23] << 8);
+  u32(0x20, (b[0x24] | b[0x25] << 8 | b[0x26] << 16 | b[0x27] << 24) >>> 0);
+  cp[0x24] = b[0x28];
+  cp[0x25] = b[0x29];
+  cp[0x26] = b[0x2A];
+  let mv = 0;
+  for (let i = 0; i < 4; i++) mv += ((b[0x2C + 2 * i] | b[0x2D + 2 * i] << 8) & 0x3FF) * Math.pow(2, 10 * i);
+  u32(0x27, mv >>> 0);
+  cp[0x2B] = Math.floor(mv / 0x100000000) & 0xFF;
+  cp.set(b.subarray(0x38, 0x3E), 0x2C);
+  cp[0x32] = b[0x44];
+  cp[0x33] = b[0x45];
+  cp[0x34] = b[0x46]; cp[0x35] = b[0x47];
+  cp.set(b.subarray(0x48, 0x4C), 0x36);
+  return cp;
+}
+function anaPartyWrite(i, b100) {
+  const u8 = new Uint8Array(homeSave.buf), map = homeSave.map;
+  for (let k = 0; k < 100; k++) {
+    const fo = map("sb1", 0x38 + i * 100 + k);
+    if (fo >= 0) u8[fo] = b100[k];
+  }
+  if (b100[0x20] | b100[0x21] << 8) {  // 写入非空槽: 队伍数量至少 i+1
+    const fo = map("sb1", 0x34);
+    if (fo >= 0 && i + 1 > u8[fo]) u8[fo] = i + 1;
+  }
+  homeSave.dirty = true;
+  anaRefreshParty();
+}
+/* 重新解析队伍快照 (homeSave.party 供本页与 HOME 页显示), 字段与 homeParseSave 一致 */
+function anaRefreshParty() {
+  const party = [];
+  for (let i = 0; i < 6; i++) {
+    const b = anaReadParty().slots[i];
+    const sp = b ? b[0x20] | b[0x21] << 8 : 0;
+    if (!b || !sp) { party.push(null); continue; }
+    const pid = (b[0] | b[1] << 8 | b[2] << 16 | b[3] << 24) >>> 0;
+    const ivs = (b[0x48] | b[0x49] << 8 | b[0x4A] << 16 | b[0x4B] << 24) >>> 0;
+    party.push({
+      sp, pid, otid: (b[4] | b[5] << 8 | b[6] << 16 | b[7] << 24) >>> 0,
+      nick: homeCnStr(b.subarray(8, 18)),
+      lvl: b[0x54], hp: b[0x56] | b[0x57] << 8, max: b[0x58] | b[0x59] << 8,
+      status: (b[0x50] | b[0x51] << 8 | b[0x52] << 16 | b[0x53] << 24) >>> 0,
+      item: b[0x22] | b[0x23] << 8,
+      exp: (b[0x24] | b[0x25] << 8 | b[0x26] << 16 | b[0x27] << 24) >>> 0,
+      ivs, ha: (ivs >>> 31) === 1,
+    });
+  }
+  homeSave.party = party;
+}
+window.anaUploadFile = function (e) {
+  const f = e.target.files[0];
+  e.target.value = "";
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    const rep = homeParseSave(r.result);
+    if (rep.err) return anaShowMsg("读取失败：" + rep.err, "err");
+    homeSave = {
+      buf: r.result, fileName: f.name,
+      pristine: new Uint8Array(r.result).slice(),
+      chunks: rep.chunks, slot: rep.slot, cnt: rep.cnt,
+      player: rep.player, names: rep.names, party: rep.party, boxes: rep.boxes,
+      map: homeMakeMapper(rep.chunks), dirty: false,
+    };
+    homeInitState();
+    homeUI.gameBox = 0;
+    homeUI.sel = null;
+    anaState.filter = "all";
+    renderAnalyze();
+    anaShowMsg(`已读取存档：${esc(rep.player.name || "???")}（第 ${rep.slot + 1} 槽）`, "ok");
+  };
+  r.readAsArrayBuffer(f);
+};
+function anaShowMsg(msg, type) {
+  const el = $("#ana-msg");
+  if (!el) return;
+  el.innerHTML = msg;
+  el.className = "sync-msg " + (type || "");
+}
+function anaProgressHtml() {
+  if (!homeSave) return `<div class="card ana-card"><div class="ana-hint">尚未读取存档。上传后这里会显示徽章、金钱、游戏时长与图鉴完成度。</div></div>`;
+  const u8 = new Uint8Array(homeSave.buf), map = homeSave.map;
+  const badges = [];
+  for (let i = 0; i < 8; i++) {
+    const fo = map("sb1", 0xEE0 + ((0x820 + i) >> 3));
+    badges.push(fo < 0 ? 0 : (u8[fo] >> ((0x820 + i) & 7)) & 1);
+  }
+  const m4 = anaReadBytes(u8, map, "sb1", 0x290, 4), c2 = anaReadBytes(u8, map, "sb1", 0x294, 2), t = anaReadBytes(u8, map, "sb2", 0x0E, 4);
+  const money = m4 ? (m4[0] | m4[1] << 8 | m4[2] << 16 | m4[3] << 24) : 0;
+  const coins = c2 ? (c2[0] | c2[1] << 8) : 0;
+  const hrs = t ? (t[0] | t[1] << 8) : 0, mins = t ? t[2] : 0, secs = t ? t[3] : 0;
+  const { seen, caught } = anaDexFlags();
+  const mons = dexDefaultMons();
+  let cN = 0, sN = 0;
+  for (const s of mons) { if (anaDexHas(caught, s.dex)) cN++; else if (anaDexHas(seen, s.dex)) sN++; }
+  const pct = Math.round(cN / mons.length * 1000) / 10;
+  const gameUsed = homeSave.boxes.reduce((n, b) => n + b.mons.filter(m => m && (m[0x1C] | m[0x1D] << 8)).length, 0);
+  const p = homeSave.player;
+  return `<div class="card ana-card">
+    <div class="ana-stat-row">
+      <span class="ana-badges">${badges.map((b, i) => `<span class="ana-badge${b ? " on" : ""}" title="第 ${i + 1} 枚徽章">${b ? "✦" : "·"}</span>`).join("")}<i>${badges.filter(Boolean).length}/8</i></span>
+      <span class="ana-stat"><b>¥ ${money.toLocaleString()}</b><i>金钱</i></span>
+      <span class="ana-stat"><b>${coins.toLocaleString()}</b><i>游戏币</i></span>
+      <span class="ana-stat"><b>${hrs}:${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}</b><i>游戏时长</i></span>
+      <span class="ana-stat"><b>${gameUsed}/${HOME_BOX_N * HOME_SLOT_N}</b><i>游戏盒子</i></span>
+    </div>
+    <div class="ana-dex-count">训练家 <b>${esc(p.name || "???")}</b>（ID ${p.tid.toString(16).toUpperCase().padStart(8, "0")}）· 图鉴已捕获 <b>${cN}</b> · 仅遇见 <b>${sN}</b> / ${mons.length} · 完成率 <b>${pct}%</b></div>
+  </div>`;
+}
+function anaPartyHtml() {
+  if (!homeSave) return "";
+  const pr = anaReadParty();
+  const cells = pr.slots.map((b, i) => {
+    const info = anaPokeInfo(b);
+    const appendable = !info && i === pr.count && pr.count < 6;
+    if (!info) return `<div class="home-pmon empty ana-slot${appendable ? " append" : ""}"${appendable ? ` onclick="anaPartyEditAsk(${i})"` : ""}>${appendable ? `<span class="ana-add">＋ 写入</span>` : ""}</div>`;
+    const s = info.s;
+    const st = HOME_STATUS_ZH(info.status);
+    return `<div class="home-pmon ana-click" onclick="anaPartyDetail(${i})" title="查看详情">
+      ${s ? spriteCanvas("icon", s.id) : `<span class="home-q">?</span>`}
+      <div class="pm-info"><div class="pm-name">${esc(info.nick || (s ? speciesName(s) : "???"))}</div>
+      <div class="pm-lv">Lv.${info.lvl}${st ? " · " + st : ""}${info.ha ? " · 梦特" : ""}${info.item && HOME_ITEM_BY_ID[info.item] ? " · 持 " + esc(HOME_ITEM_BY_ID[info.item].zh) : ""}</div>
+      <div class="home-hp"><i style="width:${Math.max(0, Math.min(100, info.max ? info.hp / info.max * 100 : 0))}%"></i></div>
+      <div class="pm-hp">${info.hp}/${info.max}</div></div></div>`;
+  }).join("");
+  return `<div class="home-section"><div class="home-section-title">随身队伍（点击查看详情，可替换 / 追加）</div><div class="home-party">${cells}</div></div>`;
+}
+window.anaPartyDetail = function (i) {
+  if (!homeSave) return;
+  const info = anaPokeInfo(anaReadParty().slots[i]);
+  if (!info) return;
+  const s = info.s;
+  const nat = BREED_NATURES[info.pid % 25];
+  const natZh = (nat.u || nat.d) ? esc(nat.zh) + " (+" + BREED_NAT_STAT_ZH[nat.u] + " -" + BREED_NAT_STAT_ZH[nat.d] + ")" : esc(nat.zh);
+  const abil = ABIL_BY_ID[info.ability];
+  const item = HOME_ITEM_BY_ID[info.item], ball = HOME_ITEM_BY_ID[info.ball];
+  const rows = [
+    ["等级", info.egg ? "蛋" : "Lv." + info.lvl],
+    ["性别", info.gender || "—"],
+    ["性格", natZh],
+    ["特性", abil ? esc(abil.zh) + (info.ha ? "（梦特）" : "") : "—"],
+    ["道具", item ? esc(item.zh) : "无"],
+    ["精灵球", ball ? esc(ball.zh) : "—"],
+    ["HP", `${info.hp} / ${info.max}${info.status ? " · " + (HOME_STATUS_ZH(info.status) || "异常") : ""}`],
+    ["攻击 / 防御", `${info.stats.atk} / ${info.stats.def}`],
+    ["速度", info.stats.spe],
+    ["特攻 / 特防", `${info.stats.spa} / ${info.stats.spd}`],
+    ["个体值", info.ivs.join(" / ") + (info.ha ? "（梦特位）" : "")],
+    ["努力值", info.evs.join(" / ")],
+    ["经验", info.exp.toLocaleString()],
+    ["亲密度", info.friend],
+    ["训练家", info.ot ? esc(info.ot) + " (" + (info.otid % 65536) + ")" : String(info.otid % 65536)],
+  ];
+  showPopup(`<h2>${esc(info.nick || (s ? speciesName(s) : "???"))} <span class="muted">Lv.${info.lvl}</span></h2>
+    <div class="ana-pdetail">
+      <div class="ana-pspr">${spriteCanvas(info.shiny ? "front_shiny" : "front", s ? s.id : info.sp)}${s ? typePills(s.types, true) : ""}</div>
+      <div class="ana-pinfo">
+        <div class="home-detail-moves">${info.moves.map((id, k) => {
+          const m = MOVE_BY_ID[id];
+          if (!m || (!id && !info.pp[k])) return "";
+          return `<a class="pill small mv" onclick="showMovePopup(${id})">${esc(m.zh)} <span class="muted">${info.pp[k]}/${Math.min(255, (m.pp || 1) * (1 + ((info.ppBonus >> (2 * k)) & 3)))}</span></a>`;
+        }).join("")}</div>
+        <dl class="home-detail-kv">${rows.map(r => `<dt>${r[0]}</dt><dd>${r[1]}</dd>`).join("")}</dl>
+      </div>
+    </div>
+    <div class="home-popup-actions">
+      <button type="button" class="cm-btn" onclick="anaPartyToHome(${i})">📦 复制存入 HOME</button>
+      <button type="button" class="cm-btn ghost" onclick="anaPartyEditAsk(${i})">✏️ 替换这只</button>
+      <button type="button" class="cm-btn ghost" onclick="hidePopup()">关闭</button>
+    </div>`);
+  mountSprites(popup);
+};
+window.anaPartyToHome = function (i) {
+  if (!homeSave) return;
+  homeInitState();
+  const b = anaReadParty().slots[i];
+  if (!b || !(b[0x20] | b[0x21] << 8)) return;
+  const to = homeFindFree("home", homeUI.homeBox);
+  if (!to) return anaShowMsg("HOME 盒子已满，请先清理", "err");
+  homeSetMon("home", to.box, to.slot, anaPartyToCp(b));
+  homeUI.homeBox = to.box;
+  renderAnalyze();
+  const info = anaPokeInfo(b);
+  const s = info.s;
+  anaShowMsg(`「${esc(info.nick || (s ? speciesName(s) : "???"))}」已复制存入 HOME 盒子 ${to.box + 1} 第 ${to.slot + 1} 格（队伍里的原宝可梦保留）。到 <a href="#/home">HOME</a> 页下载存档才真正写回游戏`, "ok");
+};
+window.anaPartyEditAsk = function (i) {
+  if (!homeSave) return;
+  homeInitState();
+  const rows = [];
+  for (let bi = 0; bi < HOME_BOX_N; bi++)
+    for (let bj = 0; bj < HOME_SLOT_N; bj++) {
+      const bytes = homeGetMon("home", bi, bj);
+      const m = homeMonInfo(bytes);
+      if (m) rows.push({ side: "home", bi, bj, m });
+    }
+  for (let bi = 0; bi < HOME_BOX_N; bi++)
+    for (let bj = 0; bj < HOME_SLOT_N; bj++) {
+      const bytes = homeGetMon("game", bi, bj);
+      const m = homeMonInfo(bytes);
+      if (m) rows.push({ side: "game", bi, bj, m });
+    }
+  if (!rows.length) return anaShowMsg("HOME 与游戏盒子都是空的：先在培养屋生成或从游戏盒子找一只", "err");
+  showPopup(`<h2>写入队伍槽位 ${i + 1}</h2><div class="mv-desc">选择一只宝可梦写入队伍槽位 ${i + 1}（原宝可梦会被覆盖；等级/能力值/PP 按数据重算，写入后满血满 PP 并清除异常状态）。下载存档到 <a href="#/home">HOME</a> 页完成写回。</div>
+    <div class="breed-import-list" style="max-height:46vh;overflow:auto">${rows.map(r => `
+    <div class="breed-sp-item" onclick="anaPartyEdit(${i},'${r.side}',${r.bi},${r.bj})">${spriteCanvas("icon", r.m.s ? r.m.s.id : r.m.sp)}
+      <span class="nm">${esc(r.m.name)}</span>
+      <span class="muted">Lv.${r.m.lvl != null ? r.m.lvl : "?"} · ${r.side === "home" ? "HOME" : "游戏"}盒${r.bi + 1}-${r.bj + 1}${r.m.shiny ? " · ✨" : ""}</span></div>`).join("")}</div>
+    <div class="home-popup-actions"><button type="button" class="cm-btn ghost" onclick="hidePopup()">取消</button></div>`);
+  mountSprites(popup);
+};
+window.anaPartyEdit = function (i, side, box, slot) {
+  if (!homeSave) return;
+  const cp = homeGetMon(side, box, slot);
+  if (!cp) return;
+  const info = homeMonInfo(cp);
+  anaPartyWrite(i, anaCpToPokemon(cp));
+  hidePopup();
+  renderAnalyze();
+  const s = info.s;
+  anaShowMsg(`「${esc(info.name)}」已写入队伍槽位 ${i + 1}。修改尚未保存：到 <a href="#/home">HOME</a> 页「⬇ 下载修改后的存档」完成写回（请先备份原存档）`, "ok");
+};
+function anaDexGridHtml() {
+  const { seen, caught } = anaDexFlags();
+  const q = toHans(anaState.q.trim().toLowerCase());
+  const tiles = [];
+  for (const s of dexDefaultMons()) {
+    const isC = anaDexHas(caught, s.dex), isS = !isC && anaDexHas(seen, s.dex);
+    if (anaState.filter === "c" && !isC) continue;
+    if (anaState.filter === "s" && !isS) continue;
+    if (anaState.filter === "n" && (isC || isS)) continue;
+    if (q && !(toHans((s.zh || "").toLowerCase()).includes(q) || s.en.toLowerCase().includes(q) || String(s.dex) === q)) continue;
+    tiles.push(`<a class="ana-tile${isC ? " c" : isS ? " s" : ""}" href="#/p/${s.id}" title="${esc(speciesName(s))} #${s.dex}">${spriteCanvas("icon", s.id)}<span class="no">${s.dex}</span></a>`);
+  }
+  return `<div class="ana-dexgrid">${tiles.join("") || `<span class="muted small">没有符合筛选的宝可梦</span>`}</div>`;
+}
+function anaRefreshDexGrid() {
+  const w = $("#ana-dex-wrap");
+  if (!w) return;
+  w.innerHTML = anaDexGridHtml();
+  mountSprites(w);
+}
+window.anaDexInput = function (v) { anaState.q = v; anaRefreshDexGrid(); };
+window.anaSetFilter = function (f) {
+  anaState.filter = f;
+  document.querySelectorAll(".ana-fchip").forEach(el => el.classList.toggle("on", el.dataset.f === f));
+  anaRefreshDexGrid();
+};
+function anaDexHtml() {
+  const { seen, caught } = anaDexFlags();
+  const mons = dexDefaultMons();
+  let cN = 0, sN = 0;
+  for (const s of mons) { if (anaDexHas(caught, s.dex)) cN++; else if (anaDexHas(seen, s.dex)) sN++; }
+  const chip = (f, label) => `<span class="pill ana-fchip${anaState.filter === f ? " on" : ""}" data-f="${f}" onclick="anaSetFilter('${f}')">${label}</span>`;
+  return `<div class="home-section"><div class="home-section-title">图鉴完成度（按图鉴编号，绿色=已捕获，黄色=仅遇见）</div>
+    <div class="ana-fchips">${chip("all", "全部")} ${chip("c", "已捕获")} ${chip("s", "仅遇见")} ${chip("n", "未见过")}</div>
+    ${searchBox("ana-dex-q", "搜名字 / 编号…", anaState.q)}
+    <div class="ana-dex-count">已捕获 <b>${cN}</b> · 仅遇见 <b>${sN}</b> · 共 ${mons.length}</div>
+    <div id="ana-dex-wrap">${anaDexGridHtml()}</div></div>`;
+}
+function renderAnalyze() {
+  app.innerHTML = `<div class="ana-page">
+    <div class="page-title">存档分析</div>
+    <div class="page-sub">上传游戏存档（.sav，128 KiB），查看徽章 / 金钱 / 时长 / 图鉴完成度与队伍详情，还可以把 HOME 里的宝可梦直接写进队伍。数据只在本地解析，不会上传。<b>修改存档前请自行备份原文件。</b></div>
+    <div class="sync-section">
+      <div class="sync-section-title">游戏存档</div>
+      <div class="sync-actions">
+        <label class="cm-btn" for="ana-file-input">📄 选择 .sav 存档</label>
+        <input id="ana-file-input" type="file" accept=".sav,.srm,.bin" class="hidden" onchange="anaUploadFile(event)">
+        ${homeSave ? `<a class="cm-btn ghost" href="#/home">🔗 去 HOME 传送宝可梦</a>` : ""}
+        ${homeSave ? `<button type="button" class="cm-btn ghost" onclick="homeDiscard()">放弃修改</button>` : ""}
+      </div>
+      ${homeSave && homeSave.dirty ? `<div class="home-save-line"><span class="home-dirty">有未保存的修改</span> —— 到 <a href="#/home">HOME</a> 页点「⬇ 下载修改后的存档」完成写回</div>` : ""}
+      <div id="ana-msg" class="sync-msg"></div>
+    </div>
+    ${anaProgressHtml()}
+    ${anaPartyHtml()}
+    ${homeSave ? anaDexHtml() : ""}
+  </div>`;
+  mountSprites(app);
+  $("#ana-dex-q")?.addEventListener("input", debounce(e => anaDexInput(e.target.value), 120));
+}
+window.renderAnalyze = renderAnalyze;
+
+/* ---------------- 队伍工具 (属性弱点矩阵 + 进攻覆盖 + 双招式学习查询) ----------------
+   相性按纯属性计算 (不含特性/招式修正); 进攻覆盖 = 能对纵列属性打出效果绝佳的成员数 */
+const TEAM_KEY = "pkdx_team_chart";
+var teamState = null;  // { mons: [speciesId], a, b: 招式 id }
+function teamInit() {
+  if (teamState) return;
+  teamState = { mons: [], a: 0, b: 0 };
+  try {
+    const v = JSON.parse(localStorage.getItem(TEAM_KEY) || "null");
+    if (v && Array.isArray(v.mons)) {
+      teamState.mons = v.mons.filter(id => SPECIES_BY_ID[id]).slice(0, 6);
+      teamState.a = v.a > 0 && v.a <= 1023 && MOVE_BY_ID[v.a] ? v.a : 0;
+      teamState.b = v.b > 0 && v.b <= 1023 && MOVE_BY_ID[v.b] ? v.b : 0;
+    }
+  } catch (e) {}
+}
+function teamPersist() { localStorage.setItem(TEAM_KEY, JSON.stringify(teamState)); }
+var teamPoolCache = null;
+function teamPool(spId) {  // { pool: 可学会招式集合, dmgTypes: 其中伤害招式的属性集合 }
+  if (!teamPoolCache) teamPoolCache = new Map();
+  let p = teamPoolCache.get(spId);
+  if (p) return p;
+  const { pool } = breedLearnset(SPECIES_BY_ID[spId]);
+  const dmgTypes = new Set();
+  pool.forEach(id => {
+    const m = MOVE_BY_ID[id];
+    if (m && m.split !== "变化" && (m.power || 0) > 0) dmgTypes.add(m.type);
+  });
+  p = { pool, dmgTypes };
+  teamPoolCache.set(spId, p);
+  return p;
+}
+function teamEffMul(defTypes, atkId) {
+  let m = 1;
+  for (const dt of defTypes) m *= ((D.typeChart[String(atkId)] || {})[String(dt)] ?? 1);
+  return m;
+}
+window.teamSpInput = function (v) {
+  const list = $("#team-sp-list");
+  if (!list) return;
+  const raw = toHans(String(v || "").trim().toLowerCase());
+  const hits = !raw ? [] : dexDefaultMons().filter(s =>
+    toHans((s.zh || "").toLowerCase()).includes(raw) ||
+    s.en.toLowerCase().includes(raw) ||
+    String(s.dex) === raw).slice(0, 12);
+  list.innerHTML = hits.length ? hits.map(s => `
+    <div class="breed-sp-item" onclick="teamAddSp(${s.id})">
+      ${spriteCanvas("icon", s.id)}<span class="nm">${esc(speciesName(s))}</span>
+      <span class="muted">#${s.dex}</span></div>`).join("")
+    : `<div class="breed-sp-item muted">输入名字 / 编号搜索（仅默认形态）</div>`;
+  list.classList.toggle("hidden", !v);
+  mountSprites(list);
+};
+window.teamAddSp = function (id) {
+  teamInit();
+  if (teamState.mons.length >= 6) return;
+  if (!teamState.mons.includes(id)) teamState.mons.push(id);
+  teamPersist();
+  renderTeamTools();
+};
+window.teamDelSp = function (i) {
+  teamInit();
+  teamState.mons.splice(i, 1);
+  teamPersist();
+  renderTeamTools();
+};
+window.teamClear = function () {
+  teamInit();
+  teamState.mons = [];
+  teamPersist();
+  renderTeamTools();
+};
+window.teamImportParty = function () {
+  teamInit();
+  if (!homeSave) return;
+  const ids = homeSave.party.filter(Boolean).map(m => m.sp).filter(sp => SPECIES_BY_ID[sp] && SPECIES_BY_ID[sp].isDefault);
+  if (!ids.length) return;
+  teamState.mons = ids.slice(0, 6);
+  teamPersist();
+  renderTeamTools();
+};
+function teamMatrixHtml() {
+  const types = SPECIES_FILTER_TYPES;
+  const head = types.map(t => `<th title="${esc(t.zh)}">${esc(t.zh)}</th>`).join("");
+  const rows = teamState.mons.map(id => {
+    const s = SPECIES_BY_ID[id];
+    let weak = 0, resist = 0, immune = 0;
+    const cells = types.map(t => {
+      const mul = teamEffMul(s.types, t.id);
+      if (mul >= 2) weak++; else if (mul === 0) immune++; else if (mul < 1) resist++;
+      const cls = mul >= 4 ? "t4" : mul === 2 ? "t2" : mul === 0 ? "t0" : mul === 0.5 ? "t05" : mul === 0.25 ? "t25" : "";
+      const txt = mul >= 4 ? "×4" : mul === 2 ? "×2" : mul === 0 ? "✕" : mul === 0.5 ? "½" : mul === 0.25 ? "¼" : "";
+      return `<td class="${cls}">${txt}</td>`;
+    }).join("");
+    const sum = (weak ? "弱" + weak : "") + (resist ? " 抗" + resist : "") + (immune ? " 免" + immune : "");
+    return `<tr><th class="team-mon">${spriteCanvas("icon", s.id)}<span>${esc(s.zh)}</span></th>${cells}<td class="team-sum">${sum || "—"}</td></tr>`;
+  }).join("");
+  const cov = types.map(t => {
+    const n = teamState.mons.reduce((n, id) => n + ([...teamPool(id).dmgTypes].some(A => teamEffMul([t.id], A) >= 2) ? 1 : 0), 0);
+    return `<td class="${n ? "t05" : "t0"}">${n || "✕"}</td>`;
+  }).join("");
+  return `<div class="chart-wrap"><table class="chart team-matrix"><thead><tr><th>防↘ 攻→</th>${head}<th>小结</th></tr></thead>
+    <tbody>${rows}<tr class="team-cov"><th>进攻覆盖</th>${cov}<td></td></tr></tbody></table></div>
+    <div class="legend"><span><i style="background:#c0392b"></i>×4</span><span><i style="background:#e05a5a"></i>×2 弱点</span><span><i style="background:#7ec84a"></i>½ 抗性</span><span><i style="background:#1f7a3d"></i>¼</span><span><i style="background:#6b7684"></i>✕ 免疫</span><span><i class="team-cov-i"></i>进攻覆盖 = 能对纵列属性打出效果绝佳的成员数</span></div>`;
+}
+function teamMovePick(k, id) {
+  return `<div class="breed-pick" data-k="${k}">
+    <input class="breed-input" value="${id ? esc((MOVE_BY_ID[id] || {}).zh || "") : ""}" placeholder="输入招式名搜索…" oninput="teamMoveInput(this)" onfocus="teamMoveInput(this)" onblur="teamMoveBlur(this)">
+    <div class="breed-pick-list hidden"></div></div>`;
+}
+window.teamMoveInput = function (inp) {
+  const wrap = inp.closest(".breed-pick");
+  const q = toHans(inp.value.trim().toLowerCase());
+  const hits = D.moves.filter(m => !q || toHans(m.zh.toLowerCase()).includes(q) || m.en.toLowerCase().includes(q) || String(m.id) === q)
+    .sort((a, b) => (toHans(a.zh.toLowerCase()).startsWith(q) ? -1 : 0) - (toHans(b.zh.toLowerCase()).startsWith(q) ? -1 : 0) || a.id - b.id);
+  const list = wrap.querySelector(".breed-pick-list");
+  list.innerHTML = hits.slice(0, 30).map(m =>
+    `<div class="breed-sp-item" onmousedown="teamMoveChoose('${wrap.dataset.k}',${m.id})">${esc(m.zh)}<span class="muted small"> ${esc((TYPE_BY_ID[m.type] || {}).zh || "")}${m.power ? " · 威力" + fmtPower(m.power) : ""}</span></div>`).join("")
+    + (hits.length > 30 ? `<div class="breed-sp-item muted">共 ${hits.length} 条，继续输入可缩小范围</div>` : "")
+    + (hits.length ? "" : `<div class="breed-sp-item muted">没有匹配</div>`);
+  list.classList.remove("hidden");
+};
+window.teamMoveChoose = function (k, id) {
+  teamInit();
+  teamState[k] = id;
+  teamPersist();
+  renderTeamTools();
+};
+window.teamMoveBlur = function (inp) {
+  const wrap = inp.closest(".breed-pick");
+  const cur = teamState[wrap.dataset.k];
+  const want = cur ? (MOVE_BY_ID[cur] || {}).zh || "" : "";
+  if (inp.value !== want) inp.value = want;
+};
+function teamComboResultHtml() {
+  const { a, b } = teamState;
+  if (!a && !b) return `<div class="muted small">选 1~2 个招式，列出能同时学会它们的宝可梦。</div>`;
+  const res = dexDefaultMons().filter(s => {
+    const p = teamPool(s.id).pool;
+    return (!a || p.has(a)) && (!b || p.has(b));
+  });
+  if (!res.length) return `<div class="muted small">没有默认形态的宝可梦能学会所选招式组合。</div>`;
+  const tiles = res.slice(0, 200).map(s => `<a class="ana-tile" href="#/p/${s.id}" title="${esc(speciesName(s))} #${s.dex}">${spriteCanvas("icon", s.id)}<span class="no">${s.dex}</span></a>`).join("");
+  return `<div class="ana-dex-count">共 <b>${res.length}</b> 只${res.length > 200 ? "（显示前 200 只）" : ""}</div><div class="ana-dexgrid">${tiles}</div>`;
+}
+function renderTeamTools() {
+  teamInit();
+  const chips = teamState.mons.map((id, i) => {
+    const s = SPECIES_BY_ID[id];
+    return `<span class="team-chip">${spriteCanvas("icon", s.id)}<b>${esc(s.zh)}</b><a class="x" title="移除" onclick="teamDelSp(${i})">✕</a></span>`;
+  }).join("");
+  app.innerHTML = `<div class="team-page">
+    <div class="page-title">队伍工具</div>
+    <div class="page-sub">分析队伍的属性弱点矩阵与进攻覆盖，查询哪些宝可梦能同时学会两个招式。相性按纯属性计算，不含特性修正（引火 / 漂浮 / 复眼等）。队伍配置保存在本地。</div>
+    <div class="card team-card">
+      <div class="team-add-row">${searchBox("team-sp-q", "添加宝可梦（名字 / 编号 / 英文名）…", "")}</div>
+      <div id="team-sp-list" class="breed-sp-list hidden"></div>
+      <div class="team-chips">${chips || `<span class="muted small">还没添加宝可梦</span>`}
+        ${homeSave ? `<button type="button" class="cm-btn ghost small" onclick="teamImportParty()">📥 从存档队伍导入</button>` : ""}
+        ${teamState.mons.length ? `<button type="button" class="cm-btn ghost small" onclick="teamClear()">清空</button>` : ""}</div>
+      ${teamState.mons.length ? teamMatrixHtml() : ""}
+    </div>
+    <div class="card team-card">
+      <div class="home-section-title">双招式学习查询</div>
+      <div class="team-combo-row">${teamMovePick("a", teamState.a)}<span class="team-plus">＋</span>${teamMovePick("b", teamState.b)}</div>
+      <div id="team-combo-wrap">${teamComboResultHtml()}</div>
+      <div class="muted small">含升级 / 招式机 / 教学 / 蛋招式；只列默认形态。</div>
+    </div>
+  </div>`;
+  mountSprites(app);
+  $("#team-sp-q")?.addEventListener("input", debounce(e => teamSpInput(e.target.value), 120));
+}
+window.renderTeamTools = renderTeamTools;
+
+/* ---------------- 全局搜索 (Ctrl+K / 顶栏 🔍): 宝可梦/招式/特性/道具 一次搜完 ---------------- */
+var gspFlat = [], gspSel = 0;
+function gspNorm(str) { return toHans(String(str || "").toLowerCase()); }
+function gspSearch(q) {
+  const nq = gspNorm(q.trim());
+  if (!nq) return [];
+  const flat = [];
+  const sp = D.species.map(s => {
+    const zh = gspNorm(s.zh), en = s.en.toLowerCase();
+    return { s, hit: zh.includes(nq) || en.includes(nq) || (s.dex > 0 && String(s.dex) === nq),
+             pref: zh.startsWith(nq) || en.startsWith(nq) };
+  }).filter(e => e.hit).sort((a, b) => (b.pref - a.pref) || (a.s.dex - b.s.dex) || (a.s.id - b.s.id)).slice(0, 8);
+  sp.forEach(e => flat.push({ cat: "宝可梦", x: e.s }));
+  D.moves.filter(m => gspNorm(m.zh).includes(nq) || m.en.toLowerCase().includes(nq))
+    .sort((a, b) => a.id - b.id).slice(0, 6).forEach(m => flat.push({ cat: "招式", x: m }));
+  D.abilities.filter(a => gspNorm(a.zh).includes(nq) || gspNorm(a.en).includes(nq))
+    .slice(0, 6).forEach(a => flat.push({ cat: "特性", x: a }));
+  D.items.filter(x => gspNorm(x.zh).includes(nq) || gspNorm(x.en).includes(nq))
+    .slice(0, 6).forEach(x => flat.push({ cat: "道具", x }));
+  return flat;
+}
+function gspRender() {
+  const list = $("#gsp-list");
+  if (!list) return;
+  let lastCat = null;
+  list.innerHTML = gspFlat.map((it, i) => {
+    const head = it.cat !== lastCat ? `<div class="gsp-cat">${it.cat}</div>` : "";
+    lastCat = it.cat;
+    const x = it.x;
+    const sub = it.cat === "宝可梦" ? "#" + x.dex
+      : it.cat === "招式" ? ((TYPE_BY_ID[x.type] || {}).zh || "") + (x.power ? " · 威力" + fmtPower(x.power) : " · 变化")
+      : it.cat === "道具" ? (x.pocketZh || "")
+      : "";
+    return `${head}<div class="gsp-item${i === gspSel ? " sel" : ""}" data-i="${i}" onmousedown="gspGo(${i})">
+      ${it.cat === "宝可梦" ? spriteCanvas("icon", x.id) : ""}<span class="gsp-nm">${esc(it.cat === "宝可梦" ? speciesName(x) : x.zh)}</span>
+      <span class="gsp-sub muted">${esc(sub)}</span></div>`;
+  }).join("") || `<div class="gsp-empty muted">没有匹配的结果</div>`;
+  const sel = list.querySelector(".gsp-item.sel");
+  if (sel) sel.scrollIntoView({ block: "nearest" });
+  mountSprites(list);
+}
+function gspInput(v) {
+  gspFlat = gspSearch(v);
+  gspSel = 0;
+  gspRender();
+}
+function gspBuild() {
+  if ($("#gsp-mask")) return;
+  const mask = document.createElement("div");
+  mask.id = "gsp-mask";
+  mask.className = "hidden";
+  mask.innerHTML = `<div id="gsp">
+    <input id="gsp-q" placeholder="搜索宝可梦 / 招式 / 特性 / 道具…" autocomplete="off">
+    <div id="gsp-list"></div>
+    <div class="gsp-hint">↑↓ 选择 · Enter 前往 · Esc 关闭 · Ctrl+K 呼出</div></div>`;
+  document.body.appendChild(mask);
+  mask.addEventListener("mousedown", e => { if (e.target === mask) gspClose(); });
+  $("#gsp-q").addEventListener("input", e => gspInput(e.target.value));
+  const nav = document.querySelector(".topbar .nav");
+  if (nav) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "gsp-btn";
+    btn.title = "全局搜索 (Ctrl+K)";
+    btn.textContent = "🔍";
+    btn.onclick = gspOpen;
+    nav.insertAdjacentElement("afterend", btn);
+  }
+}
+function gspOpen() {
+  gspBuild();
+  $("#gsp-mask").classList.remove("hidden");
+  const q = $("#gsp-q");
+  q.value = "";
+  gspInput("");
+  q.focus();
+}
+function gspClose() {
+  const m = $("#gsp-mask");
+  if (m) m.classList.add("hidden");
+}
+window.gspGo = function (i) {
+  const it = gspFlat[i];
+  if (!it) return;
+  gspClose();
+  const x = it.x;
+  if (it.cat === "宝可梦") { location.hash = "#/p/" + x.id; return; }
+  const dest = it.cat === "招式" ? ["#/moves", "#mq"] : it.cat === "特性" ? ["#/abilities", "#aq"] : ["#/items", "#iq"];
+  if (location.hash === dest[0]) gspPrefill(dest[1], x.zh);
+  else {
+    location.hash = dest[0];
+    setTimeout(() => gspPrefill(dest[1], x.zh), 80);
+  }
+};
+function gspPrefill(sel, text) {
+  const el = $(sel);
+  if (el) {
+    el.value = text;
+    el.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+document.addEventListener("keydown", e => {
+  if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey && String(e.key).toLowerCase() === "k") {
+    e.preventDefault();
+    const m = $("#gsp-mask");
+    if (m && !m.classList.contains("hidden")) gspClose();
+    else gspOpen();
+  } else if (e.key === "Escape") {
+    const m = $("#gsp-mask");
+    if (m && !m.classList.contains("hidden")) gspClose();
+  } else if ($("#gsp-mask") && !$("#gsp-mask").classList.contains("hidden")) {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      const n = gspFlat.length;
+      if (n) {
+        gspSel = (gspSel + (e.key === "ArrowDown" ? 1 : n - 1)) % n;
+        gspRender();
+      }
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      gspGo(gspSel);
+    }
+  }
+});
+gspBuild();
+window.gspOpen = gspOpen;
+
 /* ---------------- 启动 ---------------- */
 window.addEventListener("error", e => {
   console.error(e.message);
