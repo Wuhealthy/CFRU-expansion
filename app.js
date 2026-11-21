@@ -249,14 +249,20 @@ function bundleOf(id) {
 /* bundle 清单: sprites/manifest.json 记录实际生成的 bundle (SW 已预缓存, 离线可用);
    不存在的 bundle 直接快速失败不发请求, 避免 404 污染控制台; 清单拉取失败降级为直接请求 */
 let manifestReady = null;
+let manifestVer = null;  // { "bundle_0.js": "sha1" } 按内容哈希: 图没改 URL 不变, SW 缓存/迁移副本直接命中
 function knownBundles() {
   if (!manifestReady) {
     manifestReady = fetch("sprites/manifest.json" + (window.SPRITE_VER ? "?v=" + window.SPRITE_VER : ""))
       .then(r => r.ok ? r.json() : null)
-      .then(m => new Set((m && m.bundles) || []))
+      .then(m => { manifestVer = (m && m.ver) || null; return new Set((m && m.bundles) || []); })
       .catch(() => { manifestReady = null; return null; });
   }
   return manifestReady;
+}
+function bundleUrl(bundle) {
+  const name = bundle.slice(bundle.lastIndexOf("/") + 1);
+  const v = (manifestVer && manifestVer[name]) || window.SPRITE_VER || "";
+  return bundle + (v ? "?v=" + v : "");
 }
 function ensureBundle(bundle) {
   if (!sprBundleJobs[bundle]) {
@@ -264,7 +270,7 @@ function ensureBundle(bundle) {
     const job = knownBundles().then(known => {
       if (known && !known.has(name)) throw new Error("missing bundle " + name);
       // fetch 加载 (原来用 <script> 注入, 缺失文件的 404 是浏览器原生报错 catch 不掉); SW 对 fetch 同样拦截缓存
-      return fetch(bundle + (window.SPRITE_VER ? "?v=" + window.SPRITE_VER : "")).then(r => {
+      return fetch(bundleUrl(bundle)).then(r => {
         if (!r.ok) throw new Error("missing " + bundle);
         return r.text();
       }).then(code => { (0, eval)(code); });

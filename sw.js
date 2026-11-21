@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "pkdx-offline-3ccbe85b8a2b";
+const CACHE_NAME = "pkdx-offline-e1c506c4a058";
 const CORE_FILES = [
   "./",
   "./index.html",
@@ -54,9 +54,24 @@ self.addEventListener("install", event => {
 self.addEventListener("activate", event => {
   event.waitUntil((async () => {
     const names = await caches.keys();
-    await Promise.all(names
-      .filter(name => name.startsWith("pkdx-offline-") && name !== CACHE_NAME)
-      .map(name => caches.delete(name)));
+    const oldNames = names.filter(name => name.startsWith("pkdx-offline-") && name !== CACHE_NAME);
+    // 迁移旧缓存到新版本缓存: 更新后首屏直接用旧 data.js/精灵图秒开 (data.js 走 SWR 后台拉新,
+    // 精灵图 cache-first 命中旧副本), 而不是清空缓存后对着骨架屏等 2MB 重拉
+    await Promise.all(oldNames.map(async name => {
+      try {
+        const oldCache = await caches.open(name);
+        const newCache = await caches.open(CACHE_NAME);
+        const keys = await oldCache.keys();
+        await Promise.all(keys.map(async req => {
+          if (await newCache.match(req)) return;
+          const resp = await oldCache.match(req);
+          if (resp) await newCache.put(req, resp.clone());
+        }));
+      } catch (error) {
+        console.error("Cache migration failed", error);  // 迁移失败不影响激活, 大不了全量重拉
+      }
+    }));
+    await Promise.all(oldNames.map(name => caches.delete(name)));
     await self.clients.claim();
   })());
 });
@@ -72,12 +87,13 @@ self.addEventListener("message", event => {
         if (!manifestResponse) throw new Error("Sprite manifest is missing");
         const manifest = await manifestResponse.json();
         if (!Array.isArray(manifest.bundles)) throw new Error("Sprite manifest has no bundle list");
+        const ver = manifest.ver || {};  // 页面按 ?v=内容哈希 请求 bundle, 预缓存必须用同样的 URL 才能命中
 
-        const urls = manifest.bundles.map(fn => new URL("sprites/" + fn, SCOPE_URL).href);
+        const urls = manifest.bundles.map(fn => new URL("sprites/" + fn + "?v=" + (ver[fn] || ""), SCOPE_URL).href);
         // 按编号排序: 前 N 个优先缓存 (快速达到基本离线可用), 剩余后台渐进
         const PRELOAD_N = 5;
         const sorted = manifest.bundles.map(fn => ({ fn, n: parseInt(fn.match(/\d+/)[0], 10) }))
-          .sort((a, b) => a.n - b.n).map(o => new URL("sprites/" + o.fn, SCOPE_URL).href);
+          .sort((a, b) => a.n - b.n).map(o => new URL("sprites/" + o.fn + "?v=" + (ver[o.fn] || ""), SCOPE_URL).href);
         const preloadUrls = sorted.slice(0, PRELOAD_N);
         const lazyUrls = sorted.slice(PRELOAD_N);
         const cacheBatched = async (urls, reportProgress) => {
