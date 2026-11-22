@@ -87,6 +87,14 @@ TRAINER_DATA_DEPENDENCIES = [
     os.path.normpath(os.path.join('scripts', 'trainer_party.py')),
 ]
 
+# battle_textbox_ui.c includes battle_textbox_data.h (tilemaps / palettes / msg tiles).
+# Same idea as upstream's battle_textbox.py wiring: an incremental build must not
+# reuse a stale object when only the data header changed.
+BATTLE_TEXTBOX_SOURCE = os.path.normpath(os.path.join(SRC, 'battle_textbox_ui.c'))
+BATTLE_TEXTBOX_DEPENDENCIES = [
+    os.path.normpath(os.path.join(SRC, 'battle_textbox_data.h')),
+]
+
 
 class Master:
     @staticmethod
@@ -249,6 +257,13 @@ def ProcessC(cFile: str) -> str:
         regenerateObjectFile = any(
             objectMtime <= os.path.getmtime(dependency)
             for dependency in TRAINER_DATA_DEPENDENCIES
+        )
+
+    if not regenerateObjectFile and os.path.normpath(cFile) == BATTLE_TEXTBOX_SOURCE:
+        objectMtime = os.path.getmtime(objectFile)
+        regenerateObjectFile = any(
+            objectMtime <= os.path.getmtime(dependency)
+            for dependency in BATTLE_TEXTBOX_DEPENDENCIES
         )
 
     if regenerateObjectFile is False:
