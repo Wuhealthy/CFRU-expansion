@@ -1,6 +1,9 @@
 "use strict";
 
 const CACHE_NAME = "pkdx-offline-__BUILD_VERSION__";
+// 注意: 这里的每一项都必须在部署产物里真实存在 — addAll 是原子的, 任何一项 404 都会让整个
+// install 失败, SW 永远无法激活, 自动更新/离线全部失效 (曾经因 data/features/awaken_*.png
+// 未入库而全站 SW 静默死亡). 可选资源 (如版特色页 <img>) 不要加进来, 404 就让它 404。
 const CORE_FILES = [
   "./",
   "./index.html",
@@ -11,8 +14,6 @@ const CORE_FILES = [
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./sprites/manifest.json",
-  "./data/features/awaken_before.png",
-  "./data/features/awaken_after.png",
 ];
 const BUNDLE_BATCH = 16;  // bundle 数量少 (~25 个) 单个大, 16 个并行加速; github.io 是 HTTP/2 单连接多路复用
 const SCOPE_URL = self.registration.scope;
@@ -138,7 +139,11 @@ self.addEventListener("fetch", event => {
 
   const url = new URL(request.url);
   const isDataJS = url.pathname.endsWith("/data/data.js");
-  const isCoreFile = /\.(js|css|html|webmanifest)$/.test(url.pathname);
+  // 导航请求 (站点根 `/` 等无扩展名路径) 必须一并走网络优先: index.html 里写死了全部资源的 ?v=
+  // 版本号, 它一旦陈旧整个页面 (导航布局等) 都是旧版; 扩展名正则接不住 `/`, 会落进底部 cache-first
+  // 分支 → 主页布局永远停在安装时的旧版, 只能靠强制刷新更新
+  const isNav = request.mode === "navigate";
+  const isCoreFile = isNav || /\.(js|css|html|webmanifest)$/.test(url.pathname);
 
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
@@ -157,7 +162,9 @@ self.addEventListener("fetch", event => {
     }
     if (isCoreFile) {
       try {
-        const response = await fetch(request);
+        // 导航请求强制重新验证: GitHub Pages 的 HTML 带 max-age=600, 默认会命中浏览器 HTTP 缓存,
+        // 部署后 10 分钟内依旧拿旧 index.html; no-cache 只是带条件请求, 未变化时仅一个 304 往返
+        const response = await fetch(request, isNav ? { cache: "no-cache" } : {});
         if (response.ok) { await cache.put(request, response.clone()); return response; }
       } catch (e) {}
       const cached = await cache.match(request, { ignoreSearch: true });

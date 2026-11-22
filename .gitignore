@@ -51,5 +51,8 @@ Cover Art.png
 *.pyc
 
 # 图鉴站点生成物 (用 pokedex_site/tools/extract_data.py 重新生成; 站点发布在 gh-pages 分支)
-pokedex_site/data/
+# data/ 用 /* 而非整目录忽略, 以便豁免手工资产 data/features/ (觉醒对比图曾被整目录忽略规则
+# 挡住进不了 git, 只存在于工作树, 丢失后全站 SW 安装静默失败 2026-11-21)
+pokedex_site/data/*
+!pokedex_site/data/features/
 pokedex_site/sprites/
