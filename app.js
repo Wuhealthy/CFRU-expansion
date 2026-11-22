@@ -239,6 +239,7 @@ const SPR_KEY = [0x5A, 0xC3, 0x11, 0x9E, 0x37, 0x6B, 0xD2, 0x84,
                  0x1F, 0xA6, 0x48, 0xE0, 0x73, 0xCB, 0x95, 0x2D];
 const KIND_ID = { front: 0, icon: 1, front_shiny: 2 };
 const SPRITE_CHUNK = 64;
+const SPR_CACHE_MAX = 600;  // 解码位图缓存上限 (见 loadSprite 内的淘汰逻辑)
 const sprCache = {}, sprStore = {}, sprBundleJobs = {};
 window.__sprData = function (kind, id, b64) {
   sprStore[kind + id] = b64;
@@ -282,20 +283,30 @@ function ensureBundle(bundle) {
 }
 function loadSprite(kind, id) {
   const key = kind + id;
-  if (!sprCache[key]) {
-    sprCache[key] = ensureBundle(bundleOf(id)).then(() => {
-      const b64 = sprStore[key];
-      if (b64 == null) throw new Error("no sprite " + key);
-      const bin = atob(b64);
-      const seed = (id * 31 + KIND_ID[kind] * 7) & 0xFF;
-      const bytes = new Uint8Array(bin.length);
-      for (let i = 0; i < bin.length; i++) {
-        bytes[i] = bin.charCodeAt(i) ^ SPR_KEY[(i + seed) % SPR_KEY.length];
-      }
-      return createImageBitmap(new Blob([bytes], { type: kind === "icon" ? "image/png" : "image/webp" }));
-    }).catch(err => { delete sprCache[key]; throw err; });
+  let p = sprCache[key];
+  if (p) {
+    delete sprCache[key]; sprCache[key] = p;  // LRU 触碰: 移到末尾, 让淘汰总是最久未用的
+    return p;
   }
-  return sprCache[key];
+  p = ensureBundle(bundleOf(id)).then(() => {
+    const b64 = sprStore[key];
+    if (b64 == null) throw new Error("no sprite " + key);
+    const bin = atob(b64);
+    const seed = (id * 31 + KIND_ID[kind] * 7) & 0xFF;
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) {
+      bytes[i] = bin.charCodeAt(i) ^ SPR_KEY[(i + seed) % SPR_KEY.length];
+    }
+    return createImageBitmap(new Blob([bytes], { type: kind === "icon" ? "image/png" : "image/webp" }));
+  }).catch(err => { delete sprCache[key]; throw err; });
+  sprCache[key] = p;
+  // 内存护栏: ImageBitmap 每张 ~150KB, 全站 4600+ 张若全部缓存低内存设备会吃不消;
+  // 超上限时淘汰最久未用的条目 (被淘汰的精灵重画时从 sprStore 重解码, bundle 字符串仍在)
+  const keys = Object.keys(sprCache);
+  if (keys.length > SPR_CACHE_MAX) {
+    for (const k of keys.slice(0, keys.length - SPR_CACHE_MAX)) delete sprCache[k];
+  }
+  return p;
 }
 /* fit: 裁掉透明边后按原始大小显示 (不放大, 超过 fit 像素才缩小), 用于进化链圆框 */
 /* toggle: 点击切换闪光/普通 */
@@ -598,6 +609,11 @@ window.showAbilityPopup = showAbilityPopup;
 /* ---------------- 路由 ---------------- */
 const app = $("#app");
 $("#back-to-top").addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+/* 回到顶部按钮: 接近页顶时淡出, 滚过一段距离才浮现 (避免常驻按钮遮挡右下角内容) */
+const backTopBtn = $("#back-to-top");
+const backTopUpdate = () => backTopBtn.classList.toggle("is-shown", window.scrollY > 480);
+window.addEventListener("scroll", backTopUpdate, { passive: true });
+backTopUpdate();
 let homeState = { q: "", types: new Set(), form: "", sort: { key: "dex", desc: false }, view: localStorage.getItem("pkdx_dex_view") === "list" ? "list" : "card", favOnly: false };
 /* 我的收藏 (localStorage): 精灵 id 集合, 首页卡片/列表行/详情页三处入口同步 */
 const FAV_KEY = "pkdx_favs";
@@ -828,10 +844,10 @@ function monRow(s) {
     <td class="num">${statTotal(s)}</td>
   </tr>`;
 }
-function dexListHTML(items) {
+function dexListHTML(items, groupId) {
   return `<div class="dex-list-wrap"><table class="list-table dex-list">
     <thead><tr><th>编号</th><th>名称</th><th>属性</th><th>特性</th><th>种族值总和</th></tr></thead>
-    <tbody>${items.map(monRow).join("")}</tbody>
+    <tbody${groupId ? ` data-tbody="${groupId}"` : ""}>${items.map(monRow).join("")}</tbody>
   </table></div>`;
 }
 
@@ -957,15 +973,18 @@ function renderDexArea() {
     tocMark(present, "");
     return;
   }
-  // 分批渲染: 首批 BATCH_FIRST, 后续每批 BATCH_NEXT (仅卡片视图; 列表视图一次性)
+  // 分批渲染: 首批 BATCH_FIRST / LIST_FIRST, 后续每批 BATCH_NEXT / LIST_NEXT (rAF 间隙挂载, 不阻塞交互)
   const BATCH_FIRST = 60, BATCH_NEXT = 120;
-  const pending = [];  // [{id, items}]
+  const LIST_FIRST = 240, LIST_NEXT = 480;
+  const pending = [];  // [{id, items, list?}]
   let html = "";
   for (const g of groups) {
     const open = g.isSection ? `<section class="gen-sec" id="${g.id}">${g.header}` : g.header;
     const close = g.isSection ? `</section>` : "";
     if (isList) {
-      html += open + dexListHTML(g.items) + close;
+      const first = g.items.slice(0, LIST_FIRST);
+      html += open + dexListHTML(first, g.id) + close;
+      if (g.items.length > LIST_FIRST) pending.push({ id: g.id, items: g.items.slice(LIST_FIRST), list: true });
     } else {
       const first = g.items.slice(0, BATCH_FIRST);
       const rest = g.items.slice(BATCH_FIRST);
@@ -978,19 +997,32 @@ function renderDexArea() {
   mountSprites($("#dex-area"));
   if (!pending.length) return;
   let pi = 0;
+  /* rAF 在隐藏/后台/被遮挡的窗口会被暂停甚至不触发, 批量挂载会停在首批 (后台打开的站点
+     永远缺卡片)。每批让 rAF 与 250ms watchdog 竞速, rAF 一旦失灵整个会话改走 setTimeout。 */
+  const scheduleBatch = (() => {
+    let useTimeout = false;
+    return fn => {
+      if (useTimeout) { setTimeout(fn, 32); return; }
+      let done = false;
+      const run = () => { if (!done) { done = true; fn(); } };
+      requestAnimationFrame(run);
+      setTimeout(() => { if (!done) { done = true; useTimeout = true; fn(); } }, 250);
+    };
+  })();
   function nextBatch() {
     if (!$("#dex-area") || pi >= pending.length) return;
-    const { id, items } = pending[pi];
-    const grid = $(`[data-grid="${id}"]`);
-    if (!grid) { pi++; nextBatch(); return; }
-    const slice = items.slice(0, BATCH_NEXT);
-    grid.insertAdjacentHTML("beforeend", slice.map(s => monCard(s, statKey)).join(""));
-    mountSprites(grid);
-    if (items.length > BATCH_NEXT) pending[pi] = { id, items: items.slice(BATCH_NEXT) };
+    const { id, items, list } = pending[pi];
+    const target = list ? document.querySelector(`[data-tbody="${id}"]`) : $(`[data-grid="${id}"]`);
+    if (!target) { pi++; nextBatch(); return; }
+    const limit = list ? LIST_NEXT : BATCH_NEXT;
+    const slice = items.slice(0, limit);
+    target.insertAdjacentHTML("beforeend", slice.map(list ? monRow : s => monCard(s, statKey)).join(""));
+    if (!list) mountSprites(target);
+    if (items.length > limit) pending[pi] = { id, items: items.slice(limit), list };
     else pi++;
-    requestAnimationFrame(nextBatch);
+    scheduleBatch(nextBatch);
   }
-  requestAnimationFrame(nextBatch);
+  scheduleBatch(nextBatch);
 }
 window.toggleType = function (tid) {
   if (homeState.types.has(tid)) homeState.types.delete(tid);
@@ -4564,7 +4596,7 @@ function guessLoadState(dk) {
   catch (e) { return { solved: false, guesses: [] }; }
 }
 function guessSaveState(dk, st) { localStorage.setItem(GUESS_KEY_PREFIX + dk, JSON.stringify(st)); }
-let guessTarget = null, guessState = null;
+var guessTarget = null, guessState = null;  // var: #/guess 深链时启动 route() 先于本声明执行
 
 function guessAbilNames(s) {
   return (s.abilities || []).concat(s.hidden || []).map(aid => { const a = D.abilities[aid]; return a ? a.zh : ""; }).filter(Boolean);
@@ -4751,7 +4783,7 @@ const GACHA_RARITIES = [
   { key: "EX", label: "EX卡", icon: "💎", prob: 0.005, style: "diamond", glow: "#ffffff" },
 ];
 const GACHA_ALBUM_KEY = "pkdx_gacha_album";
-let gachaCurrent = null;
+var gachaCurrent = null;  // var: #/gacha 深链 (PWA 刷新) 会在启动 route() 时进入本区块, 避开 let TDZ
 
 function gachaRandomRarity() {
   const r = Math.random();
@@ -4851,8 +4883,37 @@ function gachaRandomMoves(s, abilityId) {
 }
 function gachaDrawCount() { return parseInt(localStorage.getItem("pkdx_gacha_" + dailyDateKey()) || "0"); }
 function gachaIncrDrawCount() { localStorage.setItem("pkdx_gacha_" + dailyDateKey(), String(gachaDrawCount() + 1)); }
-function gachaLoadAlbum() { try { return JSON.parse(localStorage.getItem(GACHA_ALBUM_KEY) || "[]"); } catch (e) { return []; } }
-function gachaSaveAlbum(a) { localStorage.setItem(GACHA_ALBUM_KEY, JSON.stringify(a)); }
+/* 收集册内存缓存: 首页每张卡片都查最高稀有度 (gachaBestRarity→gachaLoadAlbum), 之前每次都
+   JSON.parse 整个 localStorage —— 图鉴页一次渲染重复解析上千次, 且随每次搜索重渲染再来一遍。
+   所有写入只经 gachaSaveAlbum, 缓存随之同步; 外部不会绕过它改 localStorage 的这项数据。
+   本区块在文件末尾, 启动 route() 可能先执行, 状态一律用 var (无 TDZ, 同 homeSave 约定)。 */
+var albumCache = null;
+function gachaLoadAlbum() {
+  if (!albumCache) {
+    try { albumCache = JSON.parse(localStorage.getItem(GACHA_ALBUM_KEY) || "[]"); }
+    catch (e) { albumCache = []; }
+  }
+  return albumCache;
+}
+function gachaSaveAlbum(a) {
+  albumCache = a;
+  gachaRarityByDex = null;  // 按图鉴号聚合的稀有度索引随收集册变化重建
+  localStorage.setItem(GACHA_ALBUM_KEY, JSON.stringify(a));
+}
+var gachaRarityByDex = null;
+var GACHA_RARITY_ORDER = { EX: 4, UR: 3, SR: 2, R: 1, N: 0 };
+function gachaBestRarityOfDex(dex) {
+  if (!gachaRarityByDex) {
+    gachaRarityByDex = new Map();
+    for (const c of gachaLoadAlbum()) {
+      const sp = SPECIES_BY_ID[c.id];
+      if (!sp) continue;
+      const cur = gachaRarityByDex.get(sp.dex);
+      if (!cur || (GACHA_RARITY_ORDER[c.rarity] || 0) > (GACHA_RARITY_ORDER[cur] || 0)) gachaRarityByDex.set(sp.dex, c.rarity);
+    }
+  }
+  return gachaRarityByDex.get(dex) || null;
+}
 const GACHA_REFUND = { N: 1, R: 1, SR: 1, UR: 3, EX: 5 };
 function gachaAlbumMatchDex(id) {
   const sp = SPECIES_BY_ID[id], dex = sp ? sp.dex : -1;
@@ -4861,22 +4922,18 @@ function gachaAlbumMatchDex(id) {
 function gachaHasDiamond(id) { return gachaAlbumMatchDex(id).some(c => c.style === "diamond"); }
 function gachaHasRainbow(id) { return gachaAlbumMatchDex(id).some(c => c.style === "rainbow"); }
 function gachaBestRarity(id) {
-  const cards = gachaAlbumMatchDex(id);
-  if (!cards.length) return null;
-  const order = { EX: 4, UR: 3, SR: 2, R: 1, N: 0 };
-  let best = null;
-  for (const c of cards) { if (!best || (order[c.rarity] || 0) > (order[best] || 0)) best = c.rarity; }
-  return best;
+  const sp = SPECIES_BY_ID[id];
+  return sp ? gachaBestRarityOfDex(sp.dex) : null;
 }
 
-function gachaDrawToCanvas(canvas, spId, style, label, abilityId, moveIds) {
+function gachaDrawToCanvas(canvas, spId, style, label, abilityId, moveIds, scale = CARD_SCALE) {
   const saved = { sp: cardState.sp, ability: cardState.ability, moves: cardState.moves, shiny: cardState.shiny, style: cardState.style, label: cardState.label, customAbility: cardState.customAbility, customMoves: cardState.customMoves };
   cardState.sp = spId; cardState.ability = abilityId; cardState.moves = moveIds.slice(0, 4);
   cardState.shiny = false; cardState.customAbility = null; cardState.customMoves = [];
   cardState.style = style; cardState.label = label;
   const d = cmCardData();
   const ctx = canvas.getContext("2d");
-  ctx.setTransform(CARD_SCALE, 0, 0, CARD_SCALE, 0, 0);
+  ctx.setTransform(scale, 0, 0, scale, 0, 0);
   ctx.clearRect(0, 0, CARD_W, CARD_H);
   cmDrawBase(ctx, d, null);
   const p = cmLoadArt(spId).then(bmp => { if (bmp) cmDrawSprite(ctx, d, bmp); }).catch(() => {});
@@ -5056,7 +5113,7 @@ function renderAlbum() {
   const gridHtml = items.length ? items.map((it, i) => {
     const rar = GACHA_RARITIES.find(r => r.key === it.rarity);
     return `<div class="album-card album-${it.style}" onclick="gachaAlbumPopup(${it.id},'${it.style}','${it.rarity}')">
-      <canvas id="album-cv-${i}" width="${CARD_W * CARD_SCALE}" height="${CARD_H * CARD_SCALE}"></canvas>
+      <canvas id="album-cv-${i}" width="${CARD_W}" height="${CARD_H}"></canvas>
       <div class="album-rarity">${rar.icon} ${rar.label}${it.count > 1 ? ` ×${it.count}` : ""}</div>
     </div>`;
   }).join("") : '<div class="cm-empty">还没有抽到任何卡牌，去<a href="#/gacha">抽卡</a>吧！</div>';
@@ -5072,7 +5129,8 @@ function renderAlbum() {
     const abilityId = gachaCardAbility(it.s, card ? card.abilityId : null);
     const moveIds = gachaCardMoves(it.s, card ? card.moveIds : null);
     const rar = GACHA_RARITIES.find(r => r.key === it.rarity);
-    gachaDrawToCanvas(cv, it.id, it.style, "★ 抽卡获得 · " + rar.label, abilityId, moveIds);
+    // 缩略图 1 倍采样 (显示宽度 ≤230px, 660px 逻辑宽已超 2 倍采样); 2 倍位图每张 ~9.7MB, 卡包一多内存爆
+    gachaDrawToCanvas(cv, it.id, it.style, "★ 抽卡获得 · " + rar.label, abilityId, moveIds, 1);
   });
 }
 window.gachaAlbumPopup = function (spId, style, rarity) {
