@@ -238,9 +238,9 @@ extern const u8 gText_OptionDesc_AIBattle[];
 extern const u8 gText_OptionDesc_FollowerMon[];
 extern const u8 gText_OptionDesc_FastForward[];
 
-extern const u8 gText_TextSpeedSlow[];
 extern const u8 gText_TextSpeedMid[];
 extern const u8 gText_TextSpeedFast[];
+extern const u8 gText_TextSpeedInstant[];
 extern const u8 gText_BattleSceneOn[];
 extern const u8 gText_BattleSceneOff[];
 extern const u8 gText_BattleStyleShift[];
@@ -282,9 +282,9 @@ extern const u8 gText_OddsAlways[];
 
 static const u8 *const sTextSpeedOptions[] =
 {
-    gText_TextSpeedSlow,
     gText_TextSpeedMid,
-    gText_TextSpeedFast
+    gText_TextSpeedFast,
+    gText_TextSpeedInstant
 };
 static const u8 *const sBattleSceneOptions[] =
 {
@@ -623,7 +623,7 @@ void CB2_OptionsMenuFromStartMenu(void)
     sOptionMenuPtr->state = 0;
     sOptionMenuPtr->cursorPos = 0;
     sOptionMenuPtr->scrollTop = 0;
-    sOptionMenuPtr->option[MENUITEM_TEXTSPEED] = gSaveBlock2->optionsTextSpeed;
+    sOptionMenuPtr->option[MENUITEM_TEXTSPEED] = ClampOptionEnum(gSaveBlock2->optionsTextSpeed, 3);
     sOptionMenuPtr->option[MENUITEM_BATTLESCENE] = gSaveBlock2->optionsBattleSceneOff;
     sOptionMenuPtr->option[MENUITEM_BATTLESTYLE] = gSaveBlock2->optionsBattleStyle;
     sOptionMenuPtr->option[MENUITEM_SOUND] = gSaveBlock2->optionsSound;

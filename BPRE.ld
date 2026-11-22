@@ -2178,9 +2178,7 @@ sOptionMenuPalette = 0x83CC2E4;
 OptionMenu_SetVBlankCallback = 0x8088444 | 1;
 MenuHelpers_CallLinkSomething = 0x80BF72C | 1;
 FieldCB_DefaultWarpExit = 0x807DF64 | 1;
-gText_TextSpeedSlow = 0x8419e17;
-gText_TextSpeedMid = 0x8419e1c;
-gText_TextSpeedFast = 0x8419e20;
+/* gText_TextSpeedSlow/Mid/Fast 改由 strings/instant_text.string 定义(中文) */
 gText_BattleSceneOn = 0x8419e25;
 gText_BattleSceneOff = 0x8419e28;
 gText_BattleStyleShift = 0x8419e2c;
