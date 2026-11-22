@@ -18,6 +18,8 @@ const CORE_FILES = [
 const BUNDLE_BATCH = 16;  // bundle 数量少 (~25 个) 单个大, 16 个并行加速; github.io 是 HTTP/2 单连接多路复用
 const SCOPE_URL = self.registration.scope;
 let offlinePreparation = null;
+let dataRevalidAt = 0;  // data.js 后台重验证节流时间戳: URL 带 ?v=内容哈希, 缓存副本通常已是最新,
+                        // 每次命中都拉 2MB 纯浪费 (部署后的过期副本只需验证一次)
 
 async function notifyClients(message) {
   const clients = await self.clients.matchAll({ includeUncontrolled: true });
@@ -148,10 +150,13 @@ self.addEventListener("fetch", event => {
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
     if (isDataJS) {
-      // data.js (2MB): stale-while-revalidate — 先返回缓存秒开, 后台更新
+      // data.js (2MB): stale-while-revalidate — 先返回缓存秒开, 后台节流更新 (10 分钟最多一次)
       const cached = await cache.match(request, { ignoreSearch: true });
       if (cached) {
-        fetch(request).then(resp => { if (resp.ok) cache.put(request, resp.clone()); }).catch(() => {});
+        if (Date.now() > dataRevalidAt) {
+          dataRevalidAt = Date.now() + 10 * 60 * 1000;
+          fetch(request).then(resp => { if (resp.ok) cache.put(request, resp.clone()); }).catch(() => {});
+        }
         return cached;
       }
       try {

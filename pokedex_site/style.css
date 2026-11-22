@@ -106,13 +106,24 @@ a { color: inherit; text-decoration: none; }
   padding: 10px 28px;
   background: var(--topbar-bg);
   box-shadow: 0 2px 10px var(--shadow);
+  border-bottom: 1px solid var(--line);
+}
+/* 支持毛玻璃的浏览器: 半透明顶栏 + 背景模糊 (滚动时内容从顶栏下方穿过更柔和) */
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .topbar {
+    background: color-mix(in srgb, var(--topbar-bg) 82%, transparent);
+    backdrop-filter: blur(14px) saturate(1.35);
+    -webkit-backdrop-filter: blur(14px) saturate(1.35);
+  }
 }
 .brand { display: flex; align-items: center; gap: 10px; }
 .pokeball {
   width: 26px; height: 26px; border-radius: 50%;
   background: linear-gradient(#f5f5f5 0 46%, #2d2d2d 46% 54%, var(--accent) 54% 100%);
   border: 2px solid #2d2d2d; position: relative; flex: none;
+  transition: transform .7s cubic-bezier(.3, .6, .3, 1);
 }
+.brand:hover .pokeball { transform: rotate(360deg); }
 .pokeball::after {
   content: ""; position: absolute; left: 50%; top: 50%;
   width: 10px; height: 10px; border-radius: 50%;
@@ -195,7 +206,10 @@ a { color: inherit; text-decoration: none; }
   padding: 10px 14px; border: 0; border-radius: 999px;
   background: var(--accent); color: #fff; box-shadow: 0 3px 12px var(--shadow-strong);
   font: inherit; font-size: 14px; font-weight: 700; cursor: pointer;
+  opacity: 0; visibility: hidden; transform: translateY(12px);
+  transition: opacity .22s, transform .22s, visibility .22s, background .15s;
 }
+.back-to-top.is-shown { opacity: 1; visibility: visible; transform: none; }
 .back-to-top:hover { background: var(--accent-dark); }
 .back-to-top:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 .back-to-top span { font-size: 18px; line-height: 1; }
@@ -667,7 +681,7 @@ button.hero-card-btn { font-family: inherit; }
 .cm-input {
   width: 100%; box-sizing: border-box; padding: 7px 10px;
   border: 1px solid var(--line); border-radius: 8px; background: var(--card);
-  font: inherit; font-size: 13.5px; color: var(--text); margin-bottom: 7px;
+  font: inherit; font-size: 13.5px; color: var(--ink); margin-bottom: 7px;
 }
 textarea.cm-input { resize: vertical; min-height: 36px; font-family: inherit; }
 .cm-mini { padding: 5px 14px; font-size: 12.5px; }
@@ -687,7 +701,7 @@ textarea.cm-input { resize: vertical; min-height: 36px; font-family: inherit; }
 .cm-style-pick { display: flex; gap: 8px; justify-content: center; margin-bottom: 10px; }
 .cm-style-btn {
   border: 1.5px solid var(--line); border-radius: 999px; padding: 5px 16px;
-  cursor: pointer; background: var(--card); color: var(--text);
+  cursor: pointer; background: var(--card); color: var(--ink);
   font: inherit; font-size: 13px; font-weight: 700;
 }
 .cm-style-btn:hover { background: var(--nav-hover); }
@@ -699,15 +713,15 @@ textarea.cm-input { resize: vertical; min-height: 36px; font-family: inherit; }
 .feature-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
 .feature-icon { font-size: 22px; color: var(--accent); }
 .feature-header h2 { margin: 0; font-size: 20px; }
-.feature-intro { color: var(--text); line-height: 1.7; margin-bottom: 18px; }
+.feature-intro { color: var(--ink); line-height: 1.7; margin-bottom: 18px; }
 .feature-section { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
 .feature-section h3 { font-size: 16px; margin: 0 0 10px; color: var(--accent); }
 .feature-item { margin-bottom: 12px; }
 .feature-label {
-  display: inline-block; font-weight: 700; font-size: 13.5px; color: var(--text);
+  display: inline-block; font-weight: 700; font-size: 13.5px; color: var(--ink);
   background: var(--nav-hover); border-radius: 6px; padding: 2px 10px; margin-bottom: 4px;
 }
-.feature-item p { margin: 4px 0; line-height: 1.7; color: var(--text); }
+.feature-item p { margin: 4px 0; line-height: 1.7; color: var(--ink); }
 .feature-example {
   margin-top: 4px; padding: 6px 12px; background: var(--nav-hover); border-radius: 8px;
   font-size: 13.5px; color: var(--muted); border-left: 3px solid var(--accent);
@@ -1227,4 +1241,79 @@ textarea.cm-input { resize: vertical; min-height: 36px; font-family: inherit; }
 @media (max-width: 720px) {
   .ana-pdetail { flex-direction: column; }
   .team-combo-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ================= UI 精修 (2026-11-22): 统一质感, 全部走主题变量, 三主题通用 ================= */
+::selection { background: color-mix(in srgb, var(--accent) 24%, transparent); }
+html { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--muted) 45%, transparent) transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--muted) 38%, transparent);
+  border-radius: 999px; border: 2.5px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--muted) 60%, transparent); }
+
+/* 键盘可达性: 统一焦点环 (鼠标点击不触发) */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+/* 搜索框聚焦光环 */
+.search-box { transition: border-color .15s, box-shadow .15s; }
+.search-box:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 13%, transparent), 0 1px 4px var(--shadow);
+}
+
+/* 顶栏导航 / 页签 / 目录的统一过渡 */
+.nav a, .menu-nav a, .tabs button, .toc-toggle, .menu-toggle, .gsp-btn, .toc-list a,
+.home-box-nav button, .theme-switch button, .lang-switch button {
+  transition: background .15s, color .15s, border-color .15s, box-shadow .15s;
+}
+/* 属性筛选 chip: 悬停轻微放大 */
+.pill { transition: transform .12s, filter .12s; }
+.type-chips .pill, .ana-fchip { cursor: pointer; }
+.type-chips .pill:hover { transform: translateY(-1px) scale(1.06); filter: brightness(1.06); }
+
+/* 卡片悬停: 提升更高 + 边框带一点主题色 */
+.mon-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--line));
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--shadow-strong) 70%, transparent);
+}
+
+/* 长表格: 滚动时表头吸顶 (招式表/列表页/图鉴列表) */
+.list-table thead th, .move-table thead th {
+  position: sticky; top: 0; z-index: 1;
+  background: var(--card);
+}
+.list-table tbody tr, .move-table tbody tr { transition: background .12s; }
+
+/* 弹窗 / 全局搜索: 入场动画 */
+.popup { animation: popIn .18s cubic-bezier(.3, .8, .4, 1); }
+.popup-mask { animation: maskIn .16s ease-out; }
+#gsp { animation: popIn .18s cubic-bezier(.3, .8, .4, 1); }
+#gsp-mask { backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+.topbar-extras { transform-origin: top right; }
+.topbar-extras.open { animation: popIn .16s cubic-bezier(.3, .8, .4, 1); }
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(10px) scale(.97); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes maskIn { from { opacity: 0; } }
+
+/* 主按钮: 悬停微浮起, 按下回落 */
+.cm-btn, .guess-submit, .daily-pop-actions button, .install-app-button {
+  transition: transform .12s, box-shadow .12s, background .15s;
+}
+.cm-btn:hover, .guess-submit:hover, .install-app-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--shadow-strong);
+}
+.cm-btn:active, .guess-submit:active, .install-app-button:active {
+  transform: translateY(0); box-shadow: none;
+}
+.cm-btn:focus-visible { outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .popup, .popup-mask, #gsp, .topbar-extras.open, .pokeball { animation: none; transition: none; }
+  .mon-card, .pill, .cm-btn, .guess-submit, .back-to-top { transition-duration: 0s; }
 }
