@@ -654,7 +654,7 @@ static void PrintFooter(s32 id)
         ShowIcon(sprite, spriteType);
 }
 
-static void MoveCursorFunc(s32 itemIndex, bool8 onInit, struct ListMenu *list)
+static void MoveCursorFunc(s32 itemIndex, bool8 onInit, unusedArg struct ListMenu *list)
 {
     if (!onInit)
         PlaySE(SE_SELECT);
@@ -925,7 +925,7 @@ static void StartExit(void)
     gTasks[gQuestMenu->mainTaskId].func = Task_QuestMenuExit;
 }
 
-static void Task_QuestMenuMain(u8 taskId)
+static void Task_QuestMenuMain(unusedArg u8 taskId)
 {
     struct QuestMenuData *m = gQuestMenu;
     s32 input;
