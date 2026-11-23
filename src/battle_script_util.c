@@ -1739,7 +1739,7 @@ void GrumpySnoozeChangeFunc(void) //狂暴起床气：攻击命中后把对手�
 	ResetTookAbilityFrom(bankDef);
 	gLastUsedAbility = defAbility; //原特性
 	ResetVarsForAbilityChange(bankDef);
-	TransferAbilityPopUp(bankDef, ABILITY_SNOOZE);
+	TransferAbilityPopUp(bankDef, defAbility); //弹窗1先显示对手原特性（弹窗2由BattleScript_AbilityPopUp转移新特性贪睡）
 	gBattleStringLoader = GrumpySnoozeString;
 	gBattleCommunication[MULTISTRING_CHOOSER] = 1; //已改特性
 }
