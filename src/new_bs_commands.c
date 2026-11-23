@@ -362,7 +362,10 @@ void atkFF08_counterclear(void)
 			break;
 		case Counters_Metronome:
 			if (gNewBS->MetronomeCounter[bank])
+			{
 				gNewBS->MetronomeCounter[bank] = 0;
+				gNewBS->metronomeChainBroken[bank] = 1;
+			}
 			else
 				failed = TRUE;
 			break;
@@ -577,6 +580,7 @@ void atkFF0E_setcounter(void)
 			break;
 		case Counters_Metronome:
 			gNewBS->MetronomeCounter[bank] = amount;
+			gNewBS->metronomeChainBroken[bank] = 0;
 			break;
 		case Counters_Incinerate:
 			gNewBS->IncinerateCounters[bank] = amount;
@@ -1378,10 +1382,11 @@ void atkFF26_attackstringnoprotean(void)
 			if (!gSpecialMoveFlags[gCurrentMove].gMovesThatCallOtherMoves)
 			{
 				u8 chargingBonus = 20 * gNewBS->metronomeItemBonus[gBankAttacker];
-				if (gLastPrintedMoves[gBankAttacker] == gCurrentMove)
+				if (gLastPrintedMoves[gBankAttacker] == gCurrentMove && !gNewBS->metronomeChainBroken[gBankAttacker]) //上次成功用出同一招才继续叠加
 					gNewBS->MetronomeCounter[gBankAttacker] = MathMin(100, gNewBS->MetronomeCounter[gBankAttacker] + 20 + chargingBonus);
 				else
 					gNewBS->MetronomeCounter[gBankAttacker] = 0 + chargingBonus;
+				gNewBS->metronomeChainBroken[gBankAttacker] = 0; //本次已开始使用,链是否保留由本次结果决定
 			}
 		}
 

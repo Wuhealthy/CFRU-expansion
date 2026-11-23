@@ -2064,6 +2064,16 @@ void TrySuckerPunch(void)
 	|| gChosenMovesByBanks[gBankTarget] == MOVE_MEFIRST)
 		return;
 
+	//偷袭类失败直接跳ButItFailed,不经过resultmessage的失败清零路径。
+	//对手开保护挡下不算使用失败(连招保留);其他情况才是招式失败,重置连续计数:
+	if (!gProtectStructs[gBankTarget].protected && !gProtectStructs[gBankTarget].obstruct
+	&&  !gProtectStructs[gBankTarget].KingsShield && !gProtectStructs[gBankTarget].SpikyShield
+	&&  !gProtectStructs[gBankTarget].BanefulBunker && !gProtectStructs[gBankTarget].SilkTrap
+	&&  !gProtectStructs[gBankTarget].BurningBulwark)
+	{
+		gNewBS->MetronomeCounter[gBankAttacker] = 0;
+		gNewBS->metronomeChainBroken[gBankAttacker] = 1; //打断连续叠加链,下次从基础威力重新起算
+	}
 	gBattlescriptCurrInstr = BattleScript_ButItFailed - 5 - 2;
 }
 

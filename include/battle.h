@@ -792,6 +792,7 @@ struct NewBattleStruct
 	u8 DestinyBondCounters[MAX_BATTLERS_COUNT];
 	u8 MetronomeCounter[MAX_BATTLERS_COUNT];
 	u8 metronomeItemBonus[MAX_BATTLERS_COUNT]; //Used to help with multi-turn attacks
+	u8 metronomeChainBroken[MAX_BATTLERS_COUNT]; //越咬越烈/Metronome:1=上次使用失败,连续叠加链已断
 	u8 IncinerateCounters[MAX_BATTLERS_COUNT];
 	u8 LastUsedTypes[MAX_BATTLERS_COUNT];
 	u8 lastTargeted[MAX_BATTLERS_COUNT];

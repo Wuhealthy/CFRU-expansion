@@ -178,10 +178,11 @@ void atk02_attackstring(void)
 			if (!gSpecialMoveFlags[gCurrentMove].gMovesThatCallOtherMoves)
 			{
 				u8 chargingBonus = 20 * gNewBS->metronomeItemBonus[gBankAttacker];
-				if (gLastPrintedMoves[gBankAttacker] == gCurrentMove)
+				if (gLastPrintedMoves[gBankAttacker] == gCurrentMove && !gNewBS->metronomeChainBroken[gBankAttacker]) //上次成功用出同一招才继续叠加
 					gNewBS->MetronomeCounter[gBankAttacker] = MathMin(100, gNewBS->MetronomeCounter[gBankAttacker] + 20 + chargingBonus);
 				else
 					gNewBS->MetronomeCounter[gBankAttacker] = 0 + chargingBonus;
+				gNewBS->metronomeChainBroken[gBankAttacker] = 0; //本次已开始使用,链是否保留由本次结果决定
 			}
 		}
 
@@ -1051,6 +1052,7 @@ void atk0F_resultmessage(void)
 	if (gMoveResultFlags & MOVE_RESULT_MISSED && (!(gMoveResultFlags & MOVE_RESULT_DOESNT_AFFECT_FOE) || gNewBS->missStringId[gBankTarget] > 2))
 	{
 		gNewBS->MetronomeCounter[gBankAttacker] = 0;
+		gNewBS->metronomeChainBroken[gBankAttacker] = 1;
 
 		if (gNewBS->missStringId[gBankTarget] == 3 || gNewBS->missStringId[gBankTarget] == 4) //Levitate + Wonder Guard
 		{
@@ -1127,6 +1129,7 @@ void atk0F_resultmessage(void)
 
 		case MOVE_RESULT_FAILED:
 			gNewBS->MetronomeCounter[gBankAttacker] = 0;
+			gNewBS->metronomeChainBroken[gBankAttacker] = 1;
 			stringId = STRINGID_BUTITFAILED;
 			break;
 
@@ -1137,6 +1140,7 @@ void atk0F_resultmessage(void)
 				if (ShouldPrintTwoFoesMessage(MOVE_RESULT_DOESNT_AFFECT_FOE))
 				{
 					gNewBS->MetronomeCounter[gBankAttacker] = 0;
+					gNewBS->metronomeChainBroken[gBankAttacker] = 1;
 					gBattleStringLoader = gText_DoesntAffectTwoFoes;
 				}
 				else if (ShouldRelyOnTwoFoesMessage(MOVE_RESULT_DOESNT_AFFECT_FOE))
@@ -1150,6 +1154,7 @@ void atk0F_resultmessage(void)
 			else
 			{
 				gNewBS->MetronomeCounter[gBankAttacker] = 0;
+				gNewBS->metronomeChainBroken[gBankAttacker] = 1;
 				stringId = STRINGID_ITDOESNTAFFECT;
 			}
 			break;
@@ -1174,25 +1179,27 @@ void atk0F_resultmessage(void)
 				if (IsDoubleSpreadMove())
 				{
 					stringId = 0x184;
-					if (ShouldPrintTwoFoesMessage(MOVE_RESULT_DOESNT_AFFECT_FOE))
-					{
-						gNewBS->MetronomeCounter[gBankAttacker] = 0;
-						gBattleStringLoader = gText_DoesntAffectTwoFoes;
-					}
-					else if (ShouldRelyOnTwoFoesMessage(MOVE_RESULT_DOESNT_AFFECT_FOE))
-					{
-						//Was handled or will be handled as a double string
-						stringId = 0;
-					}
-					else
-						stringId = STRINGID_ITDOESNTAFFECT;
-				}
-				else
+				if (ShouldPrintTwoFoesMessage(MOVE_RESULT_DOESNT_AFFECT_FOE))
 				{
 					gNewBS->MetronomeCounter[gBankAttacker] = 0;
-					stringId = STRINGID_ITDOESNTAFFECT;
+					gNewBS->metronomeChainBroken[gBankAttacker] = 1;
+					gBattleStringLoader = gText_DoesntAffectTwoFoes;
 				}
+				else if (ShouldRelyOnTwoFoesMessage(MOVE_RESULT_DOESNT_AFFECT_FOE))
+				{
+					//Was handled or will be handled as a double string
+					stringId = 0;
+				}
+				else
+					stringId = STRINGID_ITDOESNTAFFECT;
 			}
+			else
+			{
+				gNewBS->MetronomeCounter[gBankAttacker] = 0;
+				gNewBS->metronomeChainBroken[gBankAttacker] = 1;
+				stringId = STRINGID_ITDOESNTAFFECT;
+			}
+		}
 			else if (gMoveResultFlags & MOVE_RESULT_ONE_HIT_KO)
 			{
 				gMoveResultFlags &= ~(MOVE_RESULT_ONE_HIT_KO);
@@ -1237,6 +1244,7 @@ void atk0F_resultmessage(void)
 			else if (gMoveResultFlags & MOVE_RESULT_FAILED)
 			{
 				gNewBS->MetronomeCounter[gBankAttacker] = 0;
+				gNewBS->metronomeChainBroken[gBankAttacker] = 1;
 				stringId = STRINGID_BUTITFAILED;
 			}
 			else

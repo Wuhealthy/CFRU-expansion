@@ -4476,7 +4476,7 @@ static u16 GetBasePower(struct DamageCalc* data)
 
 				if (data->specialFlags & FLAG_CHECKING_FROM_MENU)
 				{
-					if (move == gLastPrintedMoves[bankAtk]) //查看的正是上回合用过的同一招
+					if (move == gLastPrintedMoves[bankAtk] && !gNewBS->metronomeChainBroken[bankAtk]) //查看的正是上回合成功用出的同一招
 						boost = MathMin(200, 100 + gNewBS->MetronomeCounter[bankAtk] + 20);
 					else
 						break;
@@ -4989,7 +4989,7 @@ static u16 AdjustBasePower(struct DamageCalc* data, u16 power)
 
 				if (data->specialFlags & FLAG_CHECKING_FROM_MENU)
 				{
-					if (move == gLastPrintedMoves[bankAtk]) //Viewing the same move as used last turn
+					if (move == gLastPrintedMoves[bankAtk] && !gNewBS->metronomeChainBroken[bankAtk]) //Viewing the same move as used last turn
 						boost = MathMin(200, 100 + gNewBS->MetronomeCounter[bankAtk] + 20);
 					else
 						break;

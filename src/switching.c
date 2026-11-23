@@ -1378,6 +1378,7 @@ void ClearSwitchBytes(u8 bank)
 	gNewBS->nextAttackCritBoost[bank] = 0; //名刀斩：换下场后清除下次攻击翻倍
 	gNewBS->critBladeHitThisTurn[bank] = 0; //名刀斩：换下场后清除本回合暴击记录
 	gNewBS->MetronomeCounter[bank] = 0;
+	gNewBS->metronomeChainBroken[bank] = 0;
 	gNewBS->DestinyBondCounters[bank] = 0;
 	gNewBS->SlowStartTimers[bank] = 0;
 	gNewBS->IncinerateCounters[bank] = 0;
