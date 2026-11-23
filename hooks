@@ -847,4 +847,9 @@ BTB_SetHealthboxSpriteVisible 080481D4 1
 BTB_DrawMessageBoxFrame 080EB524 0
 #endif
 
-WaitForVBlankHook 08000890 0 
+WaitForVBlankHook 08000890 0
+
+##DPPt-style Map Name Popup (replaces the vanilla FRLG white label popup)
+ShowMapNamePopupHook 8098110 1
+DismissMapNamePopupHook 80982EC 0
+IsMapNamePopupTaskActiveHook 8098320 0
