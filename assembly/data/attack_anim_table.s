@@ -5818,72 +5818,96 @@ ANIM_MASTERBLADE:
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
-@;沼泥重锤: 泥沼包裹巨拳蓄势, 腾空重锤砸落+泥浆四溅震屏, 吸取的体力化作绿光环绕自身(吸血回复, 50%由atk88_negativedamage处理)
+@;沼泥重锤: 泥沼巨土缠身蓄势, 棕黄泥沼天空下腾空重锤砸落压扁目标, 泥浆炸裂后沼泥抽力将目标体力吸回并化作回复星光环绕自身(吸血回复, 50%由atk88_negativedamage处理)
 .global ANIM_SWAMPMUDHAMMER
 ANIM_SWAMPMUDHAMMER:
-	loadparticle ANIM_TAG_MUD_SAND
-	loadparticle ANIM_TAG_ROCKS
-	loadparticle ANIM_TAG_GREEN_SPARKLE @回复星光
-	@;泥沼包裹巨拳(攻击方染泥褐, 泥块缠身)
-	playsound2 0xA4 SOUND_PAN_ATTACKER
+	loadparticle ANIM_TAG_DIRT_MOUND @;大泥块(缠身涌起+炸裂)
+	loadparticle ANIM_TAG_MUD_SAND @;泥沙粒
+	loadparticle ANIM_TAG_ROCKS @;散射岩块
+	loadparticle ANIM_TAG_IMPACT @;命中
+	setblends 0x80C
+	@;=== 泥沼包裹巨拳蓄势 ===
+	playsound2 0xA4 SOUND_PAN_ATTACKER @;沼泽起手音
 	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xB 0x112C @;染泥褐(轮转犁地同款色)
-	call MUD_BUFF
-	call MUD_BUFF
+	call MUD_BUFF @;大泥块+泥沙双层缠身涌起
 	pause 0x4
-	@;后蹲蓄势 → 腾空砸落(烈火之翼同款起手)
+	@;后蹲蓄势
 	playsound2 0x91 SOUND_PAN_ATTACKER
 	launchtemplate Template_VerticalDip 0x2 0x3 0x6 0x1 bank_attacker
 	pause 0x19
+	@;泥沼天空铺开(巨砾土震Z同款棕黄)
+	loadBG1 BG_TECTONIC_RAGE
+	waitbgfadeout
+	waitbgfadein
+	@;=== 腾空重锤砸落 ===
 	launchtemplate Template_SlideMonToOffset 0x2 0x5 bank_attacker 0x2a 0x0 0x0 0x5
 	pause 0x2
 	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x3 0x20 0x1
 	soundcomplex 0x86 SOUND_PAN_TARGET 0x2 0x5 @;重锤砸落声
 	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4, 0x0, 0xfff8 bank_target 0x1 @;纵向重砸
-	launchtask AnimTask_ShakeMonInPlace 0x2 0x5 0x1 0x3 0x0 0xc 0x1 @;目标倒仰震动
-	@;泥浆四溅(地热喷发同款落石散射, 泥块四散)
+	launchtask AnimTask_SquishTarget 0x2 0x0 @;目标压扁(HAMMERARM/ICEHAMMER同款重锤感)
+	launchtask AnimTask_screen_shake 0x5 0x3 0x4 0x8 0xc @;短震屏
+	@;=== 泥浆炸裂 ===
 	launchtemplate Template_RockScatter TEMPLATE_TARGET | 2, 0x4, 0xfff4 0x20 0x3 0x4
 	launchtemplate Template_RockScatter TEMPLATE_TARGET | 2, 0x4, 0x8 0x1f 0x2 0x2
 	launchtemplate Template_RockScatter TEMPLATE_TARGET | 2, 0x4, 0xfffc 0x1c 0x2 0x3
 	launchtemplate Template_RockScatter TEMPLATE_TARGET | 2, 0x4, 0xc 0x1e 0x4 0x3
 	playsound2 0x7C SOUND_PAN_TARGET
+	call SWAMPMUD_BURST @;大泥块上抛炸裂
 	waitanimation
-	@;沼泥汲取: 吸取的体力化作绿光环绕自身(烈火之翼同款)
-	playsound2 0xAC SOUND_PAN_ATTACKER @回复音
-	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xc 0x7e5f @;染回复绿
-	launchtemplate SWAMPMUD_HEAL 0x2 0x4 0xa 0xa 0x19 0x0
+	unloadparticle ANIM_TAG_DIRT_MOUND @;泥系粒子已用完, 释放粒子槽
+	unloadparticle ANIM_TAG_MUD_SAND
+	unloadparticle ANIM_TAG_ROCKS
+	@;=== 沼泥汲取: 吸取的体力从目标飞回攻击方(终极吞噬同款) ===
+	loadparticle ANIM_TAG_ORBS @;ABSORB_ANIM吸取珠(终极吞噬同款必备)
+	loadparticle ANIM_TAG_BLUE_STAR @;HEALING_ANIM回复星光
+	pokespritetoBG bank_target
 	pause 0x4
-	launchtemplate SWAMPMUD_HEAL 0x2 0x4 0xfff1 0x0 0x19 0x0
-	pause 0x4
-	launchtemplate SWAMPMUD_HEAL 0x2 0x4 0x14 0xa 0x19 0x0
-	pause 0x4
-	launchtemplate SWAMPMUD_HEAL 0x2 0x4 0x0 0xfff6 0x19 0x0
-	pause 0x4
-	launchtemplate SWAMPMUD_HEAL 0x2 0x4 0x8 0x0 0x19 0x0
+	playsound2 0xAD SOUND_PAN_TARGET @;吸取音(吸血拳同款)
+	call ABSORB_ANIM @;绿珠从目标吸向攻击方
 	waitanimation
-	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x0 0xc 0x0 0x7e5f @;绿光褪回
+	pokespritefromBG bank_target
+	call HEALING_ANIM @;回复星光环绕攻击方
 	waitanimation
+	@;=== 收尾 ===
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x0 0xB 0x0 0x112C @;泥褐褪回
+	loaddefaultBG
+	waitbgfadein
 	launchtemplate Template_SlideMonToOriginalPos 0x2 0x3 bank_attacker 0x0 0x5
 	waitanimation
+	resetblends
 	endanimation
 
 .align 2
-SWAMPMUD_HEAL: objtemplate ANIM_TAG_GREEN_SPARKLE ANIM_TAG_GREEN_SPARKLE OAM_OFF_16x16 0x83E3760 0x0 gDummySpriteAffineAnimTable 0x80AA2B1
-
-.align 2
-MUD_BUFF:
-	launchtemplate MUD_BUFF_PART TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0xffe8 0x1a 0x2 0x16
-	pause 0x4
-	launchtemplate MUD_BUFF_PART TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0xe 0x1c 0x1 0x16
-	pause 0x4
-	launchtemplate MUD_BUFF_PART TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0xfffb 0xa 0x2 0x16
-	pause 0x4
-	launchtemplate MUD_BUFF_PART TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0x1c 0x1a 0x3 0x16
-	pause 0x4
-	launchtemplate MUD_BUFF_PART TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0xfff4 0x0 0x1 0x16
+SWAMPMUD_BURST:
+	launchtemplate SWAMPMUD_MOUND TEMPLATE_TARGET | 2, 0x5 bank_target 0x18 0x10 0x2 0x18
+	pause 0x2
+	launchtemplate SWAMPMUD_MOUND TEMPLATE_TARGET | 2, 0x5 bank_target 0xfff0 0x14 0x1 0x18
+	pause 0x2
+	launchtemplate SWAMPMUD_MOUND TEMPLATE_TARGET | 2, 0x5 bank_target 0x0 0x8 0x0 0x18
 	return
 
 .align 2
-MUD_BUFF_PART: objtemplate ANIM_TAG_MUD_SAND ANIM_TAG_MUD_SAND OAM_OFF_32x32 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable SpriteCB_MoveSpriteUpwardsForDuration
+SWAMPMUD_MOUND: objtemplate ANIM_TAG_DIRT_MOUND ANIM_TAG_DIRT_MOUND OAM_OFF_32x32 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable SpriteCB_MoveSpriteUpwardsForDuration
+
+.align 2
+MUD_BUFF:
+	launchtemplate MUD_BUFF_MOUND TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0xffe0 0x18 0x2 0x14
+	pause 0x2
+	launchtemplate MUD_BUFF_MOUND TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0x10 0x1a 0x1 0x14
+	pause 0x2
+	launchtemplate MUD_BUFF_PART TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0xffe6 0x1c 0x2 0x16
+	launchtemplate MUD_BUFF_PART TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0x14 0x10 0x1 0x16
+	pause 0x2
+	launchtemplate MUD_BUFF_MOUND TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0x0 0xe 0x0 0x14
+	launchtemplate MUD_BUFF_PART TEMPLATE_ATTACKER | 2, 0x5 bank_attacker 0xfffa 0x14 0x2 0x16
+	return
+
+.align 2
+MUD_BUFF_MOUND: objtemplate ANIM_TAG_DIRT_MOUND ANIM_TAG_DIRT_MOUND OAM_OFF_32x32 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable SpriteCB_MoveSpriteUpwardsForDuration
+
+.align 2
+MUD_BUFF_PART: objtemplate ANIM_TAG_MUD_SAND ANIM_TAG_MUD_SAND OAM_OFF_16x16 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable SpriteCB_MoveSpriteUpwardsForDuration
 
 .pool
 @;狂暴起床气: 攻击方染怒红, 带着起床气的猛冲重击, 命中后Z字睡意从目标头顶飘出(特性变为贪睡由脚本弹窗+文本)
