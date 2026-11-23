@@ -44,6 +44,7 @@
 #include "Tables/battle_tower_spreads.h"
 #include "Tables/raid_encounters.h"
 #include "Tables/raid_partners.h"
+#include "Tables/random_trainer_configs.h" //随机训练家定制配置池(由scripts/random_mon_config.py生成)
 #include "Tables/trainers_with_evs_table.h"
 
 /*
@@ -170,7 +171,8 @@ static void GiveMon2BestBaseStatEVs(struct Pokemon* mon);
 #endif
 static u16 TryReplaceNormalTrainerSpecies(u16 species, unusedArg u16 trainerId);
 #ifdef FLAG_TRAINER_RANDOMIZER
-static void RandomizeTrainerMon(struct Pokemon* mon);
+static void SetupTrainerRandomDoublesCombo(bool8 doubleBattle);
+static void RandomizeTrainerMon(struct Pokemon* mon, u8 partyIndex);
 static void RandomizeTrainerTeamPostProcess(struct Pokemon* party, u8 monsCount);
 #endif
 static u8 BuildFrontierParty(struct Pokemon* const party, const u16 trainerNum, const u8 tier, const bool8 firstTrainer, const bool8 forPlayer, const u8 side);
@@ -927,6 +929,9 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 		#endif
 
 		//Create each Pokemon
+		#ifdef FLAG_TRAINER_RANDOMIZER
+		SetupTrainerRandomDoublesCombo(trainer->doubleBattle); //随机训练家:双打组合模式(每次生成队伍前重置)
+		#endif
 		for (i = 0, trainerNameLengthOddness = StringLength(trainer->trainerName) & 1, nameHash = 0; i < monsCount; ++i)
 		{
 			u32 personalityValue;
@@ -1072,7 +1077,7 @@ static u8 CreateNPCTrainerParty(struct Pokemon* const party, const u16 trainerId
 				SET_MON_HIDDEN_POWER_TYPE(mon, hiddenPowerType);
 
 				#ifdef FLAG_TRAINER_RANDOMIZER
-				RandomizeTrainerMon(mon); //随机训练家:物种/等级/道具随机,配招按新等级重建
+				RandomizeTrainerMon(mon, i); //随机训练家:物种/等级/道具随机,配招按新等级重建
 				#endif
 			}
 
@@ -4802,6 +4807,131 @@ static const u16 sTrainerRandomItems[] =
 	ITEM_SHELL_BELL, ITEM_WEAKNESS_POLICY, ITEM_SITRUS_BERRY, ITEM_LUM_BERRY,
 };
 
+//随机训练家:定制配置池(类似对战塔的定制宝可梦,数据在Tables/random_trainer_configs.h,由scripts/random_mon_config.py
+//从src/Tables/random_trainer_configs.party生成,可用useful_scripts/random_config_editor.py编辑)。
+//随机到的物种(进化到最终形态后)在表中命中时:特性/性格/个体值/努力值/太晶属性/觉醒力量属性按定制应用,
+//配招非空格子(MOVE_NONE以外)覆盖等级招式,道具非ITEM_NONE覆盖随机道具;未命中的宝可梦仍走原有随机流程。
+//同一物种可配多条配置,命中时等概率随机选一条;双打组合见sTrainerRandomDoublesCombos
+static const struct TrainerRandomMonConfig* FindTrainerRandomMonConfig(u16 species)
+{
+	u32 i;
+	u8 count = 0;
+	const struct TrainerRandomMonConfig* chosen = NULL;
+
+	for (i = 0; i < ARRAY_COUNT(sTrainerRandomMonConfigs); ++i)
+	{
+		if (sTrainerRandomMonConfigs[i].species != species)
+			continue;
+		++count;
+		if (Random() % count == 0) //蓄水池抽样:每条命中配置等概率被选中
+			chosen = &sTrainerRandomMonConfigs[i];
+	}
+
+	return chosen;
+}
+
+//随机训练家:物种是否存在于定制配置池(后处理跳过判定用,与随机选中哪条无关)
+static bool8 SpeciesHasTrainerRandomConfig(u16 species)
+{
+	u32 i;
+
+	for (i = 0; i < ARRAY_COUNT(sTrainerRandomMonConfigs); ++i)
+	{
+		if (sTrainerRandomMonConfigs[i].species == species)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+//随机训练家双打组合模式的状态(每次生成训练家队伍前由SetupTrainerRandomDoublesCombo重置)
+static bool8 sTrainerRandomComboActive = FALSE;
+static u16 sTrainerRandomComboSpecies[2];
+static const struct TrainerRandomMonConfig* sTrainerRandomComboConfigs[2];
+
+//随机训练家:双打对战时按TRAINER_RANDOM_DOUBLES_COMBO_CHANCE概率启用一个双打组合
+//(party文件中Group字段相同的两条配置),队伍前两只宝可梦固定使用组合内的物种与定制配置;
+//未启用或单打时按普通流程随机
+static void SetupTrainerRandomDoublesCombo(bool8 doubleBattle)
+{
+#if NUM_TRAINER_RANDOM_DOUBLES_COMBOS > 0
+	u16 comboIndex;
+#endif
+
+	sTrainerRandomComboActive = FALSE;
+
+	if (!doubleBattle || NUM_TRAINER_RANDOM_DOUBLES_COMBOS == 0)
+		return;
+	if ((Random() % 100) >= TRAINER_RANDOM_DOUBLES_COMBO_CHANCE)
+		return;
+
+#if NUM_TRAINER_RANDOM_DOUBLES_COMBOS > 0
+	comboIndex = Random() % NUM_TRAINER_RANDOM_DOUBLES_COMBOS;
+	sTrainerRandomComboSpecies[0] = sTrainerRandomDoublesCombos[comboIndex].species[0];
+	sTrainerRandomComboSpecies[1] = sTrainerRandomDoublesCombos[comboIndex].species[1];
+	sTrainerRandomComboConfigs[0] = &sTrainerRandomMonConfigs[sTrainerRandomDoublesCombos[comboIndex].configIndex[0]];
+	sTrainerRandomComboConfigs[1] = &sTrainerRandomMonConfigs[sTrainerRandomDoublesCombos[comboIndex].configIndex[1]];
+	sTrainerRandomComboActive = TRUE;
+#endif
+}
+
+//随机训练家:命中定制配置池时,在CalculateMonStats之前应用个体/性格/特性等属性类配置
+static void ApplyTrainerRandomMonStats(struct Pokemon* mon, const struct TrainerRandomMonConfig* config)
+{
+	SetAbilityFromEnum(mon, config->ability, config->nature);
+	SetEVSpread(mon, config->evSpread[0], config->evSpread[1], config->evSpread[2],
+				 config->evSpread[3], config->evSpread[4], config->evSpread[5]);
+	SetIVSpread(mon, config->ivSpread[0], config->ivSpread[1], config->ivSpread[2],
+				 config->ivSpread[3], config->ivSpread[4], config->ivSpread[5]);
+
+	//太晶属性:定制了具体属性则用之,TERA_TYPE_RANDOM则按新物种重新随机(2%全随机,否则从本系中选,与训练家流程一致)
+	if (config->teraType != TERA_TYPE_RANDOM)
+	{
+		SET_MON_TERA_TYPE(mon, config->teraType);
+	}
+	else
+	{
+		u8 type1 = gBaseStats[mon->species].type1;
+		u8 type2 = gBaseStats[mon->species].type2;
+
+		if (Random() % 100 < 2)
+			SET_MON_TERA_TYPE(mon, GetRandomTeraType());
+		else if (type1 == type2 || type2 == TYPE_MYSTERY || type2 == TYPE_BLANK)
+			SET_MON_TERA_TYPE(mon, type1);
+		else
+			SET_MON_TERA_TYPE(mon, (Random() & 1) ? type1 : type2);
+	}
+
+	//觉醒力量属性:0=按(定制后的)个体值推导,否则用HIDDEN_POWER_TYPE编码的定制属性
+	SET_MON_HIDDEN_POWER_TYPE(mon, config->hiddenPowerType);
+}
+
+//随机训练家:命中定制配置池时,在道具随机之后应用配招与道具类配置;
+//定制配招非空(MOVE_NONE以外)的格子覆盖对应招式并写入PP,定制道具非ITEM_NONE则覆盖随机道具
+static void ApplyTrainerRandomMonMoveset(struct Pokemon* mon, const struct TrainerRandomMonConfig* config)
+{
+	u8 slot;
+
+	if (config == NULL)
+		return;
+
+	for (slot = 0; slot < MAX_MON_MOVES; ++slot)
+	{
+		if (config->moves[slot] == MOVE_NONE)
+			continue;
+
+		{
+			u16 move = config->moves[slot];
+			u16 pp = gBattleMoves[move].pp;
+			SetMonData(mon, MON_DATA_MOVE1 + slot, &move);
+			SetMonData(mon, MON_DATA_PP1 + slot, &pp);
+		}
+	}
+
+	if (config->heldItem != ITEM_NONE)
+		SetMonData(mon, MON_DATA_HELD_ITEM, &config->heldItem);
+}
+
 //随机训练家:收集物种可学的蛋招式池(去重);自学招式(升级招式表)不在池内,由GiveBoxMonInitialMoveset按等级给出
 static u16 BuildTrainerRandomExtraMovePool(struct Pokemon* mon, u16* pool)
 {
@@ -4877,7 +5007,9 @@ static void RandomizeTrainerMonMoveset(struct Pokemon* mon)
 //随机对战训练家(设置菜单FLAG_TRAINER_RANDOMIZER):队伍构成/等级/携带道具随机化。
 //种族值上限比随机野生遭遇高100(按徽章数查sTrainerBstCapByBadges);等级先±按游戏难度设定的波动幅度随机;
 //等级达到TRAINER_RANDOM_FULLY_EVOLVED_MIN_BADGES枚徽章的宝可梦强制使用完全进化形态(4徽章时bstCap=560,完全进化池已足够稠密);
-//配招清空后按新等级从(可能随机的)升级招式表重建,再按TRAINER_RANDOM_EXTRA_MOVE_CHANCE概率叠加随机蛋招式并补满空格
+//配招清空后按新等级从(可能随机的)升级招式表重建,再按TRAINER_RANDOM_EXTRA_MOVE_CHANCE概率叠加随机蛋招式并补满空格;
+//随机到的物种命中sTrainerRandomMonConfigs定制池时,按定制应用特性/性格/个体值/努力值/太晶属性/觉醒力量属性/配招/道具
+//(未定制项保留随机结果);配置数据在Tables/random_trainer_configs.h
 //随机训练家按游戏难度设定每只宝可梦等级波动幅度(±该值):简单1,普通3,困难5,专家7(按OPTIONS_*_DIFFICULTY枚举顺序)
 static const u8 sTrainerRandomLevelVarianceByDifficulty[] =
 {
@@ -4887,7 +5019,7 @@ static const u8 sTrainerRandomLevelVarianceByDifficulty[] =
 	/*专家*/ 7,
 };
 
-static void RandomizeTrainerMon(struct Pokemon* mon)
+static void RandomizeTrainerMon(struct Pokemon* mon, u8 partyIndex)
 {
 	u16 newSpecies;
 	u16 item;
@@ -4898,11 +5030,12 @@ static void RandomizeTrainerMon(struct Pokemon* mon)
 	u8 needFullyEvolved;
 	u8 zero = 0;
 	u8 levelVariance;
+	const struct TrainerRandomMonConfig* config;
 
 	if (!FlagGet(FLAG_TRAINER_RANDOMIZER) || FlagGet(FLAG_BATTLE_FACILITY))
 		return;
 
-	//等级随机:原等级±按游戏难度设定的波动幅度,下限5
+	//等级随机:原等级±按游戏难度设定的波动幅度,下限5(双打组合成员同样适用)
 	levelVariance = sTrainerRandomLevelVarianceByDifficulty[MathMin(VarGet(VAR_GAME_DIFFICULTY), OPTIONS_EXPERT_DIFFICULTY)];
 	newLevel = mon->level + (Random() % (levelVariance * 2 + 1)) - levelVariance;
 	if (newLevel < 5)
@@ -4910,36 +5043,50 @@ static void RandomizeTrainerMon(struct Pokemon* mon)
 	else if (newLevel > MAX_LEVEL)
 		newLevel = MAX_LEVEL;
 
-	//种族值上限比随机野生遭遇高100:按当前徽章数查sTrainerBstCapByBadges(队伍每次生成重掷,随徽章进度自然变强)
-	//完全进化门槛:徽章数>=TRAINER_RANDOM_FULLY_EVOLVED_MIN_BADGES(4徽章时bstCap=560,完全进化池已足够稠密)
+	config = NULL;
+
+	if (sTrainerRandomComboActive && partyIndex < 2)
 	{
-		u8 badgeCount = CountPlayerBadges();
-		bstCap = sTrainerBstCapByBadges[badgeCount];
-		needFullyEvolved = badgeCount >= TRAINER_RANDOM_FULLY_EVOLVED_MIN_BADGES;
+		//双打组合:队伍前两只直接使用组合内的物种与定制配置(组合为玩家定制,不再做物种随机与BST上限检查)
+		newSpecies = sTrainerRandomComboSpecies[partyIndex];
+		config = sTrainerRandomComboConfigs[partyIndex];
 	}
-
-	//随机物种:排除形态禁表(Mega/极巨化/觉醒/道具变身等);种族值不超徽章上限;徽章达标时强制进化到最终形态
-	for (numAttempts = 0; numAttempts < 100; ++numAttempts)
+	else
 	{
-		newSpecies = 1 + (Random() % (NUM_SPECIES - 1));
+		//种族值上限比随机野生遭遇高100:按当前徽章数查sTrainerBstCapByBadges(队伍每次生成重掷,随徽章进度自然变强)
+		//完全进化门槛:徽章数>=TRAINER_RANDOM_FULLY_EVOLVED_MIN_BADGES(4徽章时bstCap=560,完全进化池已足够稠密)
+		{
+			u8 badgeCount = CountPlayerBadges();
+			bstCap = sTrainerBstCapByBadges[badgeCount];
+			needFullyEvolved = badgeCount >= TRAINER_RANDOM_FULLY_EVOLVED_MIN_BADGES;
+		}
 
-		//编号0/图鉴编号0(不吃禁表)兜底式再随机
-		if (IsBannedRandomSpecies(newSpecies))
-			continue;
-		//强制完全进化:随机到任意物种后递归进化到最终形态(传MAX_LEVEL满足所有进化条件),不会漏未完全进化形态
-		if (needFullyEvolved)
-			EvolveSpeciesByLevel(&newSpecies, MAX_LEVEL);
-		//进化后可能落入禁表(如某些特殊完全进化形态),再查一次
-		if (IsBannedRandomSpecies(newSpecies))
-			continue;
-		if (GetSpeciesBst(newSpecies) > bstCap)
-			continue; //种族值超出当前徽章数允许的范围
+		//随机物种:排除形态禁表(Mega/极巨化/觉醒/道具变身等);种族值不超徽章上限;徽章达标时强制进化到最终形态
+		for (numAttempts = 0; numAttempts < 100; ++numAttempts)
+		{
+			newSpecies = 1 + (Random() % (NUM_SPECIES - 1));
 
-		break;
+			//编号0/图鉴编号0(不吃禁表)兜底式再随机
+			if (IsBannedRandomSpecies(newSpecies))
+				continue;
+			//强制完全进化:随机到任意物种后递归进化到最终形态(传MAX_LEVEL满足所有进化条件),不会漏未完全进化形态
+			if (needFullyEvolved)
+				EvolveSpeciesByLevel(&newSpecies, MAX_LEVEL);
+			//进化后可能落入禁表(如某些特殊完全进化形态),再查一次
+			if (IsBannedRandomSpecies(newSpecies))
+				continue;
+			if (GetSpeciesBst(newSpecies) > bstCap)
+				continue; //种族值超出当前徽章数允许的范围
+
+			break;
+		}
+
+		if (numAttempts >= 100) //重掷100次未命中则保持原物种(几乎不可能发生)
+			newSpecies = mon->species;
+
+		//定制配置池:命中则等概率随机选一条配置(同一物种可配多条)
+		config = FindTrainerRandomMonConfig(newSpecies);
 	}
-
-	if (numAttempts >= 100) //重掷100次未命中则保持原物种(几乎不可能发生)
-		newSpecies = mon->species;
 
 	//写入新物种与昵称
 	SetMonData(mon, MON_DATA_SPECIES, &newSpecies);
@@ -4948,6 +5095,10 @@ static void RandomizeTrainerMon(struct Pokemon* mon)
 		GetSpeciesName(speciesName, newSpecies);
 		SetMonData(mon, MON_DATA_NICKNAME, speciesName);
 	}
+
+	//定制配置池:命中则先应用个体值/努力值/性格/特性/太晶属性/觉醒力量属性(需在CalculateMonStats之前)
+	if (config != NULL)
+		ApplyTrainerRandomMonStats(mon, config);
 
 	//按新物种成长率写入新等级对应经验,重算能力值
 	SetMonData(mon, MON_DATA_PP_BONUSES, &zero);
@@ -4964,6 +5115,9 @@ static void RandomizeTrainerMon(struct Pokemon* mon)
 	//随机携带道具
 	item = sTrainerRandomItems[Random() % ARRAY_COUNT(sTrainerRandomItems)];
 	SetMonData(mon, MON_DATA_HELD_ITEM, &item);
+
+	//定制配置池:命中则按定制覆盖配招与道具(MOVE_NONE格子保留等级招式,ITEM_NONE保留随机道具)
+	ApplyTrainerRandomMonMoveset(mon, config);
 }
 
 //判断物种是否为觉醒(Primal Instinct)的基础形态
@@ -5032,7 +5186,7 @@ static u16 FindMegaStoneForSpecies(u16 species)
 //随机训练家队伍后处理(所有宝可梦RandomizeTrainerMon完成后整队执行一次):
 //队中有可Mega进化的宝可梦则等概率选一只佩戴对应Mega石(覆盖随机道具);
 //每只可觉醒的宝可梦独立判定50%概率觉醒:50%携带觉醒力量招式(招式满则随机顶替一个),50%携带觉醒徽章;
-//已佩戴Mega石的宝可梦除外
+//已佩戴Mega石的宝可梦除外;命中sTrainerRandomMonConfigs定制池的宝可梦完全跳过后处理,保留定制配招/道具
 static void RandomizeTrainerTeamPostProcess(struct Pokemon* party, u8 monsCount)
 {
 	u8 i, megaMon = 0xFF;
@@ -5041,7 +5195,12 @@ static void RandomizeTrainerTeamPostProcess(struct Pokemon* party, u8 monsCount)
 
 	for (i = 0; i < monsCount; ++i)
 	{
-		u16 stone = FindMegaStoneForSpecies(party[i].species);
+		u16 stone;
+
+		if (SpeciesHasTrainerRandomConfig(party[i].species))
+			continue; //命中定制池的宝可梦跳过Mega石随机佩戴,保留定制道具
+
+		stone = FindMegaStoneForSpecies(party[i].species);
 
 		if (stone != ITEM_NONE)
 		{
@@ -5066,6 +5225,8 @@ static void RandomizeTrainerTeamPostProcess(struct Pokemon* party, u8 monsCount)
 
 		if (i == megaMon)
 			continue; //已佩戴Mega石的宝可梦不再配置觉醒
+		if (SpeciesHasTrainerRandomConfig(mon->species))
+			continue; //命中定制池的宝可梦跳过觉醒判定,保留定制配置
 		if (!IsAwakeningBaseSpecies(mon->species))
 			continue;
 

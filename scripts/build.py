@@ -516,6 +516,8 @@ def main():
     startTime = datetime.now()
     # Convert Showdown-style trainer overrides before compiling C sources.
     RunCommand([sys.executable, 'scripts/trainer_party.py', 'build'])
+    # Generate the random-trainer custom config pool header before compiling C sources.
+    RunCommand([sys.executable, 'scripts/random_mon_config.py'])
     globs = {
             '**/*.s': ProcessAssembly,
             '**/*.c': ProcessC,

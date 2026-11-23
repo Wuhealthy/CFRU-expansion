@@ -1,0 +1,29 @@
+/* 随机训练家定制配置池(Showdown格式)。由 scripts/random_mon_config.py 解析,
+   生成 src/Tables/random_trainer_configs.h。可用 useful_scripts/random_config_editor.py 编辑。
+   字段与训练家编辑器的宝可梦配置一致;等级由随机训练家逻辑决定,不在此配置。
+   注: Item 留空表示保留随机道具;招式为 MOVE_NONE 的格子保留等级生成的招式。
+   同一物种可写多条配置,随机命中时等概率抽一条。
+   Group: 填相同名字的两条配置组成一个双打组合,双打对战按 TRAINER_RANDOM_DOUBLES_COMBO_CHANCE
+   (config.h,默认50%)概率让队伍前两只直接使用组合内的物种与配置(必须恰好两条)。 */
+
+=== RANDOMMON_SNORLAX ===
+Snorlax @ Leftovers
+Group: DemoDuo
+Ability: Random All
+Nature: Hardy
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+EVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+- Body Slam
+- Earthquake
+- Rest
+
+=== RANDOMMON_GARCHOMP ===
+Garchomp @ Choice Band
+Group: DemoDuo
+Ability: Random All
+Nature: Hardy
+IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
+EVs: 0 HP / 0 Atk / 0 Def / 0 SpA / 0 SpD / 0 Spe
+- Earthquake
+- Dragon Claw
+- Stone Edge
