@@ -36,6 +36,13 @@ void CB2_LoadMap2(void);
 
 bool8 ShouldSkipVBlankWait(void)
 {
+	//修复室内失效：联机流程（Cable Club/神秘礼物等）会置位 gWirelessCommType，被中途
+	//退出时该标志残留（原版仅连接失败路径才清零），导致快进守卫永远命中、功能消失
+	//直到重启。回到大地图且未建立连接时必然为残留，安全清除；真联机不受影响。
+	if (gWirelessCommType != 0 && !gReceivedRemoteLinkPlayers
+	&& gMain.callback2 == CB2_Overworld)
+		gWirelessCommType = 0;
+
 	if (gReceivedRemoteLinkPlayers || gWirelessCommType)
 		return FALSE;
 
