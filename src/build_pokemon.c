@@ -4875,9 +4875,18 @@ static void RandomizeTrainerMonMoveset(struct Pokemon* mon)
 }
 
 //随机对战训练家(设置菜单FLAG_TRAINER_RANDOMIZER):队伍构成/等级/携带道具随机化。
-//种族值上限比随机野生遭遇高100(按徽章数查sTrainerBstCapByBadges);等级先±TRAINER_RANDOM_LEVEL_VARIANCE随机;
+//种族值上限比随机野生遭遇高100(按徽章数查sTrainerBstCapByBadges);等级先±按游戏难度设定的波动幅度随机;
 //等级达到TRAINER_RANDOM_FULLY_EVOLVED_MIN_BADGES枚徽章的宝可梦强制使用完全进化形态(4徽章时bstCap=560,完全进化池已足够稠密);
 //配招清空后按新等级从(可能随机的)升级招式表重建,再按TRAINER_RANDOM_EXTRA_MOVE_CHANCE概率叠加随机蛋招式并补满空格
+//随机训练家按游戏难度设定每只宝可梦等级波动幅度(±该值):简单1,普通3,困难5,专家7(按OPTIONS_*_DIFFICULTY枚举顺序)
+static const u8 sTrainerRandomLevelVarianceByDifficulty[] =
+{
+	/*普通*/ 3,
+	/*简单*/ 1,
+	/*困难*/ 5,
+	/*专家*/ 7,
+};
+
 static void RandomizeTrainerMon(struct Pokemon* mon)
 {
 	u16 newSpecies;
@@ -4888,12 +4897,14 @@ static void RandomizeTrainerMon(struct Pokemon* mon)
 	s32 newLevel;
 	u8 needFullyEvolved;
 	u8 zero = 0;
+	u8 levelVariance;
 
 	if (!FlagGet(FLAG_TRAINER_RANDOMIZER) || FlagGet(FLAG_BATTLE_FACILITY))
 		return;
 
-	//等级随机:原等级±TRAINER_RANDOM_LEVEL_VARIANCE,下限5
-	newLevel = mon->level + (Random() % (TRAINER_RANDOM_LEVEL_VARIANCE * 2 + 1)) - TRAINER_RANDOM_LEVEL_VARIANCE;
+	//等级随机:原等级±按游戏难度设定的波动幅度,下限5
+	levelVariance = sTrainerRandomLevelVarianceByDifficulty[MathMin(VarGet(VAR_GAME_DIFFICULTY), OPTIONS_EXPERT_DIFFICULTY)];
+	newLevel = mon->level + (Random() % (levelVariance * 2 + 1)) - levelVariance;
 	if (newLevel < 5)
 		newLevel = 5;
 	else if (newLevel > MAX_LEVEL)
