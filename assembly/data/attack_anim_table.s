@@ -5700,12 +5700,14 @@ LS_ELECTRIC_RUSH:
 	pause 0x2
 	return
 
-@;暗黑爪: 化作暗影疾冲近身, 双道金色爪痕交错撕裂壁障, X形剪断弹坑收尾(可穿透壁障与替身, Mega阿勃梭鲁Z专属)
+@;暗黑爪: 化作暗影疾冲近身, 双道暗紫爪痕交错撕裂壁障, X形剪断弹坑收尾(可穿透壁障与替身, Mega阿勃梭鲁Z专属)
 .global ANIM_DARKCLAW
 ANIM_DARKCLAW:
 	loadparticle ANIM_TAG_CUT @爪痕(CS_SLASH模板)
+	loadparticle ANIM_TAG_GOLD_STARS @爪痕配色(palTag不自动加载,缺了会画乱码;随后染暗紫)
 	loadparticle ANIM_TAG_CROSS_IMPACT @X形剪断弹坑
 	loadparticle ANIM_TAG_IMPACT
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_GOLD_STARS 0x0 0xD 0xD 0x3006 @;爪痕染暗紫(暗黑属性)
 	@;暗影疾冲近身
 	playsound2 0x91 SOUND_PAN_ATTACKER
 	launchtemplate Template_SlideMonToOffset 0x2 0x5 bank_attacker 0x1e 0x0 0x0 0x3
@@ -33913,6 +33915,7 @@ RS_WATERHIT: objtemplate ANIM_TAG_IMPACT ANIM_TAG_WATER_ORB OAM_NORMAL_BLEND_32x
 @会心一剪：巨剪双角交错剪击，容易击中要害。 署名WUHEALTHY
 ANIM_CRITSNIP:
 	loadparticle ANIM_TAG_CUT @金色巨剪
+	loadparticle ANIM_TAG_GOLD_STARS @金色爪痕配色(palTag不自动加载,缺了会画乱码)
 	loadparticle ANIM_TAG_CROSS_IMPACT @剪断弹坑
 	loadparticle ANIM_TAG_IMPACT @命中弹坑
 	pokespritetoBG bank_target
