@@ -383,3 +383,4 @@ gAbilityDescriptions:
 .word DESC_NITENICHIRYU                          @ 372 ABILITY_NITENICHIRYU
 .word DESC_NIGHTVISIONEYE                        @ 373 ABILITY_NIGHTVISIONEYE
 .word DESC_OVERCLOCK                             @ 374 ABILITY_OVERCLOCK
+.word DESC_FRIGIDBODY                            @ 375 ABILITY_FRIGIDBODY

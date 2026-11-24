@@ -193,6 +193,11 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 					DECREASE_VIABILITY(1);
 				break;
 
+			case ABILITY_FRIGIDBODY:
+				if (CanBeFrozen(bankAtk, bankDef, TRUE))
+					DECREASE_VIABILITY(1);
+				break;
+
 			case ABILITY_NEEDLEGRUDGE:
 				if (!gNewBS->oncePerBattleAbilityFlags[SIDE(bankDef)][gBattlerPartyIndexes[bankDef]]
 				&& !(gBattleMons[bankAtk].status2 & STATUS2_CURSED))

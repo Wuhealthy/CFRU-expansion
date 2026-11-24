@@ -378,5 +378,6 @@
 #define ABILITY_NITENICHIRYU                         372 // 二天一流
 #define ABILITY_NIGHTVISIONEYE                       373 // 夜视之眼
 #define ABILITY_OVERCLOCK                            374 // 核频超限
+#define ABILITY_FRIGIDBODY                           375 // 极寒之躯
 
-#define ABILITIES_COUNT (ABILITY_OVERCLOCK + 1)
+#define ABILITIES_COUNT (ABILITY_FRIGIDBODY + 1)

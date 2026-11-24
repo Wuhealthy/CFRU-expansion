@@ -456,6 +456,7 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_DOUBLEBARREL] = 8,
 	[ABILITY_LEYLINEGUARD] = 7,
 	[ABILITY_HIGHVOLTAGE] = 5,
+	[ABILITY_FRIGIDBODY] = 5,
 };
 
 const u16 gWeatherContinuesStringIds[] =
@@ -2770,6 +2771,21 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
     			}
 				break;
 			
+			case ABILITY_FRIGIDBODY: // 极寒之躯: 受到招式伤害时冻伤攻击者
+				if (MOVE_HAD_EFFECT
+				&& TOOK_DAMAGE(bank)
+				&& BATTLER_ALIVE(gBankAttacker)
+				&& gBankAttacker != bank
+				&& CanBeFrozen(gBankAttacker, bank, TRUE))
+				{
+					gBattleCommunication[MOVE_EFFECT_BYTE] = MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_FREEZE;
+					BattleScriptPushCursor();
+					gBattlescriptCurrInstr = BattleScript_AbilityApplySecondaryEffect;
+					gHitMarker |= HITMARKER_IGNORE_SAFEGUARD;
+					effect++;
+				}
+				break;
+
 			case ABILITY_SEEDSOWER:
 				if (MOVE_HAD_EFFECT
 					&& TOOK_DAMAGE(bank)

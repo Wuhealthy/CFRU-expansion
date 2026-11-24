@@ -1099,3 +1099,6 @@ HP全满时受到的伤害变为效果不好
 
 #org @DESC_OVERCLOCK
 HP越少，使出招式的威力就越高。\n最高可达2倍。
+
+#org @DESC_FRIGIDBODY
+受到招式伤害时，\n会使对手陷入冻伤状态。
