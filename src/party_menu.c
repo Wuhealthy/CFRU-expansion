@@ -2931,18 +2931,28 @@ static void ItemUseCB_ExpCandy(u8 taskId, TaskFunc func)
         u32 currExp = GetMonData(mon, MON_DATA_EXP, NULL);
         u32 expGain = sExpCandyValues[item - ITEM_EXP_CANDY_XS];
         u8 growthRate = gBaseStats[species].growthRate;
+        u8 effectiveMaxLevel = MAX_LEVEL;
         u8 newLevel;
         u32 maxExp;
         u8 levelsGained;
 
         PlaySE(SE_SELECT);
 
-        if (species == SPECIES_EGG || level >= MAX_LEVEL
         #ifdef FLAG_HARD_LEVEL_CAP
-        || ((FlagGet(FLAG_HARD_LEVEL_CAP) || VarGet(VAR_GAME_DIFFICULTY) != OPTIONS_EASY_DIFFICULTY) && level >= GetCurrentLevelCap())
+        if (FlagGet(FLAG_HARD_LEVEL_CAP) || VarGet(VAR_GAME_DIFFICULTY) != OPTIONS_EASY_DIFFICULTY)
+                effectiveMaxLevel = GetCurrentLevelCap();
         #endif
-        )
+
+        if (species == SPECIES_EGG || level >= effectiveMaxLevel)
         {
+                if (species != SPECIES_EGG && GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE) != SPECIES_NONE)
+                {
+                        // Match Rare Candy: at the cap, consume the item and
+                        // allow the evolution instead of leveling up.
+                        RemoveBagItem(item, 1);
+                        PartyMenuTryEvolution(taskId);
+                        return;
+                }
                 gPartyMenuUseExitCallback = FALSE;
                 DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
                 ScheduleBgCopyTilemapToVram(2);
@@ -2950,13 +2960,14 @@ static void ItemUseCB_ExpCandy(u8 taskId, TaskFunc func)
                 return;
         }
 
-        maxExp = gExperienceTables[growthRate][MAX_LEVEL];
+        // Cap the EXP so the candy can never push the Pokémon past the level cap.
+        maxExp = gExperienceTables[growthRate][effectiveMaxLevel];
         currExp += expGain;
         if (currExp > maxExp)
                 currExp = maxExp;
 
         newLevel = level;
-        while (newLevel < MAX_LEVEL && currExp >= gExperienceTables[growthRate][newLevel + 1])
+        while (newLevel < effectiveMaxLevel && currExp >= gExperienceTables[growthRate][newLevel + 1])
                 ++newLevel;
 
         levelsGained = newLevel - level;
