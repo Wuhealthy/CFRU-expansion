@@ -2891,10 +2891,35 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc func)
 
 extern const u8 gText_ExpCandyUsed[];
 static const u16 sExpCandyValues[] = {100, 800, 3000, 10000, 30000};
+
+// Exp Candy multi-level level-up state.
+// The linker script places .bss in ROM (read-only at runtime), so these must
+// live in EWRAM via fixed addresses instead of ordinary variables.
+#define sExpCandyLevelsRemaining (*(u8  *) 0x0203B776)
+#define sExpCandyFinalExp        (*(u32 *) 0x0203B778)
+#define sExpCandyOriginalItem    (*(u16 *) 0x0203B77C)
+#define sExpCandyLevelUpActive   (*(bool8 *) 0x0203B77E)
+
+static void Task_ExpCandyStartLevelUp(u8 taskId);
+void PartyMenuTryEvolution_Hook(u8 taskId);
+
 void FieldUseFunc_ExpCandy(u8 taskId)
 {
+        sExpCandyLevelUpActive = FALSE;
         gItemUseCB = ItemUseCB_ExpCandy;
         SetUpItemUseCallback(taskId);
+}
+
+// Runs one level-up step through the vanilla Rare Candy state machine while
+// restoring the Rare Candy that ItemUseCB_RareCandyStep consumes, so the
+// player's bag is unaffected.
+static void ExpCandy_RareCandyStep(u8 taskId)
+{
+        bool8 hadRareCandy = CheckBagHasItem(ITEM_RARE_CANDY, 1);
+        gSpecialVar_ItemId = ITEM_RARE_CANDY;
+        ItemUseCB_RareCandyStep(taskId, NULL);
+        if (hadRareCandy)
+                AddBagItem(ITEM_RARE_CANDY, 1);
 }
 
 static void ItemUseCB_ExpCandy(u8 taskId, TaskFunc func)
@@ -2908,10 +2933,15 @@ static void ItemUseCB_ExpCandy(u8 taskId, TaskFunc func)
         u8 growthRate = gBaseStats[species].growthRate;
         u8 newLevel;
         u32 maxExp;
+        u8 levelsGained;
 
         PlaySE(SE_SELECT);
 
-        if (species == SPECIES_EGG || level >= MAX_LEVEL)
+        if (species == SPECIES_EGG || level >= MAX_LEVEL
+        #ifdef FLAG_HARD_LEVEL_CAP
+        || ((FlagGet(FLAG_HARD_LEVEL_CAP) || VarGet(VAR_GAME_DIFFICULTY) != OPTIONS_EASY_DIFFICULTY) && level >= GetCurrentLevelCap())
+        #endif
+        )
         {
                 gPartyMenuUseExitCallback = FALSE;
                 DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
@@ -2929,10 +2959,7 @@ static void ItemUseCB_ExpCandy(u8 taskId, TaskFunc func)
         while (newLevel < MAX_LEVEL && currExp >= gExperienceTables[growthRate][newLevel + 1])
                 ++newLevel;
 
-        SetMonData(mon, MON_DATA_EXP, &currExp);
-        SetMonData(mon, MON_DATA_LEVEL, &newLevel);
-        CalculateMonStats(mon);
-        UpdateMonDisplayInfoAfterRareCandy(gPartyMenu.slotId, mon);
+        levelsGained = newLevel - level;
 
         RemoveBagItem(item, 1);
 
@@ -2940,7 +2967,69 @@ static void ItemUseCB_ExpCandy(u8 taskId, TaskFunc func)
         StringExpandPlaceholders(gStringVar4, gText_ExpCandyUsed);
         DisplayPartyMenuMessage(gStringVar4, TRUE);
         ScheduleBgCopyTilemapToVram(2);
-        gTasks[taskId].func = Task_ClosePartyMenuAfterText;
+
+        if (levelsGained == 0)
+        {
+                // No level-up: still grant the EXP (level stays the same).
+                SetMonData(mon, MON_DATA_EXP, &currExp);
+                gTasks[taskId].func = Task_ClosePartyMenuAfterText;
+        }
+        else
+        {
+                sExpCandyFinalExp = currExp;
+                sExpCandyLevelsRemaining = levelsGained;
+                sExpCandyOriginalItem = item;
+                sExpCandyLevelUpActive = TRUE;
+                gTasks[taskId].func = Task_ExpCandyStartLevelUp;
+        }
+}
+
+// Waits for the "Exp Candy used" message, then hands off to the vanilla Rare
+// Candy level-up sequence for the first level.
+static void Task_ExpCandyStartLevelUp(u8 taskId)
+{
+        if (!IsPartyMenuTextPrinterActive())
+        {
+                gPartyMenuUseExitCallback = TRUE;
+                ExpCandy_RareCandyStep(taskId);
+        }
+}
+
+// Hooked over the vanilla PartyMenuTryEvolution (0x8126704). The vanilla
+// level-up flow calls this after move learning; here we either chain into the
+// next level or finalize and run the original evolution check.
+void PartyMenuTryEvolution_Hook(u8 taskId)
+{
+        struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
+        u16 targetSpecies;
+
+        if (sExpCandyLevelUpActive)
+        {
+                if (sExpCandyLevelsRemaining > 1)
+                {
+                        --sExpCandyLevelsRemaining;
+                        ExpCandy_RareCandyStep(taskId);
+                        return;
+                }
+
+                // All levels processed: restore the exact EXP granted by the
+                // candy (Rare Candy steps leave EXP at the level threshold)
+                // and put the original item id back.
+                sExpCandyLevelUpActive = FALSE;
+                SetMonData(mon, MON_DATA_EXP, &sExpCandyFinalExp);
+                gSpecialVar_ItemId = sExpCandyOriginalItem;
+        }
+
+        targetSpecies = GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE);
+        if (targetSpecies != SPECIES_NONE)
+        {
+                FreePartyPointers();
+                gCB2_AfterEvolution = gPartyMenu.exitCallback;
+                BeginEvolutionScene(mon, targetSpecies, TRUE, gPartyMenu.slotId);
+                DestroyTask(taskId);
+        }
+        else
+                gTasks[taskId].func = Task_ClosePartyMenuAfterText;
 } 
 
 //Functions related to select button for switching mons

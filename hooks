@@ -217,6 +217,7 @@ FieldMoveBadgeHook 812461C 0
 ItemUseCB_MedicineStep 81253B0 2
 Task_DoLearnedMoveFanfareAfterText 8125CF4 1
 ItemUseCB_RareCandy 81262AC 2
+PartyMenuTryEvolution_Hook 8126704 2
 DrawLevelUpWindowPg2Hook 811E950 4
 
 ##Battle Animation Hooks
