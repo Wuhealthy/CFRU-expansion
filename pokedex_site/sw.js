@@ -10,6 +10,7 @@ const CORE_FILES = [
   "./style.css",
   "./app.js",
   "./pwa.js",
+  "./emu.html",
   "./manifest.webmanifest",
   "./icons/icon-192.png",
   "./icons/icon-512.png",

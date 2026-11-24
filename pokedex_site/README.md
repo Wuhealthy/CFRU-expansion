@@ -65,6 +65,9 @@ powershell -ExecutionPolicy Bypass -File tools\pages_status.ps1
 - **道具图鉴**：从游戏道具表提取道具名、效果说明、价格和背包分类；搜索道具名或效果，并可按分类筛选。
   自动排除道具表中的三个空道具位
 - **属性相性表**：从 ROM `type_tables.h` 提取的实际克制关系（含星晶等新增属性）
+- **GBA 模拟器**：「更多功能 → 趣味玩法 → GBA 模拟器」（`#/emu`），以 iframe 内嵌独立页 `emu.html`，
+  用 EmulatorJS 的 mGBA 核心（与悠GBA 同内核）游玩。访客从本地选择 ROM，文件不上传、站点不分发 ROM；
+  存档留在浏览器本地。模拟器内核从 CDN 加载，首次使用需联网
 - **简体 / 繁体切换**：顶栏右侧「简｜繁」，选择会记住。数据都是简体，繁体时浏览器端用 OpenCC
   （简→台湾繁体，只转字形不换用词）的精简词典实时转换；各页面搜索框都会先把输入转回简体再匹配，简繁都能搜到。
   词典原文在 `tools/opencc/`（Apache-2.0），提取时只打包网站实际用到的字和词组；
@@ -81,6 +84,7 @@ Z 招式取 `z_move_names.string`，极巨/超极巨招式按战斗文本加「�
 ```
 pokedex_site/
 ├── index.html          # 入口
+├── emu.html            # GBA 模拟器承载页 (EmulatorJS / mGBA, iframe 内嵌)
 ├── style.css
 ├── app.js              # SPA 逻辑 (hash 路由) + 精灵图解密渲染
 ├── data/data.js        # 提取器生成的数据 (window.PKDX)

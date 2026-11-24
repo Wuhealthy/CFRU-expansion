@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#ee1515">
+<title>GBA 模拟器 - 火红物语图鉴</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  body.emu-body { padding: 0; }
+  .emu-wrap { max-width: 1040px; margin: 0 auto; padding: 24px 18px 56px; }
+  .emu-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+  .emu-head .page-title { margin-top: 0; }
+  .emu-back {
+    flex: none; border: 1px solid var(--line); border-radius: 999px;
+    padding: 8px 15px; background: var(--card); color: var(--ink);
+    font-size: 13px; font-weight: 700; cursor: pointer;
+  }
+  .emu-back:hover { background: var(--nav-hover); }
+  .emu-pick { padding: 22px; }
+  .emu-drop {
+    border: 2px dashed var(--line); border-radius: 14px;
+    padding: 38px 18px; text-align: center; cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+  .emu-drop:hover, .emu-drop.drag { border-color: var(--accent); background: var(--nav-active-bg); }
+  .emu-drop-icon { font-size: 40px; line-height: 1; margin-bottom: 12px; }
+  .emu-drop-title { font-size: 17px; font-weight: 800; margin-bottom: 6px; }
+  .emu-drop-sub { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .emu-pick-btn {
+    margin-top: 18px; border: 0; border-radius: 999px; padding: 10px 24px;
+    background: var(--accent); color: #fff; font-size: 14px; font-weight: 700; cursor: pointer;
+  }
+  .emu-pick-btn:hover { background: var(--accent-dark); }
+  .emu-status { margin-top: 12px; color: var(--accent); font-size: 13px; font-weight: 700; }
+  .emu-note {
+    margin-top: 18px; padding: 14px 16px; border-radius: 10px;
+    background: var(--nav-hover); font-size: 12.5px; color: var(--muted); line-height: 1.9;
+  }
+  .emu-note b { color: var(--ink); }
+  .emu-stage-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .emu-stage-name { font-size: 14px; font-weight: 700; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .emu-game {
+    width: 100%; max-width: 960px; margin: 0 auto; min-height: 300px;
+    background: #000; border-radius: 8px; overflow: hidden;
+  }
+  .emu-foot { margin-top: 16px; font-size: 12px; color: var(--muted); line-height: 1.8; }
+  @media (max-width: 600px) {
+    .emu-wrap { padding: 16px 12px 40px; }
+    .emu-drop { padding: 28px 12px; }
+  }
+</style>
+</head>
+<body class="emu-body">
+<div class="emu-wrap">
+  <div class="emu-head">
+    <div>
+      <div class="page-title">GBA 模拟器</div>
+      <div class="page-sub" style="margin-bottom:0">mGBA 内核（与悠GBA 同核心）· 游戏文件只在你的设备本地运行，不会上传</div>
+    </div>
+    <button type="button" class="emu-back" onclick="emuBackToDex()">← 返回图鉴</button>
+  </div>
+
+  <div id="emu-pick" class="card emu-pick">
+    <div id="emu-drop" class="emu-drop">
+      <div class="emu-drop-icon">🎮</div>
+      <div class="emu-drop-title">选择或拖入 GBA 游戏文件</div>
+      <div class="emu-drop-sub">支持 .gba（也可选包含 .gba 的 zip / 7z 压缩包）</div>
+      <button type="button" class="emu-pick-btn" onclick="document.getElementById('emu-file').click()">选择 ROM 文件</button>
+      <input type="file" id="emu-file" accept=".gba,.agb,.bin,.zip,.7z" hidden>
+    </div>
+    <div id="emu-status" class="emu-status hidden"></div>
+    <div class="emu-note">
+      <b>关于内核</b>：本页使用网页版 mGBA 核心，与「悠GBA」为同一模拟内核，兼容性接近。悠GBA 是 Android 原生应用，无法直接嵌入网页；需要联机、GLSL 滤镜、存档同步等原生功能请使用悠GBA App。<br>
+      <b>关于 ROM</b>：本页不提供任何游戏 ROM，请选择你自己合法拥有的游戏备份；文件由浏览器本地读取，不会上传到本站。<br>
+      <b>关于存档</b>：游戏存档保存在当前浏览器中，清除浏览器数据会丢失。首次加载模拟器内核需联网（约数 MB），之后由浏览器缓存。
+    </div>
+  </div>
+
+  <div id="emu-stage" class="hidden">
+    <div class="emu-stage-head">
+      <span id="emu-game-name" class="emu-stage-name"></span>
+      <button type="button" class="emu-back" onclick="emuChangeGame()">更换游戏</button>
+    </div>
+    <div id="game" class="emu-game"></div>
+    <div class="emu-foot">按模拟器界面上的菜单可存档 / 读档、调整按键与倍速；手机上可直接使用屏幕虚拟按键。</div>
+  </div>
+</div>
+<script>
+(function () {
+  "use strict";
+  var EJS_DATA = "https://cdn.emulatorjs.org/stable/data/";
+  var blobUrl = null;
+  var launching = false;
+  var pick = document.getElementById("emu-pick");
+  var stage = document.getElementById("emu-stage");
+  var fileInput = document.getElementById("emu-file");
+  var drop = document.getElementById("emu-drop");
+  var statusEl = document.getElementById("emu-status");
+
+  function setStatus(msg) {
+    statusEl.textContent = msg || "";
+    statusEl.classList.toggle("hidden", !msg);
+  }
+
+  function launch(file) {
+    if (!file || launching) return;
+    if (!/\.(gba|agb|bin|zip|7z)$/i.test(file.name)) {
+      setStatus("请选择 .gba 文件（或包含 .gba 的 zip / 7z 压缩包）");
+      return;
+    }
+    launching = true;
+    setStatus("正在准备游戏…");
+    if (blobUrl) URL.revokeObjectURL(blobUrl);
+    blobUrl = URL.createObjectURL(file);
+    window.EJS_player = "#game";
+    window.EJS_core = "gba";          // EmulatorJS 的 gba 核心即 mGBA，与悠GBA 同内核
+    window.EJS_gameName = file.name;  // blob URL 下必须带扩展名，否则前端/核心无法识别
+    window.EJS_gameUrl = blobUrl;
+    window.EJS_pathtodata = EJS_DATA;
+    window.EJS_biosUrl = "";          // GBA BIOS 可选，留空也能运行大多数游戏
+    window.EJS_startOnLoaded = true;
+    document.getElementById("emu-game-name").textContent = file.name;
+    pick.classList.add("hidden");
+    stage.classList.remove("hidden");
+    setStatus("");
+
+    var script = document.createElement("script");
+    script.src = EJS_DATA + "loader.js";
+    script.onerror = function () {
+      launching = false;
+      stage.classList.add("hidden");
+      pick.classList.remove("hidden");
+      setStatus("模拟器内核加载失败，请检查网络后再试（首次加载需要联网）");
+    };
+    document.body.appendChild(script);
+  }
+
+  fileInput.addEventListener("change", function (e) { launch(e.target.files[0]); });
+  drop.addEventListener("dragover", function (e) { e.preventDefault(); drop.classList.add("drag"); });
+  drop.addEventListener("dragleave", function () { drop.classList.remove("drag"); });
+  drop.addEventListener("drop", function (e) {
+    e.preventDefault();
+    drop.classList.remove("drag");
+    launch(e.dataTransfer.files && e.dataTransfer.files[0]);
+  });
+  window.addEventListener("beforeunload", function () {
+    if (blobUrl) URL.revokeObjectURL(blobUrl);
+  });
+
+  window.emuChangeGame = function () { location.reload(); };
+  window.emuBackToDex = function () {
+    if (window.top && window.top !== window) window.top.location.hash = "#/";
+    else location.hash = "#/";
+  };
+})();
+</script>
+</body>
+</html>

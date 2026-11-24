@@ -664,6 +664,7 @@ function route() {
   else if (h.startsWith("#/card")) renderCardMaker(/^#\/card\/(\d+)/.exec(h)?.[1]);
   else if (h.startsWith("#/types")) renderTypes();
   else if (h.startsWith("#/features")) renderFeatures();
+  else if (h.startsWith("#/emu")) renderEmulator();
   else renderHome();
   if (saved != null) requestAnimationFrame(() => window.scrollTo({ top: SCROLL_BY_HASH[h] || 0, behavior: "instant" }));
 }
@@ -2546,6 +2547,12 @@ function renderCardMaker(speciesId) {
     }
   });
   cmRefresh();
+}
+
+/* ---------------- GBA 模拟器 (独立页面 emu.html, iframe 隔离避免 EmulatorJS 全局状态污染 SPA) ---------------- */
+function renderEmulator() {
+  app.innerHTML = `
+    <iframe class="emu-frame" src="emu.html" title="GBA 模拟器" allow="autoplay; fullscreen"></iframe>`;
 }
 
 /* ---------------- 属性相性页 ---------------- */
