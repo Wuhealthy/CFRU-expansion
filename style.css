@@ -6,6 +6,7 @@
   --ink: #22303f;
   --muted: #6b7a8c;
   --line: #dde4ec;
+  --bar-track: #d0d9e4;
   --accent: #ee1515;
   --accent-dark: #b31212;
   --blue: #3d7dca;
@@ -21,6 +22,7 @@
   --evo-chain-bg: #6a9e8f;
   --type-atk0: #6b7684;
   --evo-stage-ink: #12302a;
+  --evo-arrow-ink: #12302a;
   --evo-name-bg: rgba(255,255,255,.5);
   --evo-name-ink: var(--muted);
   --chart-th-bg: var(--nav-hover);
@@ -35,6 +37,7 @@
   --ink: #e0e4ea;
   --muted: #8a94a3;
   --line: #3a3f4b;
+  --bar-track: #3a3f4b;
   --accent: #ff5454;
   --accent-dark: #cc3333;
   --blue: #6aabe5;
@@ -49,6 +52,7 @@
   --evo-chain-bg: #2e4a42;
   --type-atk0: #5b6674;
   --evo-stage-ink: #d4ebe2;
+  --evo-arrow-ink: #d4ebe2;
   --evo-name-bg: rgba(20,30,28,.55);
   --evo-name-ink: #e8f5ef;
   --chart-th-bg: #2d323c;
@@ -63,6 +67,7 @@
   --ink: #5a4a3a;
   --muted: #8a7a6a;
   --line: #e0d5c0;
+  --bar-track: #d8cbb2;
   --accent: #c75555;
   --accent-dark: #a04444;
   --blue: #5a7da0;
@@ -77,6 +82,7 @@
   --evo-chain-bg: #6a9e8f;
   --type-atk0: #8a7664;
   --evo-stage-ink: #2f4a3a;
+  --evo-arrow-ink: #2f4a3a;
   --evo-name-bg: rgba(250,243,224,.55);
   --evo-name-ink: #3a2a1a;
   --chart-th-bg: #e8dcc0;
@@ -351,7 +357,7 @@ a { color: inherit; text-decoration: none; }
 .stat-row { display: flex; align-items: center; gap: 10px; margin: 7px 0; }
 .stat-row .lb { width: 66px; font-size: 13px; color: var(--muted); font-weight: 700; flex: none; }
 .stat-row .val { width: 38px; text-align: right; font-weight: 800; font-size: 13.5px; flex: none; }
-.bar { flex: 1; height: 12px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.bar { flex: 1; height: 12px; background: var(--bar-track); border-radius: 999px; overflow: hidden; }
 .bar i { display: block; height: 100%; border-radius: 999px; }
 .stat-total { border-top: 1px solid var(--line); margin-top: 10px; padding-top: 10px; display: flex; gap: 10px; align-items: center; }
 .stat-total .val { font-size: 15px; }
@@ -379,7 +385,7 @@ a { color: inherit; text-decoration: none; }
 .evo-name { width: 124px; padding: 5px 6px 6px; border-radius: 10px; background: var(--evo-name-bg); text-align: center; }
 .evo-name .nm { font-size: 13.5px; font-weight: 800; color: var(--evo-name-ink); margin-bottom: 3px; }
 .evo-name .types { display: flex; justify-content: center; flex-wrap: wrap; gap: 3px; }
-.evo-arrow { width: 160px; flex: none; padding: 0 6px; text-align: center; color: var(--muted); }
+.evo-arrow { width: 160px; flex: none; padding: 0 6px; text-align: center; color: var(--evo-arrow-ink); }
 .evo-arrow .cond { font-size: 13px; font-weight: 700; }
 .evo-arrow .note { margin-top: 2px; font-size: 11.5px; opacity: .85; }
 .evo-arrow .or { margin: 3px 0; font-size: 11px; opacity: .7; }
