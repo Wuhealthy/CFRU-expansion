@@ -38,6 +38,28 @@
     background: var(--nav-hover); font-size: 12.5px; color: var(--muted); line-height: 1.9;
   }
   .emu-note b { color: var(--ink); }
+  .emu-recent { margin-top: 16px; padding: 18px 22px; }
+  .emu-recent-title { font-size: 15px; font-weight: 800; margin-bottom: 10px; }
+  .emu-recent-list { list-style: none; margin: 0; padding: 0; }
+  .emu-recent-item {
+    display: flex; align-items: center; gap: 12px; padding: 10px 12px;
+    border: 1px solid var(--line); border-radius: 10px; cursor: pointer;
+    transition: background .15s, border-color .15s;
+  }
+  .emu-recent-item + .emu-recent-item { margin-top: 8px; }
+  .emu-recent-item:hover { background: var(--nav-hover); border-color: var(--accent); }
+  .emu-recent-name {
+    flex: 1; min-width: 0; font-weight: 700; font-size: 14px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .emu-recent-meta { flex: none; font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .emu-recent-del {
+    flex: none; border: 1px solid var(--line); background: var(--card);
+    color: var(--muted); border-radius: 8px; padding: 5px 10px;
+    font-size: 12px; cursor: pointer;
+  }
+  .emu-recent-del:hover { color: #fff; background: #c0392b; border-color: #c0392b; }
+  .emu-recent-tip { margin-top: 10px; font-size: 12px; color: var(--muted); line-height: 1.7; }
   .emu-stage-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
   .emu-stage-name { font-size: 14px; font-weight: 700; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .emu-game {
@@ -48,6 +70,9 @@
   @media (max-width: 600px) {
     .emu-wrap { padding: 16px 12px 40px; }
     .emu-drop { padding: 28px 12px; }
+    .emu-pick, .emu-recent { padding: 16px 14px; }
+    .emu-recent-size { display: none; }
+    .emu-recent-del { padding: 4px 8px; }
   }
 </style>
 </head>
@@ -72,9 +97,16 @@
     <div id="emu-status" class="emu-status hidden"></div>
     <div class="emu-note">
       <b>关于内核</b>：本页使用网页版 mGBA 核心，与「悠GBA」为同一模拟内核，兼容性接近。悠GBA 是 Android 原生应用，无法直接嵌入网页；需要联机、GLSL 滤镜、存档同步等原生功能请使用悠GBA App。<br>
-      <b>关于 ROM</b>：本页不提供任何游戏 ROM，请选择你自己合法拥有的游戏备份；文件由浏览器本地读取，不会上传到本站。<br>
-      <b>关于存档</b>：游戏存档保存在当前浏览器中，清除浏览器数据会丢失。首次加载模拟器内核需联网（约数 MB），之后由浏览器缓存。
+      <b>关于 ROM</b>：本页不提供任何游戏 ROM，请选择你自己合法拥有的游戏备份；文件由浏览器本地读取，不会上传到本站。选择过的游戏会保存在浏览器本地记录中，下次打开自动继续，也可以随时在下方列表手动切换。<br>
+      <b>关于存档</b>：游戏存档保存在当前浏览器中，清除浏览器数据会同时丢失游戏记录与存档。首次加载模拟器内核需联网（约数 MB），之后由浏览器缓存。<br>
+      <b>关于转移</b>：「存档同步」页导出的备份已包含模拟器的游戏记录与存档快照（不含 ROM 文件）；导入备份后点击游戏，按提示重新选择 ROM 即可带着存档继续玩。
     </div>
+  </div>
+
+  <div id="emu-recent" class="card emu-recent hidden">
+    <div class="emu-recent-title">曾经玩过的游戏</div>
+    <ul id="emu-recent-list" class="emu-recent-list"></ul>
+    <div class="emu-recent-tip">点击任意游戏即可继续游玩，右侧可删除不需要的记录；游戏文件仅保存在你的浏览器本地。</div>
   </div>
 
   <div id="emu-stage" class="hidden">
@@ -90,26 +122,151 @@
 (function () {
   "use strict";
   var EJS_DATA = "https://cdn.emulatorjs.org/stable/data/";
+  var DB_NAME = "pkdx_emu";
+  var STORE = "roms";
+  var LAST_KEY = "pkdx_emu_last";
   var blobUrl = null;
   var launching = false;
+  var currentGame = null;
+  var savTimer = null;
+  var pendingPlay = null;  // 等待补选 ROM 的游戏记录 (来自备份导入, 只有 sav 没有 blob)
   var pick = document.getElementById("emu-pick");
   var stage = document.getElementById("emu-stage");
   var fileInput = document.getElementById("emu-file");
   var drop = document.getElementById("emu-drop");
   var statusEl = document.getElementById("emu-status");
+  var recent = document.getElementById("emu-recent");
+  var recentList = document.getElementById("emu-recent-list");
 
   function setStatus(msg) {
     statusEl.textContent = msg || "";
     statusEl.classList.toggle("hidden", !msg);
   }
 
-  function launch(file) {
-    if (!file || launching) return;
-    if (!/\.(gba|agb|bin|zip|7z)$/i.test(file.name)) {
-      setStatus("请选择 .gba 文件（或包含 .gba 的 zip / 7z 压缩包）");
-      return;
-    }
+  function fmtSize(n) {
+    if (n >= 1048576) return (n / 1048576).toFixed(1) + " MB";
+    if (n >= 1024) return Math.round(n / 1024) + " KB";
+    return n + " B";
+  }
+
+  function fmtTime(ts) {
+    var d = Date.now() - ts;
+    if (d < 60000) return "刚刚";
+    if (d < 3600000) return Math.floor(d / 60000) + " 分钟前";
+    if (d < 86400000) return Math.floor(d / 3600000) + " 小时前";
+    if (d < 172800000) return "昨天";
+    var t = new Date(ts);
+    return t.getFullYear() + "/" + (t.getMonth() + 1) + "/" + t.getDate();
+  }
+
+  /* ---- IndexedDB：持久保存玩过的 ROM 文件 ---- */
+  function openDb() {
+    return new Promise(function (resolve, reject) {
+      var req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = function () {
+        req.result.createObjectStore(STORE, { keyPath: "name" });
+      };
+      req.onsuccess = function () { resolve(req.result); };
+      req.onerror = function () { reject(req.error); };
+    });
+  }
+
+  function dbStore(mode) {
+    return openDb().then(function (db) {
+      return db.transaction(STORE, mode).objectStore(STORE);
+    });
+  }
+
+  function dbRequest(store, fn) {
+    return new Promise(function (resolve, reject) {
+      var req = fn(store);
+      req.onsuccess = function () { resolve(req.result); };
+      req.onerror = function () { reject(req.error); };
+    });
+  }
+
+  function dbPut(record) {
+    return dbStore("readwrite").then(function (store) { return dbRequest(store, function (s) { return s.put(record); }); });
+  }
+
+  function dbGet(name) {
+    return dbStore("readonly").then(function (store) { return dbRequest(store, function (s) { return s.get(name); }); });
+  }
+
+  function dbDelete(name) {
+    return dbStore("readwrite").then(function (store) { return dbRequest(store, function (s) { return s.delete(name); }); });
+  }
+
+  function dbList() {
+    return dbStore("readonly").then(function (store) {
+      return new Promise(function (resolve, reject) {
+        var out = [];
+        var req = store.openCursor();
+        req.onsuccess = function () {
+          var cur = req.result;
+          if (cur) {
+            var v = cur.value;
+            out.push({ name: v.name, size: v.size, lastPlayed: v.lastPlayed, hasBlob: !!v.blob });
+            cur.continue();
+          } else {
+            resolve(out);
+          }
+        };
+        req.onerror = function () { reject(req.error); };
+      });
+    });
+  }
+
+  /* ---- 把当前 sav 快照写入 pkdx_emu, 供 HOME / 存档分析页读取 ---- */
+  function saveSavNow() {
+    var ejs = window.EJS_emulator;
+    if (!ejs || !ejs.started || !ejs.gameManager || !currentGame) return Promise.resolve();
+    var bytes = null;
+    try { bytes = ejs.gameManager.getSaveFile(true); } catch (err) { return Promise.resolve(); }
+    if (!bytes || !bytes.length) return Promise.resolve();
+    return dbGet(currentGame).then(function (rec) {
+      if (!rec) return;
+      rec.sav = bytes;
+      rec.savAt = Date.now();
+      return dbPut(rec);
+    }).catch(function () {});
+  }
+
+  /* 游戏启动后: 周期备份 sav (每 5s) + 让底部工具栏常驻 (每 2.5s 重新 open, 抢在 3s 自动隐藏之前) */
+  function startSavWatcher() {
+    if (savTimer) return;
+    var tick = 0;
+    savTimer = setInterval(function () {
+      if (!document.hidden) {
+        if (tick % 2 === 0) saveSavNow();
+        var ejs = window.EJS_emulator;
+        if (ejs && ejs.started && ejs.menu && ejs.menu.open) ejs.menu.open();
+      }
+      tick++;
+    }, 2500);
+  }
+
+  /* 从「存档同步」备份导入的 sav 快照恢复: 仅当本机 IDBFS 里没有这个游戏的存档时写入
+     (本机已有则以本机为准, 避免把最新进度回退成旧快照) */
+  function restoreSavIfNeeded() {
+    var ejs = window.EJS_emulator;
+    if (!ejs || !ejs.started || !ejs.gameManager || !currentGame) return;
+    dbGet(currentGame).then(function (rec) {
+      if (!rec || !rec.sav || !rec.sav.length) return;
+      var gm = ejs.gameManager;
+      var p = gm.getSaveFilePath();
+      if (gm.FS.analyzePath(p).exists) return;
+      try {
+        gm.FS.writeFile(p, rec.sav);
+        gm.loadSaveFiles();
+      } catch (err) {}
+    }).catch(function () {});
+  }
+
+  /* ---- 启动 EmulatorJS ---- */
+  function startEmulator(file) {
     launching = true;
+    currentGame = file.name;
     setStatus("正在准备游戏…");
     if (blobUrl) URL.revokeObjectURL(blobUrl);
     blobUrl = URL.createObjectURL(file);
@@ -120,8 +277,13 @@
     window.EJS_pathtodata = EJS_DATA;
     window.EJS_biosUrl = "";          // GBA BIOS 可选，留空也能运行大多数游戏
     window.EJS_startOnLoaded = true;
+    window.EJS_onGameStart = function () {
+      startSavWatcher();
+      setTimeout(restoreSavIfNeeded, 1200);  // 等 IDBFS syncfs 完成后再检查是否需要恢复快照
+    };
     document.getElementById("emu-game-name").textContent = file.name;
     pick.classList.add("hidden");
+    recent.classList.add("hidden");
     stage.classList.remove("hidden");
     setStatus("");
 
@@ -132,11 +294,136 @@
       stage.classList.add("hidden");
       pick.classList.remove("hidden");
       setStatus("模拟器内核加载失败，请检查网络后再试（首次加载需要联网）");
+      renderList();
     };
     document.body.appendChild(script);
   }
 
-  fileInput.addEventListener("change", function (e) { launch(e.target.files[0]); });
+  function launch(file) {
+    if (!file || launching) return;
+    if (!/\.(gba|agb|bin|zip|7z)$/i.test(file.name)) {
+      setStatus("请选择 .gba 文件（或包含 .gba 的 zip / 7z 压缩包）");
+      return;
+    }
+    setStatus("");
+    localStorage.setItem(LAST_KEY, file.name);
+    // 同名记录重新选择 ROM 时保留已有的 sav 快照, 避免备份导入的存档被覆盖丢失
+    dbGet(file.name).then(function (old) {
+      var rec = { name: file.name, size: file.size, addedAt: (old && old.addedAt) || Date.now(), lastPlayed: Date.now(), blob: file };
+      if (old && old.sav) { rec.sav = old.sav; rec.savAt = old.savAt; }
+      return dbPut(rec);
+    }).catch(function () {
+      setStatus("游戏已启动，但保存本地记录失败（可能是浏览器存储空间不足）");
+    });
+    startEmulator(file);
+  }
+
+  function playSaved(record) {
+    if (!record || launching) return;
+    localStorage.setItem(LAST_KEY, record.name);
+    record.lastPlayed = Date.now();
+    dbPut(record).catch(function () {});
+    if (!record.blob) {
+      // 来自「存档同步」备份的记录: 只有 sav 快照没有 ROM, 引导用户补选
+      pendingPlay = record;
+      setStatus("「" + record.name + "」来自备份，ROM 文件不随备份转移，请重新选择该 ROM 文件（游戏存档已随备份恢复）");
+      fileInput.click();
+      return;
+    }
+    startEmulator(record.blob);
+  }
+
+  function matchPendingRom(file) {
+    var rec = pendingPlay;
+    pendingPlay = null;
+    if (!file) return;
+    if (file.name !== rec.name) {
+      setStatus("选择的文件（" + file.name + "）与记录不符，请重新点击「" + rec.name + "」并选择对应 ROM");
+      renderList();
+      return;
+    }
+    rec.blob = file;
+    rec.size = file.size;
+    dbPut(rec).then(function () { playSaved(rec); }).catch(function () { playSaved(rec); });
+  }
+
+  function removeSaved(name) {
+    if (!window.confirm("确定要删除「" + name + "」的游戏记录吗？（游戏内存档不受影响）")) return;
+    dbDelete(name).then(function () {
+      if (localStorage.getItem(LAST_KEY) === name) localStorage.removeItem(LAST_KEY);
+      renderList();
+    }).catch(function () {
+      setStatus("删除记录失败，请重试");
+    });
+  }
+
+  /* ---- 曾经玩过的游戏列表 ---- */
+  function renderList() {
+    dbList().then(function (items) {
+      if (!items.length) { recent.classList.add("hidden"); return; }
+      items.sort(function (a, b) { return b.lastPlayed - a.lastPlayed; });
+      recent.classList.remove("hidden");
+      recentList.innerHTML = "";
+      items.forEach(function (it) {
+        var li = document.createElement("li");
+        li.className = "emu-recent-item";
+        var name = document.createElement("span");
+        name.className = "emu-recent-name";
+        name.textContent = it.name + (it.hasBlob ? "" : "（需重新选择 ROM）");
+        var size = document.createElement("span");
+        size.className = "emu-recent-meta emu-recent-size";
+        size.textContent = fmtSize(it.size || 0);
+        var time = document.createElement("span");
+        time.className = "emu-recent-meta";
+        time.textContent = fmtTime(it.lastPlayed);
+        var del = document.createElement("button");
+        del.type = "button";
+        del.className = "emu-recent-del";
+        del.textContent = "删除";
+        del.addEventListener("click", function (e) {
+          e.stopPropagation();
+          removeSaved(it.name);
+        });
+        li.appendChild(name);
+        li.appendChild(size);
+        li.appendChild(time);
+        li.appendChild(del);
+        li.addEventListener("click", function () {
+          setStatus("");
+          dbGet(it.name).then(playSaved).catch(function () {
+            setStatus("读取游戏文件失败，请重试");
+          });
+        });
+        recentList.appendChild(li);
+      });
+    }).catch(function () {
+      recent.classList.add("hidden");
+    });
+  }
+
+  /* ---- 初始化：自动载入上次玩的游戏 ---- */
+  function init() {
+    if (/[?&]pick=1/.test(location.search)) { renderList(); return; }
+    var last = localStorage.getItem(LAST_KEY);
+    if (!last) { renderList(); return; }
+    dbGet(last).then(function (rec) {
+      if (rec && rec.blob) playSaved(rec);
+      else renderList();
+    }).catch(renderList);
+  }
+
+  fileInput.addEventListener("change", function (e) {
+    var f = e.target.files[0];
+    if (pendingPlay) matchPendingRom(f);
+    else launch(f);
+  });
+  fileInput.addEventListener("cancel", function () {
+    if (pendingPlay) {
+      pendingPlay = null;
+      setStatus("已取消选择 ROM，可稍后在「曾经玩过的游戏」列表里点击继续");
+      renderList();
+    }
+  });
   drop.addEventListener("dragover", function (e) { e.preventDefault(); drop.classList.add("drag"); });
   drop.addEventListener("dragleave", function () { drop.classList.remove("drag"); });
   drop.addEventListener("drop", function (e) {
@@ -146,13 +433,16 @@
   });
   window.addEventListener("beforeunload", function () {
     if (blobUrl) URL.revokeObjectURL(blobUrl);
+    if (window.EJS_emulator && window.EJS_emulator.started) saveSavNow();
   });
 
-  window.emuChangeGame = function () { location.reload(); };
+  window.emuChangeGame = function () { location.href = "emu.html?pick=1"; };
   window.emuBackToDex = function () {
     if (window.top && window.top !== window) window.top.location.hash = "#/";
     else location.hash = "#/";
   };
+
+  init();
 })();
 </script>
 </body>

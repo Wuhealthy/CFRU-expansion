@@ -3028,6 +3028,106 @@ window.homeDelete = function () {
   hidePopup();
   renderPkHome();
 };
+/* ---- 读取「GBA 模拟器」当前游戏的存档 ----
+   emu.html 游戏启动后每 2.5s 把 sav 快照写入 IndexedDB pkdx_emu (roms store 的 sav 字段),
+   此处按 pkdx_emu_last 找到当前游戏记录, 包装成 File 复用上传解析流程 */
+function emuOpenDb() {
+  return new Promise((resolve, reject) => {
+    let req;
+    try { req = indexedDB.open("pkdx_emu", 1); } catch (e) { return reject(e); }
+    req.onupgradeneeded = () => {
+      if (!req.result.objectStoreNames.contains("roms")) req.result.createObjectStore("roms", { keyPath: "name" });
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+async function emuCurrentSav() {
+  const last = localStorage.getItem("pkdx_emu_last");
+  if (!last) return null;
+  try {
+    const db = await emuOpenDb();
+    if (!db.objectStoreNames.contains("roms")) return null;
+    return await new Promise((resolve, reject) => {
+      const req = db.transaction("roms").objectStore("roms").get(last);
+      req.onsuccess = () => {
+        const rec = req.result;
+        resolve(rec && rec.sav && rec.sav.length ? rec : null);
+      };
+      req.onerror = () => reject(req.error);
+    });
+  } catch (e) { return null; }
+}
+window.emuLoadSav = async function (scope) {
+  const rec = await emuCurrentSav();
+  const show = scope === "home" ? homeShowMsg : anaShowMsg;
+  if (!rec) {
+    return show("未找到模拟器存档：请先打开「GBA 模拟器」启动游戏，并在游戏内保存一次（模拟器运行时会自动备份存档）", "err");
+  }
+  const savName = rec.name.replace(/\.(gba|agb|bin|zip|7z)$/i, "") + ".sav";
+  const fake = { target: { files: [new File([rec.sav], savName)], value: "" } };
+  if (scope === "home") homeUploadFile(fake);
+  else anaUploadFile(fake);
+};
+/* ---- 模拟器数据并入「存档同步」----
+   备份携带游戏记录 (名称/时间) 与 sav 快照 (base64); ROM blob 体积大不随备份转移,
+   导入端补选同名 ROM 后即可带存档游玩 (emu.html: matchPendingRom / restoreSavIfNeeded) */
+function emuU8ToB64(u8) {
+  let s = "";
+  for (let i = 0; i < u8.length; i += 0x8000) s += String.fromCharCode.apply(null, u8.subarray(i, i + 0x8000));
+  return btoa(s);
+}
+function emuB64ToU8(b64) {
+  const bin = atob(b64);
+  const u8 = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+  return u8;
+}
+async function emuCollectSync() {
+  try {
+    const db = await emuOpenDb();
+    if (!db.objectStoreNames.contains("roms")) return null;
+    return await new Promise((resolve) => {
+      const req = db.transaction("roms").objectStore("roms").openCursor();
+      const games = [];
+      req.onsuccess = () => {
+        const cur = req.result;
+        if (!cur) return resolve({ v: 1, games });
+        const v = cur.value;
+        const g = { name: v.name, size: v.size || 0, addedAt: v.addedAt || 0, lastPlayed: v.lastPlayed || 0 };
+        if (v.sav && v.sav.length) { g.sav = emuU8ToB64(v.sav); g.savAt = v.savAt || 0; }
+        games.push(g);
+        cur.continue();
+      };
+      req.onerror = () => resolve({ v: 1, games });
+    });
+  } catch (e) { return null; }
+}
+function emuImportGames(emu, done) {
+  emuOpenDb().then(db => {
+    if (!db.objectStoreNames.contains("roms")) return done(0);
+    // 请求必须链式发起: IndexedDB 事务在 await 间隙会自动提交, 不能用 async/await
+    const games = (emu.games || []).filter(g => g && g.name);
+    let n = 0, i = 0;
+    const next = () => {
+      if (i >= games.length) return done(n);
+      const g = games[i++];
+      const get = db.transaction("roms", "readwrite").objectStore("roms").get(g.name);
+      get.onsuccess = () => {
+        const rec = { name: g.name, size: g.size || 0, addedAt: g.addedAt || Date.now(), lastPlayed: g.lastPlayed || 0 };
+        if (g.sav) { const u8 = emuB64ToU8(g.sav); if (u8.length) { rec.sav = u8; rec.savAt = g.savAt || Date.now(); } }
+        const local = get.result;
+        if (local && local.blob) rec.blob = local.blob;           // 本机已有 ROM: 保留
+        if (local && local.sav && (local.savAt || 0) > (rec.savAt || 0)) { rec.sav = local.sav; rec.savAt = local.savAt; }  // 本机 sav 更新: 保留
+        const put = db.transaction("roms", "readwrite").objectStore("roms").put(rec);
+        put.onsuccess = () => { n++; next(); };
+        put.onerror = () => next();
+      };
+      get.onerror = () => next();
+    };
+    next();
+  }).catch(() => done(0));
+}
 window.homeUploadFile = function (e) {
   const f = e.target.files[0];
   e.target.value = "";  // 允许重复选择同一文件
@@ -3223,7 +3323,7 @@ function homePartyHtml() {
 function renderPkHome() {
   homeInitState();
   const usedTotal = homeBoxes.flat().filter(Boolean).length;
-  let saveLine = `<div class="home-save-line">尚未读取存档：请上传模拟器导出的 .sav（128 KiB）。<b>下载修改的存档前，请先自行备份原文件。</b></div>`;
+  let saveLine = `<div class="home-save-line">尚未读取存档：点「🎮 读入模拟器存档」直接读取内置模拟器当前游戏的存档，或上传模拟器导出的 .sav（128 KiB）。<b>下载修改的存档前，请先自行备份原文件。</b></div>`;
   if (homeSave) {
     const p = homeSave.player;
     const gameUsed = homeSave.boxes.reduce((n, b) => n + b.mons.filter(m => m && (m[0x1C] | m[0x1D] << 8)).length, 0);
@@ -3233,10 +3333,11 @@ function renderPkHome() {
   }
   app.innerHTML = `<div class="home-page">
     <div class="page-title">宝可梦HOME</div>
-    <div class="page-sub">上传游戏存档，即可在 PC 盒子与浏览器 HOME 盒子之间自由传送宝可梦（25 盒 × 30 只）。HOME 数据保存在此浏览器里，「存档同步」会一并备份；游戏存档仅在本地内存中修改，不会上传服务器。</div>
+    <div class="page-sub">点「🎮 读入模拟器存档」即可在 PC 盒子与浏览器 HOME 盒子之间自由传送宝可梦（25 盒 × 30 只），也可上传模拟器导出的 .sav。HOME 数据保存在此浏览器里，「存档同步」会一并备份；游戏存档仅在本地内存中修改，不会上传服务器。</div>
     <div class="sync-section">
       <div class="sync-section-title">游戏存档</div>
       <div class="sync-actions">
+        <button type="button" class="cm-btn" onclick="emuLoadSav('home')">🎮 读入模拟器存档</button>
         <label class="cm-btn" for="home-file-input">📁 选择 .sav 存档</label>
         <input id="home-file-input" type="file" accept=".sav,.srm,.bin" class="hidden" onchange="homeUploadFile(event)">
         ${homeSave ? `<button type="button" class="cm-btn${homeSave.dirty ? "" : " ghost"}" onclick="homeDownload()">⬇ 下载修改后的存档${homeSave.dirty ? " ●" : ""}</button>` : ""}
@@ -4194,10 +4295,11 @@ function anaDexHtml() {
 function renderAnalyze() {
   app.innerHTML = `<div class="ana-page">
     <div class="page-title">存档分析</div>
-    <div class="page-sub">上传游戏存档（.sav，128 KiB），查看徽章 / 金钱 / 时长 / 图鉴完成度与队伍详情，还可以把 HOME 里的宝可梦直接写进队伍。数据只在本地解析，不会上传。<b>修改存档前请自行备份原文件。</b></div>
+    <div class="page-sub">点「🎮 读入模拟器存档」直接查看徽章 / 金钱 / 时长 / 图鉴完成度与队伍详情，也可上传 .sav（128 KiB）；还可以把 HOME 里的宝可梦直接写进队伍。数据只在本地解析，不会上传。<b>修改存档前请自行备份原文件。</b></div>
     <div class="sync-section">
       <div class="sync-section-title">游戏存档</div>
       <div class="sync-actions">
+        <button type="button" class="cm-btn" onclick="emuLoadSav('ana')">🎮 读入模拟器存档</button>
         <label class="cm-btn" for="ana-file-input">📄 选择 .sav 存档</label>
         <input id="ana-file-input" type="file" accept=".sav,.srm,.bin" class="hidden" onchange="anaUploadFile(event)">
         ${homeSave ? `<a class="cm-btn ghost" href="#/home">🔗 去 HOME 传送宝可梦</a>` : ""}
@@ -5212,19 +5314,32 @@ function syncCollect() {
   }
   return data;
 }
-function syncExportB64() {
-  const json = JSON.stringify({ v: 1, ts: Date.now(), data: syncCollect() });
+async function syncExportObj() {
+  const emu = await emuCollectSync();
+  const obj = { v: 1, ts: Date.now(), data: syncCollect() };
+  if (emu && emu.games.length) obj.emu = emu;  // 无模拟器记录时省略字段, 旧版导入端兼容
+  return obj;
+}
+async function syncExportB64() {
+  const json = JSON.stringify(await syncExportObj());
   return btoa(unescape(encodeURIComponent(json)));
 }
-function syncImportB64(b64) {
-  const json = decodeURIComponent(escape(atob(b64.trim())));
-  const obj = JSON.parse(json);
+/* 统一导入入口: 写回 localStorage (pkdx_ 前缀) + 恢复模拟器游戏记录/sav 快照到 IndexedDB */
+async function syncImportPayload(obj) {
   if (!obj || !obj.data || typeof obj.data !== "object") throw new Error("存档格式无效");
   let cnt = 0;
   for (const [k, v] of Object.entries(obj.data)) {
     if (k.startsWith(SYNC_PREFIX)) { localStorage.setItem(k, v); cnt++; }
   }
-  return cnt;
+  let games = 0;
+  if (obj.emu && Array.isArray(obj.emu.games)) {
+    games = await new Promise(resolve => emuImportGames(obj.emu, resolve));
+  }
+  return { cnt, games };
+}
+async function syncImportB64(b64) {
+  const json = decodeURIComponent(escape(atob(b64.trim())));
+  return syncImportPayload(JSON.parse(json));
 }
 function renderSync() {
   const data = syncCollect();
@@ -5238,6 +5353,12 @@ function renderSync() {
     { k: "pkdx_lang", label: "语言" },
     { k: "pkdx_dex_view", label: "图鉴视图" },
   ];
+  emuCollectSync().then(emu => {
+    const el = document.getElementById("sync-emu-stat");
+    if (el) el.textContent = emu && emu.games.length
+      ? `${emu.games.length} 个游戏（存档快照随备份转移，ROM 需在导入设备重新选择）`
+      : "暂无模拟器游戏记录";
+  });
   const sumHtml = summary.map(s => {
     const v = data[s.k];
     let detail = "";
@@ -5247,12 +5368,12 @@ function renderSync() {
     else if (s.k === "pkdx_breed_form" && v) detail = SPECIES_BY_ID[JSON.parse(v).sp] ? esc(speciesName(SPECIES_BY_ID[JSON.parse(v).sp])) : "已保存";
     else if (v) detail = v === "hant" ? "繁体" : v === "hans" ? "简体" : v;
     return `<div class="sync-item"><span class="sync-item-label">${s.label}</span><span class="sync-item-val">${detail || "未设置"}</span></div>`;
-  }).join("");
+  }).join("") + `<div class="sync-item"><span class="sync-item-label">GBA模拟器</span><span class="sync-item-val" id="sync-emu-stat">…</span></div>`;
   const guessKeys = keys.filter(k => k.startsWith("pkdx_guess_"));
   const gachaKeys = keys.filter(k => k.startsWith("pkdx_gacha_") && k !== "pkdx_gacha_album");
   app.innerHTML = `<div class="sync-page">
     <div class="page-title">存档同步</div>
-    <div class="page-sub">导出收藏、抽卡收集册、主题等所有本地数据，发给朋友或在另一台设备导入即可同步。数据仅存于浏览器本地，不会上传服务器。</div>
+    <div class="page-sub">导出收藏、抽卡收集册、主题、HOME 盒子等所有本地数据，内置模拟器的游戏记录与存档快照也一并打包（ROM 文件除外），发给朋友或在另一台设备导入即可同步。数据仅存于浏览器本地，不会上传服务器。</div>
     <div class="sync-section">
       <div class="sync-section-title">当前存档内容</div>
       <div class="sync-summary">${sumHtml}</div>
@@ -5278,54 +5399,45 @@ function renderSync() {
     </div>
   </div>`;
 }
-window.syncDownload = function () {
-  const payload = JSON.stringify({ v: 1, ts: Date.now(), data: syncCollect() }, null, 2);
+window.syncDownload = async function () {
+  syncShowMsg("正在收集数据（含模拟器存档快照）…", "");
+  const obj = await syncExportObj();
+  const payload = JSON.stringify(obj, null, 2);
   const blob = new Blob([payload], { type: "application/json" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
   a.download = `pokedex_save_${new Date().toISOString().slice(0, 10)}.json`;
   a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 3000);
-  syncShowMsg("已下载存档文件", "ok");
+  syncShowMsg(obj.emu ? `已下载存档文件（含 ${obj.emu.games.length} 个模拟器游戏记录，ROM 需在导入设备重新选择）` : "已下载存档文件", "ok");
 };
-window.syncCopyB64 = function () {
-  const b64 = syncExportB64();
+window.syncCopyB64 = async function () {
+  const b64 = await syncExportB64();
   const box = $("#sync-export-box");
   if (box) box.value = b64;
   navigator.clipboard?.writeText(b64).then(() => syncShowMsg("已复制到剪贴板", "ok")).catch(() => syncShowMsg("已生成在文本框中，请手动复制", "ok"));
 };
-window.syncImportFromBox = function () {
+window.syncImportFromBox = async function () {
   const box = $("#sync-import-box");
   if (!box || !box.value.trim()) return syncShowMsg("请先粘贴存档码", "err");
   try {
     const raw = box.value.trim();
-    let cnt;
-    if (raw.startsWith("{")) {
-      const obj = JSON.parse(raw);
-      if (!obj || !obj.data) throw new Error("格式无效");
-      cnt = 0;
-      for (const [k, v] of Object.entries(obj.data)) { if (k.startsWith(SYNC_PREFIX)) { localStorage.setItem(k, v); cnt++; } }
-    } else {
-      cnt = syncImportB64(raw);
-    }
-    syncShowMsg(`导入成功！已恢复 ${cnt} 项数据，刷新页面生效`, "ok");
+    const r = raw.startsWith("{") ? await syncImportPayload(JSON.parse(raw)) : await syncImportB64(raw);
+    syncShowMsg(`导入成功！已恢复 ${r.cnt} 项数据${r.games ? `、${r.games} 个模拟器游戏记录（打开模拟器后按提示补选 ROM 即可继承存档）` : ""}，刷新页面生效`, "ok");
   } catch (e) { syncShowMsg("导入失败：" + e.message, "err"); }
 };
 window.syncUploadFile = function (e) {
   const f = e.target.files[0];
   if (!f) return;
   const r = new FileReader();
-  r.onload = () => {
+  r.onload = async () => {
     const box = $("#sync-import-box");
     if (box) box.value = r.result;
     try {
-      const obj = JSON.parse(r.result);
-      if (!obj || !obj.data) throw new Error("格式无效");
-      let cnt = 0;
-      for (const [k, v] of Object.entries(obj.data)) { if (k.startsWith(SYNC_PREFIX)) { localStorage.setItem(k, v); cnt++; } }
-      syncShowMsg(`导入成功！已恢复 ${cnt} 项数据，刷新页面生效`, "ok");
+      const rr = await syncImportPayload(JSON.parse(r.result));
+      syncShowMsg(`导入成功！已恢复 ${rr.cnt} 项数据${rr.games ? `、${rr.games} 个模拟器游戏记录（打开模拟器后按提示补选 ROM 即可继承存档）` : ""}，刷新页面生效`, "ok");
     } catch (err) {
-      try { const cnt = syncImportB64(r.result); syncShowMsg(`导入成功！已恢复 ${cnt} 项数据，刷新页面生效`, "ok"); }
+      try { const rr = await syncImportB64(r.result); syncShowMsg(`导入成功！已恢复 ${rr.cnt} 项数据${rr.games ? `、${rr.games} 个模拟器游戏记录` : ""}，刷新页面生效`, "ok"); }
       catch (e2) { syncShowMsg("文件格式无效：" + e2.message, "err"); }
     }
   };
