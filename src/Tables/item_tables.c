@@ -496,6 +496,7 @@ const struct FlingStruct gFlingTable[ITEMS_COUNT] =
 	[ITEM_SAMUROTTITE] = {80, 0},
 	[ITEM_EXCADRILLITE] = {80, 0},
 	[ITEM_ZYGARDEZITE] = {80, 0},
+	[ITEM_LEAFEONITE] = {80, 0},
 	[ITEM_ASSAULT_VEST] = {80, 0},
 	[ITEM_DAWN_STONE] = {80, 0},
 	[ITEM_DUSK_STONE] = {80, 0},
@@ -1047,6 +1048,7 @@ const u16 gItemsByType[ITEMS_COUNT] =
 	[ITEM_SAMUROTTITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_EXCADRILLITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_ZYGARDEZITE] = ITEM_TYPE_MEGA_STONE,
+	[ITEM_LEAFEONITE] = ITEM_TYPE_MEGA_STONE,
 	[ITEM_NORMALIUM_Z] = ITEM_TYPE_Z_CRYSTAL,
 	[ITEM_FIGHTINIUM_Z] = ITEM_TYPE_Z_CRYSTAL,
 	[ITEM_FLYINIUM_Z] = ITEM_TYPE_Z_CRYSTAL,
@@ -2012,6 +2014,7 @@ const u32 *const gItemGraphicsTable[ITEMS_COUNT + 1][2] =
 	{gBag_RareCandyTiles, gBag_RareCandyPal},
 	{gBag_RareCandyTiles, gBag_RareCandyPal},
 	{gBag_RareCandyTiles, gBag_RareCandyPal},
+	{gBag_SteelixiteTiles, gBag_SteelixitePal},
 };
 
 const struct Item gItemData[] =
@@ -15723,5 +15726,21 @@ const struct Item gItemData[] =
 		.battleUseFunc = NULL,
 		.secondaryId = 0
 	},
+	{
+        .name = CN("叶伊布石"),
+        .itemId = ITEM_LEAFEONITE,
+        .price = 5000,									//价格
+		.holdEffect = ITEM_EFFECT_MEGA_STONE,		//携带效果
+		.holdEffectParam = 0,						//携带效果参数
+		.description = DESC_RATICATEITE,			//道具描述
+		.importance = 0,							//重要度
+		.unk19 = 0,									//unk2
+		.pocket = POCKET_ITEMS,						//口袋类型
+		.type = ITEM_USE_BAG_MENU,					//使用类型
+		.fieldUseFunc = FieldUseFunc_OakStopsYou,	//战斗外使用函数
+		.battleUsage = 0,							//战斗使用类型
+		.battleUseFunc = NULL,						//战斗使用函数
+		.secondaryId = 0							//二次ID
+    },
 };
 #endif

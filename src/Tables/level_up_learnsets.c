@@ -23521,7 +23521,6 @@ const struct LevelUpMove* const gLevelUpLearnsets[] =
 	[SPECIES_PIKACHU_CAP_HOENN] = sPikachuLevelUpLearnset,
 	[SPECIES_PIKACHU_CAP_SINNOH] = sPikachuLevelUpLearnset,
 	[SPECIES_PIKACHU_CAP_UNOVA] = sPikachuLevelUpLearnset,
-	[SPECIES_PIKACHU_CAP_KALOS] = sPikachuLevelUpLearnset,
 	[SPECIES_PICHU_SPIKY] = sPichuLevelUpLearnset,
 	[SPECIES_XERNEAS_NATURAL] = sXerneasLevelUpLearnset,
 	[SPECIES_GROOKEY] = sGrookeyLevelUpLearnset,

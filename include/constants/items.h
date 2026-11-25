@@ -900,8 +900,9 @@ enum
 #define ITEM_EXP_CANDY_M 0x354
 #define ITEM_EXP_CANDY_L 0x355
 #define ITEM_EXP_CANDY_XL 0x356
+#define ITEM_LEAFEONITE 0x357
 
-#define ITEMS_COUNT (ITEM_EXP_CANDY_XL + 1)
+#define ITEMS_COUNT (ITEM_LEAFEONITE + 1)
 
 //For Pokemon Unbound
 #ifdef UNBOUND
