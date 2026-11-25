@@ -72,6 +72,11 @@ u8 AIScript_Partner(const u8 bankAtk, const u8 bankAtkPartner, const u16 origina
     			if (moveType == TYPE_GROUND)
         			IncreaseHealPartnerViability(&viability, class, bankAtkPartner);
     			break;
+			case ABILITY_SOULEATER:
+			//噬魂：受幽灵属性招式攻击会回复HP
+    			if (moveType == TYPE_GHOST)
+        			IncreaseHealPartnerViability(&viability, class, bankAtkPartner);
+    			break;
 			case ABILITY_MOTORDRIVE:
 				if (moveType == TYPE_ELECTRIC
 				&&  !IsClassDoublesTotalTeamSupport(partnerClass) //Don't help out a partner that's meant to be doing the helping out

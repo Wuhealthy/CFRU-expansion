@@ -182,11 +182,6 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 				if (data->atkAbility != ABILITY_MAGICGUARD)
 					DECREASE_VIABILITY(1);
 				break;
-			case ABILITY_RAGECROWN:
-				//攻击会给怒发冲冠叠层（威力提升，满层还提升攻击）
-				if (gNewBS->rageCrownStacks[SIDE(bankDef)][gBattlerPartyIndexes[bankDef]] < 3)
-					DECREASE_VIABILITY(1);
-				break;
 
 			case ABILITY_SPICYSPRAY:
 				if (CanBeBurned(bankAtk, bankDef, TRUE))
@@ -387,6 +382,19 @@ u8 AIScript_Negatives(const u8 bankAtk, const u8 bankDef, const u16 originalMove
 
 			case ABILITY_EARTHEATER:
 				if (moveType == TYPE_GROUND)
+				{
+					if (!TARGETING_PARTNER) //Good idea to attack partner
+					{
+						DECREASE_VIABILITY(20);
+						return viability;
+					}
+				}
+    			break;
+
+			//Ghost
+			case ABILITY_SOULEATER:
+				//噬魂：幽灵属性招式被吸收，还给对手回复HP
+				if (moveType == TYPE_GHOST)
 				{
 					if (!TARGETING_PARTNER) //Good idea to attack partner
 					{

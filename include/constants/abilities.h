@@ -369,7 +369,7 @@
 #define ABILITY_REVIVAL                              363 // 复苏
 #define ABILITY_NIRVANA                              364 // 浴火重生
 #define ABILITY_SNOOZE                               365 // 贪睡
-#define ABILITY_RAGECROWN                            366 // 怒发冲冠
+#define ABILITY_SOULEATER                            366 // 噬魂
 #define ABILITY_VALIANT                              367 // 勇猛
 #define ABILITY_CRESCENTSLUMBER                      368 // 新月祈眠
 #define ABILITY_DOUBLEBARREL                         369 // 双炮管

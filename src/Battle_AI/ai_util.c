@@ -2245,6 +2245,13 @@ bool8 IsDamagingMoveUnusable(u16 move, u8 bankAtk, u8 bankDef)
                     return TRUE;
                 break;
 
+			//Ghost
+			case ABILITY_SOULEATER:
+			//噬魂：不受幽灵属性招式影响
+                if (GetMoveTypeSpecial(bankAtk, move) == TYPE_GHOST)
+                    return TRUE;
+                break;
+
 			//Water
 			case ABILITY_WATERABSORB:
 			case ABILITY_DRYSKIN:
@@ -2365,6 +2372,13 @@ bool8 IsDamagingMoveUnusableByMon(u16 move, struct Pokemon* monAtk, u8 bankDef)
 
 			case ABILITY_EARTHEATER:
     			if (GetMonMoveTypeSpecial(monAtk, move) == TYPE_GROUND)
+        			return TRUE;
+    			break;
+
+			//Ghost
+			case ABILITY_SOULEATER:
+			//噬魂：不受幽灵属性招式影响
+    			if (GetMonMoveTypeSpecial(monAtk, move) == TYPE_GHOST)
         			return TRUE;
     			break;
 

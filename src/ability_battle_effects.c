@@ -11,7 +11,6 @@
 #include "../include/new/ability_battle_effects.h"
 #include "../include/new/stat_buffs.h"
 #include "../include/new/ability_battle_scripts.h"
-extern const u8 BattleScript_Moxie[]; //怒发冲冠满层时复用攻击提升脚本
 #include "../include/new/ability_tables.h"
 #include "../include/new/battle_start_turn_start.h"
 #include "../include/new/battle_strings.h"
@@ -450,7 +449,7 @@ const s8 gAbilityRatings[ABILITIES_COUNT] =
 	[ABILITY_REVIVAL] = 9,
 	[ABILITY_NIRVANA] = 10,
 	[ABILITY_SNOOZE] = 3,
-	[ABILITY_RAGECROWN] = 6,
+	[ABILITY_SOULEATER] = 6,
 	[ABILITY_VALIANT] = 7,
 	[ABILITY_CRESCENTSLUMBER] = 7,
 	[ABILITY_DOUBLEBARREL] = 8,
@@ -2568,6 +2567,12 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
         				effect = 1;
     				break;
 
+				case ABILITY_SOULEATER:
+				//噬魂：不受幽灵属性招式影响，受幽灵属性招式攻击时回复最大HP的1/4
+    				if (moveType == TYPE_GHOST)
+        				effect = 1;
+    				break;
+
 				case ABILITY_WATERABSORB:
 				case ABILITY_DRYSKIN:
 					if (moveType == TYPE_WATER)
@@ -2697,32 +2702,6 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 
 			switch (gLastUsedAbility)
 			{
-			case ABILITY_RAGECROWN:
-				//怒发冲冠：受到攻击时叠层（最多3层，每层招式威力+10%）；叠满3层时攻击提升1级
-				if (MOVE_HAD_EFFECT
-				&& TOOK_DAMAGE(bank)
-				&& BATTLER_ALIVE(bank)
-				&& gBankAttacker != bank
-				&& (SPLIT(move) == SPLIT_PHYSICAL || SPLIT(move) == SPLIT_SPECIAL)
-				&& gNewBS->rageCrownStacks[SIDE(bank)][gBattlerPartyIndexes[bank]] < 3)
-				{
-					gNewBS->rageCrownStacks[SIDE(bank)][gBattlerPartyIndexes[bank]]++;
-					if (gNewBS->rageCrownStacks[SIDE(bank)][gBattlerPartyIndexes[bank]] == 3
-					&& STAT_CAN_RISE(bank, STAT_STAGE_ATK))
-					{
-						PREPARE_STAT_BUFFER(gBattleTextBuff1, STAT_STAGE_ATK);
-						gEffectBank = bank;
-						gBattleScripting.bank = bank;
-						gBattleScripting.statChanger = INCREASE_1 | STAT_STAGE_ATK;
-						gBattleScripting.animArg1 = 0xE + STAT_STAGE_ATK;
-						gBattleScripting.animArg2 = 0;
-						BattleScriptPushCursor();
-						gBattlescriptCurrInstr = BattleScript_DefiantCompetitive;
-					}
-					effect++;
-				}
-				break;
-
 			case ABILITY_COLORCHANGE:
     			if (MOVE_HAD_EFFECT
     			&& TOOK_DAMAGE(bank)

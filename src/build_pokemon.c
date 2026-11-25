@@ -78,6 +78,7 @@ enum
 	GRASS_IMMUNITY,
 	ELECTRIC_IMMUNITY,
 	SOUND_IMMUNITY,
+	GHOST_IMMUNITY,
 	JUSTIFIED_BOOSTED,
 
 	//Field setters go at the end
@@ -127,6 +128,7 @@ static struct Immunity sImmunities[] =
 	{WATER_IMMUNITY, TYPE_WATER},
 	{GRASS_IMMUNITY, TYPE_GRASS},
 	{ELECTRIC_IMMUNITY, TYPE_ELECTRIC},
+	{GHOST_IMMUNITY, TYPE_GHOST},
 };
 
 extern const u8 gClassPokeBalls[NUM_TRAINER_CLASSES];
@@ -3260,6 +3262,11 @@ static void UpdateBuilderAfterSpread(struct TeamBuilder* builder, const struct B
 			
 			case ABILITY_EARTHEATER:
 				builder->partyIndex[GROUND_IMMUNITY] = partyId;
+				break;
+
+			case ABILITY_SOULEATER:
+			//噬魂：不受幽灵属性招式影响
+				builder->partyIndex[GHOST_IMMUNITY] = partyId;
 				break;
 
 			case ABILITY_WATERABSORB:
