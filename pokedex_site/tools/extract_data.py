@@ -685,18 +685,6 @@ def read_xlsx_rows(path):
         rows.append(cells)
     return rows
 
-# 道具名中英对照 (仓库根目录 道具名称_英-中.xlsx,「原文 | 译文」, 忽略大小写): 游戏道具表里的英文名按此翻译
-ITEM_DICT_PATH = os.path.join(CFRU, "道具名称_英-中.xlsx")
-item_dict = {}
-if os.path.exists(ITEM_DICT_PATH):
-    dict_rows = read_xlsx_rows(ITEM_DICT_PATH)
-    start = next((i + 1 for i, r in enumerate(dict_rows) if r.get("A") == "原文"), 0)
-    for r in dict_rows[start:]:
-        if r.get("A") and r.get("B"):
-            item_dict.setdefault(r["A"].lower(), r["B"])
-    print("道具中英对照:", len(item_dict))
-else:
-    warn("缺少道具中英对照表 %s, 英文道具名回退 ITEM_ZH" % ITEM_DICT_PATH)
 item_untranslated = set()  # 最终仍显示非中文名的道具 (写入 report)
 
 def item_zh(expr):
@@ -835,7 +823,7 @@ print("TMs:", len(tms))
 
 def parse_compat_dir(dpath, moves, kind):
     """tm_compatibility / tutor_compatibility: 每个「编号 - 招式英文名.txt」列出可学的物种;
-    文件名里的招式须与 TM_Tutor_Tables.c 对应位置一致, 不一致写入警告"""
+    编号对应 TM_Tutor_Tables.c 的实际招式, 文件名仅作参考不参与校验"""
     compat = {}
     if not os.path.isdir(dpath):
         warn("缺少目录 " + dpath)
@@ -845,10 +833,9 @@ def parse_compat_dir(dpath, moves, kind):
         if not m:
             continue
         no = int(m.group(1))
-        file_move = re.sub(r"[^a-z]", "", m.group(2).lower())
-        table_move = re.sub(r"[^a-z]", "", const_by_move_id.get(moves[no - 1], "").lower()) if 1 <= no <= len(moves) else ""
-        if file_move != table_move:
-            warn("%s %d: 文件名招式 %s 与 TM_Tutor_Tables.c 的 %s 不一致" % (kind, no, m.group(2), table_move or "(越界)"))
+        if not 1 <= no <= len(moves):
+            warn("%s %d: 编号越界 (共 %d 个)" % (kind, no, len(moves)))
+            continue
         sps = set()
         for line in read(os.path.join(dpath, fn)).splitlines():
             s = line.strip()
@@ -946,6 +933,7 @@ pokemon_names = parse_string_file(os.path.join(DPE, "strings", "Pokemon_Name_Tab
 name_entries = [(k, v) for k, v in pokemon_names.items() if k != "gSpeciesNames"]
 name_by_position = {}
 pos_match = pos_total = 0
+pos_mismatch = []
 for pos, (label, text) in enumerate(name_entries):
     name_by_position[pos] = text
     cand = label[5:] if label.startswith("NAME_") else label
@@ -956,8 +944,12 @@ for pos, (label, text) in enumerate(name_entries):
             pos_total += 1
             if species_index[const] == pos:
                 pos_match += 1
+            else:
+                pos_mismatch.append((label, pos, const, species_index[const]))
             break
 print("名称表位置校验: %d/%d 标签能对应常量且序号一致" % (pos_match, pos_total))
+for label, pos, const, idx in pos_mismatch:
+    print("[warn] 名称表标签 %s 位于第 %d 位, 但常量 %s 编号为 %d (名称按位置取用, 不影响数据)" % (label, pos, const, idx))
 
 species_list = []
 base_text = read(os.path.join(DPE, "src", "Base_Stats.c"))

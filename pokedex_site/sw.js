@@ -19,8 +19,18 @@ const CORE_FILES = [
 const BUNDLE_BATCH = 16;  // bundle 数量少 (~25 个) 单个大, 16 个并行加速; github.io 是 HTTP/2 单连接多路复用
 const SCOPE_URL = self.registration.scope;
 let offlinePreparation = null;
-let dataRevalidAt = 0;  // data.js 后台重验证节流时间戳: URL 带 ?v=内容哈希, 缓存副本通常已是最新,
-                        // 每次命中都拉 2MB 纯浪费 (部署后的过期副本只需验证一次)
+
+// 写入新副本并删除同路径其他 ?v= 旧条目: 内容哈希变了说明旧副本已过时,
+// 留着既浪费空间, 又会让 ignoreSearch 兜底永远命中旧内容
+// (曾导致新数据"强制刷新才有、重新打开又消失": ignoreSearch 命中旧 ?v= 条目)
+async function putAndPurgeOld(cache, request, response) {
+  await cache.put(request, response.clone());
+  const path = new URL(request.url).pathname;
+  const keys = await cache.keys();
+  await Promise.all(keys
+    .filter(k => k.url !== request.url && new URL(k.url).pathname === path)
+    .map(k => cache.delete(k)));
+}
 
 async function notifyClients(message) {
   const clients = await self.clients.matchAll({ includeUncontrolled: true });
@@ -151,19 +161,20 @@ self.addEventListener("fetch", event => {
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
     if (isDataJS) {
-      // data.js (2MB): stale-while-revalidate — 先返回缓存秒开, 后台节流更新 (10 分钟最多一次)
-      const cached = await cache.match(request, { ignoreSearch: true });
-      if (cached) {
-        if (Date.now() > dataRevalidAt) {
-          dataRevalidAt = Date.now() + 10 * 60 * 1000;
-          fetch(request).then(resp => { if (resp.ok) cache.put(request, resp.clone()); }).catch(() => {});
-        }
-        return cached;
-      }
+      // data.js (2MB): URL 带 ?v=内容哈希, 精确命中即最新, 直接返回 (零流量);
+      // 精确未命中 = 刚部署了新数据: 网络优先拿新内容 (不再"强刷才能看到新版"),
+      // 网络失败才回退旧副本保证离线可用
+      const fresh = await cache.match(request);
+      if (fresh) return fresh;
+      const stale = await cache.match(request, { ignoreSearch: true });
       try {
         const response = await fetch(request);
-        if (response.ok) { await cache.put(request, response.clone()); return response; }
+        if (response.ok) {
+          await putAndPurgeOld(cache, request, response);
+          return response;
+        }
       } catch (e) {}
+      if (stale) return stale;
       throw new Error("data.js unavailable");
     }
     if (isCoreFile) {
@@ -171,15 +182,24 @@ self.addEventListener("fetch", event => {
         // 导航请求强制重新验证: GitHub Pages 的 HTML 带 max-age=600, 默认会命中浏览器 HTTP 缓存,
         // 部署后 10 分钟内依旧拿旧 index.html; no-cache 只是带条件请求, 未变化时仅一个 304 往返
         const response = await fetch(request, isNav ? { cache: "no-cache" } : {});
-        if (response.ok) { await cache.put(request, response.clone()); return response; }
+        if (response.ok) { await putAndPurgeOld(cache, request, response); return response; }
       } catch (e) {}
       const cached = await cache.match(request, { ignoreSearch: true });
       if (cached) return cached;
       throw new Error("core file unavailable");
     }
-    const cached = await cache.match(request, { ignoreSearch: true });
-    if (cached) return cached;
-
+    // 其余资源 (精灵图 bundle 等同样带内容哈希 ?v=): 同 data.js — 精确命中优先, 否则网络优先, 离线回退旧副本
+    const fresh = await cache.match(request);
+    if (fresh) return fresh;
+    const stale = await cache.match(request, { ignoreSearch: true });
+    try {
+      const response = await fetch(request);
+      if (response.ok) {
+        await putAndPurgeOld(cache, request, response);
+        return response;
+      }
+    } catch (e) {}
+    if (stale) return stale;
     const response = await fetch(request);
     if (response.ok) await cache.put(request, response.clone());
     return response;
