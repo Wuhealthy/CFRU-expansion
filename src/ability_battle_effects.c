@@ -500,6 +500,56 @@ static bool8 AllMainStatsButOneAreMinned(u8 bank);
 extern bool8 IsTerastallized(u8 bank);
 
 
+// 冰晶净化：清除bank一侧的全部钉子（撒菱/毒菱/隐形岩/黏黏网/钢刺），有清除时返回TRUE
+// 供 SwitchIn_Abilities 出场特性入口，以及 switching.c 中钉子伤害结算前（先清场再吃钉子）调用
+bool8 TryClearEntryHazards(u8 bank)
+{
+	u8 side = SIDE(bank);
+	bool8 cleared = FALSE;
+
+	// 撒菱
+	if (gSideTimers[side].spikesAmount > 0)
+	{
+		gSideTimers[side].spikesAmount = 0;
+		cleared = TRUE;
+	}
+
+	// 毒菱
+	if (gSideTimers[side].tspikesAmount > 0)
+	{
+		gSideTimers[side].tspikesAmount = 0;
+		cleared = TRUE;
+	}
+
+	// 隐形岩
+	if (gSideTimers[side].srAmount > 0)
+	{
+		gSideTimers[side].srAmount = 0;
+		cleared = TRUE;
+	}
+
+	// 黏黏网
+	if (gSideTimers[side].stickyWeb)
+	{
+		gSideTimers[side].stickyWeb = 0;
+		gSideTimers[side].stickyWebBank = 0;
+		cleared = TRUE;
+	}
+
+	// 钢刺
+	if (gSideTimers[side].steelsurge)
+	{
+		gSideTimers[side].steelsurge = 0;
+		gSideTimers[side].psychicSuppression = 0;
+		cleared = TRUE;
+	}
+
+	if (cleared)
+		gSideStatuses[side] &= ~(SIDE_STATUS_SPIKES); //主标志位一并清除（钉子投放/伤害消耗端都读它）
+
+	return cleared;
+}
+
 u16 GetHighestStat(u8 bankAtk)
 {
 	u32 stats[STAT_SPDEF + 1]; //Create new array to avoid modifying original stats
@@ -1596,49 +1646,8 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 		case ABILITY_ICECRYSTALPURGE:
     	// 冰晶净化：出场时清除我方场上所有场地伤害类效果
     	{
-        	u8 side = SIDE(bank);
-        	bool8 cleared = FALSE;
-
-        	// 撒菱
-        	if (gSideTimers[side].spikesAmount > 0)
+        	if (TryClearEntryHazards(bank))
         	{
-            	gSideTimers[side].spikesAmount = 0;
-            	cleared = TRUE;
-        	}
-
-        	// 毒菱
-        	if (gSideTimers[side].tspikesAmount > 0)
-        	{
-            	gSideTimers[side].tspikesAmount = 0;
-            	cleared = TRUE;
-        	}
-
-        	// 隐形岩
-        	if (gSideTimers[side].srAmount > 0)
-        	{
-            	gSideTimers[side].srAmount = 0;
-            	cleared = TRUE;
-        	}
-
-        	// 黏黏网
-        	if (gSideTimers[side].stickyWeb)
-        	{
-            	gSideTimers[side].stickyWeb = 0;
-            	gSideTimers[side].stickyWebBank = 0;
-            	cleared = TRUE;
-        	}
-
-        	// 钢刺
-        	if (gSideTimers[side].steelsurge)
-        	{
-            	gSideTimers[side].steelsurge = 0;
-            	gSideTimers[side].psychicSuppression = 0;
-            	cleared = TRUE;
-        	}
-
-        	if (cleared)
-        	{
-        		gSideStatuses[side] &= ~(SIDE_STATUS_SPIKES); //主标志位一并清除（钉子投放/伤害消耗端都读它）
             	BattleScriptPushCursorAndCallback(BattleScript_IceCrystalPurgeActivates);
             	effect++;
         	}

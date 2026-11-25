@@ -24,6 +24,7 @@ u8 GetParadoxBoostedStat(u8 bank);
 bool8 TryActivateCommander(u8 tatsugiri);
 bool8 TryReactivateCommanderForDondozo(u8 dondozo);
 void FreeTatsugiriFromMouth(u8 tatsugiri);
+bool8 TryClearEntryHazards(u8 bank); //冰晶净化：清除bank一侧的全部钉子，有清除时返回TRUE
 
 //Functions Hooked In
 pokemon_t* UpdateNickForIllusion(pokemon_t* mon);

@@ -767,6 +767,19 @@ void atk52_switchineffects(void)
 		__attribute__ ((fallthrough));
 
 		case SwitchIn_Spikes:
+			//冰晶净化：先于钉子伤害触发，清除我方钉子后本次入场不再受钉子影响
+			if (ability == ABILITY_ICECRYSTALPURGE
+			&& !IsAbilitySuppressed(gActiveBattler) //与出场特性一致：被胃液等封锁时不触发
+			&& TryClearEntryHazards(gActiveBattler))
+			{
+				gBattleScripting.bank = gActiveBattler;
+				gBankAttacker = gActiveBattler;
+				BattleScriptPushCursor();
+				gBattlescriptCurrInstr = BattleScript_IceCrystalPurgeActivatesRet;
+				gNewBS->switchInEffectsState = SwitchIn_PrimalReversion; //跳过剩余钉子结算，继续原始回归/常规出场特性
+				return;
+			}
+
 			if (CheckGrounding(gActiveBattler)
 			&& gSideTimers[SIDE(gActiveBattler)].spikesAmount > 0
 			&& ability != ABILITY_MAGICGUARD

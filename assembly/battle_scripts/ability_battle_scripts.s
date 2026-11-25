@@ -125,6 +125,7 @@ ability_battle_scripts.s
 .global BattleScript_ElectromorphosisActivatess
 .global BattleScript_HighVoltageCharge
 .global BattleScript_IceCrystalPurgeActivates
+.global BattleScript_IceCrystalPurgeActivatesRet
 .global BattleScript_RevivalActivates
 .global BattleScript_NirvanaRevive
 .global BattleScript_NirvanaReviveNoWeather
@@ -1900,6 +1901,15 @@ BattleScript_IceCrystalPurgeActivates:
     waitmessage DELAY_1SECOND
     call BattleScript_AbilityPopUpRevert
     end3
+
+@;atk52_switchineffects 内部使用：以 return 结尾，弹回 switchineffects 继续状态机
+BattleScript_IceCrystalPurgeActivatesRet:
+    call BattleScript_AbilityPopUp
+    setword BATTLE_STRING_LOADER gText_IceCrystalPurge
+    printstring 0x184
+    waitmessage DELAY_1SECOND
+    call BattleScript_AbilityPopUpRevert
+    return
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 BattleScript_TeaPartyActivates:
