@@ -526,6 +526,8 @@ MegaStoneShopItems:
 	.hword ITEM_EXCADRILLITE
 	.hword ITEM_ZYGARDEZITE
 	.hword ITEM_LEAFEONITE
+	.hword ITEM_GLACEONITE
+	.hword ITEM_SYLVEONITE
 	.hword 0x0
 
 @ 所有招式学习器 TM01–TM120（不含秘传学习器 HM）
