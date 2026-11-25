@@ -3171,12 +3171,10 @@ u8 AbilityBattleEffects(u8 caseID, u8 bank, ability_t ability, ability_t special
 					RecordAbilityBattle(bank, gLastUsedAbility);
 					gNewBS->oncePerBattleAbilityFlags[SIDE(bank)][gBattlerPartyIndexes[bank]] = TRUE;
 
-					// 解除异常、能力重置并全+1、天气变晴
+					// 解除异常、全能力清零，天气变为大晴天（普通晴天）
 					ClearBankStatus(bank);
 					for (i = 0; i < BATTLE_STATS_NO - 1; ++i)
-						gBattleMons[bank].statStages[i] = 6; //重置清零
-					for (i = STAT_ATK; i <= STAT_SPDEF; ++i)
-						gBattleMons[bank].statStages[i - 1] = 7; //全能力+1
+						gBattleMons[bank].statStages[i] = 6; //全能力清零
 
 					if (!(gBattleWeather & (WEATHER_SUN_ANY | WEATHER_PRIMAL_ANY | WEATHER_CIRCUS)))
 					{
