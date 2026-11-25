@@ -232,18 +232,12 @@
     }).catch(function () {});
   }
 
-  /* 游戏启动后: 周期备份 sav (每 5s) + 让底部工具栏常驻 (每 2.5s 重新 open, 抢在 3s 自动隐藏之前) */
+  /* 游戏启动后: 每 5s 备份一次 sav 快照 (供 HOME / 存档分析 / 存档同步读取) */
   function startSavWatcher() {
     if (savTimer) return;
-    var tick = 0;
     savTimer = setInterval(function () {
-      if (!document.hidden) {
-        if (tick % 2 === 0) saveSavNow();
-        var ejs = window.EJS_emulator;
-        if (ejs && ejs.started && ejs.menu && ejs.menu.open) ejs.menu.open();
-      }
-      tick++;
-    }, 2500);
+      if (!document.hidden) saveSavNow();
+    }, 5000);
   }
 
   /* 从「存档同步」备份导入的 sav 快照恢复: 仅当本机 IDBFS 里没有这个游戏的存档时写入
