@@ -84049,7 +84049,7 @@ const struct BattleTowerSpread gPikachuSpreads[] =
 		.modifyMovesDoubles = TRUE,
 	},
 	{
-		.species = SPECIES_PIKACHU_BELLE,
+		.species = SPECIES_DRAGONITE_MEGA_Z,
 		.nature = NATURE_JOLLY,
 		.hpIv = 31,
 		.atkIv = 31,
@@ -84075,7 +84075,7 @@ const struct BattleTowerSpread gPikachuSpreads[] =
 		.modifyMovesDoubles = TRUE,
 	},
 	{
-		.species = SPECIES_PIKACHU_PHD,
+		.species = SPECIES_MEWTWO_MEGA_Z,
 		.nature = NATURE_TIMID,
 		.hpIv = 31,
 		.atkIv = 0,

@@ -336,7 +336,6 @@ const u8 gNumFurfrouForms = NELEMS(gFurfrouForms);
 const species_t gPikachuCapForms[] =
 {
 	SPECIES_PIKACHU_CAP_ORIGINAL,
-	SPECIES_PIKACHU_CAP_HOENN,
 	//No termin here
 };
 
