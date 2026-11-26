@@ -318,6 +318,17 @@ a { color: inherit; text-decoration: none; }
 .hero .nm { font-size: 32px; font-weight: 900; text-shadow: 0 2px 4px rgba(0,0,0,.3); }
 .hero .types { display: flex; gap: 8px; margin-top: 8px; }
 .hero .types .pill { font-size: 14px; padding: 4px 16px; }
+/* 详情页 hero: 同编号形态切换下拉 */
+.hero-form-switch {
+  display: flex; align-items: center; gap: 8px; margin-top: 10px;
+  font-size: 13px; font-weight: 700; position: relative; z-index: 1;
+}
+.hero-form-switch select {
+  max-width: min(260px, 70vw); padding: 5px 10px; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.55); background: rgba(0,0,0,.28);
+  color: #fff; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+}
+.hero-form-switch select option { background: var(--card); color: var(--ink); }
 .hero-card-btn {
   display: inline-flex; align-items: center; gap: 6px; margin-top: 12px;
   padding: 6px 16px; border-radius: 999px; background: var(--card);
@@ -417,6 +428,17 @@ a { color: inherit; text-decoration: none; }
 .move-table .num { font-variant-numeric: tabular-nums; }
 .move-table .lv { font-weight: 800; color: var(--accent); }
 .tm-col-no { color: var(--muted); font-size: 12px; font-weight: 700; }
+/* 超级进化招式: 替换后的招式名用金粉渐变发光区分, 悬停可看变化来源 */
+.mv-mega {
+  background: linear-gradient(90deg, #ffd76a, #ff9d5c, #ff6ec7, #ffd76a);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  background-size: 200% auto; font-weight: 800;
+  animation: mvMegaShift 3s linear infinite;
+}
+@keyframes mvMegaShift { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
+@media (prefers-reduced-motion: reduce) {
+  .mv-mega { animation: none; }
+}
 
 /* 招式/特性 列表页 */
 .list-table { width: 100%; border-collapse: collapse; font-size: 14px; }
@@ -430,6 +452,10 @@ a { color: inherit; text-decoration: none; }
 .item-table { min-width: 620px; }
 .item-table .item-desc { white-space: pre-line; line-height: 1.6; color: var(--muted); }
 .item-table .item-price { white-space: nowrap; color: var(--muted); font-variant-numeric: tabular-nums; }
+/* 招式学习器分类: 对应招式列 (点击弹招式详情) */
+.item-table .item-move { white-space: nowrap; font-weight: 700; }
+.item-table .item-move-link { color: var(--accent); cursor: pointer; }
+.item-table .item-move-link:hover { text-decoration: underline; }
 
 /* 图鉴列表视图 (编号|名称|属性|特性|种族值总和) */
 .dex-list-wrap { overflow-x: auto; margin-top: 14px; }
@@ -1386,4 +1412,20 @@ body {
 }
 @media (max-width: 600px) {
   .emu-frame { height: calc(100vh - 100px); min-height: 560px; }
+}
+
+/* ================= 超级进化招式悬停小窗 ================= */
+#mega-move-tip {
+  position: fixed; z-index: 9990; pointer-events: none;
+  background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  box-shadow: 0 6px 22px rgba(0,0,0,.22); padding: 10px 14px;
+  font-size: 13px; line-height: 1.7; max-width: 280px; color: var(--ink);
+  animation: popIn .15s cubic-bezier(.3, .8, .4, 1);
+}
+#mega-move-tip .mmt-title { font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+#mega-move-tip .mmt-row { white-space: nowrap; }
+#mega-move-tip .mmt-from { text-decoration: line-through; color: var(--muted); }
+#mega-move-tip .mmt-arrow { margin: 0 6px; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) {
+  #mega-move-tip { animation: none; }
 }
