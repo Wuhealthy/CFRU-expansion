@@ -1577,6 +1577,41 @@ const MEGA_MOVE_MAP = {};   // 物种id -> { 变化前招式id: 超级进化招�
 D.moves.forEach(m => (m.megaChanges || []).forEach(c => {
   (MEGA_MOVE_MAP[c.species] = MEGA_MOVE_MAP[c.species] || {})[c.oldMove] = m.id;
 }));
+
+/* ---------------- 超级进化招式悬停小窗 ----------------
+   图鉴列表卡片 / 详情页 hero: 悬停带招式替换的宝可梦图片时, 浮层显示 替换前 → 超级进化招式 对照 */
+const MEGA_TIP = document.createElement("div");
+MEGA_TIP.id = "mega-move-tip";
+MEGA_TIP.hidden = true;
+document.body.appendChild(MEGA_TIP);
+const sprFrontCanvas = t => t.closest && t.closest("canvas[data-spr^=front]");
+document.addEventListener("mouseover", e => {
+  const cv = sprFrontCanvas(e.target);
+  const megaMap = cv && MEGA_MOVE_MAP[+cv.dataset.id];
+  if (!megaMap || !Object.keys(megaMap).length) { MEGA_TIP.hidden = true; return; }
+  const s = SPECIES_BY_ID[+cv.dataset.id];
+  MEGA_TIP.innerHTML = `
+    <div class="mmt-title">✦ ${esc(speciesName(s))} 超级进化招式</div>
+    ${Object.entries(megaMap).map(([from, to]) => {
+      const fm = MOVE_BY_ID[from], tm = MOVE_BY_ID[to];
+      return `<div class="mmt-row"><span class="mmt-from">${esc(fm ? fm.zh : "—")}</span><span class="mmt-arrow">→</span><b>${esc(tm ? tm.zh : "—")}</b></div>`;
+    }).join("")}`;
+  MEGA_TIP.hidden = false;
+  positionMegaTip(cv);
+});
+document.addEventListener("mouseout", e => { if (sprFrontCanvas(e.target)) MEGA_TIP.hidden = true; });
+addEventListener("scroll", () => { MEGA_TIP.hidden = true; }, true);
+function positionMegaTip(cv) {
+  const r = cv.getBoundingClientRect();
+  MEGA_TIP.style.left = "0px"; MEGA_TIP.style.top = "0px";
+  const w = MEGA_TIP.offsetWidth, h = MEGA_TIP.offsetHeight;
+  let x = r.left + r.width / 2 - w / 2;
+  x = Math.max(8, Math.min(x, innerWidth - w - 8));
+  let y = r.top - h - 10;
+  if (y < 8) y = r.bottom + 10;
+  MEGA_TIP.style.left = x + "px";
+  MEGA_TIP.style.top = y + "px";
+}
 const TM_LABELS = {};       // 招式id -> TM/HM 编号
 D.tms.forEach(t => { if (TM_LABELS[t.move] == null) TM_LABELS[t.move] = t.label; });
 

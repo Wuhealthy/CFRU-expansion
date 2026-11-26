@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "pkdx-offline-731df626f667";
+const CACHE_NAME = "pkdx-offline-43dbeb11b875";
 // 注意: 这里的每一项都必须在部署产物里真实存在 — addAll 是原子的, 任何一项 404 都会让整个
 // install 失败, SW 永远无法激活, 自动更新/离线全部失效 (曾经因 data/features/awaken_*.png
 // 未入库而全站 SW 静默死亡). 可选资源 (如版特色页 <img>) 不要加进来, 404 就让它 404。

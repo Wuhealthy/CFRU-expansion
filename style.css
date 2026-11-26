@@ -1387,3 +1387,19 @@ body {
 @media (max-width: 600px) {
   .emu-frame { height: calc(100vh - 100px); min-height: 560px; }
 }
+
+/* ================= 超级进化招式悬停小窗 ================= */
+#mega-move-tip {
+  position: fixed; z-index: 9990; pointer-events: none;
+  background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  box-shadow: 0 6px 22px rgba(0,0,0,.22); padding: 10px 14px;
+  font-size: 13px; line-height: 1.7; max-width: 280px; color: var(--ink);
+  animation: popIn .15s cubic-bezier(.3, .8, .4, 1);
+}
+#mega-move-tip .mmt-title { font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+#mega-move-tip .mmt-row { white-space: nowrap; }
+#mega-move-tip .mmt-from { text-decoration: line-through; color: var(--muted); }
+#mega-move-tip .mmt-arrow { margin: 0 6px; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) {
+  #mega-move-tip { animation: none; }
+}
