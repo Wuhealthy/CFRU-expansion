@@ -489,19 +489,19 @@ document.addEventListener("keydown", e => {
   if (e.key === "Escape") hidePopup();
   else if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
     // 详情页翻页: 输入类元素聚焦或弹窗打开时不触发
-    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.isContentEditable) return;
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.tagName === "SELECT" || e.target.isContentEditable) return;
     if (!mask.classList.contains("hidden")) return;
     dexStep(e.key === "ArrowLeft" ? -1 : 1);
   }
 });
-/* 全局序列翻页 (键盘 ←/→ 与移动端滑动共用); hash 非 #/p/数字 时静默不动 */
+/* 按图鉴编号翻页 (键盘 ←/→ 与移动端滑动共用): 跳到上一个/下一个编号的默认形态,
+   不经过同编号的其他形态; hash 非 #/p/数字 时静默不动 */
 function dexStep(dir) {
   const m = /^#\/p\/(\d+)$/.exec(location.hash);
   if (!m) return;
   const cur = SPECIES_BY_ID[+m[1]];
-  const pos = cur && DEX_SEQ_INDEX.get(cur.id);
-  if (pos == null) return;
-  const t = dir < 0 ? DEX_SEQ[pos - 1] : DEX_SEQ[pos + 1];
+  if (!cur) return;
+  const t = dexNeighbor(cur, dir);
   if (t) location.hash = "#/p/" + t.id;
 }
 /* 详情页左右滑动翻页: 水平位移 ≥60px 且明显大于垂直位移才触发; 起点在表格(横滚)、输入区或任何可横向滚动的容器(如进化链)时忽略 */
@@ -1078,12 +1078,31 @@ function defMatchupHTML(s) {
   return rows || `<i style="color:var(--muted)">无特殊相克。</i>`;
 }
 
-/* 全局翻页序列: 有编号按 编号升序+默认形态优先 (与首页排序规则一致, 同编号默认形态排最前),
-   无编号条目 (其他形态) 追加尾部; 各形态在序列中相邻 */
+/* 全局物种序列: 有编号按 编号升序+默认形态优先 (与首页排序规则一致, 同编号默认形态排最前),
+   无编号条目 (其他形态) 追加尾部; 各形态在序列中相邻。用于编号跳转/搜索/抽卡等 */
 const DEX_SEQ = D.species.filter(s => s.dex > 0)
   .sort((a, b) => a.dex - b.dex || (b.isDefault ? 1 : 0) - (a.isDefault ? 1 : 0) || a.id - b.id)
   .concat(D.species.filter(s => !(s.dex > 0)));
-const DEX_SEQ_INDEX = new Map(DEX_SEQ.map((s, i) => [s.id, i]));
+/* 每个图鉴编号只保留默认形态, 按编号升序: 详情页左右跳转在编号之间移动 */
+const DEX_MAIN = DEX_SEQ.filter(s => s.dex > 0 && s.isDefault);
+const DEX_MAIN_INDEX = new Map(DEX_MAIN.map((s, i) => [s.dex, i]));
+function dexNeighbor(s, dir) {
+  const pos = DEX_MAIN_INDEX.get(s.dex);
+  return pos == null ? null : DEX_MAIN[pos + dir] || null;
+}
+/* 同编号的全部形态 (默认形态在前), 供详情页形态切换下拉使用 */
+const DEX_FORMS = new Map();
+DEX_SEQ.forEach(f => {
+  if (!DEX_FORMS.has(f.dex)) DEX_FORMS.set(f.dex, []);
+  DEX_FORMS.get(f.dex).push(f);
+});
+function formOptionLabel(f, group) {
+  const label = speciesName(f) + (f.formLabel ? " · " + f.formLabel : " · 默认形态");
+  const dup = group.some(o => o !== f &&
+    speciesName(o) + (o.formLabel ? " · " + o.formLabel : " · 默认形态") === label);
+  return dup ? label + "（" + f.en + "）" : label;   // 同名同形态标签时补英文名区分
+}
+window.switchDexForm = function (id) { location.hash = "#/p/" + id; };
 /* 编号跳转: 容错规则与首页搜索一致 (全角数字/#前缀/前导零); 无匹配输入框短暂红边 */
 window.jumpDexNo = function () {
   const inp = $("#jump-no");
@@ -1179,13 +1198,16 @@ function evoChainHTML(s) {
   return `<div class="evo-chain">${mainNodes.filter(id => !inEdge[id]).map(id => branch(id, "未进化", 0)).join("")}</div>`;
 }
 
-function moveRow(mid, lv, tmNo) {
+function moveRow(mid, lv, tmNo, fromMid) {
   const m = MOVE_BY_ID[mid];
   if (!m) return "";
   const t = TYPE_BY_ID[m.type] || { zh: "?", color: "#999" };
+  const from = fromMid ? MOVE_BY_ID[fromMid] : null;
   return `<tr onclick="showMovePopup(${mid})">
     <td>${lv != null ? `<span class="lv">${lv === 0 ? "进化" : lv === 1 ? "—" : "Lv." + lv}</span>` : (tmNo != null ? `<span class="tm-col-no">${tmNo}</span>` : "")}</td>
-    <td class="mv-name">${esc(m.zh)}</td>
+    <td class="mv-name">${from
+      ? `<span class="mv-mega" title="超级进化时由「${esc(from.zh)}」变化而来">✦ ${esc(m.zh)}</span>`
+      : esc(m.zh)}</td>
     <td>${typePill(t, true)}</td>
     <td>${splitBadge(m.split)}</td>
     <td class="num">${fmtPower(m.power)}</td>
@@ -1218,7 +1240,7 @@ function renderMoveTable(tab) {
     const c = typeof a === "string" ? a.localeCompare(b, "zh") : a - b;
     return c * s.dir || x[1] - y[1];
   });
-  $("#mtb-" + tab).innerHTML = rows.map(r => moveRow(r[1], tab === "lv" ? r[0] : null, tab === "tm" ? r[2] : null)).join("")
+  $("#mtb-" + tab).innerHTML = rows.map(r => moveRow(r[1], tab === "lv" ? r[0] : null, tab === "tm" ? r[2] : null, r[3])).join("")
     || "<tr><td colspan=7>—</td></tr>";
   document.querySelectorAll(`#tab-${tab} th.sortable .arrow`).forEach(a => {
     a.textContent = a.closest("th").dataset.col === s.key ? (s.dir > 0 ? "▲" : "▼") : "";
@@ -1258,17 +1280,21 @@ function renderPokemon(id) {
       <div class="ab-desc">${esc(a.desc || "")}</div></div>`;
   }).join("");
 
-  const seqPos = DEX_SEQ_INDEX.get(s.id);
-  const prevS = seqPos > 0 ? DEX_SEQ[seqPos - 1] : null;
-  const nextS = seqPos != null && seqPos < DEX_SEQ.length - 1 ? DEX_SEQ[seqPos + 1] : null;
+  const prevS = dexNeighbor(s, -1);
+  const nextS = dexNeighbor(s, 1);
+  const dexForms = DEX_FORMS.get(s.dex) || [s];
 
   const tmNames = {};
   D.tms.forEach(t => tmNames[t.move] = tmNames[t.move] || t.label);
+  /* 超级进化形态: 招式表中「变化前」的招式直接显示为替换后的超级进化招式,
+     原 id 存入行尾 [3] 供 moveRow 加特效并标注来源 */
+  const megaMap = MEGA_MOVE_MAP[s.id] || {};
+  const megaOf = mid => megaMap[mid] || mid;
   MT_DATA = {
-    lv: [...s.levelUp],
-    tm: s.tm.map(mid => [null, mid, tmNames[mid] || ""]),
-    tutor: s.tutor.map(mid => [null, mid]),
-    egg: s.egg.map(mid => [null, mid]),
+    lv: s.levelUp.map(([lv, mid]) => [lv, megaOf(mid), null, megaMap[mid] || 0]),
+    tm: s.tm.map(mid => [null, megaOf(mid), tmNames[mid] || "", megaMap[mid] || 0]),
+    tutor: s.tutor.map(mid => [null, megaOf(mid), null, megaMap[mid] || 0]),
+    egg: s.egg.map(mid => [null, megaOf(mid), null, megaMap[mid] || 0]),
   };
   MT_SORT = { lv: { key: null, dir: 1 }, tm: { key: null, dir: 1 }, tutor: { key: null, dir: 1 }, egg: { key: null, dir: 1 } };
 
@@ -1280,6 +1306,12 @@ function renderPokemon(id) {
         <div class="dex-no">${fmtDex(s.dex)}</div>
         <div class="nm">${esc(speciesName(s))}</div>
         ${s.formLabel ? `<div style="margin-top:6px"><span class="pill small" style="background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.45)">${esc(s.formLabel)}</span></div>` : ""}
+        ${dexForms.length > 1 ? `<div class="hero-form-switch">
+          <span>形态（${dexForms.length}）</span>
+          <select aria-label="切换同图鉴编号的形态" onchange="switchDexForm(this.value)">
+            ${dexForms.map(f => `<option value="${f.id}"${f.id === s.id ? " selected" : ""}>${esc(formOptionLabel(f, dexForms))}</option>`).join("")}
+          </select>
+        </div>` : ""}
         <div class="types">${typePills(s.types)}</div>
         <a class="hero-card-btn" href="#/card/${s.id}">✦ 自制卡牌</a>
         <button type="button" class="hero-card-btn fav-hero${favs.has(s.id) ? " on" : ""}" data-fav="${s.id}" onclick="toggleFavUI(${s.id})"></button>
@@ -1515,6 +1547,12 @@ const ITEM_POCKETS = [
   [5, "树果"],
 ];
 const ITEMS_BY_ID = [...(D.items || [])].sort((a, b) => a.id - b.id);
+/* 招式学习器道具 (pocket 4) 对应的招式: 道具 en 为 TM01 / HM01_CUT 之类, TM 表 label 为 TM01 / HM01 */
+const TM_MOVE_BY_LABEL = new Map(D.tms.map(t => [t.label, t.move]));
+function itemMoveId(item) {
+  const m = /^(?:TM|HM)\d+/.exec(item.en || "");
+  return m ? TM_MOVE_BY_LABEL.get(m[0]) ?? null : null;
+}
 function renderItems() {
   app.innerHTML = `
     <div class="toc-layout">
@@ -1523,7 +1561,7 @@ function renderItems() {
         <div class="page-title">道具图鉴</div>
         <div class="page-sub">共 ${ITEMS_BY_ID.length} 个道具 · 按背包分类排列 · 排除空道具位</div>
         <div class="toolbar">
-          ${searchBox("iq", "搜索道具名或效果…", itemFilter.q)}
+          ${searchBox("iq", "搜索道具名 / 招式名 / 效果…", itemFilter.q)}
           <select id="ipocket" class="search-box item-pocket-filter">
             <option value="">全部分类</option>
             ${ITEM_POCKETS.map(([id, label]) => `<option value="${id}"${itemFilter.pocket === String(id) ? " selected" : ""}>${label}</option>`).join("")}
@@ -1546,27 +1584,39 @@ function renderItems() {
 function renderItemRows() {
   if (!$("#item-sections")) return;  // 搜索防抖期间已切页: 旧页面的渲染回调直接丢弃
   const q = toHans(itemFilter.q).toLowerCase();
-  const list = ITEMS_BY_ID.filter(item =>
-    (!itemFilter.pocket || String(item.pocket) === itemFilter.pocket)
-    && (!q || item.zh.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q)));
+  const list = ITEMS_BY_ID.filter(item => {
+    if (itemFilter.pocket && String(item.pocket) !== itemFilter.pocket) return false;
+    if (!q) return true;
+    const mv = MOVE_BY_ID[itemMoveId(item)];
+    return item.zh.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q)
+      || (mv && mv.zh.toLowerCase().includes(q));
+  });
   $("#icnt").textContent = `${list.length} 个道具`;
   const byPocket = {};
   list.forEach(item => (byPocket[item.pocket] = byPocket[item.pocket] || []).push(item));
-  $("#item-sections").innerHTML = ITEM_POCKETS.filter(([id]) => byPocket[id]).map(([id, label]) => `
+  $("#item-sections").innerHTML = ITEM_POCKETS.filter(([id]) => byPocket[id]).map(([id, label]) => {
+    const isTM = id === 4;
+    return `
     <section class="gen-sec" id="ipocket-${id}">
       <h3 class="gen-h">${label}<span class="gen-cnt">${byPocket[id].length} 个</span></h3>
       <div class="card item-table-wrap">
         <table class="list-table item-table">
-          <thead><tr><th>道具</th><th>效果说明</th><th>价格</th></tr></thead>
-          <tbody>${byPocket[id].map(item => `
+          <thead><tr><th>道具</th>${isTM ? "<th>对应招式</th>" : ""}<th>效果说明</th><th>价格</th></tr></thead>
+          <tbody>${byPocket[id].map(item => {
+            const mid = isTM ? itemMoveId(item) : null;
+            const mv = mid != null ? MOVE_BY_ID[mid] : null;
+            return `
             <tr>
               <td class="mv-name">${esc(item.zh)}</td>
+              ${isTM ? `<td class="item-move">${mv ? `<span class="item-move-link" title="查看招式详情" onclick="showMovePopup(${mid})">${esc(mv.zh)}</span>` : "—"}</td>` : ""}
               <td class="item-desc">${esc(item.desc || "暂无效果说明")}</td>
               <td class="item-price">${item.price ? `${item.price}元` : "—"}</td>
-            </tr>`).join("")}</tbody>
+            </tr>`;
+          }).join("")}</tbody>
         </table>
       </div>
-    </section>`).join("") || `<div style="text-align:center;color:var(--muted);padding:60px 0">没有找到符合条件的道具</div>`;
+    </section>`;
+  }).join("") || `<div style="text-align:center;color:var(--muted);padding:60px 0">没有找到符合条件的道具</div>`;
   tocMark(new Set(Object.keys(byPocket).map(id => "ipocket-" + id)));
 }
 
