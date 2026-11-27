@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.wuhealthy.twa",
+        "sha256_cert_fingerprints": ["29:42:A2:E7:D2:6C:B3:B3:31:7E:A3:81:4A:73:4A:6C:39:A8:4D:F8:7A:7C:B8:B4:CF:E6:FB:3F:DA:D1:B4:FE"]
+      }
+    }]
