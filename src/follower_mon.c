@@ -4,6 +4,7 @@
 #include "../include/pokemon.h"
 #include "../include/new/follow_me.h"
 #include "../include/global.fieldmap.h"
+#include "../include/fieldmap.h"
 #include "../include/event_object_movement.h"
 #include "../include/script_menu.h"
 #include "../include/new_menu_helpers.h"
@@ -163,6 +164,28 @@ bool8 CreateFollowerMonObject(void)
          case DIR_EAST:  posX -= 1; break;
      }
  
+     // Come back where it was before the battle/menu (if that tile is still next to the player and walkable)
+     if (FollowerSavedTileUsable())
+     {
+         s16 dx = (s16) FOLLOWER_SAVED_X - playerObj->currentCoords.x;
+         s16 dy = (s16) FOLLOWER_SAVED_Y - playerObj->currentCoords.y;
+
+         if (dx >= -2 && dx <= 2 && dy >= -2 && dy <= 2
+         && !MapGridIsImpassableAt(FOLLOWER_SAVED_X, FOLLOWER_SAVED_Y))
+         {
+             posX = FOLLOWER_SAVED_X - 7;
+             posY = FOLLOWER_SAVED_Y - 7;
+         }
+     }
+
+     // Never spawn the follower inside a wall/cliff: if the tile behind the player is
+     // impassable, spawn on the player's own tile instead (it walks out on the next step).
+     if (FOLLOWER_FIX_SPAWN_WALL && MapGridIsImpassableAt(posX + 7, posY + 7))
+     {
+         posX = playerObj->currentCoords.x - 7;
+         posY = playerObj->currentCoords.y - 7;
+     }
+
      // Check if follower already exists before creating a new one
      for (u8 i = 0; i < MAP_OBJECTS_COUNT; i++)
      {

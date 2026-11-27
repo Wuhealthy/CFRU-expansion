@@ -32,6 +32,7 @@ bool8 IsFollowerAtCoords(s16 x, s16 y);
 void CreateFollowerAvatar(void);
 void TryAttachFollowerToPlayer(void);
 bool8 IsFollowerPokemon(void);
+void FollowMe_SyncFacingWithPlayer(void);
 
 //Functions Hooked In
 void PlayerGoThroughDoor(u8 taskId);
@@ -76,6 +77,23 @@ struct Follower
 #define FOLLOWER_FLAG_CAN_DIVE 0x20
 #define FOLLOWER_FLAG_CAN_ROCK_CLIMB 0x40
 #define FOLLOWER_FLAG_CLEAR_ON_WHITE_OUT 0x80
+
+//Where the follower mon stood when it was removed for a battle or a menu, so it comes back on the same tile.
+//Lives outside gFollowerState (that struct has no spare room). 0x203E0CE-0x203E0D3 are free (BTS limit is 0x203E0D4).
+//The tile is only meaningful on the map it was saved on, so the map is stored too (see FollowerSavedTileUsable).
+#define FOLLOWER_SAVED_X         (*(vu8*) 0x203E0CE) //Event object coordinates (map coords + 7)
+#define FOLLOWER_SAVED_Y         (*(vu8*) 0x203E0CF)
+#define FOLLOWER_SAVED_DIR       (*(vu8*) 0x203E0D0) //Facing direction
+#define FOLLOWER_SAVED_VALID     (*(vu8*) 0x203E0D1)
+#define FOLLOWER_SAVED_MAP_GROUP (*(vu8*) 0x203E0D2)
+#define FOLLOWER_SAVED_MAP_NUM   (*(vu8*) 0x203E0D3)
+
+bool8 FollowerSavedTileUsable(void);
+
+//Switches for the individual fixes from cfru_fixes.patch, so each can be bisected with a one-line change (1 = on, 0 = off).
+#define FOLLOWER_FIX_SAVED_TILE  1 //Follower returns to its old tile after a battle/menu
+#define FOLLOWER_FIX_SPAWN_WALL  1 //CreateFollowerMonObject never spawns the follower inside an impassable tile
+#define FOLLOWER_FIX_DOOR_Y      0 //WarpSetEnd skips the "step into the doorway" if that tile is impassable (0 = original CFRU behaviour)
 
 #define DEFAULT_FOLLOWER_LOCAL_ID 0xFE
 

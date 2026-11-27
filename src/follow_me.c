@@ -1542,6 +1542,8 @@ static void SetFollowerSprite(u8 spriteIndex)
 
 void FollowMe_WarpSetEnd(void)
 {
+	FOLLOWER_SAVED_VALID = 0; //The saved tile belongs to the map the player just left
+
 	if (!gFollowerState.inProgress)
 		return;
 
@@ -1551,7 +1553,17 @@ void FollowMe_WarpSetEnd(void)
 	gFollowerState.warpEnd = 1;
 	PlayerLogCoordinates(player);
 
-	u8 toY = gFollowerState.comeOutDoorStairs == 1 ? player->currentCoords.y - 1 : player->currentCoords.y;
+	//Only step the follower "into the doorway" if that tile can actually be stood on.
+	//Otherwise (cave exits, ladders, warps next to cliffs...) it ends up inside a wall.
+	s16 toY = player->currentCoords.y;
+	#if FOLLOWER_FIX_DOOR_Y
+	if (gFollowerState.comeOutDoorStairs == 1
+	&& !MapGridIsImpassableAt(player->currentCoords.x, player->currentCoords.y - 1))
+		toY = player->currentCoords.y - 1;
+	#else
+	if (gFollowerState.comeOutDoorStairs == 1)
+		toY = player->currentCoords.y - 1; //Original CFRU: Task_FollowerOutOfDoor expects the follower in the doorway
+	#endif
 	MoveEventObjectToMapCoords(follower, player->currentCoords.x, toY);
 
 	follower->facingDirection = player->facingDirection;
@@ -1831,10 +1843,86 @@ void FixFollowerMonLocalIdAfterWarp(void)
 	   }
 	}
 }
+//The saved tile may only be used on the map it was saved on. Without this check a tile saved before a battle/menu
+//that was never consumed (player on water, no follower sprite...) is applied to the NEXT map after a warp,
+//which puts the follower somewhere random in front of the player.
+bool8 FollowerSavedTileUsable(void)
+{
+    return FOLLOWER_FIX_SAVED_TILE && FOLLOWER_SAVED_VALID
+        && FOLLOWER_SAVED_MAP_GROUP == gSaveBlock1->location.mapGroup
+        && FOLLOWER_SAVED_MAP_NUM == gSaveBlock1->location.mapNum;
+}
+
+//Keeps the follower mon facing the same way as the player.
+//The follower walks to the tile the player just left, so it ends every step facing the direction of its own step, which is
+//whatever the player faced one tile earlier. Once the player has stopped (or turned on the spot) and the follower is idle,
+//turn the follower to the player's current facing. It only syncs when the player moved or changed facing, so the "turn to the
+//player" after talking to the follower isn't undone straight away.
+static u8 sLastSyncedPlayerDir = 0xFF;
+static bool8 sPlayerWasMoving;
+
+//heldMovementActive stays set after a held movement has finished, until something clears it. For the follower that only happens
+//when the player takes the next step, so "heldMovementActive" alone means "idle follower still looks busy" and the sync never ran.
+//An object is only really mid-movement while it is active and not yet finished.
+static bool8 IsObjectMidHeldMovement(struct EventObject* obj)
+{
+	return obj->heldMovementActive && !obj->heldMovementFinished;
+}
+
+void FollowMe_SyncFacingWithPlayer(void)
+{
+	if (!gFollowerState.inProgress || !IsFollowerPokemon() || gFollowerState.objId >= MAP_OBJECTS_COUNT)
+		return;
+
+	struct EventObject* player = &gEventObjects[gPlayerAvatar->eventObjectId];
+	struct EventObject* follower = &gEventObjects[gFollowerState.objId];
+
+	if (gPlayerAvatar->tileTransitionState != T_NOT_MOVING || IsObjectMidHeldMovement(player))
+	{
+		sPlayerWasMoving = TRUE;
+		return;
+	}
+
+	u8 dir = player->facingDirection;
+	if (dir < DIR_SOUTH || dir > DIR_EAST)
+		return;
+
+	if (!sPlayerWasMoving && dir == sLastSyncedPlayerDir)
+		return;
+
+	if (!follower->active || follower->invisible || IsObjectMidHeldMovement(follower)
+	|| gPlayerAvatar->preventStep || gFollowerState.warpEnd || gFollowerState.comeOutDoorStairs
+	|| gFollowerState.createSurfBlob != SURF_BLOB_STATE_NONE)
+		return; //Try again next frame
+
+	if (follower->heldMovementActive)
+		EventObjectClearHeldMovementIfFinished(follower); //Its last step is done, free it up so the turn below can run
+
+	sPlayerWasMoving = FALSE;
+	sLastSyncedPlayerDir = dir;
+
+	if (follower->facingDirection != dir)
+		EventObjectTurn(follower, dir);
+}
+
 void RemoveFollowerBeforeBattle(void)
 {
+    FOLLOWER_SAVED_VALID = 0;
+
     if (gFollowerState.inProgress)
     {
+        if (IsFollowerPokemon() && gFollowerState.objId < MAP_OBJECTS_COUNT)
+        {
+            //Remember where it stood so it can come back to the same tile after the battle/menu
+            struct EventObject* follower = &gEventObjects[gFollowerState.objId];
+            FOLLOWER_SAVED_X = follower->currentCoords.x;
+            FOLLOWER_SAVED_Y = follower->currentCoords.y;
+            FOLLOWER_SAVED_DIR = follower->facingDirection;
+            FOLLOWER_SAVED_MAP_GROUP = gSaveBlock1->location.mapGroup;
+            FOLLOWER_SAVED_MAP_NUM = gSaveBlock1->location.mapNum;
+            FOLLOWER_SAVED_VALID = 1;
+        }
+
         HideFollower(); // handles sparkle/surf blob
         gEventObjects[gFollowerState.objId].active = FALSE;
         gFollowerState.inProgress = FALSE;
@@ -1847,6 +1935,8 @@ void RestoreFollowerAfterBattle(void)
 		return;
 
 	UpdateAutomaticFollowerMon();
+	if (!IsFollowerPokemon())
+		FOLLOWER_SAVED_VALID = 0; //Nothing to restore, don't leave the tile around for a later spawn
 	if (IsFollowerPokemon())
 	{
 		if (MetatileBehavior_IsSurfableWaterOrUnderwater(MapGridGetMetatileBehaviorAt(
@@ -1854,6 +1944,7 @@ void RestoreFollowerAfterBattle(void)
             gEventObjects[gPlayerAvatar->eventObjectId].currentCoords.y)))
         {
             // Player still on water, keep FLAG_FOLLOWER_WAS_SURFING set
+            FOLLOWER_SAVED_VALID = 0;
             return;
         }
 		FlagClear(FLAG_FOLLOWER_WAS_SURFING);
@@ -1862,6 +1953,11 @@ void RestoreFollowerAfterBattle(void)
 		gEventObjects[gFollowerState.objId].localId = DEFAULT_FOLLOWER_LOCAL_ID;
 		gFollowerState.inProgress = TRUE;
 		gEventObjects[gFollowerState.objId].active = TRUE;
+		if (FollowerSavedTileUsable())
+		{
+			EventObjectTurn(&gEventObjects[gFollowerState.objId], FOLLOWER_SAVED_DIR); //Face the way it was facing
+		}
+		FOLLOWER_SAVED_VALID = 0;
 		// The follower is recreated with its normal palette when returning from
 		// menus. Apply the party lead's palette now that the sprite is active,
 		// rather than waiting until the Start Menu is closed.

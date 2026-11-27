@@ -2875,6 +2875,7 @@ bool8 OpenNewStartMenuFromFieldInput(struct FieldInput* input)
 	return TRUE;
 }
 
+extern void FollowMe_SyncFacingWithPlayer(void);
 bool8 ProcessNewFieldPlayerInput(struct FieldInput* input)
 {
 	if (input->pressedStartButton)
@@ -2892,6 +2893,7 @@ bool8 ProcessNewFieldPlayerInput(struct FieldInput* input)
 	}
 	
 	UpdateAutomaticFollowerMon();
+	FollowMe_SyncFacingWithPlayer();
 
 	if (IsDexNavHudActive())
 		return FALSE; //Can't force close this

@@ -15,13 +15,15 @@ const u8 gText_MainMenuOptions[] = {_O, _P, _T, _I, _O, _N, _S, _END};
 
 
 
+//The text rows (CONTINUE / PLAYER / POKEDEX / TIME / BADGES) fill the left half of the box and the old bottom row of
+//icons covered the BADGES line. Icons now sit in a 3x2 grid on the empty right half (centre coordinates).
 u16 coords_menu[][2] = {
-    {40,      74},
-    {40+32,   74},
-    {40+32*2, 74},
-    {40+32*3, 74},
-    {40+32*4, 74},
-    {40+32*5, 74},
+    {140, 30},
+    {170, 30},
+    {200, 30},
+    {140, 62},
+    {170, 62},
+    {200, 62},
 };
 
 u8 sPokemonIconPalSlots[] = {10, 11, 12, 13, 14, 15};
