@@ -5977,52 +5977,56 @@ GRUMPY_Z: objtemplate ANIM_TAG_SNORE_Z ANIM_TAG_SNORE_Z OAM_OFF_BLEND_32x32 gDum
 
 .pool
 
-@;流星坠: 蓄力回合攻击方染蓝紫星光、能量环绕升空蓄势; 攻击回合化作流星疾坠砸向目标, 星光碎岩爆裂收尾(Mega快龙Z专属)
+@;流星坠: 两回合招式。蓄力回合蓝紫能量球环绕; 攻击回合如流星般疾坠撞击对手(Mega快龙Z专属)
+@;组件全部取自本文件已验证动画(充电光束/闪电暴冲/狂暴起床气): 粒子与调色板标签齐全, 且每条launchtemplate/launchtask实写参数个数严格等于ArgsNo
 .global ANIM_METEORFALL
 ANIM_METEORFALL:
-	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_ELECTRIC_ORBS
 	loadparticle ANIM_TAG_ORBS
-	loadparticle ANIM_TAG_SPARKLE_2
-	loadparticle ANIM_TAG_ROCKS
+	loadparticle ANIM_TAG_ELECTRICITY
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_METEOR
 	choosetwoturnanim METEORFALL_CHARGE METEORFALL_BLAST
 
-@;蓄力: 染蓝紫星光+能量球环绕
+@;蓄力: 能量球与攻击方染火橙并环绕(充电光束/闪电暴冲同款)
 METEORFALL_CHARGE:
-	playsound2 0xb1 SOUND_PAN_ATTACKER
-	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xE 0x3006 @;染蓝紫(暗黑爪同款色)
-	launchtask AnimTask_ChargeBalls 0x2 0x4 bank_attacker 0x14 0x0 0x2 @;能量球环绕(闪电暴冲同款)
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_ELECTRIC_ORBS 0x0 0xC 0xC 0x0B1D @;能量球染火橙
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_ORBS 0x0 0xC 0xC 0x0B1D
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_ELECTRICITY 0x0 0xC 0xC 0x0B1D
+	playsound2 0xc2 SOUND_PAN_ATTACKER
+	launchtask AnimTask_ChargeBalls 0x2 0x4 bank_attacker 0x14 0x0 0x2
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xF 0x0B1D
 	waitanimation
-	launchtemplate Template_WishStar 0x28 0x0 @;流星升空
-	waitanimation
-	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0x0 0x7FFF @;褪回
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x10 0x0 0x7FFF @;染回
 	waitanimation
 	endanimation
 
-@;攻击: 升空后化作流星疾坠砸向目标
+@;攻击: 后蹲蓄势 → 流星般疾坠撞击 → 双重重击+目标后仰+屏震(狂暴起床气/闪电暴冲同款)
 METEORFALL_BLAST:
-	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xE 0x3006 @;染蓝紫
-	launchtemplate Template_VerticalDip 0x2 0x3 0x6 0x1 bank_attacker @;后蹲蓄势
-	pause 0xA
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xF 0x0B1D
 	playsound2 0x91 SOUND_PAN_ATTACKER
-	launchtemplate Template_SlideMonToOffset 0x2 0x5 bank_attacker 0x0 0xffe0 0x0 0x3 @;升空
-	waitanimation
-	launchtemplate Template_SlideMonToOffset 0x2 0x4 bank_attacker 0x28 0x14 0x0 0x2 @;流星疾坠砸向目标
+	launchtemplate Template_VerticalDip 0x2 0x3 0x6 0x1 bank_attacker
+	pause 0xA
+	@;流星划过: 流星染火橙, 从攻击方一侧飞向目标(流星上钩拳同款成长流星)
+	launchtask AnimTask_BlendParticle 0x2 0x5 ANIM_TAG_METEOR 0x0 0xC 0xC 0x0B1D
+	launchtemplate METEORFALL_METEOR TEMPLATE_TARGET | 3, 0x1 0x0
+	playsound2 0xba SOUND_PAN_ATTACKER
+	launchtemplate Template_SlideMonToOffset 0x2 0x5 bank_attacker 0x2a 0x0 0x0 0x5
 	playsoundpanchange 0xc2 SOUND_PAN_ATTACKER SOUND_PAN_TARGET 0x2 0x0
-	pause 0x1
-	@;命中: 重击+碎岩爆裂+目标后仰+屏震
+	pause 0x2
 	playsound2 0xab SOUND_PAN_TARGET
 	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0x0 0x8 bank_target 0x0
-	launchtemplate Template_RockFragment TEMPLATE_TARGET | 2, 0x6 0x0 0x0 0x14 0x18 0xe 0x2
-	launchtemplate Template_RockFragment TEMPLATE_TARGET | 2, 0x6 0x5 0x0 0xffec 0x18 0xe 0x1
-	launchtemplate Template_RockFragment TEMPLATE_TARGET | 2, 0x6 0x0 0x5 0x14 0xffe8 0xe 0x2
-	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x4 0x14 0x1 @目标被砸得后仰
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0x8 0xfff8 bank_target 0x0
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x4 0x14 0x1
 	launchtask AnimTask_screen_shake 0x5 0x3 0x4 0x6 0x2
 	waitanimation
-	@;收场: 染色褪回+攻击方归位
-	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x10 0x0 0x7FFF
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x10 0x0 0x7FFF @;染回
 	launchtemplate Template_SlideMonToOriginalPos 0x2 0x3 bank_attacker 0x0 0x5
 	waitanimation
 	endanimation
+
+.align 2
+METEORFALL_METEOR: objtemplate ANIM_TAG_METEOR ANIM_TAG_METEOR sGrowingSuperpowerOAM gDummySpriteAnimTable 0x0 gSpriteAffineAnimTable_GrowingSuperpower SpriteCB_GrowingSuperpower
 
 .pool
 
