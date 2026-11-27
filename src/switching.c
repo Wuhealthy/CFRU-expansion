@@ -1425,6 +1425,7 @@ void ClearSwitchBytes(u8 bank)
 	gProtectStructs[bank].obstruct = 0;
 	gProtectStructs[bank].enduredSturdy = 0;
 	gProtectStructs[bank].BurningBulwark = 0;
+	gNewBS->CurseGemActiveMask &= ~gBitTable[bank]; //咒诅宝石：下场即解除
 	
 	DestroyMegaIndicator(bank);
 	WipeOldDeperateAttemptRecord(bank);

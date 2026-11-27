@@ -173,6 +173,8 @@ extern const u8 CraftyShieldSetString[];
 extern const u8 MatBlockSetString[];
 extern const u8 QuickGuardSetString[];
 extern const u8 WideGuardSetString[];
+extern const u8 CurseGemSetString[];
+extern const u8 CurseGemReflectString[];
 extern const u8 gText_ScreenRaisedStat[];
 extern const u8 RemovedEntryHazardsString[];
 extern const u8 SpikesLayString[];

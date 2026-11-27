@@ -829,6 +829,13 @@ void atk0C_datahpupdate(void)
 				if (!gSpecialStatuses[gActiveBattler].moveturnLostHP && !(gHitMarker & HITMARKER_NON_ATTACK_DMG))
 					gSpecialStatuses[gActiveBattler].moveturnLostHP = hpDealt;
 
+				//咒诅宝石：累计本次攻击对自身造成的实际伤害，全额返还给攻击者（多段招式累计；替身代伤/非招式伤害不计）
+				if (gNewBS->CurseGemActiveMask & gBitTable[gActiveBattler]
+				&& gBattlescriptCurrInstr[1] == BS_GET_TARGET
+				&& !(gHitMarker & HITMARKER_NON_ATTACK_DMG)
+				&& gBankAttacker != gActiveBattler)
+					gNewBS->CurseGemDamageTaken[gActiveBattler] += hpDealt;
+
 				if (CalcMoveSplit(gCurrentMove, gBankAttacker, gActiveBattler) == SPLIT_PHYSICAL
 				&& !(gHitMarker & HITMARKER_NON_ATTACK_DMG))
 				{
@@ -2462,6 +2469,7 @@ void atk77_setprotect(void)
 		case MOVE_SILKTRAP:
 		case MOVE_BURNINGBULWARK:
 		case MOVE_FIERYBARRIER:
+		case MOVE_CURSEGEM:
 			break;
 		default:
 			gDisableStructs[gBankAttacker].protectUses = 0;
@@ -2547,6 +2555,12 @@ void atk77_setprotect(void)
 			case MOVE_FIERYBARRIER:
 				gProtectStructs[gBankAttacker].FieryBarrier = 1;
 				gBattleCommunication[MULTISTRING_CHOOSER] = 0;
+				break;
+
+			case MOVE_CURSEGEM: //咒诅宝石：到下次行动前把受到的招式伤害一半返还给攻击者
+				gNewBS->CurseGemActiveMask |= gBitTable[gBankAttacker];
+				gBattleCommunication[MULTISTRING_CHOOSER] = 3;
+				gBattleStringLoader = CurseGemSetString;
 				break;
 
 			default:

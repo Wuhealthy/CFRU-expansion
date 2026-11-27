@@ -13,6 +13,7 @@ cmd49_battle_scripts.s
 .global BattleScript_PoisonTouch
 .global BattleScript_KingsShield
 .global BattleScript_SpikyShield
+.global BattleScript_CurseGem
 .global BattleScript_FieryBarrierHeal
 .global BattleScript_RainDishActivatesSS
 .global BattleScript_BanefulBunker
@@ -135,6 +136,19 @@ BattleScript_SpikyShield:
 	graphicalhpupdate BANK_ATTACKER
 	datahpupdate BANK_ATTACKER
 	setword BATTLE_STRING_LOADER SpikyShieldString
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	faintpokemon BANK_ATTACKER 0x0 0x0
+	return
+
+@;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+@;咒诅宝石：把受到的招式伤害全额返还给攻击者（gBattleMoveDamage 已在 cmd49 中设好）
+BattleScript_CurseGem:
+	orword HIT_MARKER, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_NON_ATTACK_DMG
+	graphicalhpupdate BANK_ATTACKER
+	datahpupdate BANK_ATTACKER
+	setword BATTLE_STRING_LOADER CurseGemReflectString
 	printstring 0x184
 	waitmessage DELAY_1SECOND
 	faintpokemon BANK_ATTACKER 0x0 0x0

@@ -270,7 +270,7 @@ gBattleScriptsForMoveEffects:
 .word BS_251_MagneticQuake
 .word BS_252_GrumpySnooze
 .word BS_253_MaxMove
-.word BS_254_Blank
+.word BS_254_CurseGem	@EFFECT_CURSE_GEM 咒诅宝石
 .word BS_255_Blank
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

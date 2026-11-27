@@ -621,6 +621,7 @@ bool8 LiftProtect(u8 bank)
 	|| gProtectStructs[bank].BanefulBunker
 	|| gProtectStructs[bank].obstruct
 	|| gProtectStructs[bank].BurningBulwark
+	|| (gNewBS->CurseGemActiveMask & gBitTable[bank])
 	|| gSideStatuses[SIDE(bank)] & (SIDE_STATUS_CRAFTY_SHIELD | SIDE_STATUS_MAT_BLOCK | SIDE_STATUS_QUICK_GUARD | SIDE_STATUS_WIDE_GUARD))
 	{
 		if (!IsDynamaxed(bank))
@@ -631,6 +632,7 @@ bool8 LiftProtect(u8 bank)
 		gProtectStructs[bank].BanefulBunker = 0;
 		gProtectStructs[bank].obstruct = 0;
 		gProtectStructs[bank].BurningBulwark = 0;
+		gNewBS->CurseGemActiveMask &= ~gBitTable[bank]; //咒诅宝石：拍落可破除
 		gSideStatuses[SIDE(bank)] &= ~(SIDE_STATUS_CRAFTY_SHIELD | SIDE_STATUS_MAT_BLOCK | SIDE_STATUS_QUICK_GUARD | SIDE_STATUS_WIDE_GUARD);
 		return TRUE;
 	}

@@ -1558,6 +1558,8 @@ void HandleAction_UseMove(void)
 		return;
 	}
 
+	gNewBS->CurseGemActiveMask &= ~gBitTable[gBankAttacker]; //咒诅宝石：自身再次行动时效果结束
+
 	gHpDealt = 0;
 	gCritMultiplier = BASE_CRIT_MULTIPLIER;
 	gBattleScripting.dmgMultiplier = 1;
@@ -1589,6 +1591,7 @@ void HandleAction_UseMove(void)
 	for (int i = 0; i < MAX_BATTLERS_COUNT; ++i)
 	{
 		gNewBS->DamageTaken[i] = 0;
+		gNewBS->CurseGemDamageTaken[i] = 0;
 		gNewBS->turnDamageTaken[i] = 0;
 		gNewBS->criticalMultiplier[i] = 0;
 		gNewBS->ResultFlags[i] = 0;

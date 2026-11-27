@@ -1012,6 +1012,8 @@ struct NewBattleStruct
 
 	//Things for Spread Moves
 	s32 DamageTaken[MAX_BATTLERS_COUNT];
+	u32 CurseGemDamageTaken[MAX_BATTLERS_COUNT]; //咒诅宝石：单次攻击中受到的实际伤害（多段累计，结算时全额返还并清零）
+	u32 CurseGemActiveMask; //咒诅宝石：生效中的使用者位掩码（基础引擎可能按回合清 gProtectStructs，状态须放此处才能跨回合存续）
 	s32 turnDamageTaken[MAX_BATTLERS_COUNT]; //Specifically for multi-hit moves and Emergency Exit
 	u8 criticalMultiplier[MAX_BATTLERS_COUNT];
 	u8 ResultFlags[MAX_BATTLERS_COUNT];

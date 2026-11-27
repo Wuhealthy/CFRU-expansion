@@ -6733,9 +6733,27 @@ BS_253_MaxMove:
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-.global BS_254_Blank
-BS_254_Blank:
-	goto BS_STANDARD_HIT
+@;咒诅宝石：先制+5变化招式。setprotect 走守住家族连续使用失败判定，
+@;成功时置 CurseGem 标志（MULTISTRING_CHOOSER=3 打印自定义文本），
+@;到自身下次行动前，受招式伤害时全额返还给攻击者（datahpupdate 累计，ATK49_ADVERSE_PROTECTION/FAINT_ADVERSE_PROTECTION 结算）
+.global BS_254_CurseGem
+BS_254_CurseGem:
+	attackcanceler
+	attackstringnoprotean
+	ppreduce
+	setprotect
+	tryactivateprotean
+	attackanimation
+	waitanimation
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x3 CurseGemPrintCustomMessage
+	printfromtable 0x83FE546
+	waitmessage DELAY_1SECOND
+	goto BS_MOVE_END
+
+CurseGemPrintCustomMessage:
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	goto BS_MOVE_END
 	
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

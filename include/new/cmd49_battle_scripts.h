@@ -16,6 +16,7 @@ extern const u8 BattleScript_Recoil1[];
 extern const u8 BattleScript_PoisonTouch[];
 extern const u8 BattleScript_KingsShield[];
 extern const u8 BattleScript_SpikyShield[];
+extern const u8 BattleScript_CurseGem[];
 extern const u8 BattleScript_RainDishActivatesSS[];
 extern const u8 BattleScript_BanefulBunker[];
 extern const u8 BattleScript_FieryBarrierHeal[];

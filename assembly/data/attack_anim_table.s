@@ -1090,6 +1090,7 @@ gMoveAnimations:
 .word ANIM_SWAMPMUDHAMMER	@MOVE_SWAMPMUDHAMMER
 .word ANIM_GRUMPYSNOOZE	@MOVE_GRUMPYSNOOZE
 .word ANIM_METEORFALL	@MOVE_METEORFALL
+.word ANIM_CURSEGEM	@MOVE_CURSEGEM
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -6029,6 +6030,33 @@ METEORFALL_BLAST:
 METEORFALL_METEOR: objtemplate ANIM_TAG_METEOR ANIM_TAG_METEOR sGrowingSuperpowerOAM gDummySpriteAnimTable 0x0 gSpriteAffineAnimTable_GrowingSuperpower SpriteCB_GrowingSuperpower
 
 .pool
+
+@;咒诅宝石: 捏碎凝聚诅咒的宝石, 幽紫守护环成形, 诅咒宝石在自身身旁旋转凝聚(炽炎障壁/折射宝石同款组件)
+.global ANIM_CURSEGEM
+ANIM_CURSEGEM:
+	loadparticle ANIM_TAG_PROTECT @护环
+	loadparticle ANIM_TAG_POWER_GEM @宝石
+	pokespritetoBG side_attacker
+	leftbankBG_over_partnerBG bank_attacker
+	setblends 0x80c
+	launchtask AnimTask_BlendParticle 0x5 0x5 ANIM_TAG_POWER_GEM 0x0 0xC 0xC 0x6A3F @;宝石染幽紫
+	playsoundwait 0xC8 SOUND_PAN_ATTACKER 0x10
+	launchtemplate 0x83E3354 0x2 0x3 0x18 0x0 0x5a @守护环成形(燃烧壁垒同款,自毁)
+	pause 0x14
+	@;诅咒宝石在攻击方身旁旋转凝聚
+	launchtemplate POWERGEM_WHEEL 0x3 0x4 0x0 0x0 0x38 0x0
+	playsound2 0x5F SOUND_PAN_ATTACKER
+	pause 0x2
+	launchtemplate POWERGEM_WHEEL 0x3 0x4 0x0 0x0 0x38 0x8
+	playsound2 0x5F SOUND_PAN_ATTACKER
+	pause 0x2
+	launchtemplate POWERGEM_WHEEL 0x3 0x4 0x0 0x0 0x38 0xc
+	playsound2 0x5F SOUND_PAN_ATTACKER
+	pause 0x20
+	waitanimation
+	pokespritefromBG side_attacker
+	resetblends
+	endanimation
 
 @;森之波动: 草木龙气缠身, 绿金龙气呼啸贯穿目标, 撞击后绿光把目标身上的强化强行剥离(无视并清除能力阶级)
 .global ANIM_FORESTWAVE

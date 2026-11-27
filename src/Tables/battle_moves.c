@@ -16871,6 +16871,23 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 160,
 		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
+	},
+
+	//咒诅宝石：Mega勾魂眼专属（mega进化后看穿变为此招式）。先制+5的变化招式，使用后到自身下次行动前，受到招式伤害时把伤害的一半返还给攻击者（ATK49_ADVERSE_PROTECTION / FAINT_ADVERSE_PROTECTION 结算）
+	[MOVE_CURSEGEM] =
+	{
+		.effect = EFFECT_CURSE_GEM,
+		.power = 0,
+		.type = TYPE_GHOST,
+		.accuracy = 0,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_USER,
+		.priority = 5,
+		.flags = FLAG_PROTECT_AFFECTED,
+		.z_move_power = 0,
+		.split = SPLIT_STATUS,
+		.z_move_effect = 0
 	}
 };
 

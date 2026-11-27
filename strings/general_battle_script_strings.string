@@ -592,5 +592,11 @@
 #org @gText_MagQuakeEnded
 [ATTACKER]的攻击与特攻\n能力恢复正常了！
 
+#org @CurseGemSetString
+[ATTACKER]捏碎了凝聚着\n诅咒的宝石！
+
+#org @CurseGemReflectString
+诅咒的力量反弹，\n[ATTACKER]受到了伤害！
+
 #org @GrumpySnoozeString
 [TARGET]染上了\n贪睡特性！

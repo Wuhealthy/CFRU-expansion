@@ -1173,6 +1173,21 @@ void atkFE_prefaintmoveendeffects(void)
 					break;
 				}
 			}
+
+			//咒诅宝石：把受到的招式伤害全额返还给攻击者（目标昏厥时也在此结算；状态保留到使用者下次行动前）
+			if (gNewBS->CurseGemActiveMask & gBitTable[gBankTarget]
+			&& gNewBS->CurseGemDamageTaken[gBankTarget] > 0
+			&& gBankAttacker != gBankTarget
+			&& BATTLER_ALIVE(gBankAttacker)
+			&& ABILITY(gBankAttacker) != ABILITY_MAGICGUARD)
+			{
+				gBattleMoveDamage = gNewBS->CurseGemDamageTaken[gBankTarget];
+				gNewBS->CurseGemDamageTaken[gBankTarget] = 0;
+				BattleScriptPushCursor();
+				gBattlescriptCurrInstr = BattleScript_CurseGem;
+				effect = TRUE;
+				break;
+			}
 	
 			gNewBS->preFaintEffectsState++;
 			break;

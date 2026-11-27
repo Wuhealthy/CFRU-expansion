@@ -2854,3 +2854,6 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 
 #org @DESC_METEORFALL
 第1回合降低对手的\n防御，第2回合攻击\n对手。
+
+#org @DESC_CURSEGEM
+捏碎凝聚着诅咒的宝\n石。在下回合行动前\n受招式攻击时，会将\n伤害全部返还对手。

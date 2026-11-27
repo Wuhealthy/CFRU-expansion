@@ -256,3 +256,4 @@
 #define EFFECT_GRUMPY_SNOOZE 252
 
 #define EFFECT_MAX_MOVE 253
+#define EFFECT_CURSE_GEM 254 //咒诅宝石：先制变化招式，到下次行动前把受到的招式伤害一半返还给攻击者

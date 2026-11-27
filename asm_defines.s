@@ -1719,6 +1719,7 @@
 .equ MOVE_SWAMPMUDHAMMER, 0x411
 .equ MOVE_GRUMPYSNOOZE, 0x412
 .equ MOVE_METEORFALL, 0x413
+.equ MOVE_CURSEGEM, 0x414
 
 @weather
 .equ weather_rain, 0x1
