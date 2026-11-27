@@ -1601,6 +1601,7 @@ BattleScript_FirstChargingTurn:
 	jumpifmove MOVE_SHADOWFORCE PrintShadowForceString
 	jumpifmove MOVE_PHANTOMFORCE PrintShadowForceString
 	jumpifmove MOVE_METEORBEAM PrintMeteorBeamString
+	jumpifmove MOVE_METEORFALL PrintMeteorFallString
 	copyarray MULTISTRING_CHOOSER TWOTURN_STRINGID 0x1
 	printfromtable 0x83FE590
 	return
@@ -1625,6 +1626,12 @@ PrintShadowForceString:
 
 PrintMeteorBeamString:
 	setword BATTLE_STRING_LOADER gText_MeteorBeamCharge
+	printstring 0x184
+	waitmessage DELAY_1SECOND
+	return
+
+PrintMeteorFallString:
+	setword BATTLE_STRING_LOADER gText_MeteorFallCharge
 	printstring 0x184
 	waitmessage DELAY_1SECOND
 	return
@@ -3333,6 +3340,7 @@ BS_145_SkullBash:
 	call BattleScript_FirstChargingTurn
 	jumpifmove MOVE_METEORBEAM BS_MeteorBeam
 	jumpifmove MOVE_ELECTROSHOT BS_ElectroShot
+	jumpifmove MOVE_METEORFALL BS_MeteorFall
 	setstatchanger STAT_DEF | INCREASE_1
 	statbuffchange STAT_ATTACKER | STAT_BS_PTR | STAT_CERTAIN SkipSkullBashStatBuff
 	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 SkipSkullBashStatBuff
@@ -3370,6 +3378,20 @@ SkipElectroShotStatBuff:
 	call BattleScript_CheckPowerHerb
 	call BattleScript_CheckUnicornPegasus
 	call BattleScriptCheckRain
+	goto BS_MOVE_END
+
+@;流星坠蓄力回合：击碎对手的防御（-1级，无视拦截），第二回合由两回合框架自动发动攻击
+BS_MeteorFall:
+	setstatchanger STAT_DEF | DECREASE_1
+	statbuffchange STAT_TARGET | STAT_BS_PTR | STAT_CERTAIN SkipMeteorFallStatBuff
+	jumpifbyte EQUALS MULTISTRING_CHOOSER 0x2 SkipMeteorFallStatBuff
+	setgraphicalstatchangevalues
+	playanimation BANK_TARGET ANIM_STAT_BUFF ANIM_ARG_1
+	printfromtable gStatDownStringIds
+	waitmessage DELAY_1SECOND
+SkipMeteorFallStatBuff:
+	call BattleScript_CheckPowerHerb
+	call BattleScript_CheckUnicornPegasus
 	goto BS_MOVE_END
 
 BattleScriptCheckRain:

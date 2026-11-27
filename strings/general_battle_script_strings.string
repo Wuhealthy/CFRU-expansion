@@ -177,6 +177,9 @@
 #org @gText_MeteorBeamCharge
 [ATTACKER]身上\n溢出了宇宙之力！
 
+#org @gText_MeteorFallCharge
+[ATTACKER]化作了\n流星升空蓄势！
+
 #org @gText_PoltergeistWarn
 [TARGET]被自己的\n[LAST_ITEM]袭击了！
 

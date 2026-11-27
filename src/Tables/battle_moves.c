@@ -16854,6 +16854,23 @@ const struct BattleMove gBattleMoves[] =
 		.z_move_power = 175,
 		.split = SPLIT_PHYSICAL,
 		.z_move_effect = 0
+	},
+
+	//流星坠：龙属性接触两回合招式。第一回合蓄力并击碎对手的防御（-1级），第二回合发动攻击（Mega快龙Z的逆鳞使用时即为此招式，BS_145_SkullBash 的 BS_MeteorFall 分支处理）
+	[MOVE_METEORFALL] =
+	{
+		.effect = EFFECT_SKULL_BASH,
+		.power = 90,
+		.type = TYPE_DRAGON,
+		.accuracy = 100,
+		.pp = 10,
+		.secondaryEffectChance = 0,
+		.target = MOVE_TARGET_SELECTED,
+		.priority = 0,
+		.flags = FLAG_MAKES_CONTACT | FLAG_PROTECT_AFFECTED | FLAG_MIRROR_MOVE_AFFECTED,
+		.z_move_power = 160,
+		.split = SPLIT_PHYSICAL,
+		.z_move_effect = 0
 	}
 };
 

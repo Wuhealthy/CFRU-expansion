@@ -1089,6 +1089,7 @@ gMoveAnimations:
 .word ANIM_MASTERBLADE	@MOVE_MASTERBLADE
 .word ANIM_SWAMPMUDHAMMER	@MOVE_SWAMPMUDHAMMER
 .word ANIM_GRUMPYSNOOZE	@MOVE_GRUMPYSNOOZE
+.word ANIM_METEORFALL	@MOVE_METEORFALL
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 .pool
@@ -5973,6 +5974,55 @@ ANIM_GRUMPYSNOOZE:
 
 .align 2
 GRUMPY_Z: objtemplate ANIM_TAG_SNORE_Z ANIM_TAG_SNORE_Z OAM_OFF_BLEND_32x32 gDummySpriteAnimTable 0x0 gDummySpriteAffineAnimTable 0x80BA739
+
+.pool
+
+@;流星坠: 蓄力回合攻击方染蓝紫星光、能量环绕升空蓄势; 攻击回合化作流星疾坠砸向目标, 星光碎岩爆裂收尾(Mega快龙Z专属)
+.global ANIM_METEORFALL
+ANIM_METEORFALL:
+	loadparticle ANIM_TAG_IMPACT
+	loadparticle ANIM_TAG_ORBS
+	loadparticle ANIM_TAG_SPARKLE_2
+	loadparticle ANIM_TAG_ROCKS
+	choosetwoturnanim METEORFALL_CHARGE METEORFALL_BLAST
+
+@;蓄力: 染蓝紫星光+能量球环绕
+METEORFALL_CHARGE:
+	playsound2 0xb1 SOUND_PAN_ATTACKER
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xE 0x3006 @;染蓝紫(暗黑爪同款色)
+	launchtask AnimTask_ChargeBalls 0x2 0x4 bank_attacker 0x14 0x0 0x2 @;能量球环绕(闪电暴冲同款)
+	waitanimation
+	launchtemplate Template_WishStar 0x28 0x0 @;流星升空
+	waitanimation
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0x0 0x7FFF @;褪回
+	waitanimation
+	endanimation
+
+@;攻击: 升空后化作流星疾坠砸向目标
+METEORFALL_BLAST:
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x0 0xE 0x3006 @;染蓝紫
+	launchtemplate Template_VerticalDip 0x2 0x3 0x6 0x1 bank_attacker @;后蹲蓄势
+	pause 0xA
+	playsound2 0x91 SOUND_PAN_ATTACKER
+	launchtemplate Template_SlideMonToOffset 0x2 0x5 bank_attacker 0x0 0xffe0 0x0 0x3 @;升空
+	waitanimation
+	launchtemplate Template_SlideMonToOffset 0x2 0x4 bank_attacker 0x28 0x14 0x0 0x2 @;流星疾坠砸向目标
+	playsoundpanchange 0xc2 SOUND_PAN_ATTACKER SOUND_PAN_TARGET 0x2 0x0
+	pause 0x1
+	@;命中: 重击+碎岩爆裂+目标后仰+屏震
+	playsound2 0xab SOUND_PAN_TARGET
+	launchtemplate Template_Hit TEMPLATE_TARGET | 2, 0x4 0x0 0x8 bank_target 0x0
+	launchtemplate Template_RockFragment TEMPLATE_TARGET | 2, 0x6 0x0 0x0 0x14 0x18 0xe 0x2
+	launchtemplate Template_RockFragment TEMPLATE_TARGET | 2, 0x6 0x5 0x0 0xffec 0x18 0xe 0x1
+	launchtemplate Template_RockFragment TEMPLATE_TARGET | 2, 0x6 0x0 0x5 0x14 0xffe8 0xe 0x2
+	launchtask AnimTask_move_bank 0x2 0x5 bank_target 0x0 0x4 0x14 0x1 @目标被砸得后仰
+	launchtask AnimTask_screen_shake 0x5 0x3 0x4 0x6 0x2
+	waitanimation
+	@;收场: 染色褪回+攻击方归位
+	launchtask AnimTask_pal_fade 0xa 0x5 PAL_ATK 0x1 0x10 0x0 0x7FFF
+	launchtemplate Template_SlideMonToOriginalPos 0x2 0x3 bank_attacker 0x0 0x5
+	waitanimation
+	endanimation
 
 .pool
 

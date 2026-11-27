@@ -2851,3 +2851,6 @@ G-Max Rapid Strike\nUrshifu's signature move.\nIt bypasses the\nuse of Max Guard
 
 #org @DESC_GRUMPYSNOOZE
 用满腔起床气猛击对\n手。会把对手的特性\n变为贪睡。
+
+#org @DESC_METEORFALL
+第1回合降低对手的\n防御，第2回合攻击\n对手。
