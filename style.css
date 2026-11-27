@@ -179,6 +179,12 @@ a { color: inherit; text-decoration: none; }
   flex-direction: column; align-items: stretch; gap: 14px;
   background: var(--card); border: 1px solid var(--line); border-radius: 14px;
   padding: 16px; box-shadow: var(--shadow-strong); z-index: 60;
+  /* 手机上菜单项多, 高度可能超过一屏: 弹层自身限高滚动, 否则超出屏幕的部分够不到 */
+  max-height: calc(100vh - 96px);
+  max-height: calc(100dvh - 96px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 .topbar-extras.open { display: flex; }
 .extras-row { display: flex; align-items: center; gap: 12px; justify-content: center; flex-wrap: wrap; }
