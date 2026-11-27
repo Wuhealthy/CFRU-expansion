@@ -3347,9 +3347,8 @@ static s32 CalculateBaseDamage(struct DamageCalc* data)
     	{
         	if ((!useMonDef && IsOfType(bankDef, TYPE_ROCK)) || (useMonDef && IsMonOfType(data->monDef, TYPE_ROCK)))
             	spDefense = (15 * spDefense) / 10;
-        	else if (gBattleWeather & WEATHER_SANDSTORM_PRIMAL
-        	&& ((!useMonDef && IsOfType(bankDef, TYPE_GROUND)) || (useMonDef && IsMonOfType(data->monDef, TYPE_GROUND))))
-            	spDefense = (15 * spDefense) / 10; // Ground types get a Sp. Def boost in a "Vicious Sandstorm"
+        	else if ((!useMonDef && IsOfType(bankDef, TYPE_GROUND)) || (useMonDef && IsMonOfType(data->monDef, TYPE_GROUND)))
+            	spDefense = (15 * spDefense) / 10; // Ground types get a Sp. Def boost in a sandstorm
     	}
 	}
 

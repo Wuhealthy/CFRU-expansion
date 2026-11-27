@@ -2561,6 +2561,10 @@ static u32 BoostSpeedInWeather(ability_t ability, u8 itemEffect, u32 speed, u8 b
 				if (gBattleWeather & WEATHER_HAIL_ANY)
 					speed *= 2;
 				break;
+			case ABILITY_FRISK:
+				if (gBattleWeather & WEATHER_FOG_ANY)
+					speed *= 2;
+				break;
 			case ABILITY_PROTOSYNTHESIS:
 				if (bank < gBattlersCount //SpeedCalcMon预测替补兽时bank无效，防止越界读
 				&& IsParadoxBoostActive(bank)
@@ -2569,16 +2573,35 @@ static u32 BoostSpeedInWeather(ability_t ability, u8 itemEffect, u32 speed, u8 b
 			break;
 		}
 
-		// 大晴天：草属性宝可梦速度 ×4/3
-		//超级日光特性视为常驻晴天, 无需真实晴天也享受该加成(与成长/大地滋补等同款语义)
-		if ((gBattleWeather & WEATHER_SUN_ANY
-		&& !ItemEffectIgnoresSunAndRain(itemEffect))
-		|| ability == ABILITY_MEGASOL)
+		if (bank < gBattlersCount)
 		{
-			if (bank < gBattlersCount
-			&& (gBattleMons[bank].type1 == TYPE_GRASS
-			 || gBattleMons[bank].type2 == TYPE_GRASS
-			 || gBattleMons[bank].type3 == TYPE_GRASS))
+			// 大晴天：草属性宝可梦速度 ×4/3
+			//超级日光特性视为常驻晴天, 无需真实晴天也享受该加成(与成长/大地滋补等同款语义)
+			if (((gBattleWeather & WEATHER_SUN_ANY
+			&& !ItemEffectIgnoresSunAndRain(itemEffect))
+			|| ability == ABILITY_MEGASOL)
+			&& IsOfType(bank, TYPE_GRASS))
+				speed = (speed * 4) / 3;
+
+			// 雨天：电属性宝可梦速度 ×4/3 (万能伞无效)
+			else if (gBattleWeather & WEATHER_RAIN_ANY
+			&& !ItemEffectIgnoresSunAndRain(itemEffect)
+			&& IsOfType(bank, TYPE_ELECTRIC))
+				speed = (speed * 4) / 3;
+
+			// 沙暴：钢属性宝可梦速度 ×4/3
+			else if (gBattleWeather & WEATHER_SANDSTORM_ANY
+			&& IsOfType(bank, TYPE_STEEL))
+				speed = (speed * 4) / 3;
+
+			// 冰雹/下雪：飞行属性宝可梦速度 ×4/3
+			else if (gBattleWeather & WEATHER_HAIL_ANY
+			&& IsOfType(bank, TYPE_FLYING))
+				speed = (speed * 4) / 3;
+
+			// 起雾：妖精属性宝可梦速度 ×4/3
+			else if (gBattleWeather & WEATHER_FOG_ANY
+			&& IsOfType(bank, TYPE_FAIRY))
 				speed = (speed * 4) / 3;
 		}
 	}

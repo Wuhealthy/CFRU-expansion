@@ -1827,6 +1827,8 @@ static bool8 MoveAlwaysHitsTarget(u16 move, u8 bankDef)
 		|| (gStatuses3[bankDef] & STATUS3_TELEKINESIS && gBattleMoves[move].effect != EFFECT_0HKO)
 		|| gBattleMoves[move].accuracy == 0
 		|| (gBattleWeather & WEATHER_RAIN_ANY && gSpecialMoveFlags[move].gAlwaysHitInRainMoves && WEATHER_HAS_EFFECT)
+		|| (gBattleWeather & WEATHER_SANDSTORM_ANY && (move == MOVE_IRONTAIL || move == MOVE_STONEEDGE) && WEATHER_HAS_EFFECT)
+		|| (gBattleWeather & WEATHER_FOG_ANY && (move == MOVE_PLAYROUGH || move == MOVE_SPRINGTIDESTORM) && WEATHER_HAS_EFFECT)
 		|| IsZMove(move)
 		|| IsAnyMaxMove(move);
 }

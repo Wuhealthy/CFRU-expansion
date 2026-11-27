@@ -2630,7 +2630,17 @@ void atk7B_tryhealhalfhealth(void)
 	else
 	{
 		if (gCurrentMove == MOVE_LIFEDEW || gCurrentMove == MOVE_JUNGLEHEALING || gCurrentMove == MOVE_LUNARBLESSING)
+		{
 			gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankTarget) / 4); //25 %
+			// 雨天生命水滴回复提升至 1/3 (万能伞无效)
+			if (gCurrentMove == MOVE_LIFEDEW
+			&& WEATHER_HAS_EFFECT && gBattleWeather & WEATHER_RAIN_ANY
+			&& AffectedByRain(gBankTarget))
+				gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankTarget) / 3); //33 %
+		}
+		else if (gCurrentMove == MOVE_ROOST
+		&& WEATHER_HAS_EFFECT && gBattleWeather & WEATHER_HAIL_ANY)
+			gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankTarget) * 2 / 3); //冰雹/下雪羽栖 66 %
 		else
 			gBattleMoveDamage = MathMax(1, GetBaseMaxHP(gBankTarget) / 2); //50 %
 

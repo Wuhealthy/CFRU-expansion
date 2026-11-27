@@ -1584,11 +1584,25 @@ BS_074_LowerTargetEvsn1Chance:
 BS_075_SkyAttack:
 	jumpifsecondarystatus BANK_ATTACKER STATUS2_MULTIPLETURNS TwoTurnMovesSecondTurnBS
 	jumpifword ANDS HIT_MARKER HITMARKER_NO_ATTACKSTRING TwoTurnMovesSecondTurnBS
+	@;冰雹/下雪: 神鸟猛击/冰冻伏特/极寒冷焰无需蓄力直接发动 (云盖/气闸下天气无效仍蓄力)
+	jumpifabilitypresent ABILITY_CLOUDNINE, BS_SkyAttackChargeTurn
+	jumpifabilitypresent ABILITY_AIRLOCK, BS_SkyAttackChargeTurn
+	jumpifweather WEATHER_HAIL_ANY, BS_WeatherSkipCharge
+BS_SkyAttackChargeTurn:
 	setbyte TWOTURN_STRINGID 0x3
 	call BattleScript_FirstChargingTurn
 	call BattleScript_CheckPowerHerb
 	call BattleScript_CheckUnicornPegasus
 	goto BS_MOVE_END
+
+@;天气下免蓄力直接攻击: 置充电标记后进入两回合招式第二回合框架
+BS_WeatherSkipCharge:
+	orword HIT_MARKER HITMARKER_CHARGING
+	setmoveeffect MOVE_EFFECT_CHARGING | MOVE_EFFECT_AFFECTS_USER
+	seteffectprimary
+	ppreduce
+	callasm ClearCalculatedSpreadMoveData
+	goto TwoTurnMovesSecondTurnBS
 
 BattleScript_FirstChargingTurn:
 	attackcanceler
@@ -3364,6 +3378,7 @@ BS_MeteorBeam:
 SkipMeteorBeamStatBuff:
 	call BattleScript_CheckPowerHerb
 	call BattleScript_CheckUnicornPegasus
+	call BattleScriptCheckSandstorm @;沙暴: 流星光束无需蓄力直接发动
 	goto BS_MOVE_END
 
 BS_ElectroShot:
@@ -3395,7 +3410,19 @@ SkipMeteorFallStatBuff:
 	goto BS_MOVE_END
 
 BattleScriptCheckRain:
+	@;云盖/气闸下天气无效; 万能伞持有者不受雨天影响
+	jumpifabilitypresent ABILITY_CLOUDNINE, BattleScriptCheckRainReturn
+	jumpifabilitypresent ABILITY_AIRLOCK, BattleScriptCheckRainReturn
+	jumpifhelditemeffect BANK_ATTACKER, ITEM_EFFECT_UTILITY_UMBRELLA, BattleScriptCheckRainReturn
 	jumpifweather WEATHER_RAIN_ANY, TwoTurnMovesRaidBossSkipCharge
+BattleScriptCheckRainReturn:
+	return
+
+BattleScriptCheckSandstorm:
+	jumpifabilitypresent ABILITY_CLOUDNINE, BattleScriptCheckSandstormReturn
+	jumpifabilitypresent ABILITY_AIRLOCK, BattleScriptCheckSandstormReturn
+	jumpifweather WEATHER_SANDSTORM_ANY, TwoTurnMovesRaidBossSkipCharge
+BattleScriptCheckSandstormReturn:
 	return
 
 @;@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -3570,11 +3597,27 @@ BS_154_BeatUp:
 BS_155_Fly:
 	jumpifsecondarystatus BANK_ATTACKER STATUS2_MULTIPLETURNS BS_SecondTurnSemiInvulnerable
 	jumpifword ANDS HIT_MARKER HITMARKER_NO_ATTACKSTRING BS_SecondTurnSemiInvulnerable
+	jumpifmove MOVE_SHADOWFORCE BS_SemiInvulFogSkipCheck
+	jumpifmove MOVE_PHANTOMFORCE BS_SemiInvulFogSkipCheck
+	jumpifmove MOVE_DIG BS_SemiInvulSandSkipCheck
 	jumpifmove MOVE_FLY BS_FirstTurnFly
 	jumpifmove MOVE_DIVE BS_FirstTurnDive
 	jumpifmove MOVE_BOUNCE, BS_FirstTurnBounce
-	jumpifmove MOVE_DIG BS_FirstTurnDig
 	goto BS_FirstTurnSemiInvulnerable
+
+@;雾: 暗影潜袭/潜灵奇袭无需蓄力直接发动
+BS_SemiInvulFogSkipCheck:
+	jumpifabilitypresent ABILITY_CLOUDNINE, BS_FirstTurnSemiInvulnerable
+	jumpifabilitypresent ABILITY_AIRLOCK, BS_FirstTurnSemiInvulnerable
+	jumpifweather WEATHER_FOG_ANY, BS_WeatherSkipCharge
+	goto BS_FirstTurnSemiInvulnerable
+
+@;沙暴: 挖洞无需蓄力直接发动
+BS_SemiInvulSandSkipCheck:
+	jumpifabilitypresent ABILITY_CLOUDNINE, BS_FirstTurnDig
+	jumpifabilitypresent ABILITY_AIRLOCK, BS_FirstTurnDig
+	jumpifweather WEATHER_SANDSTORM_ANY, BS_WeatherSkipCharge
+	goto BS_FirstTurnDig
 
 BS_FirstTurnBounce:
 	setbyte TWOTURN_STRINGID 0x7

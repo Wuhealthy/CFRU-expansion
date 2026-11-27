@@ -411,7 +411,9 @@ static bool8 AccuracyCalcHelper(u16 move, u8 bankDef)
 	else if (WEATHER_HAS_EFFECT)
 	{
 		if (((gBattleWeather & WEATHER_RAIN_ANY) && gSpecialMoveFlags[move].gAlwaysHitInRainMoves && AffectedByRain(bankDef))
-		||  ((gBattleWeather & WEATHER_HAIL_ANY) && move == MOVE_BLIZZARD))
+		||  ((gBattleWeather & WEATHER_HAIL_ANY) && move == MOVE_BLIZZARD)
+		||  ((gBattleWeather & WEATHER_SANDSTORM_ANY) && (move == MOVE_IRONTAIL || move == MOVE_STONEEDGE))
+		||  ((gBattleWeather & WEATHER_FOG_ANY) && (move == MOVE_PLAYROUGH || move == MOVE_SPRINGTIDESTORM)))
 		{
 			//JumpIfMoveFailed(7, move);
 			doneStatus = TRUE;
@@ -580,7 +582,9 @@ u32 VisualAccuracyCalc(u16 move, u8 bankAtk, u8 bankDef)
 	else if (WEATHER_HAS_EFFECT)
 	{
 		if (((gBattleWeather & WEATHER_RAIN_ANY) && gSpecialMoveFlags[move].gAlwaysHitInRainMoves && !ItemEffectIgnoresSunAndRain(defEffect))
-		||  ((gBattleWeather & WEATHER_HAIL_ANY) && move == MOVE_BLIZZARD))
+		||  ((gBattleWeather & WEATHER_HAIL_ANY) && move == MOVE_BLIZZARD)
+		||  ((gBattleWeather & WEATHER_SANDSTORM_ANY) && (move == MOVE_IRONTAIL || move == MOVE_STONEEDGE))
+		||  ((gBattleWeather & WEATHER_FOG_ANY) && (move == MOVE_PLAYROUGH || move == MOVE_SPRINGTIDESTORM)))
 			acc = 0xFFFF; //No Miss
 	}
 
@@ -662,7 +666,9 @@ u32 VisualAccuracyCalc_NoTarget(u16 move, u8 bankAtk)
 	else if (WEATHER_HAS_EFFECT)
 	{
 		if (((gBattleWeather & WEATHER_RAIN_ANY) && gSpecialMoveFlags[move].gAlwaysHitInRainMoves)
-		||  ((gBattleWeather & WEATHER_HAIL_ANY) && move == MOVE_BLIZZARD))
+		||  ((gBattleWeather & WEATHER_HAIL_ANY) && move == MOVE_BLIZZARD)
+		||  ((gBattleWeather & WEATHER_SANDSTORM_ANY) && (move == MOVE_IRONTAIL || move == MOVE_STONEEDGE))
+		||  ((gBattleWeather & WEATHER_FOG_ANY) && (move == MOVE_PLAYROUGH || move == MOVE_SPRINGTIDESTORM)))
 			calc = 0xFFFF; //No Miss
 	}
 

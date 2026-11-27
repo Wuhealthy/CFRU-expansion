@@ -1602,11 +1602,8 @@ bool8 BypassesScreens(ability_t ability)
 
 bool8 BypassesFog(unusedArg ability_t ability, unusedArg u8 itemEffect)
 {
-	#ifdef UNBOUND
+	// 锐利目光/心眼/发光特性及万能伞不受起雾命中率下降影响
 	return BypassesScreens(ability) || ability == ABILITY_KEENEYE || ability == ABILITY_MINDSEYE || ability == ABILITY_ILLUMINATE || ItemEffectIgnoresSunAndRain(itemEffect);
-	#else
-	return FALSE;
-	#endif
 }
 
 bool8 IsAuraBoss(u8 bank)
@@ -1776,6 +1773,21 @@ u8 AttacksThisTurn(u8 bank, u16 move) // Note: returns 1 if it's a charging turn
 
 	if ((moveEffect == EFFECT_SOLARBEAM && (gBattleWeather & WEATHER_SUN_ANY) && WEATHER_HAS_EFFECT) || ABILITY(bank) == ABILITY_MEGASOL || ABILITY(bank) == ABILITY_UNICORNPEGASUS)
 		return 2;
+
+	// 天气免蓄力: 电光束(雨)、流星光束/挖洞(沙暴)、神鸟猛击/冰冻伏特/极寒冷焰(冰雹)、暗影潜袭/潜灵奇袭(雾)
+	if (WEATHER_HAS_EFFECT)
+	{
+		if ((moveEffect == EFFECT_SKULL_BASH
+			&& ((move == MOVE_ELECTROSHOT && gBattleWeather & WEATHER_RAIN_ANY)
+			 || (move == MOVE_METEORBEAM && gBattleWeather & WEATHER_SANDSTORM_ANY)))
+		|| (moveEffect == EFFECT_SKY_ATTACK
+			&& gBattleWeather & WEATHER_HAIL_ANY
+			&& (move == MOVE_SKYATTACK || move == MOVE_FREEZESHOCK || move == MOVE_ICEBURN))
+		|| (moveEffect == EFFECT_SEMI_INVULNERABLE
+			&& (((move == MOVE_SHADOWFORCE || move == MOVE_PHANTOMFORCE) && gBattleWeather & WEATHER_FOG_ANY)
+			 || (move == MOVE_DIG && gBattleWeather & WEATHER_SANDSTORM_ANY))))
+			return 2;
+	}
 
 	if (moveEffect == EFFECT_SKULL_BASH
 	||  moveEffect == EFFECT_RAZOR_WIND

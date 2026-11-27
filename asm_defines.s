@@ -1742,6 +1742,7 @@
 .equ WEATHER_RAIN_ANY, weather_rain | weather_downpour | weather_permament_rain | weather_heavy_rain
 .equ WEATHER_SANDSTORM_ANY, weather_sandstorm | weather_permament_sandstorm | weather_vicious_sandstorm
 .equ WEATHER_HAIL_ANY, weather_hail | weather_permament_hail
+.equ WEATHER_FOG_ANY, weather_fog | weather_permament_fog
 
 @split
 .equ SPLIT_PHYSICAL, 0
